@@ -34,6 +34,7 @@ class WashCrus
     begin
       session = CGI::Session.new(cgi, {
                     "new_session" => false,
+                    "session_key" => "_washcrus_session",
                     "tmpdir" => "./tmp/"
                 })
       # session.delete
@@ -45,21 +46,29 @@ class WashCrus
       @userinfo = UserInfo.new()
       @userinfo.visitcount = "1";
 
-      session = CGI::Session.new(cgi, {
-                    "new_session" => true,
-                    "tmpdir" => "./tmp/",
-                    'session_expires' => Time.now + 3600
-                })
+      # session = CGI::Session.new(cgi, {
+      #               "new_session" => true,
+      #               "session_key" => "_washcrus_session",
+      #               "tmpdir" => "./tmp/",
+      #               'session_expires' => Time.now + 3600
+      #           })
     else
       @userinfo = UserInfo.new()
       @userinfo.readsession(session)
-
-      # session.delete
+      # 古いセッション情報の破棄
+      session.delete
     end
+    # セッション情報の生成
+    session = CGI::Session.new(cgi, {
+                  "new_session" => true,
+                  "session_key" => "_washcrus_session",
+                  "tmpdir" => "./tmp/",
+                  'session_expires' => Time.now + 2592000  # 30 days
+              })
 
     session['count'] = @userinfo.visitcount
 
-    #session.close
+    # session.close
 
 #    @header = cgi.header()
     @header = cgi.header({"charset" => "UTF-8"})
