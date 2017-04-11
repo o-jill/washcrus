@@ -8,6 +8,8 @@ require "cgi"
 require "cgi/session"
 
 require "./entrance.rb"
+require "./error_action.rb"
+require "./signup.rb"
 require "./userinfo.rb"
 
 # ウインドウタイトル
@@ -66,7 +68,11 @@ class WashCrus
                   'session_expires' => Time.now + 2592000  # 30 days
               })
 
-    session['count'] = @userinfo.visitcount
+    if @action == nil || @action == ""
+      session['count'] = @userinfo.visitcount + 1;
+    else
+      session['count'] = @userinfo.visitcount
+    end
 
     # session.close
 
@@ -82,7 +88,13 @@ class WashCrus
   # QUERY_STRINGによる分岐
   #
   def perform
-    entrance_screen(@header, $pagetitle, $titlename, @userinfo)
+    if @action == nil || @action == ""
+      entrance_screen(@header, $pagetitle, $titlename, @userinfo)
+    elsif @action == "signup"
+      signup_screen(@header, $pagetitle, $titlename, @userinfo);
+    else
+      error_action_screen(@header, $pagetitle, $titlename, @userinfo, @params, @action)
+    end
   end
 
   # class methods

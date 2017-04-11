@@ -28,6 +28,28 @@ class CommonUI
       # print header
   end
 
+  # HTMLヘッダ出力(no cookie)
+  def self.HTMLHead2(title)
+    print "Content-Type: text/html; charset=UTF-8\n\n"
+    print "<HTML lang=ja>\n<HEAD>\n <TITLE>",title,"</TITLE>\n",
+      " <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >\n",
+      " <link rel='shortcut icon' href='./favicon.ico' />",
+      #"<link rel='stylesheet' type='text/css' href='warshcrus.css'>\n",
+#      " <STYLE type=text/css>\n<!--\n",
+      # "-->\n </STYLE>\n",
+      # " <SCRIPT type='text/javascript'>\n",
+      # "<!--\nfunction show_help_text()\n{\n",
+      # "  document.all.help_text.style.display='block';\n",
+      # "  document.all.btn_help_text_show.style.display='none';\n",
+      # "  document.all.btn_help_text_hide.style.display='inline';\n}\n",
+      # "function hide_help_text()\n{\n",
+      # "  document.all.help_text.style.display='none';\n",
+      # "  document.all.btn_help_text_show.style.display='inline';\n",
+      # "  document.all.btn_help_text_hide.style.display='none';\n}\n",
+      # "-->\n </SCRIPT>\n",
+      "</HEAD>\n<BODY>\n";
+  end
+
   # メニュー部分の出力
   def self.HTMLmenu(title)
     print "<div align='center'>",title,"</div><HR>\n";

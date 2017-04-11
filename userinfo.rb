@@ -15,4 +15,17 @@ class UserInfo
     @user_id = session['user_id']
     @user_name = session['user_name']
   end
+
+  def dump
+    print "userid:", @user_id,
+          "username:", @user_name,
+          "visitcount:", @visitcount
+  end
+
+  def dumptable
+    print "<TABLE><TR><TD>userid</TD><TD>", @user_id,
+          "</TD></TR><TR><TD>username</TD><TD>", @user_name,
+          "</TD></TR><TR><TD>visitcount</TD><TD>", @visitcount,
+          "</TD></TR></TABLE>"
+  end
 end
