@@ -9,6 +9,7 @@ require "cgi/session"
 
 require "./entrance.rb"
 require "./error_action.rb"
+require "./register.rb"
 require "./signup.rb"
 require "./userinfo.rb"
 
@@ -69,9 +70,13 @@ class WashCrus
               })
 
     if @action == nil || @action == ""
-      session['count'] = @userinfo.visitcount + 1;
+      @userinfo.hashsession().each {|k, v|
+        session[k] = v
+      }
     else
-      session['count'] = @userinfo.visitcount
+      @userinfo.hashsession().each {|k, v|
+        session[k] = v
+      }
     end
 
     # session.close
@@ -92,6 +97,8 @@ class WashCrus
       entrance_screen(@header, $pagetitle, $titlename, @userinfo)
     elsif @action == "signup"
       signup_screen(@header, $pagetitle, $titlename, @userinfo);
+    elsif @action == "register"
+      register_screen(@header, $pagetitle, $titlename, @params);
     else
       error_action_screen(@header, $pagetitle, $titlename, @userinfo, @params, @action)
     end
