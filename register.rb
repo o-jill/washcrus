@@ -18,7 +18,6 @@ def register_screen(header, title, name, params)
       || params['rpassword2'] == nil || params['rpassword2'].length == 0 \
       || params['remail'] == nil || params['remail'].length == 0 \
       || params['remail2'] == nil || params['remail2'].length == 0
-    p "para1:", params['rpassword']
     errmsg += "data lost ...<BR>"
   else
     username = params['rname'][0]

@@ -9,6 +9,9 @@ require "cgi/session"
 
 require "./entrance.rb"
 require "./error_action.rb"
+require "./login.rb"
+require "./logincheck.rb"
+require "./logout.rb"
 require "./register.rb"
 require "./signup.rb"
 require "./userinfo.rb"
@@ -35,21 +38,21 @@ class WashCrus
     @action = cgi.query_string
 
     begin
-      session = CGI::Session.new(cgi, {
+      @session = CGI::Session.new(cgi, {
                     "new_session" => false,
                     "session_key" => "_washcrus_session",
                     "tmpdir" => "./tmp/"
                 })
-      # session.delete
+      # @session.delete
     rescue ArgumentError
-      #session = nil
+      #@session = nil
     end
 
-    if session == nil
+    if @session == nil
       @userinfo = UserInfo.new()
       @userinfo.visitcount = "1";
 
-      # session = CGI::Session.new(cgi, {
+      # @session = CGI::Session.new(cgi, {
       #               "new_session" => true,
       #               "session_key" => "_washcrus_session",
       #               "tmpdir" => "./tmp/",
@@ -57,31 +60,24 @@ class WashCrus
       #           })
     else
       @userinfo = UserInfo.new()
-      @userinfo.readsession(session)
+      @userinfo.readsession(@session)
       # 古いセッション情報の破棄
-      session.delete
+      @session.delete
     end
     # セッション情報の生成
-    session = CGI::Session.new(cgi, {
+    @session = CGI::Session.new(cgi, {
                   "new_session" => true,
                   "session_key" => "_washcrus_session",
                   "tmpdir" => "./tmp/",
                   'session_expires' => Time.now + 2592000  # 30 days
               })
 
-    if @action == nil || @action == ""
-      @userinfo.hashsession().each {|k, v|
-        session[k] = v
-      }
-    else
-      @userinfo.hashsession().each {|k, v|
-        session[k] = v
-      }
-    end
+    @userinfo.hashsession().each {|k, v|
+      @session[k] = v
+    }
 
-    # session.close
+    # @session.close
 
-#    @header = cgi.header()
     @header = cgi.header({"charset" => "UTF-8"})
     @header = @header.gsub("\r\n", "\n")
   end
@@ -97,6 +93,12 @@ class WashCrus
       entrance_screen(@header, $pagetitle, $titlename, @userinfo)
     elsif @action == "signup"
       signup_screen(@header, $pagetitle, $titlename, @userinfo);
+    elsif @action == "login"
+      login_screen(@header, $pagetitle, $titlename, @params);
+    elsif @action == "logincheck"
+      logincheck_screen(@header, @session, $pagetitle, $titlename, @params);
+    elsif @action == "logout"
+      logout_screen(@session, $pagetitle, $titlename);
     elsif @action == "register"
       register_screen(@header, $pagetitle, $titlename, @params);
     else
