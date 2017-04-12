@@ -19,7 +19,7 @@ class UserInfoFile
   def read
     dec = OpenSSL::Cipher.new("AES-256-CBC")
     dec.decrypt
-    dec.pkcs5_keyivgen(KEY)
+    # dec.pkcs5_keyivgen(KEY)
     begin
       File.open(@fname, "r:utf-8") do |file|
         file.flock File::LOCK_EX
@@ -36,6 +36,7 @@ class UserInfoFile
               id = elements[0];
               @names[id]     = elements[1]
               @passwords[id] = elements[2]
+              dec.pkcs5_keyivgen(KEY)
               em = ""
               em << dec.update([elements[3]].pack("H*"))
               em << dec.final
@@ -54,13 +55,14 @@ class UserInfoFile
   def write
     enc = OpenSSL::Cipher.new("AES-256-CBC")
     enc.encrypt
-    enc.pkcs5_keyivgen(KEY)
+    # enc.pkcs5_keyivgen(KEY)
     begin
       File.open(@fname, "w") do |file|
         file.flock File::LOCK_EX
         file.puts "# user information "+ Time.now.to_s
         file.puts "# id, name, password, e-mail(encrypted)"
         names.each{ |id, name|
+          enc.pkcs5_keyivgen(KEY)
           crypted = ""
           crypted << enc.update(@emails[id])
           crypted << enc.final
