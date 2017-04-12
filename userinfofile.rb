@@ -21,7 +21,7 @@ class UserInfoFile
     dec.decrypt
     dec.pkcs5_keyivgen(KEY)
     begin
-      File.open(@fname, "r") do |file|
+      File.open(@fname) do |file|
         file.flock File::LOCK_EX
 
         file.each_line do |line|

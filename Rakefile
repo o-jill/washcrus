@@ -1,4 +1,5 @@
 # rakefile
+# encoding: utf-8
 
 require 'rake/clean'
 
