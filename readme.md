@@ -1,7 +1,14 @@
 "WashCrus" will be online shogi match management system.
 
-"WashCrus" was named for "洗足池" which is a pond in Tokyo.
+"WashCrus" was named for "???" which is a pond in Tokyo.
 
 "WashCrus" is written in Ruby.
 
 Lisence: Public domain
+
+How to set up:
+1. Clone repo. or unzip WashCrus archive to certain path where is allowed to run CGI script.
+2. Edit ./config/mail.yaml.sample and save it as ./config/mail.yaml
+3. Change KEY in userinfofile.rb
+4. Run "rake init" to generate db file.
+5. Access washcrus.rb by your browser.
