@@ -104,13 +104,13 @@ class UserInfoFile
       return nil
     end
   end
-  # add user information
+  # add user information and generate id
   # [name]     user name.
   # [password] AES256CBC encrypted password.
   # [email]    e-mail address.
   def add(name, password, email)
     id = Digest::SHA256.hexdigest name+'_'+password+'_'+email
-
+    id = id[0, 8]
     @names[id]     = name
     @passwords[id] = password
     @emails[id]    = email
