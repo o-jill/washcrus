@@ -50,16 +50,28 @@ class CommonUI
       "</HEAD>\n<BODY>\n";
   end
 
-  # メニュー部分の出力
+  # メニュー部分の出力 ログイン前
   def self.HTMLmenu(title)
+    index = File.basename($0)
     print "<div align='center'>",title,"</div><HR>\n";
-=begin
     print "<div align='center' class='menubase'>&nbsp;",
-      "<a class='menu' href='qinoacnv.rb'> 検索 </a>&nbsp;",
-      "<a class='menu' href='qinoacnv.rb?add'> 追加 </a>&nbsp;",
-      "<a class='menu' href=\"javascript:window.open('qinoacnv.rb?tag','TAG','statusbar=yes,height=400,width=400');\"> タグ一覧 </a>&nbsp;",
+      "<a class='menu' href='", index, "'> Entrance </a>&nbsp;",
+      "<a class='menu' href='", index, "?signup'> Sign Up </a>&nbsp;",
+      "<a class='menu' href='", index, "?login'> Log In </a>&nbsp;",
+      # "<a class='menu' href='", index, "?logout'> Log Out </a>&nbsp;",
       "</div><HR/>\n";
-=end
+  end
+
+  # メニュー部分の出力 ログイン中
+  def self.HTMLmenuLogIn(title)
+    index = File.basename($0)
+    print "<div align='center'>",title,"</div><HR>\n";
+    print "<div align='center' class='menubase'>&nbsp;",
+      "<a class='menu' href='", index, "'> Entrance </a>&nbsp;",
+      # "<a class='menu' href='", index, "?signup'> Sign Up </a>&nbsp;",
+      # "<a class='menu' href='", index, "?login'> Log In </a>&nbsp;",
+      "<a class='menu' href='", index, "?logout'> Log Out </a>&nbsp;",
+      "</div><HR/>\n";
   end
 
   # フッターの出力

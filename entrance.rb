@@ -10,8 +10,16 @@ require "./userinfo.rb"
 # 入り口画面
 #
 def entrance_screen(header, title, name, userinfo)
+
+  blogin = (userinfo.user_id != nil && userinfo.user_id != "")
+
   CommonUI::HTMLHead(header, title)
-  CommonUI::HTMLmenu(name)
+
+  if blogin
+    CommonUI::HTMLmenuLogIn(name)
+  else
+    CommonUI::HTMLmenu(name)
+  end
 
   print <<-JAVASCRIPT
 <script type='text/javascript'>
@@ -43,16 +51,18 @@ JAVASCRIPT
       " <TR><TD><span style='font-size:2em'>&nbsp;</span></TD><TD></TD><TD></TD><TD><span style='font-size:2em'>&nbsp;</span></TD></TR>\n",
     "</TABLE>\n"
 =end
-  if (userinfo.user_id != nil && userinfo.user_id != "")
+  if blogin
     print "<HR><div align=center>", userinfo.user_name, "さん", userinfo.visitcount, "回目の訪問ですね。</div><HR>\n"
     print "<input type=hidden id=isloggedin value=1/>"
   else
     print "<HR><div align=center>どなたか存じ上げませんが", userinfo.visitcount, "回目の訪問ですね。</div><HR>\n"
     print "<input type=hidden id=isloggedin value=1/>"
   end
+# test
   print "<span id=signup><A href='", File.basename($0), "?signup'>signup</a></span><BR>"
   print "<span id=signin><A href='", File.basename($0), "?login'>signin</a></span><BR>"
   print "<span id=signout><A href='", File.basename($0), "?logout'>signout</a></span><BR>"
   print "<A href='washcrus.rb?anywhere'>anywhere</a>"
+#test
   CommonUI::HTMLfoot()
 end

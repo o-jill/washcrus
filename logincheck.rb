@@ -68,7 +68,7 @@ STYLESHEET
     userdb.write
 
     CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenu(name)
+    CommonUI::HTMLmenuLogIn(name)
 
     print "Logged in successfully.<BR>",
     "username:", userinfo.user_name, "<BR>",
