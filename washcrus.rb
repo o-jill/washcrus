@@ -7,11 +7,13 @@
 require "cgi"
 require "cgi/session"
 
+require './checknewgame.rb'
 require "./entrance.rb"
 require "./error_action.rb"
 require "./login.rb"
 require "./logincheck.rb"
 require "./logout.rb"
+require "./newgame.rb"
 require "./register.rb"
 require "./signup.rb"
 require "./userinfo.rb"
@@ -91,6 +93,10 @@ class WashCrus
   def perform
     if @action == nil || @action == ""
       entrance_screen(@header, $pagetitle, $titlename, @userinfo)
+    elsif @action == "newgame"
+      newgame_screen(@header, $pagetitle, $titlename, @userinfo);
+    elsif @action == "checknewgame"
+      checknewgame_screen(@params);
     elsif @action == "signup"
       signup_screen(@header, $pagetitle, $titlename, @userinfo);
     elsif @action == "login"

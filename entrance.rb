@@ -56,12 +56,13 @@ JAVASCRIPT
     print "<input type=hidden id=isloggedin value=1/>"
   else
     print "<HR><div align=center>どなたか存じ上げませんが", userinfo.visitcount, "回目の訪問ですね。</div><HR>\n"
-    print "<input type=hidden id=isloggedin value=1/>"
+    print "<input type=hidden id=isloggedin value=0/>"
   end
 # test
   print "<span id=signup><A href='", File.basename($0), "?signup'>signup</a></span><BR>"
   print "<span id=signin><A href='", File.basename($0), "?login'>signin</a></span><BR>"
   print "<span id=signout><A href='", File.basename($0), "?logout'>signout</a></span><BR>"
+  print "<span id=create><A href='", File.basename($0), "?newgame'>newgame</a></span><BR>"
   print "<A href='washcrus.rb?anywhere'>anywhere</a>"
 #test
   CommonUI::HTMLfoot()
