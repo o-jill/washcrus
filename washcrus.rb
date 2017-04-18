@@ -7,15 +7,15 @@
 require "cgi"
 require "cgi/session"
 
-require './checknewgame.rb'
-require "./entrance.rb"
-require "./error_action.rb"
-require "./login.rb"
-require "./logincheck.rb"
-require "./logout.rb"
-require "./newgame.rb"
-require "./register.rb"
-require "./signup.rb"
+# require './checknewgame.rb'
+# require "./entrance.rb"
+# require "./error_action.rb"
+# require "./login.rb"
+# require "./logincheck.rb"
+# require "./logout.rb"
+# require "./newgame.rb"
+# require "./register.rb"
+# require "./signup.rb"
 require "./userinfo.rb"
 
 # ウインドウタイトル
@@ -92,22 +92,30 @@ class WashCrus
   #
   def perform
     if @action == nil || @action == ""
+      require "./entrance.rb"
       entrance_screen(@header, $pagetitle, $titlename, @userinfo)
     elsif @action == "newgame"
+      require "./newgame.rb"
       newgame_screen(@header, $pagetitle, $titlename, @userinfo);
-    elsif @action == "checknewgame"
-      checknewgame_screen(@params);
+    # elsif @action == "checknewgame"
+    #   checknewgame_screen(@params, @userinfo.user_name);
     elsif @action == "signup"
+      require "./signup.rb"
       signup_screen(@header, $pagetitle, $titlename, @userinfo);
     elsif @action == "login"
+      require "./login.rb"
       login_screen(@header, $pagetitle, $titlename, @params);
     elsif @action == "logincheck"
+      require "./logincheck.rb"
       logincheck_screen(@header, @session, $pagetitle, $titlename, @params);
     elsif @action == "logout"
+      require "./logout.rb"
       logout_screen(@session, $pagetitle, $titlename);
     elsif @action == "register"
+      require "./register.rb"
       register_screen(@header, $pagetitle, $titlename, @params);
     else
+      require "./error_action.rb"
       error_action_screen(@header, $pagetitle, $titlename, @userinfo, @params, @action)
     end
   end

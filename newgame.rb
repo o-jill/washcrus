@@ -104,7 +104,7 @@ function pre_check() {
     var btn = document.getElementById('precheck')
     btn.disabled = true;
 
-    ajax.open('POST', '#{scriptname}?checknewgame', true);
+    ajax.open('POST', 'checknewgame.rb', true);
     ajax.overrideMimeType('text/plain; charset=UTF-8');
     ajax.send(postmsg);
 
