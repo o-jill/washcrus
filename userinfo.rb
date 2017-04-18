@@ -2,35 +2,40 @@
 # -*- encoding: utf-8 -*-
 
 class UserInfo
-  def initialize(count = -1, id = nil, name = nil)
+  def initialize(count = -1, id = nil, name = nil, addr = nil)
     @visitcount = count
     @user_id = id
     @user_name = name
+    @user_email = addr
   end
 
-  attr_accessor :visitcount, :user_id, :user_name
+  attr_accessor :visitcount, :user_id, :user_name, :user_email
 
   def readsession(session)
     @visitcount = session['count'].to_i+1
     @user_id = session['user_id']
     @user_name = session['user_name']
+    @user_email = session['user_email']
   end
 
   def hashsession()
     return {
-      'count' => @visitcount, 'user_id' => @user_id, 'user_name' => @user_name
+      'count' => @visitcount, 'user_id' => @user_id, 'user_name' => @user_name,
+      'email' => @user_email
     }
   end
 
   def dump
     print "userid:", @user_id,
           "username:", @user_name,
+          "useremail:", @user_email,
           "visitcount:", @visitcount
   end
 
   def dumptable
     print "<TABLE><TR><TD>userid</TD><TD>", @user_id,
           "</TD></TR><TR><TD>username</TD><TD>", @user_name,
+          "</TD></TR><TR><TD>useremail</TD><TD>", @user_email,
           "</TD></TR><TR><TD>visitcount</TD><TD>", @visitcount,
           "</TD></TR></TABLE>"
   end

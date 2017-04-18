@@ -7,15 +7,6 @@
 require "cgi"
 require "cgi/session"
 
-# require './checknewgame.rb'
-# require "./entrance.rb"
-# require "./error_action.rb"
-# require "./login.rb"
-# require "./logincheck.rb"
-# require "./logout.rb"
-# require "./newgame.rb"
-# require "./register.rb"
-# require "./signup.rb"
 require "./userinfo.rb"
 
 # ウインドウタイトル
@@ -97,8 +88,9 @@ class WashCrus
     elsif @action == "newgame"
       require "./newgame.rb"
       newgame_screen(@header, $pagetitle, $titlename, @userinfo);
-    # elsif @action == "checknewgame"
-    #   checknewgame_screen(@params, @userinfo.user_name);
+    elsif @action == "gennewgame"
+      require "./gennewgame.rb"
+      generatenewgame_screen(@header, $pagetitle, $titlename, @userinfo, @params);
     elsif @action == "signup"
       require "./signup.rb"
       signup_screen(@header, $pagetitle, $titlename, @userinfo);
