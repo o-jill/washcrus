@@ -135,4 +135,15 @@ class UserInfoFile
     found = @emails.find {|k, v| v == addr}
     return found != nil
   end
+  def dumphtml
+    print <<FNAME_AND_TABLE
+<table border=1>
+<Caption>path:#{fname}</caption>
+<tr><th>ID</th><TH>Name</TH><TH>Password</TH><TH>Mail</TH></TR>
+FNAME_AND_TABLE
+    names.each{ |id, name|
+      puts "<TR><TD>"+id+"</TD><TD>"+name+"</TD><TD>"+@passwords[id]+"</TD><TD>"+@emails[id]+"</TD></TR>"
+    }
+    puts "</table>"
+  end
 end
