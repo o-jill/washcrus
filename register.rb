@@ -2,10 +2,10 @@
 # -*- encoding: utf-8 -*-
 
 #!/usr/bin/ruby
-
+require "rubygems"
 require 'yaml'
 require 'digest/sha2'
-require 'mail'
+#require 'mail'
 
 require './common_ui.rb'
 require "./userinfofile.rb"
