@@ -25,11 +25,15 @@ task :gen_session_clean do
 end
 
 desc "init task"
-task :init => [:gen_userinfo]
+task :init => [:gen_userinfo, :add_w2tmp]
 
 task :gen_userinfo => ['userinfo.csv']
 
 file 'userinfo.csv' do |f|
   cp './init/userinfo.csv.tmpl', f.name
   chmod 'uo+w', f.name
+end
+
+task :add_w2tmp do
+  chmod 'o+w', './tmp'
 end
