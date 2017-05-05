@@ -1,2 +1,7 @@
 tmp
 test.html
+userinfo.csv
+config/mail.yaml
+.ruby-version
+.swp
+Gemfile.lock
