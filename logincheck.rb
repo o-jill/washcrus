@@ -37,10 +37,11 @@ def logincheck_screen(header, session, title, name, params)
     if userdata == nil || dgpw != userdata[2]
       errmsg += "e-mail address or password is wrong ...<BR>"
     else
-      userinfo = UserInfo.new(1, userdata[0], userdata[1])
+      userinfo = UserInfo.new(1, userdata[0], userdata[1], email1)
       userinfo.hashsession().each {|k, v|
         session[k] = v
       }
+
       username = userinfo.user_name
     end
   end

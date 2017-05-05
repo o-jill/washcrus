@@ -12,8 +12,15 @@ require "./userinfo.rb"
 def newgame_screen(header, title, name, userinfo)
   scriptname = File.basename($0)
 
+  blogin = (userinfo.user_id != nil && userinfo.user_id != "")
+
   CommonUI::HTMLHead(header, title)
-  CommonUI::HTMLmenu(name)
+
+  if blogin
+    CommonUI::HTMLmenuLogIn(name)
+  else
+    CommonUI::HTMLmenu(name)
+  end
 
   print <<-STYLESHEET
 <style type="text/css">

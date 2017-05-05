@@ -21,7 +21,7 @@ class UserInfo
   def hashsession()
     return {
       'count' => @visitcount, 'user_id' => @user_id, 'user_name' => @user_name,
-      'email' => @user_email
+      'user_email' => @user_email
     }
   end
 
