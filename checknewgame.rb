@@ -42,9 +42,11 @@ else
 end
 
 if errmsg != ""
+  puts "Content-type: text/plain;\n\n"
   puts errmsg
 else
-  puts "new game check passed!\n"
+  puts "Content-type: text/plain;\n\n"
+    puts "new game check passed!\n"
 =begin
   td = TaikyokuData.new
   td.player1 = name1
