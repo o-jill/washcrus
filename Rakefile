@@ -31,4 +31,5 @@ task :gen_userinfo => ['userinfo.csv']
 
 file 'userinfo.csv' do |f|
   cp './init/userinfo.csv.tmpl', f.name
+  chmod 'uo+w', f.name
 end
