@@ -87,7 +87,7 @@ class UserInfoFile
   # get user information by id
   def findname(name)
     found = @names.find {|k, v| v == name}
-    if (found != nill)
+    if (found != nil)
       id = found[0]
       return [id, found[1], @passwords[id], @emails[id]]
     else
