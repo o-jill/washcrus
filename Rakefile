@@ -25,12 +25,24 @@ task :gen_session_clean do
 end
 
 desc "init task"
-task :init => [:gen_userinfo, :add_w2tmp]
+task :init => [:gen_userinfo, :gen_taikyokuinfo, :gen_taikyokuchuinfo, :add_w2tmp]
 
 task :gen_userinfo => ['userinfo.csv']
+task :gen_taikyokuinfo => ['taikyoku.csv']
+task :gen_taikyokuchuinfo => ['taikyokuchu.csv']
 
 file 'userinfo.csv' do |f|
   cp './init/userinfo.csv.tmpl', f.name
+  chmod 'uo+w', f.name
+end
+
+file 'taikyoku.csv' do |f|
+  cp './init/taikyoku.csv.tmpl', f.name
+  chmod 'uo+w', f.name
+end
+
+file 'taikyokuchu.csv' do |f|
+  cp './init/taikyoku.csv.tmpl', f.name
   chmod 'uo+w', f.name
 end
 

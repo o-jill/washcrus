@@ -23,6 +23,11 @@ class TaikyokuData
   attr_accessor :player1, :email1, :player2, :email2, :creator, :id, :datetime,
     :taikyokupath, :matchinfopath, :chatpath, :csapath
 
+  DIRPATH = './taikyoku/'
+  CHATFILE = 'chat.txt'
+  MATCHFILE = 'matchinfo.txt'
+  KIFUFILE = 'kifu.csa'
+
 
   # 対局情報の生成
   # ファイルなどの準備もします。
@@ -35,16 +40,27 @@ class TaikyokuData
       print "generation failed...\n"
       return nil
     end
-    # フォルダとかファイルとかの生成
-    @taikyokupath = "./taikyoku/" + id
-    @matchinfopath = taikyokupath + "/matchinfo.txt"
-    @chatpath = taikyokupath + "/chat.txt"
-    @csapath = taikyokupath + "/kifu.csa"
 
-    print "mkdir \"", taikyokupath, "\"<BR>\n"
-    print "touch \"", matchinfopath, "\"<BR>\n"
-    print "touch \"", chatpath, "\"<BR>\n"
-    print "touch \"", csapath, "\"<BR>\n"
+    # フォルダとかファイルとかの生成
+    @taikyokupath = DIRPATH + id + '/'
+    @matchinfopath = taikyokupath + MATCHFILE
+    @chatpath = taikyokupath + CHATFILE
+    @csapath = taikyokupath + KIFUFILE
+
+    require './gentaikyoku.rb'
+    gentd = GenTaikyokuData.new(self)
+    gentd.generate
+
+    require './taikyokufile.rb'
+    tdb = TaikyokuFile.new
+    tdb.read
+    tdb.add(id, player1, player2, datetime, "")
+    tdb.write
+
+    tcdb = TaikyokuChuFile.new
+    tcdb.read
+    tcdb.add(id, player1, player2, datetime, "")
+    tcdb.write
   end
 
   # 対局情報の生成
