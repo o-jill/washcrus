@@ -1,7 +1,8 @@
-tmp
-test.html
-userinfo.csv
-config/mail.yaml
 .ruby-version
 .swp
 Gemfile.lock
+taikyoku
+test.html
+tmp
+userinfo.csv
+config/mail.yaml
