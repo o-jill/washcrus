@@ -27,7 +27,15 @@ class TaikyokuFile
             # id, nameb, namew, time, comment
             elements = line.chomp.split(',')
             if elements.length != 5
-              # invalid line
+              if elements.length != 4
+                # invalid line
+              else
+                id = elements[0];
+                @namebs[id]   = elements[1]
+                @namews[id]   = elements[2]
+                @times[id]    = elements[3]
+                @comments[id] = "&lt;blank&gt;"
+              end
             else
               id = elements[0];
               @namebs[id]   = elements[1]
@@ -109,10 +117,10 @@ class TaikyokuFile
     print <<FNAME_AND_TABLE
 <table border=1>
 <Caption>path:#{fname}</caption>
-<tr><th>ID</th><TH>Black</TH><TH>White</TH><TH>Comment</TH></TR>
+<tr><th>ID</th><TH>Black</TH><TH>White</TH><TH>Time</TH><TH>Comment</TH></TR>
 FNAME_AND_TABLE
-    names.each{ |id, name|
-      puts "<TR><TD>"+id+"</TD><TD>"+name+"</TD><TD>"+namew[id]+"</TD><TD>"+times[id]+"</TD><TD>"+comments[id]+"</TD></TR>"
+    namebs.each{ |id, name|
+      puts "<TR><TD>"+id+"</TD><TD>"+name+"</TD><TD>"+namews[id]+"</TD><TD>"+times[id]+"</TD><TD>"+comments[id]+"</TD></TR>"
     }
     puts "</table>"
   end

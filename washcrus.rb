@@ -106,6 +106,9 @@ class WashCrus
     elsif @action == "register"
       require "./register.rb"
       register_screen(@header, $pagetitle, $titlename, @params);
+    elsif @action == "matchlist"
+      require "./matchlist.rb"
+      matchlist_screen(@header, $pagetitle, $titlename, @params);
     elsif @action == "userlist"
       require "./userlist.rb"
       userlist_screen(@header, $pagetitle, $titlename, @params);

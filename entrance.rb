@@ -61,7 +61,8 @@ JAVASCRIPT
 # test
   print "<span id=signup><A href='", File.basename($0), "?signup'>signup</a></span><BR>"
   print "<span id=signin><A href='", File.basename($0), "?login'>signin</a></span><BR>"
-  print "<span id=signin><A href='", File.basename($0), "?userlist'>users</a></span><BR>"
+  print "<span id=users><A href='", File.basename($0), "?userlist'>users</a></span><BR>"
+  print "<span id=matchs><A href='", File.basename($0), "?matchlist'>matchs</a></span><BR>"
   print "<span id=signout><A href='", File.basename($0), "?logout'>signout</a></span><BR>"
   print "<span id=create><A href='", File.basename($0), "?newgame'>newgame</a></span><BR>"
   print "<A href='washcrus.rb?anywhere'>anywhere</a>"
