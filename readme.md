@@ -11,10 +11,10 @@ How to set up:
 2. Edit ./config/mail.yaml.sample and save it as ./config/mail.yaml
 3. Change KEY in userinfofile.rb
 4. Run "bundle" to get required gems.
-5. Run "rake init" to generate db file.
+5. Run "rake init" to generate db file and change some file/directory's permissions.
 6. Access washcrus.rb by your browser.
 
 required "gem"s
 * bundler
- * mail
- * rake
+  * mail
+  * rake

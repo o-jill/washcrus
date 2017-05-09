@@ -25,7 +25,7 @@ task :gen_session_clean do
 end
 
 desc "init task"
-task :init => [:gen_info, :add_w2d]
+task :init => [:gen_info, :add_w2d, :add_x2rb]
 
 task :gen_info => [:gen_userinfo, :gen_taikyokuinfo, :gen_taikyokuchuinfo]
 
@@ -35,29 +35,35 @@ task :gen_taikyokuchuinfo => ['taikyokuchu.csv']
 
 file 'userinfo.csv' do |f|
   cp './init/userinfo.csv.tmpl', f.name
-  chmod 'a+w', f.name
+  chmod 0666, f.name
 end
 
 file 'taikyoku.csv' do |f|
   cp './init/taikyoku.csv.tmpl', f.name
-  chmod 'a+w', f.name
+  chmod 0666, f.name
 end
 
 file 'taikyokuchu.csv' do |f|
   cp './init/taikyoku.csv.tmpl', f.name
-  chmod 'a+w', f.name
+  chmod 0666, f.name
 end
 
 task :add_w2d => [:add_w2tmp, :add_w2taikyoku, :add_w2d_msg]
 
 task :add_w2tmp do
-  chmod 'a+w', './tmp'
+  chmod 0777, './tmp'
 end
 
 task :add_w2taikyoku do
-  chmod 'a+w', './taikyoku'
+  chmod 0777, './taikyoku'
 end
 
 task :add_w2d_msg do
   puts 'please arrange permissions according to your server\'s rule before you start this service.'
 end
+
+task :add_x2rb do
+  chmod 0755, 'washcrus.rb'
+  chmod 0755, 'checknewgame.rb'
+end
+
