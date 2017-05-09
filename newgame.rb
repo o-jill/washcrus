@@ -27,6 +27,7 @@ def newgame_screen(header, title, name, userinfo)
 <!--
   table { font-size: 2rem; }
   input { font-size: 2rem; }
+  button { font-size: 2rem; }
 -->
 </style>
 STYLESHEET
@@ -107,7 +108,7 @@ function pre_check() {
   var ajax = new XMLHttpRequest();
   if (ajax != null) {
     var komanim = document.getElementById('komanim');
-    komanim.style.display = 'block';
+    komanim.style.display = 'inline';
     var btn = document.getElementById('precheck')
     btn.disabled = true;
 
@@ -141,7 +142,120 @@ function pre_check() {
     };
   }
 }
+
+function lets_furigoma() {
+  var koma = document.getElementById('furikomanim1');
+  koma.style.display = 'inline';
+  koma = document.getElementById('furikomafu1');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomato1');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomanim2');
+  koma.style.display = 'inline';
+  koma = document.getElementById('furikomafu2');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomato2');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomanim3');
+  koma.style.display = 'inline';
+  koma = document.getElementById('furikomafu3');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomato3');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomanim4');
+  koma.style.display = 'inline';
+  koma = document.getElementById('furikomafu4');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomato4');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomanim5');
+  koma.style.display = 'inline';
+  koma = document.getElementById('furikomafu5');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomato5');
+  koma.style.display = 'none';
+
+  var btn = document.getElementById('btnfurigoma')
+  btn.disabled = true;
+  koma = document.getElementById('furigoma');
+  koma.value = "";
+  setTimeout("ontimer_furigoma()", 1000);
+}
+function ontimer_furigoma() {
+  var furikoma = document.getElementById('furigoma');
+  var btn = document.getElementById('btnfurigoma')
+  var koma;
+  var komame = furikoma.value.length
+  if (komame == 0) {
+    koma = document.getElementById('furikomanim1');
+    koma.style.display = 'none';
+    if (Math.random() < 0.5) {
+      furikoma.value += "F";
+      koma = document.getElementById('furikomafu1');
+    } else {
+      furikoma.value += "T";
+      koma = document.getElementById('furikomato1');
+    }
+    koma.style.display = 'inline';
+    setTimeout("ontimer_furigoma()", 1000);
+  } else if (komame == 1) {
+    koma = document.getElementById('furikomanim2');
+    koma.style.display = 'none';
+    if (Math.random() < 0.5) {
+      furikoma.value += "F";
+      koma = document.getElementById('furikomafu2');
+    } else {
+      furikoma.value += "T";
+      koma = document.getElementById('furikomato2');
+    }
+    koma.style.display = 'inline';
+    setTimeout("ontimer_furigoma()", 1000);
+  } else if (komame == 2) {
+    koma = document.getElementById('furikomanim3');
+    koma.style.display = 'none';
+    if (Math.random() < 0.5) {
+      furikoma.value += "F";
+      koma = document.getElementById('furikomafu3');
+    } else {
+      furikoma.value += "T";
+      koma = document.getElementById('furikomato3');
+    }
+    koma.style.display = 'inline';
+    setTimeout("ontimer_furigoma()", 1000);
+  } else if (komame == 3) {
+    koma = document.getElementById('furikomanim4');
+    koma.style.display = 'none';
+    if (Math.random() < 0.5) {
+      furikoma.value += "F";
+      koma = document.getElementById('furikomafu4');
+    } else {
+      furikoma.value += "T";
+      koma = document.getElementById('furikomato4');
+    }
+    koma.style.display = 'inline';
+    setTimeout("ontimer_furigoma()", 1000);
+  } else if (komame == 4) {
+    koma = document.getElementById('furikomanim5');
+    koma.style.display = 'none';
+    if (Math.random() < 0.5) {
+      furikoma.value += "F";
+      koma = document.getElementById('furikomafu5');
+    } else {
+      furikoma.value += "T";
+      koma = document.getElementById('furikomato5');
+    }
+    koma.style.display = 'inline';
+    btn.disabled = false;
+  } else {
+    btn.disabled = false;
+  }
+}
 -->
+function furifusen() {
+  var name = document.getElementById('rname').value;
+  var btn = document.getElementById('btnfurigoma')
+  btn.value = name + 'の振り歩先で振り駒';
+}
 </script>
 JAVASCRIPT
 
@@ -149,7 +263,7 @@ JAVASCRIPT
 <FORM action='#{scriptname}?gennewgame' method=post name='gennewgame'>
 <TABLE>
  <TR id='player1'>
-  <TD rowspan=2>Player 1</TD><TD>name</TD><TD><INPUT name='rname' id='rname' type=text size=25 required></TD>
+  <TD rowspan=2>Player 1</TD><TD>name</TD><TD><INPUT name='rname' id='rname' type=text size=25 required onKeyup="furifusen()"></TD>
  </TR>
  <TR id='tremail'>
   <TD>e-mail</TD><TD><INPUT name='remail' id='remail' type=email size=25 required></TD>
@@ -165,7 +279,28 @@ JAVASCRIPT
   <input type='button' value='submit' onClick='check_form();'>&nbsp;
   <input type='reset'>&nbsp;
   <input type='button' id='precheck' value='pre-check' onClick='pre_check();'>
-  <img id='komanim' src='komanim.gif' style='display:none'></TD>
+  <img id='komanim' src='image/komanim.gif' style='display:none'></TD>
+ </TR>
+ <TR>
+  <TD colspan=3>
+   <input type="button" id='btnfurigoma' onClick='lets_furigoma();' value='Player1の振り歩先で振り駒'>
+   <input type="hidden" id="furigoma" name="furigoma" value="FTFTF">
+   <img id='furikomanim1' src='image/komanim.gif' style='display:none' width='32' height='32'>
+   <img id='furikomafu1' src='image/komafu.png' style='display:none' width='32' height='32'>
+   <img id='furikomato1' src='image/komato.png' style='display:none' width='32' height='32'>
+   <img id='furikomanim2' src='image/komanim.gif' style='display:none' width='32' height='32'>
+   <img id='furikomafu2' src='image/komafu.png' style='display:none' width='32' height='32'>
+   <img id='furikomato2' src='image/komato.png' style='display:none' width='32' height='32'>
+   <img id='furikomanim3' src='image/komanim.gif' style='display:none' width='32' height='32'>
+   <img id='furikomafu3' src='image/komafu.png' style='display:none' width='32' height='32'>
+   <img id='furikomato3' src='image/komato.png' style='display:none' width='32' height='32'>
+   <img id='furikomanim4' src='image/komanim.gif' style='display:none' width='32' height='32'>
+   <img id='furikomafu4' src='image/komafu.png' style='display:none' width='32' height='32'>
+   <img id='furikomato4' src='image/komato.png' style='display:none' width='32' height='32'>
+   <img id='furikomanim5' src='image/komanim.gif' style='display:none' width='32' height='32'>
+   <img id='furikomafu5' src='image/komafu.png' style='display:none' width='32' height='32'>
+   <img id='furikomato5' src='image/komato.png' style='display:none' width='32' height='32'>
+  </TD>
  </TR>
 </TABLE>
 </FORM>
