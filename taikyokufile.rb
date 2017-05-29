@@ -48,9 +48,9 @@ class TaikyokuFile
       end
     # 例外は小さい単位で捕捉する
     rescue SystemCallError => e
-      puts %Q(class=[#{e.class}] message=[#{e.message}] in read)
+      puts "class=[#{e.class}] message=[#{e.message}] in read"
     rescue IOError => e
-      puts %Q(class=[#{e.class}] message=[#{e.message}] in read)
+      puts "class=[#{e.class}] message=[#{e.message}] in read"
     end
   end
 
@@ -58,7 +58,7 @@ class TaikyokuFile
     begin
       File.open(@fname, 'w') do |file|
         file.flock File::LOCK_EX
-        file.puts '# taikyoku information + Time.now.to_s
+        file.puts '# taikyoku information' + Time.now.to_s
         file.puts '# id, nameb, namew, time, comment'
         namebs.each { |id, name|
           file.puts id + ',' + name + ',' + namews[id] + ',' + times[id] + ',' + comments[id]
@@ -66,9 +66,9 @@ class TaikyokuFile
       end
     # 例外は小さい単位で捕捉する
     rescue SystemCallError => e
-      puts %Q(class=[#{e.class}] message=[#{e.message}] in write)
+      puts "class=[#{e.class}] message=[#{e.message}] in write"
     rescue IOError => e
-      puts %Q(class=[#{e.class}] message=[#{e.message}] in write)
+      puts "class=[#{e.class}] message=[#{e.message}] in write"
     end
   end
 
@@ -125,7 +125,9 @@ class TaikyokuFile
       <tr><th>ID</th><TH>Black</TH><TH>White</TH><TH>Time</TH><TH>Comment</TH></TR>
       FNAME_AND_TABLE
     namebs.each { |id, name|
-      puts '<TR><TD>' + id + '</TD><TD>' + name + '</TD><TD>' + namews[id] + '</TD><TD>' + times[id] + '</TD><TD>' + comments[id] + '</TD></TR>'
+      puts '<TR><TD>' + id + '</TD><TD>' + name + '</TD>',
+           '<TD>' + namews[id] + '</TD><TD>' + times[id] + '</TD>',
+           '<TD>' + comments[id] + '</TD></TR>'
     }
     puts '</table>'
   end

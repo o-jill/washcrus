@@ -5,7 +5,6 @@
 
 require 'digest/sha2'
 
-
 # 対局情報クラス
 class TaikyokuData
   def initialize

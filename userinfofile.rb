@@ -8,7 +8,7 @@ class UserInfoFile
   KEY = 'thirty two byte secure password.'
 
   def initialize(name = './userinfo.csv')
-    @fname = name;
+    @fname = name
     @names = {}
     @passwords = {}
     @emails = {}
@@ -47,9 +47,9 @@ class UserInfoFile
       end
     # 例外は小さい単位で捕捉する
     rescue SystemCallError => e
-      puts %Q(class=[#{e.class}] message=[#{e.message}] in read)
+      puts "class=[#{e.class}] message=[#{e.message}] in read"
     rescue IOError => e
-      puts %Q(class=[#{e.class}] message=[#{e.message}] in read)
+      puts "class=[#{e.class}] message=[#{e.message}] in read"
     end
   end
 
@@ -72,9 +72,9 @@ class UserInfoFile
       end
     # 例外は小さい単位で捕捉する
     rescue SystemCallError => e
-      puts %Q(class=[#{e.class}] message=[#{e.message}] in write)
+      puts "class=[#{e.class}] message=[#{e.message}] in write"
     rescue IOError => e
-      puts %Q(class=[#{e.class}] message=[#{e.message}] in write)
+      puts "class=[#{e.class}] message=[#{e.message}] in write"
     end
   end
 
@@ -152,7 +152,8 @@ class UserInfoFile
       <tr><th>ID</th><TH>Name</TH><TH>Password</TH><TH>Mail</TH></TR>
       FNAME_AND_TABLE
     names.each { |id, name|
-      puts '<TR><TD>' + id + '</TD><TD>' + name + '</TD><TD>' + @passwords[id] + '</TD><TD>' + @emails[id] + '</TD></TR>'
+      puts '<TR><TD>' + id + '</TD><TD>' + name + '</TD>',
+           '<TD>' + @passwords[id] + '</TD><TD>' + @emails[id] + '</TD></TR>'
     }
     puts '</table>'
   end
