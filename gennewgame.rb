@@ -7,7 +7,6 @@ require './common_ui.rb'
 require './userinfo.rb'
 require './userinfofile.rb'
 
-
 def generatenewgame_screen(header, title, name, userinfo, params)
   #
   # 対局作成確認

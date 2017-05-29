@@ -17,7 +17,7 @@ class GenTaikyokuData
   # 対局に必要なファイル群の生成
   def generate
     directory = taikyoku.taikyokupath
-    FileUtils.mkdir(directory, {:mode=>0o777})
+    FileUtils.mkdir(directory, { :mode => 0o777 })
 
     matchfile = taikyoku.matchinfopath
     FileUtils.touch(matchfile)
@@ -31,7 +31,7 @@ class GenTaikyokuData
     FileUtils.touch(kifufile)
     FileUtils.chmod(0o666, kifufile)
 # print <<-GEN_LOG
-# FileUtils.mkdir(#{directory}, {:mode=>0777})
+# FileUtils.mkdir(#{directory}, { :mode => 0777 })
 #
 # matchfile = directory+MATCHFILE
 # FileUtils.touch(#{matchfile})

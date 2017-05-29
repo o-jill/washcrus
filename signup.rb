@@ -9,7 +9,7 @@ require './userinfo.rb'
 #
 # 登録画面
 #
-def signup_screen(header, title, name, userinfo)
+def signup_screen(header, title, name, _userinfo)
   CommonUI::HTMLHead(header, title)
   CommonUI::HTMLmenu(name)
 

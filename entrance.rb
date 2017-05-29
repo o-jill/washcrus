@@ -42,12 +42,26 @@ def entrance_screen(header, title, name, userinfo)
     JAVASCRIPT
 
     # # LOGO
-    # print "<TABLE bgcolor='#cc9933' align='center' bordercolor='black' border='0' frame='void' rules='all'>\n",
-    #   "<TR><TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD><TD></TD><TD></TD><TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD></TR>\n",
-    #   "<TR><TD></TD><TD><strong><span style='font-size:12em'>角</span></strong></TD><TD></TD><TD></TD></TR>\n",
-    #   "<TR><TD></TD><TD><strong><span style='font-size:12em'>銀</span></strong></TD><TD><strong><span style='font-size:12em'>飛</span></strong></TD><TD></TD></TR>\n",
-    #   "<TR><TD><span style='font-size:2em'>&nbsp;</span></TD><TD></TD><TD></TD><TD><span style='font-size:2em'>&nbsp;</span></TD></TR>\n",
-    # "</TABLE>\n"
+    # print <<-LOGO_TEXT
+    #   <TABLE bgcolor='#cc9933' align='center' bordercolor='black' border='0' frame='void' rules='all'>
+    #    <TR><TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD>
+    #     <TD></TD>
+    #     <TD></TD>
+    #     <TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD></TR>
+    #    <TR><TD></TD>
+    #     <TD><strong><span style='font-size:12em'>角</span></strong></TD>
+    #     <TD></TD>
+    #     <TD></TD></TR>
+    #    <TR><TD></TD>
+    #     <TD><strong><span style='font-size:12em'>銀</span></strong></TD>
+    #     <TD><strong><span style='font-size:12em'>飛</span></strong></TD>
+    #     <TD></TD></TR>
+    #    <TR><TD><span style='font-size:2em'>&nbsp;</span></TD>
+    #     <TD></TD>
+    #     <TD></TD>
+    #     <TD><span style='font-size:2em'>&nbsp;</span></TD></TR>
+    #   </TABLE>
+    #   LOGO_TEXT
 
   if blogin
     print '<HR><div align=center>', userinfo.user_name, 'さん',

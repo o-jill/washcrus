@@ -9,7 +9,7 @@ require './userinfo.rb'
 #
 # ログイン画面
 #
-def login_screen(header, title, name, userinfo)
+def login_screen(header, title, name, _userinfo)
   CommonUI::HTMLHead(header, title)
   CommonUI::HTMLmenu(name)
 
