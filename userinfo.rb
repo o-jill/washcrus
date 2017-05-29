@@ -12,31 +12,31 @@ class UserInfo
   attr_accessor :visitcount, :user_id, :user_name, :user_email
 
   def readsession(session)
-    @visitcount = session['count'].to_i+1
+    @visitcount = session['count'].to_i + 1
     @user_id = session['user_id']
     @user_name = session['user_name']
     @user_email = session['user_email']
   end
 
-  def hashsession()
-    return {
+  def hashsession
+    {
       'count' => @visitcount, 'user_id' => @user_id, 'user_name' => @user_name,
       'user_email' => @user_email
     }
   end
 
   def dump
-    print "userid:", @user_id,
-          "username:", @user_name,
-          "useremail:", @user_email,
-          "visitcount:", @visitcount
+    print 'userid:', @user_id,
+          'username:', @user_name,
+          'useremail:', @user_email,
+          'visitcount:', @visitcount
   end
 
   def dumptable
-    print "<TABLE><TR><TD>userid</TD><TD>", @user_id,
-          "</TD></TR><TR><TD>username</TD><TD>", @user_name,
-          "</TD></TR><TR><TD>useremail</TD><TD>", @user_email,
-          "</TD></TR><TR><TD>visitcount</TD><TD>", @visitcount,
-          "</TD></TR></TABLE>"
+    print '<TABLE><TR><TD>userid</TD><TD>', @user_id,
+          '</TD></TR><TR><TD>username</TD><TD>', @user_name,
+          '</TD></TR><TR><TD>useremail</TD><TD>', @user_email,
+          '</TD></TR><TR><TD>visitcount</TD><TD>', @visitcount,
+          '</TD></TR></TABLE>'
   end
 end

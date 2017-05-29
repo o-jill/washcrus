@@ -15,7 +15,7 @@ def logout_screen(session, title, name)
   CommonUI::HTMLHead2(title)
   CommonUI::HTMLmenu(name)
 
-  puts "Logged out ..."
+  puts 'Logged out ...'
 
   CommonUI::HTMLfoot()
 end

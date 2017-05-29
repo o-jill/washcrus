@@ -4,13 +4,12 @@
 #!/usr/bin/ruby
 
 require './common_ui.rb'
-require "./taikyokufile.rb"
+require './taikyokufile.rb'
 
 #
 # matchlist画面
 #
 def matchlist_screen(header, title, name, userinfo)
-
   tkcdb = TaikyokuChuFile.new
   tkcdb.read
 

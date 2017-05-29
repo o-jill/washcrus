@@ -9,7 +9,7 @@ require 'fileutils'
 class GenTaikyokuData
   def initialize(taikyoku = nil)
     @taikyoku = taikyoku
-    @id = taikyoku.id;
+    @id = taikyoku.id
   end
 
   attr_accessor :taikyoku, :id
@@ -17,19 +17,19 @@ class GenTaikyokuData
   # 対局に必要なファイル群の生成
   def generate
     directory = taikyoku.taikyokupath
-    FileUtils.mkdir(directory, {:mode=>0777})
+    FileUtils.mkdir(directory, {:mode=>0o777})
 
     matchfile = taikyoku.matchinfopath
     FileUtils.touch(matchfile)
-    FileUtils.chmod(0666, matchfile)
+    FileUtils.chmod(0o666, matchfile)
 
     chatfile = taikyoku.chatpath
     FileUtils.touch(chatfile)
-    FileUtils.chmod(0666, chatfile)
+    FileUtils.chmod(0o666, chatfile)
 
     kifufile = taikyoku.csapath
     FileUtils.touch(kifufile)
-    FileUtils.chmod(0666, kifufile)
+    FileUtils.chmod(0o666, kifufile)
 # print <<-GEN_LOG
 # FileUtils.mkdir(#{directory}, {:mode=>0777})
 #
