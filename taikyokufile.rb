@@ -64,7 +64,7 @@ class TaikyokuFile
         file.puts '# taikyoku information' + Time.now.to_s
         file.puts '# id, nameb, namew, time, comment'
         namebs.each { |id, name|
-          file.puts id + ',' + name + ',' + namews[id] + ',' + times[id] + ',' + comments[id]
+          file.puts "#{id},#{name},#{namews[id]},#{times[id]},#{comments[id]}"
         }
       end
     # 例外は小さい単位で捕捉する
@@ -127,15 +127,19 @@ class TaikyokuFile
       <Caption>path:#{fname}</caption>
       <tr><th>ID</th><TH>Black</TH><TH>White</TH><TH>Time</TH><TH>Comment</TH></TR>
       FNAME_AND_TABLE
-    namebs.each { |id, name|
-      puts '<TR><TD>' + id + '</TD><TD>' + name + '</TD>',
-           '<TD>' + namews[id] + '</TD><TD>' + times[id] + '</TD>',
-           '<TD>' + comments[id] + '</TD></TR>'
-    }
+    namebs.each do |id, name|
+      puts "<TR><TD>#{id}</TD><TD>#{name}</TD><TD>#{namews[id]}</TD>",
+           "<TD>#{times[id]}</TD><TD>#{omments[id]}</TD></TR>\n"
+    end
     puts '</table>'
   end
 end
 
+#
+# 対局中情報DB管理クラス
+#
+# 終わった対局は、ここから消してTaikyokuFileへ
+#
 class TaikyokuChuFile < TaikyokuFile
   def initialize(name = './taikyokuchu.csv')
     super

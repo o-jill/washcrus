@@ -22,12 +22,12 @@ class WashCrus
 
     @cgi = cgi
     @params = cgi.params
-#    if @params.length>0
-#      @params.each_value{|val|
-#        val.gsub!(',','&#44;');
-#      p val
-#    }
-#    end
+    # if @params.length>0
+    #   @params.each_value{|val|
+    #     val.gsub!(',','&#44;');
+    #   p val
+    # }
+    # end
     @action = cgi.query_string
 
     begin
@@ -70,7 +70,7 @@ class WashCrus
 
     # @session.close
 
-    @header = cgi.header({ 'charset' => 'UTF-8' })
+    @header = cgi.header('charset' => 'UTF-8')
     @header = @header.gsub("\r\n", "\n")
   end
 

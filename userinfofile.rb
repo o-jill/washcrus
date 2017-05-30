@@ -29,23 +29,21 @@ class UserInfoFile
 
         file.each_line do |line|
           if line =~ /^#/
-            # commentq
-          else
-            # id, name, password, e-mail(encrypted)
-            elements = line.chomp.split(',')
-            if elements.length != 4
-              # invalid line
-            else
-              id = elements[0]
-              @names[id]     = elements[1]
-              @passwords[id] = elements[2]
-              dec.pkcs5_keyivgen(KEY)
-              em = ''
-              em << dec.update([elements[3]].pack('H*'))
-              em << dec.final
-              @emails[id] = em
-            end
+            next # comment
           end
+
+          # id, name, password, e-mail(encrypted)
+          elements = line.chomp.split(',')
+          next if elements.length != 4 # invalid line
+
+          id = elements[0]
+          @names[id]     = elements[1]
+          @passwords[id] = elements[2]
+          dec.pkcs5_keyivgen(KEY)
+          em = ''
+          em << dec.update([elements[3]].pack('H*'))
+          em << dec.final
+          @emails[id] = em
         end
       end
     # 例外は小さい単位で捕捉する
@@ -65,13 +63,13 @@ class UserInfoFile
         file.flock File::LOCK_EX
         file.puts '# user information ' + Time.now.to_s
         file.puts '# id, name, password, e-mail(encrypted)'
-        names.each { |id, name|
+        names.each do |id, name|
           enc.pkcs5_keyivgen(KEY)
           crypted = ''
           crypted << enc.update(@emails[id])
           crypted << enc.final
-          file.puts id + ',' + name + ',' + @passwords[id] + ',' + crypted.unpack('H*')[0]
-        }
+          file.puts "#{id},#{name},#{@passwords[id]},#{crypted.unpack('H*')[0]}"
+        end
       end
     # 例外は小さい単位で捕捉する
     rescue SystemCallError => e
@@ -82,34 +80,28 @@ class UserInfoFile
   end
 
   # get user information by id
+  #
+  # return nil if not found.
   def findid(id)
-    if exist_id(id)
-      [@names[id], @passwords[id], @emails[id]]
-    else
-      nil
-    end
+    [@names[id], @passwords[id], @emails[id]] if exist_id(id)
   end
 
   # get user information by id
+  #
+  # return nil if not found.
   def findname(name)
     found = @names.find { |_k, v| v == name }
-    if !found.nil?
-      id = found[0]
-      [id, found[1], @passwords[id], @emails[id]]
-    else
-      nil
-    end
+
+    [(id = found[0]), found[1], @passwords[id], @emails[id]] unless found.nil?
   end
 
   # get user information by e-mail address
+  #
+  # return nil if not found.
   def findemail(addr)
     found = @emails.find { |_k, v| v == addr }
-    if !found.nil?
-      id = found[0]
-      [id, @names[id], @passwords[id]]
-    else
-      nil
-    end
+
+    [(id = found[0]), @names[id], @passwords[id]] unless found.nil?
   end
 
   # add user information and generate id
@@ -154,10 +146,10 @@ class UserInfoFile
       <Caption>path:#{fname}</caption>
       <tr><th>ID</th><TH>Name</TH><TH>Password</TH><TH>Mail</TH></TR>
       FNAME_AND_TABLE
-    names.each { |id, name|
-      puts '<TR><TD>' + id + '</TD><TD>' + name + '</TD>',
-           '<TD>' + @passwords[id] + '</TD><TD>' + @emails[id] + '</TD></TR>'
-    }
+    names.each do |id, name|
+      puts "<TR><TD>#{id}</TD><TD>#{name}</TD>",
+           "<TD>#{@passwords[id]}</TD><TD>#{@emails[id]}</TD></TR>"
+    end
     puts '</table>'
   end
 end

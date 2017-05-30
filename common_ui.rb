@@ -6,7 +6,7 @@
 #
 # UI parts used in common
 #
-class CommonUI
+module CommonUI
   # HTMLヘッダ出力
   def self.HTMLHead(header, title)
     print header
@@ -57,12 +57,12 @@ class CommonUI
   # メニュー部分の出力 ログイン前
   def self.HTMLmenu(title)
     index = File.basename($PROGRAM_NAME)
-    print "<div align='center'>", title, "</div><HR>\n",
+    print "<div align='center'>#{title}</div><HR>\n",
           "<div align='center' class='menubase'>&nbsp;",
-          "<a class='menu' href='", index, "'> Entrance </a>&nbsp;",
-          "<a class='menu' href='", index, "?signup'> Sign Up </a>&nbsp;",
-          "<a class='menu' href='", index, "?login'> Log In </a>&nbsp;",
-          # "<a class='menu' href='", index, "?logout'> Log Out </a>&nbsp;",
+          "<a class='menu' href='#{index}'> Entrance </a>&nbsp;",
+          "<a class='menu' href='#{index}?signup'> Sign Up </a>&nbsp;",
+          "<a class='menu' href='#{index}?login'> Log In </a>&nbsp;",
+          # "<a class='menu' href='#{index}?logout'> Log Out </a>&nbsp;",
           "</div><HR/>\n"
   end
 
@@ -70,17 +70,17 @@ class CommonUI
   #
   # blogin ログイン中かどうか
   def self.HTMLmenuLogIn(title, blogin = true)
-    if !blogin
+    unless blogin
       return HTMLmenu(title)
     end
 
     index = File.basename($PROGRAM_NAME)
-    print "<div align='center'>", title, "</div><HR>\n",
+    print "<div align='center'>#{title}</div><HR>\n",
           "<div align='center' class='menubase'>&nbsp;",
-          "<a class='menu' href='", index, "'> Entrance </a>&nbsp;",
-          # "<a class='menu' href='", index, "?signup'> Sign Up </a>&nbsp;",
-          # "<a class='menu' href='", index, "?login'> Log In </a>&nbsp;",
-          "<a class='menu' href='", index, "?logout'> Log Out </a>&nbsp;",
+          "<a class='menu' href='#{index}'> Entrance </a>&nbsp;",
+          # "<a class='menu' href='#{index}?signup'> Sign Up </a>&nbsp;",
+          # "<a class='menu' href='#{index}?login'> Log In </a>&nbsp;",
+          "<a class='menu' href='#{index}?logout'> Log Out </a>&nbsp;",
           "</div><HR/>\n"
   end
 

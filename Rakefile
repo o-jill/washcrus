@@ -59,7 +59,8 @@ task :add_w2taikyoku do
 end
 
 task :add_w2d_msg do
-  puts 'please arrange permissions according to your server\'s rule before you start this service.'
+  puts 'please arrange permissions ',
+       'according to your server\'s rule before you start this service.'
 end
 
 task :add_x2rb do

@@ -10,69 +10,64 @@ require 'digest/sha2'
 require './common_ui.rb'
 require './userinfofile.rb'
 
-#
-# ユーザー登録完了or登録エラー画面
-#
-def register_screen(header, title, name, params)
-  errmsg = ''
-
+def check_register(params)
   if params['rname'].nil? || params['rname'].length.zero? \
       || params['rpassword'].nil? || params['rpassword'].length.zero? \
       || params['rpassword2'].nil? || params['rpassword2'].length.zero? \
       || params['remail'].nil? || params['remail'].length.zero? \
       || params['remail 2'].nil? || params['remail2'].length.zero?
-    errmsg += 'data lost ...<BR>'
-  else
-    username = params['rname'][0]
-    password1 = params['rpassword'][0]
-    password2 = params['rpassword2'][0]
-    email1 = params['remail'][0]
-    email2 = params['remail2'][0]
-
-    if username.nil? || username.length < 4
-      errmsg += 'short username ...<BR>'
-    end
-    if password1.nil? || password1 != password2
-      errmsg += 'wrong password ...<BR>'
-    end
-    if password1.length < 4
-      errmsg += 'short password ...<BR>'
-    end
-    if email1.nil? || email1 != email2
-      errmsg += 'wrong e-mail address ...<BR>'
-    end
-    if email1.length < 4
-      errmsg += 'short e-mail address ...<BR>'
-    end
-
-    userdb = UserInfoFile.new
-    userdb.read
-    if userdb.exist_name(username)
-      errmsg += 'same user name is already exists ...<BR>'
-    end
-    if userdb.exist_email(email1)
-      errmsg += 'same e-mail address is already exists ...<BR>'
-    end
+    return 'data lost ...<BR>'
   end
 
-  if errmsg != ''
-    # エラー
-    CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenu(name)
+  username = params['rname'][0]
+  password1 = params['rpassword'][0]
+  password2 = params['rpassword2'][0]
+  email1 = params['remail'][0]
+  email2 = params['remail2'][0]
 
-    print 'Unfortunately failed ...<BR>', errmsg
+  errmsg = ''
 
-    CommonUI::HTMLfoot()
-  else
+  errmsg += 'short username ...<BR>' if username.nil? || username.length < 4
+
+  errmsg += 'wrong password ...<BR>' if password1.nil? || password1 != password2
+
+  errmsg += 'short password ...<BR>' if password1.length < 4
+
+  errmsg += 'wrong e-mail address ...<BR>' if email1.nil? || email1 != email2
+
+  errmsg += 'short e-mail address ...<BR>' if email1.length < 4
+
+  errmsg
+end
+
+#
+# ユーザー登録完了or登録エラー画面
+#
+def register_screen(header, title, name, params)
+  errmsg = check_register(params)
+
+  if errmsg == ''
+    username = params['rname'][0]
+    password1 = params['rpassword'][0]
+    email1 = params['remail'][0]
+
     # 登録する
     dgpw = Digest::SHA256.hexdigest password1
 
     userdb.add(username, dgpw, email1)
     userdb.write
+  end
 
-    CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenu(name)
+  CommonUI::HTMLHead(header, title)
+  CommonUI::HTMLmenu(name)
 
+  if errmsg != ''
+    # エラー
+
+    print 'Unfortunately failed ...<BR>', errmsg
+
+    CommonUI::HTMLfoot()
+  else
     print 'Registered successfully.<BR>',
           'username:', username, '<BR>',
           'password:****<BR>',
@@ -81,12 +76,13 @@ def register_screen(header, title, name, params)
 
     CommonUI::HTMLfoot()
 
-    message = 'Dear ', username, "\n",
+    # send mail
+    message = "Dear#{username}\n",
               "Your information has been registed successfully as below.\n\n",
-              'User name: ', username, "\n",
-              'Password: ', password1, "\n",
-              'E-mail address: ', email1, "\n\n",
-              "* Please delete this email if you believe you are not the intended recipient.\n",
+              "User name: #{username}\nPassword: #{password1}\n",
+              "E-mail address: #{email1}\n\n",
+              '* Please delete this email ',
+              "if you believe you are not the intended recipient.\n",
               '* Please do not respond to this auto-generated email.'
 
     dlvcfg = YAML.load_file('./config/mail.yaml')
@@ -103,7 +99,7 @@ def register_screen(header, title, name, params)
                          authentication: dlvcfg['authentication'],
                          user_name:      dlvcfg['user_name'],
                          password:       dlvcfg['password'])
-p mail
+    # p mail
     mail.deliver
   end
 end
