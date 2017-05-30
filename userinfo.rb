@@ -1,6 +1,9 @@
 #!d:\ruby193\bin\ruby.exe
 # -*- encoding: utf-8 -*-
 
+#
+# ユーザー情報管理クラス
+#
 class UserInfo
   def initialize(count = -1, id = nil, name = nil, addr = nil)
     @visitcount = count
@@ -26,10 +29,8 @@ class UserInfo
   end
 
   def dump
-    print 'userid:', @user_id,
-          'username:', @user_name,
-          'useremail:', @user_email,
-          'visitcount:', @visitcount
+    print 'userid:', @user_id, 'username:', @user_name,
+          'useremail:', @user_email, 'visitcount:', @visitcount
   end
 
   def dumptable

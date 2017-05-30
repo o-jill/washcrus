@@ -10,7 +10,6 @@ require './userinfofile.rb'
 # userlist画面
 #
 def userlist_screen(header, title, name, _userinfo)
-
   userdb = UserInfoFile.new
   userdb.read
 

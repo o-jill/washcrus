@@ -3,6 +3,9 @@
 
 #!/usr/bin/ruby
 
+#
+# UI parts used in common
+#
 class CommonUI
   # HTMLヘッダ出力
   def self.HTMLHead(header, title)
@@ -32,7 +35,7 @@ class CommonUI
   # HTMLヘッダ出力(no cookie)
   def self.HTMLHead2(title)
     print "Content-Type: text/html; charset=UTF-8\n\n",
-          "<HTML lang=ja>\n<HEAD>\n <TITLE>', title, '</TITLE>\n",
+          "<HTML lang=ja>\n<HEAD>\n <TITLE>", title, "</TITLE>\n",
           " <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >\n",
           " <link rel='shortcut icon' href='./favicon.ico' />",
           # "<link rel='stylesheet' type='text/css' href='warshcrus.css'>\n",
@@ -63,8 +66,14 @@ class CommonUI
           "</div><HR/>\n"
   end
 
-  # メニュー部分の出力 ログイン中
-  def self.HTMLmenuLogIn(title)
+  # メニュー部分の出力
+  #
+  # blogin ログイン中かどうか
+  def self.HTMLmenuLogIn(title, blogin = true)
+    if !blogin
+      return HTMLmenu(title)
+    end
+
     index = File.basename($PROGRAM_NAME)
     print "<div align='center'>", title, "</div><HR>\n",
           "<div align='center' class='menubase'>&nbsp;",

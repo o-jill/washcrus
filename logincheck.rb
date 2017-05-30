@@ -1,5 +1,5 @@
-# -*- encoding: utf-8 -*-
 #!d:\ruby193\bin\ruby
+# -*- encoding: utf-8 -*-
 
 #!/usr/bin/ruby
 
@@ -8,10 +8,7 @@ require 'digest/sha2'
 require './common_ui.rb'
 require './userinfofile.rb'
 
-#
-# ログイン完了orログインエラー画面
-#
-def logincheck_screen(header, session, title, name, params)
+def check_login(params)
   errmsg = ''
 
   if params['sipassword'].nil? || params['sipassword'].length.zero? \
@@ -33,24 +30,37 @@ def logincheck_screen(header, session, title, name, params)
 
     userdb = UserInfoFile.new
     userdb.read
-    userdata = userdb.findemail(email1)  # [id, @names[id], @passwords[id]]
+    userdata = userdb.findemail(email1) # [id, @names[id], @passwords[id]]
     if userdata.nil? || dgpw != userdata[2]
       errmsg += 'e-mail address or password is wrong ...<BR>'
     else
       userinfo = UserInfo.new(1, userdata[0], userdata[1], email1)
-      userinfo.hashsession.each { |k, v|
-        session[k] = v
-      }
-
+      userinfo.hashsession.each { |k, v| session[k] = v }
       username = userinfo.user_name
     end
   end
 
+  if errmsg == ''
+    # 登録する
+    dgpw = Digest::SHA256.hexdigest password1
+
+    userdb.add(username, dgpw, email1)
+    userdb.write
+  end
+
+  errmsg
+end
+
+#
+# ログイン完了orログインエラー画面
+#
+def logincheck_screen(header, session, title, name, params)
+  errmsg = check_login(userinfo, params)
+
+  CommonUI::HTMLHead(header, title)
+  CommonUI::HTMLmenu(name)
   if errmsg != ''
     # エラー
-    CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenu(name)
-
     print <<-STYLESHEET
       <style type="text/css">
       <!--
@@ -58,24 +68,12 @@ def logincheck_screen(header, session, title, name, params)
       -->
       </style>
       STYLESHEET
+
     print '<SPAN class=err>Unfortunately failed ...<BR>', errmsg, "</SPAN>\n"
-
-    CommonUI::HTMLfoot()
   else
-    # 登録する
-    dgpw = Digest::SHA256.hexdigest password1
-
-    userdb.add(username, dgpw, email1)
-    userdb.write
-
-    CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenuLogIn(name)
-
     print 'Logged in successfully.<BR>',
           'username:', userinfo.user_name, '<BR>',
-          'password:****<BR>',
-          'email address:', email1, '<BR>'
-
-    CommonUI::HTMLfoot()
+          'password:****<BR>', 'email address:', email1, '<BR>'
   end
+  CommonUI::HTMLfoot()
 end

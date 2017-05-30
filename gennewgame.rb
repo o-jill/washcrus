@@ -41,17 +41,12 @@ def generatenewgame_screen(header, title, name, userinfo, params)
     errmsg += "your log-in information is wrong ...\n"
   end
 
+  CommonUI::HTMLHead(header, title)
+  CommonUI::HTMLmenu(name)
+
   if errmsg != ''
-    CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenu(name)
-
     puts errmsg
-
-    CommonUI::HTMLfoot()
   else
-    CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenu(name)
-
     require './taikyokudata.rb'
     td = TaikyokuData.new
     td.player1 = name1
@@ -65,7 +60,7 @@ def generatenewgame_screen(header, title, name, userinfo, params)
 
     puts "new game generated!<BR>\n"
     td.dumptable
-
-    CommonUI::HTMLfoot()
   end
+
+  CommonUI::HTMLfoot()
 end

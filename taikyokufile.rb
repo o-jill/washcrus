@@ -4,6 +4,9 @@
 require 'digest/sha2'
 require 'openssl'
 
+#
+# 対局情報DB管理クラス
+#
 class TaikyokuFile
   def initialize(name = './taikyoku.csv')
     @fname = name
