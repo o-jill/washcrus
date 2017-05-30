@@ -4,6 +4,10 @@
 # Encoding:
 #   Enabled: false
 
+# USE LF end of line.
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
 # Limit lines to 80 characters.
 # LineLength:
 #   Enabled: false

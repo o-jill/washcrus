@@ -64,9 +64,8 @@ class TaikyokuData
   # 対局情報の生成
   # ファイルなどの準備はしません。
   def checkgenerate
-    if creator.nil?
-      @creator = 'nanashi'
-    end
+    # 生成者
+    @creator = 'nanashi' if creator.nil?
     # 生成日時
     @datetime = Time.now.strftime('%Y/%m/%d %H:%M:%S')
     # 対局ID
@@ -77,14 +76,14 @@ class TaikyokuData
     if player1.nil? || player1 == '' || email1.nil? || email1 == '' \
       || player2.nil? || player2 == '' || email2.nil? || email2 == '' \
       || creator.nil? || creator == ''
-      nil
-    else
-      id_raw <<-RAW_ID
-        #{player1}_#{email1}_#{player2}_#{email2}_#{creator}_#{datetime}
-        RAW_ID
-      id = Digest::SHA256.hexdigest id_raw
-      id[0, 10]
+      return nil
     end
+
+    id_raw <<-RAW_ID
+      #{player1}_#{email1}_#{player2}_#{email2}_#{creator}_#{datetime}
+      RAW_ID
+    id = Digest::SHA256.hexdigest id_raw
+    id[0, 10]
   end
 
   def dump

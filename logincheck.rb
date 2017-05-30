@@ -8,10 +8,10 @@ require 'digest/sha2'
 require './common_ui.rb'
 require './userinfofile.rb'
 
-def check_login(params)
+def check_login(params, session)
   if params['sipassword'].nil? || params['sipassword'].length.zero? \
       || params['siemail'].nil? || params['siemail'].length.zero?
-    return 'data lost ...<BR>'
+    return ['data lost ...<BR>']
   end
 
   password1 = params['sipassword'][0]
@@ -31,7 +31,7 @@ def check_login(params)
   userdata = userdb.findemail(email1) # [id, @names[id], @passwords[id]]
   if userdata.nil? || dgpw != userdata[2]
     errmsg += 'e-mail address or password is wrong ...<BR>'
-    return errmsg
+    return [errmsg]
   end
 
   userinfo = UserInfo.new(1, userdata[0], userdata[1], email1)
@@ -44,14 +44,15 @@ def check_login(params)
   userdb.add(username, dgpw, email1)
   userdb.write
 
-  errmsg
+  [errmsg, userinfo]
 end
 
 #
 # ログイン完了orログインエラー画面
 #
-def logincheck_screen(header, _session, title, name, params)
-  errmsg = check_login(userinfo, params)
+def logincheck_screen(header, session, title, name, params)
+  ret = check_login(params, session)
+  errmsg = ret[0]
 
   CommonUI::HTMLHead(header, title)
   CommonUI::HTMLmenu(name)
@@ -62,8 +63,9 @@ def logincheck_screen(header, _session, title, name, params)
 
     print "<SPAN class=err>Unfortunately failed ...<BR>#{errmsg}</SPAN>\n"
   else
+    userinfo = ret[1]
     print "Logged in successfully.<BR>\nusername:#{userinfo.user_name}<BR>\n",
-          "password:****<BR>\nemail address:#{email1}<BR>\n"
+          "password:****<BR>\nemail address:#{userinfo.user_email}<BR>\n"
   end
   CommonUI::HTMLfoot()
 end

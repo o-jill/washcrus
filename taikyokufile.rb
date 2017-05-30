@@ -63,9 +63,9 @@ class TaikyokuFile
         file.flock File::LOCK_EX
         file.puts '# taikyoku information' + Time.now.to_s
         file.puts '# id, nameb, namew, time, comment'
-        namebs.each { |id, name|
+        namebs.each do |id, name|
           file.puts "#{id},#{name},#{namews[id]},#{times[id]},#{comments[id]}"
-        }
+        end
       end
     # 例外は小さい単位で捕捉する
     rescue SystemCallError => e
@@ -77,11 +77,7 @@ class TaikyokuFile
 
   # get taikyoku information by id
   def findid(id)
-    if exist_id(id)
-      [@namebs[id], @namebs[id], @times[id], @comments[id]]
-    else
-      nil
-    end
+    [@namebs[id], @namebs[id], @times[id], @comments[id]] if exist_id(id)
   end
 
   # get taikyoku information by name
@@ -129,7 +125,7 @@ class TaikyokuFile
       FNAME_AND_TABLE
     namebs.each do |id, name|
       puts "<TR><TD>#{id}</TD><TD>#{name}</TD><TD>#{namews[id]}</TD>",
-           "<TD>#{times[id]}</TD><TD>#{omments[id]}</TD></TR>\n"
+           "<TD>#{times[id]}</TD><TD>#{comments[id]}</TD></TR>\n"
     end
     puts '</table>'
   end
