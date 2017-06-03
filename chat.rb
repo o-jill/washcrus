@@ -9,6 +9,15 @@ require './taikyokufile.rb'
 require './chatfile.rb'
 
 # チャットシステムクラス
+#
+# QUERY_STRING = Game ID
+#
+# read:
+#  action != say
+# write:
+#  action = say
+#  chatname = johndoe
+#  chatmsg  = message
 class Chat
   def initialize(cgi)
     @params = cgi.params
@@ -25,8 +34,13 @@ class Chat
     tdb.read
     unless (tdb.exist_id(@gameid))
       # invalid game id
+      print <<-PUT_CHAT
+Content-type:text/html;
+
+# invalid game id #
+PUT_CHAT
     else
-      unless (@action.length.zero?)
+      if @action == 'say'
         @name = params['chatname']
         @msg = params['chatmsg']
         unless @msg.length.zero?
