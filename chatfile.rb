@@ -58,6 +58,10 @@ class ChatFile
     add "<B>#{name}</B>:#{msg}&nbsp;(#{Time.now.to_s})"
   end
 
+  def sayex(name, msg)
+    add "#{name}:#{msg}&nbsp;(#{Time.now.to_s})"
+  end
+
   def put
     print <<-PUT_CHAT
 Content-type:text/html;
