@@ -40,6 +40,33 @@ def check_register(params)
   errmsg
 end
 
+def send_mail_register(username, pw, email)
+  # send mail
+  message = "Dear#{username}\n",
+            "Your information has been registed successfully as below.\n\n",
+            "User name: #{username}\nPassword: #{pw}\n",
+            "E-mail address: #{email}\n\n",
+            '* Please delete this email ',
+            "if you believe you are not the intended recipient.\n",
+            '* Please do not respond to this auto-generated email.'
+
+  dlvcfg = YAML.load_file('./config/mail.yaml')
+  mail = Mail.new do
+    from    dlvcfg['mailaddress']
+    to      email
+    subject 'Welcome to Wash Crus!'
+    body    message
+  end
+  mail.delivery_method(dlvcfg['type'],
+                       address: dlvcfg['address'], port: dlvcfg['port'],
+                       domain: dlvcfg['domain'],
+                       authentication: dlvcfg['authentication'],
+                       user_name: dlvcfg['user_name'],
+                       password: dlvcfg['password'])
+  mail.deliver
+  # p mail
+end
+
 #
 # ユーザー登録完了or登録エラー画面
 #
@@ -63,43 +90,15 @@ def register_screen(header, title, name, params)
 
   if errmsg != ''
     # エラー
-
     print 'Unfortunately failed ...<BR>', errmsg
-
-    CommonUI::HTMLfoot()
   else
-    print 'Registered successfully.<BR>',
-          'username:', username, '<BR>',
-          'password:****<BR>',
-          'email address:', email1, '<BR>',
+    print "Registered successfully.<BR>username:#{username}<BR>",
+          "password:****<BR>email address:#{email1}<BR>",
           'Registration mail has been sent.<BR>'
-
-    CommonUI::HTMLfoot()
-
-    # send mail
-    message = "Dear#{username}\n",
-              "Your information has been registed successfully as below.\n\n",
-              "User name: #{username}\nPassword: #{password1}\n",
-              "E-mail address: #{email1}\n\n",
-              '* Please delete this email ',
-              "if you believe you are not the intended recipient.\n",
-              '* Please do not respond to this auto-generated email.'
-
-    dlvcfg = YAML.load_file('./config/mail.yaml')
-    mail = Mail.new do
-      from    dlvcfg['mailaddress']
-      to      email1
-      subject 'Welcome to Wash Crus!'
-      body    message
-    end
-    mail.delivery_method(dlvcfg['type'],
-                         address:        dlvcfg['address'],
-                         port:           dlvcfg['port'],
-                         domain:         dlvcfg['domain'],
-                         authentication: dlvcfg['authentication'],
-                         user_name:      dlvcfg['user_name'],
-                         password:       dlvcfg['password'])
-    # p mail
-    mail.deliver
   end
+
+  CommonUI::HTMLfoot()
+
+  # send mail
+  send_mail_register(username, password1, email1) if errmsg != ''
 end

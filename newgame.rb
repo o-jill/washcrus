@@ -10,30 +10,30 @@ def show_newgameform
   scriptname = File.basename($PROGRAM_NAME)
   print <<-FORM_NEW_GAME
     <FORM action='#{scriptname}?gennewgame' method=post name='gennewgame'>
-    <TABLE>
+    <TABLE class='inpform'>
      <TR id='player1'>
-      <TD rowspan=2>Player 1</TD><TD>name</TD><TD><INPUT name='rname' id='rname' type=text size=25 required onKeyup="furifusen()"></TD>
+      <TD rowspan=2>Player 1</TD><TD>name</TD><TD><INPUT name='rname' id='rname' type=text size=25 class='inpform' required onKeyup="furifusen()"></TD>
      </TR>
      <TR id='tremail'>
-      <TD>e-mail</TD><TD><INPUT name='remail' id='remail' type=email size=25 required></TD>
+      <TD>e-mail</TD><TD><INPUT name='remail' id='remail' type=email size=25 class='inpform' required></TD>
      </TR>
      <TR id='player2'>
-      <TD rowspan=2>Player 2</TD><TD>name</TD><TD><INPUT name='rname2' id='rname2' type=text size=25 required></TD>
+      <TD rowspan=2>Player 2</TD><TD>name</TD><TD><INPUT name='rname2' id='rname2' type=text size=25 class='inpform' required></TD>
      </TR>
      <TR id='tremail2'>
-      <TD>e-mail</TD><TD><INPUT name='remail2' id='remail2' type=email size=25 required></TD>
+      <TD>e-mail</TD><TD><INPUT name='remail2' id='remail2' type=email size=25 class='inpform' required></TD>
      </TR>
      <TR>
       <TD colspan=3>
-      <input type='button' value='submit' onClick='check_form();'>&nbsp;
-      <input type='reset'>&nbsp;
-      <input type='button' id='precheck' value='pre-check' onClick='pre_check();'>
+      <input type='button' value='submit' class='inpform' onClick='check_form();'>&nbsp;
+      <input type='reset' class='inpform'>&nbsp;
+      <input type='button' id='precheck' class='inpform' value='pre-check' onClick='pre_check();'>
       <img id='komanim' src='image/komanim.gif' style='display:none'></TD>
      </TR>
      <TR>
       <TD colspan=3>
-       <input type="button" id='btnfurigoma' onClick='lets_furigoma();' value='Player1の振り歩先で振り駒'>
-       <input type="hidden" id="furigoma" name="furigoma" value="FTFTF">
+       <input type="button" id='btnfurigoma' class='inpform' onClick='lets_furigoma();' value='Player1の振り歩先で振り駒'>
+       <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
        <img id='furikomanim1' src='image/komanim.gif' style='display:none' width='32' height='32'>
        <img id='furikomafu1' src='image/komafu.png' style='display:none' width='32' height='32'>
        <img id='furikomato1' src='image/komato.png' style='display:none' width='32' height='32'>
@@ -69,16 +69,6 @@ def newgame_screen(header, title, name, userinfo)
   else
     CommonUI::HTMLmenu(name)
   end
-
-  print <<-STYLESHEET
-    <style type="text/css">
-    <!--
-      table { font-size: 2rem; }
-      input { font-size: 2rem; }
-      button { font-size: 2rem; }
-    -->
-    </style>
-    STYLESHEET
 
   print "<script type='text/javascript' src='./js/newgame.js' defer></script>\n"
 

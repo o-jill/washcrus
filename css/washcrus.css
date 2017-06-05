@@ -1,0 +1,19 @@
+/* 入力フォーム */
+table.inpform { font-size: 2rem; }
+input.inpform { font-size: 2rem; }
+button.inpform { font-size: 2rem; }
+
+/* 入力間違いエラー */
+span.err{ font-size: 2rem; border: 1px solid red; }
+
+/* 将棋盤 */
+.block { display:table; table-layout: fixed; }
+.block > .block_elem { display:table-cell; }
+
+/* 棋譜 */
+div.kifu { width:100%; height:100px; overflow: auto; vertical-align: top; }
+
+/* chat */
+input.chatnm { width:20%; }
+input.chatmsg { width:70%; }
+div.chat { width:100%; height:100px; overflow:scroll; }

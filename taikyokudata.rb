@@ -5,6 +5,9 @@
 
 require 'digest/sha2'
 
+require './gentaikyoku.rb'
+require './taikyokufile.rb'
+
 # 対局情報クラス
 class TaikyokuData
   def initialize
@@ -34,10 +37,8 @@ class TaikyokuData
     @datetime = Time.now.strftime('%Y/%m/%d %H:%M:%S')
     # 対局ID
     @id = genid
-    if id.nil?
-      print "generation failed...\n"
-      return nil
-    end
+
+    return print "generation failed...\n" if id.nil?
 
     # フォルダとかファイルとかの生成
     @taikyokupath = DIRPATH + id + '/'
@@ -45,11 +46,9 @@ class TaikyokuData
     @chatpath = taikyokupath + CHATFILE
     @csapath = taikyokupath + KIFUFILE
 
-    require './gentaikyoku.rb'
     gentd = GenTaikyokuData.new(self)
     gentd.generate
 
-    require './taikyokufile.rb'
     tdb = TaikyokuFile.new
     tdb.read
     tdb.add(id, player1, player2, datetime, '')

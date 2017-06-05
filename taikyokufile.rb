@@ -24,28 +24,27 @@ class TaikyokuFile
         file.flock File::LOCK_EX
 
         file.each_line do |line|
-          if line =~ /^#/
-            # comment
-          else
-            # id, nameb, namew, time, comment
-            elements = line.chomp.split(',')
-            if elements.length != 5
-              if elements.length != 4
-                # invalid line
-              else
-                id = elements[0]
-                @namebs[id]   = elements[1]
-                @namews[id]   = elements[2]
-                @times[id]    = elements[3]
-                @comments[id] = '&lt;blank&gt;'
-              end
+          # comment
+          next if line =~ /^#/
+
+          # id, nameb, namew, time, comment
+          elements = line.chomp.split(',')
+          if elements.length != 5
+            if elements.length != 4
+              # invalid line
             else
               id = elements[0]
               @namebs[id]   = elements[1]
               @namews[id]   = elements[2]
               @times[id]    = elements[3]
-              @comments[id] = elements[4]
+              @comments[id] = '&lt;blank&gt;'
             end
+          else
+            id = elements[0]
+            @namebs[id]   = elements[1]
+            @namews[id]   = elements[2]
+            @times[id]    = elements[3]
+            @comments[id] = elements[4]
           end
         end
       end

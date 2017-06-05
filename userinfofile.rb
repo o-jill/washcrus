@@ -11,10 +11,7 @@ class UserInfoFile
   KEY = 'thirty two byte secure password.'
 
   def initialize(name = './userinfo.csv')
-    @fname = name
-    @names = {}
-    @passwords = {}
-    @emails = {}
+    @fname = name, @names = {}, @passwords = {}, @emails = {}
   end
 
   attr_accessor :fname, :names, :passwords, :emails
@@ -28,9 +25,8 @@ class UserInfoFile
         file.flock File::LOCK_EX
 
         file.each_line do |line|
-          if line =~ /^#/
-            next # comment
-          end
+          # comment
+          next if line =~ /^#/
 
           # id, name, password, e-mail(encrypted)
           elements = line.chomp.split(',')
