@@ -9,11 +9,7 @@ require 'openssl'
 #
 class TaikyokuFile
   def initialize(name = './taikyoku.csv')
-    @fname = name
-    @namebs = {}
-    @namews = {}
-    @times = {}
-    @comments = {}
+    @fname = name; @namebs = {}; @namews = {}; @times = {}; @comments = {}
   end
 
   attr_accessor :fname, :namebs, :namews, :times, :comments

@@ -11,7 +11,7 @@ class UserInfoFile
   KEY = 'thirty two byte secure password.'
 
   def initialize(name = './userinfo.csv')
-    @fname = name, @names = {}, @passwords = {}, @emails = {}
+    @fname = name; @names = {}; @passwords = {}; @emails = {}
   end
 
   attr_accessor :fname, :names, :passwords, :emails
