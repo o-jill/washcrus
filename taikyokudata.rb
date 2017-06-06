@@ -30,6 +30,16 @@ class TaikyokuData
   MATCHFILE = 'matchinfo.txt'
   KIFUFILE = 'kifu.csa'
 
+  def setplayer1(nm, em)
+    @player1 = nm
+    @email1 = em
+  end
+
+  def setplayer2(nm, em)
+    @player2 = nm
+    @email2 = em
+  end
+
   # 対局情報の生成
   # ファイルなどの準備もします。
   def generate

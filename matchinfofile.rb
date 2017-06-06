@@ -6,6 +6,7 @@
 require 'yaml'
 
 require './userinfofile.rb'
+require './taikyokudata.rb'
 
 #
 # 対局情報ファイル管理クラス
@@ -95,6 +96,12 @@ class MatchInfoFile
     fromsfen(data['sfen'])
 
     setlastmove(data['lastmove'], data['dt_lastmove'])
+  end
+
+  def initial_write(td, id_b, id_w)
+    setplayers(id_b, id_w)
+    setcreator(td.creator, td.datetime)
+    write(td.matchinfopath)
   end
 
   def genhash

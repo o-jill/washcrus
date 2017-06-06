@@ -28,6 +28,12 @@ class UserInfo
     }
   end
 
+  def invalid?
+    userinfo.user_id.nil? || userinfo.user_id == '' \
+      || userinfo.user_name.nil? || userinfo.user_name == '' \
+      || userinfo.user_email.nil? || userinfo.user_email == ''
+  end
+
   def dump
     print 'userid:', @user_id, 'username:', @user_name,
           'useremail:', @user_email, 'visitcount:', @visitcount

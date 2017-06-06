@@ -16,8 +16,7 @@ class GenTaikyokuData
 
   # 対局に必要なファイル群の生成
   def generate
-    directory = taikyoku.taikyokupath
-    FileUtils.mkdir(directory, mode: 0o777)
+    FileUtils.mkdir(taikyoku.taikyokupath, mode: 0o777)
 
     matchfile = taikyoku.matchinfopath
     FileUtils.touch(matchfile)

@@ -3,9 +3,24 @@
 
 #!/usr/bin/ruby
 
+require './chatfile.rb'
 require './common_ui.rb'
+require './jsonkifu.rb'
+require './matchinfofile.rb'
+require './taikyokudata.rb'
 require './userinfo.rb'
 require './userinfofile.rb'
+
+def check_datalost(params)
+  params['rname'].nil? || params['rname'] == '' \
+      || params['remail'].nil? || params['remail'] == '' \
+      || params['rname2'].nil? || params['rname2'] == '' \
+      || params['remail2'].nil? || params['remail2'] == ''
+end
+
+def furifusen(furigoma)
+  furigoma.count('F') >= 3
+end
 
 def generatenewgame_screen(header, title, name, userinfo, params)
   #
@@ -13,10 +28,7 @@ def generatenewgame_screen(header, title, name, userinfo, params)
   #
   errmsg = ''
 
-  if params['rname'].nil? || params['rname'].length.zero? \
-      || params['remail'].nil? || params['remail'].length.zero? \
-      || params['rname2'].nil? || params['rname2'].length.zero? \
-      || params['remail2'].nil? || params['remail2'].length.zero?
+  if check_datalost(params)
     errmsg += 'data lost ...<BR>'
   else
     name1 = params['rname'][0]
@@ -36,8 +48,7 @@ def generatenewgame_screen(header, title, name, userinfo, params)
     end
   end
 
-  if userinfo.nil? || userinfo.user_name.nil? || userinfo.user_name == '' \
-      || userinfo.user_email.nil? || userinfo.user_email == ''
+  if userinfo.nil? || userinfo.invalid?
     errmsg += "your log-in information is wrong ...\n"
   end
 
@@ -47,19 +58,39 @@ def generatenewgame_screen(header, title, name, userinfo, params)
   if errmsg != ''
     puts errmsg
   else
-    require './taikyokudata.rb'
     td = TaikyokuData.new
-    td.player1 = name1
-    td.email1 = email1
-    td.player2 = name2
-    td.email2 = email2
-
-    td.creator = userinfo.user_name + '(' + userinfo.user_email + ')'
+    if furifusen(params['furigoma'][0])
+      td.setplayer1(name1, email1)
+      td.setplayer2(name2, email2)
+    else
+      td.setplayer1(name2, email2)
+      td.setplayer2(name1, email1)
+    end
+    td.creator = userinfo.user_name + '(' + userinfo.user_id + ')'
 
     td.generate
 
-    puts "new game generated!<BR>\n"
     td.dumptable
+
+    # match information file
+    mi = MatchInfoFile.new(td.id)
+    mi.initial_write(td, userdata1[0], userdata2[0])
+
+    # kifu file
+    kif = JSONKifu.new(td.id)
+    kif.initial_write(td)
+
+    # chat file
+    chat = ChatFile.new(td.id)
+    chat.sayex("<span id='chatadmin'>Witness</span>",
+               "it's on time. plz start your move #{name1}-san.")
+
+    # send mail to the players
+
+    puts <<-NEWGAMEMSG
+      new game generated!<BR>
+      <a href='game.rb?#{td.id}'><big>start playing &gt;&gt;</big></a>
+      NEWGAMEMSG
   end
 
   CommonUI::HTMLfoot()

@@ -4,8 +4,8 @@
 #!/usr/bin/ruby
 
 require 'json'
-
 require 'rubygems'
+require './taikyokudata.rb'
 
 #
 # JSON棋譜管理クラス
@@ -81,6 +81,12 @@ class JsonKifu
       @moves = data['moves']
       @initial = data['initial']
     end
+  end
+
+  def initial_write(td)
+    setplayers(td.player1, td.player2)
+    setdate(td.datetime)
+    write(td.csapath)
   end
 
   def write(path)
