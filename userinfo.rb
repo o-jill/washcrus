@@ -29,9 +29,8 @@ class UserInfo
   end
 
   def invalid?
-    userinfo.user_id.nil? || userinfo.user_id == '' \
-      || userinfo.user_name.nil? || userinfo.user_name == '' \
-      || userinfo.user_email.nil? || userinfo.user_email == ''
+    user_id.nil? || user_id == '' || user_name.nil? || user_name == '' \
+      || user_email.nil? || user_email == ''
   end
 
   def dump
