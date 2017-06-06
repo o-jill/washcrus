@@ -28,7 +28,7 @@ class TaikyokuData
   DIRPATH = './taikyoku/'
   CHATFILE = 'chat.txt'
   MATCHFILE = 'matchinfo.txt'
-  KIFUFILE = 'kifu.csa'
+  KIFUFILE = 'kifu.jkf'
 
   def setplayer1(nm, em)
     @player1 = nm
@@ -38,6 +38,14 @@ class TaikyokuData
   def setplayer2(nm, em)
     @player2 = nm
     @email2 = em
+  end
+
+  def setid(id_)
+    @id = id_
+    @taikyokupath = DIRPATH + @id + '/'
+    @matchinfopath = @taikyokupath + MATCHFILE
+    @chatpath = @taikyokupath + CHATFILE
+    @csapath = @taikyokupath + KIFUFILE
   end
 
   # 対局情報の生成
@@ -51,10 +59,10 @@ class TaikyokuData
     return print "generation failed...\n" if id.nil?
 
     # フォルダとかファイルとかの生成
-    @taikyokupath = DIRPATH + id + '/'
-    @matchinfopath = taikyokupath + MATCHFILE
-    @chatpath = taikyokupath + CHATFILE
-    @csapath = taikyokupath + KIFUFILE
+    @taikyokupath = DIRPATH + @id + '/'
+    @matchinfopath = @taikyokupath + MATCHFILE
+    @chatpath = @taikyokupath + CHATFILE
+    @csapath = @taikyokupath + KIFUFILE
 
     gentd = GenTaikyokuData.new(self)
     gentd.generate
