@@ -77,7 +77,7 @@ def generatenewgame_screen(header, title, name, userinfo, params)
     mi.initial_write(td, userdata1[0], userdata2[0])
 
     # kifu file
-    kif = JSONKifu.new(td.id)
+    kif = JsonKifu.new(td.id)
     kif.initial_write(td)
 
     # chat file
