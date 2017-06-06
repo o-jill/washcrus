@@ -66,4 +66,5 @@ end
 task :add_x2rb do
   chmod 0o755, 'washcrus.rb'
   chmod 0o755, 'checknewgame.rb'
+  chmod 0o755, 'chat.rb'
 end
