@@ -16,5 +16,6 @@ How to set up:
 
 required "gem"s
 * bundler
+  * jkf
   * mail
   * rake
