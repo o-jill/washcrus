@@ -77,7 +77,7 @@ class MatchInfoFile
   def fromsfen(sfenstr)
     item = sfenstr.split(' ')
 
-    @sfen = item[0]
+    @sfen = sfenstr
     @teban = item[1]
     @tegoma = item[2]
     @nth = item[3]

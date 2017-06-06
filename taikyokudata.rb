@@ -88,9 +88,7 @@ class TaikyokuData
       return nil
     end
 
-    id_raw <<-RAW_ID
-      #{player1}_#{email1}_#{player2}_#{email2}_#{creator}_#{datetime}
-      RAW_ID
+    id_raw = "#{player1}_#{email1}_#{player2}_#{email2}_#{creator}_#{datetime}"
     id = Digest::SHA256.hexdigest id_raw
     id[0, 10]
   end
