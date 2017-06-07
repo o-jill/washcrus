@@ -128,8 +128,8 @@ end
 
 cgi = CGI.new
 
-warcrus = WashCrus.new(cgi)
-warcrus.perform
+washcrus = WashCrus.new(cgi)
+washcrus.perform
 
 # -----------------------------------
 #   testing
