@@ -9,7 +9,11 @@ require 'openssl'
 #
 class TaikyokuFile
   def initialize(name = './taikyoku.csv')
-    @fname = name; @namebs = {}; @namews = {}; @times = {}; @comments = {}
+    @fname = name
+    @namebs = {}
+    @namews = {}
+    @times = {}
+    @comments = {}
   end
 
   attr_accessor :fname, :namebs, :namews, :times, :comments
@@ -24,23 +28,13 @@ class TaikyokuFile
           next if line =~ /^#/
 
           # id, nameb, namew, time, comment
-          elements = line.chomp.split(',')
-          if elements.length != 5
-            if elements.length != 4
-              # invalid line
-            else
-              id = elements[0]
-              @namebs[id]   = elements[1]
-              @namews[id]   = elements[2]
-              @times[id]    = elements[3]
-              @comments[id] = '&lt;blank&gt;'
-            end
-          else
-            id = elements[0]
-            @namebs[id]   = elements[1]
-            @namews[id]   = elements[2]
-            @times[id]    = elements[3]
-            @comments[id] = elements[4]
+          elem = line.chomp.split(',')
+          if elem.length == 5
+            add(elem[0], elem[1], elem[2], elem[3], elem[4])
+          elsif elem.length == 4
+            add(elem[0], elem[1], elem[2], elem[3], '&lt;blank&gt;')
+        # else
+            # skip
           end
         end
       end

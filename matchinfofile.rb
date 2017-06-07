@@ -14,14 +14,12 @@ require './taikyokudata.rb'
 class MatchInfoFile
   def initialize(gameid)
     @gid = gameid # 'ididididid'
-    @idb = ''
-    @playerb = ''
-    @emailb = ''
-    @idw = ''
-    @playerw = ''
-    @emailw = ''
-    @creator = ''
-    @dt_created = ''
+    # @idb = '', @playerb = '', @emailb = ''
+    setplayerb('', ['', '', ''])
+    # @idw = '', @playerw = '', @emailw = ''
+    setplayerw('', ['', '', ''])
+    # @creator = '', @dt_created = ''
+    setcreator('', '')
     fromsfen('lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1')
     @lastmove = '-9300FU'
     @dt_lastmove = 'yyyy/mm/dd hh:mm:ss'

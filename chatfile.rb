@@ -8,7 +8,7 @@ class ChatFile
   DIRPATH = './taikyoku/'
   CHATFILE = 'chat.txt'
   def initialize(id)
-    @id = id;
+    @id = id
     @path = DIRPATH + @id + '/' + CHATFILE
   end
 
@@ -55,18 +55,14 @@ class ChatFile
   end
 
   def say(name, msg)
-    add "<B>#{name}</B>:#{msg}&nbsp;(#{Time.now.to_s})"
+    add "<B>#{name}</B>:#{msg}&nbsp;(#{Time.now})"
   end
 
   def sayex(name, msg)
-    add "#{name}:#{msg}&nbsp;(#{Time.now.to_s})"
+    add "#{name}:#{msg}&nbsp;(#{Time.now})"
   end
 
   def put
-    print <<-PUT_CHAT
-Content-type:text/html;
-
-#{@msg}
-    PUT_CHAT
+    print "Content-type:text/html;\n\n#{@msg}"
   end
 end

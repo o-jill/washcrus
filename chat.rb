@@ -32,28 +32,24 @@ class Chat
     # check game id
     tdb = TaikyokuFile.new
     tdb.read
-    unless (tdb.exist_id(@gameid))
-      # invalid game id
-      print <<-PUT_CHAT
-Content-type:text/html;
-
-# invalid game id #
-PUT_CHAT
-    else
+    if tdb.exist_id(@gameid)
       if @action == 'say'
         @name = params['chatname']
         @msg = params['chatmsg']
         unless @msg.length.zero?
-          @msg.gsub!(',','&#44;');
-          @msg.gsub!('&','&amp;');
-          @msg.gsub!('<','&lt;');
-          @msg.gsub!('>','&gt;');
+          @msg.gsub!(',', '&#44;')
+          @msg.gsub!('&', '&amp;')
+          @msg.gsub!('<', '&lt;')
+          @msg.gsub!('>', '&gt;')
 
           write
         end
       end
       # put chat log
       put
+    else
+      # invalid game id
+      print "Content-type:text/html;\n\n# invalid game id #"
     end
   end
 

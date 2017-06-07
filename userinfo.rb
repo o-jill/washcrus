@@ -23,8 +23,8 @@ class UserInfo
 
   def hashsession
     {
-      'count' => @visitcount, 'user_id' => @user_id, 'user_name' => @user_name,
-      'user_email' => @user_email
+      count: @visitcount, user_id: @user_id,
+      user_name: @user_name, user_email: @user_email
     }
   end
 
@@ -33,16 +33,21 @@ class UserInfo
       || user_email.nil? || user_email == ''
   end
 
+  def exist_indb
+    db = UserInfoFile.new
+    db.read
+    db.exist_id(@user_id)
+  end
+
   def dump
-    print 'userid:', @user_id, 'username:', @user_name,
-          'useremail:', @user_email, 'visitcount:', @visitcount
+    print "userid:#{@user_id}username:#{@user_name}",
+          "useremail:#{@user_email}visitcount:#{@visitcount}"
   end
 
   def dumptable
-    print '<TABLE><TR><TD>userid</TD><TD>', @user_id,
-          '</TD></TR><TR><TD>username</TD><TD>', @user_name,
-          '</TD></TR><TR><TD>useremail</TD><TD>', @user_email,
-          '</TD></TR><TR><TD>visitcount</TD><TD>', @visitcount,
-          '</TD></TR></TABLE>'
+    print "<TABLE><TR><TD>userid</TD><TD>#{@user_id}</TD></TR>",
+          "<TR><TD>username</TD><TD>#{@user_name}</TD></TR>",
+          "<TR><TD>useremail</TD><TD>#{@user_email}</TD></TR>",
+          "<TR><TD>visitcount</TD><TD>#{@visitcount}</TD></TR></TABLE>"
   end
 end
