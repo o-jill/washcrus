@@ -14,9 +14,14 @@ require './taikyokudata.rb'
 class MatchInfoFile
   def initialize(gameid)
     @gid = gameid # 'ididididid'
-    @idb = @playerb = @emailb = ''
-    @idw = @playerw = @emailw = ''
-    @creator = @dt_created = ''
+    @idb = ''
+    @playerb = ''
+    @emailb = ''
+    @idw = ''
+    @playerw = ''
+    @emailw = ''
+    @creator = ''
+    @dt_created = ''
     fromsfen('lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1')
     @lastmove = '-9300FU'
     @dt_lastmove = 'yyyy/mm/dd hh:mm:ss'
@@ -36,10 +41,30 @@ class MatchInfoFile
     user = db.findid(id)
     return if user.nil?
     if bsente
-      @idb = id, @playerb = user[0], @emailb = user[2]
+      setplayerb(id, user)
     else
-      @idw = id, @playerw = user[0], @emailw = user[2]
+      setplayerw(id, user)
     end
+  end
+
+  # 対局者のセット
+  #
+  # id_b 対局者のID
+  def setplayerb(id_b, userinfo)
+    return if userinfo.nil?
+    @idb = id_b
+    @playerb = userinfo[0]
+    @emailb = userinfo[2]
+  end
+
+  # 対局者のセット
+  #
+  # id_w 対局者のID
+  def setplayerw(id_w, userinfo)
+    return if userinfo.nil?
+    @idw = id_w
+    @playerw = userinfo[0]
+    @emailw = userinfo[2]
   end
 
   # 対局者のセット
@@ -50,11 +75,8 @@ class MatchInfoFile
     db = UserInfoFile.new
     db.read
 
-    user = db.findid(id_b)
-    @idb = id_b, @playerb = user[0], @emailb = user[2] unless user.nil?
-
-    user = db.findid(id_w)
-    @idw = id_w, @playerw = user[0], @emailw = user[2] unless user.nil?
+    setplayerb(id_b, db.findid(id_b))
+    setplayerw(id_w, db.findid(id_w))
   end
 
   def setcreator(name, dt)
@@ -87,13 +109,9 @@ class MatchInfoFile
     data = YAML.load_file(path)
 
     @gid = data['gid']
-
     setcreator(data['creator'], data['dt_created'])
-
     setplayers(data['idb'], data['idw'])
-
     fromsfen(data['sfen'])
-
     setlastmove(data['lastmove'], data['dt_lastmove'])
   end
 
