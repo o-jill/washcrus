@@ -23,7 +23,7 @@ class TaikyokuData
   end
 
   attr_accessor :player1, :email1, :player2, :email2, :creator, :id, :datetime,
-                :taikyokupath, :matchinfopath, :chatpath, :csapath
+                :taikyokupath, :matchinfopath, :chatpath, :kifupath
 
   DIRPATH = './taikyoku/'
   CHATFILE = 'chat.txt'
@@ -45,7 +45,7 @@ class TaikyokuData
     @taikyokupath = DIRPATH + @id + '/'
     @matchinfopath = @taikyokupath + MATCHFILE
     @chatpath = @taikyokupath + CHATFILE
-    @csapath = @taikyokupath + KIFUFILE
+    @kifupath = @taikyokupath + KIFUFILE
   end
 
   # 対局情報の生成
@@ -62,7 +62,7 @@ class TaikyokuData
     @taikyokupath = DIRPATH + @id + '/'
     @matchinfopath = @taikyokupath + MATCHFILE
     @chatpath = @taikyokupath + CHATFILE
-    @csapath = @taikyokupath + KIFUFILE
+    @kifupath = @taikyokupath + KIFUFILE
 
     gentd = GenTaikyokuData.new(self)
     gentd.generate

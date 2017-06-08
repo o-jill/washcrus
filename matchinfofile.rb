@@ -106,11 +106,11 @@ class MatchInfoFile
   def read(path)
     data = YAML.load_file(path)
 
-    @gid = data['gid']
-    setcreator(data['creator'], data['dt_created'])
-    setplayers(data['idb'], data['idw'])
-    fromsfen(data['sfen'])
-    setlastmove(data['lastmove'], data['dt_lastmove'])
+    @gid = data[:gid]
+    setcreator(data[:creator], data[:dt_created])
+    setplayers(data[:idb], data[:idw])
+    fromsfen(data[:sfen])
+    setlastmove(data[:lastmove], data[:dt_lastmove])
   end
 
   def initial_write(td, id_b, id_w)

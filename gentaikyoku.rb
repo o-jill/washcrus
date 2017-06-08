@@ -26,7 +26,7 @@ class GenTaikyokuData
     FileUtils.touch(chatfile)
     FileUtils.chmod(0o666, chatfile)
 
-    kifufile = taikyoku.csapath
+    kifufile = taikyoku.kifupath
     FileUtils.touch(kifufile)
     FileUtils.chmod(0o666, kifufile)
 

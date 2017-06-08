@@ -101,8 +101,8 @@ class TaikyokuFile
   end
 
   # duplication check
-  def exist_id(id)
-    found = @namebs.find { |k, _v| k == id }
+  def exist_id(nid)
+    found = @namebs.find { |k, _v| k == nid }
     !found.nil?
   end
 
@@ -113,7 +113,8 @@ class TaikyokuFile
       <tr><th>ID</th><TH>Black</TH><TH>White</TH><TH>Time</TH><TH>Comment</TH></TR>
       FNAME_AND_TABLE
     namebs.each do |id, name|
-      puts "<TR><TD>#{id}</TD><TD>#{name}</TD><TD>#{namews[id]}</TD>",
+      puts "<TR><TD><a href='./game.rb?#{id}' target='_blank'>#{id}</a></TD>",
+           "<TD>#{name}</TD><TD>#{namews[id]}</TD>",
            "<TD>#{times[id]}</TD><TD>#{comments[id]}</TD></TR>\n"
     end
     puts '</table>'
