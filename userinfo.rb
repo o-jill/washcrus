@@ -17,22 +17,24 @@ class UserInfo
   attr_accessor :visitcount, :user_id, :user_name, :user_email
 
   def readsession(session)
-    @visitcount = session['count'].to_i + 1
-    @user_id = session['user_id']
-    @user_name = session['user_name']
-    @user_email = session['user_email']
+    # keys for session must be Strings, not symbols.
+    @visitcount = session["count"].to_i + 1
+    @user_id = session["user_id"]
+    @user_name = session["user_name"]
+    @user_email = session["user_email"]
   end
 
   def hashsession
     {
-      count: @visitcount, user_id: @user_id,
-      user_name: @user_name, user_email: @user_email
+      # keys for session must be Strings, not symbols.
+      "count" => @visitcount, "user_id" => @user_id,
+      "user_name" => @user_name, "user_email" => @user_email
     }
   end
 
   def invalid?
-    user_id.nil? || user_id == '' || user_name.nil? || user_name == '' \
-      || user_email.nil? || user_email == ''
+    user_id.nil? || user_id.length.zero? || user_name.nil? \
+    || user_name.length.zero? || user_email.nil? || user_email.length.zero?
   end
 
   def exist_indb

@@ -35,36 +35,36 @@ class WashCrus
                     {
                       'new_session' => false,
                       'session_key' => '_washcrus_session',
-                      'tmpdir' => './tmp/'
+                      'tmpdir' => './tmp'
                     })
       # @session.delete
     rescue ArgumentError
-      # @session = nil
+      # p "@session = nil"
     end
 
     @userinfo = UserInfo.new
     if @session.nil?
       @userinfo.visitcount = '1'
 
-      # @session = CGI::Session.new(cgi, {
-      #               "new_session" => true,
-      #               "session_key" => "_washcrus_session",
-      #               "tmpdir" => "./tmp/",
-      #               'session_expires' => Time.now + 3600
-      #           })
+      @session = CGI::Session.new(cgi, {
+                    'new_session' => true,
+                    'session_key' => '_washcrus_session',
+                    'tmpdir' => './tmp',
+                    'session_expires' => Time.now + 3600
+                })
     else
       @userinfo.readsession(@session)
       # 古いセッション情報の破棄
-      @session.delete
+      # @session.delete
     end
     # セッション情報の生成
-    @session = CGI::Session.new(cgi,
-                  {
-                    'new_session' => true,
-                    'session_key' => '_washcrus_session',
-                    'tmpdir' => './tmp/',
-                    'session_expires' => Time.now + 2_592_000 # 30 days
-                  })
+    # @session = CGI::Session.new(cgi,
+    #               {
+    #                 'new_session' => true,
+    #                 'session_key' => '_washcrus_session',
+    #                 'tmpdir' => './tmp/',
+    #                 'session_expires' => Time.now + 2_592_000 # 30 days
+    #               })
 
     @userinfo.hashsession.each { |k, v| @session[k] = v }
 
@@ -99,7 +99,7 @@ class WashCrus
       login_screen(@header, @pagetitle, @titlename, @params)
     elsif @action == 'logincheck'
       require './logincheck.rb'
-      logincheck_screen(@header, @session, @pagetitle, @titlename, @params)
+      logincheck_screen(@header, @session, @pagetitle, @titlename, @cgi)
     elsif @action == 'logout'
       require './logout.rb'
       logout_screen(@session, @pagetitle, @titlename)

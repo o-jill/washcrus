@@ -9,19 +9,18 @@ require './common_ui.rb'
 require './userinfofile.rb'
 
 def check_login(params, session)
-  if params['sipassword'].nil? || params['sipassword'].length.zero?
-    return ['data lost ...<BR>']
-  end
-  if params['siemail'].nil? || params['siemail'].length.zero?
-    return ['data lost ...<BR>']
-  end
+  password1 = params['sipassword']
+  return {errmsg: 'data lost ...<BR>'} if password1.nil? || password1.length.zero?
+
+  email1 = params['siemail']
+  return {errmsg: 'data lost ...<BR>'} if email1.nil? || email1.length.zero?
 
   errmsg = ''
 
-  password1 = params['sipassword'][0]
+  password1 = password1[0]
   errmsg += 'wrong password ...<BR>' if password1.nil? || password1.length < 4
 
-  email1 = params['siemail'][0]
+  email1 = email1[0]
   errmsg += 'wrong e-mail address ...<BR>' if email1.nil? || email1.length < 4
 
   userdb = UserInfoFile.new
@@ -31,34 +30,52 @@ def check_login(params, session)
   dgpw = Digest::SHA256.hexdigest password1
 
   if userdata.nil? || dgpw != userdata[2]
-    return [errmsg += 'e-mail address or password is wrong ...<BR>']
+    errmsg += 'e-mail address or password is wrong ...<BR>'
+    return {errmsg: errmsg}
   end
 
   userinfo = UserInfo.new(1, userdata[0], userdata[1], email1)
-  userinfo.hashsession.each { |k, v| session[k] = v }
-  username = userinfo.user_name
+  # userinfo.hashsession.each { |k, v| session[k] = v }
+  # session['session_expires'] = Time.now + 2_592_000 # 30days
 
   # 登録する
-  userdb.add(username, dgpw, email1)
+  userdb.add(userinfo.user_name, dgpw, email1)
   userdb.write
 
-  [errmsg, userinfo]
+  {errmsg: errmsg, userinfo: userinfo}
 end
 
 #
 # ログイン完了orログインエラー画面
 #
-def logincheck_screen(header, session, title, name, params)
-  ret = check_login(params, session)
-  errmsg = ret[0]
+def logincheck_screen(header, session, title, name, cgi)
+  ret = check_login(cgi.params, session)
+  errmsg = ret[:errmsg]
 
-  CommonUI::HTMLHead(header, title)
-  CommonUI::HTMLmenu(name)
-  if errmsg != ''
+  unless errmsg.length.zero?
+    CommonUI::HTMLHead(header, title)
+    CommonUI::HTMLmenu(name)
     # エラー
     print "<SPAN class='err'>Unfortunately failed ...<BR>#{errmsg}</SPAN>\n"
   else
-    userinfo = ret[1]
+    userinfo = ret[:userinfo]
+p session
+    # session.delete
+    # session = CGI::Session.new(cgi,
+    #               {
+    #                 'new_session' => true,
+    #                 'session_key' => '_washcrus_session',
+    #                 'tmpdir' => './tmp/',
+    #                 'session_expires' => Time.now + 2_592_000 # 30 days
+    #               })
+    userinfo.hashsession.each { |k, v| session[k] = v }
+p    session['session_expires']
+    session['session_expires'] = Time.now + 2_592_000 # 30days
+p session
+    session.update
+# p    session['session_expires']
+    CommonUI::HTMLHead(header, title)
+    CommonUI::HTMLmenuLogIn(name)
     print "Logged in successfully.<BR>\nusername:#{userinfo.user_name}<BR>\n",
           "password:****<BR>\nemail address:#{userinfo.user_email}<BR>\n"
   end
