@@ -8,12 +8,12 @@ require 'digest/sha2'
 require './common_ui.rb'
 require './userinfofile.rb'
 
-def check_login(params, session)
+def check_login(params)
   password1 = params['sipassword']
-  return {errmsg: 'data lost ...<BR>'} if password1.nil? || password1.length.zero?
+  return { errmsg: 'data lost ...<BR>' } if password1.nil? || password1.length.zero?
 
   email1 = params['siemail']
-  return {errmsg: 'data lost ...<BR>'} if email1.nil? || email1.length.zero?
+  return { errmsg: 'data lost ...<BR>' } if email1.nil? || email1.length.zero?
 
   errmsg = ''
 
@@ -31,7 +31,7 @@ def check_login(params, session)
 
   if userdata.nil? || dgpw != userdata[2]
     errmsg += 'e-mail address or password is wrong ...<BR>'
-    return {errmsg: errmsg}
+    return { errmsg: errmsg }
   end
 
   userinfo = UserInfo.new(1, userdata[0], userdata[1], email1)
@@ -40,7 +40,7 @@ def check_login(params, session)
   userdb.add(userinfo.user_name, dgpw, email1)
   userdb.write
 
-  {errmsg: errmsg, userinfo: userinfo}
+  { errmsg: errmsg, userinfo: userinfo }
 end
 
 #
@@ -50,12 +50,7 @@ def logincheck_screen(header, session, title, name, cgi)
   ret = check_login(cgi.params, session)
   errmsg = ret[:errmsg]
 
-  unless errmsg.length.zero?
-    CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenu(name)
-    # エラー
-    print "<SPAN class='err'>Unfortunately failed ...<BR>#{errmsg}</SPAN>\n"
-  else
+  if errmsg.length.zero?
     userinfo = ret[:userinfo]
 
     userinfo.hashsession.each { |k, v| session[k] = v }
@@ -68,6 +63,11 @@ def logincheck_screen(header, session, title, name, cgi)
     CommonUI::HTMLmenuLogIn(name)
     print "Logged in successfully.<BR>\nusername:#{userinfo.user_name}<BR>\n",
           "password:****<BR>\nemail address:#{userinfo.user_email}<BR>\n"
+  else
+    CommonUI::HTMLHead(header, title)
+    CommonUI::HTMLmenu(name)
+    # エラー
+    print "<SPAN class='err'>Unfortunately failed ...<BR>#{errmsg}</SPAN>\n"
   end
   CommonUI::HTMLfoot()
 end

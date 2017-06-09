@@ -108,8 +108,7 @@ class TaikyokuFile
 
   def dumphtml
     print <<-FNAME_AND_TABLE
-      <table border=1>
-      <Caption>path:#{fname}</caption>
+      <table border=1> <Caption>path:#{fname}</caption>
       <tr><th>ID</th><TH>Black</TH><TH>White</TH><TH>Time</TH><TH>Comment</TH></TR>
       FNAME_AND_TABLE
     namebs.each do |id, name|

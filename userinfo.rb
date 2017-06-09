@@ -27,8 +27,8 @@ class UserInfo
   def hashsession
     {
       # keys for session must be Strings, not symbols.
-      'count': @visitcount, 'user_id': @user_id,
-      'user_name': @user_name, 'user_email': @user_email
+      'count' => @visitcount, 'user_id' => @user_id,
+      'user_name' => @user_name, 'user_email' => @user_email
     }
   end
 

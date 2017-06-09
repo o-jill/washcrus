@@ -141,8 +141,7 @@ class UserInfoFile
 
   def dumphtml
     print <<-FNAME_AND_TABLE
-      <table border=1>
-      <Caption>path:#{fname}</caption>
+      <table border=1> <Caption>path:#{fname}</caption>
       <tr><th>ID</th><TH>Name</TH><TH>Password</TH><TH>Mail</TH></TR>
       FNAME_AND_TABLE
     names.each do |id, name|

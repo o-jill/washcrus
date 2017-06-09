@@ -23,8 +23,8 @@ class JsonKifu
         # 場所: '東京・将棋会館', 図: '投了', 手合割: '平手　　',
         '先手' => '羽生善治', '後手' => '糸谷哲郎'
       }
-    @initial = { preset: 'HIRATE' }
-    @moves = [{ comments: [] }]
+    @initial = { 'preset' => 'HIRATE' }
+    @moves = [{ 'comments' => [] }]
   end
 
   attr_reader :header, :moves, :initial
@@ -49,18 +49,21 @@ class JsonKifu
   end
 
   def zerotime
-    { 'now': { 'm': 0, 's': 0 }, 'total': { 'h': 0, 'm': 0, 's': 0 } }
+    {
+      'now' => { 'm' => 0, 's' => 0 },
+      'total' => { 'h' => 0, 'm' => 0, 's' => 0 }
+    }
   end
 
   def move(mv, tm = nil, cmt = nil)
-    data = { 'move': mv }
+    data = { 'move' => mv }
     data['time'] = tm unless tm.nil?
     data['comments'] = cmt unless cmt.nil?
     @moves << data
   end
 
   def spmove(tm, mv = nil, cmt = nil)
-    data = { 'special': mv }
+    data = { 'special' => mv }
     data['time'] = tm unless tm.nil?
     data['comments'] = cmt unless cmt.nil?
     @moves << data
@@ -76,7 +79,7 @@ class JsonKifu
 
   def read(path)
     File.open(path, 'r:utf-8') do |file|
-      data = JSON.load(file)
+      data = JSON.parse(file.read)
 
       @header = data['header']
       @moves = data['moves']
@@ -101,8 +104,7 @@ class JsonKifu
   end
 
   def to_kif
-    # genjson.to_s
-    return Jkf::Converter::Kif.new.convert(genjson)
+    Jkf::Converter::Kif.new.convert(genjson)
   end
 
   def to_ki2

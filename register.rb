@@ -15,7 +15,7 @@ def check_register(params)
       || params['rpassword'].nil? || params['rpassword'].length.zero? \
       || params['rpassword2'].nil? || params['rpassword2'].length.zero? \
       || params['remail'].nil? || params['remail'].length.zero? \
-      || params['remail 2'].nil? || params['remail2'].length.zero?
+      || params['remail2'].nil? || params['remail2'].length.zero?
     return 'data lost ...<BR>'
   end
 
@@ -40,16 +40,18 @@ def check_register(params)
   errmsg
 end
 
-def send_mail_register(username, pw, email)
-  # send mail
-  message = "Dear#{username}\n",
-            "Your information has been registed successfully as below.\n\n",
-            "User name: #{username}\nPassword: #{pw}\n",
-            "E-mail address: #{email}\n\n",
-            '* Please delete this email ',
-            "if you believe you are not the intended recipient.\n",
-            '* Please do not respond to this auto-generated email.'
+def mail_msg(username, pw, email)
+  "Dear#{username}\n" \
+  "Your information has been registed successfully as below.\n\n" \
+  "User name: #{username}\nPassword: #{pw}\n" \
+  "E-mail address: #{email}\n\n" \
+  '* Please delete this email ' \
+  "if you believe you are not the intended recipient.\n" \
+  '* Please do not respond to this auto-generated email.'
+end
 
+def send_mail_register(message)
+  # send mail
   dlvcfg = YAML.load_file('./config/mail.yaml')
   mail = Mail.new do
     from    dlvcfg['mailaddress']
@@ -73,7 +75,7 @@ end
 def register_screen(header, title, name, params)
   errmsg = check_register(params)
 
-  if errmsg == ''
+  if errmsg.length.zero?
     username = params['rname'][0]
     password1 = params['rpassword'][0]
     email1 = params['remail'][0]
@@ -83,22 +85,22 @@ def register_screen(header, title, name, params)
 
     userdb.add(username, dgpw, email1)
     userdb.write
+
+    # send mail
+    send_mail_register(mail_msg(username, password1, email1))
   end
 
   CommonUI::HTMLHead(header, title)
   CommonUI::HTMLmenu(name)
 
-  if errmsg != ''
-    # エラー
-    print 'Unfortunately failed ...<BR>', errmsg
-  else
+  if errmsg.length.zero?
     print "Registered successfully.<BR>username:#{username}<BR>",
           "password:****<BR>email address:#{email1}<BR>",
           'Registration mail has been sent.<BR>'
+  else
+    # エラー
+    print 'Unfortunately failed ...<BR>', errmsg
   end
 
   CommonUI::HTMLfoot()
-
-  # send mail
-  send_mail_register(username, password1, email1) if errmsg != ''
 end
