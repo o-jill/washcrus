@@ -40,7 +40,6 @@ class GameHtml
       "<link rel='shortcut icon' href='./favicon.ico' />" \
       "<link rel='stylesheet' type='text/css' href='./css/washcrus.css'>" \
       "<!-- script type='text/javascript' defer src=''></script --></head>"
-     ret
   end
 
   def chatelement

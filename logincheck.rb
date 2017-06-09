@@ -35,8 +35,6 @@ def check_login(params, session)
   end
 
   userinfo = UserInfo.new(1, userdata[0], userdata[1], email1)
-  # userinfo.hashsession.each { |k, v| session[k] = v }
-  # session['session_expires'] = Time.now + 2_592_000 # 30days
 
   # 登録する
   userdb.add(userinfo.user_name, dgpw, email1)
@@ -59,21 +57,13 @@ def logincheck_screen(header, session, title, name, cgi)
     print "<SPAN class='err'>Unfortunately failed ...<BR>#{errmsg}</SPAN>\n"
   else
     userinfo = ret[:userinfo]
-p session
-    # session.delete
-    # session = CGI::Session.new(cgi,
-    #               {
-    #                 'new_session' => true,
-    #                 'session_key' => '_washcrus_session',
-    #                 'tmpdir' => './tmp/',
-    #                 'session_expires' => Time.now + 2_592_000 # 30 days
-    #               })
+
     userinfo.hashsession.each { |k, v| session[k] = v }
-p    session['session_expires']
+
     session['session_expires'] = Time.now + 2_592_000 # 30days
-p session
+
     session.update
-# p    session['session_expires']
+
     CommonUI::HTMLHead(header, title)
     CommonUI::HTMLmenuLogIn(name)
     print "Logged in successfully.<BR>\nusername:#{userinfo.user_name}<BR>\n",

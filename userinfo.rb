@@ -18,17 +18,17 @@ class UserInfo
 
   def readsession(session)
     # keys for session must be Strings, not symbols.
-    @visitcount = session["count"].to_i + 1
-    @user_id = session["user_id"]
-    @user_name = session["user_name"]
-    @user_email = session["user_email"]
+    @visitcount = session['count'].to_i + 1
+    @user_id = session['user_id']
+    @user_name = session['user_name']
+    @user_email = session['user_email']
   end
 
   def hashsession
     {
       # keys for session must be Strings, not symbols.
-      "count" => @visitcount, "user_id" => @user_id,
-      "user_name" => @user_name, "user_email" => @user_email
+      'count': @visitcount, 'user_id': @user_id,
+      'user_name': @user_name, 'user_email': @user_email
     }
   end
 
