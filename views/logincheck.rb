@@ -9,35 +9,35 @@ require './file/userinfofile.rb'
 require './views/common_ui.rb'
 
 def check_login(params)
-  password1 = params['sipassword']
-  return { errmsg: 'data lost ...<BR>' } if password1.nil? || password1.length.zero?
+  pswd = params['sipassword']
+  return { errmsg: 'data lost ...<BR>' } if pswd.nil? || pswd.length.zero?
 
-  email1 = params['siemail']
-  return { errmsg: 'data lost ...<BR>' } if email1.nil? || email1.length.zero?
+  email = params['siemail']
+  return { errmsg: 'data lost ...<BR>' } if email.nil? || email.length.zero?
 
   errmsg = ''
 
-  password1 = password1[0]
-  errmsg += 'wrong password ...<BR>' if password1.nil? || password1.length < 4
+  pswd = pswd[0]
+  errmsg += 'wrong password ...<BR>' if pswd.nil? || pswd.length < 4
 
-  email1 = email1[0]
-  errmsg += 'wrong e-mail address ...<BR>' if email1.nil? || email1.length < 4
+  email = email[0]
+  errmsg += 'wrong e-mail address ...<BR>' if email.nil? || email.length < 4
 
   userdb = UserInfoFile.new
   userdb.read
-  userdata = userdb.findemail(email1) # [id, @names[id], @passwords[id]]
+  userdata = userdb.findemail(email) # [id, @names[id], @passwords[id]]
 
-  dgpw = Digest::SHA256.hexdigest password1
+  dgpw = Digest::SHA256.hexdigest pswd
 
   if userdata.nil? || dgpw != userdata[2]
     errmsg += 'e-mail address or password is wrong ...<BR>'
     return { errmsg: errmsg }
   end
 
-  userinfo = UserInfo.new(1, userdata[0], userdata[1], email1)
+  userinfo = UserInfo.new(1, userdata[0], userdata[1], email)
 
   # 登録する
-  userdb.add(userinfo.user_name, dgpw, email1)
+  userdb.add(userinfo.user_name, dgpw, email)
   userdb.write
 
   { errmsg: errmsg, userinfo: userinfo }
@@ -47,7 +47,7 @@ end
 # ログイン完了orログインエラー画面
 #
 def logincheck_screen(header, session, title, name, cgi)
-  ret = check_login(cgi.params, session)
+  ret = check_login(cgi.params)
   errmsg = ret[:errmsg]
 
   if errmsg.length.zero?
