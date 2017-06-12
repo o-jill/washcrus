@@ -29,21 +29,21 @@ task init: [:gen_info, :add_w2d, :add_x2rb]
 
 task gen_info: [:gen_userinfo, :gen_taikyokuinfo, :gen_taikyokuchuinfo]
 
-task gen_userinfo: ['userinfo.csv']
-task gen_taikyokuinfo: ['taikyoku.csv']
-task gen_taikyokuchuinfo: ['taikyokuchu.csv']
+task gen_userinfo: ['./db/userinfo.csv']
+task gen_taikyokuinfo: ['./db/taikyoku.csv']
+task gen_taikyokuchuinfo: ['./db/taikyokuchu.csv']
 
-file 'userinfo.csv' do |f|
+file './db/userinfo.csv' do |f|
   cp './init/userinfo.csv.tmpl', f.name
   chmod 0o666, f.name
 end
 
-file 'taikyoku.csv' do |f|
+file './db/taikyoku.csv' do |f|
   cp './init/taikyoku.csv.tmpl', f.name
   chmod 0o666, f.name
 end
 
-file 'taikyokuchu.csv' do |f|
+file './db/taikyokuchu.csv' do |f|
   cp './init/taikyoku.csv.tmpl', f.name
   chmod 0o666, f.name
 end

@@ -6,7 +6,7 @@
 require 'rubygems'
 require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
-require './userinfo.rb'
+require './game/userinfo.rb'
 
 # 表示する
 class GameHtml

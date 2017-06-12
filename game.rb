@@ -7,11 +7,11 @@
 require 'cgi'
 require 'cgi/session'
 
-require './gamehtml.rb'
 require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
-require './userinfo.rb'
 require './file/taikyokufile.rb'
+require './game/userinfo.rb'
+require './views/gamehtml.rb'
 
 #
 # CGI本体

@@ -8,7 +8,7 @@ require 'openssl'
 # 対局情報DB管理クラス
 #
 class TaikyokuFile
-  def initialize(name = './taikyoku.csv')
+  def initialize(name = './db/taikyoku.csv')
     @fname = name
     @namebs = {}
     @namews = {}
@@ -126,7 +126,7 @@ end
 # 終わった対局は、ここから消してTaikyokuFileへ
 #
 class TaikyokuChuFile < TaikyokuFile
-  def initialize(name = './taikyokuchu.csv')
+  def initialize(name = './db/taikyokuchu.csv')
     super
   end
 end

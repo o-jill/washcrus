@@ -6,7 +6,7 @@
 require 'yaml'
 
 require './file/userinfofile.rb'
-require './taikyokudata.rb'
+require './game/taikyokudata.rb'
 
 #
 # 対局情報ファイル管理クラス

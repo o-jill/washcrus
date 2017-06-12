@@ -5,8 +5,8 @@
 
 require 'cgi'
 require 'digest/sha2'
-require './common_ui.rb'
 require './file/userinfofile.rb'
+require './views/common_ui.rb'
 
 def check_login(params)
   password1 = params['sipassword']

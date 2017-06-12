@@ -6,10 +6,10 @@
 require 'digest/sha2'
 
 require './file/chatfile.rb'
-require './gentaikyoku.rb'
 require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
 require './file/taikyokufile.rb'
+require './game/gentaikyoku.rb'
 
 # 対局情報クラス
 class TaikyokuData

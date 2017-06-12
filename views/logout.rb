@@ -3,8 +3,8 @@
 
 #!/usr/bin/ruby
 
-require 'cgi'
-require './common_ui.rb'
+require 'cgi/session'
+require './views/common_ui.rb'
 
 #
 # LOGOUT画面

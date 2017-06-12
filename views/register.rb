@@ -7,8 +7,8 @@ require 'yaml'
 require 'digest/sha2'
 # require 'mail'
 
-require './common_ui.rb'
 require './file/userinfofile.rb'
+require './views/common_ui.rb'
 
 def check_register(params)
   if params['rname'].nil? || params['rname'].length.zero? \

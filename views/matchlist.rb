@@ -3,8 +3,8 @@
 
 #!/usr/bin/ruby
 
-require './common_ui.rb'
 require './file/taikyokufile.rb'
+require './views/common_ui.rb'
 
 #
 # matchlist画面

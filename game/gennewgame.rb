@@ -4,12 +4,12 @@
 #!/usr/bin/ruby
 
 require './file/chatfile.rb'
-require './common_ui.rb'
 require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
-require './taikyokudata.rb'
-require './userinfo.rb'
 require './file/userinfofile.rb'
+require './game/taikyokudata.rb'
+require './game/userinfo.rb'
+require './views/common_ui.rb'
 
 def check_datalost(params)
   params['rname'].nil? || params['rname'][0].length.zero? \

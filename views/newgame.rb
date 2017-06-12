@@ -3,8 +3,8 @@
 
 #!/usr/bin/ruby
 
-require './common_ui.rb'
-require './userinfo.rb'
+require './game/userinfo.rb'
+require './views/common_ui.rb'
 
 def show_newgameform
   scriptname = File.basename($PROGRAM_NAME)

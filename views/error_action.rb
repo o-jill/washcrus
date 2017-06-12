@@ -4,8 +4,8 @@
 #!/usr/bin/ruby
 
 require 'cgi'
-require './common_ui.rb'
-require './userinfo.rb'
+require './game/userinfo.rb'
+require './views/common_ui.rb'
 
 #
 # ACTIONエラー画面

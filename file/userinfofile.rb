@@ -10,7 +10,7 @@ require 'openssl'
 class UserInfoFile
   KEY = 'thirty two byte secure password.'.freeze
 
-  def initialize(name = './userinfo.csv')
+  def initialize(name = './db/userinfo.csv')
     @fname = name
     @names = {}
     @passwords = {}

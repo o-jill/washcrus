@@ -7,7 +7,7 @@ require 'cgi'
 require 'digest/sha2'
 
 require './file/userinfofile.rb'
-require './taikyokudata.rb'
+require './game/taikyokudata.rb'
 
 cgi = CGI.new
 params = cgi.params
