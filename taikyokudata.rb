@@ -5,44 +5,51 @@
 
 require 'digest/sha2'
 
+require './chatfile.rb'
 require './gentaikyoku.rb'
+require './jsonkifu.rb'
+require './matchinfofile.rb'
 require './taikyokufile.rb'
 
 # 対局情報クラス
 class TaikyokuData
   def initialize
+    @id1 = ''
+    @id2 = ''
     @player1 = ''
     @player2 = ''
     @email1 = ''
     @email2 = ''
     @creator = '' # "name(email)"
-    @id = 'ididididid'
+    @gid = 'ididididid'
     @datetime = 'yyyy/mm/dd hh:mm:ss'
     # @turn = "F"
     # @nthmove = -1
   end
 
-  attr_accessor :player1, :email1, :player2, :email2, :creator, :id, :datetime,
-                :taikyokupath, :matchinfopath, :chatpath, :kifupath
+  attr_reader :player1, :email1, :player2, :email2, :creator, :gid, :datetime,
+              :taikyokupath, :matchinfopath, :chatpath, :kifupath, :mi, :jkf
 
   DIRPATH = './taikyoku/'
   CHATFILE = 'chat.txt'
   MATCHFILE = 'matchinfo.txt'
   KIFUFILE = 'kifu.jkf'
 
-  def setplayer1(nm, em)
+  def setplayer1(id, nm, em)
+    @id1 = id
     @player1 = nm
     @email1 = em
   end
 
-  def setplayer2(nm, em)
+  def setplayer2(id, nm, em)
+    @id2 = id
     @player2 = nm
     @email2 = em
   end
 
   def setid(id_)
-    @id = id_
-    @taikyokupath = DIRPATH + @id + '/'
+    @gid = id_
+    @taikyokupath = DIRPATH + id_ + '/'
     @matchinfopath = @taikyokupath + MATCHFILE
     @chatpath = @taikyokupath + CHATFILE
     @kifupath = @taikyokupath + KIFUFILE
@@ -53,29 +60,38 @@ class TaikyokuData
   def generate
     # 生成日時
     @datetime = Time.now.strftime('%Y/%m/%d %H:%M:%S')
-    # 対局ID
-    @id = genid
 
+    # 対局ID
+    id = genid
     return print "generation failed...\n" if id.nil?
+    setid(id)
 
     # フォルダとかファイルとかの生成
-    @taikyokupath = DIRPATH + @id + '/'
-    @matchinfopath = @taikyokupath + MATCHFILE
-    @chatpath = @taikyokupath + CHATFILE
-    @kifupath = @taikyokupath + KIFUFILE
-
     gentd = GenTaikyokuData.new(self)
     gentd.generate
 
     tdb = TaikyokuFile.new
     tdb.read
-    tdb.add(id, player1, player2, datetime, '')
+    tdb.add(gid, player1, player2, datetime, '')
     tdb.write
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
-    tcdb.add(id, player1, player2, datetime, '')
+    tcdb.add(gid, player1, player2, datetime, '')
     tcdb.write
+
+    # match information file
+    @mi = MatchInfoFile.new(gid)
+    @mi.initial_write(@id1, @id2, @creator, @datetime, @matchinfopath)
+
+    # kifu file
+    @jkf = JsonKifu.new(gid)
+    @jkf.initial_write(@player1, @player2, @datetime, @kifupath)
+
+    # chat file
+    chat = ChatFile.new(gid)
+    chat.sayex("<span id='chatadmin'>Witness</span>",
+               "it's on time. plz start your move #{player1}-san.")
   end
 
   # 対局情報の生成
@@ -86,7 +102,7 @@ class TaikyokuData
     # 生成日時
     @datetime = Time.now.strftime('%Y/%m/%d %H:%M:%S')
     # 対局ID
-    @id = genid
+    setid(genid)
   end
 
   def genid
@@ -101,9 +117,19 @@ class TaikyokuData
     id[0, 10]
   end
 
+  def read
+    # データを読み込んで
+    @mi = MatchInfoFile.new(@gid)
+    @mi.read(matchinfopath)
+    @jkf = JsonKifu.new(@gid)
+    @jkf.read(kifupath)
+    # @chat = ChatFile.new(@gameid)
+    # @chat.read()
+  end
+
   def dump
     print <<-DUMP
-      taikyoku-id:#{@id}
+      taikyoku-id:#{@gid}
       creator: #{@creator}
       datetime: #{@datetime}
       player1: #{@player1}
@@ -116,7 +142,7 @@ class TaikyokuData
   def dumptable
     print <<-DUMP
       <TABLE>
-      <TR><TD>taikyoku-id</TD><TD>#{@id}</TD></TR>
+      <TR><TD>taikyoku-id</TD><TD>#{@gid}</TD></TR>
       <TR><TD>creator</TD><TD>#{@creator}</TD></TR>
       <TR><TD>datetime</TD><TD>#{@datetime}</TD></TR>
       <TR><TD>player1</TD><TD>#{@player1}</TD></TR>

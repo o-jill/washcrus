@@ -113,10 +113,10 @@ class MatchInfoFile
     setlastmove(data[:lastmove], data[:dt_lastmove])
   end
 
-  def initial_write(td, id_b, id_w)
+  def initial_write(id_b, id_w, creator, cdt, path)
     setplayers(id_b, id_w)
-    setcreator(td.creator, td.datetime)
-    write(td.matchinfopath)
+    setcreator(creator, dt)
+    write(path)
   end
 
   def genhash

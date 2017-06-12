@@ -93,9 +93,6 @@ class Game
       return
     end
 
-    tkd = TaikyokuData.new
-    tkd.setid(@gameid)
-
     tdb = TaikyokuFile.new
     tdb.read
     unless tdb.exist_id(@gameid)
@@ -103,16 +100,20 @@ class Game
       return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access."
     end
 
+    tkd = TaikyokuData.new
+    tkd.setid(@gameid)
+    tkd.read
+
     # データを読み込んで
-    @mi = MatchInfoFile.new(@gameid)
-    @mi.read(tkd.matchinfopath)
-    @jkf = JsonKifu.new(@gameid)
-    @jkf.read(tkd.kifupath)
+    # @mi = MatchInfoFile.new(@gameid)
+    # @mi.read(tkd.matchinfopath)
+    # @jkf = JsonKifu.new(@gameid)
+    # @jkf.read(tkd.kifupath)
     # @chat = ChatFile.new(@gameid)
     # @chat.read()
 
     # 表示する
-    gh = GameHtml.new(@gameid, @mi, @jkf, @userinfo)
+    gh = GameHtml.new(@gameid, tkd.mi, tkd.jkf, @userinfo)
     gh.put(@header)
   end
 

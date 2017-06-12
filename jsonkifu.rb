@@ -5,7 +5,6 @@
 
 require 'json'
 require 'jkf'
-require './taikyokudata.rb'
 
 #
 # JSON棋譜管理クラス
@@ -87,10 +86,10 @@ class JsonKifu
     end
   end
 
-  def initial_write(td)
-    setplayers(td.player1, td.player2)
-    setdate(td.datetime)
-    write(td.kifupath)
+  def initial_write(pl1, pl2, cdt, path)
+    setplayers(pl1, pl2)
+    setdate(cdt)
+    write(path)
   end
 
   def write(path)

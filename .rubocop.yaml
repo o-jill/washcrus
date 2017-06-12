@@ -13,8 +13,12 @@ Layout/EndOfLine:
 #   Enabled: false
 
 # Avoid methods longer than 10 lines of code
-# MethodLength:
+Metrics/MethodLength:
+    Max: 20
 #   Enabled: false
+
+Metrics/ClassLength:
+    Max: 200
 
 # Favor modifier if/unless usage when you have a single-line body.
 # IfUnlessModifier:
