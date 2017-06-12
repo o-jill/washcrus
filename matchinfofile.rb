@@ -115,7 +115,7 @@ class MatchInfoFile
 
   def initial_write(id_b, id_w, creator, cdt, path)
     setplayers(id_b, id_w)
-    setcreator(creator, dt)
+    setcreator(creator, cdt)
     write(path)
   end
 
