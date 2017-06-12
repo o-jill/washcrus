@@ -123,7 +123,7 @@ class Game
     <head>
         <title> washcrus player1 vs player2 </title>
         <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
-        <link rel='shortcut icon' href='./favicon.ico' />
+        <link rel='shortcut icon' href='./image/favicon.ico' />
         <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>
         <!-- script type="text/javascript" defer src=""></script -->
     </head>

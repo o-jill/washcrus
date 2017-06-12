@@ -14,7 +14,7 @@ module CommonUI
     #       "Set-Cookie: _rarirurero_id=0123; path=; expires=Mon, 10 Apr 2017 10:00:00\n\n"
     print "<HTML lang=ja>\n<HEAD>\n <TITLE>#{title}</TITLE>\n",
           " <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >\n",
-          " <link rel='shortcut icon' href='./favicon.ico' />\n",
+          " <link rel='shortcut icon' href='./image/favicon.ico' />\n",
           " <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>\n",
           "</HEAD>\n<BODY>\n"
       # print header
@@ -25,7 +25,7 @@ module CommonUI
     print "Content-Type: text/html; charset=UTF-8\n\n",
           "<HTML lang=ja>\n<HEAD>\n <TITLE>#{title}</TITLE>\n",
           " <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >\n",
-          " <link rel='shortcut icon' href='./favicon.ico' />\n",
+          " <link rel='shortcut icon' href='./image/favicon.ico' />\n",
           " <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>\n",
           "</HEAD>\n<BODY>\n"
   end
