@@ -89,7 +89,7 @@ class Game
     unless @userinfo.nil? || @userinfo.exist_indb
       # userinfoが変だよ
       print "Content-Type: text/plain; charset=UTF-8\n\nplease log in."
-      @userinfo.dump
+      # @userinfo.dump
       return
     end
 
