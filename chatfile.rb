@@ -5,8 +5,9 @@
 
 # チャットファイル管理クラス
 class ChatFile
-  DIRPATH = './taikyoku/'
-  CHATFILE = 'chat.txt'
+  DIRPATH = './taikyoku/'.freeze
+  CHATFILE = 'chat.txt'.freeze
+
   def initialize(id)
     @id = id
     @path = DIRPATH + @id + '/' + CHATFILE

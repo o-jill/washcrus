@@ -8,7 +8,7 @@ require 'openssl'
 # ユーザー情報DB管理クラス
 #
 class UserInfoFile
-  KEY = 'thirty two byte secure password.'
+  KEY = 'thirty two byte secure password.'.freeze
 
   def initialize(name = './userinfo.csv')
     @fname = name

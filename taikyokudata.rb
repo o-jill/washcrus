@@ -30,10 +30,10 @@ class TaikyokuData
   attr_reader :player1, :email1, :player2, :email2, :creator, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :mi, :jkf
 
-  DIRPATH = './taikyoku/'
-  CHATFILE = 'chat.txt'
-  MATCHFILE = 'matchinfo.txt'
-  KIFUFILE = 'kifu.jkf'
+  DIRPATH = './taikyoku/'.freeze
+  CHATFILE = 'chat.txt'.freeze
+  MATCHFILE = 'matchinfo.txt'.freeze
+  KIFUFILE = 'kifu.jkf'.freeze
 
   def setplayer1(id, nm, em)
     @id1 = id
