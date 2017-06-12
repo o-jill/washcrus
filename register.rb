@@ -8,7 +8,7 @@ require 'digest/sha2'
 # require 'mail'
 
 require './common_ui.rb'
-require './userinfofile.rb'
+require './file/userinfofile.rb'
 
 def check_register(params)
   if params['rname'].nil? || params['rname'].length.zero? \

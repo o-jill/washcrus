@@ -5,11 +5,11 @@
 
 require 'digest/sha2'
 
-require './chatfile.rb'
+require './file/chatfile.rb'
 require './gentaikyoku.rb'
-require './jsonkifu.rb'
-require './matchinfofile.rb'
-require './taikyokufile.rb'
+require './file/jsonkifu.rb'
+require './file/matchinfofile.rb'
+require './file/taikyokufile.rb'
 
 # 対局情報クラス
 class TaikyokuData

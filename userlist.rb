@@ -4,7 +4,7 @@
 #!/usr/bin/ruby
 
 require './common_ui.rb'
-require './userinfofile.rb'
+require './file/userinfofile.rb'
 
 #
 # userlist画面

@@ -5,7 +5,7 @@
 
 require 'yaml'
 
-require './userinfofile.rb'
+require './file/userinfofile.rb'
 require './taikyokudata.rb'
 
 #

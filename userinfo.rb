@@ -1,7 +1,7 @@
 #!d:\ruby193\bin\ruby.exe
 # -*- encoding: utf-8 -*-
 
-require './userinfofile.rb'
+require './file/userinfofile.rb'
 
 #
 # ユーザー情報管理クラス

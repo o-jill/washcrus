@@ -4,8 +4,8 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require './jsonkifu.rb'
-require './matchinfofile.rb'
+require './file/jsonkifu.rb'
+require './file/matchinfofile.rb'
 require './userinfo.rb'
 
 # 表示する

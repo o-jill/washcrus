@@ -3,13 +3,13 @@
 
 #!/usr/bin/ruby
 
-require './chatfile.rb'
+require './file/chatfile.rb'
 require './common_ui.rb'
-require './jsonkifu.rb'
-require './matchinfofile.rb'
+require './file/jsonkifu.rb'
+require './file/matchinfofile.rb'
 require './taikyokudata.rb'
 require './userinfo.rb'
-require './userinfofile.rb'
+require './file/userinfofile.rb'
 
 def check_datalost(params)
   params['rname'].nil? || params['rname'][0].length.zero? \

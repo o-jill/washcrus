@@ -5,8 +5,8 @@
 
 require 'cgi'
 
-require './taikyokufile.rb'
-require './chatfile.rb'
+require './file/taikyokufile.rb'
+require './file/chatfile.rb'
 
 # チャットシステムクラス
 #

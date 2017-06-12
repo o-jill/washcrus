@@ -4,7 +4,7 @@
 #!/usr/bin/ruby
 
 require './common_ui.rb'
-require './taikyokufile.rb'
+require './file/taikyokufile.rb'
 
 #
 # matchlist画面

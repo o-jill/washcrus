@@ -6,7 +6,7 @@
 require 'cgi'
 require 'digest/sha2'
 
-require './userinfofile.rb'
+require './file/userinfofile.rb'
 require './taikyokudata.rb'
 
 cgi = CGI.new

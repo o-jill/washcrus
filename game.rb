@@ -8,10 +8,10 @@ require 'cgi'
 require 'cgi/session'
 
 require './gamehtml.rb'
-require './jsonkifu.rb'
-require './matchinfofile.rb'
+require './file/jsonkifu.rb'
+require './file/matchinfofile.rb'
 require './userinfo.rb'
-require './taikyokufile.rb'
+require './file/taikyokufile.rb'
 
 #
 # CGI本体
