@@ -91,7 +91,7 @@ class TaikyokuData
     # chat file
     chat = ChatFile.new(gid)
     chat.sayex("<span id='chatadmin'>Witness</span>",
-               "it's on time. plz start your move #{player1}-san.")
+               "it's on time. please start your move as SENTE, #{player1}-san.")
   end
 
   # 対局情報の生成
@@ -105,12 +105,18 @@ class TaikyokuData
     setid(genid)
   end
 
+  def player1ng?
+    player1.nil? || player1 == '' || email1.nil? || email1 == ''
+  end
+
+  def player2ng?
+    player2.nil? || player2 == '' || email2.nil? || email2 == ''
+  end
+
   def genid
-    if player1.nil? || player1 == '' || email1.nil? || email1 == '' \
-      || player2.nil? || player2 == '' || email2.nil? || email2 == '' \
-      || creator.nil? || creator == ''
-      return nil
-    end
+    return nil if player1ng?
+    return nil if player2ng?
+    return nil if creator.nil? || creator == ''
 
     id_raw = "#{player1}_#{email1}_#{player2}_#{email2}_#{creator}_#{datetime}"
     id = Digest::SHA256.hexdigest id_raw

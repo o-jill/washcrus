@@ -24,13 +24,13 @@ require './views/userlist.rb'
 # CGI本体
 #
 class WashCrus
+  # ウインドウタイトル
+  Pagetitle = 'Wash Crus'.freeze
+
+  # ページタイトル
+  Titlename = '洗足池'.freeze
+
   def initialize(cgi)
-    # ウインドウタイトル
-    @pagetitle = 'Wash Crus'
-
-    # ページタイトル
-    @titlename = '洗足池'
-
     @cgi = cgi
     @params = cgi.params
     # if @params.length>0
@@ -82,29 +82,29 @@ class WashCrus
   # QUERY_STRINGによる分岐
   #
   def perform
-    if @action.nil? || @action == ''
-      entrance_screen(@header, @pagetitle, @titlename, @userinfo)
-    elsif @action == 'newgame'
-      newgame_screen(@header, @pagetitle, @titlename, @userinfo)
-    elsif @action == 'gennewgame'
-      generatenewgame_screen(@header, @pagetitle, @titlename,
-                             @userinfo, @params)
-    elsif @action == 'signup'
-      signup_screen(@header, @pagetitle, @titlename, @userinfo)
-    elsif @action == 'login'
-      login_screen(@header, @pagetitle, @titlename, @params)
-    elsif @action == 'logincheck'
-      logincheck_screen(@header, @session, @pagetitle, @titlename, @cgi)
-    elsif @action == 'logout'
-      logout_screen(@session, @pagetitle, @titlename)
-    elsif @action == 'register'
-      register_screen(@header, @pagetitle, @titlename, @params)
-    elsif @action == 'matchlist'
-      matchlist_screen(@header, @pagetitle, @titlename, @params)
-    elsif @action == 'userlist'
-      userlist_screen(@header, @pagetitle, @titlename, @params)
+    case @action
+    when nil, '' then
+      entrance_screen(@header, Pagetitle, Titlename, @userinfo)
+    when 'newgame' then
+      newgame_screen(@header, Pagetitle, Titlename, @userinfo)
+    when 'gennewgame' then
+      generatenewgame_screen(@header, Pagetitle, Titlename, @userinfo, @params)
+    when 'signup' then
+      signup_screen(@header, Pagetitle, Titlename, @userinfo)
+    when 'login' then
+      login_screen(@header, Pagetitle, Titlename, @params)
+    when 'logincheck' then
+      logincheck_screen(@header, @session, Pagetitle, Titlename, @cgi)
+    when 'logout' then
+      logout_screen(@session, Pagetitle, Titlename)
+    when 'register' then
+      register_screen(@header, Pagetitle, Titlename, @params)
+    when 'matchlist' then
+      matchlist_screen(@header, Pagetitle, Titlename, @params)
+    when 'userlist' then
+      userlist_screen(@header, Pagetitle, Titlename, @params)
     else
-      error_action_screen(@header, @pagetitle, @titlename,
+      error_action_screen(@header, Pagetitle, Titlename,
                           @userinfo, @params, @action)
     end
   end

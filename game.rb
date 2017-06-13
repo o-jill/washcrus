@@ -81,36 +81,23 @@ class Game
   # 実行本体。
   #
   def perform
-    if @gameid.nil? || @gameid == ''
-      # gameid が無いよ
-      return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access."
-    end
+    # gameid が無いよ
+    return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
+        if @gameid.nil? || @gameid.length.zero?
 
-    unless @userinfo.nil? || @userinfo.exist_indb
-      # userinfoが変だよ
-      print "Content-Type: text/plain; charset=UTF-8\n\nplease log in."
-      # @userinfo.dump
-      return
-    end
+    # userinfoが変だよ
+    return print "Content-Type: text/plain; charset=UTF-8\n\nplease log in." \
+        unless @userinfo.nil? || @userinfo.exist_indb
 
     tdb = TaikyokuFile.new
     tdb.read
-    unless tdb.exist_id(@gameid)
-      # 存在しないはずのIDだよ
-      return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access."
-    end
+    # 存在しないはずのIDだよ
+    return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
+        unless tdb.exist_id(@gameid)
 
     tkd = TaikyokuData.new
     tkd.setid(@gameid)
     tkd.read
-
-    # データを読み込んで
-    # @mi = MatchInfoFile.new(@gameid)
-    # @mi.read(tkd.matchinfopath)
-    # @jkf = JsonKifu.new(@gameid)
-    # @jkf.read(tkd.kifupath)
-    # @chat = ChatFile.new(@gameid)
-    # @chat.read()
 
     # 表示する
     gh = GameHtml.new(@gameid, tkd.mi, tkd.jkf, @userinfo)
