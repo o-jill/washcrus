@@ -19,49 +19,45 @@ class TaikyokuFile
   attr_accessor :fname, :namebs, :namews, :times, :comments
 
   def read
-    begin
-      File.open(@fname, 'r:utf-8') do |file|
-        file.flock File::LOCK_EX
+    File.open(@fname, 'r:utf-8') do |file|
+      file.flock File::LOCK_EX
 
-        file.each_line do |line|
-          # comment
-          next if line =~ /^#/
+      file.each_line do |line|
+        # comment
+        next if line =~ /^#/
 
-          # id, nameb, namew, time, comment
-          elem = line.chomp.split(',')
-          if elem.length == 5
-            add(elem[0], elem[1], elem[2], elem[3], elem[4])
-          elsif elem.length == 4
-            add(elem[0], elem[1], elem[2], elem[3], '&lt;blank&gt;')
+        # id, nameb, namew, time, comment
+        elem = line.chomp.split(',')
+        if elem.length == 5
+          add(elem[0], elem[1], elem[2], elem[3], elem[4])
+        elsif elem.length == 4
+          add(elem[0], elem[1], elem[2], elem[3], '&lt;blank&gt;')
         # else
-            # skip
-          end
+          # skip
         end
       end
-    # 例外は小さい単位で捕捉する
-    rescue SystemCallError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in read"
-    rescue IOError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in read"
     end
+  # 例外は小さい単位で捕捉する
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in read"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in read"
   end
 
   def write
-    begin
-      File.open(@fname, 'w') do |file|
-        file.flock File::LOCK_EX
-        file.puts '# taikyoku information' + Time.now.to_s
-        file.puts '# id, nameb, namew, time, comment'
-        namebs.each do |id, name|
-          file.puts "#{id},#{name},#{namews[id]},#{times[id]},#{comments[id]}"
-        end
+    File.open(@fname, 'w') do |file|
+      file.flock File::LOCK_EX
+      file.puts '# taikyoku information' + Time.now.to_s
+      file.puts '# id, nameb, namew, time, comment'
+      namebs.each do |id, name|
+        file.puts "#{id},#{name},#{namews[id]},#{times[id]},#{comments[id]}"
       end
-    # 例外は小さい単位で捕捉する
-    rescue SystemCallError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in write"
-    rescue IOError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in write"
     end
+  # 例外は小さい単位で捕捉する
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
   # get taikyoku information by id

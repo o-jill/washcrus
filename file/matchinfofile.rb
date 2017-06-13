@@ -128,16 +128,14 @@ class MatchInfoFile
   end
 
   def write(path)
-    begin
-      File.open(path, 'wb') do |file|
-        file.flock File::LOCK_EX
-        file.puts YAML.dump(genhash, file)
-      end
-    # 例外は小さい単位で捕捉する
-    rescue SystemCallError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in yaml write"
-    rescue IOError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in yaml write"
+    File.open(path, 'wb') do |file|
+      file.flock File::LOCK_EX
+      file.puts YAML.dump(genhash, file)
     end
+  # 例外は小さい単位で捕捉する
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in yaml write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in yaml write"
   end
 end
