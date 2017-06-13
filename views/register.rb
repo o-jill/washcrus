@@ -11,11 +11,9 @@ require './file/userinfofile.rb'
 require './views/common_ui.rb'
 
 def check_register(params)
-  if params['rname'].nil? || params['rname'].length.zero? \
-      || params['rpassword'].nil? || params['rpassword'].length.zero? \
-      || params['rpassword2'].nil? || params['rpassword2'].length.zero? \
-      || params['remail'].nil? || params['remail'].length.zero? \
-      || params['remail2'].nil? || params['remail2'].length.zero?
+  if params['rname'].nil? || params['rpassword'].nil? \
+      || params['rpassword2'].nil? || params['remail'].nil? \
+      || params['remail2'].nil?
     return 'data lost ...<BR>'
   end
 
@@ -27,11 +25,13 @@ def check_register(params)
 
   errmsg = ''
 
-  errmsg += 'short username ...<BR>' if username.nil? || username.length < 4
+  errmsg += 'short username ... you need 4 letters at least.<BR>' \
+      if username.nil? || username.length < 4
 
   errmsg += 'wrong password ...<BR>' if password1.nil? || password1 != password2
 
-  errmsg += 'short password ...<BR>' if password1.length < 4
+  errmsg += 'short password ... you need 4 letters at least.<BR>' \
+      if password1.length < 4
 
   errmsg += 'wrong e-mail address ...<BR>' if email1.nil? || email1 != email2
 

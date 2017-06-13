@@ -35,7 +35,7 @@ class GameHtml
   end
 
   def headerelement
-    return "<head><title>washcrus #{@mi.playerb} vs #{@mi.playerw}</title>" \
+    "<head><title>washcrus #{@mi.playerb} vs #{@mi.playerw}</title>" \
       "<META http-equiv='Content-Type' content='text/html; charset=UTF-8' >" \
       "<link rel='shortcut icon' href='./image/favicon.ico' />" \
       "<link rel='stylesheet' type='text/css' href='./css/washcrus.css'>" \
@@ -46,17 +46,15 @@ class GameHtml
     "<div id='chatlog' class='chat'>
      チャットえりあ<BR>幅はどうやれば変わるの？<BR>-&gt;CSSでした。<BR>
      divじゃないとタグが効かないことが判明。</div>
-    <!-- form action='chat.rb?#{}' method=post -->
-     <input id='chatname' type='text' value='#{@userinfo.user_name}' size='10' class='chatnm' readonly />
-     :<input id='chatmsg' type='text' size='60' class='chatmsg' />
-     <input type='button' id='chatbtn' onClick='onChatSay();' value='&gt;&gt;' />
-    <!-- /form -->
-    <input type='hidden' id='gameid' value='#{@gameid}' />
+     <input id='chatname' type='text' value='#{@userinfo.user_name}' size='10' class='chatnm' readonly/>
+     :<input id='chatmsg' type='text' size='60' class='chatmsg'/>
+     <input type='button' id='chatbtn' onClick='onChatSay();' value='&gt;&gt;'/>
+     <input type='hidden' id='gameid' value='#{@gameid}'/>
     <script type='text/javascript' src='./js/chat.js' defer></script>"
   end
 
   def kifuelement
-    return "<div id='kifulog' class='kifu'>#{@jkf.to_kif.gsub("\n", '<BR>')}</div>"
+    "<div id='kifulog' class='kifu'>#{@jkf.to_kif.gsub("\n", '<BR>')}</div>"
   end
 
   # class methods

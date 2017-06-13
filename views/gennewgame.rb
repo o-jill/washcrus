@@ -12,10 +12,8 @@ require './game/userinfo.rb'
 require './views/common_ui.rb'
 
 def check_datalost(params)
-  params['rname'].nil? || params['rname'][0].length.zero? \
-      || params['remail'].nil? || params['remail'][0].length.zero? \
-      || params['rname2'].nil? || params['rname2'][0].length.zero? \
-      || params['remail2'].nil? || params['remail2'][0].length.zero?
+  params['rname'].nil? || params['remail'].nil? \
+      || params['rname2'].nil? || params['remail2'].nil?
 end
 
 def furifusen(furigoma)
@@ -37,7 +35,7 @@ def check_players
     errmsg += "name or e-mail address in player 2 is wrong ...<BR>\n"
   end
 
-  { errmsg: ermsg, userdata1: userdata1, userdata2: userdata2 }
+  { errmsg: errmsg, userdata1: userdata1, userdata2: userdata2 }
 end
 
 def generatenewgame_screen(header, title, name, userinfo, params)
