@@ -52,11 +52,11 @@ class ChatFile
   end
 
   def say(name, msg)
-    add "<B>#{name}</B>:#{msg}&nbsp;(#{Time.now})"
+    add "<B>#{name}</B>:#{msg}&nbsp;(#{Time.now})<BR>"
   end
 
   def sayex(name, msg)
-    add "#{name}:#{msg}&nbsp;(#{Time.now})"
+    add "#{name}:#{msg}&nbsp;(#{Time.now})<BR>"
   end
 
   def put

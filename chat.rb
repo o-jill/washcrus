@@ -24,7 +24,7 @@ class Chat
     @name = 'john doe'
     @msg = 'abdakadabra.'
     @gameid = cgi.query_string
-    @action = @params['action']
+    @action = @params['action'][0]
   end
 
   # 本体
@@ -34,8 +34,8 @@ class Chat
     tdb.read
     if tdb.exist_id(@gameid)
       if @action == 'say'
-        @name = params['chatname']
-        @msg = params['chatmsg']
+        @name = @params['chatname'][0]
+        @msg = @params['chatmsg'][0]
         unless @msg.length.zero?
           @msg.gsub!(',', '&#44;')
           @msg.gsub!('&', '&amp;')

@@ -37,7 +37,7 @@ class GameHtml
   def headerelement
     return "<head><title>washcrus #{@mi.playerb} vs #{@mi.playerw}</title>" \
       "<META http-equiv='Content-Type' content='text/html; charset=UTF-8' >" \
-      "<link rel='shortcut icon' href='./favicon.ico' />" \
+      "<link rel='shortcut icon' href='./image/favicon.ico' />" \
       "<link rel='stylesheet' type='text/css' href='./css/washcrus.css'>" \
       "<!-- script type='text/javascript' defer src=''></script --></head>"
   end
@@ -49,7 +49,7 @@ class GameHtml
     <!-- form action='chat.rb?#{}' method=post -->
      <input id='chatname' type='text' value='#{@userinfo.user_name}' size='10' class='chatnm' readonly />
      :<input id='chatmsg' type='text' size='60' class='chatmsg' />
-     <input type='submit' onClick='void();' />
+     <input type='button' id='chatbtn' onClick='onChatSay();' value='&gt;&gt;' />
     <!-- /form -->
     <input type='hidden' id='gameid' value='#{@gameid}' />
     <script type='text/javascript' src='./js/chat.js' defer></script>"

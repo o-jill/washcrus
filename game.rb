@@ -117,45 +117,6 @@ class Game
     gh.put(@header)
   end
 
-  def put
-    print <<-SCREEN_ELEM
-    <html>
-    <head>
-        <title> washcrus player1 vs player2 </title>
-        <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
-        <link rel='shortcut icon' href='./image/favicon.ico' />
-        <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>
-        <!-- script type="text/javascript" defer src=""></script -->
-    </head>
-    <body>
-    <center>洗足池</center>
-    <HR>
-    <div class=gamearea>
-     <div class=block>
-      <div class=block_elem_ban>
-       将棋盤えりあ
-       <canvas width='480' height='320' />
-      </div>
-      <div class=block_elem_kifu>
-       <div id='kifulog' class='kifu'>棋譜えりあ</div>
-      </div>
-     </div>
-     <div id='chatlog' class='chat'>チャットえりあ<BR>
-    幅はどうやれば変わるの？<BR>
-    -&gt;CSSでした。<BR>
-    divじゃないとタグが効かないことが判明。</div>
-     <form>
-      <input id='chatname' type='text' readonly value='namae' size='10' class='chatnm' />:<input id='chatmsg' type='text' size='60' class='chatmsg' /><input type='submit' onClick='void();' />
-     </form>
-     <input type='hidden' id='gameid' value='testmatch' />
-     <script type='text/javascript' src='./js/chat.js' defer></script>
-    </div>
-    <HR>
-    <div style='text-align:right;'>ぢるっち(c)2017</div>
-    </body>
-    </html>
-    SCREEN_ELEM
-  end
   # class methods
 end
 
