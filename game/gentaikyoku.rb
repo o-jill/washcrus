@@ -12,7 +12,7 @@ class GenTaikyokuData
     @id = taikyoku.id
   end
 
-  attr_accessor :taikyoku, :id
+  attr_reader :taikyoku, :id
 
   # 対局に必要なファイル群の生成
   def generate

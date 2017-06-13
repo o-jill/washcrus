@@ -36,10 +36,6 @@ def check_login(params)
 
   userinfo = UserInfo.new(1, userdata[0], userdata[1], email)
 
-  # 登録する
-  userdb.add(userinfo.user_name, dgpw, email)
-  userdb.write
-
   { errmsg: errmsg, userinfo: userinfo }
 end
 

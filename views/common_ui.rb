@@ -10,22 +10,33 @@ module CommonUI
   # HTMLヘッダ出力
   def self.HTMLHead(header, title)
     print header
-    print "<HTML lang=ja>\n<HEAD>\n <TITLE>#{title}</TITLE>\n",
-          " <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >\n",
-          " <link rel='shortcut icon' href='./image/favicon.ico' />\n",
-          " <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>\n",
-          "</HEAD>\n<BODY>\n"
+    print <<-HEADER_TAG
+      <HTML lang=ja>
+      <HEAD>
+       <TITLE>#{title}</TITLE>
+       <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
+       <link rel='shortcut icon' href='./image/favicon.ico' />
+       <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>
+      </HEAD>
+      <BODY>
+      HEADER_TAG
       # print header
   end
 
   # HTMLヘッダ出力(no cookie)
   def self.HTMLHead2(title)
-    print "Content-Type: text/html; charset=UTF-8\n\n",
-          "<HTML lang=ja>\n<HEAD>\n <TITLE>#{title}</TITLE>\n",
-          " <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >\n",
-          " <link rel='shortcut icon' href='./image/favicon.ico' />\n",
-          " <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>\n",
-          "</HEAD>\n<BODY>\n"
+    print <<-HEADER2_TAG
+      Content-Type: text/html; charset=UTF-8
+
+      <HTML lang=ja>
+      <HEAD>
+       <TITLE>#{title}</TITLE>
+       <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
+       <link rel='shortcut icon' href='./image/favicon.ico' />
+       <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>
+      </HEAD>
+      <BODY>
+      HEADER2_TAG
   end
 
   # メニュー部分の出力 ログイン前
@@ -44,9 +55,7 @@ module CommonUI
   #
   # blogin ログイン中かどうか
   def self.HTMLmenuLogIn(title, blogin = true)
-    unless blogin
-      return HTMLmenu(title)
-    end
+    return HTMLmenu(title) unless blogin
 
     index = File.basename($PROGRAM_NAME)
     print "<div align='center'>#{title}</div><HR>\n",
