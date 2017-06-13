@@ -19,19 +19,32 @@ class GameHtml
 
   def put(header)
     print header
+    print <<-HTMLELEMENTS
+      <html>
+      #{headerelement}
+      <body><center>洗足池</center><HR>
+      <div class=gamearea>
+       <div class=block>
+        <div class='block_elem_ban'> #{banelement} </div>
+        <div class='block_elem_kifu'> #{kifuelement} </div>
+       </div>
+       #{chatelement}
+      </div>
+      <HR><div style='text-align:right;'>ぢるっち(c)2017</div>
+      </body></html>
+HTMLELEMENTS
+  end
 
-    print '<html>', headerelement
+  def banelement
+    ret = "将棋盤えりあ<canvas width='480' height='320' />" \
+          "<input type='text' size ='30' id='sfen' value='#{@mi.sfen}'/>"
+    if @mi.idb == @userinfo.user_id && @mi.teban == 'b'
+      ret += "先手の#{@userinfo.user_name}さんの手番です。"
+    elsif @mi.idw == @userinfo.user_id && @mi.teban == 'w'
+      ret += "後手の#{@userinfo.user_name}さんの手番です。"
+    end
 
-    print "<body><center>洗足池</center><HR>" \
-          "<div class=gamearea>" \
-          " <div class=block>" \
-          "  <div class='block_elem_ban'>将棋盤えりあ<canvas width='480' height='320' /></div>" \
-          "  <div class='block_elem_kifu'> #{kifuelement} </div>" \
-          " </div>" \
-          " #{chatelement}" \
-          "</div>" \
-          "<HR><div style='text-align:right;'>ぢるっち(c)2017</div>" \
-          "</body></html>"
+    ret
   end
 
   def headerelement

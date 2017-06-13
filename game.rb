@@ -46,30 +46,9 @@ class Game
     @userinfo = UserInfo.new
     if @session.nil?
       @userinfo.visitcount = '1'
-
-      # @session = CGI::Session.new(cgi, {
-      #               "new_session" => true,
-      #               "session_key" => "_washcrus_session",
-      #               "tmpdir" => "./tmp/",
-      #               'session_expires' => Time.now + 3600
-      #           })
     else
       @userinfo.readsession(@session)
-      # 古いセッション情報の破棄
-      # @session.delete # <-- これはやめたい
     end
-    # セッション情報の生成
-    # @session = CGI::Session.new(@cgi,
-    #                         {
-    #                           new_session: true,
-    #                           session_key: '_washcrus_session',
-    #                           tmpdir: './tmp/',
-    #                           session_expires: Time.now + 2_592_000 # 30 days
-    #                         })
-
-    # @userinfo.hashsession.each { |k, v| @session[k] = v }
-
-    # @session.close
 
     @header = @cgi.header('charset' => 'UTF-8')
     @header = @header.gsub("\r\n", "\n")
