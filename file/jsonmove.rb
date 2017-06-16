@@ -78,7 +78,7 @@ class JsonMove
       return nil
     end
 
-    return if t.length < 8 || t.length > 9
+    return if t.length < 9 || t.length > 10
 
     ret = { 'color' => mycolor }
 
