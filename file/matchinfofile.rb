@@ -94,8 +94,15 @@ class MatchInfoFile
     @nth = nth
   end
 
+  def checksfen(sfenstr)
+    true
+  end
+
   def fromsfen(sfenstr)
     item = sfenstr.split(' ')
+
+    return if item.length != 4
+    return if item[0].count('/') != 8
 
     @sfen = sfenstr
     @teban = item[1]

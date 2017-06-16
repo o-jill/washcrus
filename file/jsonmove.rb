@@ -70,6 +70,8 @@ class JsonMove
   def self.fromtext(t)
     return fromtextspecital(t) if t[0] == '%'
 
+    return unless (9..10).include?(t.length)
+
     if t[0] == '+'
       mycolor = 0
     elsif t[0] == '-'
@@ -78,21 +80,17 @@ class JsonMove
       return nil
     end
 
-    return if t.length < 9 || t.length > 10
-
-    ret = { 'color' => mycolor }
-
     x = t[1].to_i
     y = t[2].to_i
-    return nil if x <= 0 || x > 9
-    return nil if y <= 0 || y > 9
+    return nil unless (0..9).include?(x)
+    return nil unless (0..9).include?(y)
 
-    ret['to'] = { 'x' => x, 'y' => y }
+    ret = { 'color' => mycolor, 'x' => x, 'y' => y }
 
     x = t[3].to_i
     y = t[4].to_i
-    return nil if x <= 0 || x > 9
-    return nil if y <= 0 || y > 9
+    return nil unless (0..9).include?(x)
+    return nil unless (0..9).include?(y)
     if x.zero? && y.zero?
       ret['from'] = nil
     else

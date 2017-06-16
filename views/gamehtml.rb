@@ -37,7 +37,8 @@ HTMLELEMENTS
 
   def banelement
     ret = "将棋盤えりあ<canvas width='480' height='320' />" \
-          "<input type='text' size ='30' id='sfen' value='#{@mi.sfen}'/>"
+          "<input type='text' size ='30' id='sfen' value='#{@mi.sfen}'/>" \
+          "<input type='text' size ='10' id='jsonmove' value=''/>"
     if @mi.idb == @userinfo.user_id && @mi.teban == 'b'
       ret += "先手の#{@userinfo.user_name}さんの手番です。"
     elsif @mi.idw == @userinfo.user_id && @mi.teban == 'w'
