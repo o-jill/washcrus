@@ -18,6 +18,8 @@ class JsonMove
     @capture = nil # 'OU'
   end
 
+  attr_reader :from, :to, :piece, :color, :promote, :capture
+
   # to    {x: 1~9, y: 1~9}
   # teban 0:sente, 1:gote
   def utu(to, koma, teban)
