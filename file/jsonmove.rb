@@ -56,7 +56,7 @@ class JsonMove
   end
 
   def self.fromtextspecital(t)
-    t[1, t.length - 1]
+    { special: t[1, t.length - 1] }
   end
 
   Koma = %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY].freeze
@@ -83,21 +83,21 @@ class JsonMove
     end
     ret = { 'color' => mycolor }
 
-    x = t[1].to_i
-    y = t[2].to_i
-    return nil unless (0..9).include?(x)
-    return nil unless (0..9).include?(y)
-    if x.zero? && y.zero?
+    x = t[1]
+    y = t[2]
+    return nil unless ('0'..'9').include?(x)
+    return nil unless ('0'..'9').include?(y)
+    if x == '0' && y == '0'
       ret['from'] = nil
     else
-      ret['from'] = { 'x' => x, 'y' => y }
+      ret['from'] = { 'x' => x.to_i, 'y' => y.to_i }
     end
 
-    x = t[3].to_i
-    y = t[4].to_i
-    return nil unless (0..9).include?(x)
-    return nil unless (0..9).include?(y)
-    ret['to'] = { 'x' => x, 'y' => y }
+    x = t[3]
+    y = t[4]
+    return nil unless ('1'..'9').include?(x)
+    return nil unless ('1'..'9').include?(y)
+    ret['to'] = { 'x' => x.to_i, 'y' => y.to_i }
 
     mypiece = checkpiece(t[5, 2])
     return nil if mypiece.nil?
@@ -106,8 +106,11 @@ class JsonMove
     mycapture = checkpiece(t[7, 2])
     ret['capture'] = mycapture unless mycapture.nil?
 
-    mypromote = (t[9] == 'P')
-    ret['promote'] = mypromote if mypromote
+    case t[9]
+    when 'P' then ret['promote'] = true
+    when nil then
+    else return nil
+    end
 
     ret
   end

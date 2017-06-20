@@ -123,7 +123,7 @@ describe "JsonMove" do
     expect(JsonMove::Koma).to eq(%w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY])
   end
   it "checks piece" do
-    jsmv = JsonMove.new
+    # jsmv = JsonMove.new
 
     expect(JsonMove::checkpiece('__')).to be nil
     expect(JsonMove::checkpiece('FU')).to eq('FU')
@@ -160,15 +160,14 @@ describe "JsonMove" do
     expect(JsonMove::checkpiece('00')).to be nil
   end
   it "parses special text" do
-    jsmv = JsonMove.new
-    expect(JsonMove::fromtextspecital('%TORYO')).to eq('TORYO')
-    expect(JsonMove::fromtextspecital('%TOKYO')).to eq('TOKYO')
-    expect(JsonMove::fromtextspecital('TORYO')).to eq('ORYO')
-    expect(JsonMove::fromtextspecital('ORYO')).to eq('RYO')
-    expect(JsonMove::fromtextspecital('RYO')).to eq('YO')
-    expect(JsonMove::fromtextspecital('YO')).to eq('O')
-    expect(JsonMove::fromtextspecital('O')).to eq('')
-    expect(JsonMove::fromtextspecital('')).to be nil
+    expect(JsonMove::fromtextspecital('%TORYO')).to eq({ special: 'TORYO' })
+    expect(JsonMove::fromtextspecital('%TOKYO')).to eq({ special: 'TOKYO' })
+    expect(JsonMove::fromtextspecital('TORYO')).to eq({ special: 'ORYO' })
+    expect(JsonMove::fromtextspecital('ORYO')).to eq({ special: 'RYO' })
+    expect(JsonMove::fromtextspecital('RYO')).to eq({ special: 'YO' })
+    expect(JsonMove::fromtextspecital('YO')).to eq({ special: 'O' })
+    expect(JsonMove::fromtextspecital('O')).to eq({ special: '' })
+    expect(JsonMove::fromtextspecital('')).to eq({ special: nil })
   end
   it "parses CSA-like text" do
     expect(JsonMove::fromtext('+1234FU__')).to eq(
@@ -180,6 +179,15 @@ describe "JsonMove" do
         # 'promote' => true
         # 'capture' => 'UM'
       })
+    expect(JsonMove::fromtext('+2434HIFU')).to eq(
+      {
+        'from' => { 'x' => 2, 'y' => 4 },
+        'to' => { 'x' => 3, 'y' => 4 },
+        'piece' => 'HI',
+        'color' => 0,
+        # 'promote' => true
+        'capture' => 'FU'
+      })
     expect(JsonMove::fromtext('-5678KAKYP')).to eq(
       {
         'from' => { 'x' => 5, 'y' => 6 },
@@ -189,5 +197,40 @@ describe "JsonMove" do
         'promote' => true,
         'capture' => 'KY'
       })
+    expect(JsonMove::fromtext('+0055KA__')).to eq(
+      {
+        'from' => nil,
+        'to' => { 'x' => 5, 'y' => 5 },
+        'piece' => 'KA',
+        'color' => 0
+      })
+    expect(JsonMove::fromtext('-0025FU__')).to eq(
+      {
+        'from' => nil,
+        'to' => { 'x' => 2, 'y' => 5 },
+        'piece' => 'FU',
+        'color' => 1
+      })
+    expect(JsonMove::fromtext('+5453FU__P')).to eq(
+      {
+        'from' => { 'x' => 5, 'y' => 4 },
+        'to' => { 'x' => 5, 'y' => 3 },
+        'piece' => 'FU',
+        'color' => 0,
+        'promote' => true
+      })
+
+    expect(JsonMove::fromtext('+5453__FUP')).to be nil
+    expect(JsonMove::fromtext('*5453FU__')).to be nil
+    expect(JsonMove::fromtext('/5453FU__P')).to be nil
+    expect(JsonMove::fromtext('-5400FU__')).to be nil
+    expect(JsonMove::fromtext('+5453KM__P')).to be nil
+    expect(JsonMove::fromtext('-5467fu__')).to be nil
+    expect(JsonMove::fromtext('-5467FU__p')).to be nil
+    expect(JsonMove::fromtext('+AB53FUKIP')).to be nil
+    expect(JsonMove::fromtext('+54CDKYKE')).to be nil
+    expect(JsonMove::fromtext('%TORYO')).to eq({ special: 'TORYO' })
+    expect(JsonMove::fromtext('%TOKYO')).to eq({ special: 'TOKYO' })
+    expect(JsonMove::fromtext('TORYO')).to be nil
   end
 end

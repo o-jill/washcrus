@@ -55,14 +55,11 @@ class JsonKifu
   end
 
   def move(mv, tm = nil, cmt = nil)
-    data = { 'move' => mv }
-    data['time'] = tm unless tm.nil?
-    data['comments'] = cmt unless cmt.nil?
-    @moves << data
-  end
-
-  def spmove(mv, tm = nil, cmt = nil)
-    data = { 'special' => mv }
+    if mv['special'].nil?
+      data = { 'move' => mv }
+    else
+      data = { 'special' => mv }
+    end
     data['time'] = tm unless tm.nil?
     data['comments'] = cmt unless cmt.nil?
     @moves << data
