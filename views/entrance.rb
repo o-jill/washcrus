@@ -1,7 +1,5 @@
-#!d:\ruby193\bin\ruby
-# -*- encoding: utf-8 -*-
-
 #!/usr/bin/ruby
+# -*- encoding: utf-8 -*-
 
 require './game/userinfo.rb'
 require './views/common_ui.rb'

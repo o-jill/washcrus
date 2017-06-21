@@ -1,7 +1,5 @@
-#!d:\ruby193\bin\ruby
-# -*- encoding: utf-8 -*-
-
 #!/usr/bin/ruby
+# -*- encoding: utf-8 -*-
 
 require './views/common_ui.rb'
 require './file/userinfofile.rb'

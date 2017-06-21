@@ -1,7 +1,6 @@
-#!d:\ruby193\bin\ruby
+#!/usr/bin/ruby
 # -*- encoding: utf-8 -*-
 
-#!/usr/bin/ruby
 
 require './file/chatfile.rb'
 require './file/jsonkifu.rb'
@@ -20,7 +19,7 @@ def furifusen(furigoma)
   furigoma.count('F') >= 3
 end
 
-def check_players
+def check_players(name1, email1, name2, email2)
   userdb = UserInfoFile.new
   userdb.read
 

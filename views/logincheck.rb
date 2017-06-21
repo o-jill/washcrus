@@ -1,27 +1,39 @@
-#!d:\ruby193\bin\ruby
-# -*- encoding: utf-8 -*-
-
 #!/usr/bin/ruby
+# -*- encoding: utf-8 -*-
 
 require 'cgi'
 require 'digest/sha2'
 require './file/userinfofile.rb'
 require './views/common_ui.rb'
 
+def check_pswd(pswd)
+  errmsg = ''
+  errmsg += 'wrong password ...<BR>' if pswd.nil? || pswd.length < 4
+  errmsg
+end
+
+def check_email(email)
+  errmsg = ''
+  errmsg += 'wrong e-mail address ...<BR>' if email.nil? || email.length < 4
+  errmsg
+end
+
+def check_datalost(pswd, email)
+  pswd.nil? || pswd.length.zero? || email.nil? || email.length.zero?
+end
+
 def check_login(params)
   pswd = params['sipassword']
-  return { errmsg: 'data lost ...<BR>' } if pswd.nil? || pswd.length.zero?
-
   email = params['siemail']
-  return { errmsg: 'data lost ...<BR>' } if email.nil? || email.length.zero?
+  return { errmsg: 'data lost ...<BR>' } if check_datalost(pswd, email)
 
   errmsg = ''
 
   pswd = pswd[0]
-  errmsg += 'wrong password ...<BR>' if pswd.nil? || pswd.length < 4
+  errmsg += check_pswd(pswd)
 
   email = email[0]
-  errmsg += 'wrong e-mail address ...<BR>' if email.nil? || email.length < 4
+  errmsg += check_email(email)
 
   userdb = UserInfoFile.new
   userdb.read

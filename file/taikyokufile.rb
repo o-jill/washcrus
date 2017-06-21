@@ -66,10 +66,18 @@ class TaikyokuFile
   end
 
   # get taikyoku information by name
+  def findnameb(name)
+    namebs.find { |_k, v| v == name }
+  end
+
+  # get taikyoku information by name
+  def findnamew(name)
+    namews.find { |_k, v| v == name }
+  end
+
+  # get taikyoku information by name
   def findname(name)
-    foundb = namebs.find { |_k, v| v == name }
-    foundw = namews.find { |_k, v| v == name }
-    foundid = foundb + foundw
+    foundid = findnameb(name) + findnamew(name)
     res = []
     foundid.each { |i| res << [i, namebs[i], namebs[i], times[i], comments[i]] }
     res

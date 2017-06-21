@@ -1,7 +1,5 @@
-#!d:\ruby193\bin\ruby
-# -*- encoding: utf-8 -*-
-
 #!/usr/bin/ruby
+# -*- encoding: utf-8 -*-
 
 #
 # UI parts used in common
