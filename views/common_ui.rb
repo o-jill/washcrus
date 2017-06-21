@@ -20,7 +20,6 @@ module CommonUI
       </HEAD>
       <BODY>
       HEADER_TAG
-      # print header
   end
 
   # HTMLヘッダ出力(no cookie)

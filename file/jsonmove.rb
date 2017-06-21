@@ -72,31 +72,25 @@ class JsonMove
   def self.fromtext(t)
     return fromtextspecital(t) if t[0] == '%'
 
-    return unless (9..10).include?(t.length)
+    return unless (9..10).cover?(t.length)
 
-    if t[0] == '+'
-      mycolor = 0
-    elsif t[0] == '-'
-      mycolor = 1
-    else
-      return nil
+    case t[0]
+    when '+' then mycolor = 0
+    when '-' then mycolor = 1
+    else          return nil
     end
     ret = { 'color' => mycolor }
 
     x = t[1]
     y = t[2]
-    return nil unless ('0'..'9').include?(x)
-    return nil unless ('0'..'9').include?(y)
-    if x == '0' && y == '0'
-      ret['from'] = nil
-    else
-      ret['from'] = { 'x' => x.to_i, 'y' => y.to_i }
-    end
+    return nil unless ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
+
+    fxy = { 'x' => x.to_i, 'y' => y.to_i } unless x == '0' && y == '0'
+    ret['from'] = fxy
 
     x = t[3]
     y = t[4]
-    return nil unless ('1'..'9').include?(x)
-    return nil unless ('1'..'9').include?(y)
+    return nil unless ('1'..'9').cover?(x) && ('1'..'9').cover?(y)
     ret['to'] = { 'x' => x.to_i, 'y' => y.to_i }
 
     mypiece = checkpiece(t[5, 2])
@@ -106,11 +100,8 @@ class JsonMove
     mycapture = checkpiece(t[7, 2])
     ret['capture'] = mycapture unless mycapture.nil?
 
-    case t[9]
-    when 'P' then ret['promote'] = true
-    when nil then
-    else return nil
-    end
+    return nil unless t[9].nil? || t[9] == 'P'
+    ret['promote'] = true if t[9] == 'P'
 
     ret
   end

@@ -37,7 +37,7 @@ def check_players
     errmsg += "name or e-mail address in player 2 is wrong ...<BR>\n"
   end
 
-  { errmsg: ermsg, userdata1: userdata1, userdata2: userdata2 }
+  { errmsg: errmsg, userdata1: userdata1, userdata2: userdata2 }
 end
 
 def generatenewgame_screen(header, title, name, userinfo, params)

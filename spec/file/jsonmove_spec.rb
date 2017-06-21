@@ -114,7 +114,7 @@ describe 'JsonMove' do
       )
     end
     it "has a constant 'Koma'" do
-      expect(JsonMove::Koma).to eq(%w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY])
+      expect(JsonMove::Koma).to eq %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY]
     end
     it 'checks piece' do
       expect(JsonMove.checkpiece('__')).to be nil
@@ -140,12 +140,12 @@ describe 'JsonMove' do
     it 'parses CSA-like text' do
       expect(JsonMove.fromtext('+1234FU__')).to eq(
         'from' => { 'x' => 1, 'y' => 2 },
-          'to' => { 'x' => 3, 'y' => 4 },
-          'piece' => 'FU',
-          'color' => 0,
-          # 'promote' => true
-          # 'capture' => 'UM'
-        )
+        'to' => { 'x' => 3, 'y' => 4 },
+        'piece' => 'FU',
+        'color' => 0,
+        # 'promote' => true
+        # 'capture' => 'UM'
+      )
       expect(JsonMove.fromtext('+2434HIFU')).to eq(
         'from' => { 'x' => 2, 'y' => 4 },
         'to' => { 'x' => 3, 'y' => 4 },

@@ -18,6 +18,8 @@ require './game/userinfo.rb'
 # CGI本体
 #
 class Move
+  TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n".freeze
+
   def initialize(cgi)
     @cgi = cgi
     @params = cgi.params
@@ -26,7 +28,7 @@ class Move
     @sfen = @params['sfen'][0] unless @params['sfen'].nil?
     @move = @params['jsonmove'][0] unless @params['jsonmove'].nil?
 
-    @jmv = JsonMove::fromtext(@move)
+    @jmv = JsonMove.fromtext(@move)
   end
 
   def readuserparam
@@ -55,41 +57,31 @@ class Move
   #
   def perform
     # gameid が無いよ
-    return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
+    return print TEXTPLAIN_HEAD + 'illegal access.' \
         if @gameid.nil? || @gameid.length.zero?
 
     # userinfoが変だよ
-    return print "Content-Type: text/plain; charset=UTF-8\n\nplease log in." \
+    return print TEXTPLAIN_HEAD + 'please log in.' \
         unless @userinfo.nil? || @userinfo.exist_indb
 
     tdb = TaikyokuFile.new
     tdb.read
     # 存在しないはずのIDだよ
-    return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
-        unless tdb.exist_id(@gameid)
+    return print TEXTPLAIN_HEAD + 'illegal access.' unless tdb.exist_id(@gameid)
 
     tkd = TaikyokuData.new
     tkd.setid(@gameid)
     tkd.read
 
     # 指し手を適用する
-    return print "Content-Type: text/plain; charset=UTF-8\n\ninvalid move." \
-      if tkd.mi.fromsfen(@sfen).nil?
+    return print TEXTPLAIN_HEAD + 'invalid move.' if @move.nil
+    return print TEXTPLAIN_HEAD + 'invalid move.' if tkd.mi.fromsfen(@sfen).nil?
 
     tkd.mi.write(tkd.matchinfopath)
 
-    return print "Content-Type: text/plain; charset=UTF-8\n\ninvalid move." \
-      if @move.nil
-
-    if @move[0] == '%'
-      str = @move[1, @move.length - 1]
-      tkd.jkf.spmove(str)
-      tkd.mi.setlastmove(str, Time.now.strftime('%Y/%m/%d %H:%M:%S'))
-    else
-      tkd.jkf.move(jmv)
-      tkd.mi.setlastmove(@move[0, 7],
-                         Time.now.strftime('%Y/%m/%d %H:%M:%S'))
-    end
+    tkd.jkf.move(jmv)
+    tkd.mi.setlastmove(@move[0, 7],
+                       Time.now.strftime('%Y/%m/%d %H:%M:%S'))
 
     tkd.jkf.write(tkd.kifupath)
   end

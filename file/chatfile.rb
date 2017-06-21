@@ -30,9 +30,9 @@ class ChatFile
   end
 
   def write(fpath = path)
-    File.open(@path, 'w') do |file|
+    File.open(fpath, 'w') do |file|
       file.flock File::LOCK_EX
-      file.puts @msg
+      file.puts msg
     end
   # 例外は小さい単位で捕捉する
   rescue SystemCallError => e
@@ -55,15 +55,15 @@ class ChatFile
     end
   end
 
-  def say(name, msg)
-    add "<B>#{name}</B>:#{msg}&nbsp;(#{Time.now})<BR>"
+  def say(name, mssg)
+    add "<B>#{name}</B>:#{mssg}&nbsp;(#{Time.now})<BR>"
   end
 
-  def sayex(name, msg)
-    add "#{name}:#{msg}&nbsp;(#{Time.now})<BR>"
+  def sayex(name, mssg)
+    add "#{name}:#{mssg}&nbsp;(#{Time.now})<BR>"
   end
 
   def put
-    print "Content-type:text/html;\n\n#{@msg}"
+    print "Content-type:text/html;\n\n#{msg}"
   end
 end
