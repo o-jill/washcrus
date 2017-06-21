@@ -6,15 +6,19 @@
 # チャットファイル管理クラス
 class ChatFile
   DIRPATH = './taikyoku/'.freeze
-  CHATFILE = 'chat.txt'.freeze
+  CHATFILE = '/chat.txt'.freeze
+  ERRMSG = 'ERROR:read a file at first...'.freeze
 
   def initialize(id)
     @id = id
-    @path = DIRPATH + @id + '/' + CHATFILE
+    @path = DIRPATH + @id + CHATFILE
+    @msg = ERRMSG
   end
 
-  def read
-    File.open(@path, 'r:utf-8') do |file|
+  attr_reader :id, :path, :msg
+
+  def read(fpath = path)
+    File.open(fpath, 'r:utf-8') do |file|
       file.flock File::LOCK_EX
       @msg = file.read
     end
@@ -25,7 +29,7 @@ class ChatFile
     puts "class=[#{e.class}] message=[#{e.message}] in read"
   end
 
-  def write
+  def write(fpath = path)
     File.open(@path, 'w') do |file|
       file.flock File::LOCK_EX
       file.puts @msg
@@ -37,9 +41,9 @@ class ChatFile
     puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
-  def add(line)
+  def add(line, fpath = path)
     begin
-      File.open(@path, 'a') do |file|
+      File.open(fpath, 'a') do |file|
         file.flock File::LOCK_EX
         file.puts line
       end
