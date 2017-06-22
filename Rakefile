@@ -64,7 +64,9 @@ task :add_w2d_msg do
 end
 
 task :add_x2rb do
-  chmod 0o755, 'washcrus.rb'
-  chmod 0o755, 'checknewgame.rb'
   chmod 0o755, 'chat.rb'
+  chmod 0o755, 'checknewgame.rb'
+  chmod 0o755, 'game.rb'
+  chmod 0o755, 'move.rb'
+  chmod 0o755, 'washcrus.rb'
 end
