@@ -1,4 +1,3 @@
-#!/usr/bin/ruby
 # -*- encoding: utf-8 -*-
 
 require './file/taikyokufile.rb'

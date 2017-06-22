@@ -1,4 +1,3 @@
-#!/usr/bin/ruby
 # -*- encoding: utf-8 -*-
 
 # チャットファイル管理クラス

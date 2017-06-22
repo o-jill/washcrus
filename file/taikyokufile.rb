@@ -1,4 +1,3 @@
-#!d:\ruby193\bin\ruby.exe
 # -*- encoding: utf-8 -*-
 
 require 'digest/sha2'

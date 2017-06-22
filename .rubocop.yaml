@@ -1,5 +1,12 @@
 # This file overrides https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 
+AllCops:
+  # Include:
+  #   - **/Rakefile
+  Exclude:
+    - ./tmp/*
+    - ./taikyoku/*
+
 # Use UTF-8 as the source file encoding.
 # Encoding:
 #   Enabled: false
