@@ -84,12 +84,12 @@ class MatchInfoFile
     @dt_lastmove = dt
   end
 
-  def setsfen(board, teban, tegoma, nth)
-    @sfen = "#{board} #{teban} #{tegoma} #{nth}"
-    @teban = teban
-    @tegoma = tegoma
-    @nth = nth
-  end
+  # def setsfen(board, teban, tegoma, nth)
+  #   @sfen = "#{board} #{teban} #{tegoma} #{nth}"
+  #   @teban = teban
+  #   @tegoma = tegoma
+  #   @nth = nth
+  # end
 
   def checksfen(sfenstr)
     true

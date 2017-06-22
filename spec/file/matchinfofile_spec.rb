@@ -1,0 +1,103 @@
+require 'spec_helper'
+
+require './file/matchinfofile.rb'
+
+describe 'MatchInfoFile' do
+  it "is initialized with 'game-id'" do
+    mi = MatchInfoFile.new('0123456')
+    expect(mi.gid).to eq('0123456')
+    expect(mi.idb).to eq('')
+    expect(mi.playerb).to eq('')
+    expect(mi.emailb).to eq('')
+    expect(mi.idw).to eq('')
+    expect(mi.playerw).to eq('')
+    expect(mi.emailw).to eq('')
+    expect(mi.creator).to eq('')
+    expect(mi.dt_created).to eq('')
+    expect(mi.teban).to eq('b')
+    expect(mi.tegoma).to eq('-')
+    expect(mi.nth).to eq('1')
+    expect(mi.sfen).to eq('lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1')
+    expect(mi.lastmove).to eq('-9300FU')
+    expect(mi.dt_lastmove).to eq('yyyy/mm/dd hh:mm:ss')
+  end
+  it "can change player-b" do
+    mi = MatchInfoFile.new('0123456')
+    expect(mi.idb).to eq('')
+    expect(mi.playerb).to eq('')
+    expect(mi.emailb).to eq('')
+    expect(mi.idw).to eq('')
+    expect(mi.playerw).to eq('')
+    expect(mi.emailw).to eq('')
+
+    mi.setplayerb('idid',['name', 'pw', 'em@i.l'])
+    expect(mi.idb).to eq('idid')
+    expect(mi.playerb).to eq('name')
+    expect(mi.emailb).to eq('em@i.l')
+    expect(mi.idw).to eq('')
+    expect(mi.playerw).to eq('')
+    expect(mi.emailw).to eq('')
+
+    expect(mi.setplayerb('idid', nil)).to be nil
+  end
+  it "can change player-w" do
+    mi = MatchInfoFile.new('0123456')
+    expect(mi.idb).to eq('')
+    expect(mi.playerb).to eq('')
+    expect(mi.emailb).to eq('')
+    expect(mi.idw).to eq('')
+    expect(mi.playerw).to eq('')
+    expect(mi.emailw).to eq('')
+
+    mi.setplayerw('idid',['name', 'pw', 'em@i.l'])
+    expect(mi.idb).to eq('')
+    expect(mi.playerb).to eq('')
+    expect(mi.emailb).to eq('')
+    expect(mi.idw).to eq('idid')
+    expect(mi.playerw).to eq('name')
+    expect(mi.emailw).to eq('em@i.l')
+
+    expect(mi.setplayerw('idid', nil)).to be nil
+  end
+  it "can change creator" do
+    mi = MatchInfoFile.new('0123456')
+    expect(mi.creator).to eq('')
+    expect(mi.dt_created).to eq('')
+    mi.setcreator('name', 'yyyy/mm/dd hh:mm:ss')
+    expect(mi.creator).to eq('name')
+    expect(mi.dt_created).to eq('yyyy/mm/dd hh:mm:ss')
+  end
+  it "can change lastmove" do
+    mi = MatchInfoFile.new('0123456')
+    expect(mi.lastmove).to eq('-9300FU')
+    expect(mi.dt_lastmove).to eq('yyyy/mm/dd hh:mm:ss')
+    mi.setlastmove('+7776FU__', 'YYYY/MM/DD HH:MM:SS')
+    expect(mi.lastmove).to eq('+7776FU__')
+    expect(mi.dt_lastmove).to eq('YYYY/MM/DD HH:MM:SS')
+  end
+  it "has sfen text" do
+    mi = MatchInfoFile.new('0123456')
+    expect(mi.teban).to eq('b')
+    expect(mi.tegoma).to eq('-')
+    expect(mi.nth).to eq('1')
+    expect(mi.sfen).to eq('lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1')
+    sfen = 'lnsgkgsnl/1r5b1/ppppppppp/9/9/3P5/PP1PPPPPP/1B5R1/LNSGKGSNL w - 2'
+    mi.fromsfen(sfen)
+    expect(mi.teban).to eq('w')
+    expect(mi.tegoma).to eq('-')
+    expect(mi.nth).to eq('2')
+    expect(mi.sfen).to eq(sfen)
+    sfen = 'lnsgkgsnl/1r5b1/ppppppppp/5p3/9/3P5/PP1PPPPPP/1B5R1/LNSGKGSNL b - 3'
+    mi.fromsfen(sfen)
+    expect(mi.teban).to eq('b')
+    expect(mi.tegoma).to eq('-')
+    expect(mi.nth).to eq('3')
+    expect(mi.sfen).to eq(sfen)
+    sfen = 'lnsgkgsnl/1r5B1/ppppppppp/5p3/9/3P5/PP1PPPPPP/7R1/LNSGKGSNL w B 4'
+    mi.fromsfen(sfen)
+    expect(mi.teban).to eq('w')
+    expect(mi.tegoma).to eq('B')
+    expect(mi.nth).to eq('4')
+    expect(mi.sfen).to eq(sfen)
+  end
+end
