@@ -50,12 +50,7 @@ class Move
     @header = @header.gsub("\r\n", "\n")
   end
 
-  # class methods
-
-  #
-  # 実行本体。
-  #
-  def perform
+  def check_param
     # gameid が無いよ
     return print TEXTPLAIN_HEAD + 'illegal access.' \
         if @gameid.nil? || @gameid.length.zero?
@@ -63,6 +58,21 @@ class Move
     # userinfoが変だよ
     return print TEXTPLAIN_HEAD + 'please log in.' \
         unless @userinfo.nil? || @userinfo.exist_indb
+
+    # moveが変だよ
+    return print TEXTPLAIN_HEAD + 'invalid move.' if @jmv.nil?
+
+    self
+  end
+
+  #
+  # 実行本体。
+  #
+  def perform
+    # gameid が無いよ
+    # userinfoが変だよ
+    # moveが変だよ
+    return if check_param.nil?
 
     tdb = TaikyokuFile.new
     tdb.read
@@ -74,19 +84,16 @@ class Move
     tkd.read
 
     # 指し手を適用する
-    return print TEXTPLAIN_HEAD + 'invalid move.' if @move.nil
     return print TEXTPLAIN_HEAD + 'invalid move.' if tkd.mi.fromsfen(@sfen).nil?
+
+    tkd.mi.setlastmove(@move[0, 7], Time.now.strftime('%Y/%m/%d %H:%M:%S'))
 
     tkd.mi.write(tkd.matchinfopath)
 
     tkd.jkf.move(jmv)
-    tkd.mi.setlastmove(@move[0, 7],
-                       Time.now.strftime('%Y/%m/%d %H:%M:%S'))
 
     tkd.jkf.write(tkd.kifupath)
   end
-
-  # class methods
 end
 
 # -----------------------------------

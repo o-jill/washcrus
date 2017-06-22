@@ -6,6 +6,8 @@ AllCops:
   Exclude:
     - ./tmp/*
     - ./taikyoku/*
+  TargetRubyVersion: 1.9
+
 
 # Use UTF-8 as the source file encoding.
 # Encoding:

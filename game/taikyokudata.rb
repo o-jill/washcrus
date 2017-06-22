@@ -44,6 +44,20 @@ class TaikyokuData
     @email2 = em
   end
 
+  def swtichplayers
+    idt = @id1
+    @id1 = @id2
+    @id2 = idt
+
+    playert = @player1
+    @player1 = @player2
+    @player2 = playert
+
+    emailt = @email1
+    @email1 = @email2
+    @email2 = emailt
+  end
+
   def setid(id_)
     @gid = id_
     @taikyokupath = DIRPATH + id_ + '/'

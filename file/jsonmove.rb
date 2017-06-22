@@ -64,6 +64,26 @@ class JsonMove
     cc
   end
 
+  def self.read_sengo(c)
+    case c
+    when '+' then 0
+    when '-' then 1
+      # else          nil
+    end
+  end
+
+  def self.read_fromxy(x, y)
+    return { rt: 0 } unless ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
+    ret = { rt: 1 }
+    ret[:vl] = x == '0' && y == '0' ? nil : { 'x' => x.to_i, 'y' => y.to_i }
+    ret
+  end
+
+  def self.read_toxy(x, y)
+    { 'x' => x.to_i, 'y' => y.to_i } \
+        if ('1'..'9').cover?(x) && ('1'..'9').cover?(y)
+  end
+
   # [+-][0-9][0-9][0-9][0-9]{FU|KY|KE|...}{__|FU|KY|KE|...}P?
   # %TORYO, %SENNICHITEなど
   def self.fromtext(t)
@@ -71,24 +91,17 @@ class JsonMove
 
     return unless (9..10).cover?(t.length)
 
-    case t[0]
-    when '+' then mycolor = 0
-    when '-' then mycolor = 1
-    else          return nil
-    end
+    mycolor = read_sengo(t[0])
+    return nil if mycolor.nil?
     ret = { 'color' => mycolor }
 
-    x = t[1]
-    y = t[2]
-    return nil unless ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
+    fxy = read_fromxy(t[1], t[2])
+    return nil if fxy[:rt].zero?
+    ret['from'] = fxy[:vl]
 
-    fxy = { 'x' => x.to_i, 'y' => y.to_i } unless x == '0' && y == '0'
-    ret['from'] = fxy
-
-    x = t[3]
-    y = t[4]
-    return nil unless ('1'..'9').cover?(x) && ('1'..'9').cover?(y)
-    ret['to'] = { 'x' => x.to_i, 'y' => y.to_i }
+    txy = read_toxy(t[3], t[4])
+    return nil if txy.nil?
+    ret['to'] = txy
 
     mypiece = checkpiece(t[5, 2])
     return nil if mypiece.nil?

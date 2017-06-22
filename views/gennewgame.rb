@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-
 require './file/chatfile.rb'
 require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
@@ -47,6 +46,13 @@ def check_newgame(params)
   check_players(name1, email1, name2, email2)
 end
 
+def put_err_sreen(header, title, name, errmsg)
+  CommonUI::HTMLHead(header, title)
+  CommonUI::HTMLmenu(name)
+  puts errmsg
+  CommonUI::HTMLfoot()
+end
+
 def generatenewgame_screen(header, title, name, userinfo, params)
   #
   # 対局作成確認
@@ -54,31 +60,22 @@ def generatenewgame_screen(header, title, name, userinfo, params)
 
   ret = check_newgame(params)
   errmsg = ret[:errmsg]
-  unless errmsg.length.zero?
-    userdata1 = ret[:userdata1]
-    userdata2 = ret[:userdata2]
-  end
 
   errmsg += "your log-in information is wrong ...\n" \
       if userinfo.nil? || userinfo.invalid?
 
-  if errmsg != ''
-    CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenu(name)
-    puts errmsg
-    return CommonUI::HTMLfoot()
-  end
+  return put_err_sreen(header, title, name, errmsg) if errmsg != ''
+
+  userdata1 = ret[:userdata1]
+  userdata2 = ret[:userdata2]
 
   td = TaikyokuData.new
-  if furifusen(params['furigoma'][0])
-    td.setplayer1(userdata1[0], name1, email1)
-    td.setplayer2(userdata2[0], name2, email2)
-  else
-    td.setplayer1(userdata2[0], name2, email2)
-    td.setplayer2(userdata1[0], name1, email1)
-  end
 
-  td.creator = userinfo.user_name + '(' + userinfo.user_id + ')'
+  td.setplayer1(userdata1[0], name1, email1)
+  td.setplayer2(userdata2[0], name2, email2)
+  td.switchplayers unless furifusen(params['furigoma'][0])
+
+  td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
 
   td.generate
 
