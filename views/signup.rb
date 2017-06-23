@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
 
+require 'rubygems'
 require './game/userinfo.rb'
 require './views/common_ui.rb'
 
 def show_tableform
-  print <<-TABLE_FORM
+  print <<-TABLE_FORM.unindent
   <FORM action='#{File.basename($PROGRAM_NAME)}?register' method=post name='signup'>
   <TABLE class='inpform'>
   <TR id='trname'>

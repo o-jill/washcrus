@@ -1,11 +1,12 @@
 # -*- encoding: utf-8 -*-
 
+require 'rubygems'
 require './game/userinfo.rb'
 require './views/common_ui.rb'
 
 def show_newgameform
   scriptname = File.basename($PROGRAM_NAME)
-  print <<-FORM_NEW_GAME
+  print <<-FORM_NEW_GAME.unindent
     <FORM action='#{scriptname}?gennewgame' method=post name='gennewgame'>
     <TABLE class='inpform'>
      <TR id='player1'>

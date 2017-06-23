@@ -20,3 +20,4 @@ required "gem"s
   * mail
   * rake
   * rspec
+  * unindent

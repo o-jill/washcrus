@@ -1,10 +1,12 @@
 # -*- encoding: utf-8 -*-
 
+require 'rubygems'
+
 require './game/userinfo.rb'
 require './views/common_ui.rb'
 
 def put_login_form
-  print <<-TABLE_FORM
+  print <<-TABLE_FORM.unindent
     <FORM action='#{File.basename($PROGRAM_NAME)}?logincheck' method=post name='signin'>
     <TABLE align='center' class='inpform'>
     <TR id='siemail'>

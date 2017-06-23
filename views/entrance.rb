@@ -1,11 +1,12 @@
 # -*- encoding: utf-8 -*-
 
+require 'rubygems'
 require './game/userinfo.rb'
 require './views/common_ui.rb'
 
 # LOGO
 def show_logo
-  print <<-LOGO_TEXT
+  print <<-LOGO_TEXT.unindent
     <TABLE bgcolor='#cc9933' align='center' bordercolor='black' border='0' frame='void' rules='all'>
      <TR><TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD>
       <TD></TD>
@@ -29,15 +30,15 @@ end
 
 def test_area
   scriptname = File.basename($PROGRAM_NAME)
-  print <<-TEST_AREA
-  <span id=signup><A href='#{scriptname}?signup'>signup</a></span><BR>
-  <span id=signin><A href='#{scriptname}?login'>signin</a></span><BR>
-  <span id=users><A href='#{scriptname}?userlist'>users</a></span><BR>
-  <span id=matchs><A href='#{scriptname}?matchlist'>matchs</a></span><BR>
-  <span id=signout><A href='#{scriptname}?logout'>signout</a></span><BR>
-  <span id=create><A href='#{scriptname}?newgame'>newgame</a></span><BR>
-  <A href='washcrus.rb?anywhere'>anywhere</a>
-TEST_AREA
+  print <<-TEST_AREA.unindent
+    <span id=signup><A href='#{scriptname}?signup'>signup</a></span><BR>
+    <span id=signin><A href='#{scriptname}?login'>signin</a></span><BR>
+    <span id=users><A href='#{scriptname}?userlist'>users</a></span><BR>
+    <span id=matchs><A href='#{scriptname}?matchlist'>matchs</a></span><BR>
+    <span id=signout><A href='#{scriptname}?logout'>signout</a></span><BR>
+    <span id=create><A href='#{scriptname}?newgame'>newgame</a></span><BR>
+    <A href='washcrus.rb?anywhere'>anywhere</a>
+    TEST_AREA
 end
 
 def show_visitcount(blogin, userinfo)

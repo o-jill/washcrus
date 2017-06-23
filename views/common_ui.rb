@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+require 'rubygems'
+
 #
 # UI parts used in common
 #
@@ -7,7 +9,7 @@ module CommonUI
   # HTMLヘッダ出力
   def self.HTMLHead(header, title)
     print header
-    print <<-HEADER_TAG
+    print <<-HEADER_TAG.unindent
       <HTML lang=ja>
       <HEAD>
        <TITLE>#{title}</TITLE>
@@ -21,7 +23,7 @@ module CommonUI
 
   # HTMLヘッダ出力(no cookie)
   def self.HTMLHead2(title)
-    print <<-HEADER2_TAG
+    print <<-HEADER2_TAG.unindent
       Content-Type: text/html; charset=UTF-8
 
       <HTML lang=ja>
