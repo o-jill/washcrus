@@ -38,7 +38,6 @@ class Game
                                     'session_key' => '_washcrus_session',
                                     'tmpdir' => './tmp'
                                   })
-      # @session.delete
     rescue ArgumentError
       # @session = nil
     end
@@ -60,6 +59,7 @@ class Game
   # 実行本体。
   #
   def perform
+
     # gameid が無いよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
         if @gameid.nil? || @gameid.length.zero?
