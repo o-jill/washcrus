@@ -92,14 +92,26 @@ class MatchInfoFile
   # end
 
   def checksfen(sfenstr)
-    true
+    dan = sfenstr.split('/')
+    return nil if dan.length != 9
+    dan.each do |line|
+      nine = 9
+      line.each_char do |chr|
+        case chr
+        when '1'..'9' then nine -= chr.to_i
+        when '+' then next
+        else nine -= 1
+        end
+      end
+      return nil unless nine.zero?
+    end
   end
 
   def fromsfen(sfenstr)
     item = sfenstr.split(' ')
 
     return if item.length != 4
-    return if item[0].count('/') != 8
+    return if checksfen(item[0]).nil?
 
     @sfen = sfenstr
     @teban = item[1]
