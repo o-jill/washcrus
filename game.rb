@@ -59,7 +59,6 @@ class Game
   # 実行本体。
   #
   def perform
-
     # gameid が無いよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
         if @gameid.nil? || @gameid.length.zero?

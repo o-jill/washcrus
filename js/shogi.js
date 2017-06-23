@@ -1950,7 +1950,7 @@ function move(masu, to_x, to_y, nari) {
   }
  }
 
- tottaid = mikifu.totta_id;
+ tottaid = mykifu.totta_id;
 
  mykifu.genKifu(masu.koma, from_x, from_y, to_x, to_y, nari);
  //console.log(mykifu.genKifu(masu.koma, from_x, from_y, to_x, to_y, nari));

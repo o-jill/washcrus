@@ -169,7 +169,7 @@ window.onbeforeunload = function(e) {
 /**
  * ページ読み込み時に最初に呼ばれる
  */
-window.onload = function() {
+function gethtmlelement() {
  document.onmousemove = mousemove;
 
  // 盤の設定
@@ -460,27 +460,12 @@ window.onload = function() {
  narimenu_funari.onclick = clicknarazu;
  wait_narimenu = false;
 
- // kifuArea = document.getElementById('kifuArea');
- // kifuType = document.getElementById('kifuType');
- // kifuType.onchange = kifutype;
- // analysisArea = document.getElementById('analysisArea');
-
  nameSente = document.getElementById('sentename');
  nameGote = document.getElementById('gotename');
 
- initKoma();
- update_screen();
+ // initKoma();
+ // update_screen();
 };
-
-/**
- * @param {Object} obj 棋譜形式を表す<SELECT>要素
- */
-function kifutype(obj) {
- mykifu.mode = kifuType.selectedIndex + 1;
- console.log('obj.selectedIndex:' + kifuType.selectedIndex);
- console.log('mykifu.mode:' + mykifu.mode);
-}
-
 
 /**
  * カーソルが乗っているマスを強調する。
@@ -1034,7 +1019,7 @@ function start_kyoku() {
  }
  taikyokuchu = true;
  // activeteban = Koma.SENTEBAN;
- mykifu.putHeader(nameSente.value, nameGote.value);
+ // mykifu.putHeader(nameSente.value, nameGote.value);
  update_screen();
  taikyokuchu_timer = setInterval('taikyokuchu_tmout()', 500);
 }
@@ -1067,75 +1052,75 @@ function giveup() {
 /**
  * 現局面の出力
  */
-function current_status() {
- kifuArea.innerText = KyokumenKIF() + KyokumenCSA();
-}
+// function current_status() {
+//  kifuArea.innerText = KyokumenKIF() + KyokumenCSA();
+// }
 
 /**
  * 1手進める
  */
-function kanso_next() {
- if (taikyokuchu == true) {
-  return;
- }
- mykifu.next_te();
- update_screen();
-}
+// function kanso_next() {
+//  if (taikyokuchu == true) {
+//   return;
+//  }
+//  mykifu.next_te();
+//  update_screen();
+// }
 
 /**
  * 1手戻す
  */
-function kanso_prev() {
- if (taikyokuchu == true) {
-  return;
- }
- mykifu.prev_te();
- update_screen();
-}
+// function kanso_prev() {
+//  if (taikyokuchu == true) {
+//   return;
+//  }
+//  mykifu.prev_te();
+//  update_screen();
+// }
 
 /**
  * 5手進める
  */
-function kanso_next2() {
- if (taikyokuchu == true) {
-  return;
- }
- mykifu.seek_te(mykifu.NTeme + 5);
- update_screen();
-}
+// function kanso_next2() {
+//  if (taikyokuchu == true) {
+//   return;
+//  }
+//  mykifu.seek_te(mykifu.NTeme + 5);
+//  update_screen();
+// }
 
 /**
  * 5手戻す
  */
-function kanso_prev2() {
- if (taikyokuchu == true) {
-  return;
- }
- mykifu.seek_te(mykifu.NTeme - 5);
- update_screen();
-}
+// function kanso_prev2() {
+//  if (taikyokuchu == true) {
+//   return;
+//  }
+//  mykifu.seek_te(mykifu.NTeme - 5);
+//  update_screen();
+// }
 
 /**
  * 初手に戻す
  */
-function kanso_opened() {
- if (taikyokuchu == true) {
-  return;
- }
- mykifu.shote();
- update_screen();
-}
+// function kanso_opened() {
+//  if (taikyokuchu == true) {
+//   return;
+//  }
+//  mykifu.shote();
+//  update_screen();
+// }
 
 /**
  * 最新の局面にする。
  */
-function kanso_last() {
- if (taikyokuchu == true) {
-  return;
- }
- mykifu.last_te();
- update_screen();
-}
+// function kanso_last() {
+//  if (taikyokuchu == true) {
+//   return;
+//  }
+//  mykifu.last_te();
+//  update_screen();
+// }
 
 /**
  * ひふみんEyeを切り替える
@@ -1489,8 +1474,6 @@ function fromsfen() {
  } else {
   // keep current teban
  }
- mykifu.reset();
- update_screen();
 }
 
 /**
@@ -1603,3 +1586,17 @@ function gensfen() {
 
  sfenarea.value = sfentext;
 }
+
+/**
+ * sfenを読み込んで指せる状態にする。
+ */
+function init_board() {
+ gethtmlelement();
+ var sfentext = document.getElementById('sfen');
+ fromsfen(sfentext);
+ mykifu.reset();
+ taikyokuchu = true;
+ update_screen();
+}
+
+init_board();

@@ -15,7 +15,7 @@ span.err{ font-size: 2rem; border: 1px solid red; }
   overflow: hidden; width: 500px;
 }
 table.ban, table.sentegoma, table.gotegoma {
-background-image: url("./image/wood03.jpg");
+background-image: url("../image/wood03.jpg");
 border-collapse: collapse;
 }
 table.ban {

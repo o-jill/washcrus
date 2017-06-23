@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-require 'rubygems'
+require 'unindent'
 
 #
 # UI parts used in common

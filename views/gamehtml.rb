@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 require 'rubygems'
+require 'unindent'
 require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
 require './game/userinfo.rb'
@@ -68,11 +69,17 @@ HTMLELEMENTS
         <td id='sg_hisha_img' width='45'>飛車</td><td id='sg_hisha_num' align='center'>0</td>
        </tr>
       </table>
+      <div id="narimenu" style="border:2px solid black; position:absolute; visibility:hidden; background-Color:gray;" width="100">
+       <div align="center">
+        <span id="naru" style="color:red;">&nbsp;成り&nbsp;</span>
+        <HR>
+        <span id="narazu">&nbsp;不成&nbsp;</span>
+       </div>
+      </div>
       <label><input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'>ひふみんアイ</input></label>
-      <script type='text/javascript' src='./js/shogi.js' defer></script>
-      <script type='text/javascript' src='./js/ui.js' defer></script>
+      <script type='text/javascript' src='./js/shogi.js'></script>
+      <script type='text/javascript' src='./js/ui.js' async></script>
       BOARD_TEXT
-
     ret += "<input type='text' size ='60' id='sfen' value='#{@mi.sfen}'/><BR>"
     ret += "<input type='text' size ='10' id='jsonmove' value=''/><BR>"
     if @mi.idb == @userinfo.user_id && @mi.teban == 'b'
