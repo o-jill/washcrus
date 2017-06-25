@@ -748,6 +748,7 @@ function absclick(x, y) {
      uchi(activetegoma, activekoma, x, y);
      activeuchi(null, -1);
      update_screen();
+     record_your_move();
     } else {
      // toru(取らないけど)
      toru(x, y);
@@ -757,10 +758,12 @@ function absclick(x, y) {
       move(activemasu, x, y, Koma.NARAZU);
       activecell(null, null);
       update_screen();
+      record_your_move();
      } else if (nareru == Koma.NARU) {
       move(activemasu, x, y, Koma.NARI);
       activecell(null, null);
       update_screen();
+      record_your_move();
      } else if (nareru == Koma.NARERU) {
       // ユーザに聞く
       narimenu_tox = x;
@@ -790,10 +793,12 @@ function absclick(x, y) {
      move(activemasu, x, y, Koma.NARAZU);
      activecell(null, null);
      update_screen();
+     record_your_move();
     } else if (nareru == Koma.NARU) {
      move(activemasu, x, y, Koma.NARI);
      activecell(null, null);
      update_screen();
+     record_your_move();
     } else if (nareru == Koma.NARERU) {
      // ユーザに聞く
      narimenu_tox = x;
@@ -968,8 +973,8 @@ function clicknari() {
 
  wait_narimenu = false;
  narimenu.style.visibility = 'hidden';
-
  update_screen();
+ record_your_move();
 }
 
 /**
@@ -981,8 +986,8 @@ function clicknarazu() {
 
  wait_narimenu = false;
  narimenu.style.visibility = 'hidden';
-
  update_screen();
+ record_your_move();
 }
 
 /**
@@ -1600,3 +1605,53 @@ function init_board() {
 }
 
 init_board();
+
+function buildMoveMsg()
+{
+    ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen').value);
+    ret += '&jsonmove=' + encodeURIComponent(movecsa);
+
+    return ret;
+}
+
+function send_csamove()
+{
+  var ajax = new XMLHttpRequest();
+  if (ajax != null) {
+    ajax.open('POST', 'move.rb?'+id, true);
+    ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    ajax.send(buildMoveMsg());
+
+    ajax.onreadystatechange = function () {
+      switch (ajax.readyState) {
+      case 4:
+        var status = ajax.status;
+    	if (status == 0) {  // XHR 通信失敗
+    	  elem_log.innerHTML = "XHR 通信失敗";
+    	} else {  // XHR 通信成功
+    	  if ((200 <= status && status < 300) || status == 304) {
+            // リクエスト成功
+            location.reload();
+    	  } else {  // リクエスト失敗
+    		elem_log.innerHTML = "その他の応答:" + status;
+    	  }
+    	}
+    	break;
+      }
+    };
+    ajax.onload = function(e) {
+      utf8text = ajax.responseText;
+    };
+  }
+}
+
+function record_your_move()
+{
+ taikyokuchu = false;
+
+ gensfen();
+
+ send_csamove();
+
+ recieve_by_ajax();
+}
