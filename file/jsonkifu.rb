@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 require 'json'
-require 'jkf'
-
+# require 'jkf'
+require 'rubygems'
 #
 # JSON棋譜管理クラス
 #

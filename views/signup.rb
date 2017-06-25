@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
-
-require 'unindent'
+require 'rubygems'
+# require 'unindent'
 require './game/userinfo.rb'
 require './views/common_ui.rb'
 

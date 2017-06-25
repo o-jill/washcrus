@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 
-# require 'rubygems'
+require 'rubygems'
 require 'yaml'
 require 'digest/sha2'
-require 'mail'
+# require 'mail'
 
 require './file/userinfofile.rb'
 require './views/common_ui.rb'
