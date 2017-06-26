@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
-require 'json'
-# require 'jkf'
 require 'rubygems'
+require 'json'
+require 'jkf'
 #
 # JSON棋譜管理クラス
 #
@@ -74,11 +74,12 @@ class JsonKifu
   def read(path)
     File.open(path, 'r:utf-8') do |file|
       data = JSON.parse(file.read)
-
       @header = data['header']
       @moves = data['moves']
       @initial = data['initial']
     end
+  rescue
+    return nil
   end
 
   def initial_write(pl1, pl2, cdt, path)

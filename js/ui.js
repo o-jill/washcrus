@@ -153,20 +153,6 @@ function mousemove(e) {
 }
 
 /**
- * ページから抜ける時に確認
- *
- * @param {Event} e イベント
- *
- * @return {String} ページから抜ける時に表示する文字
- */
-window.onbeforeunload = function(e) {
- if (taikyokuchu === false) {
-  return;
- }
- return '終了しますか？';
-};
-
-/**
  * ページ読み込み時に最初に呼ばれる
  */
 function gethtmlelement() {
@@ -1143,15 +1129,15 @@ function fromsfen() {
  initKomaEx();
 
  var sfenitem = sfenarea.value.split(' ');
- var sz = sfenitem.length;
- for (var i = 1; i < sz; ++i) {
-  console.log(sfenitem[i]);
- }
+ // var sz = sfenitem.length;
+ // for (var i = 1; i < sz; ++i) {
+ //  console.log(sfenitem[i]);
+ // }
  var bandan = sfenitem[0].split('/');
- sz = bandan.length;
- for (var i = 0; i < sz; ++i) {
-  console.log(bandan[i]);
- }
+ // sz = bandan.length;
+ // for (var i = 0; i < sz; ++i) {
+ //  console.log(bandan[i]);
+ // }
  var sfenkoma = function(dan, ndan) {
   var result = [];
   var len = dan.length;
@@ -1592,6 +1578,12 @@ function gensfen() {
  sfenarea.value = sfentext;
 }
 
+function activateteban()
+{
+ var teban = document.getElementById('myturn').value;
+ if (teban != "0")  taikyokuchu = true;
+}
+
 /**
  * sfenを読み込んで指せる状態にする。
  */
@@ -1600,7 +1592,9 @@ function init_board() {
  var sfentext = document.getElementById('sfen');
  fromsfen(sfentext);
  mykifu.reset();
- taikyokuchu = true;
+
+ activateteban();
+
  update_screen();
 }
 
@@ -1614,30 +1608,38 @@ function buildMoveMsg()
     return ret;
 }
 
+var tsushinchu = false;
+
 function send_csamove()
 {
   var ajax = new XMLHttpRequest();
   if (ajax != null) {
+    tsushinchu = true;
+    activatefogscreen();
     ajax.open('POST', 'move.rb?'+id, true);
     ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     ajax.send(buildMoveMsg());
-
     ajax.onreadystatechange = function () {
-      switch (ajax.readyState) {
-      case 4:
-        var status = ajax.status;
-    	if (status == 0) {  // XHR 通信失敗
-    	  elem_log.innerHTML = "XHR 通信失敗";
-    	} else {  // XHR 通信成功
-    	  if ((200 <= status && status < 300) || status == 304) {
-            // リクエスト成功
-            location.reload();
-    	  } else {  // リクエスト失敗
-    		elem_log.innerHTML = "その他の応答:" + status;
-    	  }
-    	}
-    	break;
+     tsushinchu = false;
+     var msg = document.getElementById('msg_fogscreen');
+     switch (ajax.readyState) {
+     case 4:
+      var status = ajax.status;
+      if (status == 0) {  // XHR 通信失敗
+       msg.innerHTML += "XHR 通信失敗\n自動的にリロードします。";
+        location.reload();
+      } else {  // XHR 通信成功
+       if ((200 <= status && status < 300) || status == 304) {
+        // リクエスト成功
+    	msg.innerHTML = "通信完了。\n自動的にリロードします。";
+        location.reload();
+       } else {  // リクエスト失敗
+    	msg.innerHTML += "その他の応答:" + status + "\n自動的にリロードします。";
+        location.reload();
+       }
       }
+      break;
+     }
     };
     ajax.onload = function(e) {
       utf8text = ajax.responseText;
@@ -1652,6 +1654,34 @@ function record_your_move()
  gensfen();
 
  send_csamove();
-
- recieve_by_ajax();
 }
+
+function activatefogscreen()
+{
+ block_elem_ban = document.getElementById('block_elem_ban');
+ scr = document.getElementById('fogscreen');
+ scr.style.zIndex = 0;
+ scr.style.visibility = 'visible';
+ scr.style.left = block_elem_ban.style.left;
+ scr.style.top = block_elem_ban.style.top;
+ scr.style.width = block_elem_ban.style.width;
+ scr.style.clientHeight = block_elem_ban.style.clientHeight;
+
+ msgscr = document.getElementById('msg_fogscreen');
+ msgscr.style.zIndex = 0;
+ msgscr.style.visibility = 'visible';
+}
+
+/**
+ * ページから抜ける時に確認
+ *
+ * @param {Event} e イベント
+ *
+ * @return {String} ページから抜ける時に表示する文字
+ */
+window.onbeforeunload = function(e) {
+ if (tsushinchu === false) {
+  return;
+ }
+ return '通信中に終了すると指し手が登録されない恐れがあります。\n終了しますか？';
+};

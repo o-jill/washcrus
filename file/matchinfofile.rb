@@ -123,10 +123,14 @@ class MatchInfoFile
     data = YAML.load_file(path)
 
     @gid = data[:gid]
+    return nil if @gid.nil?
+
     setcreator(data[:creator], data[:dt_created])
     setplayers(data[:idb], data[:idw])
     fromsfen(data[:sfen])
     setlastmove(data[:lastmove], data[:dt_lastmove])
+  rescue
+    return nil
   end
 
   def initial_write(id_b, id_w, creator, cdt, path)

@@ -137,11 +137,12 @@ class TaikyokuData
   def read
     # データを読み込んで
     @mi = MatchInfoFile.new(@gid)
-    @mi.read(matchinfopath)
+    return nil if @mi.read(matchinfopath).nil?
     @jkf = JsonKifu.new(@gid)
-    @jkf.read(kifupath)
+    return nil if @jkf.read(kifupath).nil?
     # @chat = ChatFile.new(@gameid)
     # @chat.read()
+    self
   end
 
   def dump

@@ -23,12 +23,19 @@ class GameHtml
       <body><center>洗足池</center><HR>
       <div class=gamearea>
        <div class=block>
-        <div class='block_elem_ban'> #{banelement} </div>
+        <div class='block_elem_ban' id='block_elem_ban'> #{banelement} </div>
         <div class='block_elem_kifu'> #{kifuelement} </div>
        </div>
        #{chatelement}
       </div>
       <HR><div style='text-align:right;'>ぢるっち(c)2017</div>
+      <div class='fogscreen' id='fogscreen'>
+       <section class='msg_fogscreen' id='msg_fogscreen'>
+        <BIG>sending data to server..</BIG><img src='image/komanim.gif'>
+       </section>
+      </div>
+<div style="align-items: center; -webkit-align-items: center; justify-content: center; -webkit-justify-content: center; display: -webkit-flex; position:absolute; visibility:hidden; background-Color:white; opacity: 0.8; width:100%; height:100%;" id="fogscreen">
+</div>
       </body></html>
 HTMLELEMENTS
   end
@@ -84,8 +91,12 @@ HTMLELEMENTS
     ret += "<input type='text' size ='10' id='jsonmove' value=''/><BR>"
     if @mi.idb == @userinfo.user_id && @mi.teban == 'b'
       ret += "先手の#{@userinfo.user_name}さんの手番です。"
+      ret += "<input type='hidden' id='myturn' value='1'/>"
     elsif @mi.idw == @userinfo.user_id && @mi.teban == 'w'
       ret += "後手の#{@userinfo.user_name}さんの手番です。"
+      ret += "<input type='hidden' id='myturn' value='1'/>"
+    else
+      ret += "<input type='hidden' id='myturn' value='0'/>"
     end
 
     ret

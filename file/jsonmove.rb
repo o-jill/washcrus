@@ -87,6 +87,8 @@ class JsonMove
   # [+-][0-9][0-9][0-9][0-9]{FU|KY|KE|...}{__|FU|KY|KE|...}P?
   # %TORYO, %SENNICHITEなど
   def self.fromtext(t)
+    return if t.nil?
+
     return fromtextspecital(t) if t[0] == '%'
 
     return unless (9..10).cover?(t.length)
