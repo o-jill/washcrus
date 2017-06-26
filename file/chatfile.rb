@@ -39,17 +39,15 @@ class ChatFile
   end
 
   def add(line, fpath = path)
-    begin
-      File.open(fpath, 'a') do |file|
-        file.flock File::LOCK_EX
-        file.puts line
-      end
-    # 例外は小さい単位で捕捉する
-    rescue SystemCallError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in write"
-    rescue IOError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in write"
+    File.open(fpath, 'a') do |file|
+      file.flock File::LOCK_EX
+      file.puts line
     end
+  # 例外は小さい単位で捕捉する
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
   def say(name, mssg)
