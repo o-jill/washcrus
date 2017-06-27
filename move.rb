@@ -37,6 +37,8 @@ class Move
     @log.debug('Move.initialized')
   end
 
+ attr_reader :log
+
   def readuserparam
     @log.debug('Move.readuserparam')
     begin
@@ -118,11 +120,17 @@ end
 #
 
 cgi = CGI.new
-
+begin
 move = Move.new(cgi)
 move.readuserparam
 move.perform
-
+rescue ScriptError => e
+    move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+rescue SecurityError => e
+    move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+rescue e
+    move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+end
 # -----------------------------------
 #   testing
 #
