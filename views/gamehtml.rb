@@ -105,6 +105,9 @@ HTMLELEMENTS
   def headerelement
     "<head><title>washcrus #{@mi.playerb} vs #{@mi.playerw}</title>" \
       "<META http-equiv='Content-Type' content='text/html; charset=UTF-8' >" \
+      "<meta http-equiv='Pragma' content='no-chache' />" \
+      "<meta http-equiv='cache-control' content='no-cache' />" \
+      "<meta http-equiv='expires' content='0' />" \
       "<link rel='shortcut icon' href='./image/favicon.ico' />" \
       "<link rel='stylesheet' type='text/css' href='./css/washcrus.css'>" \
       "<!-- script type='text/javascript' defer src=''></script --></head>"

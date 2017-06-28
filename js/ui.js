@@ -1530,8 +1530,8 @@ function gensfen() {
  // 手駒
  var sfen_gentegomatext = function(sentekomadai, gotekomadai) {
   var sfentegomatext = '';
-  var komatblb = 'PLNSGHK';
-  var komatblw = 'plnsghk';
+  var komatblb = 'PLNSGBR';
+  var komatblw = 'plnsgbr';
   for (var i = 0; i < 7; ++i) {
    var num = sentekomadai[i][0].length;
    if (num > 2) {
