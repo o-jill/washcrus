@@ -2080,7 +2080,7 @@ function uchi(tegoma, koma, to_x, to_y) {
  }
 
  movecsa = '';
- if (masu.koma.teban == Koma.SENTEBAN) {
+ if (k.teban == Koma.SENTEBAN) {
   movecsa += Koma.SenteStrCSA;
  } else {
   movecsa += Koma.GoteStrCSA;
@@ -2088,7 +2088,7 @@ function uchi(tegoma, koma, to_x, to_y) {
  movecsa += '00';
  movecsa += to_x + 1;
  movecsa += to_y + 1;
- movecsa += masu.koma.strtypeCSA;
+ movecsa += k.strtypeCSA;
  movecsa += '__';
 }
 
