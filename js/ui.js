@@ -1124,11 +1124,11 @@ function check_hifumin_eye() {
 /**
  *
  */
-function fromsfen() {
- var sfenarea = document.getElementById('sfen');
+function fromsfen(sfentext) {
+ // var sfenarea = document.getElementById('sfen');
  initKomaEx();
 
- var sfenitem = sfenarea.value.split(' ');
+ var sfenitem = sfentext.split(' ');
  // var sz = sfenitem.length;
  // for (var i = 1; i < sz; ++i) {
  //  console.log(sfenitem[i]);
@@ -1471,7 +1471,6 @@ function fromsfen() {
  *
  */
 function gensfen() {
- var sfenarea = document.getElementById('sfen');
  // 盤
  var sfen_genbantext = function(shogiban) {
   var shogibantext = [];
@@ -1575,7 +1574,10 @@ function gensfen() {
  sfentext += ' ';
  sfentext += '1';  // 何手目
 
- sfenarea.value = sfentext;
+ // var sfenarea = document.getElementById('sfen');
+ // sfenarea.value = sfentext;
+ var sfenarea = document.getElementById('sfen_');
+ sfenarea.innerHTML = sfentext;
 }
 
 function activateteban()
@@ -1589,7 +1591,7 @@ function activateteban()
  */
 function init_board() {
  gethtmlelement();
- var sfentext = document.getElementById('sfen');
+ var sfentext = document.getElementById('sfen_').innerHTML;
  fromsfen(sfentext);
  mykifu.reset();
 
@@ -1602,8 +1604,9 @@ init_board();
 
 function buildMoveMsg()
 {
-    ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen').value);
-    ret += '&jsonmove=' + encodeURIComponent(movecsa);
+  ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen_').innerHTML);
+  // ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen').value);
+  ret += '&jsonmove=' + encodeURIComponent(movecsa);
 
     return ret;
 }
