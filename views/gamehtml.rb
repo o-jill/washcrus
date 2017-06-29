@@ -87,10 +87,10 @@ HTMLELEMENTS
       <script type='text/javascript' src='./js/shogi.js'></script>
       <script type='text/javascript' src='./js/ui.js' async></script>
       BOARD_TEXT
-    ret += "<span id='sfen_'>#{@mi.sfen}</span>"
+    ret += "<span style='display:none;' id='sfen_'>#{@mi.sfen}</span>"
     # ret += "<input type='text' size ='60' id='sfen'>#{@mi.sfen}</input><BR>"
     # ret += "<input type='text' size ='60' id='sfen' value='#{@mi.sfen}'/><BR>"
-    ret += "<input type='text' size ='10' id='jsonmove' value=''/><BR>"
+    ret += "<input type='hidden' size ='10' id='jsonmove' value=''/><BR>"
     if @mi.idb == @userinfo.user_id && @mi.teban == 'b'
       ret += "先手の#{@userinfo.user_name}さんの手番です。"
       ret += "<input type='hidden' id='myturn' value='1'/>"
