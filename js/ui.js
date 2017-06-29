@@ -635,12 +635,23 @@ function activatemovable(b) {
  } else {
   c = banColor;
  }
- for (var idx in activemovable) {
-  var x = activemovable[idx][0];
-  var y = activemovable[idx][1];
-  var masui = ban[x][y].el;
-  if (masui != null) {
-   masui.style.backgroundColor = c;
+ if (hifumin_eye) {
+  for (var idx in activemovable) {
+   var x = 8 - activemovable[idx][0];
+   var y = 8 - activemovable[idx][1];
+   var masui = ban[x][y].el;
+   if (masui != null) {
+    masui.style.backgroundColor = c;
+   }
+  }
+ } else {
+  for (var idx in activemovable) {
+   var x = activemovable[idx][0];
+   var y = activemovable[idx][1];
+   var masui = ban[x][y].el;
+   if (masui != null) {
+    masui.style.backgroundColor = c;
+   }
   }
  }
 }
@@ -666,7 +677,7 @@ function setactivecell(masui, b) {
  * @param {Object} masu  対象のマス
  * @param {Object} masui 対象のマス目の見た目
  */
-function activecell(masu, masui) {
+function activecell(koma, masu, masui) {
  if (activemasu != null) {
   setactivecell(activemasui, false);
   if (activemasu != masu) {
@@ -683,11 +694,14 @@ function activecell(masu, masui) {
 
  activemasu = masu;
  activemasui = masui;
- activekoma = masu.koma;
+ activekoma = koma;
 
  setactivecell(masui, true);
-
- activemovable = activemasu.koma.getMovable(activemasu.x, activemasu.y);
+ if (hifumin_eye) {
+   activemovable = koma.getMovable(8 - masu.x, 8 - masu.y);
+ } else {
+  activemovable = koma.getMovable(masu.x, masu.y);
+ }
  activatemovable(true);
 }
 
@@ -704,20 +718,28 @@ function absclick(x, y) {
  if (wait_narimenu) {
   return;
  }
+ var koma;
+ if (hifumin_eye) {
+   hx = 8 - x;
+   hy = 8 - y;
+   koma = ban[hx][hy].koma;
+ } else {
+   koma = ban[x][y].koma;
+ }
  var masu = ban[x][y];
  var masui = ban[x][y].el;
  if (activemasu == masu) {
-  activecell(null, null);
+  activecell(null, null, null);
  } else {
   if (activemasu == null) {
-   if ((masu.koma.teban != Koma.AKI) && (masu.koma.teban == activeteban)) {
-    activecell(masu, masui);
+   if ((koma.teban != Koma.AKI) && (koma.teban == activeteban)) {
+    activecell(koma, masu, masui);
    // } else {
     // nothing to do
    }
-  } else if (activemasu.koma.teban == masu.koma.teban) {
-   activecell(masu, masui);
-  } else if (masu.koma.teban == Koma.AKI) {
+  } else if (activemasu.koma.teban == koma.teban) {
+   activecell(koma, masu, masui);
+  } else if (koma.teban == Koma.AKI) {
    var ismovable = false;
    for (var idx in activemovable) {
     if (activemovable[idx][0] == x && activemovable[idx][1] == y) {
@@ -727,7 +749,7 @@ function absclick(x, y) {
    }
    if (ismovable == false) {
     // 選択キャンセル
-    activecell(null, null);
+    activecell(null, null, null);
    } else {
     if (activemasu.x == -1) {
      // uchi
@@ -742,7 +764,7 @@ function absclick(x, y) {
      var nareru = activemasu.koma.checkNari(activemasu.y, y);
      if (nareru == Koma.NARENAI || nareru == Koma.NATTA) {
       move(activemasu, x, y, Koma.NARAZU);
-      activecell(null, null);
+      activecell(null, null, null);
       update_screen();
       record_your_move();
      } else if (nareru == Koma.NARU) {
@@ -768,7 +790,7 @@ function absclick(x, y) {
    }
    if (ismovable == false) {
     // 選択キャンセル
-    activecell(null, null);
+    activecell(null, null, null);
    } else {
     // toru and move
     // toru
@@ -777,12 +799,12 @@ function absclick(x, y) {
     var nareru = activemasu.koma.checkNari(activemasu.y, y);
     if (nareru == Koma.NARENAI || nareru == Koma.NATTA) {
      move(activemasu, x, y, Koma.NARAZU);
-     activecell(null, null);
+     activecell(null, null, null);
      update_screen();
      record_your_move();
     } else if (nareru == Koma.NARU) {
      move(activemasu, x, y, Koma.NARI);
-     activecell(null, null);
+     activecell(null, null, null);
      update_screen();
      record_your_move();
     } else if (nareru == Koma.NARERU) {
@@ -1117,6 +1139,15 @@ function giveup() {
  * ひふみんEyeを切り替える
  */
 function check_hifumin_eye() {
+ // アクティブなやつを解除。
+ if (activemasu !== null) {
+  if (activemasu.x == -1) {
+   // uchi
+   activeuchi(null, -1);
+  } else {
+   activecell(null, null, null);
+  }
+ }
  hifumin_eye = document.getElementById('hifumineye').checked;
  update_screen();
 }
