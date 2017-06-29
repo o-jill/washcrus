@@ -1534,7 +1534,7 @@ function gensfen() {
   var komatblw = 'plnsgbr';
   for (var i = 0; i < 7; ++i) {
    var num = sentekomadai[i][0].length;
-   if (num > 2) {
+   if (num >= 2) {
     sfentegomatext += num;
    }
    if (num > 0) {
