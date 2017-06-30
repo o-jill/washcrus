@@ -882,10 +882,11 @@ function setactivecelluchi(masui, b) {
  * 打ちたい手駒をアクティブ表現にする。
  * tegomaがnullの時はアクティブを消す。
  *
- * @param {Array} tegoma 先手/後手駒
+ * @param {Koma} koma 先手/後手の駒
+ * @param {Array} tegoma 先手/後手の手駒エリア
  * @param {Number} i 駒のID
  */
-function activeuchi(tegoma, i) {
+function activeuchi(koma, tegoma, i) {
  if (activetegoma != null) {
   if (activemasu != null) {
    setactivecelluchi(activemasui, false);
@@ -902,7 +903,7 @@ function activeuchi(tegoma, i) {
 
  var masu = tegoma[i][1];
  var masui = tegoma[i][1].el;
- var koma = tegoma[i][0][tegoma[i][0].length - 1];
+ // var koma = tegoma[i][0][tegoma[i][0].length - 1];
 
  activetegoma = tegoma;
  activemasu = masu;
@@ -923,13 +924,25 @@ function absclickst(i) {
  if (taikyokuchu == false) {
   return;
  }
- if (activeteban != Koma.SENTEBAN) {
+ var mytegoma;
+ var myteban;
+ var koma;
+ if (hifumin_eye) {
+  myteban = Koma.GOTEBAN;
+  mytegoma = sentegoma;
+  koma = gotegoma[i][0][gotegoma[i][0].length - 1];
+ } else {
+  myteban = Koma.SENTEBAN;
+  mytegoma = gotegoma;
+  koma = sentegoma[i][0][sentegoma[i][0].length - 1];
+ }
+ if (activeteban != myteban) {
   return;
  }
- if (sentegoma[i][0].length == 0) {
+ if (koma == undefined) {
   return;
  }
- activeuchi(sentegoma, i);
+ activeuchi(koma, mytegoma, i);
 }
 
 /**
@@ -941,13 +954,25 @@ function absclickgt(i) {
  if (taikyokuchu == false) {
   return;
  }
- if (activeteban != Koma.GOTEBAN) {
+ var mytegoma;
+ var myteban;
+ var koma;
+ if (hifumin_eye) {
+  myteban = Koma.SENTEBAN;
+  mytegoma = sentegoma;
+  koma = sentegoma[i][0][sentegoma[i][0].length - 1];
+ } else {
+  myteban = Koma.GOTEBAN;
+  mytegoma = gotegoma;
+  koma = gotegoma[i][0][gotegoma[i][0].length - 1];
+ }
+ if (activeteban != myteban) {
   return;
  }
- if (gotegoma[i][0].length == 0) {
+ if (mytegoma[i][0].length == 0) {
   return;
  }
- activeuchi(gotegoma, i);
+ activeuchi(koma, mytegoma, i);
 }
 
 function clickstgfu() {absclickst(0);} function clickstgky() {absclickst(1);}
