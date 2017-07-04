@@ -1521,12 +1521,14 @@ function fromsfen(sfentext) {
  } else {
   // keep current teban
  }
+
+ mykifu.NTeme = sfenitem[3]|0;
 }
 
 /**
  *
  */
-function gensfen() {
+function gensfen(nth = "1") {
  // 盤
  var sfen_genbantext = function(shogiban) {
   var shogibantext = [];
@@ -1628,7 +1630,7 @@ function gensfen() {
  sfentext += ' ';
  sfentext += tegomatext;
  sfentext += ' ';
- sfentext += '1';  // 何手目
+ sfentext += nth;  // 何手目
 
  // var sfenarea = document.getElementById('sfen');
  // sfenarea.value = sfentext;
@@ -1647,9 +1649,10 @@ function activateteban()
  */
 function init_board() {
  gethtmlelement();
+ mykifu.reset();
+
  var sfentext = document.getElementById('sfen_').innerHTML;
  fromsfen(sfentext);
- mykifu.reset();
 
  activateteban();
 
@@ -1710,7 +1713,9 @@ function record_your_move()
 {
  taikyokuchu = false;
 
- gensfen();
+ nteme = mykifu.NTeme;
+ // nteme = document.getElementById('nthmove').innerHTML;
+ gensfen(nteme);
 
  send_csamove();
 }

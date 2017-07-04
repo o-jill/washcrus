@@ -91,6 +91,7 @@ HTMLELEMENTS
     # ret += "<input type='text' size ='60' id='sfen'>#{@mi.sfen}</input><BR>"
     # ret += "<input type='text' size ='60' id='sfen' value='#{@mi.sfen}'/><BR>"
     ret += "<input type='hidden' size ='10' id='jsonmove' value=''/><BR>"
+    ret += "#{@mi.nth}手目です。<BR>"
     if @mi.idb == @userinfo.user_id && @mi.teban == 'b'
       ret += "先手の#{@userinfo.user_name}さんの手番です。"
       ret += "<input type='hidden' id='myturn' value='1'/>"
