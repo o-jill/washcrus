@@ -754,7 +754,7 @@ function absclick(x, y) {
     if (activemasu.x == -1) {
      // uchi
      uchi(activetegoma, activekoma, x, y);
-     activeuchi(null, -1);
+     activeuchi(null, null, -1);
      update_screen();
      record_your_move();
     } else {
@@ -1168,7 +1168,7 @@ function check_hifumin_eye() {
  if (activemasu !== null) {
   if (activemasu.x == -1) {
    // uchi
-   activeuchi(null, -1);
+   activeuchi(null, null, -1);
   } else {
    activecell(null, null, null);
   }
