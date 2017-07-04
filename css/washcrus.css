@@ -24,6 +24,12 @@ table.ban {
 table.ban tr td {
   border:2px solid black;
 }
+table.sentegoma tr td {
+  text-align:center;
+}
+table.gotegoma tr td {
+  text-align:center;
+}
 
 /* 棋譜 */
 div.kifu {
