@@ -145,6 +145,22 @@ class TaikyokuData
     self
   end
 
+  def download_csa
+    dt = @mi.dt_lastmove.gsub('/', '').gsub(':', '').sub(' ', '_')
+    filename = "#{@mi.playerb}_#{@mi.playerw}_#{dt}.csa"
+    puts 'Content-type: application/octet-stream'
+    puts "Content-Disposition: attachment; filename=\"#{filename}\"\n\n"
+    puts @jkf.to_csa
+  end
+
+  def download_kif
+    dt = @mi.dt_lastmove.gsub('/', '').gsub(':', '').sub(' ', '_')
+    filename = "#{@mi.playerb}_#{@mi.playerw}_#{dt}.kif"
+    puts 'Content-type: application/octet-stream'
+    puts "Content-Disposition: attachment; filename=\"#{filename}\"\n\n"
+    puts @jkf.to_kif.encode("Shift_JIS")
+  end
+
   def dump
     print <<-DUMP
       taikyoku-id:#{@gid}

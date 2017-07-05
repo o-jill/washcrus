@@ -1810,3 +1810,8 @@ window.onbeforeunload = function(e) {
  }
  return '通信中に終了すると指し手が登録されない恐れがあります。\n終了しますか？';
 };
+
+function openurlin_blank(url) {
+ var win = window.open(url, '_blank');
+ win.focus();
+}

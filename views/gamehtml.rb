@@ -130,6 +130,8 @@ HTMLELEMENTS
   end
 
   def kifuelement
+    "<button onclick='openurlin_blank(\"dlkifu.rb?#{@gameid}\")'>" \
+    "Download KIF</button><BR>" \
     "<textarea id='kifulog' class='kifu' readonly>#{@jkf.to_kif}</textarea>"
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kif.gsub("\n", '<BR>')}</div>"
   end
