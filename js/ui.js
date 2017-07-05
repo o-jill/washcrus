@@ -998,11 +998,11 @@ function absclickst(i) {
  if (activeteban != myteban) {
   return;
  }
+ var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
  if (koma == undefined) {
   return;
  }
  var mytegomasu = sentegoma;
- var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
  activeuchi(koma, mytegoma, mytegomasu, i);
 }
 
@@ -1026,11 +1026,11 @@ function absclickgt(i) {
  if (activeteban != myteban) {
   return;
  }
- if (mytegoma[i][0].length == 0) {
+ var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
+ if (koma == undefined) {
   return;
  }
  var mytegomasu = gotegoma;
- var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
  activeuchi(koma, mytegoma, mytegomasu, i);
 }
 
