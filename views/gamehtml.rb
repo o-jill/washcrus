@@ -81,10 +81,14 @@ HTMLELEMENTS
         <span id="narazu">&nbsp;不成&nbsp;</span>
        </div>
       </div>
-      <label><input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'>ひふみんアイ</input></label>
       <script type='text/javascript' src='./js/shogi.js'></script>
       <script type='text/javascript' src='./js/ui.js' async></script>
       BOARD_TEXT
+
+    ret += "<label><input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'"
+    ret += ' checked' if @mi.idw == @userinfo.user_id
+    ret += '>ひふみんアイ</input></label>'
+
     ret += "<span style='display:none;' id='sfen_'>#{@mi.sfen}</span>"
     # ret += "<input type='text' size ='60' id='sfen'>#{@mi.sfen}</input><BR>"
     # ret += "<input type='text' size ='60' id='sfen' value='#{@mi.sfen}'/><BR>"
