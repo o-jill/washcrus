@@ -995,14 +995,14 @@ function absclickst(i) {
   myteban = Koma.SENTEBAN;
   mytegoma = sentegoma;
  }
- var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
- var mytegomasu = sentegoma;
  if (activeteban != myteban) {
   return;
  }
  if (koma == undefined) {
   return;
  }
+ var mytegomasu = sentegoma;
+ var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
  activeuchi(koma, mytegoma, mytegomasu, i);
 }
 
@@ -1023,15 +1023,15 @@ function absclickgt(i) {
   myteban = Koma.GOTEBAN;
   mytegoma = gotegoma;
  }
- var mytegomasu = gotegoma;
- var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
  if (activeteban != myteban) {
   return;
  }
  if (mytegoma[i][0].length == 0) {
   return;
  }
- activeuchi(koma, mytegoma, i);
+ var mytegomasu = gotegoma;
+ var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
+ activeuchi(koma, mytegoma, mytegomasu, i);
 }
 
 function clickstgfu() {absclickst(0);} function clickstgky() {absclickst(1);}
