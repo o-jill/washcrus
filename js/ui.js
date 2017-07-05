@@ -780,14 +780,14 @@ function absclick(x, y) {
  if (wait_narimenu) {
   return;
  }
- var koma;
+ var hx = x;
+ var hy = y;
  if (hifumin_eye) {
-   hx = 8 - x;
-   hy = 8 - y;
-   koma = ban[hx][hy].koma;
+   hx = 8 - hx;
+   hy = 8 - hy;
  } else {
-   koma = ban[x][y].koma;
  }
+ var koma = ban[hx][hy].koma;
  var masu = ban[x][y];
  var masui = ban[x][y].el;
  if (activemasu == masu) {
@@ -804,7 +804,7 @@ function absclick(x, y) {
   } else if (koma.teban == Koma.AKI) {
    var ismovable = false;
    for (var idx in activemovable) {
-    if (activemovable[idx][0] == x && activemovable[idx][1] == y) {
+    if (activemovable[idx][0] == hx && activemovable[idx][1] == hy) {
      ismovable = true;
      break;
     }
@@ -815,7 +815,7 @@ function absclick(x, y) {
    } else {
     if (activemasu.x == -1) {
      // uchi
-     uchi(activetegoma, activekoma, x, y);
+     uchi(activetegoma, activekoma, hx, hy);
      activeuchi(null, null, -1);
      update_screen();
      record_your_move();
@@ -845,7 +845,7 @@ function absclick(x, y) {
   } else {
    var ismovable = false;
    for (var idx in activemovable) {
-    if (activemovable[idx][0] == x && activemovable[idx][1] == y) {
+    if (activemovable[idx][0] == hx && activemovable[idx][1] == hy) {
      ismovable = true;
      break;
     }
@@ -945,10 +945,11 @@ function setactivecelluchi(masui, b) {
  * tegomaがnullの時はアクティブを消す。
  *
  * @param {Koma} koma 先手/後手の駒
- * @param {Array} tegoma 先手/後手の手駒エリア
+ * @param {Array} tegoma 先手/後手の手駒
+ * @param {Array} tegomasu 先手/後手の手駒エリア
  * @param {Number} i 駒のID
  */
-function activeuchi(koma, tegoma, i) {
+function activeuchi(koma, tegoma, tegomasu, i) {
  if (activetegoma != null) {
   if (activemasu != null) {
    setactivecelluchi(activemasui, false);
@@ -963,8 +964,8 @@ function activeuchi(koma, tegoma, i) {
   return;
  }
 
- var masu = tegoma[i][1];
- var masui = tegoma[i][1].el;
+ var masu = tegomasu[i][1];
+ var masui = tegomasu[i][1].el;
  // var koma = tegoma[i][0][tegoma[i][0].length - 1];
 
  activetegoma = tegoma;
@@ -986,25 +987,23 @@ function absclickst(i) {
  if (taikyokuchu == false) {
   return;
  }
- var mytegoma;
- var myteban;
- var koma;
+ var mytegoma, myteban;
  if (hifumin_eye) {
   myteban = Koma.GOTEBAN;
-  mytegoma = sentegoma;
-  koma = gotegoma[i][0][gotegoma[i][0].length - 1];
+  mytegoma = gotegoma;
  } else {
   myteban = Koma.SENTEBAN;
-  mytegoma = gotegoma;
-  koma = sentegoma[i][0][sentegoma[i][0].length - 1];
+  mytegoma = sentegoma;
  }
+ var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
+ var mytegomasu = sentegoma;
  if (activeteban != myteban) {
   return;
  }
  if (koma == undefined) {
   return;
  }
- activeuchi(koma, mytegoma, i);
+ activeuchi(koma, mytegoma, mytegomasu, i);
 }
 
 /**
@@ -1016,18 +1015,16 @@ function absclickgt(i) {
  if (taikyokuchu == false) {
   return;
  }
- var mytegoma;
- var myteban;
- var koma;
+ var mytegoma, myteban;
  if (hifumin_eye) {
   myteban = Koma.SENTEBAN;
   mytegoma = sentegoma;
-  koma = sentegoma[i][0][sentegoma[i][0].length - 1];
  } else {
   myteban = Koma.GOTEBAN;
   mytegoma = gotegoma;
-  koma = gotegoma[i][0][gotegoma[i][0].length - 1];
  }
+ var mytegomasu = gotegoma;
+ var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
  if (activeteban != myteban) {
   return;
  }
