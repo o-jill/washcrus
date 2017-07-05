@@ -1718,6 +1718,8 @@ function init_board() {
 
  activateteban();
 
+ hifumin_eye = document.getElementById('hifumineye').checked;
+
  update_screen();
 }
 
