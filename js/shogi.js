@@ -1932,38 +1932,37 @@ Gyoku.prototype.movable = function() {
 /**
  * コマの移動。
  *
- * @param {Object} masu 移動元の盤上のあるマス目
+ * @param {Object} koma 移動するコマ
  * @param {Number} to_x 移動先
  * @param {Number} to_y 移動先
  * @param {Number} nari 成る(Koma.NARI)か成らない(Koma.Narazu)か
  *                      成る場合は駒を裏返す(=成った駒を元に戻せる)
  */
-function move(masu, to_x, to_y, nari) {
- var from_x = masu.x;
- var from_y = masu.y;
+function move(koma, to_x, to_y, nari) {
+ var from_x = koma.x;
+ var from_y = koma.y;
 
  if (nari == Koma.NARI) {
-  if (masu.koma.nari == Koma.NARI) {
-   masu.koma.nari = Koma.NARAZU;
+  if (koma.nari == Koma.NARI) {
+   koma.nari = Koma.NARAZU;
   } else {
-   masu.koma.nari = Koma.NARI;
+   koma.nari = Koma.NARI;
   }
  }
 
  tottaid = mykifu.totta_id;
 
- mykifu.genKifu(masu.koma, from_x, from_y, to_x, to_y, nari);
+ mykifu.genKifu(koma, from_x, from_y, to_x, to_y, nari);
  //console.log(mykifu.genKifu(masu.koma, from_x, from_y, to_x, to_y, nari));
  //console.log(masu.koma.CSA(from_x, from_y, to_x, to_y));
  //console.log(masu.koma.KIF(from_x, from_y, to_x, to_y, nari));
 
- masu.koma.x = to_x;
- masu.koma.y = to_y;
+ koma.x = to_x;
+ koma.y = to_y;
 
  var temp = ban[to_x][to_y].koma;
- ban[to_x][to_y].koma = masu.koma;
-  var koma = masu.koma;
- masu.koma = temp;
+ ban[to_x][to_y].koma = koma;
+ ban[from_x][from_y].koma = temp;
 
  if (activeteban == Koma.SENTEBAN) {
   activeteban = Koma.GOTEBAN;
@@ -2130,21 +2129,21 @@ function uchi2(tegoma, koma_id, to_x, to_y) {
 /**
  * コマの移動。(感想戦用)
  *
- * @param {Object} masu 移動元の盤上のあるマス目
+ * @param {Object} koma 移動するコマ
  * @param {Number} to_x 移動先
  * @param {Number} to_y 移動先
  * @param {Number} nari 成る(Koma.NARI)か成らない(Koma.Narazu)か
  *                      成る場合は駒を裏返す(=成った駒を元に戻せる)
  */
-function move2(masu, to_x, to_y, nari) {
- var from_x = masu.x;
- var from_y = masu.y;
+function move2(koma, to_x, to_y, nari) {
+ var from_x = koma.x;
+ var from_y = koma.y;
 
  if (nari == Koma.NARI) {
-  if (masu.koma.nari == Koma.NARI) {
-   masu.koma.nari = Koma.NARAZU;
+  if (koma.nari == Koma.NARI) {
+   koma.nari = Koma.NARAZU;
   } else {
-   masu.koma.nari = Koma.NARI;
+   koma.nari = Koma.NARI;
   }
  }
 
@@ -2153,13 +2152,12 @@ function move2(masu, to_x, to_y, nari) {
  //console.log(masu.koma.CSA(from_x, from_y, to_x, to_y));
  //console.log(masu.koma.KIF(from_x, from_y, to_x, to_y, nari));
 
- masu.koma.x = to_x;
- masu.koma.y = to_y;
+ koma.x = to_x;
+ koma.y = to_y;
 
  var temp = ban[to_x][to_y].koma;
- ban[to_x][to_y].koma = masu.koma;
- var koma = masu.koma;
- masu.koma = temp;
+ ban[to_x][to_y].koma = koma;
+ ban[from_x][from_y].koma = temp;
 
  if (activeteban == Koma.SENTEBAN) {
   activeteban = Koma.GOTEBAN;
