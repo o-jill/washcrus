@@ -60,6 +60,66 @@ var activemovable = [];
 /** ひふみんアイ */
 var hifumin_eye = false;
 
+function update_banindex() {
+  var column = document.getElementById('bancolumn');
+  var text = "";
+  var numbersc = ["９", "８", "７", "６", "５", "４", "３", "２", "１"];
+  numbersc.forEach(function (c) {
+    text += "<th width=45>" + c + "</th>";
+  });
+  column.innerHTML = text + "<th>&nbsp;</th>";
+
+  var numbersr = ["一", "二", "三", "四", "五", "六", "七", "八", "九"];
+  var row = document.getElementById('banrow1');
+  row.innerHTML = numbersr[0];
+  row = document.getElementById('banrow2');
+  row.innerHTML = numbersr[1];
+  row = document.getElementById('banrow3');
+  row.innerHTML = numbersr[2];
+  row = document.getElementById('banrow4');
+  row.innerHTML = numbersr[3];
+  row = document.getElementById('banrow5');
+  row.innerHTML = numbersr[4];
+  row = document.getElementById('banrow6');
+  row.innerHTML = numbersr[5];
+  row = document.getElementById('banrow7');
+  row.innerHTML = numbersr[6];
+  row = document.getElementById('banrow8');
+  row.innerHTML = numbersr[7];
+  row = document.getElementById('banrow9');
+  row.innerHTML = numbersr[8];
+}
+
+function update_banindex_rotate() {
+  var column = document.getElementById('bancolumn');
+  var numbersc = ["１", "２", "３", "４", "５", "６", "７", "８", "９"];
+  var text = "";
+  numbersc.forEach(function (c) {
+    text += "<th width=45>" + c + "</th>";
+  });
+  column.innerHTML = text + "<th>&nbsp;</th>";
+
+  var numbersr = ["九", "八", "七", "六", "五", "四", "三", "二", "一"];
+  var row = document.getElementById('banrow1');
+  row.innerHTML = numbersr[0];
+  row = document.getElementById('banrow2');
+  row.innerHTML = numbersr[1];
+  row = document.getElementById('banrow3');
+  row.innerHTML = numbersr[2];
+  row = document.getElementById('banrow4');
+  row.innerHTML = numbersr[3];
+  row = document.getElementById('banrow5');
+  row.innerHTML = numbersr[4];
+  row = document.getElementById('banrow6');
+  row.innerHTML = numbersr[5];
+  row = document.getElementById('banrow7');
+  row.innerHTML = numbersr[6];
+  row = document.getElementById('banrow8');
+  row.innerHTML = numbersr[7];
+  row = document.getElementById('banrow9');
+  row.innerHTML = numbersr[8];
+}
+
 /**
  * コマを並べる。
  */
@@ -135,8 +195,10 @@ function Naraberu_rotate() {
  */
 function update_screen() {
  if (hifumin_eye) {
+  update_banindex_rotate();
   Naraberu_rotate();
  } else {
+  update_banindex();
   Naraberu();
  }
  //kifuArea.innerText = mykifu.kifuText;
