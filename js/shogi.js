@@ -793,7 +793,7 @@ function Koma(teban, x, y) {
  arguments.callee.GyokuStr = 'OU';
  arguments.callee.NFuStr = 'TO';
  arguments.callee.NKyoshaStr = 'NY';
- arguments.callee.NKeimaStr = 'NE';
+ arguments.callee.NKeimaStr = 'NK';
  arguments.callee.NGinStr = 'NG';
  //arguments.callee.NKinStr = 'KI';
  arguments.callee.NKakuStr = 'UM';
