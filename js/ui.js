@@ -1752,15 +1752,15 @@ function send_csamove()
       var status = ajax.status;
       if (status == 0) {  // XHR 通信失敗
        msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
-        location.reload();
+        location.reload(true);
       } else {  // XHR 通信成功
        if ((200 <= status && status < 300) || status == 304) {
         // リクエスト成功
         msg.innerHTML = '通信完了。\n自動的にリロードします。';
-        location.reload();
+        location.reload(true);
        } else {  // リクエスト失敗
         msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
-        location.reload();
+        location.reload(true);
        }
       }
       break;
