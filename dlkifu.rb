@@ -8,20 +8,17 @@
 require 'cgi'
 require 'cgi/session'
 
-require './file/jsonkifu.rb'
-require './file/matchinfofile.rb'
 require './file/taikyokufile.rb'
+require './game/taikyokudata.rb'
 require './game/userinfo.rb'
-require './views/gamehtml.rb'
 
 #
 # CGI本体
 #
-class Game
+class DownloadKifu
   def initialize(cgi)
     @cgi = cgi
-    # @params = cgi.params
-
+    @params = cgi.params
     @gameid = cgi.query_string
   end
 
@@ -43,9 +40,6 @@ class Game
     else
       @userinfo.readsession(@session)
     end
-
-    @header = @cgi.header('charset' => 'UTF-8')
-    @header = @header.gsub("\r\n", "\n")
   end
 
   # class methods
@@ -86,9 +80,9 @@ end
 
 cgi = CGI.new
 
-game = Game.new(cgi)
-game.readuserparam
-game.perform
+dk = DownloadKifu.new(cgi)
+dk.readuserparam
+dk.perform
 
 # -----------------------------------
 #   testing
