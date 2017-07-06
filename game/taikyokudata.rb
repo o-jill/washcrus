@@ -147,19 +147,19 @@ class TaikyokuData
   end
 
   def escape_fn(fname)
-    path = fname.gsub(/[\\\/*:<>?|]/, '_')
+    path = fname.gsub(%r{[\\\/*:<>?|]}, '_')
     URI.escape(path)
   end
 
   def escape_fnu8(fname)
-    path = fname.gsub(/[\\\/*:<>?|]/,
-                      "\\": '￥', '/': '／', '*': '＊', ':': '：', '<': '＜',
-                      '>': '＞', '?': '？', '|': '｜')
+    path = fname.gsub(%r{[\\/*:<>?|]},
+                      '\\' => '￥', '/' => '／', '*' => '＊', ':' => '：',
+                      '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
     URI.escape(path)
   end
 
   def download_csa
-    dt = @mi.dt_lastmove.gsub('/', '').gsub(':', '').sub(' ', '_')
+    dt = @mi.dt_lastmove.delete('/:').sub(' ', '_')
     filename = "#{@mi.playerb}_#{@mi.playerw}_#{dt}.csa"
 
     puts 'Content-type: application/octet-stream'
@@ -170,14 +170,14 @@ class TaikyokuData
   end
 
   def download_kif
-    dt = @mi.dt_lastmove.gsub('/', '').gsub(':', '').sub(' ', '_')
+    dt = @mi.dt_lastmove.delete('/:').sub(' ', '_')
     filename = "#{@mi.playerb}_#{@mi.playerw}_#{dt}.kif"
 
     puts 'Content-type: application/octet-stream'
     puts 'Content-Disposition: attachment; ' \
          "filename='#{escape_fn(filename)}'; " \
          "filename*=UTF-8''#{escape_fnu8(filename)}\n\n"
-    puts @jkf.to_kif.encode("Shift_JIS")
+    puts @jkf.to_kif.encode('Shift_JIS')
   end
 
   def dump

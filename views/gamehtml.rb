@@ -38,8 +38,8 @@ class GameHtml
 HTMLELEMENTS
   end
 
-  def banelement
-    ret = <<-BOARD_TEXT.unindent
+  def gotegomaelement
+    <<-BOARD_TEXT.unindent
       <table id='gotegoma' class='gotegoma' border='0'>
        <tr id='gg_fu'>
         <td id='gg_hisha_img' width='45' height='45'>飛車</td><td id='gg_hisha_num' align='center'>0</td>
@@ -51,6 +51,11 @@ HTMLELEMENTS
         <td id='gg_fu_img' width='45'>歩</td><td id='gg_fu_num' align='center'>0</td>
        </tr>
       </table>
+      BOARD_TEXT
+  end
+
+  def shogibanelement
+    <<-BOARD_TEXT.unindent
       <table id='ban' class='ban' border='2'>
        <tr id='bancolumn'><th width='45'>９</th><th width='45'>８</th><th width='45'>７</th><th width='45'>６</th><th width='45'>５</th><th width='45'>４</th><th width='45'>３</th><th width='45'>２</th><th width='45'>１</th><th>&nbsp;</th></tr>
        <tr><td id='b91'>---</td><td id='b81'>---</td><td id='b71'>---</td><td id='b61'>---</td><td id='b51'>---</td><td id='b41'>---</td><td id='b31'>---</td><td id='b21'>---</td><td id='b11'>---</td><th height='45' id='banrow1'>一</th></tr>
@@ -63,6 +68,11 @@ HTMLELEMENTS
        <tr><td id='b98'>---</td><td id='b88'>---</td><td id='b78'>---</td><td id='b68'>---</td><td id='b58'>---</td><td id='b48'>---</td><td id='b38'>---</td><td id='b28'>---</td><td id='b18'>---</td><th height='45' id='banrow8'>八</th></tr>
        <tr><td id='b99'>---</td><td id='b89'>---</td><td id='b79'>---</td><td id='b69'>---</td><td id='b59'>---</td><td id='b49'>---</td><td id='b39'>---</td><td id='b29'>---</td><td id='b19'>---</td><th height='45' id='banrow9'>九</th></tr>
       </table>
+      BOARD_TEXT
+  end
+
+  def sentegomaelement
+    <<-BOARD_TEXT.unindent
       <table id='sentegoma' class='sentegoma' border='0'>
        <tr id='sg_fu'>
         <td id='sg_fu_img' width='45' height='45'>歩</td><td id='sg_fu_num' align='center'>0</td>
@@ -74,6 +84,11 @@ HTMLELEMENTS
         <td id='sg_hisha_img' width='45'>飛車</td><td id='sg_hisha_num' align='center'>0</td>
        </tr>
       </table>
+      BOARD_TEXT
+  end
+
+  def narimenuelement
+    <<-BOARD_TEXT.unindent
       <div id="narimenu" style="border:2px solid black; position:absolute; visibility:hidden; background-Color:gray;" width="100">
        <div align="center">
         <span id="naru" style="color:red;">&nbsp;成り&nbsp;</span>
@@ -81,6 +96,15 @@ HTMLELEMENTS
         <span id="narazu">&nbsp;不成&nbsp;</span>
        </div>
       </div>
+      BOARD_TEXT
+  end
+
+  def banelement
+    ret = <<-BOARD_TEXT.unindent
+      #{gotegomaelement}
+      #{shogibanelement}
+      #{sentegomaelement}
+      #{narimenuelement}
       <script type='text/javascript' src='./js/shogi.js'></script>
       <script type='text/javascript' src='./js/ui.js' async></script>
       BOARD_TEXT
@@ -131,7 +155,7 @@ HTMLELEMENTS
 
   def kifuelement
     "<button onclick='openurlin_blank(\"dlkifu.rb?#{@gameid}\")'>" \
-    "Download KIF</button><BR>" \
+    'Download KIF</button><BR>' \
     "<textarea id='kifulog' class='kifu' readonly>#{@jkf.to_kif}</textarea>"
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kif.gsub("\n", '<BR>')}</div>"
   end

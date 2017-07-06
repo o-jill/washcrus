@@ -62,14 +62,14 @@ var hifumin_eye = false;
 
 function update_banindex() {
   var column = document.getElementById('bancolumn');
-  var text = "";
-  var numbersc = ["９", "８", "７", "６", "５", "４", "３", "２", "１"];
-  numbersc.forEach(function (c) {
-    text += "<th width=45>" + c + "</th>";
+  var text = '';
+  var numbersc = ['９', '８', '７', '６', '５', '４', '３', '２', '１'];
+  numbersc.forEach(function(c) {
+    text += '<th width=45>' + c + '</th>';
   });
-  column.innerHTML = text + "<th>&nbsp;</th>";
+  column.innerHTML = text + '<th>&nbsp;</th>';
 
-  var numbersr = ["一", "二", "三", "四", "五", "六", "七", "八", "九"];
+  var numbersr = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
   var row = document.getElementById('banrow1');
   row.innerHTML = numbersr[0];
   row = document.getElementById('banrow2');
@@ -92,14 +92,14 @@ function update_banindex() {
 
 function update_banindex_rotate() {
   var column = document.getElementById('bancolumn');
-  var numbersc = ["１", "２", "３", "４", "５", "６", "７", "８", "９"];
-  var text = "";
-  numbersc.forEach(function (c) {
-    text += "<th width=45>" + c + "</th>";
+  var numbersc = ['１', '２', '３', '４', '５', '６', '７', '８', '９'];
+  var text = '';
+  numbersc.forEach(function(c) {
+    text += '<th width=45>' + c + '</th>';
   });
-  column.innerHTML = text + "<th>&nbsp;</th>";
+  column.innerHTML = text + '<th>&nbsp;</th>';
 
-  var numbersr = ["九", "八", "七", "六", "五", "四", "三", "二", "一"];
+  var numbersr = ['九', '八', '七', '六', '五', '四', '三', '二', '一'];
   var row = document.getElementById('banrow1');
   row.innerHTML = numbersr[0];
   row = document.getElementById('banrow2');
@@ -513,7 +513,7 @@ function gethtmlelement() {
 
  // initKoma();
  // update_screen();
-};
+}
 
 /**
  * カーソルが乗っているマスを強調する。
@@ -736,6 +736,7 @@ function setactivecell(masui, b) {
  * マスを選択状態にする。
  * masuがnullなら選択解除。
  *
+ * @param {Object} koma  対象の駒
  * @param {Object} masu  対象のマス
  * @param {Object} masui 対象のマス目の見た目
  */
@@ -1238,6 +1239,7 @@ function check_hifumin_eye() {
 
 /**
  *
+ * @param {String} sfentext sfen文字列
  */
 function fromsfen(sfentext) {
  // var sfenarea = document.getElementById('sfen');
@@ -1581,13 +1583,13 @@ function fromsfen(sfentext) {
   // keep current teban
  }
 
- mykifu.NTeme = sfenitem[3]|0;
+ mykifu.NTeme = sfenitem[3] | 0;
 }
 
 /**
- *
+ * @param {String} nth 何手目
  */
-function gensfen(nth = "1") {
+function gensfen(nth = '1') {
  // 盤
  var sfen_genbantext = function(shogiban) {
   var shogibantext = [];
@@ -1677,7 +1679,7 @@ function gensfen(nth = "1") {
  var sfentext = '';
  sfentext = bantext.join('/');
  // for (i = 0 ; i < bantext.length-1 ; ++i) {
- //  sfentext += bantext[i] + "/";
+ //  sfentext += bantext[i] + '/';
  // }
  // sfentext += bantext[i];
  sfentext += ' ';
@@ -1700,7 +1702,7 @@ function gensfen(nth = "1") {
 function activateteban()
 {
  var teban = document.getElementById('myturn').value;
- if (teban != "0")  taikyokuchu = true;
+ if (teban != '0') taikyokuchu = true;
 }
 
 /**
@@ -1724,11 +1726,11 @@ init_board();
 
 function buildMoveMsg()
 {
-  ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen_').innerHTML);
-  // ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen').value);
-  ret += '&jsonmove=' + encodeURIComponent(movecsa);
+ ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen_').innerHTML);
+ // ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen').value);
+ ret += '&jsonmove=' + encodeURIComponent(movecsa);
 
-    return ret;
+ return ret;
 }
 
 var tsushinchu = false;
@@ -1739,25 +1741,25 @@ function send_csamove()
   if (ajax != null) {
     tsushinchu = true;
     activatefogscreen();
-    ajax.open('POST', 'move.rb?'+id, true);
+    ajax.open('POST', 'move.rb?' + id, true);
     ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     ajax.send(buildMoveMsg());
-    ajax.onreadystatechange = function () {
+    ajax.onreadystatechange = function() {
      tsushinchu = false;
      var msg = document.getElementById('msg_fogscreen');
      switch (ajax.readyState) {
      case 4:
       var status = ajax.status;
       if (status == 0) {  // XHR 通信失敗
-       msg.innerHTML += "XHR 通信失敗\n自動的にリロードします。";
+       msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
         location.reload();
       } else {  // XHR 通信成功
        if ((200 <= status && status < 300) || status == 304) {
         // リクエスト成功
-    	msg.innerHTML = "通信完了。\n自動的にリロードします。";
+        msg.innerHTML = '通信完了。\n自動的にリロードします。';
         location.reload();
        } else {  // リクエスト失敗
-    	msg.innerHTML += "その他の応答:" + status + "\n自動的にリロードします。";
+        msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
         location.reload();
        }
       }

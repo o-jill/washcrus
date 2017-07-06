@@ -36,10 +36,10 @@ class Move
     @log.debug('Move.initialized')
   end
 
- attr_reader :log
+  attr_reader :log
 
   def readuserparam
-    @log.debug('Move.readuserparam')
+    # @log.debug('Move.readuserparam')
     begin
       @session = CGI::Session.new(@cgi,
                                   {
@@ -78,37 +78,37 @@ class Move
   # 実行本体。
   #
   def perform
-    @log.debug('Move.perform')
+    # @log.debug('Move.perform')
     # gameid が無いよ
     # userinfoが変だよ
     # moveが変だよ
     return if check_param.nil?
 
-    @log.debug('Move.check gameid')
+    # @log.debug('Move.check gameid')
     tdb = TaikyokuFile.new
     tdb.read
     # 存在しないはずのIDだよ
     return print TEXTPLAIN_HEAD + 'illegal access.' unless tdb.exist_id(@gameid)
 
-    @log.debug('Move.read data')
+    # @log.debug('Move.read data')
     tkd = TaikyokuData.new
     tkd.setid(@gameid)
     tkd.read
 
-    @log.debug('Move.apply sfen')
+    # @log.debug('Move.apply sfen')
     # 指し手を適用する
     return print TEXTPLAIN_HEAD + 'invalid move.' if tkd.mi.fromsfen(@sfen).nil?
 
-    @log.debug('Move.setlastmove')
+    # @log.debug('Move.setlastmove')
     tkd.mi.setlastmove(@move[0, 7], Time.now.strftime('%Y/%m/%d %H:%M:%S'))
 
-    @log.debug('Move.mi.write')
+    # @log.debug('Move.mi.write')
     tkd.mi.write(tkd.matchinfopath)
 
-    @log.debug('Move.apply jmv')
+    # @log.debug('Move.apply jmv')
     tkd.jkf.move(@jmv)
 
-    @log.debug('Move.jkf.write')
+    # @log.debug('Move.jkf.write')
     tkd.jkf.write(tkd.kifupath)
     @log.debug('Move.performed')
   end
@@ -120,15 +120,15 @@ end
 
 cgi = CGI.new
 begin
-move = Move.new(cgi)
-move.readuserparam
-move.perform
+  move = Move.new(cgi)
+  move.readuserparam
+  move.perform
 rescue ScriptError => e
-    move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+  move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
 rescue SecurityError => e
-    move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+  move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
 rescue e
-    move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+  move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
 end
 # -----------------------------------
 #   testing

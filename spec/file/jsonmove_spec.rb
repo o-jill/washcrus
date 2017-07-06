@@ -49,7 +49,6 @@ describe 'JsonMove' do
       jsmv.checkdou(jsmv2)
       expect(jsmv.same).to be false
       expect(jsmv2.same).to be false
-
     end
     it 'have not captured at first' do
       jsmv = JsonMove.new

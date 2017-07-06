@@ -38,7 +38,8 @@ class Chat
         @msg = @params['chatmsg'][0]
         unless @msg.length.zero?
           @msg.gsub!(',&<>',
-                     ',': '&#44;', '&': '&amp;', '<': '&lt;', '>': '&gt;')
+                     ',' => '&#44;', '&' => '&amp;',
+                     '<' => '&lt;', '>' => '&gt;')
           write
         end
       end

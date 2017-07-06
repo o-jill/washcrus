@@ -86,7 +86,7 @@ def generatenewgame_screen(header, title, name, userinfo, params)
 
   td.dumptable
 
-  puts "new game generated!<BR>" \
+  puts 'new game generated!<BR>' \
        "<a href='game.rb?#{td.gid}'><big>start playing &gt;&gt;</big></a>"
 
   CommonUI::HTMLfoot()
