@@ -55,7 +55,7 @@ class JsonKifu
     if mv['special']
       data = { 'special' => mv }
     else
-      mv.checkdou(@moves[-1]['move']) if @moves['move']
+      mv.checkdou(@moves[-1]['move']) if @moves[-1]['move']
       data = { 'move' => mv }
     end
     data['time'] = tm || zerotime
