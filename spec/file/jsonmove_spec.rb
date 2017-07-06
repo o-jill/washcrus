@@ -29,6 +29,28 @@ describe 'JsonMove' do
       jsmv.nari
       expect(jsmv.promote).to be true
     end
+    it 'can check if it is same position as opponents move' do
+      jsmv = JsonMove.new
+      jsmv2 = JsonMove.new
+      expect(jsmv.same).to be false
+      expect(jsmv2.same).to be false
+      jsmv.checkdou(jsmv2)
+      expect(jsmv.same).to be true
+      expect(jsmv2.same).to be false
+      jsmv2.move({ 'x' => 2, 'y' => 8 }, { 'x' => 8, 'y' => 8 }, 'KA', 0)
+      jsmv.checkdou(jsmv2)
+      expect(jsmv.same).to be false
+      expect(jsmv2.same).to be false
+      jsmv2.move({ 'x' => 2, 'y' => 8 }, { 'x' => -1, 'y' => 8 }, 'KA', 0)
+      jsmv.checkdou(jsmv2)
+      expect(jsmv.same).to be false
+      expect(jsmv2.same).to be false
+      jsmv2.move({ 'x' => 2, 'y' => 8 }, { 'x' => 8, 'y' => -1 }, 'KA', 0)
+      jsmv.checkdou(jsmv2)
+      expect(jsmv.same).to be false
+      expect(jsmv2.same).to be false
+
+    end
     it 'have not captured at first' do
       jsmv = JsonMove.new
       expect(jsmv.capture).to be_nil
@@ -50,6 +72,7 @@ describe 'JsonMove' do
         'color' => 1,
         # 'promote' => true
         # 'capture' = 'UM'
+        # 'same' => false
       )
     end
     it 'can generate hash' do
@@ -61,6 +84,7 @@ describe 'JsonMove' do
         'color' => 0,
         # 'promote' => true
         # 'capture' = 'UM'
+        # 'same' => false
       )
     end
     it 'can generate hash correctly' do
@@ -73,6 +97,7 @@ describe 'JsonMove' do
         'color' => 0,
         'promote' => true,
         # 'capture' => 'UM'
+        # 'same' => false
       )
 
       jsmv.toru('UM')
@@ -83,6 +108,7 @@ describe 'JsonMove' do
         'color' => 0,
         'promote' => true,
         'capture' => 'UM'
+        # 'same' => false
       )
 
       jsmv.move({ 'x' => 2, 'y' => 8 }, { 'x' => 2, 'y' => 2 }, 'HI', 1)
@@ -93,6 +119,7 @@ describe 'JsonMove' do
         'color' => 1,
         # 'promote' => true,
         # 'capture' => 'UM'
+        # 'same' => false
       )
       jsmv.toru('KE')
       expect(jsmv.genhash).to eq(
@@ -102,6 +129,7 @@ describe 'JsonMove' do
         'color' => 1,
         # 'promote' => true,
         'capture' => 'KE'
+        # 'same' => false
       )
       jsmv.nari
       expect(jsmv.genhash).to eq(
@@ -111,6 +139,30 @@ describe 'JsonMove' do
         'color' => 1,
         'promote' => true,
         'capture' => 'KE'
+        # 'same' => false
+      )
+      jsmv2 = JsonMove.new
+      jsmv2.move({ 'x' => 2, 'y' => 8 }, { 'x' => 8, 'y' => 8 }, 'KA', 0)
+      jsmv.checkdou(jsmv2)
+      expect(jsmv.genhash).to eq(
+        'from' => { 'x' => 2, 'y' => 8 },
+        'to' => { 'x' => 2, 'y' => 2 },
+        'piece' => 'HI',
+        'color' => 1,
+        'promote' => true,
+        'capture' => 'KE',
+        # 'same' => false
+      )
+      jsmv2.move({ 'x' => 8, 'y' => 8 }, { 'x' => 2, 'y' => 2 }, 'KA', 0)
+      jsmv.checkdou(jsmv2)
+      expect(jsmv.genhash).to eq(
+        'from' => { 'x' => 2, 'y' => 8 },
+        'to' => { 'x' => 2, 'y' => 2 },
+        'piece' => 'HI',
+        'color' => 1,
+        'promote' => true,
+        'capture' => 'KE',
+        'same' => true
       )
     end
     it "has a constant 'Koma'" do

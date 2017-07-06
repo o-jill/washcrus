@@ -13,9 +13,10 @@ class JsonMove
     @color = 0
     @promote = false
     @capture = nil # 'OU'
+    @same = false
   end
 
-  attr_reader :from, :to, :piece, :color, :promote, :capture
+  attr_reader :from, :to, :piece, :color, :promote, :capture, :same
 
   # to    {x: 1~9, y: 1~9}
   # teban 0:sente, 1:gote
@@ -33,6 +34,7 @@ class JsonMove
     @color = teban
     @promote = false
     @capture = nil
+    @same = false
   end
 
   def nari
@@ -43,12 +45,17 @@ class JsonMove
     @capture = koma
   end
 
+  def checkdou(a)
+    @same = (@to == a.to)
+  end
+
   def genhash
     data = {
       'from' => @from, 'to' => @to, 'piece' => @piece, 'color' => @color
     }
     data['promote'] = @promote if @promote
     data['capture'] = @capture unless @capture.nil?
+    data['same'] = @same if @same
     data
   end
 

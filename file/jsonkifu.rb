@@ -52,13 +52,13 @@ class JsonKifu
   end
 
   def move(mv, tm = nil, cmt = nil)
-    # if mv['special'].nil?
-    #   data = { 'move' => mv }
-    # else
-    #   data = { 'special' => mv }
-    # end
-    data = mv['special'].nil? ? { 'move' => mv } : { 'special' => mv }
-    data['time'] = tm unless tm.nil?
+    if mv['special']
+      data = { 'special' => mv }
+    else
+      mv.checkdou(@moves[-1]['move']) if @moves['move']
+      data = { 'move' => mv }
+    end
+    data['time'] = tm || zerotime
     data['comments'] = cmt unless cmt.nil?
     @moves << data
   end

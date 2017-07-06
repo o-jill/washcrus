@@ -13,7 +13,6 @@ require './file/jsonmove.rb'
 require './file/matchinfofile.rb'
 require './file/taikyokufile.rb'
 require './game/userinfo.rb'
-# require './views/gamehtml.rb'
 
 #
 # CGI本体
