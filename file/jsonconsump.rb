@@ -29,6 +29,9 @@ class JsonConsumption
     @total << hash_t if hash_t
   end
 
+  # 時間差を計算して消費時間を計算。
+  # トータル消費時間にも適用。
+  #
   # @ param t_new [Time] 着手時刻
   # @ param t_old [Time] 前回の着手時刻
   def diff(t_new, t_old)
@@ -36,6 +39,9 @@ class JsonConsumption
     @total.add(@now)
   end
 
+  # 時間差を計算して消費時間を計算。
+  # トータル消費時間にも適用。
+  #
   # @ param t_new [String] 着手時刻
   # @ param t_old [String] 前回の着手時刻
   def diff_t(t_new, t_old)
