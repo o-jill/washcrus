@@ -183,7 +183,7 @@ class TaikyokuData
   def move(jsmv, dt)
     jc = JsonConsumption.new
 
-    jc.settotal(c_prev['total']) if @jkf.last_time()
+    jc.settotal(c_prev['total']) if @jkf.last_time
 
     t_last = Time.parse(dt_lastmove)
 
