@@ -39,6 +39,6 @@ class JsonConsumption
   # @ param t_new [String] 着手時刻
   # @ param t_old [String] 前回の着手時刻
   def diff_t(t_new, t_old)
-    diff(time.parse(t_new), time.parse(t_old))
+    diff(Time.parse(t_new), Time.parse(t_old))
   end
 end
