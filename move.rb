@@ -100,13 +100,14 @@ class Move
     return print TEXTPLAIN_HEAD + 'invalid move.' if tkd.mi.fromsfen(@sfen).nil?
 
     # @log.debug('Move.setlastmove')
-    tkd.mi.setlastmove(@move[0, 7], Time.now.strftime('%Y/%m/%d %H:%M:%S'))
+    now = Time.now
+    tkd.mi.setlastmove_dt(@move[0, 7], now)
 
     # @log.debug('Move.mi.write')
     tkd.mi.write(tkd.matchinfopath)
 
     # @log.debug('Move.apply jmv')
-    tkd.jkf.move(@jmv)
+    tkd.move(@jmv, now)
 
     # @log.debug('Move.jkf.write')
     tkd.jkf.write(tkd.kifupath)

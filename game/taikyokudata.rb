@@ -180,6 +180,18 @@ class TaikyokuData
     puts @jkf.to_kif.encode('Shift_JIS')
   end
 
+  def move(jsmv, dt)
+    jc = JsonConsumption.new
+
+    jc.settotal(c_prev['total']) if @jkf.last_time()
+
+    t_last = Time.parse(dt_lastmove)
+
+    jc.diff(dt, t_last)
+
+    @jkf.move(jsmv, jc.genhash)
+  end
+
   def dump
     print <<-DUMP
       taikyoku-id:#{@gid}

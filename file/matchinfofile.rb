@@ -79,6 +79,17 @@ class MatchInfoFile
     @dt_created = dt
   end
 
+  # 着手情報のセット
+  #
+  # @param dt [Time] 着手日時
+  def setlastmove_dt(mv, dt)
+    @lastmove = mv
+    @dt_lastmove = dt.strftime('%Y/%m/%d %H:%M:%S')
+  end
+
+  # 着手情報のセット
+  #
+  # @param dt [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
   def setlastmove(mv, dt)
     @lastmove = mv
     @dt_lastmove = dt

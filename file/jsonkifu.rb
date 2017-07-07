@@ -44,6 +44,10 @@ class JsonKifu
     @header['終了日時'] = finish
   end
 
+  def last_time
+    @moves[-2]['time'] if @moves[-2]
+  end
+
   def zerotime
     {
       'now' => { 'm' => 0, 's' => 0 },
