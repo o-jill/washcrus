@@ -186,14 +186,14 @@ class TaikyokuData
   end
 
   def move(jsmv, dt)
-    @log.debug("Taikyokudata.move(jsmv, #{dt.to_s})")
+    @log.debug("Taikyokudata.move(jsmv, #{dt})")
     jc = JsonConsumption.new
     @log.debug('jc.settotal if @jkf.last_time')
     total = @jkf.last_time
     totalstr = total.nil? ? 'nil' : total.to_s
     @log.debug("total:#{totalstr}")
     if total.nil?
-      @log.debug("skipped #{@jkf.moves.length} #{@jkf.moves[-2].to_s}")
+      @log.debug("skipped #{@jkf.moves.length} #{@jkf.moves[-2]}")
     else
       jc.settotal(total['total']) unless total.nil?
     end
