@@ -46,7 +46,11 @@ class JsonMove
   end
 
   def checkdou(a)
-    @same = (@to == a.to)
+    # @same =
+    # (@to['x'] == a['to']['x'] &&
+    #  @to['y'] == a['to']['y'])
+    @same = (@to == a['to'])
+# D, [2017-07-10T20:52:21.521614 #3625] DEBUG -- : mv.checkdou if ${"color"=>1, "from"=>{"x"=>6, "y"=>6}, "to"=>{"x"=>5, "y"=>7}, "piece"=>"KA", "promote"=>true}$
   end
 
   def genhash

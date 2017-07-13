@@ -34,19 +34,19 @@ describe 'JsonMove' do
       jsmv2 = JsonMove.new
       expect(jsmv.same).to be false
       expect(jsmv2.same).to be false
-      jsmv.checkdou(jsmv2)
+      jsmv.checkdou(jsmv2.genhash)
       expect(jsmv.same).to be true
       expect(jsmv2.same).to be false
       jsmv2.move({ 'x' => 2, 'y' => 8 }, { 'x' => 8, 'y' => 8 }, 'KA', 0)
-      jsmv.checkdou(jsmv2)
+      jsmv.checkdou(jsmv2.genhash)
       expect(jsmv.same).to be false
       expect(jsmv2.same).to be false
       jsmv2.move({ 'x' => 2, 'y' => 8 }, { 'x' => -1, 'y' => 8 }, 'KA', 0)
-      jsmv.checkdou(jsmv2)
+      jsmv.checkdou(jsmv2.genhash)
       expect(jsmv.same).to be false
       expect(jsmv2.same).to be false
       jsmv2.move({ 'x' => 2, 'y' => 8 }, { 'x' => 8, 'y' => -1 }, 'KA', 0)
-      jsmv.checkdou(jsmv2)
+      jsmv.checkdou(jsmv2.genhash)
       expect(jsmv.same).to be false
       expect(jsmv2.same).to be false
     end
@@ -142,7 +142,7 @@ describe 'JsonMove' do
       )
       jsmv2 = JsonMove.new
       jsmv2.move({ 'x' => 2, 'y' => 8 }, { 'x' => 8, 'y' => 8 }, 'KA', 0)
-      jsmv.checkdou(jsmv2)
+      jsmv.checkdou(jsmv2.genhash)
       expect(jsmv.genhash).to eq(
         'from' => { 'x' => 2, 'y' => 8 },
         'to' => { 'x' => 2, 'y' => 2 },
@@ -153,7 +153,7 @@ describe 'JsonMove' do
         # 'same' => false
       )
       jsmv2.move({ 'x' => 8, 'y' => 8 }, { 'x' => 2, 'y' => 2 }, 'KA', 0)
-      jsmv.checkdou(jsmv2)
+      jsmv.checkdou(jsmv2.genhash)
       expect(jsmv.genhash).to eq(
         'from' => { 'x' => 2, 'y' => 8 },
         'to' => { 'x' => 2, 'y' => 2 },

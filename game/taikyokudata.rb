@@ -1,10 +1,13 @@
 # -*- encoding: utf-8 -*-
 
 require 'digest/sha2'
+require 'time'
 require 'uri'
+require 'logger'
 
 require './file/chatfile.rb'
 require './file/jsonkifu.rb'
+require './file/jsonconsump.rb'
 require './file/matchinfofile.rb'
 require './file/taikyokufile.rb'
 require './game/gentaikyoku.rb'
@@ -23,10 +26,12 @@ class TaikyokuData
     @datetime = 'yyyy/mm/dd hh:mm:ss'
     # @turn = "F"
     # @nthmove = -1
+    @log = nil
   end
 
   attr_reader :player1, :email1, :player2, :email2, :creator, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :mi, :jkf
+  attr_accessor :log
 
   DIRPATH = './taikyoku/'.freeze
   CHATFILE = 'chat.txt'.freeze
@@ -181,15 +186,25 @@ class TaikyokuData
   end
 
   def move(jsmv, dt)
+    @log.debug("Taikyokudata.move(jsmv, #{dt.to_s})")
     jc = JsonConsumption.new
-
-    jc.settotal(c_prev['total']) if @jkf.last_time
-
-    t_last = Time.parse(dt_lastmove)
-
+    @log.debug('jc.settotal if @jkf.last_time')
+    total = @jkf.last_time
+    totalstr = total.nil? ? 'nil' : total.to_s
+    @log.debug("total:#{totalstr}")
+    if total.nil?
+      @log.debug("skipped #{@jkf.moves.length} #{@jkf.moves[-2].to_s}")
+    else
+      jc.settotal(total['total']) unless total.nil?
+    end
+    @log.debug("Time.parse(#{@mi.dt_lastmove})")
+    t_last = Time.parse(@mi.dt_lastmove)
+    @log.debug('jc.diff(dt, t_last)')
     jc.diff(dt, t_last)
-
+    @log.debug("@jkf.move(jsmv, #{jc.genhash})")
+    @jkf.log = @log
     @jkf.move(jsmv, jc.genhash)
+    @log.debug('@jkf.moved(jsmv, jc.genhash)')
   end
 
   def dump

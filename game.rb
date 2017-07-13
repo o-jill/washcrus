@@ -6,6 +6,7 @@
 
 require 'cgi'
 require 'cgi/session'
+require 'logger'
 
 require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
@@ -18,6 +19,10 @@ require './views/gamehtml.rb'
 #
 class Game
   def initialize(cgi)
+    @log = Logger.new('./tmp/gamelog.txt')
+    # @log.level = Logger::INFO
+    @log.info('Game.new()')
+
     # ウインドウタイトル
     @pagetitle = 'Wash Crus'
 
@@ -28,6 +33,7 @@ class Game
     @params = cgi.params
 
     @gameid = cgi.query_string
+    @log.info("gameid:#{@gameid}")
   end
 
   def readuserparam
@@ -40,6 +46,7 @@ class Game
                                   })
     rescue ArgumentError
       # @session = nil
+      @log.info('failed to find session')
     end
 
     @userinfo = UserInfo.new
@@ -59,27 +66,35 @@ class Game
   # 実行本体。
   #
   def perform
+    @log.debug('Game.check gameid')
     # gameid が無いよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
         if @gameid.nil? || @gameid.length.zero?
 
+    @log.debug('Game.check userinfo')
     # userinfoが変だよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nplease log in." \
         unless @userinfo.nil? || @userinfo.exist_indb
 
+    @log.debug('Game.check gameid with TaikyokuFile')
     tdb = TaikyokuFile.new
     tdb.read
     # 存在しないはずのIDだよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
         unless tdb.exist_id(@gameid)
 
+    @log.debug('Game.read TaikyokuData')
     tkd = TaikyokuData.new
     tkd.setid(@gameid)
     tkd.read
 
+    @log.debug('Game. html rendering')
     # 表示する
     gh = GameHtml.new(@gameid, tkd.mi, tkd.jkf, @userinfo)
+    gh.log = @log
+    @log.debug('Game.put')
     gh.put(@header)
+    @log.debug('Game.performed')
   end
 
   # class methods

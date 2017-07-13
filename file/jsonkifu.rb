@@ -3,6 +3,10 @@
 require 'rubygems'
 require 'json'
 require 'jkf'
+require 'logger'
+
+require './file/jsonmove.rb'
+
 #
 # JSON棋譜管理クラス
 #
@@ -21,9 +25,11 @@ class JsonKifu
       }
     @initial = { 'preset' => 'HIRATE' }
     @moves = [{ 'comments' => [] }]
+    @log = nil
   end
 
   attr_reader :header, :moves, :initial
+  attr_accessor :log
 
   def setid(tid, rid = nil)
     @header['対局ID'] = tid
@@ -55,14 +61,25 @@ class JsonKifu
     }
   end
 
+  def checkdou(a)
+    lt = @moves[-1]['move']
+    return false if lt.nil?
+    lt['to'] == a['to']
+  end
+
   def move(mv, tm = nil, cmt = nil)
+    # @log.debug("if mv['special']")
     if mv['special']
       data = { 'special' => mv }
     else
-      mv.checkdou(@moves[-1]['move']) if @moves[-1]['move']
+      # @log.debug("mv.checkdou if $#{@moves[-1]['move'].to_s}$")
+      mv['same'] = true if checkdou(mv)
+      # @log.debug("data = { 'move' => mv }")
       data = { 'move' => mv }
     end
+    # @log.debug("data['time'] = tm || zerotime")
     data['time'] = tm || zerotime
+    # @log.debug("data['comments'] = cmt unless cmt.nil?")
     data['comments'] = cmt unless cmt.nil?
     @moves << data
   end

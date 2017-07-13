@@ -13,9 +13,13 @@ class GameHtml
     @mi = mi
     @jkf = kif
     @userinfo = ui
+    @log = nil
   end
 
+  attr_accessor :log
+
   def put(header)
+    @log.debug('print header')
     print header
     print <<-HTMLELEMENTS.unindent
       <html>
@@ -39,6 +43,7 @@ HTMLELEMENTS
   end
 
   def gotegomaelement
+    @log.debug('gotegomaelement')
     <<-BOARD_TEXT.unindent
       <table id='gotegoma' class='gotegoma' border='0'>
        <tr id='gg_fu'>
@@ -55,6 +60,7 @@ HTMLELEMENTS
   end
 
   def shogibanelement
+    @log.debug('shogibanelement')
     <<-BOARD_TEXT.unindent
       <table id='ban' class='ban' border='2'>
        <tr id='bancolumn'><th width='45'>９</th><th width='45'>８</th><th width='45'>７</th><th width='45'>６</th><th width='45'>５</th><th width='45'>４</th><th width='45'>３</th><th width='45'>２</th><th width='45'>１</th><th>&nbsp;</th></tr>
@@ -72,6 +78,7 @@ HTMLELEMENTS
   end
 
   def sentegomaelement
+    @log.debug('sentegomaelement')
     <<-BOARD_TEXT.unindent
       <table id='sentegoma' class='sentegoma' border='0'>
        <tr id='sg_fu'>
@@ -88,6 +95,7 @@ HTMLELEMENTS
   end
 
   def narimenuelement
+    @log.debug('narimenuelement')
     <<-BOARD_TEXT.unindent
       <div id="narimenu" style="border:2px solid black; position:absolute; visibility:hidden; background-Color:gray;" width="100">
        <div align="center">
@@ -100,6 +108,7 @@ HTMLELEMENTS
   end
 
   def banelement
+    @log.debug('banelement')
     ret = <<-BOARD_TEXT.unindent
       #{gotegomaelement}
       #{shogibanelement}
@@ -132,6 +141,7 @@ HTMLELEMENTS
   end
 
   def headerelement
+    @log.debug('headerelement')
     "<head><title>washcrus #{@mi.playerb} vs #{@mi.playerw}</title>" \
       "<META http-equiv='Content-Type' content='text/html; charset=UTF-8' >" \
       "<meta http-equiv='Pragma' content='no-chache' />" \
@@ -143,6 +153,7 @@ HTMLELEMENTS
   end
 
   def chatelement
+    @log.debug('chatelement')
     "<div id='chatlog' class='chat'>
      チャットえりあ<BR>幅はどうやれば変わるの？<BR>-&gt;CSSでした。<BR>
      divじゃないとタグが効かないことが判明。</div>
@@ -154,6 +165,7 @@ HTMLELEMENTS
   end
 
   def kifuelement
+    @log.debug('kifuelement')
     "<button onclick='openurlin_blank(\"dlkifu.rb?#{@gameid}\")'>" \
     'Download KIF</button><BR>' \
     "<textarea id='kifulog' class='kifu' readonly>#{@jkf.to_kif}</textarea>"

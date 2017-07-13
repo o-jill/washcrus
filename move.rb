@@ -99,17 +99,19 @@ class Move
     # 指し手を適用する
     return print TEXTPLAIN_HEAD + 'invalid move.' if tkd.mi.fromsfen(@sfen).nil?
 
-    # @log.debug('Move.setlastmove')
     now = Time.now
+
+    @log.debug('Move.apply jmv')
+    tkd.log = @log
+    tkd.move(@jmv, now)
+
+    @log.debug('Move.setlastmove')
     tkd.mi.setlastmove_dt(@move[0, 7], now)
 
     # @log.debug('Move.mi.write')
     tkd.mi.write(tkd.matchinfopath)
 
-    # @log.debug('Move.apply jmv')
-    tkd.move(@jmv, now)
-
-    # @log.debug('Move.jkf.write')
+    @log.debug('Move.jkf.write')
     tkd.jkf.write(tkd.kifupath)
     @log.debug('Move.performed')
   end
