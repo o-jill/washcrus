@@ -103,7 +103,7 @@ class JsonMove
   def self.fromtext(t)
     return if t.nil?
 
-    return fromtextspecital(t) if t[0] == '%'
+    return fromtextspecial(t) if t[0] == '%'
 
     return unless (9..10).cover?(t.length)
 

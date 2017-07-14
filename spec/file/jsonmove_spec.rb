@@ -185,8 +185,8 @@ describe 'JsonMove' do
       expect(JsonMove.checkpiece('RY')).to eq('RY')
     end
     it 'parses special text' do
-      expect(JsonMove.fromtextspecital('%TORYO')).to eq(special: 'TORYO')
-      expect(JsonMove.fromtextspecital('%TOKYO')).to eq(special: 'TOKYO')
+      expect(JsonMove.fromtextspecial('%TORYO')).to eq(special: 'TORYO')
+      expect(JsonMove.fromtextspecial('%TOKYO')).to eq(special: 'TOKYO')
     end
     it 'parses CSA-like text' do
       expect(JsonMove.fromtext('+1234FU__')).to eq(
@@ -258,12 +258,12 @@ describe 'JsonMove' do
       expect(JsonMove.checkpiece('00')).to be nil
     end
     it 'parses special text' do
-      expect(JsonMove.fromtextspecital('TORYO')).to eq(special: 'ORYO')
-      expect(JsonMove.fromtextspecital('ORYO')).to eq(special: 'RYO')
-      expect(JsonMove.fromtextspecital('RYO')).to eq(special: 'YO')
-      expect(JsonMove.fromtextspecital('YO')).to eq(special: 'O')
-      expect(JsonMove.fromtextspecital('O')).to eq(special: '')
-      expect(JsonMove.fromtextspecital('')).to eq(special: nil)
+      expect(JsonMove.fromtextspecial('TORYO')).to eq(special: 'ORYO')
+      expect(JsonMove.fromtextspecial('ORYO')).to eq(special: 'RYO')
+      expect(JsonMove.fromtextspecial('RYO')).to eq(special: 'YO')
+      expect(JsonMove.fromtextspecial('YO')).to eq(special: 'O')
+      expect(JsonMove.fromtextspecial('O')).to eq(special: '')
+      expect(JsonMove.fromtextspecial('')).to eq(special: nil)
     end
     it 'parses CSA-like text' do
       expect(JsonMove.fromtext('+5453__FUP')).to be nil
