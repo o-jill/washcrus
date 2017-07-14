@@ -1,9 +1,6 @@
 #!d:\ruby193\bin\ruby.exe
 # -*- encoding: utf-8 -*-
 
-#!C:\Ruby-2.4-x64\bin\ruby.exe
-#!/usr/bin/ruby
-
 require 'cgi'
 require 'cgi/session'
 require 'logger'
@@ -85,7 +82,7 @@ class Move
     return if check_param.nil?
 
     # @log.debug('Move.check gameid')
-    tdb = TaikyokuFile.new
+    tdb = TaikyokuChuFile.new
     tdb.read
     # 存在しないはずのIDだよ
     return print TEXTPLAIN_HEAD + 'illegal access.' unless tdb.exist_id(@gameid)
@@ -101,8 +98,9 @@ class Move
     @log.debug('Move.apply sfen, jmv')
     tkd.log = @log
     # tkd.move(@jmv, now)
-    return print TEXTPLAIN_HEAD + 'invalid move.' \
-      if tkd.move(@sfen, @jmv, now).nil?
+    ret = tkd.move(@sfen, @jmv, now)
+    return print TEXTPLAIN_HEAD + 'invalid move.' if ret.nil?
+    tdb.finished(@gameid) if ret == true
 
     @log.debug('Move.setlastmove')
     tkd.mi.setlastmove_dt(@move[0, 7], now)

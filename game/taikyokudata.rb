@@ -208,9 +208,10 @@ class TaikyokuData
     if JsonMove.catchOU?(jsmv)
       @mi.done_game
       @jkf.resign
+      true
+    else
+      false
     end
-
-    self
   end
 
   def dump
