@@ -58,6 +58,11 @@ class ChatFile
     add "#{name}:#{mssg}&nbsp;(#{Time.now})<BR>"
   end
 
+  def say_start(name)
+    sayex("<span id='chatadmin'>Witness</span>",
+          "it's on time. please start your move as SENTE, #{name}-san.")
+  end
+
   def put
     print "Content-type:text/html;\n\n#{msg}"
   end

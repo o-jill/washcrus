@@ -107,8 +107,7 @@ class TaikyokuData
 
     # chat file
     chat = ChatFile.new(gid)
-    chat.sayex("<span id='chatadmin'>Witness</span>",
-               "it's on time. please start your move as SENTE, #{player1}-san.")
+    chat.say_start(player1)
   end
 
   # 対局情報の生成
