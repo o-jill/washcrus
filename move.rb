@@ -95,15 +95,14 @@ class Move
     tkd.setid(@gameid)
     tkd.read
 
-    # @log.debug('Move.apply sfen')
-    # 指し手を適用する
-    return print TEXTPLAIN_HEAD + 'invalid move.' if tkd.mi.fromsfen(@sfen).nil?
-
     now = Time.now
 
-    @log.debug('Move.apply jmv')
+    # 指し手を適用する
+    @log.debug('Move.apply sfen, jmv')
     tkd.log = @log
-    tkd.move(@jmv, now)
+    # tkd.move(@jmv, now)
+    return print TEXTPLAIN_HEAD + 'invalid move.' \
+      if tkd.move(@sfen, @jmv, now).nil?
 
     @log.debug('Move.setlastmove')
     tkd.mi.setlastmove_dt(@move[0, 7], now)
@@ -111,7 +110,7 @@ class Move
     # @log.debug('Move.mi.write')
     tkd.mi.write(tkd.matchinfopath)
 
-    @log.debug('Move.jkf.write')
+    # @log.debug('Move.jkf.write')
     tkd.jkf.write(tkd.kifupath)
     @log.debug('Move.performed')
   end

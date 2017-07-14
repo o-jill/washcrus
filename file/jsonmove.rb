@@ -52,6 +52,10 @@ class JsonMove
     @same = (@to == a['to'])
   end
 
+  def self.catchOU?(a)
+    a['capture'] == 'OU'
+  end
+
   def genhash
     data = {
       'from' => @from, 'to' => @to, 'piece' => @piece, 'color' => @color
@@ -62,7 +66,7 @@ class JsonMove
     data
   end
 
-  def self.fromtextspecital(t)
+  def self.fromtextspecial(t)
     { special: t[1, t.length - 1] }
   end
 

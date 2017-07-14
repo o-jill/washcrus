@@ -84,6 +84,10 @@ class JsonKifu
     @moves << data
   end
 
+  def resign
+    move(JsonMove.fromtext('%TORYO'))
+  end
+
   def addcomment(nth, cmt)
     @moves[nth]['comments'] << cmt
   end

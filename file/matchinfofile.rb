@@ -130,6 +130,11 @@ class MatchInfoFile
     @nth = item[3]
   end
 
+  def done_game
+    @sfen.sub(/ [bw] /, ' f ')
+    @teban = 'f'
+  end
+
   def read(path)
     data = YAML.load_file(path)
 

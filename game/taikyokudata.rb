@@ -185,26 +185,32 @@ class TaikyokuData
     puts @jkf.to_kif.encode('Shift_JIS')
   end
 
-  def move(jsmv, dt)
+  def move(sfen, jsmv, dt)
     @log.debug("Taikyokudata.move(jsmv, #{dt})")
+
+    return if @mi.fromsfen(sfen).nil?
+
     jc = JsonConsumption.new
-    @log.debug('jc.settotal if @jkf.last_time')
+    # @log.debug('jc.settotal if @jkf.last_time')
     total = @jkf.last_time
-    totalstr = total.nil? ? 'nil' : total.to_s
-    @log.debug("total:#{totalstr}")
-    if total.nil?
-      @log.debug("skipped #{@jkf.moves.length} #{@jkf.moves[-2]}")
-    else
-      jc.settotal(total['total']) unless total.nil?
-    end
-    @log.debug("Time.parse(#{@mi.dt_lastmove})")
+    # totalstr = total.nil? ? 'nil' : total.to_s
+    # @log.debug("total:#{totalstr}")
+    jc.settotal(total['total']) unless total.nil?
+    # @log.debug("Time.parse(#{@mi.dt_lastmove})")
     t_last = Time.parse(@mi.dt_lastmove)
-    @log.debug('jc.diff(dt, t_last)')
+    # @log.debug('jc.diff(dt, t_last)')
     jc.diff(dt, t_last)
-    @log.debug("@jkf.move(jsmv, #{jc.genhash})")
-    @jkf.log = @log
+    # @log.debug("@jkf.move(jsmv, #{jc.genhash})")
+    # @jkf.log = @log
     @jkf.move(jsmv, jc.genhash)
-    @log.debug('@jkf.moved(jsmv, jc.genhash)')
+    # @log.debug('@jkf.moved(jsmv, jc.genhash)')
+
+    if JsonMove.catchOU?(jsmv)
+      @mi.done_game
+      @jkf.resign
+    end
+
+    self
   end
 
   def dump
