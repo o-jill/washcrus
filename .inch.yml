@@ -1,0 +1,7 @@
+files:
+  # define files included in the analysis (defaults to ["{app,lib}/**/*.rb"])
+  included:
+    - *.rb
+  # define files excluded from the analysis (defaults to [])
+  excluded:
+    - spec/**/*.rb
