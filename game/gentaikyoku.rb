@@ -15,17 +15,20 @@ class GenTaikyokuData
   def generate
     FileUtils.mkdir(taikyoku.taikyokupath, mode: 0o777)
 
-    matchfile = taikyoku.matchinfopath
-    FileUtils.touch(matchfile)
-    FileUtils.chmod(0o666, matchfile)
+    File.open(taikyoku.matchinfopath, 'w', 0o666).close
+    # matchfile = taikyoku.matchinfopath
+    # FileUtils.touch(matchfile)
+    # FileUtils.chmod(0o666, matchfile)
 
-    chatfile = taikyoku.chatpath
-    FileUtils.touch(chatfile)
-    FileUtils.chmod(0o666, chatfile)
+    File.open(taikyoku.chatpath, 'w', 0o666).close
+    # chatfile = taikyoku.chatpath
+    # FileUtils.touch(chatfile)
+    # FileUtils.chmod(0o666, chatfile)
 
-    kifufile = taikyoku.kifupath
-    FileUtils.touch(kifufile)
-    FileUtils.chmod(0o666, kifufile)
+    File.open(taikyoku.kifupath, 'w', 0o666).close
+    # kifufile = taikyoku.kifupath
+    # FileUtils.touch(kifufile)
+    # FileUtils.chmod(0o666, kifufile)
 
     # print <<-GEN_LOG
     # FileUtils.mkdir(#{directory}, { :mode => 0777 })
