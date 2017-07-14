@@ -71,3 +71,14 @@ task :add_x2rb do
   chmod 0o755, 'move.rb'
   chmod 0o755, 'washcrus.rb'
 end
+
+desc 'testing and checking code style'
+task test: [:do_rubocop, :do_rspec]
+
+task :do_rspec do
+  sh 'rspec' rescue nil
+end
+
+task :do_rubocop do
+  sh 'rubocop' rescue nil
+end
