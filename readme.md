@@ -16,7 +16,7 @@ How to set up:
 
 required "gem"s
 * bundler
-  * jkf
+  * jkf(o-jill/jkf, kif_robust_time)
   * mail
   * rake
   * rspec
