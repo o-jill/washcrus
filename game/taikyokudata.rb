@@ -184,6 +184,7 @@ class TaikyokuData
     puts @jkf.to_kif.encode('Shift_JIS')
   end
 
+  # @return nil if invalid, true if done, otherwise false.
   def move(sfen, jsmv, dt)
     @log.debug("Taikyokudata.move(jsmv, #{dt})")
 
