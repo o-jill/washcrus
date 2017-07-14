@@ -20,11 +20,12 @@ class MatchInfoFile
     fromsfen('lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1')
     @lastmove = '-9300FU'
     @dt_lastmove = 'yyyy/mm/dd hh:mm:ss'
+    @finished = false
   end
 
   attr_reader :gid, :idb, :playerb, :emailb, :idw, :playerw, :emailw,
               :creator, :dt_created, :teban, :tegoma, :nth, :sfen,
-              :lastmove, :dt_lastmove
+              :lastmove, :dt_lastmove, :finished
 
   # 対局者のセット
   #
@@ -131,7 +132,7 @@ class MatchInfoFile
   end
 
   def done_game
-    @sfen.sub(/ [bw] /, ' f ')
+    @finished = true
     @teban = 'f'
   end
 
@@ -145,6 +146,8 @@ class MatchInfoFile
     setplayers(data[:idb], data[:idw])
     fromsfen(data[:sfen])
     setlastmove(data[:lastmove], data[:dt_lastmove])
+    @finished = data[:finished] || false
+    @teban = 'f' if @finished
   rescue
     return nil
   end
@@ -159,7 +162,7 @@ class MatchInfoFile
     {
       gid: gid, creator: creator, dt_created: dt_created,
       idb: idb, playerb: playerb, idw: idw, playerw: playerw, sfen: sfen,
-      lastmove: lastmove, dt_lastmove: dt_lastmove
+      lastmove: lastmove, dt_lastmove: dt_lastmove, finished: finished
     }
   end
 
