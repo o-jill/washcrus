@@ -100,7 +100,7 @@ class Move
     # tkd.move(@jmv, now)
     ret = tkd.move(@sfen, @jmv, now)
     return print TEXTPLAIN_HEAD + 'invalid move.' if ret.nil?
-    tdb.finished(@gameid) if ret == true
+    tdb.finished(@gameid) if ret == 1
 
     @log.debug('Move.setlastmove')
     tkd.mi.setlastmove_dt(@move[0, 7], now)

@@ -1310,7 +1310,7 @@ function fromsfen(sfentext) {
    } else if (ch == 'r') {
     var hisha = new Hisha(Koma.GOTEBAN, nsuji, ndan);
     if (nari !== 0) {
-     ryu.nari = Koma.NARI;
+     hisha.nari = Koma.NARI;
     }
     result.push(hisha);
     nari = 0;
@@ -1366,7 +1366,7 @@ function fromsfen(sfentext) {
    } else if (ch == 'R') {
     var hisha = new Hisha(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
-     ryu.nari = Koma.NARI;
+     hisha.nari = Koma.NARI;
     }
     result.push(hisha);
     nari = 0;

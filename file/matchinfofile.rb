@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 require 'yaml'
+require 'logger'
 
 require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
@@ -21,11 +22,13 @@ class MatchInfoFile
     @lastmove = '-9300FU'
     @dt_lastmove = 'yyyy/mm/dd hh:mm:ss'
     @finished = false
+    @log = nil
   end
 
   attr_reader :gid, :idb, :playerb, :emailb, :idw, :playerw, :emailw,
               :creator, :dt_created, :teban, :tegoma, :nth, :sfen,
               :lastmove, :dt_lastmove, :finished
+  attr_accessor :log
 
   # 対局者のセット
   #
@@ -123,15 +126,17 @@ class MatchInfoFile
   # sfen to parameters with minimal syntax check.
   # teban and nth are also checked.
   def fromsfen_strict(sfenstr)
-    return unless @teban == /[bw]/
+    # @log.debug('return unless @teban =~ /[bw]/')
+    return unless @teban =~ /[bw]/
 
     item = sfenstr.split(' ')
 
     return if item.length != 4
-
+    # @log.debug('return if @teban == item[1]')
     return if @teban == item[1]
-    return if @nth+1 != item[3]
-
+    # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
+    return if @nth.to_i+1 != item[3].to_i
+    # @log.debug('return if checksfen(item[0]).nil?')
     return if checksfen(item[0]).nil?
 
     @sfen = sfenstr
@@ -170,6 +175,7 @@ class MatchInfoFile
     setlastmove(data[:lastmove], data[:dt_lastmove])
     @finished = data[:finished] || false
     @teban = 'f' if @finished
+    self
   rescue
     return nil
   end

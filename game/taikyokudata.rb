@@ -187,7 +187,7 @@ class TaikyokuData
   # @return nil if invalid, true if done, otherwise false.
   def move(sfen, jsmv, dt)
     @log.debug("Taikyokudata.move(jsmv, #{dt})")
-
+    @mi.log = @log
     return if @mi.fromsfen_strict(sfen).nil?
     # return if @mi.fromsfen(sfen).nil?
 
@@ -209,9 +209,9 @@ class TaikyokuData
     if JsonMove.catchOU?(jsmv)
       @mi.done_game
       @jkf.resign
-      true
+      1
     else
-      false
+      0
     end
   end
 
