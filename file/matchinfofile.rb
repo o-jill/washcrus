@@ -135,7 +135,7 @@ class MatchInfoFile
     # @log.debug('return if @teban == item[1]')
     return if @teban == item[1]
     # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
-    return if @nth.to_i+1 != item[3].to_i
+    return if @nth.to_i + 1 != item[3].to_i
     # @log.debug('return if checksfen(item[0]).nil?')
     return if checksfen(item[0]).nil?
 
