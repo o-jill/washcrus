@@ -103,6 +103,7 @@ class MatchInfoFile
   #   @nth = nth
   # end
 
+  # minimal syntax check
   def checksfen(sfenstr)
     dan = sfenstr.split('/')
     return nil if dan.length != 9
@@ -119,6 +120,27 @@ class MatchInfoFile
     end
   end
 
+  # sfen to parameters with minimal syntax check.
+  # teban and nth are also checked.
+  def fromsfen_strict(sfenstr)
+    return unless @teban == /[bw]/
+
+    item = sfenstr.split(' ')
+
+    return if item.length != 4
+
+    return if @teban == item[1]
+    return if @nth+1 != item[3]
+
+    return if checksfen(item[0]).nil?
+
+    @sfen = sfenstr
+    @teban = item[1]
+    @tegoma = item[2]
+    @nth = item[3]
+  end
+
+  # sfen to parameters with minimal syntax check.
   def fromsfen(sfenstr)
     item = sfenstr.split(' ')
 

@@ -188,7 +188,8 @@ class TaikyokuData
   def move(sfen, jsmv, dt)
     @log.debug("Taikyokudata.move(jsmv, #{dt})")
 
-    return if @mi.fromsfen(sfen).nil?
+    return if @mi.fromsfen_strict(sfen).nil?
+    # return if @mi.fromsfen(sfen).nil?
 
     jc = JsonConsumption.new
     # @log.debug('jc.settotal if @jkf.last_time')
