@@ -127,7 +127,7 @@ rescue ScriptError => e
   move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
 rescue SecurityError => e
   move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
-rescue e
+rescue => e
   move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
 end
 # -----------------------------------
