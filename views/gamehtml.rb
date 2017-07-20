@@ -5,6 +5,7 @@ require 'erb'
 require 'unindent'
 require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
+require './game/webapi_sfenreader.rb'
 require './game/userinfo.rb'
 
 # 表示する
@@ -56,6 +57,12 @@ HTMLELEMENTS
       BOARD_TEXT
 
     ret += ERB.new(File.read('./ui/gamehtml_123neye.erb')).result(binding)
+
+    sr = WebApiSfenReader.new
+    sr.setplayers(@mi.playerb, @mi.playerw)
+    sr.sfen = @mi.sfen
+    sr.setlastmovecsa(@mi.lastmove)
+    ret += "<a href='#{sr.genuri}' target='_blank'>局面図画像</a>"
 
     ret
   end
