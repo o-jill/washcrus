@@ -1819,6 +1819,17 @@ Kin.prototype.movable = function() {
  return Koma.KinMovable;
 };
 
+/**
+ * 成れるかどうかをチェック
+ *
+ * @param {Number} fromy 移動元の座標
+ * @param {Number} toy   移動先の座標
+ *
+ * @return {Number} Koma.NARENAI 成れない
+ */
+Kin.prototype.checkNari = function(fromy, toy) {
+ return Koma.NARENAI;
+};
 
 Kaku.prototype = new Koma();
 /**
@@ -1926,6 +1937,18 @@ function Gyoku(teban, x, y) {
  */
 Gyoku.prototype.movable = function() {
   return Koma.GyokuMovable;
+};
+
+/**
+ * 成れるかどうかをチェック
+ *
+ * @param {Number} fromy 移動元の座標
+ * @param {Number} toy   移動先の座標
+ *
+ * @return {Number} Koma.NARENAI 成れない
+ */
+Gyoku.prototype.checkNari = function(fromy, toy) {
+ return Koma.NARENAI;
 };
 
 
