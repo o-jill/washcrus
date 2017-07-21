@@ -1817,3 +1817,10 @@ function openurlin_blank(url) {
  var win = window.open(url, '_blank');
  win.focus();
 }
+
+function onresign() {
+ if (!confirm("負けを認めますか？")) return;
+
+ movecsa = '%TORYO';
+ send_csamove();
+}

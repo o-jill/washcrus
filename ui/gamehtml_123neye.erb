@@ -5,11 +5,13 @@
 <span style='display:none;' id='sfen_'><%= @mi.sfen %></span><input type='hidden' size ='10' id='jsonmove' value=''/><BR>
 <%= @mi.nth %>手目です。<BR>
 <% if @mi.idb == @userinfo.user_id && @mi.teban == 'b' %>
-先手の<%= @userinfo.user_name %>さんの手番です。
+先手の<%= @userinfo.user_name %>さんの手番です。<BR>
 <input type='hidden' id='myturn' value='1'/>
+<button onclick="onresign()">投了</button><BR>
 <% elsif @mi.idw == @userinfo.user_id && @mi.teban == 'w' %>
-後手の<%= @userinfo.user_name %>さんの手番です。
+後手の<%= @userinfo.user_name %>さんの手番です。<BR>
 <input type='hidden' id='myturn' value='1'/>
+<button onclick="onresign()">投了</button><BR>
 <% else %>
  <input type='hidden' id='myturn' value='0'/>
 <% end %>

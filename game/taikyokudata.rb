@@ -206,6 +206,11 @@ class TaikyokuData
     @jkf.move(jsmv, jc.genhash)
     # @log.debug('@jkf.moved(jsmv, jc.genhash)')
 
+    if jsmv['special']
+      @mi.done_game
+      return 1
+    end
+
     if JsonMove.catchOU?(jsmv)
       @mi.done_game
       @jkf.resign
