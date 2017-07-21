@@ -2057,7 +2057,8 @@ function toru(x, y) {
  * @param {Object} koma 駒
  */
 function komadai_add(tegoma, koma) {
- tegoma[koma.id][0].push(koma);
+ if (koma.id < Koma.GyokuID)
+  tegoma[koma.id][0].push(koma);
 }
 
 /**
@@ -2069,9 +2070,11 @@ function komadai_add(tegoma, koma) {
  * @return {Object} 駒
  */
 function komadai_del(tegoma, id) {
- console.assert(tegoma[id][0].length > 0,
-   'no koma on komadai@komadai_del(' + tegoma + ',' + id + ');');
- return tegoma[id][0].pop();
+ if (koma.id < Koma.GyokuID) {
+  console.assert(tegoma[id][0].length > 0,
+    'no koma on komadai@komadai_del(' + tegoma + ',' + id + ');');
+  return tegoma[id][0].pop();
+ }
 }
 
 /**
