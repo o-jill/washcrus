@@ -132,4 +132,9 @@ class TaikyokuChuFile < TaikyokuFile
   def initialize(name = './db/taikyokuchu.csv')
     super
   end
+
+  def finished(gid)
+    remove(gid)
+    write
+  end
 end

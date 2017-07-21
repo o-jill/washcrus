@@ -69,16 +69,16 @@ class JsonKifu
 
   def move(mv, tm = nil, cmt = nil)
     # @log.debug("if mv['special']")
-    if mv['special']
-      data = { 'special' => mv }
+    if mv[:special] || mv['special']
+      data = mv
     else
       # @log.debug("mv.checkdou if $#{@moves[-1]['move'].to_s}$")
       mv['same'] = true if checkdou(mv)
       # @log.debug("data = { 'move' => mv }")
       data = { 'move' => mv }
+      # @log.debug("data['time'] = tm || zerotime")
+      data['time'] = tm || zerotime
     end
-    # @log.debug("data['time'] = tm || zerotime")
-    data['time'] = tm || zerotime
     # @log.debug("data['comments'] = cmt unless cmt.nil?")
     data['comments'] = cmt unless cmt.nil?
     @moves << data
