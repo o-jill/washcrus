@@ -7,11 +7,11 @@
 <% if @mi.idb == @userinfo.user_id && @mi.teban == 'b' %>
 先手の<%= @userinfo.user_name %>さんの手番です。<BR>
 <input type='hidden' id='myturn' value='1'/>
-<button onclick="onresign()">投了</button><BR>
+<button onclick="onresign()"><img src='./image/resignbtn.png' alt='投了(resign)' title='投了(resign)'/></button><BR>
 <% elsif @mi.idw == @userinfo.user_id && @mi.teban == 'w' %>
 後手の<%= @userinfo.user_name %>さんの手番です。<BR>
 <input type='hidden' id='myturn' value='1'/>
-<button onclick="onresign()">投了</button><BR>
+<button onclick="onresign()"><img src='./image/resignbtn.png' alt='投了(resign)' title='投了(resign)'/></button><BR>
 <% else %>
  <input type='hidden' id='myturn' value='0'/>
 <% end %>
