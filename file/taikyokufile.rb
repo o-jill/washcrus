@@ -9,13 +9,15 @@ require 'openssl'
 class TaikyokuFile
   def initialize(name = './db/taikyoku.csv')
     @fname = name
+    @idbs = {}
+    @idws = {}
     @namebs = {}
     @namews = {}
     @times = {}
     @comments = {}
   end
 
-  attr_accessor :fname, :namebs, :namews, :times, :comments
+  attr_accessor :fname, :idbs, :idws, :namebs, :namews, :times, :comments
 
   def read
     File.open(@fname, 'r:utf-8') do |file|
@@ -27,10 +29,11 @@ class TaikyokuFile
 
         # id, nameb, namew, time, comment
         elem = line.chomp.split(',')
-        if elem.length == 5
-          add(elem[0], elem[1], elem[2], elem[3], elem[4])
-        elsif elem.length == 4
-          add(elem[0], elem[1], elem[2], elem[3], '&lt;blank&gt;')
+        if elem.length == 7
+          add_array(elem)
+        elsif elem.length == 6
+          add(elem[0], elem[1], elem[2], elem[3], elem[4], elem[5],
+              '&lt;blank&gt;')
         # else
           # skip
         end
@@ -47,9 +50,10 @@ class TaikyokuFile
     File.open(@fname, 'w') do |file|
       file.flock File::LOCK_EX
       file.puts '# taikyoku information' + Time.now.to_s
-      file.puts '# id, nameb, namew, time, comment'
+      file.puts '# id, idb, idw, nameb, namew, time, comment'
       namebs.each do |id, name|
-        file.puts "#{id},#{name},#{namews[id]},#{times[id]},#{comments[id]}"
+        file.puts "#{id},#{@idbs[id]},#{@idws[id]}," \
+                  "#{name},#{namews[id]},#{times[id]},#{comments[id]}"
       end
     end
   # 例外は小さい単位で捕捉する
@@ -78,25 +82,57 @@ class TaikyokuFile
   def findname(name)
     foundid = findnameb(name) + findnamew(name)
     res = []
-    foundid.each { |i| res << [i, namebs[i], namebs[i], times[i], comments[i]] }
+    foundid.each do |i|
+      res << [i, idbs[i], idws[i], namebs[i], namebs[i], times[i], comments[i]]
+    end
+    res
+  end
+
+  # get taikyoku information by user-id
+  def finduidb(nid)
+    idbs.find { |_k, v| v == nid }
+  end
+
+  # get taikyoku information by user-id
+  def finduidw(nid)
+    idws.find { |_k, v| v == nid }
+  end
+
+  # get taikyoku information by user-id
+  def finduid(name)
+    foundid = finduidb(name) + finduidw(name)
+    res = []
+    foundid.each do |i|
+      res << [i, idbs[i], idws[i], namebs[i], namebs[i], times[i], comments[i]]
+    end
     res
   end
 
   # add taikyoku information
   # [nid]     taikyoku id.
-  # [player1] player1's name.
-  # [player2] player2's name.
+  # [idb]     player1's id.
+  # [idw]     player2's id.
+  # [ply1]    player1's name.
+  # [ply2]    player2's name.
   # [dt]      date time.
   # [comment] comment.
-  def add(nid, ply1, ply2, dt, cmt)
+  def add(nid, idb, idw, ply1, ply2, dt, cmt)
+    @idbs[nid]     = idb
+    @idws[nid]     = idw
     @namebs[nid]   = ply1
     @namews[nid]   = ply2
     @times[nid]    = dt
     @comments[nid] = cmt
   end
 
+  def add_array(arr)
+    add(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6])
+  end
+
   # remove taikyoku information
   def remove(nid)
+    @idbs.delete(nid)
+    @idws.delete(nid)
     @namebs.delete(nid)
     @namews.delete(nid)
     @times.delete(nid)
@@ -105,8 +141,11 @@ class TaikyokuFile
 
   # duplication check
   def exist_id(nid)
-    found = @namebs.find { |k, _v| k == nid }
-    !found.nil?
+    @namebs.key?(nid)
+  end
+
+  def updatedatetime(nid, dt_str)
+    @times[nid] = dt_str
   end
 
   def dumphtml
@@ -115,8 +154,8 @@ class TaikyokuFile
       <tr><th>ID</th><TH>Black</TH><TH>White</TH><TH>Time</TH><TH>Comment</TH></TR>
       FNAME_AND_TABLE
     namebs.each do |id, name|
-      puts "<TR><TD><a href='./game.rb?#{id}' target='_blank'>#{id}</a></TD>",
-           "<TD>#{name}</TD><TD>#{namews[id]}</TD>",
+      puts "<TR><TD><a href='./game.rb?#{id}' target='_blank'>#{id}</a></TD>" \
+           "<TD>#{name}#{@idbs[id]})</TD><TD>#{namews[id]}(#{@idws[id]})</TD>" \
            "<TD>#{times[id]}</TD><TD>#{comments[id]}</TD></TR>\n"
     end
     puts '</table>'

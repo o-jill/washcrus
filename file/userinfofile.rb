@@ -116,26 +116,22 @@ class UserInfoFile
 
   # duplication check
   def exist_id(id)
-    found = @names.find { |k, _v| k == id }
-    !found.nil?
+    @names.key?(id)
   end
 
   # duplication check
   def exist_name(name)
-    found = @names.find { |_k, v| v == name }
-    !found.nil?
+    @names.value?(name)
   end
 
   # duplication check?
   def exist_password(pw)
-    found = @passwords.find { |_k, v| v == pw }
-    !found.nil?
+    @passwords.value?(pw)
   end
 
   # duplication check
   def exist_email(addr)
-    found = @emails.find { |_k, v| v == addr }
-    !found.nil?
+    @emails.value?(addr)
   end
 
   def dumphtml
