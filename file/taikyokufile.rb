@@ -70,19 +70,20 @@ class TaikyokuFile
 
   # get taikyoku information by name
   def findnameb(name)
-    namebs.find { |_k, v| v == name }
+    namebs.select { |_k, v| v == name }
   end
 
   # get taikyoku information by name
   def findnamew(name)
-    namews.find { |_k, v| v == name }
+    namews.select { |_k, v| v == name }
   end
 
   # get taikyoku information by name
   def findname(name)
-    foundid = findnameb(name) + findnamew(name)
+    foundid = findnameb(name)
+    foundid.merge!(findnamew(name))
     res = []
-    foundid.each do |i|
+    foundid.each do |i, _uid|
       res << [i, idbs[i], idws[i], namebs[i], namebs[i], times[i], comments[i]]
     end
     res
@@ -90,20 +91,30 @@ class TaikyokuFile
 
   # get taikyoku information by user-id
   def finduidb(nid)
-    idbs.find { |_k, v| v == nid }
+    idbs.select { |_k, v| v == nid }
   end
 
   # get taikyoku information by user-id
   def finduidw(nid)
-    idws.find { |_k, v| v == nid }
+    idws.select { |_k, v| v == nid }
   end
 
   # get taikyoku information by user-id
   def finduid(name)
-    foundid = finduidb(name) + finduidw(name)
+    foundid = finduidb(name)
+    foundid.merge!(finduidw(name))
     res = []
-    foundid.each do |i|
-      res << [i, idbs[i], idws[i], namebs[i], namebs[i], times[i], comments[i]]
+    foundid.each do |i, _uid|
+      res << {
+        id: i,
+        idb: idbs[i],
+        idw: idws[i],
+        nameb: namebs[i],
+        namew: namews[i],
+        time: times[i],
+        comment: comments[i]
+      }
+      # res << [i, idbs[i], idws[i], namebs[i], namews[i], times[i], comments[i]]
     end
     res
   end

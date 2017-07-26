@@ -15,6 +15,7 @@ require './views/login.rb'
 require './views/logincheck.rb'
 require './views/logout.rb'
 require './views/matchlist.rb'
+require './views/mypage.rb'
 require './views/newgame.rb'
 require './views/register.rb'
 require './views/signup.rb'
@@ -101,6 +102,8 @@ class WashCrus
       register_screen(@header, Pagetitle, Titlename, @params)
     when 'matchlist' then
       matchlist_screen(@header, Pagetitle, Titlename, @params)
+    when 'mypage' then
+      mypage_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'userlist' then
       userlist_screen(@header, Pagetitle, Titlename, @params)
     else

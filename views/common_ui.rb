@@ -61,6 +61,7 @@ module CommonUI
           "<a class='menu' href='#{index}'> Entrance </a>&nbsp;",
           # "<a class='menu' href='#{index}?signup'> Sign Up </a>&nbsp;",
           # "<a class='menu' href='#{index}?login'> Log In </a>&nbsp;",
+          "<a class='menu' href='#{index}?mypage'> My Page </a>&nbsp;",
           "<a class='menu' href='#{index}?logout'> Log Out </a>&nbsp;",
           "</div><HR/>\n"
   end
