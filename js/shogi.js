@@ -930,6 +930,37 @@ Koma.prototype.getStr = function() {
  return str;
 };
 /**
+ * HTML表示用の文字列の取得
+ *
+ * @return {String} 表示用の文字列
+ */
+Koma.prototype.getHtmlStr = function(hanten) {
+ var str;
+ if (this.teban == Koma.SENTEBAN) {
+   if (hanten) {
+    str = '<div class=gotemoji>';
+   } else {
+    str = '<div class=sentemoji>';
+   }
+ } else if (this.teban == Koma.GOTEBAN) {
+   if (hanten) {
+    str = '<div class=sentemoji>';
+   } else {
+    str = '<div class=gotemoji>';
+   }
+ } else {
+  str = Koma.AkiStr;
+  return str;
+ }
+ if (this.nari == Koma.NARI) {
+  str += this.strntype;
+ } else {
+  str += this.strtype;
+ }
+ str += '</div>';
+ return str;
+};
+/**
  * CSA表示用の文字列の取得
  *
  * @return {String} 表示用の文字列

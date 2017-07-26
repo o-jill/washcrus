@@ -129,7 +129,7 @@ function Naraberu() {
    var koma = ban[i][j].koma;
    var el = ban[i][j].el;
    if (koma !== null) {
-    el.innerHTML = koma.getStr();
+    el.innerHTML = koma.getHtmlStr(0);
    }
   }
  }
@@ -164,7 +164,7 @@ function Naraberu_rotate() {
    var koma = ban[8 - i][8 - j].koma;
    var el = ban[i][j].el;
    if (koma !== null) {
-    el.innerHTML = koma.getStr();
+    el.innerHTML = koma.getHtmlStr(1);
    }
   }
  }
