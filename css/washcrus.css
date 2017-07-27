@@ -15,13 +15,14 @@ span.err{ font-size: 2rem; border: 1px solid red; }
   overflow: hidden; width: 500px;
 }
 table.ban, table.sentegoma, table.gotegoma {
-  background-image: url("../image/wood03.jpg");
+  /*background-image: url("../image/wood03.jpg");*/
+  background-Color: #C96;
   border-collapse: collapse;
 }
 table.ban {
   border:2px solid black;
 }
-table.ban tr td {
+table.ban tr td, th {
   border:2px solid black;
 }
 table.sentegoma tr td {
@@ -88,5 +89,5 @@ div.gotemoji {
 }
 
 .preload {
-  display: none; 
+  display: none;
 }
