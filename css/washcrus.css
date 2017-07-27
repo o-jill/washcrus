@@ -86,3 +86,7 @@ div.gotemoji {
   transform-origin:0% 0%;
   transform: rotate(180deg) translate(-2em, -1em);
 }
+
+.preload {
+  display: none; 
+}

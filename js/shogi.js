@@ -822,6 +822,28 @@ function Koma(teban, x, y) {
  arguments.callee.DouStrKIF = '同　';
  arguments.callee.FunariStr = '不成';
 
+ //-- pictures
+ arguments.callee.FuStrIMG = 'koma_fu';
+ arguments.callee.KyoshaStrIMG = 'koma_kyo';
+ arguments.callee.KeimaStrIMG = 'koma_kei';
+ arguments.callee.GinStrIMG = 'koma_gin';
+ arguments.callee.KinStrIMG = 'koma_kin';
+ arguments.callee.KakuStrIMG = 'koma_kaku';
+ arguments.callee.HishaStrIMG = 'koma_hisha';
+ arguments.callee.GyokuStrIMG = 'koma_ou';
+ arguments.callee.NFuStrIMG = 'koma_to';
+ arguments.callee.NKyoshaStrIMG = 'koma_nkyo';
+ arguments.callee.NKeimaStrIMG = 'koma_nkei';
+ arguments.callee.NGinStrIMG = 'koma_ngin';
+ // arguments.callee.NKinStrIMG = 'koma_nkin';
+ arguments.callee.NKakuStrIMG = 'koma_uma';
+ arguments.callee.NHishaStrIMG = 'koma_ryu';
+ // arguments.callee.NGyokuStrIMG = 'koma_nou';
+ // arguments.callee.NariStrKIF = '成';
+ // arguments.callee.UchiStrKIF = '打';
+ // arguments.callee.DouStrKIF = '同　';
+ // arguments.callee.FunariStr = '不成';
+
  arguments.callee.KomaStrTbl = [
   '歩', '香', '桂', '銀', '金', '角', '飛', '玉',
   'と', '成香', '成桂', '成銀', '成金', '馬', '竜', '王'];
@@ -876,6 +898,8 @@ function Koma(teban, x, y) {
  this.strntypeKIF = '* ';
  this.strtypeCSA = '* ';
  this.strntypeCSA = '* ';
+ this.strtypeIMG = '';
+ this.strntypeIMG = '';
  this.nari = Koma.NARAZU;
  this.id = Koma.NoID;
  this.x = x;
@@ -958,6 +982,35 @@ Koma.prototype.getHtmlStr = function(hanten) {
   str += this.strtype;
  }
  str += '</div>';
+ return str;
+};
+/**
+ * HTML表示用の文字列の取得
+ *
+ * @return {String} 表示用の文字列
+ */
+Koma.prototype.getImgStr = function(hanten) {
+ var str;
+ if (this.teban == Koma.SENTEBAN) {
+   if (hanten) {
+    str = 'h';
+   } else {
+    str = '';
+   }
+ } else if (this.teban == Koma.GOTEBAN) {
+   if (hanten) {
+    str = '';
+   } else {
+    str = 'h';
+   }
+ } else {
+  return '';
+ }
+ if (this.nari == Koma.NARI) {
+  str += this.strntypeIMG;
+ } else {
+  str += this.strtypeIMG;
+ }
  return str;
 };
 /**
@@ -1627,6 +1680,8 @@ function Fu(teban, x, y) {
  this.strntypeKIF = Koma.NFuStrKIF;
  this.strtypeCSA = Koma.FuStr;
  this.strntypeCSA = Koma.NFuStr;
+ this.strtypeIMG = Koma.FuStrIMG;
+ this.strntypeIMG = Koma.NFuStrIMG;
  this.id = Koma.FuID;
 }
 
@@ -1713,6 +1768,8 @@ function Kyosha(teban, x, y) {
  this.strntypeKIF = Koma.NKyoshaStrKIF;
  this.strtypeCSA = Koma.KyoshaStr;
  this.strntypeCSA = Koma.NKyoshaStr;
+ this.strtypeIMG = Koma.KyoshaStrIMG;
+ this.strntypeIMG = Koma.NKyoshaStrIMG;
  this.id = Koma.KyoshaID;
 }
 
@@ -1751,6 +1808,8 @@ function Keima(teban, x, y) {
  this.strntypeKIF = Koma.NKeimaStrKIF;
  this.strtypeCSA = Koma.KeimaStr;
  this.strntypeCSA = Koma.NKeimaStr;
+ this.strtypeIMG = Koma.KeimaStrIMG;
+ this.strntypeIMG = Koma.NKeimaStrIMG;
  this.id = Koma.KeimaID;
 }
 /**
@@ -1788,6 +1847,8 @@ function Gin(teban, x, y) {
  this.strntypeKIF = Koma.NGinStrKIF;
  this.strtypeCSA = Koma.GinStr;
  this.strntypeCSA = Koma.NGinStr;
+ this.strtypeIMG = Koma.GinStrIMG;
+ this.strntypeIMG = Koma.NGinStrIMG;
  this.id = Koma.GinID;
 }
 /**
@@ -1825,6 +1886,8 @@ function Kin(teban, x, y) {
  this.strntypeKIF = Koma.KinStrKIF;
  this.strtypeCSA = Koma.KinStr;
  this.strntypeCSA = Koma.KinStr;
+ this.strtypeIMG = Koma.KinStrIMG;
+ this.strntypeIMG = Koma.KinStrIMG;
  this.id = Koma.KinID;
 }
 
@@ -1882,6 +1945,8 @@ function Kaku(teban, x, y) {
  this.strntypeKIF = Koma.NKakuStrKIF;
  this.strtypeCSA = Koma.KakuStr;
  this.strntypeCSA = Koma.NKakuStr;
+ this.strtypeIMG = Koma.KakuStrIMG;
+ this.strntypeIMG = Koma.NKakuStrIMG;
  this.id = Koma.KakuID;
 }
 /**
@@ -1919,6 +1984,8 @@ function Hisha(teban, x, y) {
  this.strntypeKIF = Koma.NHishaStrKIF;
  this.strtypeCSA = Koma.HishaStr;
  this.strntypeCSA = Koma.NHishaStr;
+ this.strtypeIMG = Koma.HishaStrIMG;
+ this.strntypeIMG = Koma.NHishaStrIMG;
  this.id = Koma.HishaID;
 }
 /**
@@ -1957,6 +2024,8 @@ function Gyoku(teban, x, y) {
  this.strntypeKIF = Koma.GyokuStrKIF;
  this.strtypeCSA = Koma.GyokuStr;
  this.strntypeCSA = Koma.GyokuStr;
+ this.strtypeIMG = Koma.GyokuStrIMG;
+ this.strntypeIMG = Koma.GyokuStrIMG;
  this.id = Koma.GyokuID;
 }
 /**

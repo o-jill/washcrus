@@ -129,7 +129,13 @@ function Naraberu() {
    var koma = ban[i][j].koma;
    var el = ban[i][j].el;
    if (koma !== null) {
-    el.innerHTML = koma.getHtmlStr(0);
+     var fn = koma.getImgStr(0);
+     if (fn.length === 0) {
+       el.innerHTML = '<BR>';
+     } else {
+       el.innerHTML = '<img width="48" height="48" src="./image/'+ fn +'.png">'
+     }
+    // el.innerHTML = koma.getHtmlStr(0);
    }
   }
  }
@@ -164,7 +170,13 @@ function Naraberu_rotate() {
    var koma = ban[8 - i][8 - j].koma;
    var el = ban[i][j].el;
    if (koma !== null) {
-    el.innerHTML = koma.getHtmlStr(1);
+    var fn = koma.getImgStr(1);
+    if (fn.length === 0) {
+      el.innerHTML = '<BR>';
+    } else {
+      el.innerHTML = '<img width="48" height="48" src="./image/'+ fn +'.png">'
+    }
+    // el.innerHTML = koma.getHtmlStr(1);
    }
   }
  }

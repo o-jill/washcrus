@@ -34,11 +34,7 @@ class GameHtml
        #{chatelement}
       </div>
       <HR><div style='text-align:right;'>ぢるっち(c)2017</div>
-      <div class='fogscreen' id='fogscreen'>
-       <section class='msg_fogscreen' id='msg_fogscreen'>
-        <BIG>sending data to server..</BIG><img src='image/komanim.gif'>
-       </section>
-      </div>
+      #{hiddenelement}
       </body></html>
 HTMLELEMENTS
   end
@@ -83,6 +79,48 @@ HTMLELEMENTS
     'Download KIF</button><BR>' \
     "<textarea id='kifulog' class='kifu' readonly>#{@jkf.to_kif}</textarea>"
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kif.gsub("\n", '<BR>')}</div>"
+  end
+
+  def hiddenelement
+    ret = <<-HIDDENELEMENTS.unindent
+      <div class='fogscreen' id='fogscreen'>
+       <section class='msg_fogscreen' id='msg_fogscreen'>
+        <BIG>sending data to server..</BIG><img src='image/komanim.gif'>
+       </section>
+      </div>
+      <div class='preload'>
+       <img src='koma_fu.png'>
+       <img src='koma_kyo.png'>
+       <img src='koma_kei.png'>
+       <img src='koma_gin.png'>
+       <img src='koma_kin.png'>
+       <img src='koma_kaku.png'>
+       <img src='koma_hisha.png'>
+       <img src='koma_to.png'>
+       <img src='koma_nkyo.png'>
+       <img src='koma_nkei.png'>
+       <img src='koma_ngin.png'>
+       <img src='koma_ryu.png'>
+       <img src='koma_uma.png'>
+       <img src='koma_ou.png'>
+       <img src='hkoma_fu.png'>
+       <img src='hkoma_kyo.png'>
+       <img src='hkoma_kei.png'>
+       <img src='hkoma_gin.png'>
+       <img src='hkoma_kin.png'>
+       <img src='hkoma_kaku.png'>
+       <img src='hkoma_hisha.png'>
+       <img src='hkoma_to.png'>
+       <img src='hkoma_nkyo.png'>
+       <img src='hkoma_nkei.png'>
+       <img src='hkoma_ngin.png'>
+       <img src='hkoma_ryu.png'>
+       <img src='hkoma_uma.png'>
+       <img src='hkoma_ou.png'>
+      </div>
+      HIDDENELEMENTS
+
+      ret
   end
 
   # class methods
