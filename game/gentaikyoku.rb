@@ -6,7 +6,7 @@ require 'fileutils'
 class GenTaikyokuData
   def initialize(taikyoku = nil)
     @taikyoku = taikyoku
-    @id = taikyoku.id
+    @id = taikyoku.gid
   end
 
   attr_reader :taikyoku, :id

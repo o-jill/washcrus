@@ -183,6 +183,7 @@ class MatchInfoFile
   def initial_write(id_b, id_w, creator, cdt, path)
     setplayers(id_b, id_w)
     setcreator(creator, cdt)
+    @dt_lastmove = cdt
     write(path)
   end
 

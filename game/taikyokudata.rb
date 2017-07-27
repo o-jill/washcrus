@@ -29,9 +29,9 @@ class TaikyokuData
     @log = nil
   end
 
-  attr_reader :player1, :email1, :player2, :email2, :creator, :gid, :datetime,
+  attr_reader :id1, :player1, :email1, :id2, :player2, :email2, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :mi, :jkf
-  attr_accessor :log
+  attr_accessor :creator, :log
 
   DIRPATH = './taikyoku/'.freeze
   CHATFILE = 'chat.txt'.freeze
@@ -50,7 +50,7 @@ class TaikyokuData
     @email2 = em
   end
 
-  def swtichplayers
+  def switchplayers
     idt = @id1
     @id1 = @id2
     @id2 = idt
@@ -75,28 +75,34 @@ class TaikyokuData
   # 対局情報の生成
   # ファイルなどの準備もします。
   def generate
+    # @log.debug('Time.now.strftime')
     # 生成日時
     @datetime = Time.now.strftime('%Y/%m/%d %H:%M:%S')
 
+    # @log.debug('id = genid')
     # 対局ID
     id = genid
     return print "generation failed...\n" if id.nil?
     setid(id)
 
+    # @log.debug('GenTaikyokuData.new(self)')
     # フォルダとかファイルとかの生成
     gentd = GenTaikyokuData.new(self)
+    # gentd.log = log
     gentd.generate
 
+    # @log.debug('TaikyokuFile.new')
     tdb = TaikyokuFile.new
     tdb.read
-    tdb.add(gid, player1, player2, datetime, '')
+    tdb.add(gid, id1, id2, player1, player2, datetime, '')
     tdb.write
 
+    # @log.debug('TaikyokuChuFile.new')
     tcdb = TaikyokuChuFile.new
     tcdb.read
-    tcdb.add(gid, player1, player2, datetime, '')
+    tcdb.add(gid, id1, id2, player1, player2, datetime, '')
     tcdb.write
-
+    # @log.debug('MatchInfoFile.new(gid)')
     # match information file
     @mi = MatchInfoFile.new(gid)
     @mi.initial_write(@id1, @id2, @creator, @datetime, @matchinfopath)
