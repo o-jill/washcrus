@@ -18,6 +18,7 @@ require './views/matchlist.rb'
 require './views/mypage.rb'
 require './views/newgame.rb'
 require './views/register.rb'
+require './views/searchform.rb'
 require './views/signup.rb'
 require './views/userlist.rb'
 
@@ -104,6 +105,8 @@ class WashCrus
       matchlist_screen(@header, Pagetitle, Titlename, @params)
     when 'mypage' then
       mypage_screen(@header, Pagetitle, Titlename, @userinfo)
+    when 'searchform' then
+      searchform_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'userlist' then
       userlist_screen(@header, Pagetitle, Titlename, @params)
     else
