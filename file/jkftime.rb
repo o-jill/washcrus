@@ -20,10 +20,12 @@ class JkfTime
     ret
   end
 
-  def fromsec(sec)
-    @sec = sec % 60
-    @min = (sec / 60).to_i % 60
-    @hour = (@min / 3600).to_i
+  def fromsec(sec_)
+    @hour = (sec_ / 3600).to_i
+    sec_ -= @hour * 3600
+    @min = (sec_ / 60).to_i
+    sec_ -= @min * 60
+    @sec = sec_
   end
 
   def normalize

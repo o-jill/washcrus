@@ -72,4 +72,15 @@ describe 'JkfTime' do
       # expect(jt2.genhash).to eq('h' => 1, 'm' => 3, 's' => 18)
     end
   end
+  it 'can be set by second' do
+    jt = JkfTime.new
+    jt.fromsec(1)
+    expect(jt.genhash).to eq('m' => 0, 's' => 1)
+    jt.fromsec(100)
+    expect(jt.genhash).to eq('m' => 1, 's' => 40)
+    jt.fromsec(3610)
+    expect(jt.genhash).to eq('h' => 1, 'm' => 0, 's' => 10)
+    jt.fromsec(3700)
+    expect(jt.genhash).to eq('h' => 1, 'm' => 1, 's' => 40)
+  end
 end
