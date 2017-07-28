@@ -52,6 +52,13 @@ describe 'JsonConsumption' do
         'now' => { 'm' => 41, 's' => 0 },
         'total' => { 'h' => 1, 'm' => 1, 's' => 14 }
       )
+      told = Time.parse('2000/01/01 12:34:56')
+      tnew = Time.parse('2000/01/01 13:34:56')
+      jc.diff(tnew, told)
+      expect(jc.genhash).to eq(
+        'now' => { 'h' => 1, 'm' => 0, 's' => 0 },
+        'total' => { 'h' => 2, 'm' => 1, 's' => 14 }
+      )
     end
     it 'can calculate consumption time' do
       jc = JsonConsumption.new
