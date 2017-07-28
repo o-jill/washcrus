@@ -82,10 +82,11 @@ class Move
     return if check_param.nil?
 
     # @log.debug('Move.check gameid')
-    tdb = TaikyokuChuFile.new
-    tdb.read
+    tcdb = TaikyokuChuFile.new
+    tcdb.read
     # 存在しないはずのIDだよ
-    return print TEXTPLAIN_HEAD + 'illegal access.' unless tdb.exist_id(@gameid)
+    return print TEXTPLAIN_HEAD + 'illegal access.' \
+      unless tcdb.exist_id(@gameid)
 
     # @log.debug('Move.read data')
     tkd = TaikyokuData.new
@@ -100,7 +101,7 @@ class Move
     # tkd.move(@jmv, now)
     ret = tkd.move(@sfen, @jmv, now)
     return print TEXTPLAIN_HEAD + 'invalid move.' if ret.nil?
-    tdb.finished(@gameid) if ret == 1
+    tcdb.finished(@gameid) if ret == 1
 
     @log.debug('Move.setlastmove')
     tkd.mi.setlastmove_dt(@move[0, 7], now)
@@ -110,6 +111,17 @@ class Move
 
     # @log.debug('Move.jkf.write')
     tkd.jkf.write(tkd.kifupath)
+
+    @log.debug('tcdb.updatedatetime')
+    tcdb.updatedatetime(@gameid, now.strftime('%Y/%m/%d %H:%M:%S'))
+    tcdb.write
+
+    @log.debug('tdb.updatedatetime')
+    tdb = TaikyokuFile.new
+    tdb.read
+    tdb.updatedatetime(@gameid, now.strftime('%Y/%m/%d %H:%M:%S'))
+    tdb.write
+
     @log.debug('Move.performed')
   end
 end
