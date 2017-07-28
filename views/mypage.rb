@@ -17,6 +17,9 @@ def put_taikyokuchu(uid)
   tkcdb = TaikyokuChuFile.new
   tkcdb.read
   chu = tkcdb.finduid(uid)
+  chu.sort! do |a, b|
+    b[:time] <=> a[:time]
+  end
 
   print <<-TAIKYOKUCHU_TABLE.unindent
     <table align='center' border='3'><caption>対局中</caption>
