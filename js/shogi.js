@@ -2170,7 +2170,7 @@ function komadai_add(tegoma, koma) {
  * @return {Object} 駒
  */
 function komadai_del(tegoma, id) {
- if (koma.id < Koma.GyokuID) {
+ if (id < Koma.GyokuID) {
   console.assert(tegoma[id][0].length > 0,
     'no koma on komadai@komadai_del(' + tegoma + ',' + id + ');');
   return tegoma[id][0].pop();
