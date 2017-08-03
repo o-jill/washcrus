@@ -2,6 +2,7 @@
 
 require 'digest/sha2'
 require 'openssl'
+require 'time'
 
 #
 # 対局情報DB管理クラス
@@ -63,6 +64,19 @@ class TaikyokuFile
     puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
+  # get game info by game id
+  def probe(id)
+    {
+      id: id,
+      idb: idbs[id],
+      idw: idws[id],
+      nameb: namebs[id],
+      namew: namews[id],
+      time: times[id],
+      comment: comments[id]
+    }
+  end
+
   # get taikyoku information by id
   def findid(id)
     [@namebs[id], @namebs[id], @times[id], @comments[id]] if exist_id(id)
@@ -117,6 +131,35 @@ class TaikyokuFile
       # res << [i, idbs[i], idws[i], namebs[i], namews[i], times[i], comments[i]]
     end
     res
+  end
+
+  def findtime(from, to)
+    if from.empty?
+      tto = Time.parse(to)
+      foundid = @times.select do |_k, v|
+        t = Time.parse(v)
+        (tto <=> t) > 0  # toの日は含まない
+      end
+    elsif to.empty?
+      tfrom = Time.parse(from)
+      foundid = @times.select do |_k, v|
+        t = Time.parse(v)
+        (t <=> tfrom) >= 0
+      end
+    else
+      tfrom = Time.parse(from)
+      tto = Time.parse(to)
+      tmpid = @times.select do |_k, v|
+        t = Time.parse(v)
+        (t <=> tfrom) >= 0
+      end
+      foundid = tmpid.select do |_k, v|
+        t = Time.parse(v)
+        (tto <=> t) > 0  # toの日は含まない
+      end
+    end
+
+    foundid
   end
 
   # add taikyoku information

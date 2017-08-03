@@ -7,7 +7,9 @@ require './game/userinfo.rb'
 require './views/common_ui.rb'
 
 def put_search_form
-  today = Time.now.strftime('%Y/%m/%d')
+  now = Time.now
+  today = now.strftime('%Y/%m/%d')
+  tomorrow = (now + 24 * 3600).strftime('%Y/%m/%d')
 
   print <<-TABLE_FORM.unindent
     <script type='text/javascript' defer src='js/searchform.js'></script>
@@ -26,8 +28,8 @@ def put_search_form
      <TD><INPUT id='time_frame_from' name='time_frame_from' type='date' class='inpform' placeholder='#{today}'></TD>
     </TR>
     <TR>
-     <TD>time_frame to</TD>
-     <TD><INPUT id='time_frame_to' name='time_frame_to' type='date' class='inpform' placeholder='#{today}'></TD>
+     <TD>time_frame before</TD>
+     <TD><INPUT id='time_frame_to' name='time_frame_to' type='date' class='inpform' placeholder='#{tomorrow}'></TD>
     </TR>
     <TR>
      <TD colspan=2 align='center'><input type='button' value='Search' onClick='check_form();' class='inpform'>&nbsp;<input type='reset' class='inpform'></TD>
