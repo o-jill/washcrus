@@ -14,9 +14,11 @@ class UserInfoFile
     @names = {}
     @passwords = {}
     @emails = {}
+    @stats = {}
   end
 
   attr_accessor :fname, :names, :passwords, :emails
+  attr_reader :stats
 
   def read
     dec = OpenSSL::Cipher.new('AES-256-CBC')
@@ -32,7 +34,7 @@ class UserInfoFile
 
           # id, name, password, e-mail(encrypted)
           elements = line.chomp.split(',')
-          next if elements.length != 4 # invalid line
+          next if elements.length != 8 # invalid line
 
           id = elements[0]
           @names[id]     = elements[1]
@@ -42,6 +44,10 @@ class UserInfoFile
           em << dec.update([elements[3]].pack('H*'))
           em << dec.final
           @emails[id] = em
+          @stats[id] = {
+            swin: elements[4].to_i, slose: elements[5].to_i,
+            gwin: elements[6].to_i, glose: elements[7].to_i
+          }
         end
       end
     # 例外は小さい単位で捕捉する
@@ -60,13 +66,16 @@ class UserInfoFile
       File.open(@fname, 'w') do |file|
         file.flock File::LOCK_EX
         file.puts '# user information ' + Time.now.to_s
-        file.puts '# id, name, password, e-mail(encrypted)'
+        file.puts '# id, name, password, e-mail(encrypted), swn, sls, gwn, gls'
         names.each do |id, name|
           enc.pkcs5_keyivgen(KEY)
           crypted = ''
           crypted << enc.update(@emails[id])
           crypted << enc.final
-          file.puts "#{id},#{name},#{@passwords[id]},#{crypted.unpack('H*')[0]}"
+          mailaddr = crypted.unpack('H*')[0]
+          file.puts "#{id},#{name},#{@passwords[id]},#{mailaddr}," \
+                    "#{@stats[id][:swin]},#{@stats[id][:slose]}," \
+                    "#{@stats[id][:gwin]},#{@stats[id][:glose]}"
         end
       end
     # 例外は小さい単位で捕捉する
@@ -112,6 +121,7 @@ class UserInfoFile
     @names[id]     = name
     @passwords[id] = password
     @emails[id]    = email
+    @stats[id]     = { swin: 0, slose: 0, gwin: 0, glose: 0 }
   end
 
   # duplication check
@@ -132,6 +142,11 @@ class UserInfoFile
   # duplication check
   def exist_email(addr)
     @emails.value?(addr)
+  end
+
+  # @param sym [symbol] :swin,, :slose, :gwin, :glose
+  def win_lose(id, sym)
+    @stats[id][sym] += 1
   end
 
   def dumphtml

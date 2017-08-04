@@ -11,9 +11,10 @@ class UserInfo
     @user_id = id
     @user_name = name
     @user_email = addr
+    @win_lose = { swin: 0, slose: 0, gwin: 0, glose: 0 }
   end
 
-  attr_accessor :visitcount, :user_id, :user_name, :user_email
+  attr_accessor :visitcount, :user_id, :user_name, :user_email, :win_lose
 
   def readsession(session)
     # keys for session must be Strings, not symbols.

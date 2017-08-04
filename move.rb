@@ -101,7 +101,14 @@ class Move
     # tkd.move(@jmv, now)
     ret = tkd.move(@sfen, @jmv, now)
     return print TEXTPLAIN_HEAD + 'invalid move.' if ret.nil?
-    tcdb.finished(@gameid) if ret == 1
+    if ret == 1
+      # 終了日時の更新とか勝敗の記録とか
+      @log.debug("tkd.finished(now, #{tkd.mi.teban} == 'b')")
+      tkd.finished(now, tkd.mi.teban == 'b')
+      # 対局中からはずす
+      @log.debug('tcdb.finished(@gameid)')
+      tcdb.finished(@gameid)
+    end
 
     @log.debug('Move.setlastmove')
     tkd.mi.setlastmove_dt(@move[0, 7], now)

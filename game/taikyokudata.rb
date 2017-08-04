@@ -10,6 +10,7 @@ require './file/jsonkifu.rb'
 require './file/jsonconsump.rb'
 require './file/matchinfofile.rb'
 require './file/taikyokufile.rb'
+require './file/userinfofile.rb'
 require './game/gentaikyoku.rb'
 
 # 対局情報クラス
@@ -149,6 +150,8 @@ class TaikyokuData
     # データを読み込んで
     @mi = MatchInfoFile.new(@gid)
     return nil if @mi.read(matchinfopath).nil?
+    @id1 = @mi.idb
+    @id2 = @mi.idw
     @jkf = JsonKifu.new(@gid)
     return nil if @jkf.read(kifupath).nil?
     # @chat = ChatFile.new(@gameid)
@@ -193,6 +196,14 @@ class TaikyokuData
   # @return nil if invalid, true if done, otherwise false.
   def move(sfen, jsmv, dt)
     @log.debug("Taikyokudata.move(jsmv, #{dt})")
+
+    if jsmv[:special]
+      @log.debug("if jsmv[:special]")
+      @jkf.move(jsmv)
+      @mi.done_game
+      return 1
+    end
+
     @mi.log = @log
     return if @mi.fromsfen_strict(sfen).nil?
     # return if @mi.fromsfen(sfen).nil?
@@ -212,10 +223,10 @@ class TaikyokuData
     @jkf.move(jsmv, jc.genhash)
     # @log.debug('@jkf.moved(jsmv, jc.genhash)')
 
-    if jsmv['special']
-      @mi.done_game
-      return 1
-    end
+    # if jsmv['special']
+    #   @mi.done_game
+    #   return 1
+    # end
 
     if JsonMove.catchOU?(jsmv)
       @mi.done_game
@@ -224,6 +235,35 @@ class TaikyokuData
     else
       0
     end
+  end
+
+  # 対局の終了処理
+  # 対局終了日時のセット
+  # 勝敗の記入(買った方と負けた方に１加算)
+  #
+  # @param dt [Time] 終局時刻
+  #
+  def finished(dt, gwin)
+    # 対局終了日時のセット
+    @log.debug('@jkf.setfinishdate()')
+    @jkf.setfinishdate(dt.strftime('%Y/%m/%d %H:%M:%S'))
+
+    # 勝敗の記入(買った方と負けた方に１加算)
+    # userdb読み込み
+    @log.debug('userdb = UserInfoFile.new')
+    userdb = UserInfoFile.new
+    userdb.read
+    if gwin
+      @log.debug("userdb.win_lose(#{id2}, :gwin)")
+      userdb.win_lose(id1, :slose)
+      userdb.win_lose(id2, :gwin)
+    else
+      @log.debug("userdb.win_lose(#{id1}, :swin)")
+      userdb.win_lose(id1, :swin)
+      userdb.win_lose(id2, :glose)
+    end
+    # @log.debug('userdb.write')
+    userdb.write
   end
 
   def dump

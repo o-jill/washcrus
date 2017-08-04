@@ -50,6 +50,10 @@ class JsonKifu
     @header['終了日時'] = finish
   end
 
+  def setfinishdate(finish)
+    @header['終了日時'] = finish
+  end
+
   def last_time
     @moves[-2]['time'] if @moves[-2]
   end

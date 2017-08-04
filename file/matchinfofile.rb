@@ -160,7 +160,11 @@ class MatchInfoFile
 
   def done_game
     @finished = true
-    @teban = 'f'
+    # @teban = 'f'
+  end
+
+  def teban_ex
+    @finished ? 'f' : @teban
   end
 
   def read(path)
@@ -174,7 +178,7 @@ class MatchInfoFile
     fromsfen(data[:sfen])
     setlastmove(data[:lastmove], data[:dt_lastmove])
     @finished = data[:finished] || false
-    @teban = 'f' if @finished
+    # @teban = 'f' if @finished
     self
   rescue
     return nil
