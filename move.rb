@@ -59,7 +59,7 @@ class Move
   def check_param
     # gameid が無いよ
     return print TEXTPLAIN_HEAD + 'illegal access.' \
-        if @gameid.nil? || @gameid.length.zero?
+        if @gameid.nil? || @gameid.empty?
 
     # userinfoが変だよ
     return print TEXTPLAIN_HEAD + 'please log in.' \

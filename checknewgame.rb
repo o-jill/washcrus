@@ -17,10 +17,10 @@ params = cgi.params
 #
 errmsg = ''
 
-if params['rname'].nil? || params['rname'].length.zero? \
-  || params['remail'].nil? || params['remail'].length.zero? \
-  || params['rname2'].nil? || params['rname2'].length.zero? \
-  || params['remail2'].nil? || params['remail2'].length.zero?
+if params['rname'].nil? || params['rname'].empty? \
+  || params['remail'].nil? || params['remail'].empty? \
+  || params['rname2'].nil? || params['rname2'].empty? \
+  || params['remail2'].nil? || params['remail2'].empty?
   errmsg += 'data lost ...<BR>'
 else
   name1 = params['rname'][0]

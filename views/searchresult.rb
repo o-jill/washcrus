@@ -7,10 +7,7 @@ require './game/userinfo.rb'
 require './views/common_ui.rb'
 require './file/taikyokufile.rb'
 
-def searchgames(ply1, ply2, from, to)
-  tdb = TaikyokuFile.new
-  tdb.read
-
+def findgameid(tdb, ply1, ply2, from, to)
   id1 = []
   id2 = []
   id3 = []
@@ -27,27 +24,33 @@ def searchgames(ply1, ply2, from, to)
     id2 = res2.keys
   end
 
-  if !id1.empty?
-    if !id2.empty?
-      id12 = id1.merge(id2)
+  id12 =
+    if id1.empty? && id2.empty?
+      []
+    elsif id1.empty?
+      id2
+    elsif id2.empty?
+      id1
     else
-      id12 = id1
+      id1.merge(id2)
     end
-  else
-    if !id2.empty?
-      id12 = id2
-    else
-      id12 = []
-    end
-  end
 
-  if !from.empty? || !to.empty?
+  unless from.empty? && to.empty?
     res3 = tdb.findtime(from, to)
     return nil if res3.empty?
     id3 = res3.keys
   end
 
-  id123 = id12.concat(id3)
+  id12.concat(id3)
+end
+
+def searchgames(ply1, ply2, from, to)
+  tdb = TaikyokuFile.new
+  tdb.read
+
+  foundid = findgameid(tdb, ply1, ply2, from, to)
+
+  return nil if foundid.nil? || foundid.empty?
 
   res = []
   id123.each do |i|
@@ -75,11 +78,12 @@ def searchresult_screen(header, title, name, userinfo, params)
   #   </TABLE>
   #   TABLE_FORM
 
-  if res.nil? || res.length.zero?
+  if res.nil? || res.empty?
     print '<p>not found ...</p>'
   else
-    print "<TABLE align='center' border='1'>\n"
-    print "<tr><th>id</th><th>nameb</th><th>namew</th><th>time</th><th>download</th></tr>\n"
+    print "<TABLE align='center' border='1'>\n" \
+          '<tr><th>id</th><th>nameb</th><th>namew</th>' \
+          "<th>time</th><th>download</th></tr>\n"
     res.each do |game|
       print <<-GAMEINFO.unindent
         <tr>

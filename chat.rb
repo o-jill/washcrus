@@ -36,7 +36,7 @@ class Chat
       if @action == 'say'
         @name = @params['chatname'][0]
         @msg = @params['chatmsg'][0]
-        unless @msg.length.zero?
+        unless @msg.empty?
           @msg.gsub!(',&<>',
                      ',' => '&#44;', '&' => '&amp;',
                      '<' => '&lt;', '>' => '&gt;')

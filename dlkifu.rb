@@ -50,7 +50,7 @@ class DownloadKifu
   def perform
     # gameid が無いよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
-        if @gameid.nil? || @gameid.length.zero?
+        if @gameid.nil? || @gameid.empty?
 
     # userinfoが変だよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nplease log in." \

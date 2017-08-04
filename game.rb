@@ -69,7 +69,7 @@ class Game
     @log.debug('Game.check gameid')
     # gameid が無いよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
-        if @gameid.nil? || @gameid.length.zero?
+        if @gameid.nil? || @gameid.empty?
 
     @log.debug('Game.check userinfo')
     # userinfoが変だよ
