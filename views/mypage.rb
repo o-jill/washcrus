@@ -25,11 +25,11 @@ def put_stats(uid)
   ttl = [wl[:swin] + wl[:gwin], wl[:gwin] + wl[:glose], 0]
   ttl[2] = ttl[0] + ttl[1]
 
-  srate = sprintf "%.3f",
+  srate = sprintf '%.3f',
                   wl[:stotal].zero? ? 0 : wl[:swin].quo(wl[:stotal]).to_f
-  grate = sprintf "%.3f",
+  grate = sprintf '%.3f',
                   wl[:gtotal].zero? ? 0 : wl[:gwin].quo(wl[:gtotal]).to_f
-  trate = sprintf "%.3f", ttl[2].zero? ? 0 : ttl[0].quo(ttl[2]).to_f
+  trate = sprintf '%.3f', ttl[2].zero? ? 0 : ttl[0].quo(ttl[2]).to_f
 
   print <<-STATS.unindent
     <table align='center' border='3'><caption>対局中</caption>

@@ -88,7 +88,7 @@ log.debug('td.creator')
   td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
 
 log.debug('td.generate')
-td.log=log
+td.log = log
   td.generate
 
   # send mail to the players

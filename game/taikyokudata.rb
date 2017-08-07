@@ -198,7 +198,7 @@ class TaikyokuData
     @log.debug("Taikyokudata.move(jsmv, #{dt})")
 
     if jsmv[:special]
-      @log.debug("if jsmv[:special]")
+      @log.debug('if jsmv[:special]')
       @jkf.move(jsmv)
       @mi.done_game
       return 1
