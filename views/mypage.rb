@@ -19,25 +19,28 @@ def put_stats(uid)
   udb.read
 
   wl = udb.stats[uid]
-  wl[4] = wl[0] + wl[1]
-  wl[5] = wl[2] + wl[3]
+  wl[:stotal] = wl[:swin] + wl[:slose]
+  wl[:gtotal] = wl[:gwin] + wl[:glose]
 
-  ttl = [wl[0] + wl[2], wl[1] + wl[3], 0]
+  ttl = [wl[:swin] + wl[:gwin], wl[:gwin] + wl[:glose], 0]
   ttl[2] = ttl[0] + ttl[1]
 
+  srate = sprintf "%.3f",
+                  wl[:stotal].zero? ? 0 : wl[:swin].quo(wl[:stotal]).to_f
+  grate = sprintf "%.3f",
+                  wl[:gtotal].zero? ? 0 : wl[:gwin].quo(wl[:gtotal]).to_f
+  trate = sprintf "%.3f", ttl[2].zero? ? 0 : ttl[0].quo(ttl[2]).to_f
+
   print <<-STATS.unindent
-    <table>
+    <table align='center' border='3'><caption>対局中</caption>
     <tr>
-     <th>総合成績</th>
-     <td>#{ttl[0]}勝#{ttl[1]}敗 (#{ttl[2].zero? ? '0.000' : ttl[0].quo(ttl[2]).round(3)})</td>
+     <th>総合成績</th><td>#{ttl[0]}勝#{ttl[1]}敗</td><td>#{trate}</td>
     </tr>
     <tr>
-     <th>先手成績</th>
-     <td>#{wl[0]}勝#{wl[1]}敗 (#{wl[4].zero? ? '0.000' : wl[0].quo(wl[4]).round(3)})</td>
+     <th>先手成績</th><td>#{wl[:swin]}勝#{wl[:slose]}敗</td><td>#{srate}</td>
     </tr>
     <tr>
-     <th>後手成績</th>
-     <td>#{wl[2]}勝#{wl[3]}敗 (#{wl[5].zero? ? '0.000' : wl[2].quo(wl[5]).round(3)})</td>
+     <th>後手成績</th><td>#{wl[:gwin]}勝#{wl[:glose]}敗</td><td>#{grate}</td>
     </tr>
     </table>
     STATS
