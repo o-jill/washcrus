@@ -22,7 +22,7 @@ table.ban, table.sentegoma, table.gotegoma {
 table.ban {
   border:2px solid black;
 }
-table.ban tr td, th {
+table.ban tr td, table.ban tr th {
   border:2px solid black;
 }
 table.sentegoma tr td {
