@@ -1,6 +1,7 @@
 .ruby-version
 .swp
 Gemfile.lock
+secret_token.rb
 taikyoku
 taikyoku.csv
 taikyokuchu.csv

@@ -2,6 +2,26 @@
 # encoding: utf-8
 
 require 'rake/clean'
+require 'securerandom'
+
+desc 'token generation task'
+task gen_token: ['secret_token.rb']
+
+file 'secret_token.rb' do |fn|
+  open(fn.name, 'w:utf-8') do |f|
+    keydata = SecureRandom.hex(20)
+    # suf = SecureRandom.hex(2)
+    f.puts <<"SECRET_TOKEN"
+# coding: utf-8
+module Globals
+  KEY = '#{keydata}'.freeze
+  USERINFO = './db/userinfo#{suf}.csv'.freeze
+  TAIKYOKU = './db/taikyoku#{suf}.csv'.freeze
+  TAIKYOKUCHU = './db/taikyoku#{suf}.csv'.freeze
+end
+SECRET_TOKEN
+  end
+end
 
 desc 'greeting task'
 task :hello do

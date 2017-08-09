@@ -3,11 +3,13 @@
 require 'digest/sha2'
 require 'openssl'
 
+require './secret_token.rb'
+
 #
 # ユーザー情報DB管理クラス
 #
 class UserInfoFile
-  KEY = 'thirty two byte secure password.'.freeze
+  KEY = Globals::KEY
 
   def initialize(name = './db/userinfo.csv')
     @fname = name
