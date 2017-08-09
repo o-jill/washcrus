@@ -30,7 +30,7 @@ def put_stats(uid)
   trate = format('%.3f', ttl[2].zero? ? 0 : ttl[0] / ttl[2].to_f)
 
   print <<-STATS.unindent
-    <table align='center' border='3'><caption>対局中</caption>
+    <table align='center' border='3'><caption>戦績</caption>
     <tr>
      <th>総合成績</th><td>#{ttl[0]}勝#{ttl[1]}敗</td><td>#{trate}</td>
     </tr>
