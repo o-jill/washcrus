@@ -10,16 +10,16 @@ def show_logo
   print <<-LOGO_TEXT.unindent
     <TABLE bgcolor='#cc9933' align='center' bordercolor='black' border='0' frame='void' rules='all'>
      <TR><TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD>
-      <TD></TD>
-      <TD></TD>
+      <TD width='290px'></TD>
+      <TD width='290px'></TD>
       <TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD></TR>
-     <TR><TD></TD>
-      <TD><strong><span style='font-size:12em'>角</span></strong></TD>
+     <TR><TD height='300px'></TD>
+      <TD align='center'><strong><span style='font-size:12em'>角</span></strong></TD>
       <TD></TD>
       <TD></TD></TR>
-     <TR><TD></TD>
-      <TD><strong><span style='font-size:12em'>銀</span></strong></TD>
-      <TD><strong><span style='font-size:12em'>飛</span></strong></TD>
+     <TR><TD height='300px'></TD>
+      <TD align='center'><strong><span style='font-size:12em'>銀</span></strong></TD>
+      <TD align='center'><strong><span style='font-size:12em'>飛</span></strong></TD>
       <TD></TD></TR>
      <TR><TD><span style='font-size:2em'>&nbsp;</span></TD>
       <TD></TD>
