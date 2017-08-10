@@ -6,7 +6,7 @@ require './game/userinfo.rb'
 require './views/common_ui.rb'
 
 # LOGO
-def show_logo
+def show_logo_tmpl(arr)
   print <<-LOGO_TEXT.unindent
     <TABLE bgcolor='#cc9933' align='center' bordercolor='black' border='0' frame='void' rules='all'>
      <TR><TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD>
@@ -14,12 +14,12 @@ def show_logo
       <TD width='290px'></TD>
       <TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD></TR>
      <TR><TD height='300px'></TD>
-      <TD align='center'><strong><span style='font-size:12em'>角</span></strong></TD>
-      <TD></TD>
+      <TD align='center'>#{arr[0]}</TD>
+      <TD align='center'>#{arr[1]}</TD>
       <TD></TD></TR>
      <TR><TD height='300px'></TD>
-      <TD align='center'><strong><span style='font-size:12em'>銀</span></strong></TD>
-      <TD align='center'><strong><span style='font-size:12em'>飛</span></strong></TD>
+     <TD align='center'>#{arr[2]}</TD>
+     <TD align='center'>#{arr[3]}</TD>
       <TD></TD></TR>
      <TR><TD><span style='font-size:2em'>&nbsp;</span></TD>
       <TD></TD>
@@ -27,6 +27,61 @@ def show_logo
       <TD><span style='font-size:2em'>&nbsp;</span></TD></TR>
     </TABLE>
     LOGO_TEXT
+end
+def show_logo4
+  arr = [
+    "<strong><span style='font-size:12em'>角</span></strong>",
+    '',
+    "<strong><span style='font-size:12em'>銀</span></strong>",
+    "<strong><span style='font-size:12em'>飛</span></strong>"
+  ]
+  show_logo_tmpl(arr)
+end
+def show_logo3
+  arr = [
+    "<strong><span style='font-size:12em'>角</span></strong>",
+    "<strong><span style='font-size:12em'>銀</span></strong>",
+    "<strong><span style='font-size:12em'>飛</span></strong>",
+    ''
+  ]
+  show_logo_tmpl(arr)
+end
+def show_logoya
+  arr = [
+    "<strong><span style='font-size:12em'>銀</span></strong>",
+    "<strong><span style='font-size:12em'>金</span></strong>",
+    "<strong><span style='font-size:12em'>金</span></strong>",
+    "<strong><span style='font-size:12em'>角</span></strong>"
+  ]
+  show_logo_tmpl(arr)
+end
+def show_logoikm
+  arr = [
+    "<strong><span style='font-size:12em'>香</span></strong>",
+    "<strong><span style='font-size:12em'>銀</span></strong>",
+    "<strong><span style='font-size:12em'>玉</span></strong>",
+    "<strong><span style='font-size:12em'>桂</span></strong>"
+  ]
+  show_logo_tmpl(arr)
+end
+def show_logofkm
+  arr = [
+    "<strong><span style='font-size:12em'>銀</span></strong>",
+    "<strong><span style='font-size:12em'>香</span></strong>",
+    "<strong><span style='font-size:12em'>桂</span></strong>",
+    "<strong><span style='font-size:12em'>玉</span></strong>"
+  ]
+  show_logo_tmpl(arr)
+end
+def show_logo
+  idx = rand(5)
+  case idx
+  when 1 then show_logoikm
+  when 2 then show_logofkm
+  when 3 then show_logo3
+  when 4 then show_logo4
+  else show_logoya
+  end
 end
 
 def test_area
