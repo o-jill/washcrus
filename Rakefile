@@ -10,7 +10,7 @@ task gen_token: ['secret_token.rb']
 file 'secret_token.rb' do |fn|
   open(fn.name, 'w:utf-8') do |f|
     keydata = SecureRandom.hex(20)
-    # suf = SecureRandom.hex(2)
+    suf = SecureRandom.hex(2)
     f.puts <<"SECRET_TOKEN"
 # coding: utf-8
 module Globals
