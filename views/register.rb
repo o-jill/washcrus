@@ -1,11 +1,13 @@
 # -*- encoding: utf-8 -*-
 
 require 'rubygems'
-require 'yaml'
 require 'digest/sha2'
-# require 'mail'
+require 'mail'
+require 'yaml'
+require 'unindent'
 
 require './file/userinfofile.rb'
+require './util/mailmgr.rb'
 require './views/common_ui.rb'
 
 def check_params(params)
@@ -61,33 +63,21 @@ def check_register(params)
   errmsg
 end
 
-def mail_msg(username, pw, email)
-  "Dear#{username}\n" \
-  "Your information has been registed successfully as below.\n\n" \
-  "User name: #{username}\nPassword: #{pw}\n" \
-  "E-mail address: #{email}\n\n" \
-  '* Please delete this email ' \
-  "if you believe you are not the intended recipient.\n" \
-  '* Please do not respond to this auto-generated email.'
-end
+def send_mail_register(addr, username, pw)
+  msg = <<-MAIL_MSG.unindent
+    Dear #{username}
 
-def send_mail_register(message)
-  # send mail
-  dlvcfg = YAML.load_file('./config/mail.yaml')
-  mail = Mail.new do
-    from    dlvcfg['mailaddress']
-    to      email
-    subject 'Welcome to Wash Crus!'
-    body    message
-  end
-  mail.delivery_method(dlvcfg['type'],
-                       address: dlvcfg['address'], port: dlvcfg['port'],
-                       domain: dlvcfg['domain'],
-                       authentication: dlvcfg['authentication'],
-                       user_name: dlvcfg['user_name'],
-                       password: dlvcfg['password'])
-  mail.deliver
-  # p mail
+    Your information has been registered successfully as below.
+
+    User name: #{username}
+    Password: #{pw}
+    E-mail address: #{addr}
+
+    MAIL_MSG
+  msg += MailManager.footer
+
+  mailmgr = MailManager.new
+  mailmgr.send_mail(addr, 'Welcome to Wash Crus!', msg)
 end
 
 #
@@ -108,7 +98,7 @@ def register_screen(header, title, name, params)
     userdb.write
 
     # send mail
-    send_mail_register(mail_msg(username, password1, email1))
+    send_mail_register(email1, username, password1)
   end
 
   CommonUI::HTMLHead(header, title)

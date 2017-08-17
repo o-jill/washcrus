@@ -9,10 +9,11 @@ Lisence: Public domain
 How to set up:
 1. Clone repo. or unzip WashCrus archive to certain path where is allowed to run CGI script.
 2. Edit ./config/mail.yaml.sample and save it as ./config/mail.yaml
-3. Run "bundle" to get required gems.
-4. Run "rake gen_token" to generate KEY to encrypt data.
-5. Run "rake init" to generate db file and change some files/directories's permissions.
-6. Visit washcrus.rb by your browser.
+3. Edit ./config/signature.txt.sample and save it as ./config/signature.txt
+4. Run "bundle" to get required gems.
+5. Run "rake gen_token" to generate KEY to encrypt data.
+6. Run "rake init" to generate db file and change some files/directories's permissions.
+7. Visit washcrus.rb by your browser.
 
 required "gem"s
 * bundler

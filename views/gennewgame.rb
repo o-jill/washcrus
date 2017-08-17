@@ -8,6 +8,7 @@ require './file/matchinfofile.rb'
 require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
 require './game/userinfo.rb'
+require './util/mailmgr.rb'
 require './views/common_ui.rb'
 
 def check_datalost_gengame(params)
@@ -46,6 +47,20 @@ def check_newgame(params)
   email2 = params['remail2'][0]
 
   check_players(name1, email1, name2, email2)
+end
+
+
+def mail_msg_newgame(user1, user2, gameid)
+  msg = <<-MAIL_MSG.unindent
+    Dear #{user1} and #{user2}
+
+    a new game is ready for you.
+    please visit a URL bellow to play.
+    http://localhost/cgi-bin/game.rb?#{gameid}
+
+    MAIL_MSG
+  msg += MailManager.footer
+  msg
 end
 
 def put_err_sreen(header, title, name, errmsg)
@@ -92,6 +107,11 @@ td.log = log
   td.generate
 
   # send mail to the players
+  subject = "a game is ready!! (#{td.player1} vs #{td.player2})"
+  msg = mail_msg_newgame(td.player1, td.player2, td.gid)
+  mailmgr = MailManager.new
+  mailmgr.send_mail(td.email1, subject, msg)
+  mailmgr.send_mail(td.email2, subject, msg)
 
 log.debug('CommonUI::HTMLHead(header, title)')
   CommonUI::HTMLHead(header, title)
@@ -100,7 +120,9 @@ log.debug('CommonUI::HTMLHead(header, title)')
   td.dumptable
 
   puts 'new game generated!<BR>' \
-       "<a href='game.rb?#{td.gid}'><big>start playing &gt;&gt;</big></a>"
+       "<a href='game.rb?#{td.gid}'><big>start playing &gt;&gt;</big></a><BR>"
+
+  puts 'mails were sent to both players.'
 
   CommonUI::HTMLfoot()
 end
