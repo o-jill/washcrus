@@ -45,7 +45,7 @@ task :gen_session_clean do
 end
 
 desc 'init task'
-task init: [:gen_info, :add_w2d, :add_x2rb]
+task init: [:check_mailcfg, :gen_info, :add_w2d, :add_x2rb]
 
 task gen_info: [:gen_userinfo, :gen_taikyokuinfo, :gen_taikyokuchuinfo]
 
@@ -90,6 +90,22 @@ task :add_x2rb do
   chmod 0o755, 'game.rb'
   chmod 0o755, 'move.rb'
   chmod 0o755, 'washcrus.rb'
+end
+
+task check_mailcfg: [:check_mailcfg_yaml, :check_mailcfg_sign]
+
+task check_mailcfg_yaml: ['./config/mail.yaml']
+
+file './config/mail.yaml' do
+  puts "ERROR: './config/mail.yaml' is missing..."
+  exit 101
+end
+
+task check_mailcfg_sign: ['./config/signature.txt']
+
+file './config/signature.txt' do
+  puts "ERROR: './config/signature.txt' is missing..."
+  exit 102
 end
 
 desc 'testing and checking code style'
