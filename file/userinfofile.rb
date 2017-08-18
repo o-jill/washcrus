@@ -151,7 +151,7 @@ class UserInfoFile
     @names.value?(name) || @emails.value?(addr)
   end
 
-  # @param sym [symbol] :swin,, :slose, :gwin, :glose
+  # @param sym [symbol] :swin, :slose, :gwin, :glose
   def win_lose(id, sym)
     @stats[id][sym] += 1
   end
