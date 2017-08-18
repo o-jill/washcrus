@@ -1,3 +1,17 @@
+function countbyte(str)
+{
+  var sz = 0;
+  var len = str.length;
+  for (var i = 0 ; i < len ; ++i) {
+    if (escape(str.charAt(i)).length < 4) {
+      ++sz;
+    } else {
+      sz += 2;
+    }
+  }
+  return sz;
+}
+
 function check_form()
 {
   var nmismatch = 0;
@@ -5,7 +19,7 @@ function check_form()
 
   var name;
   name = document.getElementById('rname');
-  if (name.value.length < 4) {
+  if (countbyte(name.value) < 4) {
     document.getElementById('trname').style.backgroundColor = 'red';
     alertmsg += 'name is too short!\n';
     ++nmismatch;
