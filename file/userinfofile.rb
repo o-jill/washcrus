@@ -146,6 +146,11 @@ class UserInfoFile
     @emails.value?(addr)
   end
 
+  # duplication check
+  def exist_name_or_email(name, addr)
+    @names.value?(name) || @emails.value?(addr)
+  end
+
   # @param sym [symbol] :swin,, :slose, :gwin, :glose
   def win_lose(id, sym)
     @stats[id][sym] += 1

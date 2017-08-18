@@ -94,20 +94,30 @@ def register_screen(header, title, name, params)
     # 登録する
     dgpw = Digest::SHA256.hexdigest password1
 
-    userdb.add(username, dgpw, email1)
-    userdb.write
+    userdb = UserInfoFile.new
+    userdb.read
+    if userdb.exist_name_or_email(username, email1)
+      errmsg = 'user name or e-mail address is already exists...'
+    else
+      userdb.add(username, dgpw, email1)
+      userdb.write
 
-    # send mail
-    send_mail_register(email1, username, password1)
+      # send mail
+      send_mail_register(email1, username, password1)
+    end
+
   end
 
   CommonUI::HTMLHead(header, title)
   CommonUI::HTMLmenu(name)
 
   if errmsg.length.zero?
-    print "Registered successfully.<BR>username:#{username}<BR>",
-          "password:****<BR>email address:#{email1}<BR>",
-          'Registration mail has been sent.<BR>'
+    print <<-REG_SUC_MSG.unindent
+      Registered successfully.<BR>username:#{username}<BR>
+      password:****<BR>email address:#{email1}<BR>
+      <BR>
+      Registration mail has been sent.<BR>
+      REG_SUC_MSG
   else
     # エラー
     print 'Unfortunately failed ...<BR>', errmsg
