@@ -22,7 +22,7 @@ def put_stats(uid)
   wl[:stotal] = wl[:swin] + wl[:slose]
   wl[:gtotal] = wl[:gwin] + wl[:glose]
 
-  ttl = [wl[:swin] + wl[:gwin], wl[:gwin] + wl[:glose], 0]
+  ttl = [wl[:swin] + wl[:gwin], wl[:slose] + wl[:glose], 0]
   ttl[2] = ttl[0] + ttl[1]
 
   srate = format('%.3f', wl[:stotal].zero? ? 0 : wl[:swin] / wl[:stotal].to_f)
