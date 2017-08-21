@@ -1713,8 +1713,28 @@ function gensfen(nth = '1') {
 
 function activateteban()
 {
- var teban = document.getElementById('myturn').value;
- if (teban != '0') taikyokuchu = true;
+ // var teban = document.getElementById('myturn').value;
+ // if (teban != '0') taikyokuchu = true;
+ var teban = document.getElementById('myteban').value;
+ if (teban == 'b' && activeteban == Koma.SENTEBAN) taikyokuchu = true;
+ if (teban == 'w' && activeteban == Koma.GOTEBAN) taikyokuchu = true;
+
+ var strinfo = mykifu.NTeme + '手目です。<BR>';
+ if (activeteban == Koma.SENTEBAN) {
+  strinfo += '先手の手番です。<BR>'
+ } else if (activeteban == Koma.GOTEBAN) {
+  strinfo += '後手の手番です。<BR>'
+ } else {
+  strinfo += '対局は終了/中断しました。<BR>'
+ }
+ document.getElementById('tebaninfo').innerHTML = strinfo;
+
+ /* resign button */
+ if (taikyokuchu) {
+  document.getElementById('btn_resign').style.display = 'inline';
+ } else {
+  document.getElementById('btn_resign').style.display = 'none';
+ }
 }
 
 /**

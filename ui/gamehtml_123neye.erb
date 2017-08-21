@@ -3,15 +3,14 @@
  <input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'<%= ' checked' if @mi.idw == @userinfo.user_id %> >ひふみんアイ</input>
 </label>
 <span style='display:none;' id='sfen_'><%= @mi.sfen %></span><input type='hidden' size ='10' id='jsonmove' value=''/><BR>
-<%= @mi.nth %>手目です。<BR>
-<% if @mi.idb == @userinfo.user_id && @mi.teban_ex == 'b' %>
-先手の<%= @userinfo.user_name %>さんの手番です。<BR>
-<input type='hidden' id='myturn' value='1'/>
-<button onclick="onresign()"><img src='./image/resignbtn.png' alt='投了(resign)' title='投了(resign)'/></button><BR>
-<% elsif @mi.idw == @userinfo.user_id && @mi.teban_ex == 'w' %>
-後手の<%= @userinfo.user_name %>さんの手番です。<BR>
-<input type='hidden' id='myturn' value='1'/>
-<button onclick="onresign()"><img src='./image/resignbtn.png' alt='投了(resign)' title='投了(resign)'/></button><BR>
+<% if @mi.idb == @userinfo.user_id %>
+<input type='hidden' id='myteban' value='b'/>
+<% elsif @mi.idw == @userinfo.user_id %>
+<input type='hidden' id='myteban' value='w'/>
 <% else %>
- <input type='hidden' id='myturn' value='0'/>
+<input type='hidden' id='myteban' value='0'/>
 <% end %>
+<span id='tebaninfo'>手番情報</span>
+<button style='display:none;' id='btn_resign' onclick="onresign()">
+ <img src='./image/resignbtn.png' alt='投了(resign)' title='投了(resign)'/>
+</button><BR>
