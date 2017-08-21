@@ -209,7 +209,7 @@ class TaikyokuFile
       FNAME_AND_TABLE
     namebs.each do |id, name|
       puts "<TR><TD><a href='./game.rb?#{id}' target='_blank'>#{id}</a></TD>" \
-           "<TD>#{name}#{@idbs[id]})</TD><TD>#{namews[id]}(#{@idws[id]})</TD>" \
+           "<TD>#{name}(#{@idbs[id]})</TD><TD>#{namews[id]}(#{@idws[id]})</TD>" \
            "<TD>#{times[id]}</TD><TD>#{comments[id]}</TD></TR>\n"
     end
     puts '</table>'
