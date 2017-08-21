@@ -1737,6 +1737,78 @@ function activateteban()
  }
 }
 
+function checkLatestMoveTmout()
+{
+ var ajax = new XMLHttpRequest();
+ if (ajax != null) {
+  // tsushinchu = true;
+  // activatefogscreen();
+  ajax.open('POST', 'getsfen.rb?' + id, true);
+  ajax.overrideMimeType('text/plain; charset=UTF-8');
+  ajax.send('');
+  ajax.onreadystatechange = function() {
+   // tsushinchu = false;
+   // var msg = document.getElementById('msg_fogscreen');
+   switch (ajax.readyState) {
+   case 4:
+    var status = ajax.status;
+    if (status == 0) {  // XHR 通信失敗
+    //  msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
+    //   location.reload(true);
+     startUpdateTimer();
+    } else {  // XHR 通信成功
+     if ((200 <= status && status < 300) || status == 304) {
+      // リクエスト成功
+      var resp = ajax.responseText
+      checkSfenResponse(resp);
+      // msg.innerHTML = '通信完了。\n自動的にリロードします。';
+      // location.reload(true);
+     } else {  // リクエスト失敗
+      // msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
+      // location.reload(true);
+      startUpdateTimer();
+     }
+    }
+    break;
+   }
+  };
+  ajax.onload = function(e) {
+    utf8text = ajax.responseText;
+  };
+ }
+}
+
+function checkSfenResponse(sfenstr)
+{
+ if (sfenstr.match(/^ERROR:/)) {
+  // ERROR
+  return;
+ }
+
+ var oldsfen = document.getElementById('sfen_').innerHTML;
+ if (sfenstr != oldsfen) {
+  document.getElementById('sfen_').innerHTML = sfenstr;
+
+  fromsfen(sfentext);
+
+  activateteban();
+
+  hifumin_eye = document.getElementById('hifumineye').checked;
+
+  update_screen();
+ }
+
+ if (!taikyokuchu) {
+  startUpdateTimer();
+ }
+}
+
+
+function startUpdateTimer()
+{
+ setTimeout('checkLatestMoveTmout()', 60000);
+}
+
 /**
  * sfenを読み込んで指せる状態にする。
  */
@@ -1748,6 +1820,10 @@ function init_board() {
  fromsfen(sfentext);
 
  activateteban();
+
+ if (!taikyokuchu) {
+  startUpdateTimer();
+ }
 
  hifumin_eye = document.getElementById('hifumineye').checked;
 
