@@ -1713,11 +1713,19 @@ function gensfen(nth = '1') {
 
 function activateteban()
 {
- // var teban = document.getElementById('myturn').value;
- // if (teban != '0') taikyokuchu = true;
- var teban = document.getElementById('myteban').value;
- if (teban == 'b' && activeteban == Koma.SENTEBAN) taikyokuchu = true;
- if (teban == 'w' && activeteban == Koma.GOTEBAN) taikyokuchu = true;
+  // String('true') or String('false')
+ var strfinished = document.getElementById('isfinished').value;
+ var isfinished = (strfinished != 'false');  // convert to boolean
+ if (isfinished) {
+  taikyokuchu = false;
+ } else {
+  // var teban = document.getElementById('myturn').value;
+  // if (teban != '0') taikyokuchu = true;
+  var teban = document.getElementById('myteban').value;
+  if (teban == 'b' && activeteban == Koma.SENTEBAN) taikyokuchu = true;
+  else if (teban == 'w' && activeteban == Koma.GOTEBAN) taikyokuchu = true;
+  else taikyokuchu = false;
+ }
 
  var strinfo = mykifu.NTeme + '手目です。<BR>';
  if (activeteban == Koma.SENTEBAN) {
