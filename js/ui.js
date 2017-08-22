@@ -1780,9 +1780,6 @@ function checkLatestMoveTmout()
     break;
    }
   };
-  ajax.onload = function(e) {
-    utf8text = ajax.responseText;
-  };
  }
 }
 
@@ -1888,9 +1885,6 @@ function send_csamove()
       }
       break;
      }
-    };
-    ajax.onload = function(e) {
-      utf8text = ajax.responseText;
     };
   }
 }
