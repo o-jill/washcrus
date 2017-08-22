@@ -27,6 +27,11 @@ class GameHtml
       <html>#{headerelement}
       <body><center>洗足池</center><HR>
       <div class=gamearea>
+       <div id='notify_area' class='notify'>
+        <BR>指されました。ページを再読込してください。
+        <input type='image' style='vertical-align:middle;' id='btn_reload' src='./image/reloadbtn.png' onclick='location.reload(true);' alt='再読込' title='再読込'/>
+        <BR><BR>
+       </div>
        <div class=block>
         <div class='block_elem_ban' id='block_elem_ban'> #{banelement} </div>
         <div class='block_elem_kifu'> #{kifuelement} </div>

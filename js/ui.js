@@ -1795,18 +1795,25 @@ function checkSfenResponse(sfenstr)
 
  var oldsfen = document.getElementById('sfen_').innerHTML;
  if (sfenstr != oldsfen) {
-  document.getElementById('sfen_').innerHTML = sfenstr;
+  if (true) {
+   // show reload button
+   document.getElementById('notify_area').style.display = 'inline';
+  } else {
+   document.getElementById('sfen_').innerHTML = sfenstr;
 
-  fromsfen(sfentext);
+   fromsfen(sfentext);
 
-  activateteban();
+   activateteban();
 
-  hifumin_eye = document.getElementById('hifumineye').checked;
+   hifumin_eye = document.getElementById('hifumineye').checked;
 
-  update_screen();
- }
+   update_screen();
 
- if (!taikyokuchu) {
+   if (!taikyokuchu) {
+     startUpdateTimer();
+   }
+  }
+ } else {
   startUpdateTimer();
  }
 }

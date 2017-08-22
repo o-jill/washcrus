@@ -12,7 +12,7 @@ span.err{ font-size: 2rem; border: 1px solid red; }
 }
 .block_elem_ban {
   display:table-cell; border: 1px solid red; vertical-align: top;
-  overflow: hidden; width: 500px;
+  overflow: auto; min-width: 500px; /*width: 500px;*/
 }
 table.ban, table.sentegoma, table.gotegoma {
   /*background-image: url("../image/wood03.jpg");*/
@@ -49,6 +49,13 @@ textarea.kifu {
 input.chatnm { width:20%; }
 input.chatmsg { width:70%; }
 div.chat { width:100%; min-height:200px; overflow:scroll; }
+
+/* notification */
+div.notify {
+  width:100%;
+  border: 1px solid orange;
+  display: none;
+}
 
 /* 入力禁止用幕 */
 div.fogscreen {
