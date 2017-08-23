@@ -46,11 +46,9 @@ class WashCrus
 
     begin
       @session = CGI::Session.new(cgi,
-                                  {
-                                    'new_session' => false,
-                                    'session_key' => '_washcrus_session',
-                                    'tmpdir' => './tmp'
-                                  })
+                                  'new_session' => false,
+                                  'session_key' => '_washcrus_session',
+                                  'tmpdir' => './tmp')
     rescue ArgumentError
       # p "@session = nil"
     end
@@ -60,12 +58,10 @@ class WashCrus
       @userinfo.visitcount = '1'
 
       @session = CGI::Session.new(cgi,
-                                  {
-                                    'new_session' => true,
-                                    'session_key' => '_washcrus_session',
-                                    'tmpdir' => './tmp',
-                                    'session_expires' => Time.now + 3600
-                                  })
+                                  'new_session' => true,
+                                  'session_key' => '_washcrus_session',
+                                  'tmpdir' => './tmp',
+                                  'session_expires' => Time.now + 2_592_000)
     else
       @userinfo.readsession(@session)
     end

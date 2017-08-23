@@ -128,7 +128,6 @@ class TaikyokuFile
         time: times[i],
         comment: comments[i]
       }
-      # res << [i, idbs[i], idws[i], namebs[i], namews[i], times[i], comments[i]]
     end
     res
   end

@@ -28,6 +28,7 @@ def show_logo_tmpl(arr)
     </TABLE>
     LOGO_TEXT
 end
+
 def show_logo4
   arr = [
     "<strong><span style='font-size:12em'>角</span></strong>",
@@ -37,6 +38,7 @@ def show_logo4
   ]
   show_logo_tmpl(arr)
 end
+
 def show_logo3
   arr = [
     "<strong><span style='font-size:12em'>角</span></strong>",
@@ -46,6 +48,7 @@ def show_logo3
   ]
   show_logo_tmpl(arr)
 end
+
 def show_logoya
   arr = [
     "<strong><span style='font-size:12em'>銀</span></strong>",
@@ -55,6 +58,7 @@ def show_logoya
   ]
   show_logo_tmpl(arr)
 end
+
 def show_logoikm
   arr = [
     "<strong><span style='font-size:12em'>香</span></strong>",
@@ -64,6 +68,7 @@ def show_logoikm
   ]
   show_logo_tmpl(arr)
 end
+
 def show_logofkm
   arr = [
     "<strong><span style='font-size:12em'>銀</span></strong>",
@@ -73,6 +78,7 @@ def show_logofkm
   ]
   show_logo_tmpl(arr)
 end
+
 def show_logo
   idx = rand(5)
   case idx
@@ -99,12 +105,12 @@ end
 
 def show_visitcount(blogin, userinfo)
   if blogin
-    print '<HR><div align=center>', userinfo.user_name, 'さん',
-          userinfo.visitcount, "回目の訪問ですね。</div><HR>\n",
+    print "<HR><div align=center>#{userinfo.user_name}さん" \
+          "#{userinfo.visitcount}回目の訪問ですね。</div><HR>\n" \
           '<input type=hidden id=isloggedin value=1/>'
   else
-    print '<HR><div align=center>どなたか存じ上げませんが',
-          userinfo.visitcount, "回目の訪問ですね。</div><HR>\n",
+    print '<HR><div align=center>どなたか存じ上げませんが' \
+          "#{userinfo.visitcount}回目の訪問ですね。</div><HR>\n" \
           '<input type=hidden id=isloggedin value=0/>'
   end
 end

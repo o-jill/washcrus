@@ -39,11 +39,9 @@ class Game
   def readuserparam
     begin
       @session = CGI::Session.new(@cgi,
-                                  {
-                                    'new_session' => false,
-                                    'session_key' => '_washcrus_session',
-                                    'tmpdir' => './tmp'
-                                  })
+                                  'new_session' => false,
+                                  'session_key' => '_washcrus_session',
+                                  'tmpdir' => './tmp')
     rescue ArgumentError
       # @session = nil
       @log.info('failed to find session')
@@ -66,35 +64,35 @@ class Game
   # 実行本体。
   #
   def perform
-    @log.debug('Game.check gameid')
+    # @log.debug('Game.check gameid')
     # gameid が無いよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
         if @gameid.nil? || @gameid.empty?
 
-    @log.debug('Game.check userinfo')
+    # @log.debug('Game.check userinfo')
     # userinfoが変だよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nplease log in." \
         unless @userinfo.nil? || @userinfo.exist_indb
 
-    @log.debug('Game.check gameid with TaikyokuFile')
+    # @log.debug('Game.check gameid with TaikyokuFile')
     tdb = TaikyokuFile.new
     tdb.read
     # 存在しないはずのIDだよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
         unless tdb.exist_id(@gameid)
 
-    @log.debug('Game.read TaikyokuData')
+    # @log.debug('Game.read TaikyokuData')
     tkd = TaikyokuData.new
     tkd.setid(@gameid)
     tkd.read
 
-    @log.debug('Game. html rendering')
+    # @log.debug('Game. html rendering')
     # 表示する
     gh = GameHtml.new(@gameid, tkd.mi, tkd.jkf, @userinfo)
     gh.log = @log
-    @log.debug('Game.put')
+    # @log.debug('Game.put')
     gh.put(@header)
-    @log.debug('Game.performed')
+    # @log.debug('Game.performed')
   end
 
   # class methods

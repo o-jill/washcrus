@@ -14,11 +14,7 @@ def put_err_sreen(header, title, name, errmsg)
   CommonUI::HTMLfoot()
 end
 
-def put_stats(uid)
-  udb = UserInfoFile.new
-  udb.read
-
-  wl = udb.stats[uid]
+def put_stats(wl)
   wl[:stotal] = wl[:swin] + wl[:slose]
   wl[:gtotal] = wl[:gwin] + wl[:glose]
 
@@ -44,6 +40,28 @@ def put_stats(uid)
     STATS
 end
 
+def put_taikyokurireki_tblhead(cap)
+  print <<-TAIKYOKURIREKI_TABLE.unindent
+    <table align='center' border='3'><caption>#{cap}</caption>
+    <tr>
+     <th>ID</th><th>先手</th><th>後手</th><th>最終着手日時</th><th>棋譜</th>
+    </tr>
+    TAIKYOKURIREKI_TABLE
+end
+
+def put_taikyokulist_tbl(gid, tklist)
+  tklist.each do |game|
+    gid = game[:id]
+    print <<-TKLIST_DAN.unindent
+      <tr>
+       <td><a href='./game.rb?#{gid}' target='_blank'>#{gid}</a></td>
+       <td>#{game[:nameb]}</td><td>#{game[:namew]}</td><td>#{game[:time]}</td>
+       <td><a href='./dlkifu.rb?#{gid}' target='_blank'>download</a></td>
+      </tr>
+      TKLIST_DAN
+  end
+end
+
 def put_taikyokuchu(uid)
   tkcdb = TaikyokuChuFile.new
   tkcdb.read
@@ -52,23 +70,9 @@ def put_taikyokuchu(uid)
     b[:time] <=> a[:time]
   end
 
-  print <<-TAIKYOKUCHU_TABLE.unindent
-    <table align='center' border='3'><caption>対局中</caption>
-    <tr>
-     <th>ID</th><th>先手</th><th>後手</th><th>最終着手日時</th><th>棋譜</th>
-    </tr>
-    TAIKYOKUCHU_TABLE
+  put_taikyokurireki_tblhead('対局中')
 
-  chu.each do |game|
-    gid = game[:id]
-    print <<-CHU_DAN.unindent
-      <tr>
-       <td><a href='./game.rb?#{gid}' target='_blank'>#{gid}</a></td>
-       <td>#{game[:nameb]}</td><td>#{game[:namew]}</td><td>#{game[:time]}</td>
-       <td><a href='./dlkifu.rb?#{gid}' target='_blank'>download</a></td>
-      </tr>
-      CHU_DAN
-  end
+  put_taikyokulist_tbl(gid, chu)
 
   print '</table>'
 end
@@ -82,23 +86,9 @@ def put_taikyokurireki(uid)
     b[:time] <=> a[:time]
   end
 
-  print <<-TAIKYOKURIREKI_TABLE.unindent
-    <table align='center' border='3'><caption>対局履歴</caption>
-    <tr>
-     <th>ID</th><th>先手</th><th>後手</th><th>最終着手日時</th><th>棋譜</th>
-    </tr>
-    TAIKYOKURIREKI_TABLE
+  put_taikyokurireki_tblhead('対局履歴')
 
-  rireki.each do |game|
-    gid = game[:id]
-    print <<-RIREKI_DAN.unindent
-      <tr>
-       <td><a href='./game.rb?#{gid}' target='_blank'>#{gid}</a></td>
-       <td>#{game[:nameb]}</td><td>#{game[:namew]}</td><td>#{game[:time]}</td>
-       <td><a href='./dlkifu.rb?#{gid}' target='_blank'>download</a></td>
-      </tr>
-      RIREKI_DAN
-  end
+  put_taikyokulist_tbl(gid, rireki)
 
   print '</table>'
 end
@@ -116,11 +106,18 @@ def mypage_screen(header, title, name, userinfo)
   CommonUI::HTMLHead(header, title)
   CommonUI::HTMLmenuLogIn(name)
 
-  put_stats(userinfo.user_id)
+  udb = UserInfoFile.new
+  udb.read
+
+  uid = userinfo.user_id
+
+  wl = udb.stats[uid]
+
+  put_stats(wl)
   print '<HR>'
-  put_taikyokuchu(userinfo.user_id)
+  put_taikyokuchu(uid)
   print '<HR>'
-  put_taikyokurireki(userinfo.user_id)
+  put_taikyokurireki(uid)
 
   CommonUI::HTMLfoot()
 end

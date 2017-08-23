@@ -49,7 +49,6 @@ def check_newgame(params)
   check_players(name1, email1, name2, email2)
 end
 
-
 def mail_msg_newgame(user1, user2, gameid)
   msg = <<-MAIL_MSG.unindent
     Dear #{user1} and #{user2}
@@ -78,32 +77,32 @@ def generatenewgame_screen(header, title, name, userinfo, params)
 
   ret = check_newgame(params)
   errmsg = ret[:errmsg]
-log.debug('check_newgame(params)')
+  # log.debug('check_newgame(params)')
   errmsg += "your log-in information is wrong ...\n" \
       if userinfo.nil? || userinfo.invalid?
 
   return put_err_sreen(header, title, name, errmsg) if errmsg != ''
 
-log.debug('put_err_sreen')
+  # log.debug('put_err_sreen')
 
   userdata1 = ret[:userdata1]
   userdata2 = ret[:userdata2]
 
-log.debug('TaikyokuData.new')
+  # log.debug('TaikyokuData.new')
   td = TaikyokuData.new
 
-log.debug('td.setplayer1')
+  # log.debug('td.setplayer1')
   td.setplayer1(userdata1[0], userdata1[1], userdata1[3])
-log.debug('td.setplayer2')
+  # log.debug('td.setplayer2')
   td.setplayer2(userdata2[0], userdata2[1], userdata2[3])
-log.debug("furifusen(#{params['furigoma'][0].count('F')})")
+  # log.debug("furifusen(#{params['furigoma'][0].count('F')})")
   td.switchplayers unless furifusen(params['furigoma'][0])
 
-log.debug('td.creator')
+  # log.debug('td.creator')
   td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
 
-log.debug('td.generate')
-td.log = log
+  # log.debug('td.generate')
+  td.log = log
   td.generate
 
   # send mail to the players
@@ -113,7 +112,7 @@ td.log = log
   mailmgr.send_mail(td.email1, subject, msg)
   mailmgr.send_mail(td.email2, subject, msg)
 
-log.debug('CommonUI::HTMLHead(header, title)')
+  # log.debug('CommonUI::HTMLHead(header, title)')
   CommonUI::HTMLHead(header, title)
   CommonUI::HTMLmenuLogIn(name, true)
 
