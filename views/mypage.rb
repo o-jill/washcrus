@@ -49,7 +49,7 @@ def put_taikyokurireki_tblhead(cap)
     TAIKYOKURIREKI_TABLE
 end
 
-def put_taikyokulist_tbl(gid, tklist)
+def put_taikyokulist_tbl(tklist)
   tklist.each do |game|
     gid = game[:id]
     print <<-TKLIST_DAN.unindent
@@ -72,7 +72,7 @@ def put_taikyokuchu(uid)
 
   put_taikyokurireki_tblhead('対局中')
 
-  put_taikyokulist_tbl(gid, chu)
+  put_taikyokulist_tbl(chu)
 
   print '</table>'
 end
@@ -88,7 +88,7 @@ def put_taikyokurireki(uid)
 
   put_taikyokurireki_tblhead('対局履歴')
 
-  put_taikyokulist_tbl(gid, rireki)
+  put_taikyokulist_tbl(rireki)
 
   print '</table>'
 end
