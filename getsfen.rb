@@ -1,4 +1,4 @@
-#!d:\ruby193\bin\ruby.exe
+#!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
 
 require 'cgi'

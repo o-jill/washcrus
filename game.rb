@@ -1,8 +1,5 @@
-#!d:\ruby193\bin\ruby.exe
+#!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
-
-#!C:\Ruby-2.4-x64\bin\ruby.exe
-#!/usr/bin/ruby
 
 require 'cgi'
 require 'cgi/session'
