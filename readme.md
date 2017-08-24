@@ -15,6 +15,9 @@ How to set up:
 6. Run "rake init" to generate db file and change some files/directories's permissions.
 7. Visit washcrus.rb by your browser.
 
+ruby path:
+please adjust ruby path to fit your actual ruby path.
+
 required "gem"s
 * bundler
   * jkf(o-jill/jkf, kif_robust_time)
