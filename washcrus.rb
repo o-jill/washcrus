@@ -5,6 +5,7 @@ require 'cgi'
 require 'cgi/session'
 
 require './game/userinfo.rb'
+require './util/settings.rb'
 require './views/entrance.rb'
 require './views/error_action.rb'
 require './views/gennewgame.rb'
@@ -119,7 +120,7 @@ end
 #
 
 cgi = CGI.new
-
+$stg = Settings.new
 washcrus = WashCrus.new(cgi)
 washcrus.perform
 
