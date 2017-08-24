@@ -9,6 +9,7 @@ require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
+require './util/settings.rb'
 require './views/common_ui.rb'
 
 def check_datalost_gengame(params)
@@ -50,12 +51,13 @@ def check_newgame(params)
 end
 
 def mail_msg_newgame(user1, user2, gameid)
+  baseurl = $stg.value['base_url']
   msg = <<-MAIL_MSG.unindent
     Dear #{user1} and #{user2}
 
     a new game is ready for you.
     please visit a URL bellow to play.
-    http://localhost/cgi-bin/game.rb?#{gameid}
+    #{baseurl}game.rb?#{gameid}
 
     MAIL_MSG
   msg += MailManager.footer
