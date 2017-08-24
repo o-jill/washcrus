@@ -93,7 +93,7 @@ task :add_x2rb do
   chmod 0o755, 'washcrus.rb'
 end
 
-task check_mailcfg: [:check_mailcfg_yaml, :check_mailcfg_sign]
+task check_mailcfg: [:check_mailcfg_yaml, :check_mailcfg_sign, :check_settings_yaml]
 
 task check_mailcfg_yaml: ['./config/mail.yaml']
 
@@ -107,6 +107,13 @@ task check_mailcfg_sign: ['./config/signature.txt']
 file './config/signature.txt' do
   puts "ERROR: './config/signature.txt' is missing..."
   exit 102
+end
+
+task check_settings_yaml: ['./config/settings.yaml']
+
+file './config/settings.yaml' do
+  puts "ERROR: './config/settings.yaml' is missing..."
+  exit 103
 end
 
 desc 'testing and checking code style'

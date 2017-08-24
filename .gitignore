@@ -10,3 +10,4 @@ tmp
 userinfo.csv
 config/mail.yaml
 config/signature.txt
+config/settings.yaml
