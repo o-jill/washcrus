@@ -9,7 +9,7 @@ def show_newgameform
   scriptname = File.basename($PROGRAM_NAME)
   print <<-FORM_NEW_GAME.unindent
     <FORM action='#{scriptname}?gennewgame' method=post name='gennewgame'>
-    <TABLE class='inpform'>
+    <TABLE align='center' class='inpform'>
      <TR id='player1'>
       <TD rowspan=2>Player 1</TD><TD>name</TD><TD><INPUT name='rname' id='rname' type=text size=25 class='inpform' required onKeyup="furifusen()"></TD>
      </TR>

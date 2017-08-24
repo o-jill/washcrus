@@ -8,7 +8,7 @@ require './views/common_ui.rb'
 def show_tableform
   print <<-TABLE_FORM.unindent
   <FORM action='#{File.basename($PROGRAM_NAME)}?register' method=post name='signup'>
-  <TABLE class='inpform'>
+  <TABLE align='center' class='inpform'>
   <TR id='trname'>
    <TD>name</TD>
    <TD><INPUT name='rname' id='rname' type='text' size='25' class='inpform' required></TD>
