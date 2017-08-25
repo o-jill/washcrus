@@ -9,6 +9,7 @@ require './file/chatfile.rb'
 require './file/jsonkifu.rb'
 require './file/jsonconsump.rb'
 require './file/matchinfofile.rb'
+require './file/sfenstore.rb'
 require './file/taikyokufile.rb'
 require './file/userinfofile.rb'
 require './game/gentaikyoku.rb'
@@ -31,13 +32,15 @@ class TaikyokuData
   end
 
   attr_reader :id1, :player1, :email1, :id2, :player2, :email2, :gid, :datetime,
-              :taikyokupath, :matchinfopath, :chatpath, :kifupath, :mi, :jkf
+              :taikyokupath, :matchinfopath, :chatpath, :kifupath, :sfenpath,
+              :mi, :jkf
   attr_accessor :creator, :log
 
   DIRPATH = './taikyoku/'.freeze
   CHATFILE = 'chat.txt'.freeze
   MATCHFILE = 'matchinfo.txt'.freeze
   KIFUFILE = 'kifu.jkf'.freeze
+  SFENFILE = 'sfenlog.txt'.freeze
 
   def setplayer1(id, nm, em)
     @id1 = id
@@ -71,6 +74,7 @@ class TaikyokuData
     @matchinfopath = @taikyokupath + MATCHFILE
     @chatpath = @taikyokupath + CHATFILE
     @kifupath = @taikyokupath + KIFUFILE
+    @sfenpath = @taikyokupath + SFENFILE
   end
 
   # 対局情報の生成
@@ -115,6 +119,10 @@ class TaikyokuData
     # chat file
     chat = ChatFile.new(gid)
     chat.say_start(player1)
+
+    # sfen log
+    sfs = SfenStore.new(@sfenpath)
+    sfs.add(@mi.sfen)
   end
 
   # 対局情報の生成
@@ -196,6 +204,9 @@ class TaikyokuData
   # @return nil if invalid, true if done, otherwise false.
   def move(sfen, jsmv, dt)
     @log.debug("Taikyokudata.move(jsmv, #{dt})")
+
+    sfs = SfenStore.new(@sfenpath)
+    sfs.add(sfen)
 
     if jsmv[:special]
       @log.debug('if jsmv[:special]')

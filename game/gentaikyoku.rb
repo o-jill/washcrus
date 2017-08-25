@@ -30,6 +30,11 @@ class GenTaikyokuData
     # FileUtils.touch(kifufile)
     # FileUtils.chmod(0o666, kifufile)
 
+    File.open(taikyoku.sfenpath, 'w', 0o666).close
+    # sfenfile = taikyoku.sfenpath
+    # sfenUtils.touch(sfenfile)
+    # sfenUtils.chmod(0o666, sfenfile)
+
     # print <<-GEN_LOG
     # FileUtils.mkdir(#{directory}, { :mode => 0777 })
     #
