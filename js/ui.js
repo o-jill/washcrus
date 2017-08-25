@@ -60,6 +60,9 @@ var activemovable = [];
 /** ひふみんアイ */
 var hifumin_eye = false;
 
+var elem_id = document.getElementById('gameid');
+var id = elem_id.value;
+
 function update_banindex() {
   var column = document.getElementById('bancolumn');
   var text = '';
