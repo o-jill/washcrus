@@ -16,7 +16,7 @@ function check_form()
   if (bytes2(name.value) < 4) {
     document.getElementById('player1').style.backgroundColor = 'red';
     document.getElementById('tremail').style.backgroundColor = 'red';
-    alertmsg += 'name is too short in player1!\\n';
+    alertmsg += 'name is too short in player1!\n';
     ++nmismatch;
   } else {
     document.getElementById('player1').style.backgroundColor = 'transparent';
@@ -27,7 +27,7 @@ function check_form()
   if (bytes2(name.value) < 4) {
     document.getElementById('player2').style.backgroundColor = 'red';
     document.getElementById('tremail2').style.backgroundColor = 'red';
-    alertmsg += 'name is too short  in player2!\\n';
+    alertmsg += 'name is too short  in player2!\n';
     ++nmismatch;
   } else {
     document.getElementById('player2').style.backgroundColor = 'transparent';
@@ -39,7 +39,7 @@ function check_form()
   } else {
     document.getElementById('player1').style.backgroundColor = 'red';
     document.getElementById('tremail').style.backgroundColor = 'red';
-    alertmsg += 'e-mail addresses is strange in player1!\\n';
+    alertmsg += 'e-mail addresses is strange in player1!\n';
     ++nmismatch;
   }
 
@@ -48,7 +48,7 @@ function check_form()
   } else {
     document.getElementById('player2').style.backgroundColor = 'red';
     document.getElementById('tremail2').style.backgroundColor = 'red';
-    alertmsg += 'e-mail addresses is strange in player2!\\n';
+    alertmsg += 'e-mail addresses is strange in player2!\n';
     ++nmismatch;
   }
 
