@@ -17,6 +17,7 @@ module CommonUI
       <HEAD>
        <TITLE>#{title}</TITLE>
        <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
+       <META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
        <link rel='shortcut icon' href='./image/favicon.ico' />
        <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>
       </HEAD>
@@ -33,6 +34,7 @@ module CommonUI
       <HEAD>
        <TITLE>#{title}</TITLE>
        <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
+       <META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
        <link rel='shortcut icon' href='./image/favicon.ico' />
        <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>
       </HEAD>
