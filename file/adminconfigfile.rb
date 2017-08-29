@@ -9,6 +9,10 @@ class AdminConfigFile
 
   attr_reader :path, :idlist
 
+  def exist?(id)
+    @idlist.include?(id)
+  end
+
   def read(fpath = @path)
     File.open(fpath, 'r:utf-8') do |file|
       file.flock File::LOCK_EX

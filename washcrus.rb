@@ -105,7 +105,7 @@ class WashCrus
     when 'searchform' then
       searchform_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'userlist' then
-      userlist_screen(@header, Pagetitle, Titlename, @params)
+      userlist_screen(@header, Pagetitle, Titlename, @userinfo)
     else
       error_action_screen(@header, Pagetitle, Titlename,
                           @userinfo, @params, @action)
