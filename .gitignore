@@ -8,7 +8,7 @@ taikyokuchu.csv
 test.html
 tmp
 userinfo.csv
-config/adminconfig.txt
 config/mail.yaml
 config/settings.yaml
 config/signature.txt
+db/adminconfig.txt
