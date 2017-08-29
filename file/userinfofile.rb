@@ -117,6 +117,8 @@ class UserInfoFile
   # [name]     user name.
   # [password] AES256CBC encrypted password.
   # [email]    e-mail address.
+  #
+  # return added user's ID
   def add(name, password, email)
     id = Digest::SHA256.hexdigest name + '_' + password + '_' + email
     id = id[0, 8]
@@ -124,6 +126,8 @@ class UserInfoFile
     @passwords[id] = password
     @emails[id]    = email
     @stats[id]     = { swin: 0, slose: 0, gwin: 0, glose: 0 }
+
+    id
   end
 
   # duplication check

@@ -126,3 +126,12 @@ end
 task :do_rubocop do
   sh 'rubocop' rescue nil
 end
+
+desc 'generate a user and give admin rights.'
+task :add_admin do
+  require './config/genadmin.rb'
+  unless genadmin.nil?
+    puts 'FAILED: adding an administrator.'
+    exit 201
+  end
+end
