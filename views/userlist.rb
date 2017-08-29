@@ -19,7 +19,7 @@ def userlist_screen(header, title, name, userinfo)
   userdb.read
 
   CommonUI::HTMLHead(header, title)
-  CommonUI::HTMLmenu(name)
+  CommonUI::HTMLmenuLogIn(name)
 
   userdb.dumphtml
 

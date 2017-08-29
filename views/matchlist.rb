@@ -10,8 +10,10 @@ def matchlist_screen(header, title, name, userinfo)
   tkcdb = TaikyokuChuFile.new
   tkcdb.read
 
+  blogin = (!userinfo.user_id.nil? && userinfo.user_id != '')
+
   CommonUI::HTMLHead(header, title)
-  CommonUI::HTMLmenu(name)
+  CommonUI::HTMLmenuLogIn(name, blogin)
 
   tkcdb.dumphtml
 

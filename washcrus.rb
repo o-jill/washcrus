@@ -97,7 +97,7 @@ class WashCrus
     when 'register' then
       register_screen(@header, Pagetitle, Titlename, @params)
     when 'matchlist' then
-      matchlist_screen(@header, Pagetitle, Titlename, @params)
+      matchlist_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'mypage' then
       mypage_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'search' then
