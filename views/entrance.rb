@@ -9,74 +9,44 @@ require './views/common_ui.rb'
 def show_logo_tmpl(arr)
   print <<-LOGO_TEXT.unindent
     <TABLE bgcolor='#cc9933' align='center' bordercolor='black' border='0' frame='void' rules='all'>
-     <TR><TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD>
-      <TD width='290px'></TD>
-      <TD width='290px'></TD>
-      <TD><span style='font-size:3em'>&nbsp;&nbsp;&nbsp;</span></TD></TR>
-     <TR><TD height='300px'></TD>
-      <TD align='center'>#{arr[0]}</TD>
-      <TD align='center'>#{arr[1]}</TD>
+     <TR><TD></TD>
+      <TD class='logo_edge_ud'></TD>
+      <TD class='logo_edge_ud'></TD>
       <TD></TD></TR>
-     <TR><TD height='300px'></TD>
-     <TD align='center'>#{arr[2]}</TD>
-     <TD align='center'>#{arr[3]}</TD>
+     <TR><TD class='logo_edge_lr'></TD>
+      <TD class='logo_center'>#{arr[0]}</TD>
+      <TD class='logo_center'>#{arr[1]}</TD>
+      <TD class='logo_edge_lr'></TD></TR>
+     <TR><TD class='logo_edge_lr'></TD>
+      <TD class='logo_center'>#{arr[2]}</TD>
+      <TD class='logo_center'>#{arr[3]}</TD>
+      <TD class='logo_edge_lr'></TD></TR>
+     <TR><TD></TD>
+      <TD class='logo_edge_ud'></TD>
+      <TD class='logo_edge_ud'></TD>
       <TD></TD></TR>
-     <TR><TD><span style='font-size:2em'>&nbsp;</span></TD>
-      <TD></TD>
-      <TD></TD>
-      <TD><span style='font-size:2em'>&nbsp;</span></TD></TR>
     </TABLE>
     LOGO_TEXT
 end
 
 def show_logo4
-  arr = [
-    "<strong><span style='font-size:12em'>角</span></strong>",
-    '',
-    "<strong><span style='font-size:12em'>銀</span></strong>",
-    "<strong><span style='font-size:12em'>飛</span></strong>"
-  ]
-  show_logo_tmpl(arr)
+  show_logo_tmpl(['角', '', '銀', '飛'])
 end
 
 def show_logo3
-  arr = [
-    "<strong><span style='font-size:12em'>角</span></strong>",
-    "<strong><span style='font-size:12em'>銀</span></strong>",
-    "<strong><span style='font-size:12em'>飛</span></strong>",
-    ''
-  ]
-  show_logo_tmpl(arr)
+  show_logo_tmpl(['角', '銀', '飛', ''])
 end
 
 def show_logoya
-  arr = [
-    "<strong><span style='font-size:12em'>銀</span></strong>",
-    "<strong><span style='font-size:12em'>金</span></strong>",
-    "<strong><span style='font-size:12em'>金</span></strong>",
-    "<strong><span style='font-size:12em'>角</span></strong>"
-  ]
-  show_logo_tmpl(arr)
+  show_logo_tmpl(%w[銀 金 金 角])
 end
 
 def show_logoikm
-  arr = [
-    "<strong><span style='font-size:12em'>香</span></strong>",
-    "<strong><span style='font-size:12em'>銀</span></strong>",
-    "<strong><span style='font-size:12em'>玉</span></strong>",
-    "<strong><span style='font-size:12em'>桂</span></strong>"
-  ]
-  show_logo_tmpl(arr)
+  show_logo_tmpl(%w[香 銀 玉 桂])
 end
 
 def show_logofkm
-  arr = [
-    "<strong><span style='font-size:12em'>銀</span></strong>",
-    "<strong><span style='font-size:12em'>香</span></strong>",
-    "<strong><span style='font-size:12em'>桂</span></strong>",
-    "<strong><span style='font-size:12em'>玉</span></strong>"
-  ]
-  show_logo_tmpl(arr)
+  show_logo_tmpl(%w[銀 香 桂 玉])
 end
 
 def show_logo
@@ -128,7 +98,7 @@ def entrance_screen(header, title, name, userinfo)
   print "<script type='text/javascript' defer src='js/entrance.js'></script>\n"
 
   # LOGO
-  # show_logo
+  show_logo
 
   show_visitcount(blogin, userinfo)
 

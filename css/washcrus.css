@@ -98,3 +98,20 @@ div.gotemoji {
 .preload {
   display: none;
 }
+
+/* LOGO */
+.logo_center {
+  width: 30vw;
+  height: 30vw;
+  font-size: 20vw;
+  text-align: center;
+  font-weight: bold;
+}
+.logo_edge_ud {
+  width: 30vw;
+  height: 5vw;
+}
+.logo_edge_lr {
+  width: 5vw;
+  height: 30vw;
+}
