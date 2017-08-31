@@ -115,3 +115,15 @@ div.gotemoji {
   width: 5vw;
   height: 30vw;
 }
+
+/* menu */
+.menubase {
+  margin: 0px;
+  padding: 0px;
+  background-Color: lightgray;
+}
+
+.menubase a:hover {
+  background-color: gray;
+  color: white;
+}
