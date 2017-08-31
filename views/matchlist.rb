@@ -15,7 +15,7 @@ def matchlist_screen(header, title, name, userinfo)
   CommonUI::HTMLHead(header, title)
   CommonUI::HTMLmenuLogIn(name, blogin)
 
-  tkcdb.dumphtml
+  tkcdb.to_html('対局中')
 
   CommonUI::HTMLfoot()
 end

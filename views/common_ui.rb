@@ -70,6 +70,7 @@ module CommonUI
       <div align='center' class='menubase'>&nbsp;
       <a class='menu' href='#{index}'> Entrance </a>&nbsp;
       <a class='menu' href='#{index}?mypage'> My Page </a>&nbsp;
+      <a class='menu' href='#{index}?matchlist'> Watch </a>&nbsp;
       <a class='menu' href='#{index}?searchform'> Search </a>&nbsp;
       <a class='menu' href='#{sup}' target='_blank'> Support </a>&nbsp;
       <a class='menu' href='#{index}?logout'> Log Out </a>&nbsp;

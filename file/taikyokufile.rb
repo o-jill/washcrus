@@ -3,6 +3,7 @@
 require 'digest/sha2'
 require 'openssl'
 require 'time'
+require 'unindent'
 
 #
 # 対局情報DB管理クラス
@@ -199,6 +200,23 @@ class TaikyokuFile
 
   def updatedatetime(nid, dt_str)
     @times[nid] = dt_str
+  end
+
+  def to_html(title)
+    print <<-FNAME_AND_TABLE.unindent
+      <table border=1 align=center> <Caption>#{title}</caption>
+      <tr><th>ID</th><TH>先手</TH><TH>後手</TH><TH>着手日時</TH><TH>コメント</TH></TR>
+      FNAME_AND_TABLE
+    namebs.each do |id, name|
+      puts <<-LINE.unindent
+        <TR>
+         <TD><a href='./game.rb?#{id}' target='_blank'>#{id}</a></TD>
+         <TD>#{name}</TD><TD>#{namews[id]}</TD>
+         <TD>#{times[id]}</TD><TD>#{comments[id]}</TD>
+        </TR>
+        LINE
+    end
+    puts '</table>'
   end
 
   def dumphtml
