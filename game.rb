@@ -9,7 +9,9 @@ require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
 require './file/taikyokufile.rb'
 require './game/userinfo.rb'
+require './util/settings.rb'
 require './views/gamehtml.rb'
+require './views/login.rb'
 
 #
 # CGI本体
@@ -68,7 +70,7 @@ class Game
 
     # @log.debug('Game.check userinfo')
     # userinfoが変だよ
-    return print "Content-Type: text/plain; charset=UTF-8\n\nplease log in." \
+    return login_screen(@header, @pagetitle, @titlename, nil) \
         unless @userinfo.nil? || @userinfo.exist_indb
 
     # @log.debug('Game.check gameid with TaikyokuFile')
@@ -100,7 +102,7 @@ end
 #
 
 cgi = CGI.new
-
+$stg = Settings.new
 game = Game.new(cgi)
 game.readuserparam
 game.perform

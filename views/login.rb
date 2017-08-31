@@ -8,7 +8,7 @@ require './views/common_ui.rb'
 
 def put_login_form
   print <<-TABLE_FORM.unindent
-    <FORM action='#{File.basename($PROGRAM_NAME)}?logincheck' method=post name='signin'>
+    <FORM action='washcrus.rb?logincheck' method=post name='signin'>
     <TABLE align='center' class='inpform'>
     <TR id='siemail'>
      <TD>e-mail</TD>
@@ -28,7 +28,7 @@ end
 #
 # ログイン画面
 #
-def login_screen(header, title, name, _userinfo)
+def login_screen(header, title, name, _params)
   CommonUI::HTMLHead(header, title)
   CommonUI::HTMLmenu(name)
 
