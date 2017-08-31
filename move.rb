@@ -4,12 +4,15 @@
 require 'cgi'
 require 'cgi/session'
 require 'logger'
+require 'unindent'
 
 require './file/jsonkifu.rb'
 require './file/jsonmove.rb'
 require './file/matchinfofile.rb'
 require './file/taikyokufile.rb'
 require './game/userinfo.rb'
+require './util/mailmgr.rb'
+require './util/settings.rb'
 
 #
 # CGI本体
@@ -69,6 +72,28 @@ class Move
     self
   end
 
+  # @param finished [boolean] 終局したかどうか
+  # @param now      [Time]    着手日時
+  def send_mail(_finished, nowstr)
+    opp = @tkd.mi.getopponent(@userinfo.user_id)
+    # @log.debug("opp:#{opp}")
+    subject = "it's your turn!! (#{@tkd.mi.playerb} vs #{@tkd.mi.playerw})"
+    # @log.debug("subject:#{subject}")
+    baseurl = $stg.value['base_url']
+    msg = <<-MSG_TEXT.unindent
+      #{opp[:name]}さん
+
+      #{@userinfo.user_name}さんが#{nowstr}に１手指されました。
+
+      #{baseurl}game.rb?#{@gameid}
+
+      MSG_TEXT
+    msg += MailManager.footer
+    # @log.debug("msg:#{msg}")
+    mmgr = MailManager.new
+    mmgr.send_mail(opp[:mail], subject, msg)
+  end
+
   #
   # 実行本体。
   #
@@ -87,45 +112,49 @@ class Move
       unless tcdb.exist_id(@gameid)
 
     # @log.debug('Move.read data')
-    tkd = TaikyokuData.new
-    tkd.setid(@gameid)
-    tkd.read
+    @tkd = TaikyokuData.new
+    @tkd.setid(@gameid)
+    @tkd.read
 
     now = Time.now
+    nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
 
     # 指し手を適用する
     @log.debug('Move.apply sfen, jmv')
-    tkd.log = @log
-    # tkd.move(@jmv, now)
-    ret = tkd.move(@sfen, @jmv, now)
+    @tkd.log = @log
+    # @tkd.move(@jmv, now)
+    ret = @tkd.move(@sfen, @jmv, now)
     return print TEXTPLAIN_HEAD + 'invalid move.' if ret.nil?
     if ret == 1
       # 終了日時の更新とか勝敗の記録とか
-      @log.debug("tkd.finished(now, #{tkd.mi.teban} == 'b')")
-      tkd.finished(now, tkd.mi.teban == 'b')
+      @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")
+      @tkd.finished(now, @tkd.mi.teban == 'b')
       # 対局中からはずす
       @log.debug('tcdb.finished(@gameid)')
       tcdb.finished(@gameid)
     end
 
     @log.debug('Move.setlastmove')
-    tkd.mi.setlastmove_dt(@move[0, 7], now)
+    @tkd.mi.setlastmove_dt(@move[0, 7], now)
 
     # @log.debug('Move.mi.write')
-    tkd.mi.write(tkd.matchinfopath)
+    @tkd.mi.write(@tkd.matchinfopath)
 
     # @log.debug('Move.jkf.write')
-    tkd.jkf.write(tkd.kifupath)
+    @tkd.jkf.write(@tkd.kifupath)
 
     @log.debug('tcdb.updatedatetime')
-    tcdb.updatedatetime(@gameid, now.strftime('%Y/%m/%d %H:%M:%S'))
+    tcdb.updatedatetime(@gameid, nowstr)
     tcdb.write
 
     @log.debug('tdb.updatedatetime')
     tdb = TaikyokuFile.new
     tdb.read
-    tdb.updatedatetime(@gameid, now.strftime('%Y/%m/%d %H:%M:%S'))
+    tdb.updatedatetime(@gameid, nowstr)
     tdb.write
+
+    @log.debug('Move.sendmail')
+    send_mail(ret == 1, nowstr)
 
     @log.debug('Move.performed')
   end
@@ -136,6 +165,7 @@ end
 #
 
 cgi = CGI.new
+$stg = Settings.new
 begin
   move = Move.new(cgi)
   move.readuserparam
