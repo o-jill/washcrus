@@ -65,7 +65,7 @@ div.fogscreen {
 -webkit-justify-content: center;
         display: -webkit-flex;
         display:         flex;
-        position: absolute;
+        position: fixed;
         visibility: hidden;
         background-Color: white;
         opacity: 0.8;
