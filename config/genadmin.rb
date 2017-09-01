@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
 
-# @return nil:succeeded. otherwise error.
-def genadmin
-  print 'username:'
-  name = STDIN.gets.to_s.chomp
+require 'digest/sha2'
 
+require './file/adminconfigfile.rb'
+require './file/userinfofile.rb'
+
+def velify_email
   print 'e-mail address:'
   email1 = STDIN.gets.to_s.chomp
 
@@ -13,9 +14,12 @@ def genadmin
 
   if email1 != email2
     print 'e-mail addresses are not same!'
-    return 100
+  else
+    email1
   end
+end
 
+def velify_pw
   print 'password:'
   pw1 = STDIN.gets.to_s.chomp
 
@@ -24,24 +28,34 @@ def genadmin
 
   if pw1 != pw2
     print 'passwords are not same!'
-    return 200
+  else
+    pw1
   end
+end
 
-  require 'digest/sha2'
-  dgpw = Digest::SHA256.hexdigest pw1
+# @return nil:succeeded. otherwise error.
+def genadmin
+  print 'username:'
+  name = STDIN.gets.to_s.chomp
 
-  require './file/userinfofile.rb'
+  email = velify_email
+  return 100 if email.nil?
+
+  pw = velify_pw
+  return 200 if pw.nil?
+
+  dgpw = Digest::SHA256.hexdigest pw
+
   db = UserInfoFile.new
   db.read
 
   # return 300 if name or e-mail is already registered
 
-  id = db.add(name, dgpw, email1)
+  id = db.add(name, dgpw, email)
   db.write
 
   print 'a user was added as a user.'
 
-  require './file/adminconfigfile.rb'
   adb = AdminConfigFile.new
   adb.add(id)
 
