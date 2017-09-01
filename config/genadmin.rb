@@ -52,7 +52,7 @@ def genadmin
   # return 300 if name or e-mail is already registered
 
   id = db.add(name, dgpw, email)
-  db.write
+  db.append(id)
 
   print 'a user was added as a user.'
 

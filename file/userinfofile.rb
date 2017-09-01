@@ -60,6 +60,7 @@ class UserInfoFile
     end
   end
 
+  # note: DON'T use this when you simply add a user. please use append().
   def write
     enc = OpenSSL::Cipher.new('AES-256-CBC')
     enc.encrypt
@@ -128,6 +129,36 @@ class UserInfoFile
     @stats[id]     = { swin: 0, slose: 0, gwin: 0, glose: 0 }
 
     id
+  end
+
+  # append a set of data to a db file.
+  #
+  # [id] user's ID to append
+  def append(id)
+    enc = OpenSSL::Cipher.new('AES-256-CBC')
+    enc.encrypt
+    # enc.pkcs5_keyivgen(KEY)
+    begin
+      File.open(@fname, 'a') do |file|
+        file.flock File::LOCK_EX
+
+        enc.pkcs5_keyivgen(KEY)
+        crypted = ''
+        crypted << enc.update(@emails[id])
+        crypted << enc.final
+
+        mailaddr = crypted.unpack('H*')[0]
+
+        file.puts "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
+                  "#{@stats[id][:swin]},#{@stats[id][:slose]}," \
+                  "#{@stats[id][:gwin]},#{@stats[id][:glose]}"
+      end
+    # 例外は小さい単位で捕捉する
+    rescue SystemCallError => e
+      puts "class=[#{e.class}] message=[#{e.message}] in write"
+    rescue IOError => e
+      puts "class=[#{e.class}] message=[#{e.message}] in write"
+    end
   end
 
   # duplication check

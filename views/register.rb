@@ -99,8 +99,8 @@ def register_screen(header, title, name, params)
     if userdb.exist_name_or_email(username, email1)
       errmsg = 'user name or e-mail address is already exists...'
     else
-      userdb.add(username, dgpw, email1)
-      userdb.write
+      uid = userdb.add(username, dgpw, email1)
+      userdb.append(uid)
 
       # send mail
       send_mail_register(email1, username, password1)
