@@ -65,6 +65,21 @@ class TaikyokuFile
     puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
+  def append(id)
+    File.open(@fname, 'a') do |file|
+      file.flock File::LOCK_EX
+      # file.puts '# taikyoku information' + Time.now.to_s
+      # file.puts '# id, idb, idw, nameb, namew, time, comment'
+      file.puts "#{id},#{@idbs[id]},#{@idws[id]}," \
+                "#{namebs[id]},#{namews[id]},#{times[id]},#{comments[id]}"
+    end
+  # 例外は小さい単位で捕捉する
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  end
+
   # get game info by game id
   def probe(id)
     {

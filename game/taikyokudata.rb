@@ -100,13 +100,13 @@ class TaikyokuData
     tdb = TaikyokuFile.new
     tdb.read
     tdb.add(gid, id1, id2, player1, player2, datetime, '')
-    tdb.write
+    tdb.append(gid)
 
     # @log.debug('TaikyokuChuFile.new')
     tcdb = TaikyokuChuFile.new
     tcdb.read
     tcdb.add(gid, id1, id2, player1, player2, datetime, '')
-    tcdb.write
+    tcdb.append(gid)
     # @log.debug('MatchInfoFile.new(gid)')
     # match information file
     @mi = MatchInfoFile.new(gid)
