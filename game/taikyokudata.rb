@@ -231,7 +231,7 @@ class TaikyokuData
     jc.diff(dt, t_last)
     # @log.debug("@jkf.move(jsmv, #{jc.genhash})")
     # @jkf.log = @log
-    @jkf.move(jsmv, jc.genhash)
+    @jkf.move(jsmv, jc.genhash, ["着手日時：#{dt}"])
     # @log.debug('@jkf.moved(jsmv, jc.genhash)')
 
     # if jsmv['special']

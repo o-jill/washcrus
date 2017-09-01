@@ -35,6 +35,8 @@ class Game
     @log.info("gameid:#{@gameid}")
   end
 
+  attr_reader :log
+
   def readuserparam
     begin
       @session = CGI::Session.new(@cgi,
@@ -103,9 +105,17 @@ end
 
 cgi = CGI.new
 $stg = Settings.new
+begin
 game = Game.new(cgi)
 game.readuserparam
 game.perform
+rescue ScriptError => e
+  game.log.warn("class=[#{e.class}] message=[#{e.message}] in game")
+rescue SecurityError => e
+  game.log.warn("class=[#{e.class}] message=[#{e.message}] in game")
+rescue => e
+  game.log.warn("class=[#{e.class}] message=[#{e.message}] in game")
+end
 
 # -----------------------------------
 #   testing
