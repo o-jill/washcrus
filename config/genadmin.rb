@@ -13,7 +13,7 @@ def velify_email
   email2 = STDIN.gets.to_s.chomp
 
   if email1 != email2
-    print 'e-mail addresses are not same!'
+    puts 'e-mail addresses are not same!'
   else
     email1
   end
@@ -27,7 +27,7 @@ def velify_pw
   pw2 = STDIN.gets.to_s.chomp
 
   if pw1 != pw2
-    print 'passwords are not same!'
+    puts 'passwords are not same!'
   else
     pw1
   end
@@ -54,10 +54,10 @@ def genadmin
   id = db.add(name, dgpw, email)
   db.append(id)
 
-  print 'a user was added as a user.'
+  puts 'a user was added as a user.'
 
   adb = AdminConfigFile.new
   adb.add(id)
 
-  print 'the user was registered as an admin.'
+  puts 'the user was registered as an admin.'
 end
