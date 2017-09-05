@@ -35,6 +35,27 @@ class MailManager
     mail.deliver
   end
 
+  def send_mailex(addr, subject, msg, attach)
+    mail = Mail.new do
+      # from    @dlvcfg['mailaddress']
+      to      addr
+      subject subject
+      body    msg
+      add_file filename: attach[:filename], content: attach[:content]
+    end
+    mail['from'] = @dlvcfg['mailaddress']
+
+    mail.delivery_method(@dlvcfg['type'],
+                         address: @dlvcfg['address'],
+                         port: @dlvcfg['port'],
+                         domain: @dlvcfg['domain'],
+                         authentication: @dlvcfg['authentication'],
+                         user_name: @dlvcfg['user_name'],
+                         password: @dlvcfg['password'])
+
+    mail.deliver
+  end
+
   def self.footer
     msg = <<-FOOTER_MSG.unindent
       * Please delete this email if you believe you are not the intended recipient.

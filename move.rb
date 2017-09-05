@@ -72,11 +72,40 @@ class Move
     self
   end
 
-  # @param finished [boolean] 終局したかどうか
-  # @param now      [Time]    着手日時
-  def send_mail(_finished, nowstr)
-    opp = @tkd.mi.getopponent(@userinfo.user_id)
+  def send_mail_finished(nowstr)
+    subject = "the game was over. (#{@tkd.mi.playerb} vs #{@tkd.mi.playerw})"
+    # @log.debug("subject:#{subject}")
+    baseurl = $stg.value['base_url']
+
+    dt = @tkd.mi.dt_lastmove.delete('/:').sub(' ', '_')
+    filename = "#{@tkd.mi.playerb}_#{@tkd.mi.playerw}_#{dt}.kif"
+
+    msg = <<-MSG_TEXT.unindent
+      #{@tkd.mi.playerb}さん、 #{@tkd.mi.playerw}さん
+
+      対局(#{@gameid})が終了しました。
+
+      #{baseurl}game.rb?#{@gameid}
+
+      attached:#{filename}
+
+      MSG_TEXT
+    msg += MailManager.footer
+
+    kifufile = {
+      filename: @tkd.escape_fnu8(filename),
+      content:   @tkd.jkf.to_kif.encode('Shift_JIS')
+    }
+
+    # @log.debug("msg:#{msg}")
+    mmgr = MailManager.new
+    mmgr.send_mailex(@tkd.mi.emailb, subject, msg, kifufile)
+    # mmgr.send_mailex(@tkd.mi.emailw, subject, msg, kifufile)
+  end
+
+  def send_mail_next(nowstr)
     # @log.debug("opp:#{opp}")
+    opp = @tkd.mi.getopponent(@userinfo.user_id)
     subject = "it's your turn!! (#{@tkd.mi.playerb} vs #{@tkd.mi.playerw})"
     # @log.debug("subject:#{subject}")
     baseurl = $stg.value['base_url']
@@ -92,6 +121,16 @@ class Move
     # @log.debug("msg:#{msg}")
     mmgr = MailManager.new
     mmgr.send_mail(opp[:mail], subject, msg)
+  end
+
+  # @param finished [boolean] 終局したかどうか
+  # @param now      [Time]    着手日時
+  def send_mail(finished, nowstr)
+    if finished
+      send_mail_finished(nowstr)
+    else
+      send_mail_next(nowstr)
+    end
   end
 
   #
@@ -134,7 +173,7 @@ class Move
       tcdb.finished(@gameid)
     end
 
-    @log.debug('Move.setlastmove')
+    # @log.debug('Move.setlastmove')
     @tkd.mi.setlastmove_dt(@move[0, 7], now)
 
     # @log.debug('Move.mi.write')
@@ -154,6 +193,7 @@ class Move
     tdb.write
 
     @log.debug('Move.sendmail')
+    @tkd.read
     send_mail(ret == 1, nowstr)
 
     @log.debug('Move.performed')
