@@ -100,7 +100,7 @@ class Move
     # @log.debug("msg:#{msg}")
     mmgr = MailManager.new
     mmgr.send_mailex(@tkd.mi.emailb, subject, msg, kifufile)
-    # mmgr.send_mailex(@tkd.mi.emailw, subject, msg, kifufile)
+    mmgr.send_mailex(@tkd.mi.emailw, subject, msg, kifufile)
   end
 
   def send_mail_next(nowstr)
