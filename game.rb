@@ -42,7 +42,8 @@ class Game
       @session = CGI::Session.new(@cgi,
                                   'new_session' => false,
                                   'session_key' => '_washcrus_session',
-                                  'tmpdir' => './tmp')
+                                  'tmpdir' => './tmp',
+                                  'session_expires' => Time.now + 2_592_000)
     rescue ArgumentError
       # @session = nil
       @log.info('failed to find session')
@@ -55,7 +56,10 @@ class Game
       @userinfo.readsession(@session)
     end
 
-    @header = @cgi.header('charset' => 'UTF-8')
+    # @header = @cgi.header('charset' => 'UTF-8')
+    @header = @cgi.header('charset' => 'UTF-8',
+                          'Pragma' => 'no-cache',
+                          'Cache-Control' => 'no-cache')
     @header = @header.gsub("\r\n", "\n")
   end
 
@@ -102,21 +106,21 @@ end
 # -----------------------------------
 #   main
 #
-
-cgi = CGI.new
-$stg = Settings.new
-begin
-game = Game.new(cgi)
-game.readuserparam
-game.perform
-rescue ScriptError => e
-  game.log.warn("class=[#{e.class}] message=[#{e.message}] in game")
-rescue SecurityError => e
-  game.log.warn("class=[#{e.class}] message=[#{e.message}] in game")
-rescue => e
-  game.log.warn("class=[#{e.class}] message=[#{e.message}] in game")
+if $PROGRAM_NAME == __FILE__
+  cgi = CGI.new
+  $stg = Settings.new
+  begin
+    game = Game.new(cgi)
+    game.readuserparam
+    game.perform
+  rescue ScriptError => e
+    game.log.warn("class=[#{e.class}] message=[#{e.message}] in game")
+  rescue SecurityError => e
+    game.log.warn("class=[#{e.class}] message=[#{e.message}] in game")
+  rescue => e
+    game.log.warn("class=[#{e.class}] message=[#{e.message}] in game")
+  end
 end
-
 # -----------------------------------
 #   testing
 #

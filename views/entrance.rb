@@ -88,7 +88,7 @@ end
 #
 # 入り口画面
 #
-def entrance_screen(header, title, name, userinfo)
+def entrance_screen(header, title, name, userinfo, cgi)
   blogin = (!userinfo.user_id.nil? && userinfo.user_id != '')
 
   CommonUI::HTMLHead(header, title)
@@ -98,12 +98,14 @@ def entrance_screen(header, title, name, userinfo)
   print "<script type='text/javascript' defer src='js/entrance.js'></script>\n"
 
   # LOGO
-  show_logo
+  # show_logo
 
   show_visitcount(blogin, userinfo)
 
   # test
   test_area
+
+  # puts "<pre>header:#{header}</pre>"
 
   CommonUI::HTMLfoot()
 end

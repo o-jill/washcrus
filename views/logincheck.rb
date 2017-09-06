@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 require 'cgi'
+require 'cgi/session'
 require 'digest/sha2'
 require './file/userinfofile.rb'
 require './views/common_ui.rb'
@@ -60,11 +61,24 @@ def logincheck_screen(header, session, title, name, cgi)
   if errmsg.length.zero?
     userinfo = ret[:userinfo]
 
+    expire = Time.now + 2_592_000  # 30days
+    session = CGI::Session.new(cgi,
+                               'new_session' => true,
+                               'session_key' => '_washcrus_session',
+                               'tmpdir' => './tmp',
+                               'session_expires' => expire)
+
     userinfo.hashsession.each { |k, v| session[k] = v }
 
-    session['session_expires'] = Time.now + 2_592_000 # 30days
+    session['session_expires'] = expire
 
     session.update
+
+    header = cgi.header('charset' => 'UTF-8',
+    'Pragma' => 'no-cache',
+    'Cache-Control' => 'no-cache')
+    # header = cgi.header('charset' => 'UTF-8', 'expires' => expire)
+    header = header.gsub("\r\n", "\n")
 
     CommonUI::HTMLHead(header, title)
     CommonUI::HTMLmenuLogIn(name)
@@ -76,5 +90,6 @@ def logincheck_screen(header, session, title, name, cgi)
     # エラー
     print "<SPAN class='err'>Unfortunately failed ...<BR>#{errmsg}</SPAN>\n"
   end
+  # puts "<pre>header:#{header}</pre>"
   CommonUI::HTMLfoot()
 end

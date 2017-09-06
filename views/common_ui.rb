@@ -29,6 +29,10 @@ module CommonUI
   def self.HTMLHead2(title)
     print <<-HEADER2_TAG.unindent
       Content-Type: text/html; charset=UTF-8
+      Set-Cookie: _washcrus_session=; expires=Thu, 01 Jan 1970 00:00:00 GMT
+      Pragma: no-cache
+      Cache-Control: no-cache
+      Expires: Thu, 01 Jan 1970 00:00:00 GMT
 
       <HTML lang=ja>
       <HEAD>

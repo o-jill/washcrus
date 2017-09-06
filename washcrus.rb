@@ -42,11 +42,13 @@ class WashCrus
     # end
     @action = cgi.query_string
 
+    # expire = nil
     begin
       @session = CGI::Session.new(cgi,
                                   'new_session' => false,
                                   'session_key' => '_washcrus_session',
-                                  'tmpdir' => './tmp')
+                                  'tmpdir' => './tmp',
+                                  'session_expires' => Time.now + 2_592_000)
     rescue ArgumentError
       # p "@session = nil"
     end
@@ -55,20 +57,28 @@ class WashCrus
     if @session.nil?
       @userinfo.visitcount = '1'
 
-      @session = CGI::Session.new(cgi,
-                                  'new_session' => true,
-                                  'session_key' => '_washcrus_session',
-                                  'tmpdir' => './tmp',
-                                  'session_expires' => Time.now + 2_592_000)
+      # @session = CGI::Session.new(cgi,
+      #                             'new_session' => true,
+      #                             'session_key' => '_washcrus_session',
+      #                             'tmpdir' => './tmp',
+      #                             'session_expires' => Time.now + 2_592_000)
     else
       @userinfo.readsession(@session)
+      @userinfo.hashsession.each { |k, v| @session[k] = v }
+      # expire = @session['session_expires']
     end
-
-    @userinfo.hashsession.each { |k, v| @session[k] = v }
 
     # @session.close
 
-    @header = cgi.header('charset' => 'UTF-8')
+    # if expire
+    #   @header = cgi.header('charset' => 'UTF-8', 'expires' => expire)
+    # else
+    #   @header = cgi.header('charset' => 'UTF-8')
+    # end
+    @header = cgi.header('charset' => 'UTF-8',
+                         'Pragma' => 'no-cache',
+                         'Cache-Control' => 'no-cache')
+
     @header = @header.gsub("\r\n", "\n")
   end
 
@@ -81,7 +91,7 @@ class WashCrus
   def perform
     case @action
     when nil, '' then
-      entrance_screen(@header, Pagetitle, Titlename, @userinfo)
+      entrance_screen(@header, Pagetitle, Titlename, @userinfo, @cgi)
     when 'newgame' then
       newgame_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'gennewgame' then
