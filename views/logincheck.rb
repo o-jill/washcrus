@@ -71,25 +71,30 @@ end
 # ログイン完了orログインエラー画面
 #
 def logincheck_screen(session, title, name, cgi)
+  blogin = false
   if session.nil?
     ret = check_login(cgi.params)
     errmsg = ret[:errmsg]
   else
-    errmsg = 'you are already logged in!'
+    errmsg = 'you already logged in!'
+    blogin = true
   end
 
   if errmsg.length.zero?
     gen_new_session(cgi, ret[:userinfo])
+    blogin = true
 
     msg = <<-LOGINMSG.unindent
+      <div align='center'>
       Logged in successfully.<BR>
       username:#{userinfo.user_name}<BR>
       password:****<BR>
       email address:#{userinfo.user_email}<BR>
+      </div>
       LOGINMSG
   else
     # エラー
-    msg = "<SPAN class='err'>Unfortunately failed ...<BR>#{errmsg}</SPAN>\n"
+    msg = "<div class='err'>Unfortunately failed ...<BR>#{errmsg}</div>\n"
   end
 
   header = cgi.header('charset' => 'UTF-8',
@@ -99,7 +104,7 @@ def logincheck_screen(session, title, name, cgi)
   header = header.gsub("\r\n", "\n")
 
   CommonUI::HTMLHead(header, title)
-  CommonUI::HTMLmenu(name)
+  CommonUI::HTMLmenuLogIn(name, blogin)
   print msg
   # puts "<pre>header:#{header}</pre>"
   CommonUI::HTMLfoot()

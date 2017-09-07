@@ -10,16 +10,19 @@ def put_login_form
   print <<-TABLE_FORM.unindent
     <FORM action='washcrus.rb?logincheck' method=post name='signin'>
     <TABLE align='center' class='inpform'>
+    <CAPTION>Log in</CAPTIOIN>
     <TR id='siemail'>
      <TD>e-mail</TD>
-     <TD><INPUT name='siemail' id='siemail' type='email' size='25' class='inpform' required></TD>
+     <TD><INPUT name='siemail' id='siemail' type='email' size='20' class='inpform' required></TD>
     </TR>
     <TR id='sipassword'>
      <TD>password</TD>
-     <TD><INPUT name='sipassword' id='sipassword' type='password' size='25' class='inpform' required></TD>
+     <TD><INPUT name='sipassword' id='sipassword' type='password' size='20' class='inpform' required></TD>
     </TR>
+    <TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
     <TR>
-     <TD colspan=2><input type='submit' class='inpform'>&nbsp;<input type='reset' class='inpform'></TD>
+     <TD><input type='reset' class='inpform'></TD>
+     <TD><input style='width:100%' type='submit' class='inpform'></TD>
     </TR>
     </TABLE></FORM>
     TABLE_FORM
