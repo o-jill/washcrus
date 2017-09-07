@@ -80,11 +80,11 @@ class MatchInfoFile
 
   def getopponent(id_)
     if @idb == id_
-      {id: @idw, name: @playerw, mail: @emailw}
-    elsif @idw = id_
-      {id: @idb, name: @playerb, mail: @emailb}
-    else
-      nil
+      { id: @idw, name: @playerw, mail: @emailw }
+    elsif @idw == id_
+      { id: @idb, name: @playerb, mail: @emailb }
+    # else
+    #   nil
     end
   end
 
