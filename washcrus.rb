@@ -101,7 +101,7 @@ class WashCrus
     when 'login' then
       login_screen(@header, Pagetitle, Titlename, @params)
     when 'logincheck' then
-      logincheck_screen(@header, @session, Pagetitle, Titlename, @cgi)
+      logincheck_screen(@session, Pagetitle, Titlename, @cgi)
     when 'logout' then
       logout_screen(@session, Pagetitle, Titlename)
     when 'register' then

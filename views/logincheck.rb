@@ -3,6 +3,7 @@
 require 'cgi'
 require 'cgi/session'
 require 'digest/sha2'
+require 'unindent'
 require './file/userinfofile.rb'
 require './views/common_ui.rb'
 
@@ -51,45 +52,55 @@ def check_login(params)
   { errmsg: errmsg, userinfo: userinfo }
 end
 
+def gen_new_session(cgi, userinfo)
+  expire = Time.now + 2_592_000 # 30days
+  session = CGI::Session.new(cgi,
+                             'new_session' => true,
+                             'session_key' => '_washcrus_session',
+                             'tmpdir' => './tmp',
+                             'session_expires' => expire)
+
+  userinfo.hashsession.each { |k, v| session[k] = v }
+
+  session['session_expires'] = expire
+
+  session.update
+end
+
 #
 # ログイン完了orログインエラー画面
 #
-def logincheck_screen(header, session, title, name, cgi)
-  ret = check_login(cgi.params)
-  errmsg = ret[:errmsg]
+def logincheck_screen(session, title, name, cgi)
+  if session.nil?
+    ret = check_login(cgi.params)
+    errmsg = ret[:errmsg]
+  else
+    errmsg = 'you are already logged in!'
+  end
 
   if errmsg.length.zero?
-    userinfo = ret[:userinfo]
+    gen_new_session(cgi, ret[:userinfo])
 
-    expire = Time.now + 2_592_000  # 30days
-    session = CGI::Session.new(cgi,
-                               'new_session' => true,
-                               'session_key' => '_washcrus_session',
-                               'tmpdir' => './tmp',
-                               'session_expires' => expire)
-
-    userinfo.hashsession.each { |k, v| session[k] = v }
-
-    session['session_expires'] = expire
-
-    session.update
-
-    header = cgi.header('charset' => 'UTF-8',
-    'Pragma' => 'no-cache',
-    'Cache-Control' => 'no-cache')
-    # header = cgi.header('charset' => 'UTF-8', 'expires' => expire)
-    header = header.gsub("\r\n", "\n")
-
-    CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenuLogIn(name)
-    print "Logged in successfully.<BR>\nusername:#{userinfo.user_name}<BR>\n",
-          "password:****<BR>\nemail address:#{userinfo.user_email}<BR>\n"
+    msg = <<-LOGINMSG.unindent
+      Logged in successfully.<BR>
+      username:#{userinfo.user_name}<BR>
+      password:****<BR>
+      email address:#{userinfo.user_email}<BR>
+      LOGINMSG
   else
-    CommonUI::HTMLHead(header, title)
-    CommonUI::HTMLmenu(name)
     # エラー
-    print "<SPAN class='err'>Unfortunately failed ...<BR>#{errmsg}</SPAN>\n"
+    msg = "<SPAN class='err'>Unfortunately failed ...<BR>#{errmsg}</SPAN>\n"
   end
+
+  header = cgi.header('charset' => 'UTF-8',
+                      'Pragma' => 'no-cache',
+                      'Cache-Control' => 'no-cache')
+
+  header = header.gsub("\r\n", "\n")
+
+  CommonUI::HTMLHead(header, title)
+  CommonUI::HTMLmenu(name)
+  print msg
   # puts "<pre>header:#{header}</pre>"
   CommonUI::HTMLfoot()
 end
