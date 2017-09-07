@@ -263,18 +263,20 @@ class TaikyokuData
     # userdb読み込み
     @log.debug('userdb = UserInfoFile.new')
     userdb = UserInfoFile.new
-    userdb.read
-    if gwin
-      @log.debug("userdb.win_lose(#{id2}, :gwin)")
-      userdb.win_lose(id1, :slose)
-      userdb.win_lose(id2, :gwin)
-    else
-      @log.debug("userdb.win_lose(#{id1}, :swin)")
-      userdb.win_lose(id1, :swin)
-      userdb.win_lose(id2, :glose)
+    userdb.lock do
+      userdb.read
+      if gwin
+        @log.debug("userdb.win_lose(#{id2}, :gwin)")
+        userdb.win_lose(id1, :slose)
+        userdb.win_lose(id2, :gwin)
+      else
+        @log.debug("userdb.win_lose(#{id1}, :swin)")
+        userdb.win_lose(id1, :swin)
+        userdb.win_lose(id2, :glose)
+      end
+      # @log.debug('userdb.write')
+      userdb.write
     end
-    # @log.debug('userdb.write')
-    userdb.write
   end
 
   def dump

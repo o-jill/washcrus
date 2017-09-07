@@ -2,14 +2,18 @@
 
 require 'digest/sha2'
 require 'openssl'
-
+require 'timeout'
 require './secret_token.rb'
+
+class AccessDenied < StandardError
+end
 
 #
 # ユーザー情報DB管理クラス
 #
 class UserInfoFile
   KEY = Globals::KEY
+  LOCKFILE = './tmp/userinfofile.lock'.freeze
 
   def initialize(name = './db/userinfo.csv')
     @fname = name
@@ -21,6 +25,25 @@ class UserInfoFile
 
   attr_accessor :fname, :names, :passwords, :emails
   attr_reader :stats
+
+  # usage:
+  # lock do
+  #   do_something
+  # end
+  def lock(*)
+    Timeout.timeout(10) do
+      File.open(LOCKFILE, 'w') do |file|
+        begin
+          file.flock(File::LOCK_EX)
+          yield
+        ensure
+          file.flock(File::LOCK_UN)
+        end
+      end
+    end
+  rescue Timeout::Error
+    raise AccessDenied.new('timeout')
+  end
 
   def read
     dec = OpenSSL::Cipher.new('AES-256-CBC')
@@ -139,19 +162,21 @@ class UserInfoFile
     enc.encrypt
     # enc.pkcs5_keyivgen(KEY)
     begin
-      File.open(@fname, 'a') do |file|
-        file.flock File::LOCK_EX
+      lock do
+        File.open(@fname, 'a') do |file|
+          file.flock File::LOCK_EX
 
-        enc.pkcs5_keyivgen(KEY)
-        crypted = ''
-        crypted << enc.update(@emails[id])
-        crypted << enc.final
+          enc.pkcs5_keyivgen(KEY)
+          crypted = ''
+          crypted << enc.update(@emails[id])
+          crypted << enc.final
 
-        mailaddr = crypted.unpack('H*')[0]
+          mailaddr = crypted.unpack('H*')[0]
 
-        file.puts "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
-                  "#{@stats[id][:swin]},#{@stats[id][:slose]}," \
-                  "#{@stats[id][:gwin]},#{@stats[id][:glose]}"
+          file.puts "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
+                    "#{@stats[id][:swin]},#{@stats[id][:slose]}," \
+                    "#{@stats[id][:gwin]},#{@stats[id][:glose]}"
+        end
       end
     # 例外は小さい単位で捕捉する
     rescue SystemCallError => e

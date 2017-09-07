@@ -81,7 +81,8 @@ def logincheck_screen(session, title, name, cgi)
   end
 
   if errmsg.length.zero?
-    gen_new_session(cgi, ret[:userinfo])
+    userinfo = ret[:userinfo]
+    gen_new_session(cgi, userinfo)
     blogin = true
 
     msg = <<-LOGINMSG.unindent
