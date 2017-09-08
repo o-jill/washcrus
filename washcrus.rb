@@ -95,7 +95,8 @@ class WashCrus
     when 'newgame' then
       NewGameScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'gennewgame' then
-      generatenewgame_screen(@header, Pagetitle, Titlename, @userinfo, @params)
+      GenNewGameScreen.new(@header, Pagetitle, Titlename, $stg)
+        .show(@userinfo, @params)
     when 'signup' then
       SignupScreen.new(@header, Pagetitle, Titlename).show
     when 'login' then

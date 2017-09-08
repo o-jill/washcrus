@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 require 'logger'
+require 'unindent'
 
 require './file/chatfile.rb'
 require './file/jsonkifu.rb'
@@ -12,118 +13,144 @@ require './util/mailmgr.rb'
 require './util/settings.rb'
 require './views/common_ui.rb'
 
-def check_datalost_gengame(params)
-  params['rname'].nil? || params['remail'].nil? \
-      || params['rname2'].nil? || params['remail2'].nil?
-end
+#
+# 対局作成確認
+#
+class GenNewGameScreen
+  def initialize(header, title, name, stg)
+    @header = header
+    @title = title
+    @name = name
+    @stg = stg
 
-def furifusen(furigoma)
-  furigoma.count('F') >= 3
-end
+    @errmsg = ''
 
-def check_players(name1, email1, name2, email2)
-  userdb = UserInfoFile.new
-  userdb.read
-
-  errmsg = ''
-  userdata1 = userdb.findname(name1) # [id, name, pw, email]
-  if userdata1.nil? || email1 != userdata1[3]
-    errmsg += "name or e-mail address in player 1 is wrong ...<BR>\n"
+    @log = Logger.new('./tmp/newgamegenlog.txt')
   end
 
-  userdata2 = userdb.findname(name2) # [id, name, pw, email]
-  if userdata2.nil? || email2 != userdata2[3]
-    errmsg += "name or e-mail address in player 2 is wrong ...<BR>\n"
+  def check_datalost_gengame(params)
+    params['rname'].nil? || params['remail'].nil? \
+        || params['rname2'].nil? || params['remail2'].nil?
   end
 
-  { errmsg: errmsg, userdata1: userdata1, userdata2: userdata2 }
-end
+  def furifusen(furigoma)
+    furigoma.count('F') >= 3
+  end
 
-def check_newgame(params)
-  return { errmsg: 'data lost ...<BR>' } if check_datalost_gengame(params)
+  def check_players(name1, email1, name2, email2)
+    userdb = UserInfoFile.new
+    userdb.read
 
-  name1 = params['rname'][0]
-  email1 = params['remail'][0]
-  name2 = params['rname2'][0]
-  email2 = params['remail2'][0]
+    userdata1 = userdb.findname(name1) # [id, name, pw, email]
+    if userdata1.nil? || email1 != userdata1[3]
+      @errmsg += "name or e-mail address in player 1 is wrong ...<BR>\n"
+    end
 
-  check_players(name1, email1, name2, email2)
-end
+    userdata2 = userdb.findname(name2) # [id, name, pw, email]
+    if userdata2.nil? || email2 != userdata2[3]
+      @errmsg += "name or e-mail address in player 2 is wrong ...<BR>\n"
+    end
 
-def mail_msg_newgame(user1, user2, gameid)
-  baseurl = $stg.value['base_url']
-  msg = <<-MAIL_MSG.unindent
-    Dear #{user1} and #{user2}
+    { userdata1: userdata1, userdata2: userdata2 }
+  end
 
-    a new game is ready for you.
-    please visit a URL bellow to play.
-    #{baseurl}game.rb?#{gameid}
+  def check_newgame(params)
+    return @errmsg += 'data lost ...<BR>' if check_datalost_gengame(params)
 
-    MAIL_MSG
-  msg += MailManager.footer
-  msg
-end
+    name1 = params['rname'][0]
+    email1 = params['remail'][0]
+    name2 = params['rname2'][0]
+    email2 = params['remail2'][0]
 
-def put_err_sreen(header, title, name, errmsg)
-  CommonUI::HTMLHead(header, title)
-  CommonUI::HTMLmenu(name)
-  puts errmsg
-  CommonUI::HTMLfoot()
-end
+    check_players(name1, email1, name2, email2)
+  end
 
-def generatenewgame_screen(header, title, name, userinfo, params)
-  #
-  # 対局作成確認
-  #
-  log = Logger.new('./tmp/newgamegenlog.txt')
+  def mail_msg_newgame(user1, user2, gameid)
+    baseurl = @stg.value['base_url']
+    msg = <<-MAIL_MSG.unindent
+      Dear #{user1} and #{user2}
 
-  ret = check_newgame(params)
-  errmsg = ret[:errmsg]
-  # log.debug('check_newgame(params)')
-  errmsg += "your log-in information is wrong ...\n" \
-      if userinfo.nil? || userinfo.invalid?
+      a new game is ready for you.
+      please visit a URL bellow to play.
+      #{baseurl}game.rb?#{gameid}
 
-  return put_err_sreen(header, title, name, errmsg) if errmsg != ''
+      MAIL_MSG
+    msg += MailManager.footer
+    msg
+  end
 
-  # log.debug('put_err_sreen')
+  def put_err_sreen
+    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLmenu(@name)
+    puts @errmsg
+    CommonUI::HTMLfoot()
+  end
 
-  userdata1 = ret[:userdata1]
-  userdata2 = ret[:userdata2]
+  def send_mail
+    subject = "a game is ready!! (#{@td.player1} vs #{@td.player2})"
+    msg = mail_msg_newgame(@td.player1, @td.player2, @td.gid)
 
-  # log.debug('TaikyokuData.new')
-  td = TaikyokuData.new
+    mailmgr = MailManager.new
+    mailmgr.send_mail(@td.email1, subject, msg)
+    mailmgr.send_mail(@td.email2, subject, msg)
+  end
 
-  # log.debug('td.setplayer1')
-  td.setplayer1(userdata1[0], userdata1[1], userdata1[3])
-  # log.debug('td.setplayer2')
-  td.setplayer2(userdata2[0], userdata2[1], userdata2[3])
-  # log.debug("furifusen(#{params['furigoma'][0].count('F')})")
-  td.switchplayers unless furifusen(params['furigoma'][0])
+  def config_taikyoku(userdata1, userdata2, userinfo, params)
+    # log.debug('td.setplayer1')
+    @td.setplayer1(userdata1[0], userdata1[1], userdata1[3])
 
-  # log.debug('td.creator')
-  td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
+    # log.debug('td.setplayer2')
+    @td.setplayer2(userdata2[0], userdata2[1], userdata2[3])
 
-  # log.debug('td.generate')
-  td.log = log
-  td.generate
+    # log.debug("furifusen(#{params['furigoma'][0].count('F')})")
+    @td.switchplayers unless furifusen(params['furigoma'][0])
 
-  # send mail to the players
-  subject = "a game is ready!! (#{td.player1} vs #{td.player2})"
-  msg = mail_msg_newgame(td.player1, td.player2, td.gid)
-  mailmgr = MailManager.new
-  mailmgr.send_mail(td.email1, subject, msg)
-  mailmgr.send_mail(td.email2, subject, msg)
+    # log.debug('td.creator')
+    @td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
 
-  # log.debug('CommonUI::HTMLHead(header, title)')
-  CommonUI::HTMLHead(header, title)
-  CommonUI::HTMLmenuLogIn(name, true)
+    # log.debug('td.generate')
+    @td.generate
+  end
 
-  td.dumptable
+  def generate(userinfo, params)
+    ret = check_newgame(params)
 
-  puts 'new game generated!<BR>' \
-       "<a href='game.rb?#{td.gid}'><big>start playing &gt;&gt;</big></a><BR>"
+    log.debug('check_newgame(params)')
+    @errmsg += "your log-in information is wrong ...\n" \
+        if userinfo.nil? || userinfo.invalid?
 
-  puts 'mails were sent to both players.'
+    return false unless @errmsg.length.zero?
 
-  CommonUI::HTMLfoot()
+    # log.debug('put_err_sreen')
+
+    # log.debug('TaikyokuData.new')
+    @td = TaikyokuData.new
+    @td.log = @log
+
+    config_taikyoku(ret[:userdata1], ret[:userdata2], userinfo, params)
+
+    # send mail to the players
+    send_mail
+
+    true
+  end
+
+  def show(userinfo, params)
+    return put_err_sreen unless generate(userinfo, params)
+
+    # log.debug('CommonUI::HTMLHead(header, title)')
+    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLmenuLogIn(@name, true)
+
+    @td.dumptable
+
+    puts <<-GENMSG.unindent
+      new game generated!<BR>
+      <a href='game.rb?#{@td.gid}'><big>start playing &gt;&gt;</big></a><BR>
+
+      mails were sent to both players.
+      GENMSG
+
+    CommonUI::HTMLfoot()
+  end
 end
