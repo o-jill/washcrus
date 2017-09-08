@@ -101,7 +101,7 @@ class WashCrus
     when 'login' then
       LoginScreen.new(@header, Pagetitle, Titlename).show(!@session.nil?)
     when 'logincheck' then
-      logincheck_screen(@session, Pagetitle, Titlename, @cgi)
+      LoginCheckScreen.new(Pagetitle, Titlename).show(@session, @cgi)
     when 'logout' then
       LogoutScreen.new(Pagetitle, Titlename).show(@session)
     when 'register' then
