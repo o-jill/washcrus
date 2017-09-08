@@ -93,7 +93,7 @@ class WashCrus
     when nil, '' then
       entrance_screen(@header, Pagetitle, Titlename, @userinfo, @cgi)
     when 'newgame' then
-      newgame_screen(@header, Pagetitle, Titlename, @userinfo)
+      NewGameScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'gennewgame' then
       generatenewgame_screen(@header, Pagetitle, Titlename, @userinfo, @params)
     when 'signup' then
