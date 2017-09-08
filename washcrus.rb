@@ -106,7 +106,7 @@ class WashCrus
     when 'logout' then
       LogoutScreen.new(Pagetitle, Titlename).show(@session)
     when 'register' then
-      register_screen(@header, Pagetitle, Titlename, @params)
+      RegisterScreen.new(@header, Pagetitle, Titlename).show(@params)
     when 'matchlist' then
       matchlist_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'mypage' then
