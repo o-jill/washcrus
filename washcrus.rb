@@ -103,7 +103,7 @@ class WashCrus
     when 'logincheck' then
       logincheck_screen(@session, Pagetitle, Titlename, @cgi)
     when 'logout' then
-      logout_screen(@session, Pagetitle, Titlename)
+      LogoutScreen.new(Pagetitle, Titlename).show(@session)
     when 'register' then
       register_screen(@header, Pagetitle, Titlename, @params)
     when 'matchlist' then

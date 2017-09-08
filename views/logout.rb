@@ -6,19 +6,20 @@ require './views/common_ui.rb'
 #
 # LOGOUT画面
 #
-def logout_screen(session, title, name)
-  session.delete
+class LogoutScreen
+  def initialize(title, name)
+    @title = title
+    @name = name
+  end
 
-  # header = cgi.header('charset' => 'UTF-8',
-  #                     'expires' => 'Thu, 1-Jan-1970 00:00:00 GMT')
-  # header = header.gsub("\r\n", "\n")
-  #
-  # CommonUI::HTMLHead(header, title)
+  def show(session)
+    session.delete if session
 
-  CommonUI::HTMLHead2(title)
-  CommonUI::HTMLmenu(name)
+    CommonUI::HTMLHead2(@title)
+    CommonUI::HTMLmenu(@name)
 
-  puts 'Logged out ...'
+    puts 'Logged out ...'
 
-  CommonUI::HTMLfoot()
+    CommonUI::HTMLfoot()
+  end
 end
