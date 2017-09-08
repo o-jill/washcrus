@@ -114,7 +114,7 @@ class WashCrus
     when 'search' then
       searchresult_screen(@header, Pagetitle, Titlename, @userinfo, @params)
     when 'searchform' then
-      searchform_screen(@header, Pagetitle, Titlename, @userinfo)
+      SearchformScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'userlist' then
       userlist_screen(@header, Pagetitle, Titlename, @userinfo)
     else
