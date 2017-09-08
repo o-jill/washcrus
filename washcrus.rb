@@ -99,7 +99,7 @@ class WashCrus
     when 'signup' then
       signup_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'login' then
-      login_screen(@header, Pagetitle, Titlename, @params)
+      LoginScreen.new(@header, Pagetitle, Titlename).show(!@session.nil?)
     when 'logincheck' then
       logincheck_screen(@session, Pagetitle, Titlename, @cgi)
     when 'logout' then
