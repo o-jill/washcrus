@@ -4,9 +4,7 @@ require 'digest/sha2'
 require 'openssl'
 require 'timeout'
 require './secret_token.rb'
-
-class AccessDenied < StandardError
-end
+require './util/myerror.rb'
 
 #
 # ユーザー情報DB管理クラス

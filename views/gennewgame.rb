@@ -96,34 +96,34 @@ class GenNewGameScreen
   end
 
   def config_taikyoku(userdata1, userdata2, userinfo, params)
-    # log.debug('td.setplayer1')
+    # @log.debug('td.setplayer1')
     @td.setplayer1(userdata1[0], userdata1[1], userdata1[3])
 
-    # log.debug('td.setplayer2')
+    # @log.debug('td.setplayer2')
     @td.setplayer2(userdata2[0], userdata2[1], userdata2[3])
 
-    # log.debug("furifusen(#{params['furigoma'][0].count('F')})")
+    # @log.debug("furifusen(#{params['furigoma'][0].count('F')})")
     @td.switchplayers unless furifusen(params['furigoma'][0])
 
-    # log.debug('td.creator')
+    # @log.debug('td.creator')
     @td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
 
-    # log.debug('td.generate')
+    # @log.debug('td.generate')
     @td.generate
   end
 
   def generate(userinfo, params)
     ret = check_newgame(params)
 
-    log.debug('check_newgame(params)')
+    # @log.debug('check_newgame(params)')
     @errmsg += "your log-in information is wrong ...\n" \
         if userinfo.nil? || userinfo.invalid?
 
     return false unless @errmsg.length.zero?
 
-    # log.debug('put_err_sreen')
+    # @log.debug('put_err_sreen')
 
-    # log.debug('TaikyokuData.new')
+    # @log.debug('TaikyokuData.new')
     @td = TaikyokuData.new
     @td.log = @log
 
@@ -138,7 +138,7 @@ class GenNewGameScreen
   def show(userinfo, params)
     return put_err_sreen unless generate(userinfo, params)
 
-    # log.debug('CommonUI::HTMLHead(header, title)')
+    # @log.debug('CommonUI::HTMLHead(header, title)')
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenuLogIn(@name, true)
 

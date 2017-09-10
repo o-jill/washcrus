@@ -3,14 +3,20 @@
 require 'digest/sha2'
 require 'openssl'
 require 'time'
+require 'timeout'
 require 'unindent'
+
+require './util/myerror.rb'
 
 #
 # 対局情報DB管理クラス
 #
 class TaikyokuFile
-  def initialize(name = './db/taikyoku.csv')
+  LOCKFILE = './tmp/taikyokufile.lock'.freeze
+
+  def initialize(name = './db/taikyoku.csv', lockfn = LOCKFILE)
     @fname = name
+    @lockfn = lockfn
     @idbs = {}
     @idws = {}
     @namebs = {}
@@ -20,6 +26,25 @@ class TaikyokuFile
   end
 
   attr_accessor :fname, :idbs, :idws, :namebs, :namews, :times, :comments
+
+  # usage:
+  # lock do
+  #   do_something
+  # end
+  def lock(*)
+    Timeout.timeout(10) do
+      File.open(@lockfn, 'w') do |file|
+        begin
+          file.flock(File::LOCK_EX)
+          yield
+        ensure
+          file.flock(File::LOCK_UN)
+        end
+      end
+    end
+  rescue Timeout::Error
+    raise AccessDenied.new('timeout')
+  end
 
   def read
     File.open(@fname, 'r:utf-8') do |file|
@@ -66,12 +91,14 @@ class TaikyokuFile
   end
 
   def append(id)
-    File.open(@fname, 'a') do |file|
-      file.flock File::LOCK_EX
-      # file.puts '# taikyoku information' + Time.now.to_s
-      # file.puts '# id, idb, idw, nameb, namew, time, comment'
-      file.puts "#{id},#{@idbs[id]},#{@idws[id]}," \
-                "#{namebs[id]},#{namews[id]},#{times[id]},#{comments[id]}"
+    lock do
+      File.open(@fname, 'a') do |file|
+        file.flock File::LOCK_EX
+        # file.puts '# taikyoku information' + Time.now.to_s
+        # file.puts '# id, idb, idw, nameb, namew, time, comment'
+        file.puts "#{id},#{@idbs[id]},#{@idws[id]}," \
+                  "#{namebs[id]},#{namews[id]},#{times[id]},#{comments[id]}"
+      end
     end
   # 例外は小さい単位で捕捉する
   rescue SystemCallError => e
@@ -254,7 +281,9 @@ end
 # 終わった対局は、ここから消してTaikyokuFileへ
 #
 class TaikyokuChuFile < TaikyokuFile
-  def initialize(name = './db/taikyokuchu.csv')
+  LOCKFILE = './tmp/taikyokuchufile.lock'.freeze
+
+  def initialize(name = './db/taikyokuchu.csv', lockfn = LOCKFILE)
     super
   end
 
