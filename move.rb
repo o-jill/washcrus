@@ -182,15 +182,22 @@ class Move
     # @log.debug('Move.jkf.write')
     @tkd.jkf.write(@tkd.kifupath)
 
-    @log.debug('tcdb.updatedatetime')
-    tcdb.updatedatetime(@gameid, nowstr)
-    tcdb.write
+    if ret != 1
+      @log.debug('tcdb.updatedatetime')
+      tcdb.lock do
+        tcdb.read
+        tcdb.updatedatetime(@gameid, nowstr)
+        tcdb.write
+      end
+    end
 
     @log.debug('tdb.updatedatetime')
     tdb = TaikyokuFile.new
-    tdb.read
-    tdb.updatedatetime(@gameid, nowstr)
-    tdb.write
+    tdb.lock do
+      tdb.read
+      tdb.updatedatetime(@gameid, nowstr)
+      tdb.write
+    end
 
     @log.debug('Move.sendmail')
     @tkd.read

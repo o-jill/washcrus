@@ -288,7 +288,10 @@ class TaikyokuChuFile < TaikyokuFile
   end
 
   def finished(gid)
-    remove(gid)
-    write
+    lock do
+      read
+      remove(gid)
+      write
+    end
   end
 end
