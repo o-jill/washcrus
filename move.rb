@@ -20,13 +20,15 @@ require './util/settings.rb'
 class Move
   TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n".freeze
 
-  def initialize(cgi)
+  def initialize(cgi, stg)
     @log = Logger.new('./tmp/movelog.txt')
     # @log.level = Logger::INFO
-    @log.info('Move.new()')
+    # @log.debug('Move.new()')
     @cgi = cgi
     @params = cgi.params
     @gameid = cgi.query_string
+    # @stg = stg
+    @baseurl = stg.value['base_url']
     @log.info("gameid:#{@gameid}")
     @sfen = @params['sfen'][0] unless @params['sfen'].nil?
     @move = @params['jsonmove'][0] unless @params['jsonmove'].nil?
@@ -75,7 +77,6 @@ class Move
   def send_mail_finished(nowstr)
     subject = "the game was over. (#{@tkd.mi.playerb} vs #{@tkd.mi.playerw})"
     # @log.debug("subject:#{subject}")
-    baseurl = $stg.value['base_url']
 
     dt = @tkd.mi.dt_lastmove.delete('/:').sub(' ', '_')
     filename = "#{@tkd.mi.playerb}_#{@tkd.mi.playerw}_#{dt}.kif"
@@ -83,9 +84,9 @@ class Move
     msg = <<-MSG_TEXT.unindent
       #{@tkd.mi.playerb}さん、 #{@tkd.mi.playerw}さん
 
-      対局(#{@gameid})が終了しました。
+      対局(#{@gameid})が#{nowstr}に終局しました。
 
-      #{baseurl}game.rb?#{@gameid}
+      #{@baseurl}game.rb?#{@gameid}
 
       attached:#{filename}
 
@@ -104,21 +105,21 @@ class Move
   end
 
   def send_mail_next(nowstr)
-    # @log.debug("opp:#{opp}")
-    opp = @tkd.mi.getopponent(@userinfo.user_id)
     subject = "it's your turn!! (#{@tkd.mi.playerb} vs #{@tkd.mi.playerw})"
     # @log.debug("subject:#{subject}")
-    baseurl = $stg.value['base_url']
+    opp = @tkd.mi.getopponent(@userinfo.user_id)
+    # @log.debug("opp:#{opp}")
     msg = <<-MSG_TEXT.unindent
       #{opp[:name]}さん
 
       #{@userinfo.user_name}さんが#{nowstr}に１手指されました。
 
-      #{baseurl}game.rb?#{@gameid}
+      #{@baseurl}game.rb?#{@gameid}
 
       MSG_TEXT
     msg += MailManager.footer
     # @log.debug("msg:#{msg}")
+
     mmgr = MailManager.new
     mmgr.send_mail(opp[:mail], subject, msg)
   end
@@ -130,6 +131,25 @@ class Move
       send_mail_finished(nowstr)
     else
       send_mail_next(nowstr)
+    end
+  end
+
+  def update_taikyokuchu_dt(tcdb, nowstr)
+    @log.debug('tcdb.updatedatetime')
+    tcdb.lock do
+      tcdb.read
+      tcdb.updatedatetime(@gameid, nowstr)
+      tcdb.write
+    end
+  end
+
+  def update_taikyoku_dt(nowstr)
+    @log.debug('tdb.updatedatetime')
+    tdb = TaikyokuFile.new
+    tdb.lock do
+      tdb.read
+      tdb.updatedatetime(@gameid, nowstr)
+      tdb.write
     end
   end
 
@@ -146,6 +166,7 @@ class Move
     # @log.debug('Move.check gameid')
     tcdb = TaikyokuChuFile.new
     tcdb.read
+
     # 存在しないはずのIDだよ
     return print TEXTPLAIN_HEAD + 'illegal access.' \
       unless tcdb.exist_id(@gameid)
@@ -164,6 +185,7 @@ class Move
     # @tkd.move(@jmv, now)
     ret = @tkd.move(@sfen, @jmv, now)
     return print TEXTPLAIN_HEAD + 'invalid move.' if ret.nil?
+
     if ret == 1
       # 終了日時の更新とか勝敗の記録とか
       @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")
@@ -182,26 +204,15 @@ class Move
     # @log.debug('Move.jkf.write')
     @tkd.jkf.write(@tkd.kifupath)
 
-    if ret != 1
-      @log.debug('tcdb.updatedatetime')
-      tcdb.lock do
-        tcdb.read
-        tcdb.updatedatetime(@gameid, nowstr)
-        tcdb.write
-      end
-    end
+    update_taikyokuchu_dt(tcdb, nowstr) if ret != 1
 
-    @log.debug('tdb.updatedatetime')
-    tdb = TaikyokuFile.new
-    tdb.lock do
-      tdb.read
-      tdb.updatedatetime(@gameid, nowstr)
-      tdb.write
-    end
+    update_taikyoku_dt(nowstr)
 
     @log.debug('Move.sendmail')
     @tkd.read
     send_mail(ret == 1, nowstr)
+
+    print TEXTPLAIN_HEAD + 'Moved.'
 
     @log.debug('Move.performed')
   end
@@ -212,9 +223,9 @@ end
 #
 
 cgi = CGI.new
-$stg = Settings.new
+stg = Settings.new
 begin
-  move = Move.new(cgi)
+  move = Move.new(cgi, stg)
   move.readuserparam
   move.perform
 rescue ScriptError => e
