@@ -116,6 +116,13 @@ file './config/settings.yaml' do
   exit 103
 end
 
+task check_adminconfig: ['./db/adminconfig.txt']
+
+file './db/adminconfig.txt' do
+  puts "ERROR: './db/adminconfig.txt' is missing..."
+  exit 103
+end
+
 desc 'testing and checking code style'
 task test: [:do_rubocop, :do_rspec]
 
