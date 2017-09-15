@@ -294,4 +294,14 @@ class TaikyokuChuFile < TaikyokuFile
       write
     end
   end
+
+  # １日以上経過した対局のIDを返す。
+  def checkelapsed
+    limit = Time.now - 86_400 # 24*3600
+    @times.select do |key, val|
+      # val + 24h > now
+      # val > now - 24h
+      Time.parse(val) <= limit
+    end
+  end
 end

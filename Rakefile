@@ -142,3 +142,10 @@ task :add_admin do
     exit 201
   end
 end
+
+desc 'byouyomi task'
+task :byouyomi do
+  require './observer/byouyomichan.rb'
+  bc = ByouyomiChan.new
+  bc.perform
+end

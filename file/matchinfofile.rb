@@ -88,6 +88,16 @@ class MatchInfoFile
     end
   end
 
+  def getnextplayer
+    if @teban == 'b'
+      { id: @idb, name: @playerb, mail: @emailb }
+    elsif @teban == 'w'
+      { id: @idw, name: @playerw, mail: @emailw }
+    else
+      nil
+    end
+  end
+
   def setcreator(name, dt)
     @creator = name
     @dt_created = dt
