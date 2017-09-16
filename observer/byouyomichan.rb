@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
+#
+# commandline:
+#     ruby observer/by ouyomichan.rb <period in minutes>
+#
 
 require 'rubygems'
 
@@ -19,6 +23,9 @@ class ByouyomiChan
   def initialize
     stg = Settings.new
     @baseurl = stg.value['base_url']
+
+    @min_period = ARGV[0].to_i || 0
+    raise StandardError.new('period shoud be more than zero!') if @min_period < 1
   end
 
   def getelapsed(from, to)
@@ -37,8 +44,8 @@ class ByouyomiChan
   def getlist2send(list, tm)
     list.select do |id, t|
       et = getelapsed(Time.parse(t), tm)
-      et[:day] > 0 && et[:hour].zero? && et[:min] / 10 < 1
-      # bmail = et[:day] > 0 && et[:hour].zero? && et[:min] / 10 < 1
+      et[:day] > 0 && et[:hour].zero? && et[:min] / @min_period < 1
+      # bmail = et[:day] > 0 && et[:hour].zero? && et[:min] / @min_period < 1
       # puts "#{id} | #{t} | #{et[:total]} | " \
       #      "#{et[:day]}:#{et[:hour]}:#{et[:min]}:#{et[:sec]} | #{bmail}"
       # bmail
@@ -79,7 +86,8 @@ class ByouyomiChan
     now = Time.now
     list2send = getlist2send(list, now)
 
-    puts '# list 2 be sent'
+    puts "# list 2 be sent (#{now.strftime('%Y/%m/%d %H:%M:%S')})"
+    puts "# #{@min_period} minutes period."
     list2send.each do |id, t|
       puts "#{id} | #{t}"
       tkd =TaikyokuData.new
@@ -94,6 +102,10 @@ end
 #   main
 #
 if $PROGRAM_NAME == __FILE__
-  bc = ByouyomiChan.new
-  bc.perform
+  begin
+    bc = ByouyomiChan.new
+    bc.perform
+  rescue StandardError => e
+    puts e
+  end
 end
