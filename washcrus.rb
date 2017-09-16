@@ -117,6 +117,11 @@ class WashCrus
       SearchformScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'userlist' then
       userlist_screen(@header, Pagetitle, Titlename, @userinfo)
+    when /game\/([0-9a-f]+)/
+require './game.rb'
+      gm = Game.new(@cgi, $1)
+      gm.setparam(@session, @userinfo, @header)
+      gm.perform
     else
       error_action_screen(@header, Pagetitle, Titlename,
                           @userinfo, @params, @action)

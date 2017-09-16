@@ -86,7 +86,7 @@ class Move
 
       対局(#{@gameid})が#{nowstr}に終局しました。
 
-      #{@baseurl}game.rb?#{@gameid}
+      #{@baseurl}washcrus.rb?game/#{@gameid}
 
       attached:#{filename}
 
@@ -114,7 +114,7 @@ class Move
 
       #{@userinfo.user_name}さんが#{nowstr}に１手指されました。
 
-      #{@baseurl}game.rb?#{@gameid}
+      #{@baseurl}washcrus.rb?game/#{@gameid}
 
       MSG_TEXT
     msg += MailManager.footer

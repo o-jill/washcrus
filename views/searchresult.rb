@@ -87,7 +87,7 @@ def searchresult_screen(header, title, name, userinfo, params)
     res.each do |game|
       print <<-GAMEINFO.unindent
         <tr>
-         <td><a href='game.rb?#{game[:id]}' target=_blank>#{game[:id]}</a></td>
+         <td><a href='washcrus.rb?game/#{game[:id]}' target=_blank>#{game[:id]}</a></td>
          <td>#{game[:nameb]}</td><td>#{game[:namew]}</td><td>#{game[:time]}</td>
          <td><a href='dlkifu.rb?#{game[:id]}' target=_blank>download</a></td>
         </tr>

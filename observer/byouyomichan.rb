@@ -63,7 +63,7 @@ class ByouyomiChan
 
       #{pply[:name]}さんが#{mi.dt_lastmove}に１手指されました。
 
-      #{@baseurl}game.rb?#{mi.gid}
+      #{@baseurl}washcrus.rb?game/#{mi.gid}
 
       MSG_TEXT
     msg += MailManager.footer

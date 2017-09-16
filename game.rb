@@ -17,7 +17,7 @@ require './views/login.rb'
 # CGI本体
 #
 class Game
-  def initialize(cgi)
+  def initialize(cgi, gid = nil)
     @log = Logger.new('./tmp/gamelog.txt')
     # @log.level = Logger::INFO
     @log.info('Game.new()')
@@ -31,11 +31,17 @@ class Game
     @cgi = cgi
     @params = cgi.params
 
-    @gameid = cgi.query_string
+    @gameid = gid.nil? ? cgi.query_string : gid
     @log.info("gameid:#{@gameid}")
   end
 
   attr_reader :log
+
+  def setparam(session, userinfo, header)
+    @session = session
+    @userinfo = userinfo
+    @header = header
+  end
 
   def readuserparam
     begin

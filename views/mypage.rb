@@ -54,7 +54,7 @@ def put_taikyokulist_tbl(tklist)
     gid = game[:id]
     print <<-TKLIST_DAN.unindent
       <tr>
-       <td><a href='./game.rb?#{gid}' target='_blank'>#{gid}</a></td>
+       <td><a href='./washcrus.rb?game/#{gid}' target='_blank'>#{gid}</a></td>
        <td>#{game[:nameb]}</td><td>#{game[:namew]}</td><td>#{game[:time]}</td>
        <td><a href='./dlkifu.rb?#{gid}' target='_blank'>download</a></td>
       </tr>
