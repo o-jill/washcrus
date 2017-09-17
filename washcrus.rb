@@ -91,7 +91,7 @@ class WashCrus
   def perform
     case @action
     when nil, '' then
-      entrance_screen(@header, Pagetitle, Titlename, @userinfo, @cgi)
+      EntranceScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'newgame' then
       NewGameScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'gennewgame' then
