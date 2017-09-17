@@ -80,7 +80,7 @@ class GameHtml
 
   def kifuelement
     @log.debug('kifuelement')
-    "<button onclick='openurlin_blank(\"dlkifu.rb?#{@gameid}\")'>" \
+    "<button onclick='openurlin_blank(\"washcrus.rb?dlkifu/#{@gameid}\")'>" \
     'Download KIF</button><BR>' \
     "<textarea id='kifulog' class='kifu' readonly>#{@jkf.to_kif}</textarea>"
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kif.gsub("\n", '<BR>')}</div>"

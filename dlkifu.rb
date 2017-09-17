@@ -12,10 +12,15 @@ require './game/userinfo.rb'
 # CGI本体
 #
 class DownloadKifu
-  def initialize(cgi)
+  def initialize(cgi, gid = nil)
     @cgi = cgi
     @params = cgi.params
-    @gameid = cgi.query_string
+    @gameid = gid.nil? ? cgi.query_string : gid
+  end
+
+  def setparam(session, userinfo)
+    @session = session
+    @userinfo = userinfo
   end
 
   def readuserparam
@@ -71,13 +76,13 @@ end
 # -----------------------------------
 #   main
 #
+if $PROGRAM_NAME == __FILE__
+  cgi = CGI.new
 
-cgi = CGI.new
-
-dk = DownloadKifu.new(cgi)
-dk.readuserparam
-dk.perform
-
+  dk = DownloadKifu.new(cgi)
+  dk.readuserparam
+  dk.perform
+end
 # -----------------------------------
 #   testing
 #
