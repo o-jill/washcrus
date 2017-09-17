@@ -40,14 +40,14 @@ class EntranceScreen
   end
 
   LOGO_TEXT = [
-      %w[銀 金 金 角],
-      %w[香 銀 玉 桂],
-      %w[銀 香 桂 玉],
-      ['角', '銀', '飛', ''],
-      ['角', '', '銀', '飛'],
-      %w[桂 銀 金 玉],
-      %w[銀 桂 玉 金]
-    ].freeze
+    %w[銀 金 金 角],
+    %w[香 銀 玉 桂],
+    %w[銀 香 桂 玉],
+    ['角', '銀', '飛', ''],
+    ['角', '', '銀', '飛'],
+    %w[桂 銀 金 玉],
+    %w[銀 桂 玉 金]
+  ].freeze
 
   def show_logo
     show_logo_tmpl(LOGO_TEXT[rand(LOGO_TEXT.size)])
@@ -88,7 +88,7 @@ class EntranceScreen
 
     CommonUI::HTMLmenuLogIn(@name, blogin)
 
-    print "<script type='text/javascript' defer src='js/entrance.js'></script>\n"
+    puts "<script type='text/javascript' defer src='js/entrance.js'></script>"
 
     # LOGO
     show_logo
