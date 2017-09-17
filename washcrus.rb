@@ -112,7 +112,8 @@ class WashCrus
     when 'mypage' then
       mypage_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'search' then
-      searchresult_screen(@header, Pagetitle, Titlename, @userinfo, @params)
+      SearchResultScreen.new(@header, Pagetitle, Titlename)
+          .show(@userinfo, @params)
     when 'searchform' then
       SearchformScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'userlist' then
