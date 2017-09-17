@@ -25,7 +25,7 @@ class GenNewGameScreen
 
     @errmsg = ''
 
-    @log = Logger.new('./tmp/newgamegenlog.txt')
+    @log = Logger.new('./log/newgamegenlog.txt')
   end
 
   def check_datalost_gengame(params)

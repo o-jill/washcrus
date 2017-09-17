@@ -12,3 +12,4 @@ config/mail.yaml
 config/settings.yaml
 config/signature.txt
 db/adminconfig.txt
+log

@@ -4,7 +4,7 @@
 #
 # cron setting example:
 #  */10 * * * * /home/nob-aoki/www/cgi-bin/washcrus/periodic_tasks.sh
-#         > /home/nob-aoki/www/cgi-bin/washcrus/periodic_tasks.log
+#         > /home/nob-aoki/www/cgi-bin/washcrus/log/periodic_tasks.log
 #
 
 # period in minutes to check something in this program.

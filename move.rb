@@ -21,7 +21,7 @@ class Move
   TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n".freeze
 
   def initialize(cgi, stg)
-    @log = Logger.new('./tmp/movelog.txt')
+    @log = Logger.new('./log/movelog.txt')
     # @log.level = Logger::INFO
     # @log.debug('Move.new()')
     @cgi = cgi

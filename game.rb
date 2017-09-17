@@ -18,7 +18,7 @@ require './views/login.rb'
 #
 class Game
   def initialize(cgi, gid = nil)
-    @log = Logger.new('./tmp/gamelog.txt')
+    @log = Logger.new('./log/gamelog.txt')
     # @log.level = Logger::INFO
     @log.info('Game.new()')
 
