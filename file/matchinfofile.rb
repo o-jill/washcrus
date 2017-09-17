@@ -83,8 +83,6 @@ class MatchInfoFile
       { id: @idw, name: @playerw, mail: @emailw }
     elsif @idw == id_
       { id: @idb, name: @playerb, mail: @emailb }
-    # else
-    #   nil
     end
   end
 
@@ -93,8 +91,6 @@ class MatchInfoFile
       { id: @idb, name: @playerb, mail: @emailb }
     elsif @teban == 'w'
       { id: @idw, name: @playerw, mail: @emailw }
-    else
-      nil
     end
   end
 

@@ -6,7 +6,7 @@ class SfenStore
   # STOREFILE = '/sfenlog.txt'.freeze
 
   def initialize(sfenpath)
-    @path = sfenpath  # DIRPATH + @id + STOREFILE
+    @path = sfenpath # DIRPATH + @id + STOREFILE
   end
 
   attr_reader :path

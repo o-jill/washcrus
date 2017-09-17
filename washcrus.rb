@@ -118,12 +118,12 @@ class WashCrus
     when 'userlist' then
       userlist_screen(@header, Pagetitle, Titlename, @userinfo)
     when /game\/([0-9a-f]+)/
-require './game.rb'
+      require './game.rb'
       gm = Game.new(@cgi, $1)
       gm.setparam(@session, @userinfo, @header)
       gm.perform
     when /dlkifu\/([0-9a-f]+)/
-require './dlkifu.rb'
+      require './dlkifu.rb'
       dk = DownloadKifu.new(@cgi, $1)
       dk.setparam(@session, @userinfo)
       dk.perform

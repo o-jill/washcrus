@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
-#
+
 # commandline:
-#     ruby observer/by ouyomichan.rb <period in minutes>
+#     ruby observer/byouyomichan.rb <period in minutes>
 #
 
 require 'rubygems'
@@ -25,7 +25,8 @@ class ByouyomiChan
     @baseurl = stg.value['base_url']
 
     @min_period = ARGV[0].to_i || 0
-    raise StandardError.new('period shoud be more than zero!') if @min_period < 1
+    raise StandardError.new('period shoud be more than zero!') \
+        if @min_period < 1
   end
 
   def getelapsed(from, to)
@@ -42,11 +43,11 @@ class ByouyomiChan
   end
 
   def getlist2send(list, tm)
-    list.select do |id, t|
+    list.select do |_id, t|
       et = getelapsed(Time.parse(t), tm)
       et[:day] > 0 && et[:hour].zero? && et[:min] / @min_period < 1
       # bmail = et[:day] > 0 && et[:hour].zero? && et[:min] / @min_period < 1
-      # puts "#{id} | #{t} | #{et[:total]} | " \
+      # puts "#{_id} | #{t} | #{et[:total]} | " \
       #      "#{et[:day]}:#{et[:hour]}:#{et[:min]}:#{et[:sec]} | #{bmail}"
       # bmail
     end
@@ -90,7 +91,7 @@ class ByouyomiChan
     puts "# #{@min_period} minutes period."
     list2send.each do |id, t|
       puts "#{id} | #{t}"
-      tkd =TaikyokuData.new
+      tkd = TaikyokuData.new
       tkd.setid(id)
       tkd.read
       send_mail(tkd.mi)
