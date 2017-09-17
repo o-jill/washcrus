@@ -110,7 +110,7 @@ class WashCrus
     when 'matchlist' then
       matchlist_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'mypage' then
-      mypage_screen(@header, Pagetitle, Titlename, @userinfo)
+      MyPageScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'search' then
       SearchResultScreen.new(@header, Pagetitle, Titlename)
           .show(@userinfo, @params)
