@@ -68,7 +68,7 @@ file './db/taikyokuchu.csv' do |f|
   chmod 0o666, f.name
 end
 
-task add_w2d: [:add_w2tmp, :add_w2taikyoku, :add_w2d_msg]
+task add_w2d: [:add_w2tmp, :add_w2taikyoku, :add_w2log, :add_w2d_msg]
 
 task :add_w2tmp do
   chmod 0o777, './tmp'
@@ -76,6 +76,10 @@ end
 
 task :add_w2taikyoku do
   chmod 0o777, './taikyoku'
+end
+
+task :add_w2log do
+  chmod 0o777, './log'
 end
 
 task :add_w2d_msg do
