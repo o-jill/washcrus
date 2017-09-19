@@ -119,14 +119,13 @@ class WashCrus
     when 'userlist' then
       userlist_screen(@header, Pagetitle, Titlename, @userinfo)
     when %r{game\/(\h+)}
-      require './game.rb'
+      require './game/game.rb'
       gm = Game.new(@cgi, $1)
-      gm.setparam(@session, @userinfo, @header)
+      gm.setparam(@userinfo, @header)
       gm.perform
     when %r{dlkifu\/(\h+)}
-      require './dlkifu.rb'
-      dk = DownloadKifu.new(@cgi, $1)
-      dk.setparam(@session, @userinfo)
+      require './game/dlkifu.rb'
+      dk = DownloadKifu.new($1, @userinfo)
       dk.perform
     else
       error_action_screen(@header, Pagetitle, Titlename,

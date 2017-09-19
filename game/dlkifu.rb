@@ -1,8 +1,6 @@
-#!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
 
 require 'cgi'
-require 'cgi/session'
 
 require './file/taikyokufile.rb'
 require './game/taikyokudata.rb'
@@ -12,33 +10,9 @@ require './game/userinfo.rb'
 # CGI本体
 #
 class DownloadKifu
-  def initialize(cgi, gid = nil)
-    @cgi = cgi
-    @params = cgi.params
-    @gameid = gid.nil? ? cgi.query_string : gid
-  end
-
-  def setparam(session, userinfo)
-    @session = session
+  def initialize(gid, userinfo)
+    @gameid = gid
     @userinfo = userinfo
-  end
-
-  def readuserparam
-    begin
-      @session = CGI::Session.new(@cgi,
-                                  'new_session' => false,
-                                  'session_key' => '_washcrus_session',
-                                  'tmpdir' => './tmp')
-    rescue ArgumentError
-      # @session = nil
-    end
-
-    @userinfo = UserInfo.new
-    if @session.nil?
-      @userinfo.visitcount = '1'
-    else
-      @userinfo.readsession(@session)
-    end
   end
 
   # class methods
@@ -72,17 +46,3 @@ class DownloadKifu
 
   # class methods
 end
-
-# -----------------------------------
-#   main
-#
-if $PROGRAM_NAME == __FILE__
-  cgi = CGI.new
-
-  dk = DownloadKifu.new(cgi)
-  dk.readuserparam
-  dk.perform
-end
-# -----------------------------------
-#   testing
-#
