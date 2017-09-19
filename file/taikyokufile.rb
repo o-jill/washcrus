@@ -46,6 +46,17 @@ class TaikyokuFile
     raise AccessDenied.new('timeout')
   end
 
+  def read_element(elem)
+    if elem.length == 7
+      add_array(elem)
+    elsif elem.length == 6
+      add(elem[0], elem[1], elem[2], elem[3], elem[4], elem[5],
+          '&lt;blank&gt;')
+    # else
+      # skip
+    end
+  end
+
   def read
     File.open(@fname, 'r:utf-8') do |file|
       file.flock File::LOCK_EX
@@ -56,14 +67,8 @@ class TaikyokuFile
 
         # id, nameb, namew, time, comment
         elem = line.chomp.split(',')
-        if elem.length == 7
-          add_array(elem)
-        elsif elem.length == 6
-          add(elem[0], elem[1], elem[2], elem[3], elem[4], elem[5],
-              '&lt;blank&gt;')
-        # else
-          # skip
-        end
+
+        read_element(elem)
       end
     end
   # 例外は小さい単位で捕捉する
@@ -73,14 +78,22 @@ class TaikyokuFile
     puts "class=[#{e.class}] message=[#{e.message}] in read"
   end
 
+  def build_line(id)
+    "#{id},#{@idbs[id]},#{@idws[id]}," \
+    "#{namebs[id]},#{namews[id]},#{times[id]},#{comments[id]}"
+  end
+
+  def put_header(file)
+    file.puts '# taikyoku information' + Time.now.to_s
+    file.puts '# id, idb, idw, nameb, namew, time, comment'
+  end
+
   def write
     File.open(@fname, 'w') do |file|
       file.flock File::LOCK_EX
-      file.puts '# taikyoku information' + Time.now.to_s
-      file.puts '# id, idb, idw, nameb, namew, time, comment'
-      namebs.each do |id, name|
-        file.puts "#{id},#{@idbs[id]},#{@idws[id]}," \
-                  "#{name},#{namews[id]},#{times[id]},#{comments[id]}"
+      put_header(file)
+      namebs.each do |id, _name|
+        file.puts build_line(id)
       end
     end
   # 例外は小さい単位で捕捉する
@@ -94,10 +107,7 @@ class TaikyokuFile
     lock do
       File.open(@fname, 'a') do |file|
         file.flock File::LOCK_EX
-        # file.puts '# taikyoku information' + Time.now.to_s
-        # file.puts '# id, idb, idw, nameb, namew, time, comment'
-        file.puts "#{id},#{@idbs[id]},#{@idws[id]}," \
-                  "#{namebs[id]},#{namews[id]},#{times[id]},#{comments[id]}"
+        file.puts build_line(id)
       end
     end
   # 例外は小さい単位で捕捉する
@@ -122,7 +132,7 @@ class TaikyokuFile
 
   # get taikyoku information by id
   def findid(id)
-    [@namebs[id], @namebs[id], @times[id], @comments[id]] if exist_id(id)
+    probe(id) if exist_id(id)
   end
 
   # get taikyoku information by name
@@ -141,7 +151,7 @@ class TaikyokuFile
     foundid.merge!(findnamew(name))
     res = []
     foundid.each do |i, _uid|
-      res << [i, idbs[i], idws[i], namebs[i], namebs[i], times[i], comments[i]]
+      res << probe(i)
     end
     res
   end
@@ -162,46 +172,46 @@ class TaikyokuFile
     foundid.merge!(finduidw(name))
     res = []
     foundid.each do |i, _uid|
-      res << {
-        id: i,
-        idb: idbs[i],
-        idw: idws[i],
-        nameb: namebs[i],
-        namew: namews[i],
-        time: times[i],
-        comment: comments[i]
-      }
+      res << probe(i)
     end
     res
   end
 
-  def findtime(from, to)
-    if from.empty?
-      tto = Time.parse(to)
-      foundid = @times.select do |_k, v|
-        t = Time.parse(v)
-        (tto <=> t) > 0  # toの日は含まない
-      end
-    elsif to.empty?
-      tfrom = Time.parse(from)
-      foundid = @times.select do |_k, v|
-        t = Time.parse(v)
-        (t <=> tfrom) >= 0
-      end
-    else
-      tfrom = Time.parse(from)
-      tto = Time.parse(to)
-      tmpid = @times.select do |_k, v|
-        t = Time.parse(v)
-        (t <=> tfrom) >= 0
-      end
-      foundid = tmpid.select do |_k, v|
-        t = Time.parse(v)
-        (tto <=> t) > 0  # toの日は含まない
-      end
+  def findtime_to(to)
+    tto = Time.parse(to)
+    @times.select do |_k, v|
+      t = Time.parse(v)
+      (tto <=> t) > 0 # toの日は含まない
     end
+  end
 
-    foundid
+  def findtime_from(from)
+    tfrom = Time.parse(from)
+    @times.select do |_k, v|
+      t = Time.parse(v)
+      (t <=> tfrom) >= 0
+    end
+  end
+
+  def findtime_both(from, to)
+    tfrom = Time.parse(from)
+    tto = Time.parse(to)
+    tmpid = @times.select do |_k, v|
+      t = Time.parse(v)
+      (t <=> tfrom) >= 0
+    end
+    tmpid.select do |_k, v|
+      t = Time.parse(v)
+      (tto <=> t) > 0 # toの日は含まない
+    end
+  end
+
+  def findtime(from, to)
+    return findtime_to(to) if from.empty?
+
+    return findtime_from(from) if to.empty?
+
+    findtime_both(from, to)
   end
 
   # add taikyoku information

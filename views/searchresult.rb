@@ -43,7 +43,7 @@ class SearchResultScreen
     end
   end
 
-  def findtime(from, to)
+  def findtime(tdb, from, to)
     return [] if from.empty? && to.empty?
 
     res = tdb.findtime(from, to)
@@ -57,7 +57,7 @@ class SearchResultScreen
     id2 = findply2(tdb, ply2)
     return nil if id2.nil?
 
-    id3 = findtime(from, to)
+    id3 = findtime(tdb, from, to)
     return nil if id3.nil?
 
     id12 = merge2ids(id1, id2)
