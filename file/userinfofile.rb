@@ -43,6 +43,31 @@ class UserInfoFile
     raise AccessDenied.new('timeout')
   end
 
+  def decode_mail(dec, data)
+    dec.pkcs5_keyivgen(KEY)
+    em = ''
+    em << dec.update([data].pack('H*'))
+    em << dec.final
+    em
+  end
+
+  def read_elements(elements, dec)
+    id = elements[0]
+    @names[id]     = elements[1]
+    @passwords[id] = elements[2]
+    # dec.pkcs5_keyivgen(KEY)
+    # em = ''
+    # em << dec.update([elements[3]].pack('H*'))
+    # em << dec.final
+    # @emails[id] = em
+    @emails[id] = decode_mail(dec, elements[3])
+    # @emails[id] = elements[3]
+    @stats[id] = {
+      swin: elements[4].to_i, slose: elements[5].to_i,
+      gwin: elements[6].to_i, glose: elements[7].to_i
+    }
+  end
+
   def read
     dec = OpenSSL::Cipher.new('AES-256-CBC')
     dec.decrypt
@@ -55,22 +80,11 @@ class UserInfoFile
           # comment
           next if line =~ /^#/
 
-          # id, name, password, e-mail(encrypted)
+          # id, name, password, e-mail(encrypted), swn, sls, gwn, gls
           elements = line.chomp.split(',')
           next if elements.length != 8 # invalid line
 
-          id = elements[0]
-          @names[id]     = elements[1]
-          @passwords[id] = elements[2]
-          dec.pkcs5_keyivgen(KEY)
-          em = ''
-          em << dec.update([elements[3]].pack('H*'))
-          em << dec.final
-          @emails[id] = em
-          @stats[id] = {
-            swin: elements[4].to_i, slose: elements[5].to_i,
-            gwin: elements[6].to_i, glose: elements[7].to_i
-          }
+          read_elements(elements, dec)
         end
       end
     # 例外は小さい単位で捕捉する
@@ -81,6 +95,25 @@ class UserInfoFile
     end
   end
 
+  def encode_mail(enc, id)
+    enc.pkcs5_keyivgen(KEY)
+    crypted = ''
+    crypted << enc.update(@emails[id])
+    crypted << enc.final
+    crypted.unpack('H*')[0]
+  end
+
+  def put_header(file)
+    file.puts '# user information ' + Time.now.to_s
+    file.puts '# id, name, password, e-mail(encrypted), swn, sls, gwn, gls'
+  end
+
+  def build_line(id, mailaddr)
+    "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
+    "#{@stats[id][:swin]},#{@stats[id][:slose]}," \
+    "#{@stats[id][:gwin]},#{@stats[id][:glose]}"
+  end
+
   # note: DON'T use this when you simply add a user. please use append().
   def write
     enc = OpenSSL::Cipher.new('AES-256-CBC')
@@ -89,17 +122,13 @@ class UserInfoFile
     begin
       File.open(@fname, 'w') do |file|
         file.flock File::LOCK_EX
-        file.puts '# user information ' + Time.now.to_s
-        file.puts '# id, name, password, e-mail(encrypted), swn, sls, gwn, gls'
-        names.each do |id, name|
-          enc.pkcs5_keyivgen(KEY)
-          crypted = ''
-          crypted << enc.update(@emails[id])
-          crypted << enc.final
-          mailaddr = crypted.unpack('H*')[0]
-          file.puts "#{id},#{name},#{@passwords[id]},#{mailaddr}," \
-                    "#{@stats[id][:swin]},#{@stats[id][:slose]}," \
-                    "#{@stats[id][:gwin]},#{@stats[id][:glose]}"
+
+        put_header(file)
+
+        names.each do |id, _name|
+          mailaddr = encode_mail(enc, id)
+
+          file.puts build_line(id, mailaddr)
         end
       end
     # 例外は小さい単位で捕捉する
@@ -164,16 +193,9 @@ class UserInfoFile
         File.open(@fname, 'a') do |file|
           file.flock File::LOCK_EX
 
-          enc.pkcs5_keyivgen(KEY)
-          crypted = ''
-          crypted << enc.update(@emails[id])
-          crypted << enc.final
+          mailaddr = encode_mail(enc, id)
 
-          mailaddr = crypted.unpack('H*')[0]
-
-          file.puts "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
-                    "#{@stats[id][:swin]},#{@stats[id][:slose]}," \
-                    "#{@stats[id][:gwin]},#{@stats[id][:glose]}"
+          file.puts build_line(id, mailaddr)
         end
       end
     # 例外は小さい単位で捕捉する
