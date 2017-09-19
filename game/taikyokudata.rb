@@ -68,6 +68,10 @@ class TaikyokuData
     @email2 = emailt
   end
 
+  def to_vs
+    "#{mi.playerb} vs #{mi.playerw}"
+  end
+
   def setid(id_)
     @gid = id_
     @taikyokupath = DIRPATH + id_ + '/'
@@ -167,6 +171,14 @@ class TaikyokuData
     self
   end
 
+  def write
+    # @log.debug('Move.mi.write')
+    @mi.write(@matchinfopath)
+
+    # @log.debug('Move.jkf.write')
+    @jkf.write(@kifupath)
+  end
+
   def escape_fn(fname)
     path = fname.gsub(%r{[\\\/*:<>?|]}, '_')
     URI.escape(path)
@@ -179,6 +191,14 @@ class TaikyokuData
     URI.escape(path)
   end
 
+  def to_kif
+    @jkf.to_kif.encode('Shift_JIS')
+  end
+
+  def to_csa
+    @jkf.to_csa
+  end
+
   def download_csa
     dt = @mi.dt_lastmove.delete('/:').sub(' ', '_')
     filename = "#{@mi.playerb}_#{@mi.playerw}_#{dt}.csa"
@@ -187,7 +207,7 @@ class TaikyokuData
     puts 'Content-Disposition: attachment; ' \
          "filename='#{escape_fn(filename)}'; " \
          "filename*=UTF-8''#{escape_fnu8(filename)}\n\n"
-    puts @jkf.to_csa
+    puts to_csa
   end
 
   def download_kif
@@ -198,7 +218,7 @@ class TaikyokuData
     puts 'Content-Disposition: attachment; ' \
          "filename='#{escape_fn(filename)}'; " \
          "filename*=UTF-8''#{escape_fnu8(filename)}\n\n"
-    puts @jkf.to_kif.encode('Shift_JIS')
+    puts to_kif
   end
 
   # @return nil if invalid, true if done, otherwise false.

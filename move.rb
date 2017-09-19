@@ -59,28 +59,45 @@ class Move
     @header = @header.gsub("\r\n", "\n")
   end
 
+  def put_illegal_access
+    print TEXTPLAIN_HEAD + 'illegal access.'
+  end
+
+  def put_moved
+    print TEXTPLAIN_HEAD + 'Moved.'
+  end
+
+  def put_invalid_move
+    print TEXTPLAIN_HEAD + 'invalid move.'
+  end
+
+  def put_please_login
+    print TEXTPLAIN_HEAD + 'please log in.'
+  end
+
   def check_param
     # gameid が無いよ
-    return print TEXTPLAIN_HEAD + 'illegal access.' \
-        if @gameid.nil? || @gameid.empty?
+    return put_illegal_access if @gameid.nil? || @gameid.empty?
+
+    tcdb = TaikyokuChuFile.new
+    tcdb.read
+    # 存在しないはずのIDだよ
+    return put_illegal_access unless tcdb.exist_id(@gameid)
 
     # userinfoが変だよ
-    return print TEXTPLAIN_HEAD + 'please log in.' \
-        unless @userinfo.nil? || @userinfo.exist_indb
+    return put_please_login unless @userinfo.exist_indb
 
     # moveが変だよ
-    return print TEXTPLAIN_HEAD + 'invalid move.' if @jmv.nil?
+    return put_invalid_move if @jmv.nil?
 
     self
   end
 
-  def send_mail_finished(nowstr)
-    subject = "the game was over. (#{@tkd.mi.playerb} vs #{@tkd.mi.playerw})"
-    # @log.debug("subject:#{subject}")
+  def build_finishedtitle
+    "the game was over. (#{@tkd.to_vs})"
+  end
 
-    dt = @tkd.mi.dt_lastmove.delete('/:').sub(' ', '_')
-    filename = "#{@tkd.mi.playerb}_#{@tkd.mi.playerw}_#{dt}.kif"
-
+  def build_finishedmsg(nowstr, filename)
     msg = <<-MSG_TEXT.unindent
       #{@tkd.mi.playerb}さん、 #{@tkd.mi.playerw}さん
 
@@ -92,10 +109,29 @@ class Move
 
       MSG_TEXT
     msg += MailManager.footer
+    msg
+  end
+
+  def build_attachfilename(dt)
+    "#{@tkd.mi.playerb}_#{@tkd.mi.playerw}_#{dt}.kif"
+  end
+
+  def build_short_dt
+    @tkd.mi.dt_lastmove.delete('/:').sub(' ', '_')
+  end
+
+  def send_mail_finished(nowstr)
+    subject = build_finishedtitle
+    # @log.debug("subject:#{subject}")
+
+    dt = build_short_dt
+    filename = build_attachfilename(dt)
+
+    msg = build_finishedmsg(nowstr, filename)
 
     kifufile = {
       filename: @tkd.escape_fnu8(filename),
-      content:   @tkd.jkf.to_kif.encode('Shift_JIS')
+      content:  @tkd.to_kif
     }
 
     # @log.debug("msg:#{msg}")
@@ -104,13 +140,9 @@ class Move
     mmgr.send_mailex(@tkd.mi.emailw, subject, msg, kifufile)
   end
 
-  def send_mail_next(nowstr)
-    subject = "it's your turn!! (#{@tkd.mi.playerb} vs #{@tkd.mi.playerw})"
-    # @log.debug("subject:#{subject}")
-    opp = @tkd.mi.getopponent(@userinfo.user_id)
-    # @log.debug("opp:#{opp}")
+  def build_nextturnmsg(name, nowstr)
     msg = <<-MSG_TEXT.unindent
-      #{opp[:name]}さん
+      #{name}さん
 
       #{@userinfo.user_name}さんが#{nowstr}に１手指されました。
 
@@ -118,7 +150,16 @@ class Move
 
       MSG_TEXT
     msg += MailManager.footer
-    # @log.debug("msg:#{msg}")
+    msg
+  end
+
+  def send_mail_next(nowstr)
+    subject = "it's your turn!! (#{@tkd.to_vs})"
+    # @log.debug("subject:#{subject}")
+    opp = @tkd.mi.getopponent(@userinfo.user_id)
+    # @log.debug("opp:#{opp}")
+
+    msg = build_nextturnmsg(opp[:name], nowstr)
 
     mmgr = MailManager.new
     mmgr.send_mail(opp[:mail], subject, msg)
@@ -127,7 +168,10 @@ class Move
   # @param finished [boolean] 終局したかどうか
   # @param now      [Time]    着手日時
   def send_mail(finished, nowstr)
-    if finished
+    @log.debug('Move.sendmail')
+    @tkd.read
+
+    if finished == 1
       send_mail_finished(nowstr)
     else
       send_mail_next(nowstr)
@@ -153,23 +197,23 @@ class Move
     end
   end
 
+  # 対局終了処理
+  def finish_game(tcdb)
+    # 終了日時の更新とか勝敗の記録とか
+    @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")
+    @tkd.finished(now, @tkd.mi.teban == 'b')
+    # 対局中からはずす
+    @log.debug('tcdb.finished(@gameid)')
+    tcdb.finished(@gameid)
+  end
+
   #
   # 実行本体。
   #
   def perform
-    # @log.debug('Move.perform')
-    # gameid が無いよ
-    # userinfoが変だよ
-    # moveが変だよ
+    # gameid が無いよ, userinfoが変だよ
+    # moveが変だよ, 存在しないはずのIDだよ
     return if check_param.nil?
-
-    # @log.debug('Move.check gameid')
-    tcdb = TaikyokuChuFile.new
-    tcdb.read
-
-    # 存在しないはずのIDだよ
-    return print TEXTPLAIN_HEAD + 'illegal access.' \
-      unless tcdb.exist_id(@gameid)
 
     # @log.debug('Move.read data')
     @tkd = TaikyokuData.new
@@ -184,35 +228,28 @@ class Move
     @tkd.log = @log
     # @tkd.move(@jmv, now)
     ret = @tkd.move(@sfen, @jmv, now)
-    return print TEXTPLAIN_HEAD + 'invalid move.' if ret.nil?
+    return put_invalid_move if ret.nil?
 
-    if ret == 1
-      # 終了日時の更新とか勝敗の記録とか
-      @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")
-      @tkd.finished(now, @tkd.mi.teban == 'b')
-      # 対局中からはずす
-      @log.debug('tcdb.finished(@gameid)')
-      tcdb.finished(@gameid)
-    end
+    tcdb = TaikyokuChuFile.new
+    tcdb.read
+    finish_game(tcdb) if ret == 1
 
     # @log.debug('Move.setlastmove')
     @tkd.mi.setlastmove_dt(@move[0, 7], now)
 
     # @log.debug('Move.mi.write')
-    @tkd.mi.write(@tkd.matchinfopath)
-
+    # @tkd.mi.write(@tkd.matchinfopath)
     # @log.debug('Move.jkf.write')
-    @tkd.jkf.write(@tkd.kifupath)
+    # @tkd.jkf.write(@tkd.kifupath)
+    @tkd.write
 
     update_taikyokuchu_dt(tcdb, nowstr) if ret != 1
 
     update_taikyoku_dt(nowstr)
 
-    @log.debug('Move.sendmail')
-    @tkd.read
-    send_mail(ret == 1, nowstr)
+    send_mail(ret, nowstr)
 
-    print TEXTPLAIN_HEAD + 'Moved.'
+    put_moved
 
     @log.debug('Move.performed')
   end
