@@ -95,8 +95,8 @@ class WashCrus
     when 'newgame' then
       NewGameScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'gennewgame' then
-      GenNewGameScreen.new(@header, Pagetitle, Titlename, $stg)
-        .show(@userinfo, @params)
+      gngs = GenNewGameScreen.new(@header, Pagetitle, Titlename, $stg)
+      gngs.show(@userinfo, @params)
     when 'signup' then
       SignupScreen.new(@header, Pagetitle, Titlename).show
     when 'login' then
@@ -112,18 +112,18 @@ class WashCrus
     when 'mypage' then
       MyPageScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'search' then
-      SearchResultScreen.new(@header, Pagetitle, Titlename)
-          .show(@userinfo, @params)
+      srs = SearchResultScreen.new(@header, Pagetitle, Titlename)
+      srs.show(@userinfo, @params)
     when 'searchform' then
       SearchformScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'userlist' then
       userlist_screen(@header, Pagetitle, Titlename, @userinfo)
-    when /game\/([0-9a-f]+)/
+    when %r{game\/(\h+)}
       require './game.rb'
       gm = Game.new(@cgi, $1)
       gm.setparam(@session, @userinfo, @header)
       gm.perform
-    when /dlkifu\/([0-9a-f]+)/
+    when %r{dlkifu\/(\h+)}
       require './dlkifu.rb'
       dk = DownloadKifu.new(@cgi, $1)
       dk.setparam(@session, @userinfo)

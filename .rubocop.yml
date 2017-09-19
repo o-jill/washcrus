@@ -42,8 +42,9 @@ Metrics/ClassLength:
 #   Enabled: false
 
 # Avoid Perl-style regex back references.
-# AvoidPerlBackrefs:
-#   Enabled: false
+# $1, $2, ... <-> Regexp.last_match[1], Regexp.last_match[2], ...
+Style/PerlBackrefs:
+  Enabled: false
 
 # Don't interpolate global, instance and class variables directly in strings.
 # VariableInterpolation:
