@@ -127,6 +127,9 @@ class WashCrus
       require './game/dlkifu.rb'
       dk = DownloadKifu.new($1, @userinfo)
       dk.perform
+    when 'checknewgame'
+      require './game/checknewgame.rb'
+      CheckNewGame.new(@cgi).perform
     else
       error_action_screen(@header, Pagetitle, Titlename,
                           @userinfo, @params, @action)

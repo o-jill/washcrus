@@ -89,7 +89,7 @@ end
 
 task :add_x2rb do
   chmod 0o755, 'chat.rb'
-  chmod 0o755, 'checknewgame.rb'
+  # chmod 0o755, 'checknewgame.rb'
   # chmod 0o755, 'dlkifu.rb'
   # chmod 0o755, 'game.rb'
   chmod 0o755, 'getsfen.rb'

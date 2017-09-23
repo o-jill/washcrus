@@ -75,7 +75,7 @@ function pre_check() {
     var btn = document.getElementById('precheck')
     btn.disabled = true;
 
-    ajax.open('POST', 'checknewgame.rb', true);
+    ajax.open('POST', './washcrus.rb?checknewgame', true);
     ajax.overrideMimeType('text/plain; charset=UTF-8');
     ajax.send(postmsg);
 
