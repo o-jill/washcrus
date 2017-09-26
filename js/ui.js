@@ -1604,7 +1604,7 @@ function fromsfen(sfentext) {
 /**
  * @param {String} nth 何手目
  */
-function gensfen(nth = '1') {
+function gensfen(nth /*= '1'*/) {
  // 盤
  var sfen_genbantext = function(shogiban) {
   var shogibantext = [];
