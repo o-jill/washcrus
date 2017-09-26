@@ -198,7 +198,7 @@ class Move
   end
 
   # 対局終了処理
-  def finish_game(tcdb)
+  def finish_game(tcdb, now)
     # 終了日時の更新とか勝敗の記録とか
     @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")
     @tkd.finished(now, @tkd.mi.teban == 'b')
@@ -232,7 +232,7 @@ class Move
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
-    finish_game(tcdb) if ret == 1
+    finish_game(tcdb, now) if ret == 1
 
     # @log.debug('Move.setlastmove')
     @tkd.mi.setlastmove_dt(@move[0, 7], now)
