@@ -25,7 +25,8 @@ class GameHtml
     print header
     print <<-HTMLELEMENTS.unindent
       <html>#{headerelement}
-      <body><center>洗足池</center><HR>
+      <body>
+      <center><a href='./washcrus.rb'>洗足池</a></center><HR>
       <div class=gamearea>
        <div id='notify_area' class='notify'>
         <BR>指されました。ページを再読込してください。
