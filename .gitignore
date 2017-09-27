@@ -11,5 +11,6 @@ userinfo.csv
 config/mail.yaml
 config/settings.yaml
 config/signature.txt
+config/news.txt
 db/adminconfig.txt
 log

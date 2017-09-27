@@ -14,6 +14,7 @@ require './views/logincheck.rb'
 require './views/logout.rb'
 require './views/matchlist.rb'
 require './views/mypage.rb'
+require './views/news.rb'
 require './views/newgame.rb'
 require './views/register.rb'
 require './views/searchform.rb'
@@ -111,6 +112,8 @@ class WashCrus
       matchlist_screen(@header, Pagetitle, Titlename, @userinfo)
     when 'mypage' then
       MyPageScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+    when 'news' then
+      NewsScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'search' then
       srs = SearchResultScreen.new(@header, Pagetitle, Titlename)
       srs.show(@userinfo, @params)

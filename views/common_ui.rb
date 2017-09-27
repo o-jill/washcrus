@@ -54,6 +54,7 @@ module CommonUI
       <div align='center'>#{title}</div><HR>
       <div align='center' class='menubase'>&nbsp;
       <a class='menu' href='#{index}'> Entrance </a>&nbsp;
+      <a class='menu' href='#{index}?news'> News </a>&nbsp;
       <a class='menu' href='#{index}?signup'> Sign Up </a>&nbsp;
       <a class='menu' href='#{index}?login'> Log In </a>&nbsp;
       <a class='menu' href='#{sup}' target='_blank'> Support </a>&nbsp;
@@ -73,6 +74,7 @@ module CommonUI
       <div align='center'>#{title}</div><HR>
       <div align='center' class='menubase'>&nbsp;
       <a class='menu' href='#{index}'> Entrance </a>&nbsp;
+      <a class='menu' href='#{index}?news'> News </a>&nbsp;
       <a class='menu' href='#{index}?mypage'> My Page </a>&nbsp;
       <a class='menu' href='#{index}?matchlist'> Watch </a>&nbsp;
       <a class='menu' href='#{index}?searchform'> Search </a>&nbsp;
