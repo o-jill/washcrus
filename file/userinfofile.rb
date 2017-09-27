@@ -11,7 +11,7 @@ require './util/myerror.rb'
 #
 class UserInfoFile
   KEY = Globals::KEY
-  LOCKFILE = './tmp/userinfofile.lock'.freeze
+  LOCKFILE = './db/userinfofile.lock'.freeze
 
   def initialize(name = './db/userinfo.csv')
     @fname = name

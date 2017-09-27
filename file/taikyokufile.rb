@@ -12,7 +12,7 @@ require './util/myerror.rb'
 # 対局情報DB管理クラス
 #
 class TaikyokuFile
-  LOCKFILE = './tmp/taikyokufile.lock'.freeze
+  LOCKFILE = './db/taikyokufile.lock'.freeze
 
   def initialize(name = './db/taikyoku.csv', lockfn = LOCKFILE)
     @fname = name
@@ -295,7 +295,7 @@ end
 # 終わった対局は、ここから消してTaikyokuFileへ
 #
 class TaikyokuChuFile < TaikyokuFile
-  LOCKFILE = './tmp/taikyokuchufile.lock'.freeze
+  LOCKFILE = './db/taikyokuchufile.lock'.freeze
 
   def initialize(name = './db/taikyokuchu.csv', lockfn = LOCKFILE)
     super
