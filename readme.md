@@ -1,5 +1,6 @@
 [![license](https://img.shields.io/badge/license-Public%20Domain-blue.svg)](https://github.com/o-jill/washcrus/)
 [![issues](https://img.shields.io/github/issues/o-jill/washcrus.svg)](https://github.com/o-jill/washcrus/issues/)
+[![Inline docs](http://inch-ci.org/github/o-jill/washcrus.svg?branch=master)](http://inch-ci.org/github/o-jill/washcrus)
 
 "WashCrus" will be online shogi match management system.
 
