@@ -45,7 +45,7 @@ task :gen_session_clean do
 end
 
 desc 'init task'
-task init: [:check_mailcfg, :gen_info, :add_w2d, :add_x2rb]
+task init: [:check_mailcfg, :gen_info, :add_w2d, :add_x2rb, :add_w2lock]
 
 task gen_info: [:gen_userinfo, :gen_taikyokuinfo, :gen_taikyokuchuinfo]
 
@@ -95,6 +95,12 @@ task :add_x2rb do
   chmod 0o755, 'getsfen.rb'
   chmod 0o755, 'move.rb'
   chmod 0o755, 'washcrus.rb'
+end
+
+task :add_w2lock do
+  chmod 0o666, './db/taikyokufile.lock'
+  chmod 0o666, './db/taikyokuchufile.lock'
+  chmod 0o666, './db/userinfofile.lock'
 end
 
 task check_mailcfg: [:check_mailcfg_yaml, :check_mailcfg_sign, :check_settings_yaml]
