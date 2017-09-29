@@ -4,8 +4,12 @@ AllCops:
   # Include:
   #   - **/Rakefile
   Exclude:
-    - ./tmp/*
-    - ./taikyoku/*
+    - './tmp/*'
+    - './taikyoku/*'
+    - './vendor/**/*'
+    - './log/*'
+    - './js/*'
+    - './css/*'
   TargetRubyVersion: 1.9
 
 
