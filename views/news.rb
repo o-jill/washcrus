@@ -2,6 +2,7 @@
 
 require 'rubygems'
 # require 'unindent'
+# require 'redcarpet'
 # require './game/userinfo.rb'
 require './views/common_ui.rb'
 
@@ -18,6 +19,9 @@ class NewsScreen
   end
 
   def put_news
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+    msg = markdown.render(File.read(NEWSFILE))
+
     puts <<-NEWS_INFO.unindent
       <style type=text/css>
        .news {
@@ -30,7 +34,7 @@ class NewsScreen
       <div align='center'>
        NEWS
        <div class='news'>
-        #{File.read(NEWSFILE)}
+        #{msg}
        </div>
       </div>
       NEWS_INFO

@@ -1,1 +1,5 @@
+# NEWS
 NEWS will be shown here.
+
+# announcement
+you can use markdown here.
