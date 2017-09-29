@@ -29,5 +29,6 @@ required "gem"s
   * jkf(o-jill/jkf, kif_robust_time)
   * mail
   * rake
+  * redcarpet
   * rspec
   * unindent
