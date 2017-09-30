@@ -1660,6 +1660,22 @@ Koma.prototype.checkNari = function(fromy, toy) {
  return Koma.NARENAI;
 };
 
+Koma.prototype.movemsg = function(tox, toy)
+{
+ var x = this.x;
+ var toxy = Koma.ZenkakuNum[tox] + Koma.KanjiNum[toy];
+ var str = this.getStr();
+ if (x < 0) {
+  return str + 'を' + toxy + 'に打ちます。';
+ } else {
+  var y = this.y;
+  var fromxy = Koma.ZenkakuNum[x] + Koma.KanjiNum[y];
+  return str + 'を' + fromxy + 'から' + toxy + 'に移動します。';
+ }
+}
+
+
+
 Fu.prototype = new Koma();
 /**
  * 歩クラス

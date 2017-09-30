@@ -836,8 +836,7 @@ function absclick(x, y) {
    } else {
     if (activemasu.x == -1) {
      // uchi
-     msg = activekoma.getStr() + 'を'
-        + Koma.ZenkakuNum[hx] + Koma.KanjiNum[hy] + 'に打ちます';
+     msg = activekoma.movemsg(hx, hy);
      if (!confirm(msg)) {
        activeuchi(null, null, null);
        return;
@@ -847,6 +846,11 @@ function absclick(x, y) {
      update_screen();
      record_your_move();
     } else {
+      msg = activekoma.movemsg(hx, hy);
+      if (!confirm(msg)) {
+        activecell(null, null, null);
+        return;
+      }
      // toru(取らないけど)
      toru(hx, hy);
      // move
@@ -884,6 +888,11 @@ function absclick(x, y) {
     else
      activecell(null, null, null);
    } else {
+     msg = activekoma.movemsg(hx, hy);
+     if (!confirm(msg)) {
+       activecell(null, null, null);
+       return;
+     }
     // toru and move
     // toru
     toru(hx, hy);
