@@ -822,6 +822,25 @@ function Koma(teban, x, y) {
  arguments.callee.DouStrKIF = '同　';
  arguments.callee.FunariStr = '不成';
 
+ //-- Long
+ arguments.callee.FuStrLong = '歩兵';
+ arguments.callee.KyoshaStrLong = '香車';
+ arguments.callee.KeimaStrLong = '桂馬';
+ arguments.callee.GinStrLong = '銀将';
+ arguments.callee.KinStrLong = '金将';
+ arguments.callee.KakuStrLong = '角行';
+ arguments.callee.HishaStrLong = '飛車';
+ arguments.callee.GyokuStrLong = '玉将';
+ arguments.callee.OuStrLong = '玉将';
+ arguments.callee.NFuStrLong = 'と金';
+ arguments.callee.NKyoshaStrLong = '成香';
+ arguments.callee.NKeimaStrLong = '成桂';
+ arguments.callee.NGinStrLong = '成銀';
+ //arguments.callee.NKinStrLong = '成金';
+ arguments.callee.NKakuStrLong = '竜馬';
+ arguments.callee.NHishaStrLong = '竜王';
+ //arguments.callee.NGyokuStrLong = '王';
+
  //-- pictures
  arguments.callee.FuStrIMG = 'koma_fu';
  arguments.callee.KyoshaStrIMG = 'koma_kyo';
@@ -896,6 +915,8 @@ function Koma(teban, x, y) {
  this.strntype = '* ';
  this.strtypeKIF = '* ';
  this.strntypeKIF = '* ';
+ this.strtypeKIFU = '* ';
+ this.strntypeKIFU = '* ';
  this.strtypeCSA = '* ';
  this.strntypeCSA = '* ';
  this.strtypeIMG = '';
@@ -947,9 +968,9 @@ Koma.prototype.getStr = function() {
   return str;
  }
  if (this.nari == Koma.NARI) {
-  str += this.strntype;
+  str += this.strntypeKIFU;
  } else {
-  str += this.strtype;
+  str += this.strtypeKIFU;
  }
  return str;
 };
@@ -977,9 +998,9 @@ Koma.prototype.getHtmlStr = function(hanten) {
   return str;
  }
  if (this.nari == Koma.NARI) {
-  str += this.strntype;
+  str += this.strntypeKIFU;
  } else {
-  str += this.strtype;
+  str += this.strtypeKIFU;
  }
  str += '</div>';
  return str;
@@ -1057,6 +1078,19 @@ Koma.prototype.getShortStrKIF = function() {
  }
  return str;
 };
+
+/**
+ * 駒の種類の文字列の取得
+ *
+ * @return {String} 表示用の文字列
+ */
+Koma.prototype.getTypeStr = function() {
+ if (this.nari == Koma.NARI)
+  return this.strntype;
+ else
+  return this.strtype;
+};
+
 /**
  * 動ける方向のリストを返す。
  *
@@ -1664,7 +1698,7 @@ Koma.prototype.movemsg = function(tox, toy)
 {
  var x = this.x;
  var toxy = Koma.ZenkakuNum[tox] + Koma.KanjiNum[toy];
- var str = this.getStr();
+ var str = this.getTypeStr();
  if (x < 0) {
   return str + 'を' + toxy + 'に打ちます。';
  } else {
@@ -1690,10 +1724,12 @@ Fu.prototype = new Koma();
 function Fu(teban, x, y) {
  Koma.call(this, teban, x, y);
 
- this.strtype = Koma.FuStrKIF;
- this.strntype = Koma.NFuStrKIF;
+ this.strtype = Koma.FuStrLong;
+ this.strntype = Koma.NFuStrLong;
  this.strtypeKIF = Koma.FuStrKIF;
  this.strntypeKIF = Koma.NFuStrKIF;
+ this.strtypeKIFU = Koma.FuStrKIF;
+ this.strntypeKIFU = Koma.NFuStrKIF;
  this.strtypeCSA = Koma.FuStr;
  this.strntypeCSA = Koma.NFuStr;
  this.strtypeIMG = Koma.FuStrIMG;
@@ -1778,10 +1814,12 @@ Kyosha.prototype = new Koma();
 function Kyosha(teban, x, y) {
  Koma.call(this, teban, x, y);
 
- this.strtype = Koma.KyoshaStrKIF;
- this.strntype = Koma.NKyoshaStrKIF;
+ this.strtype = Koma.KyoshaStrLong;
+ this.strntype = Koma.NKyoshaStrLong;
  this.strtypeKIF = Koma.KyoshaStrKIF;
  this.strntypeKIF = Koma.NKyoshaStrKIF;
+ this.strtypeKIFU = Koma.KyoshaStrKIF;
+ this.strntypeKIFU = Koma.NKyoshaStrKIF;
  this.strtypeCSA = Koma.KyoshaStr;
  this.strntypeCSA = Koma.NKyoshaStr;
  this.strtypeIMG = Koma.KyoshaStrIMG;
@@ -1818,10 +1856,12 @@ Keima.prototype = new Koma();
 function Keima(teban, x, y) {
  Koma.call(this, teban, x, y);
 
- this.strtype = Koma.KeimaStrKIF;
- this.strntype = Koma.NKeimaStrKIF;
+ this.strtype = Koma.KeimaStrLong;
+ this.strntype = Koma.NKeimaStrLong;
  this.strtypeKIF = Koma.KeimaStrKIF;
  this.strntypeKIF = Koma.NKeimaStrKIF;
+ this.strtypeKIFU = Koma.KeimaStrKIF;
+ this.strntypeKIFU = Koma.NKeimaStrKIF;
  this.strtypeCSA = Koma.KeimaStr;
  this.strntypeCSA = Koma.NKeimaStr;
  this.strtypeIMG = Koma.KeimaStrIMG;
@@ -1857,10 +1897,12 @@ Gin.prototype = new Koma();
 function Gin(teban, x, y) {
  Koma.call(this, teban, x, y);
 
- this.strtype = Koma.GinStrKIF;
- this.strntype = Koma.NGinStrKIF;
+ this.strtype = Koma.GinStrLong;
+ this.strntype = Koma.NGinStrLong;
  this.strtypeKIF = Koma.GinStrKIF;
  this.strntypeKIF = Koma.NGinStrKIF;
+ this.strtypeKIFU = Koma.GinStrKIF;
+ this.strntypeKIFU = Koma.NGinStrKIF;
  this.strtypeCSA = Koma.GinStr;
  this.strntypeCSA = Koma.NGinStr;
  this.strtypeIMG = Koma.GinStrIMG;
@@ -1896,10 +1938,12 @@ Kin.prototype = new Koma();
 function Kin(teban, x, y) {
  Koma.call(this, teban, x, y);
 
- this.strtype = Koma.KinStrKIF;
- this.strntype = Koma.KinStrKIF;
+ this.strtype = Koma.KinStrLong;
+ this.strntype = Koma.KinStrLong;
  this.strtypeKIF = Koma.KinStrKIF;
  this.strntypeKIF = Koma.KinStrKIF;
+ this.strtypeKIFU = Koma.KinStrKIF;
+ this.strntypeKIFU = Koma.KinStrKIF;
  this.strtypeCSA = Koma.KinStr;
  this.strntypeCSA = Koma.KinStr;
  this.strtypeIMG = Koma.KinStrIMG;
@@ -1955,10 +1999,12 @@ Kaku.prototype = new Koma();
 function Kaku(teban, x, y) {
  Koma.call(this, teban, x, y);
 
- this.strtype = Koma.KakuStrKIF;
- this.strntype = Koma.NKakuStrKIF;
+ this.strtype = Koma.KakuStrLong;
+ this.strntype = Koma.NKakuStrLong;
  this.strtypeKIF = Koma.KakuStrKIF;
  this.strntypeKIF = Koma.NKakuStrKIF;
+ this.strtypeKIFU = Koma.KakuStrKIF;
+ this.strntypeKIFU = Koma.NKakuStrKIF;
  this.strtypeCSA = Koma.KakuStr;
  this.strntypeCSA = Koma.NKakuStr;
  this.strtypeIMG = Koma.KakuStrIMG;
@@ -1994,10 +2040,12 @@ Hisha.prototype = new Koma();
 function Hisha(teban, x, y) {
  Koma.call(this, teban, x, y);
 
- this.strtype = Koma.HishaStrKIF;
- this.strntype = Koma.NHishaStrKIF;
+ this.strtype = Koma.HishaStrLong;
+ this.strntype = Koma.NHishaStrLong;
  this.strtypeKIF = Koma.HishaStrKIF;
  this.strntypeKIF = Koma.NHishaStrKIF;
+ this.strtypeKIFU = Koma.HishaStrKIF;
+ this.strntypeKIFU = Koma.NHishaStrKIF;
  this.strtypeCSA = Koma.HishaStr;
  this.strntypeCSA = Koma.NHishaStr;
  this.strtypeIMG = Koma.HishaStrIMG;
@@ -2034,8 +2082,13 @@ Gyoku.prototype = new Kin();
 function Gyoku(teban, x, y) {
  Koma.call(this, teban, x, y);
 
- this.strtype = Koma.GyokuStrKIF;
- this.strntype = Koma.GyokuStrKIF;
+ if (teban == Koma.SENTEBAN)
+  this.strtype = Koma.GyokuStrLong;
+ else
+  this.strtype = Koma.OuStrLong;
+ this.strntype = Koma.GyokuStrLong;
+ this.strtypeKIF = Koma.GyokuStrKIF;
+ this.strntypeKIF = Koma.GyokuStrKIF;
  this.strtypeKIF = Koma.GyokuStrKIF;
  this.strntypeKIF = Koma.GyokuStrKIF;
  this.strtypeCSA = Koma.GyokuStr;
