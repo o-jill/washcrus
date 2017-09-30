@@ -829,7 +829,10 @@ function absclick(x, y) {
    }
    if (ismovable == false) {
     // 選択キャンセル
-    activecell(null, null, null);
+    if (activetegoma != null)
+     activeuchi(null, null, null);
+    else
+     activecell(null, null, null);
    } else {
     if (activemasu.x == -1) {
      // uchi
@@ -876,7 +879,10 @@ function absclick(x, y) {
    }
    if (ismovable == false) {
     // 選択キャンセル
-    activecell(null, null, null);
+    if (activetegoma != null)
+     activeuchi(null, null, null);
+    else
+     activecell(null, null, null);
    } else {
     // toru and move
     // toru
@@ -1022,6 +1028,11 @@ function absclickst(i) {
  if (activeteban != myteban) {
   return;
  }
+ if (activemasu != null) {
+   if (activetegoma == null) {
+    activecell(null, null, null);
+   }
+ }
  var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
  if (koma == undefined) {
   return;
@@ -1049,6 +1060,11 @@ function absclickgt(i) {
  }
  if (activeteban != myteban) {
   return;
+ }
+ if (activemasu != null) {
+   if (activetegoma == null) {
+    activecell(null, null, null);
+   }
  }
  var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
  if (koma == undefined) {
