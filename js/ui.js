@@ -831,6 +831,12 @@ function absclick(x, y) {
    } else {
     if (activemasu.x == -1) {
      // uchi
+     msg = activekoma.getStr() + 'を'
+        + Koma.ZenkakuNum[hx] + Koma.KanjiNum[hy] + 'に打ちます';
+     if (!confirm(msg)) {
+       activeuchi(null, null, null);
+       return;
+     }
      uchi(activetegoma, activekoma, hx, hy);
      activeuchi(null, null, -1);
      update_screen();
