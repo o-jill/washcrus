@@ -816,6 +816,8 @@ function absclick(x, y) {
     // nothing to do
    }
   } else if (activekoma.teban == koma.teban) {
+   if (activetegoma != null)
+    activeuchi(null, null, null);
    activecell(koma, masu, masui);
   } else if (koma.teban == Koma.AKI) {
    var ismovable = false;
