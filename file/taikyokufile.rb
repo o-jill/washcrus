@@ -262,7 +262,7 @@ class TaikyokuFile
     namebs.each do |id, name|
       puts <<-LINE.unindent
         <TR>
-         <TD><a href='./washcrus.rb?game/#{id}' target='_blank'>#{id}</a></TD>
+         <TD><a href='./washcrus.rb?game/#{id}'>#{id}</a></TD>
          <TD>#{name}</TD><TD>#{namews[id]}</TD>
          <TD>#{times[id]}</TD><TD>#{comments[id]}</TD>
         </TR>
@@ -279,7 +279,7 @@ class TaikyokuFile
     namebs.each do |id, name|
       puts <<-DUMPCONTENT
         <TR>
-         <TD><a href='./washcrus.rb?game/#{id}' target='_blank'>#{id}</a></TD>
+         <TD><a href='./washcrus.rb?game/#{id}'>#{id}</a></TD>
          <TD>#{name}(#{@idbs[id]})</TD><TD>#{namews[id]}(#{@idws[id]})</TD>
          <TD>#{times[id]}</TD><TD>#{comments[id]}</TD>
         </TR>

@@ -7,6 +7,7 @@ require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
 require './game/webapi_sfenreader.rb'
 require './game/userinfo.rb'
+require './views/common_ui.rb'
 
 # 表示する
 class GameHtml
@@ -26,7 +27,7 @@ class GameHtml
     print <<-HTMLELEMENTS.unindent
       <html>#{headerelement}
       <body>
-      <center><a href='./washcrus.rb'>洗足池</a></center><HR>
+      #{CommonUI::HTMLmenuLogIn('洗足池', true)}
       <div class=gamearea>
        <div id='notify_area' class='notify'>
         <BR>指されました。ページを再読込してください。
