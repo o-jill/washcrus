@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 require 'rubygems'
-# require 'unindent'
-# require 'redcarpet'
+require 'unindent'
+require 'redcarpet'
 # require './game/userinfo.rb'
 require './views/common_ui.rb'
 
