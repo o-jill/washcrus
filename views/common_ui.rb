@@ -51,14 +51,14 @@ module CommonUI
     index = File.basename($PROGRAM_NAME)
     sup = $stg.value['support_url']
     print <<-MENU.unindent
-      <div align='center'>#{title}</div><HR>
-      <div align='center' class='menubase'>&nbsp;
-      <a class='menu' href='#{index}'> Entrance </a>&nbsp;
-      <a class='menu' href='#{index}?news'> News </a>&nbsp;
-      <a class='menu' href='#{index}?signup'> Sign Up </a>&nbsp;
-      <a class='menu' href='#{index}?login'> Log In </a>&nbsp;
-      <a class='menu' href='#{sup}' target='_blank'> Support </a>&nbsp;
-      </div><HR/>
+      <div align='center' class='menubase'>
+      <a class='menu' href='#{index}'> Entrance </a>
+      <a class='menu' href='#{index}?news'> News </a>
+      <a class='menu' href='#{index}?signup'> Sign Up </a>
+      <a class='menu' href='#{index}?login'> Log In </a>
+      <a class='menu' href='#{sup}' target='_blank'> Support </a>
+      </div><hr>
+      <div align='center'>#{title}</div><hr>
       MENU
   end
 
@@ -71,16 +71,16 @@ module CommonUI
     index = File.basename($PROGRAM_NAME)
     sup = $stg.value['support_url']
     print <<-MENU_LOGGEDIN.unindent
-      <div align='center'>#{title}</div><HR>
-      <div align='center' class='menubase'>&nbsp;
-      <a class='menu' href='#{index}'> Entrance </a>&nbsp;
-      <a class='menu' href='#{index}?news'> News </a>&nbsp;
-      <a class='menu' href='#{index}?mypage'> My Page </a>&nbsp;
-      <a class='menu' href='#{index}?matchlist'> Watch </a>&nbsp;
-      <a class='menu' href='#{index}?searchform'> Search </a>&nbsp;
-      <a class='menu' href='#{sup}' target='_blank'> Support </a>&nbsp;
-      <a class='menu' href='#{index}?logout'> Log Out </a>&nbsp;
-      </div><HR/>
+      <div align='center' class='menubase'>
+      <a class='menu' href='#{index}'> Entrance </a>
+      <a class='menu' href='#{index}?news'> News </a>
+      <a class='menu' href='#{index}?mypage'> My Page </a>
+      <a class='menu' href='#{index}?matchlist'> Watch </a>
+      <a class='menu' href='#{index}?searchform'> Search </a>
+      <a class='menu' href='#{sup}' target='_blank'> Support </a>
+      <a class='menu' href='#{index}?logout'> Log Out </a>
+      </div><hr>
+      <div align='center'>#{title}</div><hr>
       MENU_LOGGEDIN
   end
 

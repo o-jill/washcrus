@@ -121,11 +121,15 @@ div.gotemoji {
 /* menu */
 .menubase {
   margin: 0px;
-  padding: 0px;
+  padding: 10px 0px;
   background-Color: lightgray;
 }
 
 .menubase a:hover {
   background-color: gray;
   color: white;
+}
+
+a.menu {
+  padding: 0px 10px;
 }
