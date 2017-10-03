@@ -56,7 +56,7 @@ class ByouyomiChan
   def send_mail(mi)
     subject = "[reminder] it's your turn!! (#{mi.playerb} vs #{mi.playerw})"
     # @log.debug("subject:#{subject}")
-    nply = mi.getnextplayer()
+    nply = mi.getnextplayer
     pply = mi.getopponent(nply[:id])
     # @log.debug("opp:#{opp}")
     msg = <<-MSG_TEXT.unindent
