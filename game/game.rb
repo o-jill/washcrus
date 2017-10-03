@@ -56,7 +56,7 @@ class Game
 
     # @log.debug('Game.check userinfo')
     # userinfoが変だよ
-    return LoginScreen.new(@header, @pagetitle, @titlename).show(false) \
+    return LoginScreen.new(@header, @pagetitle, @titlename).show(@userinfo) \
         unless @userinfo.nil? || @userinfo.exist_indb
 
     # @log.debug('Game.check gameid with TaikyokuFile')
