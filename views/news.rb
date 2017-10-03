@@ -42,7 +42,7 @@ class NewsScreen
 
   def show(userinfo)
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenuLogIn(@name, !userinfo.invalid?)
+    CommonUI::HTMLmenu(@name, userinfo)
 
     put_news
 

@@ -10,10 +10,8 @@ def matchlist_screen(header, title, name, userinfo)
   tkcdb = TaikyokuChuFile.new
   tkcdb.read
 
-  blogin = (!userinfo.user_id.nil? && userinfo.user_id != '')
-
   CommonUI::HTMLHead(header, title)
-  CommonUI::HTMLmenuLogIn(name, blogin)
+  CommonUI::HTMLmenu(name, userinfo)
 
   tkcdb.to_html('対局中')
 

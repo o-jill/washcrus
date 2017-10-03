@@ -79,9 +79,9 @@ class GenNewGameScreen
     msg
   end
 
-  def put_err_sreen
+  def put_err_sreen(userinfo)
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name)
+    CommonUI::HTMLmenu(@name, userinfo)
     puts @errmsg
     CommonUI::HTMLfoot()
   end
@@ -136,11 +136,11 @@ class GenNewGameScreen
   end
 
   def show(userinfo, params)
-    return put_err_sreen unless generate(userinfo, params)
+    return put_err_sreen(userinfo) unless generate(userinfo, params)
 
     # @log.debug('CommonUI::HTMLHead(header, title)')
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenuLogIn(@name, true)
+    CommonUI::HTMLmenu(@name, userinfo)
 
     @td.dumptable
 

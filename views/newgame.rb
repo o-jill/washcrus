@@ -66,10 +66,8 @@ class NewGameScreen
   end
 
   def show(userinfo)
-    blogin = (!userinfo.user_id.nil? && userinfo.user_id != '')
-
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenuLogIn(@name, blogin)
+    CommonUI::HTMLmenu(@name, userinfo)
 
     puts "<script type='text/javascript' src='./js/newgame.js' defer></script>"
     show_newgameform

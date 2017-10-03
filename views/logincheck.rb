@@ -97,7 +97,7 @@ class LoginCheckScreen
   end
 
   def show(session, cgi)
-    blogin = check_session_params(session, cgi)
+    check_session_params(session, cgi)
 
     header = cgi.header('charset' => 'UTF-8',
                         'Pragma' => 'no-cache',
@@ -106,7 +106,7 @@ class LoginCheckScreen
     header = header.gsub("\r\n", "\n")
 
     CommonUI::HTMLHead(header, @title)
-    CommonUI::HTMLmenuLogIn(@name, blogin)
+    CommonUI::HTMLmenu(@name, @userinfo)
 
     if @userinfo.nil?
       # エラー

@@ -86,7 +86,7 @@ class EntranceScreen
 
     CommonUI::HTMLHead(@header, @title)
 
-    CommonUI::HTMLmenuLogIn(@name, blogin)
+    CommonUI::HTMLmenu(@name, userinfo)
 
     puts "<script type='text/javascript' defer src='js/entrance.js'></script>"
 

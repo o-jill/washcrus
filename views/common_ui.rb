@@ -46,10 +46,28 @@ module CommonUI
       HEADER2_TAG
   end
 
-  # メニュー部分の出力 ログイン前
-  def self.HTMLmenu(title)
+  # メニュー部分の出力
+  #
+  # @param title ページタイトル
+  # @param userinfo ユーザ情報
+  def self.HTMLmenu(title, userinfo = nil)
     index = File.basename($PROGRAM_NAME)
     sup = $stg.value['support_url']
+
+    bsignup = userinfo.nil? || userinfo.invalid?
+    return HTMLmenuSignUp(title, index, sup) if bsignup
+
+    return HTMLmenuAdmin(title, index, sup) if userinfo.admin
+
+    HTMLmenuLogIn(title, index, sup)
+  end
+
+  # メニュー部分の出力 ログイン前
+  #
+  # @param title ページタイトル
+  # @param index CGI本体
+  # @param sup   サポートページのURL
+  def self.HTMLmenuSignUp(title, index, sup)
     print <<-MENU.unindent
       <div align='center' class='menubase'>
       <a class='menu' href='#{index}'> Entrance </a>
@@ -64,12 +82,10 @@ module CommonUI
 
   # メニュー部分の出力
   #
-  # blogin ログイン中かどうか
-  def self.HTMLmenuLogIn(title, blogin = true)
-    return HTMLmenu(title) unless blogin
-
-    index = File.basename($PROGRAM_NAME)
-    sup = $stg.value['support_url']
+  # @param title ページタイトル
+  # @param index CGI本体
+  # @param sup   サポートページのURL
+  def self.HTMLmenuLogIn(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
       <div align='center' class='menubase'>
       <a class='menu' href='#{index}'> Entrance </a>
@@ -78,6 +94,27 @@ module CommonUI
       <a class='menu' href='#{index}?matchlist'> Watch </a>
       <a class='menu' href='#{index}?searchform'> Search </a>
       <a class='menu' href='#{sup}' target='_blank'> Support </a>
+      <a class='menu' href='#{index}?logout'> Log Out </a>
+      </div><hr>
+      <div align='center'>#{title}</div><hr>
+      MENU_LOGGEDIN
+  end
+
+  # メニュー部分の出力
+  #
+  # @param title ページタイトル
+  # @param index CGI本体
+  # @param sup   サポートページのURL
+  def self.HTMLmenuAdmin(title, index, sup)
+    print <<-MENU_LOGGEDIN.unindent
+      <div align='center' class='menubase'>
+      <a class='menu' href='#{index}'> Entrance </a>
+      <a class='menu' href='#{index}?news'> News </a>
+      <a class='menu' href='#{index}?mypage'> My Page </a>
+      <a class='menu' href='#{index}?matchlist'> Watch </a>
+      <a class='menu' href='#{index}?searchform'> Search </a>
+      <a class='menu' href='#{sup}' target='_blank'> Support </a>
+      <a class='menu' href='#{index}?adminmenu'> Administration </a>
       <a class='menu' href='#{index}?logout'> Log Out </a>
       </div><hr>
       <div align='center'>#{title}</div><hr>

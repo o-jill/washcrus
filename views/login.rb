@@ -43,14 +43,14 @@ class LoginScreen
   #
   # ログイン画面
   #
-  def show(bsession)
+  def show(userinfo)
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenuLogIn(@name, bsession)
+    CommonUI::HTMLmenu(@name, userinfo)
 
-    if bsession
-      put_login_form_err
-    else
+    if userinfo.invalid?
       put_login_form
+    else
+      put_login_form_err
     end
 
     CommonUI::HTMLfoot()

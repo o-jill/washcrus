@@ -119,7 +119,7 @@ class MyPageScreen
     wl = udb.stats[uid]
 
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenuLogIn(@name)
+    CommonUI::HTMLmenu(@name, userinfo)
 
     put_stats(wl)
     print '<HR>'

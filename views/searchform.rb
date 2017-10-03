@@ -50,7 +50,7 @@ class SearchformScreen
 
   def show(userinfo)
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenuLogIn(@name, !userinfo.invalid?)
+    CommonUI::HTMLmenu(@name, userinfo)
 
     put_search_form
 

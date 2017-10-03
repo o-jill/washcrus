@@ -98,7 +98,7 @@ class SearchResultScreen
     res = searchgames(params)
 
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenuLogIn(@name, !userinfo.invalid?)
+    CommonUI::HTMLmenu(@name, userinfo)
 
     if res.nil? || res.empty?
       print '<p>not found ...</p>'
