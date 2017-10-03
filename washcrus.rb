@@ -21,6 +21,7 @@ require './views/searchform.rb'
 require './views/searchresult.rb'
 require './views/signup.rb'
 require './views/userlist.rb'
+require './views/versions.rb'
 
 #
 # CGI本体
@@ -121,6 +122,8 @@ class WashCrus
       SearchformScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'userlist' then
       userlist_screen(@header, Pagetitle, Titlename, @userinfo)
+    when 'adminmenu' then  # when 'versions' then
+      VersionsScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when %r{game\/(\h+)}
       require './game/game.rb'
       gm = Game.new(@cgi, $1)

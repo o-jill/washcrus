@@ -45,7 +45,7 @@ task :gen_session_clean do
 end
 
 desc 'init task'
-task init: [:check_mailcfg, :gen_info, :add_w2d, :add_x2rb, :add_w2lock]
+task init: [:check_mailcfg, :gen_info, :give_permissions, :revision]
 
 task gen_info: [:gen_userinfo, :gen_taikyokuinfo, :gen_taikyokuchuinfo]
 
@@ -68,6 +68,7 @@ file './db/taikyokuchu.csv' do |f|
   chmod 0o666, f.name
 end
 
+task give_permissions: [:add_w2d, :add_x2rb, :add_w2lock]
 task add_w2d: [:add_w2tmp, :add_w2taikyoku, :add_w2log, :add_w2d_msg]
 
 task :add_w2tmp do
@@ -158,4 +159,10 @@ task :byouyomi do
   require './observer/byouyomichan.rb'
   bc = ByouyomiChan.new
   bc.perform
+end
+
+desc 'make REVISION file from repository HEAD.'
+task :revision do
+  puts "`git log -1 >REVISION`"
+  `git log -1 >REVISION`
 end
