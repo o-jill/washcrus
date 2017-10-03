@@ -1,3 +1,7 @@
+/* encoding: utf-8 */
+
+body { margin: 1px; }
+
 /* 入力フォーム */
 table.inpform { font-size: 2rem; }
 input.inpform { font-size: 2rem; }
