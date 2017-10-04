@@ -126,6 +126,7 @@ module CommonUI
     puts <<-ADMINMENU.unindent
       <div align='center' class='menubase'>
       <a class='menu' href='#{index}?adminsettings'> Settings </a>
+      <a class='menu' href='#{index}?adminnews'> News </a>
       <a class='menu' href='#{index}?userlist'> Users </a>
       <a class='menu' href='#{index}?newgame'> New Game </a>
       <a class='menu' href='#{index}?adminmenu'> Version </a>

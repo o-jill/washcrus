@@ -6,6 +6,8 @@ require 'cgi/session'
 
 require './game/userinfo.rb'
 require './util/settings.rb'
+require './views/adminnews.rb'
+require './views/adminnewsupdate.rb'
 require './views/entrance.rb'
 require './views/error_action.rb'
 require './views/gennewgame.rb'
@@ -119,6 +121,11 @@ class WashCrus
       MyPageScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'news' then
       NewsScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+    when 'adminnews' then
+      AdminNewsScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+    when 'adminnewsupdate' then
+      anus = AdminNewsUpdateScreen.new(@header, Pagetitle, Titlename)
+      anus.show(@userinfo, @params)
     when 'search' then
       srs = SearchResultScreen.new(@header, Pagetitle, Titlename)
       srs.show(@userinfo, @params)
