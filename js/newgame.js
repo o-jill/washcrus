@@ -1,3 +1,7 @@
+/* - - - - - - - - - - */
+/* common in this file */
+/* - - - - - - - - - - */
+
 function bytes2(str) {
     return encodeURIComponent(str).replace(/%../g, "x").length;
 }
@@ -5,6 +9,10 @@ function bytes2(str) {
 function validatemail(str) {
     return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(str);
 }
+
+/* - - - - - - */
+/* new game 1  */
+/* - - - - - - */
 
 function check_form()
 {
@@ -215,8 +223,160 @@ function ontimer_furigoma() {
   }
 }
 
+/* - - - - - - - - */
+/* - new game 2  - */
+/* - - - - - - - - */
+
+function check_form2()
+{
+  var nmismatch = 0;
+  var alertmsg = '';
+
+  var index1 = document.getElementById('rid').selectedIndex;
+  var index2 = document.getElementById('rid2').selectedIndex;
+
+  if (index1 < 1) {
+    document.getElementById('player21').style.backgroundColor = 'red';
+    alertmsg += 'please select player1!\n';
+    ++nmismatch;
+  } else {
+    document.getElementById('player21').style.backgroundColor = 'transparent';
+  }
+  if (index2 < 1) {
+    document.getElementById('player22').style.backgroundColor = 'red';
+    alertmsg += 'please select player2!\n';
+    ++nmismatch;
+  } else {
+    document.getElementById('player22').style.backgroundColor = 'transparent';
+  }
+
+  if (nmismatch === 0) {
+    document.forms['gennewgame2'].submit();
+  } else {
+    window.alert(alertmsg);
+  }
+}
+
+function lets_furigoma2() {
+  var koma = document.getElementById('furikomanim21');
+  koma.style.display = 'inline';
+  koma = document.getElementById('furikomafu21');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomato21');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomanim22');
+  koma.style.display = 'inline';
+  koma = document.getElementById('furikomafu22');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomato22');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomanim23');
+  koma.style.display = 'inline';
+  koma = document.getElementById('furikomafu23');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomato23');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomanim24');
+  koma.style.display = 'inline';
+  koma = document.getElementById('furikomafu24');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomato24');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomanim25');
+  koma.style.display = 'inline';
+  koma = document.getElementById('furikomafu25');
+  koma.style.display = 'none';
+  koma = document.getElementById('furikomato25');
+  koma.style.display = 'none';
+
+  var btn = document.getElementById('btnfurigoma2')
+  btn.disabled = true;
+  koma = document.getElementById('furigoma2');
+  koma.value = "";
+  setTimeout("ontimer_furigoma2()", 1000);
+}
+
+function ontimer_furigoma2() {
+  var furikoma = document.getElementById('furigoma2');
+  var btn = document.getElementById('btnfurigoma2')
+  var koma;
+  var komame = furikoma.value.length
+  if (komame == 0) {
+    koma = document.getElementById('furikomanim21');
+    koma.style.display = 'none';
+    if (Math.random() < 0.5) {
+      furikoma.value += "F";
+      koma = document.getElementById('furikomafu21');
+    } else {
+      furikoma.value += "T";
+      koma = document.getElementById('furikomato21');
+    }
+    koma.style.display = 'inline';
+    setTimeout("ontimer_furigoma2()", 1000);
+  } else if (komame == 1) {
+    koma = document.getElementById('furikomanim22');
+    koma.style.display = 'none';
+    if (Math.random() < 0.5) {
+      furikoma.value += "F";
+      koma = document.getElementById('furikomafu22');
+    } else {
+      furikoma.value += "T";
+      koma = document.getElementById('furikomato22');
+    }
+    koma.style.display = 'inline';
+    setTimeout("ontimer_furigoma2()", 1000);
+  } else if (komame == 2) {
+    koma = document.getElementById('furikomanim23');
+    koma.style.display = 'none';
+    if (Math.random() < 0.5) {
+      furikoma.value += "F";
+      koma = document.getElementById('furikomafu23');
+    } else {
+      furikoma.value += "T";
+      koma = document.getElementById('furikomato23');
+    }
+    koma.style.display = 'inline';
+    setTimeout("ontimer_furigoma2()", 1000);
+  } else if (komame == 3) {
+    koma = document.getElementById('furikomanim24');
+    koma.style.display = 'none';
+    if (Math.random() < 0.5) {
+      furikoma.value += "F";
+      koma = document.getElementById('furikomafu24');
+    } else {
+      furikoma.value += "T";
+      koma = document.getElementById('furikomato24');
+    }
+    koma.style.display = 'inline';
+    setTimeout("ontimer_furigoma2()", 1000);
+  } else if (komame == 4) {
+    koma = document.getElementById('furikomanim25');
+    koma.style.display = 'none';
+    if (Math.random() < 0.5) {
+      furikoma.value += "F";
+      koma = document.getElementById('furikomafu25');
+    } else {
+      furikoma.value += "T";
+      koma = document.getElementById('furikomato25');
+    }
+    koma.style.display = 'inline';
+    btn.disabled = false;
+  } else {
+    btn.disabled = false;
+  }
+}
+
 function furifusen() {
   var name = document.getElementById('rname').value;
   var btn = document.getElementById('btnfurigoma')
   btn.value = name + 'の振り歩先で振り駒';
+}
+
+function furifusen2() {
+  var index = document.getElementById('rid').selectedIndex;
+  var options = document.getElementById('rid').options;
+  var text = options[index].label;
+  var cap = /(.+)\(/g.exec(text);
+  var btn = document.getElementById('btnfurigoma2')
+  btn.value = cap[1] + 'の振り歩先で振り駒';
 }

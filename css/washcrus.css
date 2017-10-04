@@ -6,6 +6,7 @@ body { margin: 1px; }
 table.inpform { font-size: 2rem; }
 input.inpform { font-size: 2rem; }
 button.inpform { font-size: 2rem; }
+select.inpform { font-size: 2rem; }
 
 /* 入力間違いエラー */
 span.err{ font-size: 2rem; border: 1px solid red; }

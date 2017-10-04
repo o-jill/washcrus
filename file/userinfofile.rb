@@ -3,6 +3,7 @@
 require 'digest/sha2'
 require 'openssl'
 require 'timeout'
+require 'unindent'
 require './secret_token.rb'
 require './util/myerror.rb'
 
@@ -236,8 +237,31 @@ class UserInfoFile
     @stats[id][sym] += 1
   end
 
+  def to_table_id_name
+    str = <<-FNAME_AND_TABLE.unindent
+      <table border=1> <Caption>path:#{fname}</caption>
+      <tr><th>ID</th><TH>Name</TH></TR>
+      FNAME_AND_TABLE
+    names.each do |id, name|
+      str += "<tr><td>#{id}</td><td>#{name}</td></tr>\n"
+    end
+    str += "</table>\n"
+    str
+  end
+
+  def to_select_id_name(sname, sid, sclass, custom)
+    str = "<select id='#{sid}' class='#{sclass}' name='#{sname}' #{custom}>\n"
+    str += " <option value=''>name(id)</option>\n"
+    names.each do |id, name|
+      str += " <option value='#{id}'>#{name}(#{id})</option>\n"
+    end
+
+    str += "</select>\n"
+    str
+  end
+
   def dumphtml
-    print <<-FNAME_AND_TABLE
+    print <<-FNAME_AND_TABLE.unindent
       <table border=1> <Caption>path:#{fname}</caption>
       <tr><th>ID</th><TH>Name</TH><TH>Password</TH><TH>Mail</TH></TR>
       FNAME_AND_TABLE

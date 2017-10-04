@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 require 'rubygems'
-# require 'unindent'
+require 'unindent'
+require './file/userinfofile.rb'
 require './game/userinfo.rb'
 require './views/common_ui.rb'
 
@@ -15,6 +16,7 @@ class NewGameScreen
     @name = name
   end
 
+  # フォームの出力
   def show_newgameform
     scriptname = File.basename($PROGRAM_NAME)
     print <<-FORM_NEW_GAME.unindent
@@ -65,11 +67,78 @@ class NewGameScreen
       FORM_NEW_GAME
   end
 
+  # フォームの出力2
+  #
+  # @param udb UserInfoFileオブジェクト
+  def show_newgameform2(udb)
+    userselect1 = udb.to_select_id_name('rid','rid','inpform', "onchange='furifusen2();'")
+    userselect2 = udb.to_select_id_name('rid2','rid2','inpform', '')
+    scriptname = File.basename($PROGRAM_NAME)
+    print <<-FORM_NEW_GAME.unindent
+      <form action='#{scriptname}?gennewgame2' method=post name='gennewgame2'>
+      <table align='center' class='inpform'>
+       <tr id='player21'>
+        <td>player 1</td><td>#{userselect1}</td>
+       </tr>
+       <tr id='player22'>
+        <td>player 2</td><td>#{userselect2}</td>
+       </tr>
+       <tr id='teai'>
+        <td>手合</td>
+        <td>
+         <select id='teai' class='inpform' name='teai'>
+          <option value='HIRATE'>平手</option>
+         </select>
+        </td>
+       </tr>
+       <tr>
+        <td colspan=2>
+         <input type="button" id='btnfurigoma2' class='inpform' onclick='lets_furigoma2();' value='player1の振り歩先で振り駒'>
+         <input type="hidden" id="furigoma2" name="furigoma" value="ftftf" class='inpform'>
+        </td>
+       </tr>
+       <tr height='32px'>
+        <td colspan=2>
+         <img id='furikomanim21' src='image/komanim.gif' style='display:none' width='32' height='32'>
+         <img id='furikomafu21' src='image/komafu.png' style='display:none' width='32' height='32'>
+         <img id='furikomato21' src='image/komato.png' style='display:none' width='32' height='32'>
+         <img id='furikomanim22' src='image/komanim.gif' style='display:none' width='32' height='32'>
+         <img id='furikomafu22' src='image/komafu.png' style='display:none' width='32' height='32'>
+         <img id='furikomato22' src='image/komato.png' style='display:none' width='32' height='32'>
+         <img id='furikomanim23' src='image/komanim.gif' style='display:none' width='32' height='32'>
+         <img id='furikomafu23' src='image/komafu.png' style='display:none' width='32' height='32'>
+         <img id='furikomato23' src='image/komato.png' style='display:none' width='32' height='32'>
+         <img id='furikomanim24' src='image/komanim.gif' style='display:none' width='32' height='32'>
+         <img id='furikomafu24' src='image/komafu.png' style='display:none' width='32' height='32'>
+         <img id='furikomato24' src='image/komato.png' style='display:none' width='32' height='32'>
+         <img id='furikomanim25' src='image/komanim.gif' style='display:none' width='32' height='32'>
+         <img id='furikomafu25' src='image/komafu.png' style='display:none' width='32' height='32'>
+         <img id='furikomato25' src='image/komato.png' style='display:none' width='32' height='32'>
+        </td>
+       </tr>
+       <tr>
+        <td><input type='reset' class='inpform'></td>
+        <td align=center>
+         <input type='button' value='作成' class='inpform' style='width:100%' onclick='check_form2();'>
+        </td>
+       </tr>
+      </table>
+      </form>
+      FORM_NEW_GAME
+  end
+
+  # ページの表示
   def show(userinfo)
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name, userinfo)
 
     CommonUI::HTMLAdminMenu()
+
+    udb = UserInfoFile.new
+    udb.read
+    show_newgameform2(udb)
+
+    puts "<HR>\n"
 
     puts "<script type='text/javascript' src='./js/newgame.js' defer></script>"
     show_newgameform
