@@ -69,6 +69,8 @@ class NewGameScreen
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name, userinfo)
 
+    CommonUI::HTMLAdminMenu()
+
     puts "<script type='text/javascript' src='./js/newgame.js' defer></script>"
     show_newgameform
 

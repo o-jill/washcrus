@@ -74,6 +74,8 @@ class VersionsScreen
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name, userinfo)
 
+    CommonUI::HTMLAdminMenu()
+
     put_githash
 
     put_geminfo

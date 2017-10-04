@@ -121,6 +121,18 @@ module CommonUI
       MENU_LOGGEDIN
   end
 
+  def self.HTMLAdminMenu
+    index = File.basename($PROGRAM_NAME)
+    puts <<-ADMINMENU.unindent
+      <div align='center' class='menubase'>
+      <a class='menu' href='#{index}?adminsettings'> Settings </a>
+      <a class='menu' href='#{index}?userlist'> Users </a>
+      <a class='menu' href='#{index}?newgame'> New Game </a>
+      <a class='menu' href='#{index}?adminmenu'> Version </a>
+      </div><hr>
+      ADMINMENU
+  end
+
   # フッターの出力
   def self.HTMLfoot
     print "<HR><div align=right>&copy;ぢるっち 2017 with Ruby v#{RUBY_VERSION}" \

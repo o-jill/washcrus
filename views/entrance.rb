@@ -96,7 +96,7 @@ class EntranceScreen
     show_visitcount(blogin, userinfo)
 
     # test
-    test_area
+    # test_area
 
     # puts "<pre>header:#{header}</pre>"
 
