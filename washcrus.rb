@@ -9,6 +9,7 @@ require './util/settings.rb'
 require './views/entrance.rb'
 require './views/error_action.rb'
 require './views/gennewgame.rb'
+require './views/gennewgame2.rb'
 require './views/login.rb'
 require './views/logincheck.rb'
 require './views/logout.rb'
@@ -98,6 +99,9 @@ class WashCrus
       NewGameScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'gennewgame' then
       gngs = GenNewGameScreen.new(@header, Pagetitle, Titlename, $stg)
+      gngs.show(@userinfo, @params)
+    when 'gennewgame2' then
+      gngs = GenNewGame2Screen.new(@header, Pagetitle, Titlename, $stg)
       gngs.show(@userinfo, @params)
     when 'signup' then
       SignupScreen.new(@header, Pagetitle, Titlename).show

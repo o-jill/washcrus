@@ -16,7 +16,7 @@ require './views/common_ui.rb'
 #
 # 対局作成確認
 #
-class GenNewGameScreen
+class GenNewGame2Screen
   def initialize(header, title, name, stg)
     @header = header
     @title = title
@@ -29,26 +29,30 @@ class GenNewGameScreen
   end
 
   def check_datalost_gengame(params)
-    params['rname'].nil? || params['remail'].nil? \
-        || params['rname2'].nil? || params['remail2'].nil?
+    params['rid'].nil? || params['rid2'].nil? || params['furigoma'].nil? \
+      || params['teai'].nil?
   end
 
   def furifusen(furigoma)
     furigoma.count('F') >= 3
   end
 
-  def check_players(name1, email1, name2, email2)
+  def check_players(id1, id2)
     userdb = UserInfoFile.new
     userdb.read
 
-    userdata1 = userdb.findname(name1) # [id, name, pw, email]
-    if userdata1.nil? || email1 != userdata1[3]
-      @errmsg += "name or e-mail address in player 1 is wrong ...<BR>\n"
+    userdata1 = userdb.findid(id1) # [name, pw, email]
+    if userdata1.nil?
+      @errmsg += "player1's id is wrong ...<BR>\n"
+    else
+      userdata1.unshift(id1) # [id, name, pw, email]
     end
 
-    userdata2 = userdb.findname(name2) # [id, name, pw, email]
-    if userdata2.nil? || email2 != userdata2[3]
-      @errmsg += "name or e-mail address in player 2 is wrong ...<BR>\n"
+    userdata2 = userdb.findid(id2) # [name, pw, email]
+    if userdata2.nil?
+      @errmsg += "player2's id is wrong ...<BR>\n"
+    else
+      userdata2.unshift(id2) # [id, name, pw, email]
     end
 
     { userdata1: userdata1, userdata2: userdata2 }
@@ -57,12 +61,10 @@ class GenNewGameScreen
   def check_newgame(params)
     return @errmsg += 'data lost ...<BR>' if check_datalost_gengame(params)
 
-    name1 = params['rname'][0]
-    email1 = params['remail'][0]
-    name2 = params['rname2'][0]
-    email2 = params['remail2'][0]
+    id1 = params['rid'][0]
+    id2 = params['rid2'][0]
 
-    check_players(name1, email1, name2, email2)
+    check_players(id1, id2)
   end
 
   def mail_msg_newgame(user1, user2, gameid)
@@ -95,7 +97,7 @@ class GenNewGameScreen
     mailmgr.send_mail(@td.email2, subject, msg)
   end
 
-  def config_taikyoku(userdata1, userdata2, userinfo, params)
+  def config_taikyoku(userdata1, userdata2, userinfo, furigomastr)
     # @log.debug('td.setplayer1')
     @td.setplayer1(userdata1[0], userdata1[1], userdata1[3])
 
@@ -103,7 +105,7 @@ class GenNewGameScreen
     @td.setplayer2(userdata2[0], userdata2[1], userdata2[3])
 
     # @log.debug("furifusen(#{params['furigoma'][0].count('F')})")
-    @td.switchplayers unless furifusen(params['furigoma'][0])
+    @td.switchplayers unless furifusen(furigomastr)
 
     # @log.debug('td.creator')
     @td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
@@ -127,7 +129,8 @@ class GenNewGameScreen
     @td = TaikyokuData.new
     @td.log = @log
 
-    config_taikyoku(ret[:userdata1], ret[:userdata2], userinfo, params)
+    config_taikyoku(ret[:userdata1], ret[:userdata2], userinfo,
+                    params['furigoma'][0])
 
     # send mail to the players
     send_mail
@@ -136,6 +139,7 @@ class GenNewGameScreen
   end
 
   def show(userinfo, params)
+    begin
     return put_err_sreen(userinfo) unless generate(userinfo, params)
 
     # @log.debug('CommonUI::HTMLHead(header, title)')
@@ -153,5 +157,13 @@ class GenNewGameScreen
       GENMSG
 
     CommonUI::HTMLfoot()
+
+  rescue ScriptError => e
+    @log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+  rescue SecurityError => e
+    @log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+  rescue => e
+    @log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+  end
   end
 end
