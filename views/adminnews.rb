@@ -36,13 +36,13 @@ class AdminNewsScreen
        <div class='news'>
         <form action='#{scriptname}?adminnewsupdate' method=post name='adminnews'>
          <input type='submit' class='inpform' id='update'/><br>
-         <textarea name='news' rows='10' style='width:100%'>
+      <textarea name='news' rows='10' style='width:100%'>
       NEWS_EDIT1
 
     print msg
 
     puts <<-NEWS_EDIT2.unindent
-         </textarea>
+      </textarea>
         </form>
        </div>
       </div>

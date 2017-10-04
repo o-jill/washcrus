@@ -71,8 +71,9 @@ class NewGameScreen
   #
   # @param udb UserInfoFileオブジェクト
   def show_newgameform2(udb)
-    userselect1 = udb.to_select_id_name('rid','rid','inpform', "onchange='furifusen2();'")
-    userselect2 = udb.to_select_id_name('rid2','rid2','inpform', '')
+    userselect1 = udb.to_select_id_name('rid', 'rid', 'inpform',
+                                        "onchange='furifusen2();'")
+    userselect2 = udb.to_select_id_name('rid2', 'rid2', 'inpform', '')
     scriptname = File.basename($PROGRAM_NAME)
     print <<-FORM_NEW_GAME.unindent
       <form action='#{scriptname}?gennewgame2' method=post name='gennewgame2'>

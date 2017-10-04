@@ -138,8 +138,20 @@ class GenNewGame2Screen
     true
   end
 
+  def put_msg
+    puts <<-GENMSG.unindent
+      new game generated!<BR>
+      <a href='washcrus.rb?game/#{@td.gid}'><big>start playing &gt;&gt;</big></a><BR>
+
+      mails were sent to both players.
+      GENMSG
+  end
+
+  def err2log(e)
+    @log.warn("class=[#{e.class}] message=[#{e.message}] in gennewgame")
+  end
+
   def show(userinfo, params)
-    begin
     return put_err_sreen(userinfo) unless generate(userinfo, params)
 
     # @log.debug('CommonUI::HTMLHead(header, title)')
@@ -149,21 +161,14 @@ class GenNewGame2Screen
 
     @td.dumptable
 
-    puts <<-GENMSG.unindent
-      new game generated!<BR>
-      <a href='washcrus.rb?game/#{@td.gid}'><big>start playing &gt;&gt;</big></a><BR>
-
-      mails were sent to both players.
-      GENMSG
+    put_msg
 
     CommonUI::HTMLfoot()
-
   rescue ScriptError => e
-    @log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+    err2log(e)
   rescue SecurityError => e
-    @log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+    err2log(e)
   rescue => e
-    @log.warn("class=[#{e.class}] message=[#{e.message}] in move")
-  end
+    err2log(e)
   end
 end
