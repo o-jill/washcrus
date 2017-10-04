@@ -36,6 +36,9 @@ class WashCrus
   # ページタイトル
   Titlename = '洗足池'.freeze
 
+  # 初期化
+  #
+  # @param cgi CGIオブジェクト
   def initialize(cgi)
     @cgi = cgi
     @params = cgi.params

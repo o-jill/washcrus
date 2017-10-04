@@ -15,12 +15,16 @@ require './game/userinfo.rb'
 class GetSfen
   TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n".freeze
 
+  # 初期化
+  #
+  # @param cgi CGIオブジェクト
   def initialize(cgi)
     @cgi = cgi
     @params = cgi.params
     @gameid = cgi.query_string
   end
 
+  # sessionの取得と情報の読み取り
   def readuserparam
     begin
       @session = CGI::Session.new(@cgi,
@@ -35,6 +39,7 @@ class GetSfen
     @userinfo.readsession(@session) unless @session.nil?
   end
 
+  # 情報のチェック
   def check_param
     # gameid が無いよ
     return print TEXTPLAIN_HEAD + 'ERROR:illegal access.' \

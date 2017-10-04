@@ -17,6 +17,9 @@ require './file/chatfile.rb'
 #  chatname = johndoe
 #  chatmsg  = message
 class Chat
+  # 初期化
+  #
+  # @param cgi CGIオブジェクト
   def initialize(cgi)
     @params = cgi.params
     @name = 'john doe'

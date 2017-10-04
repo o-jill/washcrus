@@ -20,6 +20,10 @@ require './util/settings.rb'
 class Move
   TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n".freeze
 
+  # 初期化
+  #
+  # @param cgi CGIオブジェクト
+  # @param stg グローバル設定
   def initialize(cgi, stg)
     @log = Logger.new('./log/movelog.txt')
     # @log.level = Logger::INFO
@@ -40,6 +44,7 @@ class Move
 
   attr_reader :log
 
+  # sessionの取得と情報の読み取り
   def readuserparam
     # @log.debug('Move.readuserparam')
     begin
@@ -59,22 +64,27 @@ class Move
     @header = @header.gsub("\r\n", "\n")
   end
 
+  # 不正アクセスの表示
   def put_illegal_access
     print TEXTPLAIN_HEAD + 'illegal access.'
   end
 
+  # 移動完了の表示
   def put_moved
     print TEXTPLAIN_HEAD + 'Moved.'
   end
 
+  # 違反移動の表示
   def put_invalid_move
     print TEXTPLAIN_HEAD + 'invalid move.'
   end
 
+  # ログインしてないエラーの表示
   def put_please_login
     print TEXTPLAIN_HEAD + 'please log in.'
   end
 
+  # 情報のチェック
   def check_param
     # gameid が無いよ
     return put_illegal_access if @gameid.nil? || @gameid.empty?
@@ -93,10 +103,15 @@ class Move
     self
   end
 
+  # 対局終了メールのタイトルの生成
   def build_finishedtitle
     "the game was over. (#{@tkd.to_vs})"
   end
 
+  # 対局終了メールの本文の生成
+  #
+  # @param nowstr   現在の時刻の文字列
+  # @param filename 添付ファイル名
   def build_finishedmsg(nowstr, filename)
     msg = <<-MSG_TEXT.unindent
       #{@tkd.mi.playerb}さん、 #{@tkd.mi.playerw}さん
@@ -112,14 +127,19 @@ class Move
     msg
   end
 
+  # 添付ファイル名の生成
+  #
+  # @param dt   現在の時刻の文字列
   def build_attachfilename(dt)
     "#{@tkd.mi.playerb}_#{@tkd.mi.playerw}_#{dt}.kif"
   end
 
+  # 数字だけの時刻の文字列の生成
   def build_short_dt
     @tkd.mi.dt_lastmove.delete('/:').sub(' ', '_')
   end
 
+  # 終局メールの生成と送信
   def send_mail_finished(nowstr)
     subject = build_finishedtitle
     # @log.debug("subject:#{subject}")
@@ -140,6 +160,10 @@ class Move
     mmgr.send_mailex(@tkd.mi.emailw, subject, msg, kifufile)
   end
 
+  # 指されましたメールの本文の生成
+  #
+  # @param name   手番の人の名前
+  # @param nowstr   現在の時刻の文字列
   def build_nextturnmsg(name, nowstr)
     msg = <<-MSG_TEXT.unindent
       #{name}さん
@@ -153,6 +177,9 @@ class Move
     msg
   end
 
+  # 指されましたメールの生成と送信
+  #
+  # @param nowstr   現在の時刻の文字列
   def send_mail_next(nowstr)
     subject = "it's your turn!! (#{@tkd.to_vs})"
     # @log.debug("subject:#{subject}")
@@ -165,6 +192,8 @@ class Move
     mmgr.send_mail(opp[:mail], subject, msg)
   end
 
+  # メールの送信
+  #
   # @param finished [boolean] 終局したかどうか
   # @param now      [Time]    着手日時
   def send_mail(finished, nowstr)
@@ -178,6 +207,10 @@ class Move
     end
   end
 
+  # 対局中データベースの着手日時の更新
+  #
+  # @param tcdb   対局中データベース
+  # @param nowstr 現在の時刻の文字列
   def update_taikyokuchu_dt(tcdb, nowstr)
     @log.debug('tcdb.updatedatetime')
     tcdb.lock do
@@ -187,6 +220,9 @@ class Move
     end
   end
 
+  # 対局データベースの着手日時の更新
+  #
+  # @param nowstr 現在の時刻の文字列
   def update_taikyoku_dt(nowstr)
     @log.debug('tdb.updatedatetime')
     tdb = TaikyokuFile.new
@@ -198,6 +234,9 @@ class Move
   end
 
   # 対局終了処理
+  #
+  # @param tcdb   対局中データベース
+  # @param nowstr 現在の時刻オブジェクト
   def finish_game(tcdb, now)
     # 終了日時の更新とか勝敗の記録とか
     @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")

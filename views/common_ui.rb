@@ -10,6 +10,9 @@ require './util/settings.rb'
 #
 module CommonUI
   # HTMLヘッダ出力
+  #
+  # @param header HTMLヘッダ
+  # @param title ページタイトル
   def self.HTMLHead(header, title)
     print header
     print <<-HEADER_TAG.unindent
@@ -26,6 +29,8 @@ module CommonUI
   end
 
   # HTMLヘッダ出力(no cookie)
+  #
+  # @param title ページタイトル
   def self.HTMLHead2(title)
     print <<-HEADER2_TAG.unindent
       Content-Type: text/html; charset=UTF-8
@@ -121,6 +126,7 @@ module CommonUI
       MENU_LOGGEDIN
   end
 
+  # Administrationメニュー
   def self.HTMLAdminMenu
     index = File.basename($PROGRAM_NAME)
     puts <<-ADMINMENU.unindent
