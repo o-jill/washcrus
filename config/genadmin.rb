@@ -5,6 +5,7 @@ require 'digest/sha2'
 require './file/adminconfigfile.rb'
 require './file/userinfofile.rb'
 
+# メールアドレスの確認
 def velify_email
   print 'e-mail address:'
   email1 = STDIN.gets.to_s.chomp
@@ -19,6 +20,7 @@ def velify_email
   end
 end
 
+# パスワードの確認
 def velify_pw
   print 'password:'
   pw1 = STDIN.gets.to_s.chomp
@@ -33,6 +35,8 @@ def velify_pw
   end
 end
 
+# 管理者権限付きアカウントの作成
+#
 # @return nil:succeeded. otherwise error.
 def genadmin
   print 'username:'
