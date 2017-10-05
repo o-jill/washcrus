@@ -20,6 +20,7 @@ require './util/settings.rb'
 # 経過時間監視クラス
 #
 class ByouyomiChan
+  # 初期化
   def initialize
     stg = Settings.new
     @baseurl = stg.value['base_url']
@@ -29,6 +30,13 @@ class ByouyomiChan
         if @min_period < 1
   end
 
+  # 経過時間の計算
+  #
+  # @param from ここから
+  # @param to   ここまで
+  #
+  # @return 経過時間ハッシュオブジェクト
+  #         { day: day, hour: hour, min: min, sec: sec, total: totalsec }
   def getelapsed(from, to)
     totalsec = to - from
     res = totalsec.divmod(60)
@@ -42,6 +50,10 @@ class ByouyomiChan
     { day: day, hour: hour, min: min, sec: sec, total: totalsec }
   end
 
+  # メールを送る対極のリストの取得
+  #
+  # @param list 対局リスト
+  # @param tm   時刻
   def getlist2send(list, tm)
     list.select do |_id, t|
       et = getelapsed(Time.parse(t), tm)
@@ -53,6 +65,9 @@ class ByouyomiChan
     end
   end
 
+  # メールの送信
+  #
+  # @param mi MatchInfoFileオブジェクト
   def send_mail(mi)
     subject = "[reminder] it's your turn!! (#{mi.playerb} vs #{mi.playerw})"
     # @log.debug("subject:#{subject}")
@@ -79,6 +94,7 @@ class ByouyomiChan
       FAKE_MAIL
   end
 
+  # 実行本体。
   def perform
     tcdb = TaikyokuChuFile.new
     tcdb.read
