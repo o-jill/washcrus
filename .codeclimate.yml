@@ -1,0 +1,36 @@
+engines:
+  rubocop:
+    enabled: true
+    config:
+      file: codeclimate_rubocop.yml
+    #checks:
+    #	Rubocop/Metrics/ClassLength:
+    #  	enabled: false
+  golint:
+   	enabled: false
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  fixme:
+    enabled: true
+  duplication:
+  	enabled: true
+    config:
+    	languages:
+      - ruby
+        #mass_threshold: 30
+      - javascript
+ratings:
+  paths:
+  - css/**
+  - file/**
+  - game/**
+  - observer/**
+  - util/**
+  - views/**
+  - "**.css"
+  - "**.js"
+  - "**.rb"
+exclude_paths:
+- spec/**/*
