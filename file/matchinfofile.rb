@@ -10,6 +10,9 @@ require './game/taikyokudata.rb'
 # 対局情報ファイル管理クラス
 #
 class MatchInfoFile
+  # 初期化
+  #
+  # @param gameid 対局ID
   def initialize(gameid)
     @gid = gameid # 'ididididid'
     # @idb = '', @playerb = '', @emailb = ''
@@ -49,6 +52,7 @@ class MatchInfoFile
   # 対局者のセット
   #
   # id_b 対局者のID
+  # userinfo 対局者の情報
   def setplayerb(id_b, userinfo)
     return if userinfo.nil?
     @idb = id_b
@@ -59,6 +63,7 @@ class MatchInfoFile
   # 対局者のセット
   #
   # id_w 対局者のID
+  # userinfo 対局者の情報
   def setplayerw(id_w, userinfo)
     return if userinfo.nil?
     @idw = id_w
@@ -78,6 +83,10 @@ class MatchInfoFile
     setplayerw(id_w, db.findid(id_w))
   end
 
+  # 対戦相手の情報を得る
+  #
+  # @param id_ ユーザーID
+  # @return 対戦相手の情報 { id: id, name: nm, mail: em }
   def getopponent(id_)
     if @idb == id_
       { id: @idw, name: @playerw, mail: @emailw }
@@ -86,6 +95,9 @@ class MatchInfoFile
     end
   end
 
+  # 手番の対局者の情報を得る
+  #
+  # @return 対局者の情報 { id: id, name: nm, mail: em }
   def getnextplayer
     if @teban == 'b'
       { id: @idb, name: @playerb, mail: @emailb }
@@ -94,6 +106,10 @@ class MatchInfoFile
     end
   end
 
+  # 対局設定者の情報のセット
+  #
+  # @param name 対局設定者の名前
+  # @param dt   生成時刻
   def setcreator(name, dt)
     @creator = name
     @dt_created = dt
@@ -101,7 +117,8 @@ class MatchInfoFile
 
   # 着手情報のセット
   #
-  # @param dt [Time] 着手日時
+  # @param mv 着手情報文字列
+  # @param dt [Time] 着手日時オブジェクト
   def setlastmove_dt(mv, dt)
     @lastmove = mv
     @dt_lastmove = dt.strftime('%Y/%m/%d %H:%M:%S')
@@ -109,20 +126,28 @@ class MatchInfoFile
 
   # 着手情報のセット
   #
+  # @param mv 着手情報文字列
   # @param dt [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
   def setlastmove(mv, dt)
     @lastmove = mv
     @dt_lastmove = dt
   end
 
-  # def setsfen(board, teban, tegoma, nth)
-  #   @sfen = "#{board} #{teban} #{tegoma} #{nth}"
-  #   @teban = teban
-  #   @tegoma = tegoma
-  #   @nth = nth
-  # end
+  # sfenから得られる情報のセット
+  #
+  # @param sfenstr sfen文字列
+  # @param items   [teban, tegoma, nth]
+  def setsfen(sfenstr, items)
+    @sfen = sfenstr
+    @teban = items[1]
+    @tegoma = items[2]
+    @nth = items[3]
+  end
 
   # minimal syntax check
+  #
+  # @param sfenstr sfen文字列
+  # @return nil if invalid, otherwise successful.
   def checksfen(sfenstr)
     dan = sfenstr.split('/')
     return nil if dan.length != 9
@@ -139,67 +164,97 @@ class MatchInfoFile
     end
   end
 
+  # sfenの内容の確認
+  #
+  # @param item sfenを空白でsplitしたArray
+  # @return true if invalid
+  def invalid_sfenitem?(item)
+    # @log.debug('return if @teban == item[1]')
+    # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
+    # @log.debug('return if checksfen(item[0]).nil?')
+    item.length != 4 || @teban == item[1] \
+      || @nth.to_i + 1 != item[3].to_i || checksfen(item[0]).nil?
+  end
+
   # sfen to parameters with minimal syntax check.
   # teban and nth are also checked.
+  #
+  # @param sfenstr sfen文字列
   def fromsfen_strict(sfenstr)
     # @log.debug('return unless @teban =~ /[bw]/')
     return unless @teban =~ /[bw]/
 
     item = sfenstr.split(' ')
 
-    return if item.length != 4
-    # @log.debug('return if @teban == item[1]')
-    return if @teban == item[1]
-    # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
-    return if @nth.to_i + 1 != item[3].to_i
-    # @log.debug('return if checksfen(item[0]).nil?')
-    return if checksfen(item[0]).nil?
+    # return if item.length != 4
+    # # @log.debug('return if @teban == item[1]')
+    # return if @teban == item[1]
+    # # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
+    # return if @nth.to_i + 1 != item[3].to_i
+    # # @log.debug('return if checksfen(item[0]).nil?')
+    # return if checksfen(item[0]).nil?
+    return if invalid_sfenitem?(item)
 
-    @sfen = sfenstr
-    @teban = item[1]
-    @tegoma = item[2]
-    @nth = item[3]
+    setsfen(sfenstr, item)
   end
 
   # sfen to parameters with minimal syntax check.
+  #
+  # @param sfenstr sfen文字列
   def fromsfen(sfenstr)
     item = sfenstr.split(' ')
 
     return if item.length != 4
     return if checksfen(item[0]).nil?
 
-    @sfen = sfenstr
-    @teban = item[1]
-    @tegoma = item[2]
-    @nth = item[3]
+    setsfen(sfenstr, item)
   end
 
+  # 対局終了フラグのセット
   def done_game
     @finished = true
     # @teban = 'f'
   end
 
+  # 手番文字を返す
+  #
+  # @return 'b':先手の手番, 'w':後手の手番, 'f':対局終了
   def teban_ex
     @finished ? 'f' : @teban
   end
 
-  def read(path)
-    data = YAML.load_file(path)
-
-    @gid = data[:gid]
-    return nil if @gid.nil?
-
+  def read_data(data)
     setcreator(data[:creator], data[:dt_created])
     setplayers(data[:idb], data[:idw])
     fromsfen(data[:sfen])
     setlastmove(data[:lastmove], data[:dt_lastmove])
     @finished = data[:finished] || false
     # @teban = 'f' if @finished
+  end
+
+  # ファイルからデータの読み込み
+  #
+  # @param path ファイルパス
+  # @return nil if invalid, otherwise successful.
+  def read(path)
+    data = YAML.load_file(path)
+
+    @gid = data[:gid]
+    return nil if @gid.nil?
+
+    read_data(data)
+
     self
   rescue
     return nil
   end
 
+  # 初期化データの書き込み
+  #
+  # @param id_b    先手のID
+  # @param id_w    後手のID
+  # @param creator 生成者
+  # @param path    ファイルパス
   def initial_write(id_b, id_w, creator, cdt, path)
     setplayers(id_b, id_w)
     setcreator(creator, cdt)
@@ -207,6 +262,9 @@ class MatchInfoFile
     write(path)
   end
 
+  # ハッシュにして返す
+  #
+  # @return ハッシュオブジェクト
   def genhash
     {
       gid: gid, creator: creator, dt_created: dt_created,
@@ -215,6 +273,9 @@ class MatchInfoFile
     }
   end
 
+  # 情報の書き出し
+  #
+  # @param path ファイルパス
   def write(path)
     File.open(path, 'wb') do |file|
       file.flock File::LOCK_EX
