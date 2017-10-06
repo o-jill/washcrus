@@ -8,12 +8,18 @@ require './views/common_ui.rb'
 
 # ログイン画面
 class LoginScreen
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  # @param title  ページタイトル
+  # @param name   ページヘッダタイトル
   def initialize(header, title, name)
     @header = header
     @title = title
     @name = name
   end
 
+  # ログインフォームの表示
   def put_login_form
     print <<-TABLE_FORM.unindent
       <FORM action='washcrus.rb?logincheck' method=post name='signin'>
@@ -36,6 +42,7 @@ class LoginScreen
       TABLE_FORM
   end
 
+  # ログイン済みの表示
   def put_login_form_err
     print "<div class='err'>you already logged in!</div>"
   end
@@ -43,6 +50,7 @@ class LoginScreen
   #
   # ログイン画面
   #
+  # @param userinfo ユーザ情報
   def show(userinfo)
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name, userinfo)

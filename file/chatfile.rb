@@ -6,6 +6,9 @@ class ChatFile
   CHATFILE = '/chat.txt'.freeze
   ERRMSG = 'ERROR:read a file at first...'.freeze
 
+  # 初期化
+  #
+  # @param id 対局ID
   def initialize(id)
     @id = id
     @path = DIRPATH + @id + CHATFILE
@@ -14,6 +17,9 @@ class ChatFile
 
   attr_reader :id, :path, :msg
 
+  # ファイルの読み込み
+  #
+  # @param fpath ファイルパス
   def read(fpath = path)
     File.open(fpath, 'r:utf-8') do |file|
       file.flock File::LOCK_EX
@@ -26,6 +32,9 @@ class ChatFile
     puts "class=[#{e.class}] message=[#{e.message}] in read"
   end
 
+  # ファイルの書き出し
+  #
+  # @param fpath ファイルパス
   def write(fpath = path)
     File.open(fpath, 'w') do |file|
       file.flock File::LOCK_EX
@@ -38,6 +47,10 @@ class ChatFile
     puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
+  # ファイルの1行追加書き出し
+  #
+  # @param line  1行分の文字列
+  # @param fpath ファイルパス
   def add(line, fpath = path)
     File.open(fpath, 'a') do |file|
       file.flock File::LOCK_EX
@@ -50,19 +63,31 @@ class ChatFile
     puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
+  # 発言する
+  #
+  # @param name 名前
+  # @param mssg 発言内容
   def say(name, mssg)
     add "<B>#{name}</B>:#{mssg}&nbsp;(#{Time.now})<BR>"
   end
 
+  # 発言する
+  #
+  # @param name 名前
+  # @param mssg 発言内容
   def sayex(name, mssg)
     add "#{name}:#{mssg}&nbsp;(#{Time.now})<BR>"
   end
 
+  # 対局開始の合図
+  #
+  # @param name 先手名
   def say_start(name)
     sayex("<span id='chatadmin'>Witness</span>",
           "it's on time. please start your move as SENTE, #{name}-san.")
   end
 
+  # チャット内容の出力
   def put
     print "Content-type:text/html;\n\n#{msg}"
   end

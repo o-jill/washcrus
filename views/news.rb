@@ -12,12 +12,18 @@ require './views/common_ui.rb'
 class NewsScreen
   NEWSFILE = './config/news.txt'.freeze
 
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  # @param title  ページタイトル
+  # @param name   ページヘッダタイトル
   def initialize(header, title, name)
     @header = header
     @title = title
     @name = name
   end
 
+  # newsの出力
   def put_news
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
     msg = markdown.render(File.read(NEWSFILE))
@@ -40,6 +46,9 @@ class NewsScreen
       NEWS_INFO
   end
 
+  # 画面の表示
+  #
+  # @param userinfo ユーザ情報
   def show(userinfo)
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name, userinfo)

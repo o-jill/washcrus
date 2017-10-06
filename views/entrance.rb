@@ -9,6 +9,11 @@ require './views/common_ui.rb'
 # 入り口画面
 #
 class EntranceScreen
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  # @param title  ページタイトル
+  # @param name   ページヘッダタイトル
   def initialize(header, title, name)
     @header = header
     @title = title
@@ -49,10 +54,12 @@ class EntranceScreen
     %w[銀 桂 玉 金]
   ].freeze
 
+  # ロゴの表示
   def show_logo
     show_logo_tmpl(LOGO_TEXT[rand(LOGO_TEXT.size)])
   end
 
+  # 開発用テスト表示
   def test_area
     scriptname = File.basename($PROGRAM_NAME)
     print <<-TEST_AREA.unindent
@@ -66,6 +73,10 @@ class EntranceScreen
       TEST_AREA
   end
 
+  # 訪問回数の表示
+  #
+  # @param blogin   ログインしてるかどうか
+  # @param userinfo ユーザ情報
   def show_visitcount(blogin, userinfo)
     if blogin
       print "<HR><div align=center>#{userinfo.user_name}さん" \
@@ -79,8 +90,9 @@ class EntranceScreen
   end
 
   #
-  # 入り口画面
+  # 入り口画面の表示
   #
+  # @param userinfo ユーザ情報
   def show(userinfo)
     blogin = (!userinfo.user_id.nil? && userinfo.user_id != '')
 
