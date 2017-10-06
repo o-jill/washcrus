@@ -105,7 +105,7 @@ class Move
 
   # 対局終了メールのタイトルの生成
   def build_finishedtitle
-    "the game was over. (#{@tkd.to_vs})"
+    "the game was over. (#{@tkd.mi.to_vs})"
   end
 
   # 対局終了メールの本文の生成
@@ -181,7 +181,7 @@ class Move
   #
   # @param nowstr   現在の時刻の文字列
   def send_mail_next(nowstr)
-    subject = "it's your turn!! (#{@tkd.to_vs})"
+    subject = "it's your turn!! (#{@tkd.mi.to_vs})"
     # @log.debug("subject:#{subject}")
     opp = @tkd.mi.getopponent(@userinfo.user_id)
     # @log.debug("opp:#{opp}")

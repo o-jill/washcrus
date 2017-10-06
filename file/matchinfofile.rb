@@ -226,4 +226,20 @@ class MatchInfoFile
   rescue IOError => e
     puts "class=[#{e.class}] message=[#{e.message}] in yaml write"
   end
+
+  # vs形式の文字列の生成
+  #
+  # @return vs形式の文字列
+  def to_vs
+    "#{playerb} vs #{playerw}"
+  end
+
+  # ダウンロードファイル名の生成
+  #
+  # @param ext 拡張子
+  # @return ダウンロードファイル名文字列
+  def build_fn2dl(ext)
+    dt = @dt_lastmove.delete('/:').sub(' ', '_')
+    "#{@playerb}_#{@playerw}_#{dt}.#{ext}"
+  end
 end
