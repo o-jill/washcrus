@@ -11,12 +11,21 @@ require './views/common_ui.rb'
 # version情報画面
 #
 class VersionsScreen
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  # @param title  ページタイトル
+  # @param name   ページヘッダタイトル
   def initialize(header, title, name)
     @header = header
     @title = title
     @name = name
   end
 
+  # エラー画面の表示
+  #
+  # @param errmsg エラーメッセージ
+  # @param userinfo ユーザ情報
   def put_err_sreen(errmsg, userinfo)
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name, userinfo)
@@ -24,6 +33,7 @@ class VersionsScreen
     CommonUI::HTMLfoot()
   end
 
+  # './REVISION'の内容の表示
   def put_githash
     gitlog = File.read('./REVISION')
     print <<-VERSIONINFO.unindent
@@ -46,6 +56,7 @@ class VersionsScreen
       REVISION_FILE_ERR
   end
 
+  # './Gemfile.lock'の内容の表示
   def put_geminfo
     gemlog = File.read('./Gemfile.lock')
     print <<-GEMINFO.unindent
@@ -67,6 +78,9 @@ class VersionsScreen
       GEMLOCK_FILE_ERR
   end
 
+  # 画面の表示
+  #
+  # @param userinfo ユーザ情報
   def show(userinfo)
     return put_err_sreen("your log-in information is wrong ...\n", userinfo) \
       if userinfo.nil? || userinfo.invalid?
