@@ -961,7 +961,7 @@ Koma.prototype.getStr = function() {
  var str;
  if (this.teban === Koma.SENTEBAN) {
   str = Koma.SenteStr;
- } else if (this.teban == Koma.GOTEBAN) {
+} else if (this.teban === Koma.GOTEBAN) {
   str = Koma.GoteStr;
  } else {
   str = Koma.AkiStr;
@@ -1296,9 +1296,9 @@ Koma.prototype.getMovable = function(ox, oy) {
    var y = oy;
    if (this.teban === Koma.SENTEBAN) {
     ay = -ay;
-   } else {
    }
-   while (true) {
+
+   for ( ; ; ) {
     x += ax;
     y += ay;
     if (x < 0 || x > 8) {
@@ -1532,9 +1532,9 @@ Koma.prototype.kifuKIF = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
  fromy++;
 
  var str = '';
- /*if (this.teban == Koma.SENTEBAN) {
+ /*if (this.teban === Koma.SENTEBAN) {
   str = Koma.SenteStrKIF;
- } else if (this.teban == Koma.GOTEBAN) {
+} else if (this.teban === Koma.GOTEBAN) {
   str = Koma.GoteStrKIF;
  }*/
  if (tox == lastx && toy == lasty) {
@@ -2163,7 +2163,7 @@ function move(koma, to_x, to_y, nari) {
  }
 
  movecsa = '';
- if (koma.teban == Koma.SENTEBAN) {
+ if (koma.teban === Koma.SENTEBAN) {
   movecsa += Koma.SenteStrCSA;
  } else {
   movecsa += Koma.GoteStrCSA;
@@ -2502,7 +2502,7 @@ function KyokumenKIF() {
     Koma.KanjiNum[gotegoma[idx][0].length - 1] + '　';
   }
  }
- if (komadai == '') {
+ if (komadai === '') {
   komadai = 'なし';
  }
  kyokumen += komadai;

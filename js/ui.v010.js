@@ -699,6 +699,13 @@ function hoverin95() {abshoverin(8, 4);} function hoverin96() {abshoverin(8, 5);
 function hoverin97() {abshoverin(8, 6);} function hoverin98() {abshoverin(8, 7);}
 function hoverin99() {abshoverin(8, 8);}
 
+function fillactivemasu(x, y, c)
+{
+  var masui = ban[x][y].el;
+  if (masui !== null) {
+   masui.style.backgroundColor = c;
+  }
+}
 
 /**
  * 移動可能なマスのハイライト制御
@@ -716,19 +723,13 @@ function activatemovable(b) {
   for (var idx in activemovable) {
    var x = 8 - activemovable[idx][0];
    var y = 8 - activemovable[idx][1];
-   var masui = ban[x][y].el;
-   if (masui !== null) {
-    masui.style.backgroundColor = c;
-   }
+   fillactivemasu(x, y, c);
   }
  } else {
   for (var idx in activemovable) {
    var x = activemovable[idx][0];
    var y = activemovable[idx][1];
-   var masui = ban[x][y].el;
-   if (masui !== null) {
-    masui.style.backgroundColor = c;
-   }
+   fillactivemasu(x, y, c);
   }
  }
 }
@@ -1368,7 +1369,7 @@ function fromsfen(sfentext) {
     nari = 0;
     --nsuji;
    } else if (ch === 'P') {
-    var fu = new Fu(Koma.SENTEBAN, nsuji, ndan);
+    fu = new Fu(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      fu.nari = Koma.NARI;
     }
@@ -1376,7 +1377,7 @@ function fromsfen(sfentext) {
     nari = 0;
     --nsuji;
    } else if (ch === 'L') {
-    var kyosha = new Kyosha(Koma.SENTEBAN, nsuji, ndan);
+    kyosha = new Kyosha(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      kyosha.nari = Koma.NARI;
     }
@@ -1384,7 +1385,7 @@ function fromsfen(sfentext) {
     nari = 0;
     --nsuji;
    } else if (ch === 'N') {
-    var keima = new Keima(Koma.SENTEBAN, nsuji, ndan);
+    keima = new Keima(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      keima.nari = Koma.NARI;
     }
@@ -1392,7 +1393,7 @@ function fromsfen(sfentext) {
     nari = 0;
     --nsuji;
    } else if (ch === 'S') {
-    var gin = new Gin(Koma.SENTEBAN, nsuji, ndan);
+    gin = new Gin(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      gin.nari = Koma.NARI;
     }
@@ -1404,7 +1405,7 @@ function fromsfen(sfentext) {
     nari = 0;
     --nsuji;
    } else if (ch === 'B') {
-    var kaku = new Kaku(Koma.SENTEBAN, nsuji, ndan);
+    kaku = new Kaku(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      kaku.nari = Koma.NARI;
     }
@@ -1412,7 +1413,7 @@ function fromsfen(sfentext) {
     nari = 0;
     --nsuji;
    } else if (ch === 'R') {
-    var hisha = new Hisha(Koma.SENTEBAN, nsuji, ndan);
+    hisha = new Hisha(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      hisha.nari = Koma.NARI;
     }
@@ -1441,32 +1442,32 @@ function fromsfen(sfentext) {
     nsuji -= 3;
    } else if (ch === '4') {
     nari = 0;
-    for (var i = 0; i < 4; ++i)
+    for (i = 0; i < 4; ++i)
         result.push(new Koma());
     nsuji -= 4;
    } else if (ch === '5') {
     nari = 0;
-    for (var i = 0; i < 5; ++i)
+    for (i = 0; i < 5; ++i)
         result.push(new Koma());
     nsuji -= 5;
    } else if (ch === '6') {
     nari = 0;
-    for (var i = 0; i < 6; ++i)
+    for (i = 0; i < 6; ++i)
         result.push(new Koma());
     nsuji -= 6;
    } else if (ch === '7') {
     nari = 0;
-    for (var i = 0; i < 7; ++i)
+    for (i = 0; i < 7; ++i)
         result.push(new Koma());
     nsuji -= 7;
    } else if (ch === '8') {
     nari = 0;
-    for (var i = 0; i < 8; ++i)
+    for (i = 0; i < 8; ++i)
         result.push(new Koma());
     nsuji -= 8;
    } else if (ch === '9') {
     nari = 0;
-    for (var i = 0; i < 9; ++i)
+    for (i = 0; i < 9; ++i)
         result.push(new Koma());
     nsuji -= 9;
    }
@@ -1571,55 +1572,55 @@ function fromsfen(sfentext) {
   komadai_add(sentegoma, new Fu(Koma.SENTEBAN, -1, -1));
  }
  num = tegoma[0][1];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(sentegoma, new Kyosha(Koma.SENTEBAN, -1, -1));
  }
  num = tegoma[0][2];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(sentegoma, new Keima(Koma.SENTEBAN, -1, -1));
  }
  num = tegoma[0][3];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(sentegoma, new Gin(Koma.SENTEBAN, -1, -1));
  }
  num = tegoma[0][4];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(sentegoma, new Kin(Koma.SENTEBAN, -1, -1));
  }
  num = tegoma[0][5];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(sentegoma, new Kaku(Koma.SENTEBAN, -1, -1));
  }
  num = tegoma[0][6];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(sentegoma, new Hisha(Koma.SENTEBAN, -1, -1));
  }
  num = tegoma[1][0];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(gotegoma, new Fu(Koma.GOTEBAN, -1, -1));
  }
  num = tegoma[1][1];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(gotegoma, new Kyosha(Koma.GOTEBAN, -1, -1));
  }
  num = tegoma[1][2];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(gotegoma, new Keima(Koma.GOTEBAN, -1, -1));
  }
  num = tegoma[1][3];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(gotegoma, new Gin(Koma.GOTEBAN, -1, -1));
  }
  num = tegoma[1][4];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(gotegoma, new Kin(Koma.GOTEBAN, -1, -1));
  }
  num = tegoma[1][5];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(gotegoma, new Kaku(Koma.GOTEBAN, -1, -1));
  }
  num = tegoma[1][6];
- for (var k = 0; k < num; ++k) {
+ for (k = 0; k < num; ++k) {
   komadai_add(gotegoma, new Hisha(Koma.GOTEBAN, -1, -1));
  }
 
