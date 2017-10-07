@@ -6,6 +6,7 @@ require 'json'
 # 指し手クラス
 #
 class JsonMove
+  # 初期化
   def initialize
     @from = { 'x' => -1, 'y' => -1 }
     @to   = { 'x' => -1, 'y' => -1 }
@@ -18,14 +19,20 @@ class JsonMove
 
   attr_reader :from, :to, :piece, :color, :promote, :capture, :same
 
+  # 駒を打つ
+  #
   # to    {x: 1~9, y: 1~9}
+  # koma  打つ駒
   # teban 0:sente, 1:gote
   def utu(to, koma, teban)
     move(nil, to, koma, teban)
   end
 
+  # 駒を動かす
+  #
   # from {x: 1~9, y: 1~9}
   # to   {x: 1~9, y: 1~9}
+  # koma  動かす駒/打つ駒
   # teban 0:sente, 1:gote
   def move(from, to, koma, teban)
     @from = from
@@ -37,14 +44,22 @@ class JsonMove
     @same = false
   end
 
+  # 成る
   def nari
     @promote = true
   end
 
+  # 取る
+  #
+  # @param koma 取られる駒
   def toru(koma)
     @capture = koma
   end
 
+  # 同xxかどうか
+  #
+  # @param a {'from'=>{'x'=>x,'y'=>y},'to'=>{'x'=>x,'y'=>y}}
+  # @return 同xxのときtrue
   def checkdou(a)
     # @same =
     # (@to['x'] == a['to']['x'] &&
@@ -52,10 +67,17 @@ class JsonMove
     @same = (@to == a['to'])
   end
 
+  # 玉をとったかどうか
+  #
+  # @param a 取られた駒
+  # @return 玉をとったらtrue
   def self.catchOU?(a)
     a['capture'] == 'OU'
   end
 
+  # ハッシュの生成
+  #
+  # @return 指し手ハッシュ
   def genhash
     data = {
       'from' => @from, 'to' => @to, 'piece' => @piece, 'color' => @color
@@ -66,18 +88,30 @@ class JsonMove
     data
   end
 
+  # 投了などの特別な手のハッシュ
+  #
+  # @param t 特別な手の文字列
+  # @return 特別な手のハッシュ
   def self.fromtextspecial(t)
     { special: t[1, t.length - 1] }
   end
 
   Koma = %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY].freeze
 
+  # 駒が有効かどうかの確認
+  #
+  # @param cc CSA駒文字
+  # @return 駒が有効ならcc, 無効ならnil
   def self.checkpiece(cc)
     return if cc == '__'
     return if Koma.find_index(cc).nil?
     cc
   end
 
+  # 先手か後手の読み取り
+  #
+  # @param c 先後を示す文字
+  # @return 0:先手, 1:後手, nil:その他
   def self.read_sengo(c)
     case c
     when '+' then 0
@@ -86,20 +120,33 @@ class JsonMove
     end
   end
 
+  # 移動元座標をハッシュに変換
+  #
+  # @param x 移動元筋
+  # @param y 移動元段
+  # @return {ret:0(エラー)} or {ret:1, val:nil or {'x' => x, 'y'=>y}}
   def self.read_fromxy(x, y)
-    return { rt: 0 } unless ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
-    ret = { rt: 1 }
-    ret[:vl] = x == '0' && y == '0' ? nil : { 'x' => x.to_i, 'y' => y.to_i }
+    return { ret: 0 } unless ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
+    ret = { ret: 1 }
+    ret[:val] = x == '0' && y == '0' ? nil : { 'x' => x.to_i, 'y' => y.to_i }
     ret
   end
 
+  # 行き先座標をハッシュに変換
+  #
+  # @param x 行き先筋
+  # @param y 行き先段
+  # @return {'x' => x, 'y'=>y}
   def self.read_toxy(x, y)
     { 'x' => x.to_i, 'y' => y.to_i } \
         if ('1'..'9').cover?(x) && ('1'..'9').cover?(y)
   end
 
-  # [+-][0-9][0-9][0-9][0-9]{FU|KY|KE|...}{__|FU|KY|KE|...}P?
-  # %TORYO, %SENNICHITEなど
+  # 指し手文字列からJsonMoveに変換
+  #
+  # @param t [+-][0-9][0-9][0-9][0-9]{FU|KY|KE|...}{__|FU|KY|KE|...}P?
+  #          %TORYO, %SENNICHITEなど
+  # @return エラー:nil, 正常終了:JsonMoveオブジェクト
   def self.fromtext(t)
     return if t.nil?
 
@@ -112,8 +159,8 @@ class JsonMove
     ret = { 'color' => mycolor }
 
     fxy = read_fromxy(t[1], t[2])
-    return nil if fxy[:rt].zero?
-    ret['from'] = fxy[:vl]
+    return nil if fxy[:ret].zero?
+    ret['from'] = fxy[:val]
 
     txy = read_toxy(t[3], t[4])
     return nil if txy.nil?

@@ -179,14 +179,17 @@ class JsonKifu
     end
   end
 
+  # csa形式文字列に変換
   def to_csa
     Jkf::Converter::Csa.new.convert(genjson)
   end
 
+  # kif形式文字列に変換
   def to_kif
     Jkf::Converter::Kif.new.convert(genjson)
   end
 
+  # ki2形式文字列に変換
   def to_ki2
     Jkf::Converter::Ki2.new.convert(genjson)
   end
