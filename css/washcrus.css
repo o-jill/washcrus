@@ -78,8 +78,8 @@ div.fogscreen {
         opacity: 0.8;
         width: 100%;
         height: 100%;
-        left: 0px;
-        top: 0px;
+        left: 0;
+        top: 0;
 }
 
 div.msg_fogscreen {
@@ -125,7 +125,7 @@ div.gotemoji {
 
 /* menu */
 .menubase {
-  margin: 0px;
+  margin: 0;
   padding: 10px 0px;
   background-Color: lightgray;
 }
@@ -148,7 +148,7 @@ a.menu {
 }
 .githash pre{
   padding: 10px;
-  margin:0px;
+  margin: 0;
   background-color:#EEE;
 }
 .geminfo {
@@ -159,6 +159,6 @@ a.menu {
 }
 .geminfo pre{
   padding: 10px;
-  margin:0px;
+  margin: 0;
   background-color:#EEF;
 }
