@@ -283,7 +283,7 @@ class TaikyokuData
     return if @mi.fromsfen_strict(sfen).nil?
     # return if @mi.fromsfen(sfen).nil?
 
-    jc = calc_consumption
+    jc = calc_consumption(dt)
 
     # @log.debug("@jkf.move(jsmv, #{jc.genhash})")
     # @jkf.log = @log
@@ -295,8 +295,9 @@ class TaikyokuData
 
   # 消費時間の計算
   #
+  # @param dt 着手時間オブジェクト
   # @return 計算済み消費時間計算オブジェクト
-  def calc_consumption
+  def calc_consumption(dt)
     jc = JsonConsumption.new
     # @log.debug('jc.settotal if @jkf.last_time')
     total = @jkf.last_time
