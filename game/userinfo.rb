@@ -67,7 +67,6 @@ class UserInfo
     print "userid:#{@user_id},username:#{@user_name}" \
           "useremail:#{@user_email},visitcount:#{@visitcount}," \
           "admin:#{@admin}"
-
   end
 
   # put data in html table format.

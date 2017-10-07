@@ -131,7 +131,7 @@ class JsonKifu
 
   # コメントの追加
   #
-  # @par{ 'header' => header, 'initial' => initial, 'moves' => moves }am nth 何手目に追加するか
+  # @param nth 何手目に追加するか
   # @param cmt コメント文
   def addcomment(nth, cmt)
     @moves[nth]['comments'] << cmt
