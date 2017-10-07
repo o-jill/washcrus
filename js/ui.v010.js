@@ -717,7 +717,7 @@ function activatemovable(b) {
    var x = 8 - activemovable[idx][0];
    var y = 8 - activemovable[idx][1];
    var masui = ban[x][y].el;
-   if (masui != null) {
+   if (masui !== null) {
     masui.style.backgroundColor = c;
    }
   }
@@ -726,7 +726,7 @@ function activatemovable(b) {
    var x = activemovable[idx][0];
    var y = activemovable[idx][1];
    var masui = ban[x][y].el;
-   if (masui != null) {
+   if (masui !== null) {
     masui.style.backgroundColor = c;
    }
   }
@@ -756,13 +756,13 @@ function setactivecell(masui, b) {
  * @param {Object} masui 対象のマス目の見た目
  */
 function activecell(koma, masu, masui) {
- if (activemasu != null) {
+ if (activemasu !== null) {
   setactivecell(activemasui, false);
   if (activemasu != masu) {
    activatemovable(false);
   }
  }
- if (masu == null) {
+ if (masu === null) {
   activetegoma = null;
   activemasu = null;
   activemasui = null;
@@ -790,7 +790,7 @@ function activecell(koma, masu, masui) {
  * @param {Number} y マス目の座標
  */
 function absclick(x, y) {
- if (taikyokuchu == false) {
+ if (taikyokuchu === false) {
   return;
  }
  if (wait_narimenu) {
@@ -809,17 +809,17 @@ function absclick(x, y) {
  if (activemasu == masu) {
   activecell(null, null, null);
  } else {
-  if (activemasu == null) {
-   if ((koma.teban != Koma.AKI) && (koma.teban == activeteban)) {
+  if (activemasu === null) {
+   if ((koma.teban !== Koma.AKI) && (koma.teban == activeteban)) {
     activecell(koma, masu, masui);
    // } else {
     // nothing to do
    }
   } else if (activekoma.teban == koma.teban) {
-   if (activetegoma != null)
+   if (activetegoma !== null)
     activeuchi(null, null, null);
    activecell(koma, masu, masui);
-  } else if (koma.teban == Koma.AKI) {
+  } else if (koma.teban === Koma.AKI) {
    var ismovable = false;
    for (var idx in activemovable) {
     if (activemovable[idx][0] == hx && activemovable[idx][1] == hy) {
@@ -827,14 +827,14 @@ function absclick(x, y) {
      break;
     }
    }
-   if (ismovable == false) {
+   if (ismovable === false) {
     // 選択キャンセル
-    if (activetegoma != null)
+    if (activetegoma !== null)
      activeuchi(null, null, null);
     else
      activecell(null, null, null);
    } else {
-    if (activemasu.x == -1) {
+    if (activemasu.x === -1) {
      // uchi
      msg = activekoma.movemsg(hx, hy);
      if (!confirm(msg)) {
@@ -855,17 +855,17 @@ function absclick(x, y) {
      toru(hx, hy);
      // move
      var nareru = activekoma.checkNari(activekoma.y, hy);
-     if (nareru == Koma.NARENAI || nareru == Koma.NATTA) {
+     if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
       move(activekoma, hx, hy, Koma.NARAZU);
       activecell(null, null, null);
       update_screen();
       record_your_move();
-     } else if (nareru == Koma.NARU) {
+     } else if (nareru === Koma.NARU) {
       move(activekoma, hx, hy, Koma.NARI);
       activecell(null, null);
       update_screen();
       record_your_move();
-     } else if (nareru == Koma.NARERU) {
+     } else if (nareru === Koma.NARERU) {
       // ユーザに聞く
       narimenu_tox = hx;
       narimenu_toy = hy;
@@ -881,9 +881,9 @@ function absclick(x, y) {
      break;
     }
    }
-   if (ismovable == false) {
+   if (ismovable === false) {
     // 選択キャンセル
-    if (activetegoma != null)
+    if (activetegoma !== null)
      activeuchi(null, null, null);
     else
      activecell(null, null, null);
@@ -898,17 +898,17 @@ function absclick(x, y) {
     toru(hx, hy);
     // move
     var nareru = activekoma.checkNari(activekoma.y, hy);
-    if (nareru == Koma.NARENAI || nareru == Koma.NATTA) {
+    if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
      move(activekoma, hx, hy, Koma.NARAZU);
      activecell(null, null, null);
      update_screen();
      record_your_move();
-    } else if (nareru == Koma.NARU) {
+    } else if (nareru === Koma.NARU) {
      move(activekoma, hx, hy, Koma.NARI);
      activecell(null, null, null);
      update_screen();
      record_your_move();
-    } else if (nareru == Koma.NARERU) {
+    } else if (nareru === Koma.NARERU) {
      // ユーザに聞く
      narimenu_tox = hx;
      narimenu_toy = hy;
@@ -989,13 +989,13 @@ function setactivecelluchi(masui, b) {
  * @param {Number} i 駒のID
  */
 function activeuchi(koma, tegoma, tegomasu, i) {
- if (activetegoma != null) {
-  if (activemasu != null) {
+ if (activetegoma !== null) {
+  if (activemasu !== null) {
    setactivecelluchi(activemasui, false);
   }
   activatemovable(false);
  }
- if (tegoma == null || (activekoma != null && activekoma.id == i)) {
+ if (tegoma === null || (activekoma !== null && activekoma.id == i)) {
   activetegoma = null;
   activemasu = null;
   activemovable = [];
@@ -1023,7 +1023,7 @@ function activeuchi(koma, tegoma, tegomasu, i) {
  * @param {Number} i 駒ID
  */
 function absclickst(i) {
- if (taikyokuchu == false) {
+ if (taikyokuchu === false) {
   return;
  }
  var mytegoma, myteban;
@@ -1037,13 +1037,13 @@ function absclickst(i) {
  if (activeteban != myteban) {
   return;
  }
- if (activemasu != null) {
-   if (activetegoma == null) {
+ if (activemasu !== null) {
+   if (activetegoma === null) {
     activecell(null, null, null);
    }
  }
  var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
- if (koma == undefined) {
+ if (koma === undefined) {
   return;
  }
  var mytegomasu = sentegoma;
@@ -1056,7 +1056,7 @@ function absclickst(i) {
  * @param {Number} i 駒ID
  */
 function absclickgt(i) {
- if (taikyokuchu == false) {
+ if (taikyokuchu === false) {
   return;
  }
  var mytegoma, myteban;
@@ -1070,13 +1070,13 @@ function absclickgt(i) {
  if (activeteban != myteban) {
   return;
  }
- if (activemasu != null) {
-   if (activetegoma == null) {
+ if (activemasu !== null) {
+   if (activetegoma === null) {
     activecell(null, null, null);
    }
  }
  var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
- if (koma == undefined) {
+ if (koma === undefined) {
   return;
  }
  var mytegomasu = gotegoma;
@@ -1160,7 +1160,7 @@ function taikyokuchu_tmout()
  * 対局始め
  */
 function start_kyoku() {
- if (taikyokuchu == true) {
+ if (taikyokuchu === true) {
   return;
  }
  taikyokuchu = true;
@@ -1174,7 +1174,7 @@ function start_kyoku() {
  * 対局中断
  */
 function stop_kyoku() {
- if (taikyokuchu == false) {
+ if (taikyokuchu === false) {
   return;
  }
  taikyokuchu = false;
@@ -1186,7 +1186,7 @@ function stop_kyoku() {
  * 投了
  */
 function giveup() {
- if (taikyokuchu == false) {
+ if (taikyokuchu === false) {
   return;
  }
  taikyokuchu = false;
@@ -1206,7 +1206,7 @@ function giveup() {
  * 1手進める
  */
 // function kanso_next() {
-//  if (taikyokuchu == true) {
+//  if (taikyokuchu === true) {
 //   return;
 //  }
 //  mykifu.next_te();
@@ -1217,7 +1217,7 @@ function giveup() {
  * 1手戻す
  */
 // function kanso_prev() {
-//  if (taikyokuchu == true) {
+//  if (taikyokuchu === true) {
 //   return;
 //  }
 //  mykifu.prev_te();
@@ -1228,7 +1228,7 @@ function giveup() {
  * 5手進める
  */
 // function kanso_next2() {
-//  if (taikyokuchu == true) {
+//  if (taikyokuchu === true) {
 //   return;
 //  }
 //  mykifu.seek_te(mykifu.NTeme + 5);
@@ -1239,7 +1239,7 @@ function giveup() {
  * 5手戻す
  */
 // function kanso_prev2() {
-//  if (taikyokuchu == true) {
+//  if (taikyokuchu === true) {
 //   return;
 //  }
 //  mykifu.seek_te(mykifu.NTeme - 5);
@@ -1250,7 +1250,7 @@ function giveup() {
  * 初手に戻す
  */
 // function kanso_opened() {
-//  if (taikyokuchu == true) {
+//  if (taikyokuchu === true) {
 //   return;
 //  }
 //  mykifu.shote();
@@ -1261,7 +1261,7 @@ function giveup() {
  * 最新の局面にする。
  */
 // function kanso_last() {
-//  if (taikyokuchu == true) {
+//  if (taikyokuchu === true) {
 //   return;
 //  }
 //  mykifu.last_te();
@@ -1274,7 +1274,7 @@ function giveup() {
 function check_hifumin_eye() {
  // アクティブなやつを解除。
  if (activemasu !== null) {
-  if (activemasu.x == -1) {
+  if (activemasu.x === -1) {
    // uchi
    activeuchi(null, null, -1);
   } else {
@@ -1311,7 +1311,7 @@ function fromsfen(sfentext) {
   var nsuji = 8;
   for (var j = 0; j < len; ++j) {
    var ch = dan.charAt(j);
-   if (ch == 'p') {
+   if (ch === 'p') {
     var fu = new Fu(Koma.GOTEBAN, nsuji, ndan);
     if (nari !== 0) {
      fu.nari = Koma.NARI;
@@ -1319,7 +1319,7 @@ function fromsfen(sfentext) {
     result.push(fu);
     nari = 0;
     --nsuji;
-   } else if (ch == 'l') {
+   } else if (ch === 'l') {
     var kyosha = new Kyosha(Koma.GOTEBAN, nsuji, ndan);
     if (nari !== 0) {
      kyosha.nari = Koma.NARI;
@@ -1327,7 +1327,7 @@ function fromsfen(sfentext) {
     result.push(kyosha);
     nari = 0;
     --nsuji;
-   } else if (ch == 'n') {
+   } else if (ch === 'n') {
     var keima = new Keima(Koma.GOTEBAN, nsuji, ndan);
     if (nari !== 0) {
      keima.nari = Koma.NARI;
@@ -1335,7 +1335,7 @@ function fromsfen(sfentext) {
     result.push(keima);
     nari = 0;
     --nsuji;
-   } else if (ch == 's') {
+   } else if (ch === 's') {
     var gin = new Gin(Koma.GOTEBAN, nsuji, ndan);
     if (nari !== 0) {
      gin.nari = Koma.NARI;
@@ -1343,11 +1343,11 @@ function fromsfen(sfentext) {
     result.push(gin);
     nari = 0;
     --nsuji;
-   } else if (ch == 'g') {
+   } else if (ch === 'g') {
     result.push(new Kin(Koma.GOTEBAN, nsuji, ndan));
     nari = 0;
     --nsuji;
-   } else if (ch == 'b') {
+   } else if (ch === 'b') {
     var kaku = new Kaku(Koma.GOTEBAN, nsuji, ndan);
     if (nari !== 0) {
      kaku.nari = Koma.NARI;
@@ -1355,7 +1355,7 @@ function fromsfen(sfentext) {
     result.push(kaku);
     nari = 0;
     --nsuji;
-   } else if (ch == 'r') {
+   } else if (ch === 'r') {
     var hisha = new Hisha(Koma.GOTEBAN, nsuji, ndan);
     if (nari !== 0) {
      hisha.nari = Koma.NARI;
@@ -1363,11 +1363,11 @@ function fromsfen(sfentext) {
     result.push(hisha);
     nari = 0;
     --nsuji;
-   } else if (ch == 'k') {
+   } else if (ch === 'k') {
     result.push(new Gyoku(Koma.GOTEBAN, nsuji, ndan));
     nari = 0;
     --nsuji;
-   } else if (ch == 'P') {
+   } else if (ch === 'P') {
     var fu = new Fu(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      fu.nari = Koma.NARI;
@@ -1375,7 +1375,7 @@ function fromsfen(sfentext) {
     result.push(fu);
     nari = 0;
     --nsuji;
-   } else if (ch == 'L') {
+   } else if (ch === 'L') {
     var kyosha = new Kyosha(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      kyosha.nari = Koma.NARI;
@@ -1383,7 +1383,7 @@ function fromsfen(sfentext) {
     result.push(kyosha);
     nari = 0;
     --nsuji;
-   } else if (ch == 'N') {
+   } else if (ch === 'N') {
     var keima = new Keima(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      keima.nari = Koma.NARI;
@@ -1391,7 +1391,7 @@ function fromsfen(sfentext) {
     result.push(keima);
     nari = 0;
     --nsuji;
-   } else if (ch == 'S') {
+   } else if (ch === 'S') {
     var gin = new Gin(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      gin.nari = Koma.NARI;
@@ -1399,11 +1399,11 @@ function fromsfen(sfentext) {
     result.push(gin);
     nari = 0;
     --nsuji;
-   } else if (ch == 'G') {
+   } else if (ch === 'G') {
     result.push(new Kin(Koma.SENTEBAN, nsuji, ndan));
     nari = 0;
     --nsuji;
-   } else if (ch == 'B') {
+   } else if (ch === 'B') {
     var kaku = new Kaku(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      kaku.nari = Koma.NARI;
@@ -1411,7 +1411,7 @@ function fromsfen(sfentext) {
     result.push(kaku);
     nari = 0;
     --nsuji;
-   } else if (ch == 'R') {
+   } else if (ch === 'R') {
     var hisha = new Hisha(Koma.SENTEBAN, nsuji, ndan);
     if (nari !== 0) {
      hisha.nari = Koma.NARI;
@@ -1419,52 +1419,52 @@ function fromsfen(sfentext) {
     result.push(hisha);
     nari = 0;
     --nsuji;
-   } else if (ch == 'K') {
+   } else if (ch === 'K') {
     result.push(new Gyoku(Koma.SENTEBAN, nsuji, ndan));
     nari = 0;
     --nsuji;
-   } else if (ch == '+') {
+   } else if (ch === '+') {
     nari = 1;
-   } else if (ch == '1') {
+   } else if (ch === '1') {
     result.push(new Koma());
     nari = 0;
     --nsuji;
-   } else if (ch == '2') {
+   } else if (ch === '2') {
     nari = 0;
     result.push(new Koma());
     result.push(new Koma());
     nsuji -= 2;
-   } else if (ch == '3') {
+   } else if (ch === '3') {
     nari = 0;
     for (var i = 0; i < 3; ++i)
         result.push(new Koma());
     nsuji -= 3;
-   } else if (ch == '4') {
+   } else if (ch === '4') {
     nari = 0;
     for (var i = 0; i < 4; ++i)
         result.push(new Koma());
     nsuji -= 4;
-   } else if (ch == '5') {
+   } else if (ch === '5') {
     nari = 0;
     for (var i = 0; i < 5; ++i)
         result.push(new Koma());
     nsuji -= 5;
-   } else if (ch == '6') {
+   } else if (ch === '6') {
     nari = 0;
     for (var i = 0; i < 6; ++i)
         result.push(new Koma());
     nsuji -= 6;
-   } else if (ch == '7') {
+   } else if (ch === '7') {
     nari = 0;
     for (var i = 0; i < 7; ++i)
         result.push(new Koma());
     nsuji -= 7;
-   } else if (ch == '8') {
+   } else if (ch === '8') {
     nari = 0;
     for (var i = 0; i < 8; ++i)
         result.push(new Koma());
     nsuji -= 8;
-   } else if (ch == '9') {
+   } else if (ch === '9') {
     nari = 0;
     for (var i = 0; i < 9; ++i)
         result.push(new Koma());
@@ -1493,71 +1493,71 @@ function fromsfen(sfentext) {
   var len = tegomastr.length;
   for (var j = 0; j < len; ++j) {
    var ch = tegomastr.charAt(j);
-   if (ch == 'p') {
+   if (ch === 'p') {
     tegoma[1][0] = num;
     num = 1;
-   } else if (ch == 'l') {
+   } else if (ch === 'l') {
     tegoma[1][1] = num;
     num = 1;
-   } else if (ch == 'n') {
+   } else if (ch === 'n') {
     tegoma[1][2] = num;
     num = 1;
-   } else if (ch == 's') {
+   } else if (ch === 's') {
     tegoma[1][3] = num;
     num = 1;
-   } else if (ch == 'g') {
+   } else if (ch === 'g') {
     tegoma[1][4] = num;
     num = 1;
-   } else if (ch == 'b') {
+   } else if (ch === 'b') {
     tegoma[1][5] = num;
     num = 1;
-   } else if (ch == 'r') {
+   } else if (ch === 'r') {
     tegoma[1][6] = num;
     num = 1;
-   // } else if (ch == 'k') {
+   // } else if (ch === 'k') {
    //  tegoma[0][7] = num;
    // num = 1;
-   } else if (ch == 'P') {
+   } else if (ch === 'P') {
     tegoma[0][0] = num;
     num = 1;
-   } else if (ch == 'L') {
+   } else if (ch === 'L') {
     tegoma[0][1] = num;
     num = 1;
-   } else if (ch == 'N') {
+   } else if (ch === 'N') {
     tegoma[0][2] = num;
     num = 1;
-   } else if (ch == 'S') {
+   } else if (ch === 'S') {
     tegoma[0][3] = num;
     num = 1;
-   } else if (ch == 'G') {
+   } else if (ch === 'G') {
     tegoma[0][4] = num;
     num = 1;
-   } else if (ch == 'B') {
+   } else if (ch === 'B') {
     tegoma[0][5] = num;
     num = 1;
-   } else if (ch == 'R') {
+   } else if (ch === 'R') {
     tegoma[0][6] = num;
     num = 1;
-   // } else if (ch == 'K') {
+   // } else if (ch === 'K') {
    //  tegoma[0][7] = num;
    //  num = 1;
-   } else if (ch == '1') {
+   } else if (ch === '1') {
     num = 1;
-   } else if (ch == '2') {
+   } else if (ch === '2') {
     num = 2;
-   } else if (ch == '3') {
+   } else if (ch === '3') {
     num = 3;
-   } else if (ch == '4') {
+   } else if (ch === '4') {
     num = 4;
-   } else if (ch == '5') {
+   } else if (ch === '5') {
     num = 5;
-   } else if (ch == '6') {
+   } else if (ch === '6') {
     num = 6;
-   } else if (ch == '7') {
+   } else if (ch === '7') {
     num = 7;
-   } else if (ch == '8') {
+   } else if (ch === '8') {
     num = 8;
-   } else if (ch == '9') {
+   } else if (ch === '9') {
     num = 9;
    } else {
     // error
@@ -1623,9 +1623,9 @@ function fromsfen(sfentext) {
   komadai_add(gotegoma, new Hisha(Koma.GOTEBAN, -1, -1));
  }
 
- if (sfenitem[1] == 'b') {
+ if (sfenitem[1] === 'b') {
   activeteban = Koma.SENTEBAN;
- } else if (sfenitem[1] == 'w') {
+ } else if (sfenitem[1] === 'w') {
   activeteban = Koma.GOTEBAN;
  } else {
   // keep current teban
@@ -1646,36 +1646,36 @@ function gensfen(nth /*= '1'*/) {
    shogibantext[i] = '';
    for (var j = 0; j < 9; ++j) {
     var komach = '';
-    if (shogiban[8 - j][i].koma.nari == Koma.NARI) {
+    if (shogiban[8 - j][i].koma.nari === Koma.NARI) {
      komach = '+';
     } else {
      komach = '';
     }
     var komaid = shogiban[8 - j][i].koma.id;
-    if (komaid == Koma.FuID) {
+    if (komaid === Koma.FuID) {
      komach += 'P';
-    } else if (komaid == Koma.KyoshaID) {
+    } else if (komaid === Koma.KyoshaID) {
      komach += 'L';
-    } else if (komaid == Koma.KeimaID) {
+    } else if (komaid === Koma.KeimaID) {
      komach += 'N';
-    } else if (komaid == Koma.GinID) {
+    } else if (komaid === Koma.GinID) {
      komach += 'S';
-    } else if (komaid == Koma.KinID) {
+    } else if (komaid === Koma.KinID) {
      komach += 'G';
-    } else if (komaid == Koma.HishaID) {
+    } else if (komaid === Koma.HishaID) {
      komach += 'R';
-    } else if (komaid == Koma.KakuID) {
+    } else if (komaid === Koma.KakuID) {
      komach += 'B';
-    } else if (komaid == Koma.GyokuID) {
+    } else if (komaid === Koma.GyokuID) {
      komach += 'K';
     } else {
      aki = aki + 1;
     }
     var teban = shogiban[8 - j][i].koma.teban;
-    if (teban == Koma.GOTEBAN) {
+    if (teban === Koma.GOTEBAN) {
      komach = komach.toLowerCase();
     }
-    if (komach != '') {
+    if (komach !== '') {
      if (aki > 0) {
       shogibantext[i] += aki;
       aki = 0;
@@ -1716,7 +1716,7 @@ function gensfen(nth /*= '1'*/) {
     sfentegomatext += komatblw.charAt(i);
    }
   }
-  if (sfentegomatext.length == 0) {
+  if (sfentegomatext.length === 0) {
     sfentegomatext = '-';
   }
   return sfentegomatext;
@@ -1731,7 +1731,7 @@ function gensfen(nth /*= '1'*/) {
  // }
  // sfentext += bantext[i];
  sfentext += ' ';
- if (activeteban != Koma.SENTEBAN) {
+ if (activeteban !== Koma.SENTEBAN) {
   sfentext += 'w';
  } else {
   sfentext += 'b';
@@ -1751,22 +1751,22 @@ function activateteban()
 {
   // String('true') or String('false')
  var strfinished = document.getElementById('isfinished').value;
- var isfinished = (strfinished != 'false');  // convert to boolean
+ var isfinished = (strfinished !== 'false');  // convert to boolean
  if (isfinished) {
   taikyokuchu = false;
  } else {
   // var teban = document.getElementById('myturn').value;
-  // if (teban != '0') taikyokuchu = true;
+  // if (teban !== '0') taikyokuchu = true;
   var teban = document.getElementById('myteban').value;
-  if (teban == 'b' && activeteban == Koma.SENTEBAN) taikyokuchu = true;
-  else if (teban == 'w' && activeteban == Koma.GOTEBAN) taikyokuchu = true;
+  if (teban === 'b' && activeteban === Koma.SENTEBAN) taikyokuchu = true;
+  else if (teban === 'w' && activeteban === Koma.GOTEBAN) taikyokuchu = true;
   else taikyokuchu = false;
  }
 
  var strinfo = mykifu.NTeme + '手目です。<BR>';
- if (activeteban == Koma.SENTEBAN) {
+ if (activeteban === Koma.SENTEBAN) {
   strinfo += '先手の手番です。<BR>'
- } else if (activeteban == Koma.GOTEBAN) {
+ } else if (activeteban === Koma.GOTEBAN) {
   strinfo += '後手の手番です。<BR>'
  } else {
   strinfo += '対局は終了/中断しました。<BR>'
@@ -1784,7 +1784,7 @@ function activateteban()
 function checkLatestMoveTmout()
 {
  var ajax = new XMLHttpRequest();
- if (ajax != null) {
+ if (ajax !== null) {
   // tsushinchu = true;
   // activatefogscreen();
   ajax.open('POST', 'getsfen.rb?' + id, true);
@@ -1796,12 +1796,12 @@ function checkLatestMoveTmout()
    switch (ajax.readyState) {
    case 4:
     var status = ajax.status;
-    if (status == 0) {  // XHR 通信失敗
+    if (status === 0) {  // XHR 通信失敗
     //  msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
     //   location.reload(true);
      startUpdateTimer();
     } else {  // XHR 通信成功
-     if ((200 <= status && status < 300) || status == 304) {
+     if ((200 <= status && status < 300) || status === 304) {
       // リクエスト成功
       var resp = ajax.responseText
       checkSfenResponse(resp);
@@ -1894,7 +1894,7 @@ var tsushinchu = false;
 function send_csamove()
 {
   var ajax = new XMLHttpRequest();
-  if (ajax != null) {
+  if (ajax !== null) {
     tsushinchu = true;
     activatefogscreen();
     ajax.open('POST', 'move.rb?' + id, true);
@@ -1906,11 +1906,11 @@ function send_csamove()
      switch (ajax.readyState) {
      case 4:
       var status = ajax.status;
-      if (status == 0) {  // XHR 通信失敗
+      if (status === 0) {  // XHR 通信失敗
        msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
         location.reload(true);
       } else {  // XHR 通信成功
-       if ((200 <= status && status < 300) || status == 304) {
+       if ((200 <= status && status < 300) || status === 304) {
         // リクエスト成功
         msg.innerHTML = '通信完了。\n自動的にリロードします。';
         location.reload(true);
