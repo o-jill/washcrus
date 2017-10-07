@@ -9,12 +9,18 @@ require './views/common_ui.rb'
 # 登録画面
 #
 class SignupScreen
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  # @param title  ページタイトル
+  # @param name   ページヘッダタイトル
   def initialize(header, title, name)
     @header = header
     @title = title
     @name = name
   end
 
+  # 入力フォームの表示
   def show_tableform
     print <<-TABLE_FORM.unindent
     <FORM action='#{File.basename($PROGRAM_NAME)}?register' method=post name='signup'>
@@ -46,6 +52,7 @@ class SignupScreen
     TABLE_FORM
   end
 
+  # 画面の表示
   def show
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name)

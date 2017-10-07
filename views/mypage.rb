@@ -11,12 +11,18 @@ require './views/common_ui.rb'
 # mypage画面
 #
 class MyPageScreen
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  # @param title  ページタイトル
+  # @param name   ページヘッダタイトル
   def initialize(header, title, name)
     @header = header
     @title = title
     @name = name
   end
 
+  # エラー画面の表示
   def put_err_sreen(errmsg)
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name)
@@ -24,20 +30,38 @@ class MyPageScreen
     CommonUI::HTMLfoot()
   end
 
+  # 合計勝ち負けの計算
+  #
+  # @param wl {swin:先手勝数, slose:先手負数, gwin:後手勝数, glose:後手負数}
+  # @return 合計勝ち負け
   def calctotal(wl)
     ttl = [wl[:swin] + wl[:gwin], wl[:slose] + wl[:glose], 0]
     ttl[2] = ttl[0] + ttl[1]
     ttl
   end
 
+  # 勝率の文字列を生成
+  #
+  # @param total 局数
+  # @param win   勝数
+  # @return 勝率の文字列 '0.000'
   def calcratestr(total, win)
     format('%.3f', total.zero? ? 0 : win / total.to_f)
   end
 
+  # 勝ち負け一段分の出力
+  #
+  # @param title 項目名
+  # @param w 勝数
+  # @param l 負数
+  # @param r 勝率文字列
   def put_seiseki(title, w, l, r)
     puts "<tr><th>#{title}</th><td>#{w}勝#{l}敗</td><td>#{r}</td></tr>"
   end
 
+  # 成績表の出力
+  #
+  # @param wl {swin:先手勝数, slose:先手負数, gwin:後手勝数, glose:後手負数}
   def put_stats(wl)
     wl[:stotal] = wl[:swin] + wl[:slose]
     wl[:gtotal] = wl[:gwin] + wl[:glose]
@@ -55,6 +79,7 @@ class MyPageScreen
     puts '</table>'
   end
 
+  # 対局履歴の表のヘッダの出力
   def put_taikyokurireki_tblhead(cap)
     print <<-TAIKYOKURIREKI_TABLE.unindent
       <table align='center' border='3'><caption>#{cap}</caption>
@@ -64,6 +89,9 @@ class MyPageScreen
       TAIKYOKURIREKI_TABLE
   end
 
+  # 対局履歴の表の中身の出力
+  #
+  # @param tklist 対局情報Array
   def put_taikyokulist_tbl(tklist)
     tklist.each do |game|
       gid = game[:id]
@@ -77,6 +105,9 @@ class MyPageScreen
     end
   end
 
+  # 対局中の対局の表示
+  #
+  # @param uid ユーザー情報
   def put_taikyokuchu(uid)
     tkcdb = TaikyokuChuFile.new
     tkcdb.read
@@ -92,6 +123,10 @@ class MyPageScreen
     print '</table>'
   end
 
+
+  # 対局履歴の表示
+  #
+  # @param uid ユーザーID
   def put_taikyokurireki(uid)
     tkdb = TaikyokuFile.new
     tkdb.read
@@ -108,6 +143,9 @@ class MyPageScreen
     print '</table>'
   end
 
+  # 画面の表示
+  #
+  # @param userinfo ユーザー情報
   def show(userinfo)
     return put_err_sreen("your log-in information is wrong ...\n") \
       if userinfo.nil? || userinfo.invalid?
