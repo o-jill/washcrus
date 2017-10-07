@@ -77,7 +77,7 @@ function pre_check() {
   postmsg += "&remail="+email.value+"&remail2="+email2.value;
 
   var ajax = new XMLHttpRequest();
-  if (ajax != null) {
+  if (ajax !== null) {
     var komanim = document.getElementById('komanim');
     komanim.style.display = 'inline';
     var btn = document.getElementById('precheck')
@@ -95,10 +95,10 @@ function pre_check() {
         var btn = document.getElementById('precheck')
         btn.disabled = false;
         var status = ajax.status;
-    	if (status == 0) {  // XHR 通信失敗
+    	if (status === 0) {  // XHR 通信失敗
     	  alert("XHR 通信失敗");
     	} else {  // XHR 通信成功
-    	  if ((200 <= status && status < 300) || status == 304) {
+    	  if ((200 <= status && status < 300) || status === 304) {
             // リクエスト成功
             window.alert(ajax.responseText);
     	  } else {  // リクエスト失敗
@@ -158,7 +158,7 @@ function ontimer_furigoma() {
   var btn = document.getElementById('btnfurigoma')
   var koma;
   var komame = furikoma.value.length
-  if (komame == 0) {
+  if (komame === 0) {
     koma = document.getElementById('furikomanim1');
     koma.style.display = 'none';
     if (Math.random() < 0.5) {
@@ -170,7 +170,7 @@ function ontimer_furigoma() {
     }
     koma.style.display = 'inline';
     setTimeout("ontimer_furigoma()", 1000);
-  } else if (komame == 1) {
+  } else if (komame === 1) {
     koma = document.getElementById('furikomanim2');
     koma.style.display = 'none';
     if (Math.random() < 0.5) {
@@ -182,7 +182,7 @@ function ontimer_furigoma() {
     }
     koma.style.display = 'inline';
     setTimeout("ontimer_furigoma()", 1000);
-  } else if (komame == 2) {
+  } else if (komame === 2) {
     koma = document.getElementById('furikomanim3');
     koma.style.display = 'none';
     if (Math.random() < 0.5) {
@@ -194,7 +194,7 @@ function ontimer_furigoma() {
     }
     koma.style.display = 'inline';
     setTimeout("ontimer_furigoma()", 1000);
-  } else if (komame == 3) {
+  } else if (komame === 3) {
     koma = document.getElementById('furikomanim4');
     koma.style.display = 'none';
     if (Math.random() < 0.5) {
@@ -206,7 +206,7 @@ function ontimer_furigoma() {
     }
     koma.style.display = 'inline';
     setTimeout("ontimer_furigoma()", 1000);
-  } else if (komame == 4) {
+  } else if (komame === 4) {
     koma = document.getElementById('furikomanim5');
     koma.style.display = 'none';
     if (Math.random() < 0.5) {
@@ -301,7 +301,7 @@ function ontimer_furigoma2() {
   var btn = document.getElementById('btnfurigoma2')
   var koma;
   var komame = furikoma.value.length
-  if (komame == 0) {
+  if (komame === 0) {
     koma = document.getElementById('furikomanim21');
     koma.style.display = 'none';
     if (Math.random() < 0.5) {
@@ -313,7 +313,7 @@ function ontimer_furigoma2() {
     }
     koma.style.display = 'inline';
     setTimeout("ontimer_furigoma2()", 1000);
-  } else if (komame == 1) {
+  } else if (komame === 1) {
     koma = document.getElementById('furikomanim22');
     koma.style.display = 'none';
     if (Math.random() < 0.5) {
@@ -325,7 +325,7 @@ function ontimer_furigoma2() {
     }
     koma.style.display = 'inline';
     setTimeout("ontimer_furigoma2()", 1000);
-  } else if (komame == 2) {
+  } else if (komame === 2) {
     koma = document.getElementById('furikomanim23');
     koma.style.display = 'none';
     if (Math.random() < 0.5) {
@@ -337,7 +337,7 @@ function ontimer_furigoma2() {
     }
     koma.style.display = 'inline';
     setTimeout("ontimer_furigoma2()", 1000);
-  } else if (komame == 3) {
+  } else if (komame === 3) {
     koma = document.getElementById('furikomanim24');
     koma.style.display = 'none';
     if (Math.random() < 0.5) {
@@ -349,7 +349,7 @@ function ontimer_furigoma2() {
     }
     koma.style.display = 'inline';
     setTimeout("ontimer_furigoma2()", 1000);
-  } else if (komame == 4) {
+  } else if (komame === 4) {
     koma = document.getElementById('furikomanim25');
     koma.style.display = 'none';
     if (Math.random() < 0.5) {
