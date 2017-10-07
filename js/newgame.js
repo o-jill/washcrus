@@ -14,48 +14,53 @@ function validatemail(str) {
 /* new game 1  */
 /* - - - - - - */
 
+function check_name(id_name, id_ply, id_eml)
+{
+  var name = document.getElementById(id_name);
+  var ret = (bytes2(name.value) < 4);
+  if (ret) {
+    document.getElementById(id_ply).style.backgroundColor = 'red';
+    document.getElementById(id_eml).style.backgroundColor = 'red';
+  } else {
+    document.getElementById(id_ply).style.backgroundColor = 'transparent';
+    document.getElementById(id_eml).style.backgroundColor = 'transparent';
+  }
+  return ret;
+}
+
+function check_email(id_email, id_ply, id_eml)
+{
+  email = document.getElementById(id_email);
+  var ret = validatemail(email.value);
+  if (!ret) {
+    document.getElementById(id_ply).style.backgroundColor = 'red';
+    document.getElementById(id_eml).style.backgroundColor = 'red';
+  } else {
+    document.getElementById(id_ply).style.backgroundColor = 'transparent';
+    document.getElementById(id_eml).style.backgroundColor = 'transparent';
+  }
+  return ret;
+}
+
 function check_form()
 {
   var nmismatch = 0;
   var alertmsg = '';
 
-  var name;
-  name = document.getElementById('rname');
-  if (bytes2(name.value) < 4) {
-    document.getElementById('player1').style.backgroundColor = 'red';
-    document.getElementById('tremail').style.backgroundColor = 'red';
+  if (check_name('rname', 'player1', 'tremail')) {
     alertmsg += 'name is too short in player1!\n';
     ++nmismatch;
-  } else {
-    document.getElementById('player1').style.backgroundColor = 'transparent';
-    document.getElementById('tremail').style.backgroundColor = 'transparent';
   }
-
-  name = document.getElementById('rname2');
-  if (bytes2(name.value) < 4) {
-    document.getElementById('player2').style.backgroundColor = 'red';
-    document.getElementById('tremail2').style.backgroundColor = 'red';
-    alertmsg += 'name is too short  in player2!\n';
+  if (check_name('rname2', 'player2', 'tremail2')) {
+    alertmsg += 'name is too short in player2!\n';
     ++nmismatch;
-  } else {
-    document.getElementById('player2').style.backgroundColor = 'transparent';
-    document.getElementById('tremail2').style.backgroundColor = 'transparent';
   }
 
-  var email = document.getElementById('remail');
-  if (validatemail(email.value)) {
-  } else {
-    document.getElementById('player1').style.backgroundColor = 'red';
-    document.getElementById('tremail').style.backgroundColor = 'red';
+  if (!check_email('remail', 'player1', 'tremail')) {
     alertmsg += 'e-mail addresses is strange in player1!\n';
     ++nmismatch;
   }
-
-  email = document.getElementById('remail2');
-  if (validatemail(email.value)) {
-  } else {
-    document.getElementById('player2').style.backgroundColor = 'red';
-    document.getElementById('tremail2').style.backgroundColor = 'red';
+  if (!check_email('remail2', 'player2', 'tremail2')) {
     alertmsg += 'e-mail addresses is strange in player2!\n';
     ++nmismatch;
   }

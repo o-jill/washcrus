@@ -159,7 +159,7 @@ function initKomaEx() {
  gotegoma[6][1].koma = new Hisha(Koma.GOTEBAN, -1, -1);
 
  var akigoma = new Koma();
- for (var i = 0; i < 9; ++i) {
+ for (i = 0; i < 9; ++i) {
   for (var j = 0; j < 9; ++j) {
    ban[i][j].x = i;
    ban[i][j].y = j;
@@ -306,16 +306,16 @@ Kifu.prototype.toStringPadding = function(number, length, ch) {
  */
 Kifu.prototype.genKifu = function(koma, from_x, from_y, to_x, to_y, nari) {
  this.NTeme++;
- if (this.mode == Kifu.CSA) {
+ if (this.mode === Kifu.CSA) {
   this.lastTe.str = koma.kifuCSA(from_x, from_y, to_x, to_y);
- } else if (this.mode == Kifu.KIF) {
+ } else if (this.mode === Kifu.KIF) {
   this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
   this.lastTe.str += ' ';
   this.lastTe.strs = koma.kifuKIF(from_x, from_y, to_x, to_y,
                               this.lastTe.x, this.lastTe.y, nari);
   this.lastTe.str += this.lastTe.strs;
   this.lastTe.str += '   ( 0:00/00:00:00)';
- } else if (this.mode == Kifu.Org) {
+ } else if (this.mode === Kifu.Org) {
   this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
   this.lastTe.str += ' ';
   this.lastTe.strs = koma.kifuKIFU(from_x, from_y, to_x, to_y,
@@ -377,11 +377,11 @@ Kifu.prototype.setPlayers = function(sentename, gotename) {
 Kifu.prototype.putHeader = function(sentename, gotename) {
  sentename = sentename || this.sentename;
  gotename = gotename || this.gotename;
- if (this.mode == Kifu.CSA) {
+ if (this.mode === Kifu.CSA) {
   this.kifuText = this.headerCSA(sentename, gotename);
- } else if (this.mode == Kifu.KIF) {
+ } else if (this.mode === Kifu.KIF) {
   this.kifuText = this.headerKIF(sentename, gotename);
- } else if (this.mode == Kifu.Org) {
+ } else if (this.mode === Kifu.Org) {
   this.kifuText = this.headerOrg(sentename, gotename);
  } else {
   console.log('invalid mode@Kifu class!!(' + this.mode + ')');
@@ -404,7 +404,7 @@ Kifu.prototype.headerCSA = function(sentename, gotename) {
  var str = "'encoding=Shift_JIS\n" +
            "' ---- JavaScript Shogi CSA形式棋譜ファイル ----\n" +
            'V2.2\n' +
-           'N+' + sentename + '\n' + 'N-' + gotename + '\n' +
+           'N+' + sentename + '\nN-' + gotename + '\n' +
            //$EVENT:レーティング対局室
            '$START_TIME:' + time + '\n' + //2014/04/01 12:25:21
            'PI\n+\n';
@@ -463,11 +463,11 @@ Kifu.prototype.headerOrg = function(sentename, gotename) {
  * @param {Object} winte 勝った方の手番
  */
 Kifu.prototype.putFooter = function(winte) {
- if (this.mode == Kifu.CSA) {
+ if (this.mode === Kifu.CSA) {
   this.kifuText += this.footerCSA();
- } else if (this.mode == Kifu.KIF) {
+ } else if (this.mode === Kifu.KIF) {
   this.kifuText += this.footerKIF(winte);
- } else if (this.mode == Kifu.Org) {
+ } else if (this.mode === Kifu.Org) {
   this.kifuText += this.footerOrg(winte);
  } else {
   console.log('invalid mode@Kifu class!!(' + this.mode + ')');
@@ -492,7 +492,7 @@ Kifu.prototype.footerCSA = function() {
  */
 Kifu.prototype.footerKIF = function(winte) {
  var str = 'まで' + this.NTeme + 'で';
- if (winte == Koma.SENTEBAN) {
+ if (winte === Koma.SENTEBAN) {
   str += '先手の勝ち';
  } else {
   str += '後手の勝ち';
@@ -509,7 +509,7 @@ Kifu.prototype.footerKIF = function(winte) {
  */
 Kifu.prototype.footerOrg = function(winte) {
  var str = 'まで' + this.NTeme + '手で';
- if (winte == Koma.SENTEBAN) {
+ if (winte === Koma.SENTEBAN) {
   str += '先手の勝ち';
  } else {
   str += '後手の勝ち';
@@ -549,7 +549,7 @@ Kifu.prototype.readLineCSA = function(text) {
   // + 7 7 7 6 F U
   var teban, fronx, fromy, tox, toy, nari, tottaid;
   teban = Koma.SENTEBAN;
-  if (letters[0] == '-') {
+  if (letters[0] === '-') {
   teban = Koma.GOTEBAN;
   }
   // 一手分の棋譜 [手番, fromx, fromy, tox, toy, nari, totta_id];
@@ -598,10 +598,10 @@ Kifu.prototype.readLineCSA = function(text) {
   // コメント行
  } else if (text.startsWith('P')) {
   // 初期の駒配置
- } else if (text == '+') {
+ } else if (text === '+') {
   // 先手番か
   activeteban = Koma.SENTEBAN;
- } else if (text == '-') {
+ } else if (text === '-') {
   // 後手番か
   activeteban = Koma.GOTEBAN;
  } else {
@@ -646,12 +646,12 @@ Kifu.prototype.receive = function(path, type) {
   ajax.onload = function(e) {
    utf8text = ajax.responseText;
    var kifulines = utf8text.split(/\r\n|\r|\n/);
-   if (type == Kifu.CSA) {
+   if (type === Kifu.CSA) {
     // CSA形式
     this.readCSA(kifulines);
-   } else if (type == Kifu.KIF) {
+   } else if (type === Kifu.KIF) {
     // KIF形式
-   } else if (type == Kifu.Org) {
+   } else if (type === Kifu.Org) {
     // 独自形式
    } else {
     // ナニコレ？
@@ -676,14 +676,14 @@ Kifu.prototype.evalKomazon = function(ban, sentegoma, gotegoma) {
  for (var i = 0; i < 9; ++i) {
   for (var j = 0; j < 9; ++j) {
    var koma = ban[i][j].koma;
-   if (koma.teban == Koma.SENTEBAN) {
-    if (koma.nari != Koma.NARI) {
+   if (koma.teban === Koma.SENTEBAN) {
+    if (koma.nari !== Koma.NARI) {
      komazon[koma.id]++;
     } else {
      komazon[koma.id + 8]++;
     }
-   } else if (koma.teban == Koma.GOTEBAN) {
-    if (koma.nari != Koma.NARI) {
+   } else if (koma.teban === Koma.GOTEBAN) {
+    if (koma.nari !== Koma.NARI) {
      komazon[koma.id]--;
     } else {
      komazon[koma.id + 8]--;
@@ -959,7 +959,7 @@ Koma.prototype.clone = function(obj)  {
  */
 Koma.prototype.getStr = function() {
  var str;
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
   str = Koma.SenteStr;
  } else if (this.teban == Koma.GOTEBAN) {
   str = Koma.GoteStr;
@@ -967,8 +967,8 @@ Koma.prototype.getStr = function() {
   str = Koma.AkiStr;
   return str;
  }
- if (this.nari == Koma.NARI) {
   str += this.strntypeKIFU;
+  if (this.nari === Koma.NARI) {
  } else {
   str += this.strtypeKIFU;
  }
@@ -981,13 +981,13 @@ Koma.prototype.getStr = function() {
  */
 Koma.prototype.getHtmlStr = function(hanten) {
  var str;
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
    if (hanten) {
     str = '<div class=gotemoji>';
    } else {
     str = '<div class=sentemoji>';
    }
- } else if (this.teban == Koma.GOTEBAN) {
+ } else if (this.teban === Koma.GOTEBAN) {
    if (hanten) {
     str = '<div class=sentemoji>';
    } else {
@@ -997,7 +997,7 @@ Koma.prototype.getHtmlStr = function(hanten) {
   str = Koma.AkiStr;
   return str;
  }
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   str += this.strntypeKIFU;
  } else {
   str += this.strtypeKIFU;
@@ -1012,13 +1012,13 @@ Koma.prototype.getHtmlStr = function(hanten) {
  */
 Koma.prototype.getImgStr = function(hanten) {
  var str;
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
    if (hanten) {
     str = 'h';
    } else {
     str = '';
    }
- } else if (this.teban == Koma.GOTEBAN) {
+ } else if (this.teban === Koma.GOTEBAN) {
    if (hanten) {
     str = '';
    } else {
@@ -1027,7 +1027,7 @@ Koma.prototype.getImgStr = function(hanten) {
  } else {
   return '';
  }
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   str += this.strntypeIMG;
  } else {
   str += this.strtypeIMG;
@@ -1041,15 +1041,15 @@ Koma.prototype.getImgStr = function(hanten) {
  */
 Koma.prototype.getShortStrCSA = function() {
  var str;
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
   str = Koma.SenteStrCSA;
- } else if (this.teban == Koma.GOTEBAN) {
+ } else if (this.teban === Koma.GOTEBAN) {
   str = Koma.GoteStrCSA;
  } else {
   str = Koma.AkiStrCSA;
   return str;
  }
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   str += this.strntypeCSA;
  } else {
   str += this.strtypeCSA;
@@ -1063,15 +1063,15 @@ Koma.prototype.getShortStrCSA = function() {
  */
 Koma.prototype.getShortStrKIF = function() {
  var str;
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
   str = Koma.SenteStrKIF;
- } else if (this.teban == Koma.GOTEBAN) {
+ } else if (this.teban === Koma.GOTEBAN) {
   str = Koma.GoteStrKIF;
  } else {
   str = Koma.AkiStrKIF;
   return str;
  }
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   str += this.strntypeKIF;
  } else {
   str += this.strtypeKIF;
@@ -1085,7 +1085,7 @@ Koma.prototype.getShortStrKIF = function() {
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getTypeStr = function() {
- if (this.nari == Koma.NARI)
+ if (this.nari === Koma.NARI)
   return this.strntype;
  else
   return this.strtype;
@@ -1110,21 +1110,21 @@ Koma.prototype.checkMovable = function(oy) {
  if (this.id >= Koma.GinID) {
   return true;
  }
- if (this.id == Koma.FuID || this.id == Koma.KyoshaID) {
-  if (this.teban == Koma.SENTEBAN) {
+ if (this.id === Koma.FuID || this.id === Koma.KyoshaID) {
+  if (this.teban === Koma.SENTEBAN) {
    if (oy === 0) {
     return false;
    }
    return true;
   } else {
-   if (oy == 8) {
+   if (oy === 8) {
     return false;
    }
    return true;
   }
  }
- if (this.id == Koma.KeimaID) {
-  if (this.teban == Koma.SENTEBAN) {
+ if (this.id === Koma.KeimaID) {
+  if (this.teban === Koma.SENTEBAN) {
    if (oy <= 1) {
     return false;
    }
@@ -1159,7 +1159,7 @@ Koma.prototype.getKiki = function(ox, oy) {
   if (straight) {
    var x = ox;
    var y = oy;
-   if (this.teban == Koma.SENTEBAN) {
+   if (this.teban === Koma.SENTEBAN) {
     ay = -ay;
    } else {
    }
@@ -1181,7 +1181,7 @@ Koma.prototype.getKiki = function(ox, oy) {
     if (masu.koma.teban == this.teban) {
      break;
     }
-    if (masu.koma.teban != Koma.AKI) {
+    if (masu.koma.teban !== Koma.AKI) {
      break;
     }
    }
@@ -1191,7 +1191,7 @@ Koma.prototype.getKiki = function(ox, oy) {
     continue;
    }
 
-   if (this.teban == Koma.SENTEBAN) {
+   if (this.teban === Koma.SENTEBAN) {
     y = oy - ay;
    } else {
     y = oy + ay;
@@ -1231,7 +1231,7 @@ Koma.prototype.getKiki2 = function(ox, oy) {
   if (straight) {
    var x = ox;
    var y = oy;
-   if (this.teban == Koma.SENTEBAN) {
+   if (this.teban === Koma.SENTEBAN) {
     ay = -ay;
    } else {
    }
@@ -1257,7 +1257,7 @@ Koma.prototype.getKiki2 = function(ox, oy) {
     continue;
    }
 
-   if (this.teban == Koma.SENTEBAN) {
+   if (this.teban === Koma.SENTEBAN) {
     y = oy - ay;
    } else {
     y = oy + ay;
@@ -1294,7 +1294,7 @@ Koma.prototype.getMovable = function(ox, oy) {
   if (straight) {
    var x = ox;
    var y = oy;
-   if (this.teban == Koma.SENTEBAN) {
+   if (this.teban === Koma.SENTEBAN) {
     ay = -ay;
    } else {
    }
@@ -1312,7 +1312,7 @@ Koma.prototype.getMovable = function(ox, oy) {
      break;
     }
     list.push([x, y]);
-    if (masu.koma.teban != Koma.AKI) {
+    if (masu.koma.teban !== Koma.AKI) {
      break;
     }
    }
@@ -1322,7 +1322,7 @@ Koma.prototype.getMovable = function(ox, oy) {
     continue;
    }
 
-   if (this.teban == Koma.SENTEBAN) {
+   if (this.teban === Koma.SENTEBAN) {
     y = oy - ay;
    } else {
     y = oy + ay;
@@ -1353,10 +1353,10 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
   return [];
  }
  var gx, gy;
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
   gx = sentegyoku.x;
   gy = sentegyoku.y;
- } else if (this.teban == Koma.GOTEBAN) {
+ } else if (this.teban === Koma.GOTEBAN) {
   gx = gotegyoku.x;
   gy = gotegyoku.y;
  } else {
@@ -1455,23 +1455,23 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
 Koma.prototype.getUchable = function() {
  var starty = 0;
  var endy = 9;
- if (this.teban == Koma.SENTEBAN) {
-  if (this.id == Koma.FuID || this.id == Koma.KyoshaID) {
+ if (this.teban === Koma.SENTEBAN) {
+  if (this.id === Koma.FuID || this.id === Koma.KyoshaID) {
    starty = 1;
-  } else if (this.id == Koma.KeimaID) {
+  } else if (this.id === Koma.KeimaID) {
    starty = 2;
   }
  } else {
-  if (this.id == Koma.FuID || this.id == Koma.KyoshaID) {
+  if (this.id === Koma.FuID || this.id === Koma.KyoshaID) {
    endy = 8;
-  } else if (this.id == Koma.KeimaID) {
+  } else if (this.id === Koma.KeimaID) {
    endy = 7;
   }
  }
  var list = [];
  for (var i = 0; i < 9; ++i) {
   for (var j = starty; j < endy; ++j) {
-   if (ban[i][j].koma.teban == Koma.AKI) {
+   if (ban[i][j].koma.teban === Koma.AKI) {
     list.push([i, j]);
    }
   }
@@ -1497,16 +1497,16 @@ Koma.prototype.kifuCSA = function(fromx, fromy, tox, toy) {
  toy++;
 
  var str;
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
   str = Koma.SenteStrCSA;
- } else if (this.teban == Koma.GOTEBAN) {
+ } else if (this.teban === Koma.GOTEBAN) {
   str = Koma.GoteStrCSA;
  }
  str += fromx;
  str += fromy;
  str += tox;
  str += toy;
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   str += this.strntypeCSA;
  } else {
   str += this.strtypeCSA;
@@ -1543,8 +1543,8 @@ Koma.prototype.kifuKIF = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
   str += Koma.ZenkakuNum[tox];
   str += Koma.KanjiNum[toy];
  }
- if (this.nari == Koma.NARI) {
-  if (nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
+  if (nari === Koma.NARI) {
    str += this.strtypeKIF;
    str += Koma.NariStrKIF;
   } else {
@@ -1552,11 +1552,11 @@ Koma.prototype.kifuKIF = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
   }
  } else {
   str += this.strtypeKIF;
-  if (fromx == 0) {
+  if (fromx === 0) {
    str += Koma.UchiStrKIF;
   }
  }
- if (fromx != 0) {
+ if (fromx !== 0) {
   str += '(' + fromx + '' + fromy + ')';
  }
  return str;
@@ -1580,9 +1580,9 @@ Koma.prototype.kifuKIFU = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
  fromy++;
 
  var str;
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
   str = Koma.SenteStrOrg;
- } else if (this.teban == Koma.GOTEBAN) {
+ } else if (this.teban === Koma.GOTEBAN) {
   str = Koma.GoteStrOrg;
  }
  if (tox == lastx && toy == lasty) {
@@ -1591,23 +1591,23 @@ Koma.prototype.kifuKIFU = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
   str += Koma.ZenkakuNum[tox];
   str += Koma.KanjiNum[toy];
  }
- if (this.nari == Koma.NARI) {
-  if (nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
+  if (nari === Koma.NARI) {
    str += this.strtypeKIF;
    str += Koma.NariStrKIF;
   } else {
    str += this.strntypeKIF;
   }
- } else if (nari == Koma.NARERU) {
+ } else if (nari === Koma.NARERU) {
   str += this.strtypeKIF;
   str += Koma.FunariStr;
  } else {
   str += this.strtypeKIF;
-  if (fromx == 0) {
+  if (fromx === 0) {
    str += Koma.UchiStrKIF;
   }
  }
- if (fromx != 0) {
+ if (fromx !== 0) {
   str += ' (' + fromx + '' + fromy + ')';
  }
  return str;
@@ -1626,14 +1626,14 @@ Koma.prototype.kifuShortCSA = function(x, y) {
  y++;
 
  var str;
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
   str = Koma.SenteStrCSA;
- } else if (this.teban == Koma.GOTEBAN) {
+ } else if (this.teban === Koma.GOTEBAN) {
   str = Koma.GoteStrCSA;
  }
  str += x;
  str += y;
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   str += this.strntypeCSA;
  } else {
   str += this.strtypeCSA;
@@ -1653,10 +1653,10 @@ Koma.prototype.kifuShortCSA = function(x, y) {
  *                  Koma.NATTA   成った後
  */
 Koma.prototype.checkNari = function(fromy, toy) {
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   return Koma.NATTA;
  }
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
   // 動けるかのチェック
   var ugokeru = this.checkMovable(toy);
   if (ugokeru) {
@@ -1674,7 +1674,7 @@ Koma.prototype.checkNari = function(fromy, toy) {
   }
   //return this.nareru;
  }
- if (this.teban == Koma.GOTEBAN) {
+ if (this.teban === Koma.GOTEBAN) {
   // 動けるかのチェック
   var ugokeru = this.checkMovable(toy);
   if (ugokeru) {
@@ -1745,7 +1745,7 @@ function Fu(teban, x, y) {
  * @return {Array} 動ける方向のリスト
  */
 Fu.prototype.movable = function() {
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   return Koma.KinMovable;
  } else {
   return Koma.FuMovable;
@@ -1761,7 +1761,7 @@ Fu.prototype.movable = function() {
 Fu.prototype.getUchable = function() {
  var starty = 0;
  var endy = 9;
- if (this.teban == Koma.SENTEBAN) {
+ if (this.teban === Koma.SENTEBAN) {
   starty = 1;
  } else {
   endy = 8;
@@ -1772,7 +1772,7 @@ Fu.prototype.getUchable = function() {
    continue;
   }
   for (var j = starty; j < endy; ++j) {
-   if (ban[i][j].koma.teban == Koma.AKI) {
+   if (ban[i][j].koma.teban === Koma.AKI) {
     list.push([i, j]);
    }
   }
@@ -1791,8 +1791,8 @@ Fu.prototype.getUchable = function() {
  */
 Fu.prototype.check2FU = function(x, starty, endy) {
   for (var j = starty; j < endy; ++j) {
-   if (ban[x][j].koma.id == Koma.FuID &&
-       ban[x][j].koma.nari == Koma.NARAZU &&
+   if (ban[x][j].koma.id === Koma.FuID &&
+       ban[x][j].koma.nari === Koma.NARAZU &&
        ban[x][j].koma.teban == this.teban) {
     return true;
    }
@@ -1835,7 +1835,7 @@ function Kyosha(teban, x, y) {
  * @return {Array} 動ける方向のリスト
  */
 Kyosha.prototype.movable = function() {
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   return Koma.KinMovable;
  } else {
   return Koma.KyoshaMovable;
@@ -1876,7 +1876,7 @@ function Keima(teban, x, y) {
  * @return {Array} 動ける方向のリスト
  */
 Keima.prototype.movable = function() {
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   return Koma.KinMovable;
  } else {
   return Koma.KeimaMovable;
@@ -1917,7 +1917,7 @@ function Gin(teban, x, y) {
  * @return {Array} 動ける方向のリスト
  */
 Gin.prototype.movable = function() {
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   return Koma.KinMovable;
  } else {
   return Koma.GinMovable;
@@ -2019,7 +2019,7 @@ function Kaku(teban, x, y) {
  * @return {Array} 動ける方向のリスト
  */
 Kaku.prototype.movable = function() {
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   return Koma.UmaMovable;
  } else {
   return Koma.KakuMovable;
@@ -2060,7 +2060,7 @@ function Hisha(teban, x, y) {
  * @return {Array} 動ける方向のリスト
  */
 Hisha.prototype.movable = function() {
- if (this.nari == Koma.NARI) {
+ if (this.nari === Koma.NARI) {
   return Koma.RyuMovable;
  } else {
   return Koma.HishaMovable;
@@ -2082,7 +2082,7 @@ Gyoku.prototype = new Kin();
 function Gyoku(teban, x, y) {
  Koma.call(this, teban, x, y);
 
- if (teban == Koma.SENTEBAN)
+ if (teban === Koma.SENTEBAN)
   this.strtype = Koma.GyokuStrLong;
  else
   this.strtype = Koma.OuStrLong;
@@ -2134,8 +2134,8 @@ function move(koma, to_x, to_y, nari) {
  var from_x = koma.x;
  var from_y = koma.y;
 
- if (nari == Koma.NARI) {
-  if (koma.nari == Koma.NARI) {
+ if (nari === Koma.NARI) {
+  if (koma.nari === Koma.NARI) {
    koma.nari = Koma.NARAZU;
   } else {
    koma.nari = Koma.NARI;
@@ -2156,7 +2156,7 @@ function move(koma, to_x, to_y, nari) {
  ban[to_x][to_y].koma = koma;
  ban[from_x][from_y].koma = temp;
 
- if (activeteban == Koma.SENTEBAN) {
+ if (activeteban === Koma.SENTEBAN) {
   activeteban = Koma.GOTEBAN;
  } else {
   activeteban = Koma.SENTEBAN;
@@ -2172,19 +2172,19 @@ function move(koma, to_x, to_y, nari) {
  movecsa += from_y + 1;
  movecsa += to_x + 1;
  movecsa += to_y + 1;
- if (nari == Koma.NARI || koma.nari != Koma.NARI) {
+ if (nari === Koma.NARI || koma.nari !== Koma.NARI) {
   movecsa += koma.strtypeCSA;
  } else {
   movecsa += koma.strntypeCSA;
  }
- if (tottaid == Koma.NoID) {
+ if (tottaid === Koma.NoID) {
   movecsa += '__';
  } else if (tottaid >= 1000) {
   movecsa += tottakoma.strntypeCSA;
  } else {
   movecsa += tottakoma.strtypeCSA;
  }
- if (nari == Koma.NARI) {
+ if (nari === Koma.NARI) {
   movecsa += 'P';
  }
 }
@@ -2197,16 +2197,16 @@ function move(koma, to_x, to_y, nari) {
  */
 function toru(x, y) {
  var koma = ban[x][y].koma;
- if (koma.nari == Koma.NARI) {
+ if (koma.nari === Koma.NARI) {
   //成り駒を取った時は+1000してIDを覚えておく
   mykifu.totta_id = 1000;
  } else {
   mykifu.totta_id = 0;
  }
- if (koma.teban == Koma.SENTEBAN) {
+ if (koma.teban === Koma.SENTEBAN) {
   koma.reset(Koma.GOTEBAN);
   komadai_add(gotegoma, koma);
- } else if (koma.teban == Koma.GOTEBAN) {
+ } else if (koma.teban === Koma.GOTEBAN) {
   koma.reset(Koma.SENTEBAN);
   komadai_add(sentegoma, koma);
  } else {
@@ -2267,14 +2267,14 @@ function uchi(tegoma, koma, to_x, to_y) {
  k.x = to_x;
  k.y = to_y;
 
- if (activeteban == Koma.SENTEBAN) {
+ if (activeteban === Koma.SENTEBAN) {
   activeteban = Koma.GOTEBAN;
  } else {
   activeteban = Koma.SENTEBAN;
  }
 
  movecsa = '';
- if (k.teban == Koma.SENTEBAN) {
+ if (k.teban === Koma.SENTEBAN) {
   movecsa += Koma.SenteStrCSA;
  } else {
   movecsa += Koma.GoteStrCSA;
@@ -2302,14 +2302,14 @@ function uchi2(tegoma, koma_id, to_x, to_y) {
  k.x = to_x;
  k.y = to_y;
 
- if (activeteban == Koma.SENTEBAN) {
+ if (activeteban === Koma.SENTEBAN) {
   activeteban = Koma.GOTEBAN;
  } else {
   activeteban = Koma.SENTEBAN;
  }
 
  movecsa = '';
- if (masu.koma.teban == Koma.SENTEBAN) {
+ if (masu.koma.teban === Koma.SENTEBAN) {
   movecsa += Koma.SenteStrCSA;
  } else {
   movecsa += Koma.GoteStrCSA;
@@ -2334,8 +2334,8 @@ function move2(koma, to_x, to_y, nari) {
  var from_x = koma.x;
  var from_y = koma.y;
 
- if (nari == Koma.NARI) {
-  if (koma.nari == Koma.NARI) {
+ if (nari === Koma.NARI) {
+  if (koma.nari === Koma.NARI) {
    koma.nari = Koma.NARAZU;
   } else {
    koma.nari = Koma.NARI;
@@ -2354,14 +2354,14 @@ function move2(koma, to_x, to_y, nari) {
  ban[to_x][to_y].koma = koma;
  ban[from_x][from_y].koma = temp;
 
- if (activeteban == Koma.SENTEBAN) {
+ if (activeteban === Koma.SENTEBAN) {
   activeteban = Koma.GOTEBAN;
  } else {
   activeteban = Koma.SENTEBAN;
  }
 
  movecsa = '';
- if (koma.teban == Koma.SENTEBAN) {
+ if (koma.teban === Koma.SENTEBAN) {
   movecsa += Koma.SenteStrCSA;
  } else {
   movecsa += Koma.GoteStrCSA;
@@ -2370,19 +2370,19 @@ function move2(koma, to_x, to_y, nari) {
  movecsa += from_y + 1;
  movecsa += to_x + 1;
  movecsa += to_y + 1;
- if (koma.nari == Koma.NARI) {
+ if (koma.nari === Koma.NARI) {
   movecsa += koma.strntypeCSA;
  } else {
   movecsa += koma.strtypeCSA;
  }
- if (mykifu.totta_id == Koma.NoID) {
+ if (mykifu.totta_id === Koma.NoID) {
   movecsa += '__';
  } else if (mykifu.totta_id >= 1000) {
   movecsa += tottakoma.strntypeCSA;
  } else {
   movecsa += tottakoma.strtypeCSA;
  }
- if (nari == Koma.NARI) {
+ if (nari === Koma.NARI) {
   movecsa += 'P';
  }
 }
@@ -2403,7 +2403,7 @@ function torimodosu(tegoma, koma_id, to_x, to_y) {
   nari = true;
  }
  var k = komadai_del(tegoma, koma_id);
- if (k.teban == Koma.SENTEBAN) {
+ if (k.teban === Koma.SENTEBAN) {
   k.teban = Koma.GOTEBAN;
  } else {
   k.teban = Koma.SENTEBAN;
@@ -2428,7 +2428,7 @@ function checkOHTe(gyoku) {
  for (var i = 0; i < 9; ++i) {
   for (var j = 0; j < 9; ++j) {
    var koma = ban[i][j].koma;
-   if (koma.teban == Koma.AKI) {
+   if (koma.teban === Koma.AKI) {
     continue;
    }
    if (koma.teban == gyoku.teban) {
@@ -2465,21 +2465,21 @@ function KyokumenCSA() {
   kyokumen += '\n';
  }
  for (var idx in sentegoma) {
-  if (sentegoma[idx][0].length == 0) {
+  if (sentegoma[idx][0].length === 0) {
   } else {
    var koma = sentegoma[idx][1].koma;
    kyokumen += 'P' + koma.kifuShortCSA(-1, -1) + '\n';
   }
  }
  for (var idx in gotegoma) {
-  if (gotegoma[idx][0].length == 0) {
+  if (gotegoma[idx][0].length === 0) {
   } else {
    var koma = gotegoma[idx][1].koma;
    kyokumen += 'P' + koma.kifuShortCSA(-1, -1) + '\n';
   }
  }
  //kyokumen += '\nP-00AL\n';  // 残りは全部後手の駒台の上
- if (activeteban == Koma.SENTEBAN) {
+ if (activeteban === Koma.SENTEBAN) {
   kyokumen += '+';
  } else {
   kyokumen += '-';
@@ -2496,7 +2496,7 @@ function KyokumenKIF() {
  var kyokumen = '後手の持駒：';
  var komadai = '';
  for (var idx in gotegoma) {
-  if (gotegoma[idx][0].length == 0) {
+  if (gotegoma[idx][0].length === 0) {
   } else {
    komadai += gotegoma[idx][1].koma.strtypeKIF +
     Koma.KanjiNum[gotegoma[idx][0].length - 1] + '　';
@@ -2519,13 +2519,13 @@ function KyokumenKIF() {
 
  komadai = '';
  for (var idx in sentegoma) {
-  if (sentegoma[idx][0].length == 0) {
+  if (sentegoma[idx][0].length === 0) {
   } else {
    komadai += sentegoma[idx][1].koma.strtypeKIF +
     Koma.KanjiNum[sentegoma[idx][0].length - 1] + '　';
   }
  }
- if (komadai == '') {
+ if (komadai === '') {
   komadai = 'なし';
  }
  kyokumen += komadai;
@@ -2569,9 +2569,9 @@ Kifu.prototype.seek_te = function(idx) {
    var te = this.Honp[this.NTeme];
    // [teban, fromx, fromy, tox, toy, nari, totta_id];
 
-   if (te[1] == -1) {
+   if (te[1] === -1) {
     // 駒を打つ
-     if (te[0] == Koma.SENTEBAN) {
+     if (te[0] === Koma.SENTEBAN) {
       tegoma = sentegoma;
       uchi2(tegoma, te[6], to_x, to_y);
      } else {
@@ -2595,7 +2595,7 @@ Kifu.prototype.seek_te = function(idx) {
    var te = this.Honp[this.NTeme];
    // [teban, fromx, fromy, tox, toy, nari, totta_id];
 
-   if (te[1] == -1) {
+   if (te[1] === -1) {
     // 駒台に戻す
     toru(te[3], te[4]);
     this.totta_id = Koma.NoID;
@@ -2605,7 +2605,7 @@ Kifu.prototype.seek_te = function(idx) {
 
     if (te[6] >= 0) {
      var tegoma;
-     if (te[0] == Koma.SENTEBAN) {
+     if (te[0] === Koma.SENTEBAN) {
       tegoma = sentegoma;
      } else {
       tegoma = gotegoma;

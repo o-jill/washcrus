@@ -8,7 +8,7 @@ var btn = document.getElementById('chatbtn');
 
 function onChatUpdate() {
   var ajax = new XMLHttpRequest();
-  if (ajax != null) {
+  if (ajax !== null) {
     ajax.open('POST', 'chat.rb?'+id, true);
     ajax.overrideMimeType('text/plain; charset=UTF-8');
     ajax.send('');
@@ -17,10 +17,10 @@ function onChatUpdate() {
       switch (ajax.readyState) {
       case 4:
         var status = ajax.status;
-    	if (status == 0) {  // XHR 通信失敗
+    	if (status === 0) {  // XHR 通信失敗
     	  elem_log.innerHTML = "XHR 通信失敗";
     	} else {  // XHR 通信成功
-    	  if ((200 <= status && status < 300) || status == 304) {
+          if ((200 <= status && status < 300) || status === 304) {
             // リクエスト成功
             elem_log.innerHTML = ajax.responseText
     	  } else {  // リクエスト失敗
@@ -49,7 +49,7 @@ function buildMsg()
 
 function onChatSay() {
   var ajax = new XMLHttpRequest();
-  if (ajax != null) {
+  if (ajax !== null) {
     ajax.open('POST', 'chat.rb?'+id, true);
     ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     ajax.send(buildMsg());
@@ -60,10 +60,10 @@ function onChatSay() {
       switch (ajax.readyState) {
       case 4:
         var status = ajax.status;
-    	if (status == 0) {  // XHR 通信失敗
+    	if (status === 0) {  // XHR 通信失敗
     	  elem_log.innerHTML = "XHR 通信失敗";
     	} else {  // XHR 通信成功
-    	  if ((200 <= status && status < 300) || status == 304) {
+          if ((200 <= status && status < 300) || status === 304) {
             // リクエスト成功
             elem_log.innerHTML = ajax.responseText
             elem_msg.value = '';
