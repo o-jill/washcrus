@@ -2,6 +2,9 @@
 
 # Admin登録ファイル管理クラス
 class AdminConfigFile
+  # 初期化
+  #
+  # @param fpath ファイルパス'./db/adminconfig.txt'
   def initialize(fpath = './db/adminconfig.txt')
     @path = fpath
     @idlist = []
@@ -9,10 +12,17 @@ class AdminConfigFile
 
   attr_reader :path, :idlist
 
+  # IDが含まれるか確認
+  #
+  # @param id ユーザーID
+  # @return IDが含まれるときtrue
   def exist?(id)
     @idlist.include?(id)
   end
 
+  # ファイルの読み込み
+  #
+  # @param path ファイルパス
   def read(fpath = @path)
     File.open(fpath, 'r:utf-8') do |file|
       file.flock File::LOCK_EX
@@ -28,6 +38,9 @@ class AdminConfigFile
     puts "class=[#{e.class}] message=[#{e.message}] in read"
   end
 
+  # ファイルの書き込み
+  #
+  # @param path ファイルパス
   def write(fpath = @path)
     File.open(fpath, 'w') do |file|
       file.flock File::LOCK_EX
@@ -42,6 +55,10 @@ class AdminConfigFile
     puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
+  # ファイルの追加書き込み
+  #
+  # @param newid 追加するID
+  # @param path ファイルパス
   def add(newid, fpath = @path)
     @idlist << newid
 

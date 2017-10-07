@@ -13,6 +13,9 @@ require './file/jsonmove.rb'
 # refer:https://github.com/na2hiro/json-kifu-format
 #
 class JsonKifu
+  # 初期化
+  #
+  # @param tid 対局ID
   def initialize(tid)
     @header =
       {
@@ -31,33 +34,57 @@ class JsonKifu
   attr_reader :header, :moves, :initial
   attr_accessor :log
 
+  # 対局IDと記録IDのセット
+  #
+  # @param tid 対局ID
+  # @param rid 記録ID
   def setid(tid, rid = nil)
     @header['対局ID'] = tid
     @header['記録ID'] = rid unless rid.nil?
   end
 
+  # カスタムヘッダの追加
+  #
+  # @param key 項目名文字列
+  # @param val 設定値
   def setheader(key, val)
     @header[key] = val
   end
 
+  # 対局者の名前をセット
+  #
+  # @param b 先手
+  # @param w 後手
   def setplayers(b, w)
     @header['先手'] = b
     @header['後手'] = w
   end
 
+  # 開始日時と終了日時のセット
+  #
+  # @param start  開始日時
+  # @param finish 終了日時
   def setdate(start, finish = '')
     @header['開始日時'] = start
     @header['終了日時'] = finish
   end
 
+  # 終了日時のセット
+  #
+  # @param finish 終了日時
   def setfinishdate(finish)
     @header['終了日時'] = finish
   end
 
+  # 前回のまでの消費時間
+  #
+  # @return 前回のまでの消費時間。初手の時はnil。
   def last_time
     @moves[-2]['time'] if @moves[-2]
   end
 
+  # ゼロ消費時間を返す
+  # @return ゼロ消費時間を返す
   def zerotime
     {
       'now' => { 'm' => 0, 's' => 0 },
@@ -65,12 +92,21 @@ class JsonKifu
     }
   end
 
+  # 同xxかどうかの確認
+  #
+  # @param a 着手
+  # @return 同xxのときtrue
   def checkdou(a)
     lt = @moves[-1]['move']
     return false if lt.nil?
     lt['to'] == a['to']
   end
 
+  # 駒の移動の反映
+  #
+  # @param mv  指し手
+  # @param tm  消費時間
+  # @param cmt コメント
   def move(mv, tm = nil, cmt = nil)
     # @log.debug("if mv['special']")
     if mv[:special] || mv['special']
@@ -88,18 +124,29 @@ class JsonKifu
     @moves << data
   end
 
+  # 投了
   def resign
     move(JsonMove.fromtext('%TORYO'))
   end
 
+  # コメントの追加
+  #
+  # @par{ 'header' => header, 'initial' => initial, 'moves' => moves }am nth 何手目に追加するか
+  # @param cmt コメント文
   def addcomment(nth, cmt)
     @moves[nth]['comments'] << cmt
   end
 
+  # JSON用にハッシュオブジェクトを生成
+  #
+  # @return { 'header' => header, 'initial' => initial, 'moves' => moves }
   def genjson
     { 'header' => header, 'initial' => initial, 'moves' => moves }
   end
 
+  # ファイルの読み込み
+  #
+  # @param path ファイルパス
   def read(path)
     File.open(path, 'r:utf-8') do |file|
       data = JSON.parse(file.read)
@@ -111,12 +158,21 @@ class JsonKifu
     return nil
   end
 
+  # 初期値の書き出し
+  #
+  # @param pl1 先手
+  # @param pl2 後手
+  # @param cdt 開始日時
+  # @param path ファイルパス
   def initial_write(pl1, pl2, cdt, path)
     setplayers(pl1, pl2)
     setdate(cdt)
     write(path)
   end
 
+  # ファイルに書き出し
+  #
+  # @param path ファイルパス
   def write(path)
     File.open(path, 'w') do |file|
       file.puts JSON.pretty_generate(genjson)
