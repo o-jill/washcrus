@@ -237,15 +237,14 @@ class TaikyokuData
   # @param fn ファイル名
   # @return ヘッダ文字列
   def build_header2dl(fn)
-    str += "Content-type: application/octet-stream\n"
-    str += "Content-Disposition: attachment; filename='#{escape_fn(fn)}'; " \
-           "filename*=UTF-8''#{escape_fnu8(fn)}\n\n"
-    str
+    "Content-type: application/octet-stream\n" \
+    "Content-Disposition: attachment; filename='#{escape_fn(fn)}'; " \
+    "filename*=UTF-8''#{escape_fnu8(fn)}\n\n"
   end
 
   # CSA形式の棋譜のダウンロードページの出力
   def download_csa
-    filename = build_fn2dl('csa')
+    filename = @mi.build_fn2dl('csa')
 
     puts build_header2dl(filename)
     puts @jkf.to_csa
@@ -253,7 +252,7 @@ class TaikyokuData
 
   # KIF形式の棋譜のダウンロードページの出力
   def download_kif
-    filename = build_fn2dl('kif')
+    filename = @mi.build_fn2dl('kif')
 
     puts build_header2dl(filename)
     puts @jkf.to_kif.encode('Shift_JIS')
