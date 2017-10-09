@@ -12,6 +12,9 @@ require './game/taikyokudata.rb'
 # 対局作成確認
 #
 class CheckNewGame
+  # 初期化
+  #
+  # @param cgi CGIオブジェクト
   def initialize(cgi)
     @errmsg = ''
     @cgi = cgi
@@ -23,11 +26,16 @@ class CheckNewGame
     @email2 = nil
   end
 
+  # パラメータの確認
+  #
+  # @param params パラメータハッシュオブジェクト
+  # @return 値が入っていればtrue
   def check_params(params)
     params['rname'].nil? || params['remail'].nil? \
       || params['rname2'].nil? || params['remail2'].nil?
   end
 
+  # パラメータの読み込み
   def read_params
     return if @errmsg.length !~ 0
 
@@ -37,10 +45,16 @@ class CheckNewGame
     @email2 = @params['remail2'][0]
   end
 
+  # ユーザー名の確認。
+  #
+  # @param userdata メールアドレスに紐付けられたユーザ情報
+  # @param userdata ユーザ名
+  # @return ユーザ情報とユーザ名が同じ時false
   def check_ply(userdata, name)
     userdata.nil? || name != userdata[1]
   end
 
+  # 登録情報の確認
   def check
     return @errmsg += 'data lost ...' if check_params(@params)
 
@@ -58,6 +72,7 @@ class CheckNewGame
         if check_ply(userdata2, @name2)
   end
 
+  # データの確認と応答
   def perform
     check
 

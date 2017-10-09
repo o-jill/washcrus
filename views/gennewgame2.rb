@@ -17,6 +17,12 @@ require './views/common_ui.rb'
 # 対局作成確認
 #
 class GenNewGame2Screen
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  # @param title  ページタイトル
+  # @param name   ページヘッダタイトル
+  # @param stg    グローバル設定
   def initialize(header, title, name, stg)
     @header = header
     @title = title
