@@ -2021,5 +2021,3 @@ function onresign() {
  movecsa = '%TORYO';
  send_csamove();
 }
-
-/* dont forget to update version number! */

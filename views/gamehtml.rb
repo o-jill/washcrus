@@ -56,7 +56,7 @@ class GameHtml
     ret = <<-BOARD_TEXT.unindent
       #{shogibanelement}
       <script type='text/javascript' src='./js/shogi.v010.js'></script>
-      <script type='text/javascript' src='./js/ui.v010.js' async></script>
+      <script type='text/javascript' src='./js/ui.v011.js' async></script>
       BOARD_TEXT
 
     ret += ERB.new(File.read('./ui/gamehtml_123neye.erb')).result(binding)
