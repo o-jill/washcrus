@@ -3,7 +3,7 @@
  <input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'<%= ' checked' if @mi.idw == @userinfo.user_id %> >ひふみんアイ</input>
 </label>
 <span style='display:none;' id='sfen_'><%= @mi.sfen %></span>
-<input type='hidden' id='jsonmove' value=''/>
+<input type='hidden' id='jsonmove' value='<%= @mi.lastmove %>'/>
 <input type='hidden' id='isfinished' value='<%= @mi.finished %>'/><BR>
 <% if @mi.idb == @userinfo.user_id %>
 <input type='hidden' id='myteban' value='b'/>
