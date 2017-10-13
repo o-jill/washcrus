@@ -63,6 +63,11 @@ var hifumin_eye = false;
 var elem_id = document.getElementById('gameid');
 var id = elem_id.value;
 
+/** 最終手 筋 */
+var last_mx = -1;
+/** 最終手 段 */
+var last_my = -1;
+
 function update_banindex() {
   var column = document.getElementById('bancolumn');
   var text = '';
@@ -136,7 +141,16 @@ function Naraberu() {
      if (fn.length === 0) {
        el.innerHTML = '<BR>';
      } else {
-       el.innerHTML = '<img width="48" height="48" src="./image/'+ fn +'.png">'
+       var komaimg = '<img width="48px" height="48px" src="./image/'+ fn +'.png">';
+       if (i == last_mx && j == last_my) {
+         // 最後に指したところに印をつける
+         var text = '<div style="position:relative;">' + komaimg;
+         text += '<div style="position:absolute;left:0;top:0;">';
+         text += '<img src="./image/dot16.png"></div></div>';
+         el.innerHTML = text;
+       } else {
+         el.innerHTML = komaimg;
+       }
      }
     // el.innerHTML = koma.getHtmlStr(0);
    }
@@ -177,7 +191,16 @@ function Naraberu_rotate() {
     if (fn.length === 0) {
       el.innerHTML = '<BR>';
     } else {
-      el.innerHTML = '<img width="48" height="48" src="./image/'+ fn +'.png">'
+      var komaimg = '<img width="48px" height="48px" src="./image/'+ fn +'.png">';
+      if (8-i == last_mx && 8-j == last_my) {
+        // 最後に指したところに印をつける
+        var text = '<div style="position:relative;">' + komaimg;
+        text += '<div style="position:absolute;left:0;top:0;">';
+        text += '<img src="./image/dot16.png"></div></div>';
+        el.innerHTML = text;
+      } else {
+        el.innerHTML = komaimg;
+      }
     }
     // el.innerHTML = koma.getHtmlStr(1);
    }
@@ -1859,6 +1882,24 @@ function startUpdateTimer()
 }
 
 /**
+ * 最終着手マスの読み込み
+ */
+function read_lastmove()
+{
+  /* e.g. -9300FU */
+  var str = document.getElementById('lastmove').value;
+
+  var x = parseInt(str.charAt(3));  /* e.g. '9' -> 9 */
+  var y = parseInt(str.charAt(4));  /* e.g. '3' -> 3 */
+
+  if (x === NaN) x = 0;
+  if (y === NaN) y = 0;
+
+  last_mx = x-1;
+  last_my = y-1;
+}
+
+/**
  * sfenを読み込んで指せる状態にする。
  */
 function init_board() {
@@ -1867,6 +1908,8 @@ function init_board() {
 
  var sfentext = document.getElementById('sfen_').innerHTML;
  fromsfen(sfentext);
+
+ read_lastmove();
 
  activateteban();
 
@@ -1978,3 +2021,5 @@ function onresign() {
  movecsa = '%TORYO';
  send_csamove();
 }
+
+/* dont forget to update version number! */
