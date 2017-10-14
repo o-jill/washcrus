@@ -11,6 +11,12 @@ require './views/common_ui.rb'
 
 # 表示する
 class GameHtml
+  # 初期化
+  #
+  # @param gid Game ID
+  # @param mi  MatchInfoFile
+  # @param kif JsonKifu
+  # @param ui  UserInfo
   def initialize(gid, mi, kif, ui)
     @gameid = gid
     @mi = mi
@@ -21,6 +27,9 @@ class GameHtml
 
   attr_accessor :log
 
+  # 画面の表示
+  #
+  #@param header htmlヘッダ
   def put(header)
     @log.debug('print header')
     print header
@@ -46,11 +55,17 @@ class GameHtml
       HTMLELEMENTS
   end
 
+  # 将棋盤の部品
+  #
+  # @return 部品の文字列
   def shogibanelement
     @log.debug('shogibanelement')
     ERB.new(File.read('./ui/gamehtml_shogiban.erb')).result
   end
 
+  # 将棋盤まわりの部品
+  #
+  # @return 部品の文字列
   def banelement
     @log.debug('banelement')
     ret = <<-BOARD_TEXT.unindent
@@ -70,16 +85,25 @@ class GameHtml
     ret
   end
 
+  # 画面上部の部品
+  #
+  # @return 部品の文字列
   def headerelement
     @log.debug('headerelement')
     ERB.new(File.read('./ui/gamehtml_header.erb')).result(binding)
   end
 
+  # チャットまわりの部品
+  #
+  # @return 部品の文字列
   def chatelement
     @log.debug('chatelement')
     ERB.new(File.read('./ui/gamehtml_chat.erb')).result(binding)
   end
 
+  # 棋譜まわりの部品
+  #
+  # @return 部品の文字列
   def kifuelement
     @log.debug('kifuelement')
     "<button onclick='openurlin_blank(\"washcrus.rb?dlkifu/#{@gameid}\")'>" \
@@ -88,6 +112,9 @@ class GameHtml
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kif.gsub("\n", '<BR>')}</div>"
   end
 
+  # 隠し部品
+  #
+  # @return 部品の文字列
   def hiddenelement
     ERB.new(File.read('./ui/gamehtml_hiddenparts.erb')).result
   end
