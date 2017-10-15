@@ -44,8 +44,8 @@ class GameHtml
         <BR><BR>
        </div>
        <div class=block>
-        <div class='block_elem_ban' id='block_elem_ban'> #{banelement} </div>
-        <div class='block_elem_kifu'> #{kifuelement} </div>
+        <section class='block_elem_ban' id='block_elem_ban'> #{banelement} </section>
+        <section class='block_elem_kifu'> #{kifuelement} </section>
        </div>
        #{chatelement}
       </div>
@@ -108,7 +108,7 @@ class GameHtml
     @log.debug('kifuelement')
     "<button onclick='openurlin_blank(\"washcrus.rb?dlkifu/#{@gameid}\")'>" \
     'Download KIF</button><BR>' \
-    "<textarea id='kifulog' class='kifu' readonly>#{@jkf.to_kif}</textarea>"
+    "<textarea id='kifulog' class='kifu' cols=40 readonly>#{@jkf.to_kif}</textarea>"
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kif.gsub("\n", '<BR>')}</div>"
   end
 

@@ -92,7 +92,7 @@ module CommonUI
   # @param sup   サポートページのURL
   def self.HTMLmenuLogIn(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
-      <div align='center' class='menubase'>
+      <div class='menubase'>
       <a class='menu' href='#{index}'> Entrance </a>
       <a class='menu' href='#{index}?news'> News </a>
       <a class='menu' href='#{index}?mypage'> My Page </a>
@@ -112,7 +112,7 @@ module CommonUI
   # @param sup   サポートページのURL
   def self.HTMLmenuAdmin(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
-      <div align='center' class='menubase'>
+      <div class='menubase'>
       <a class='menu' href='#{index}'> Entrance </a>
       <a class='menu' href='#{index}?news'> News </a>
       <a class='menu' href='#{index}?mypage'> My Page </a>
@@ -130,7 +130,7 @@ module CommonUI
   def self.HTMLAdminMenu
     index = File.basename($PROGRAM_NAME)
     puts <<-ADMINMENU.unindent
-      <div align='center' class='menubase'>
+      <div class='menubase'>
       <a class='menu' href='#{index}?adminsettings'> Settings </a>
       <a class='menu' href='#{index}?adminnews'> News </a>
       <a class='menu' href='#{index}?userlist'> Users </a>
