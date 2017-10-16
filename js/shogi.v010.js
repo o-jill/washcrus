@@ -842,26 +842,26 @@ function Koma(teban, x, y) {
  //arguments.callee.NGyokuStrLong = '王';
 
  //-- pictures
- arguments.callee.FuStrIMG = 'koma_fu';
- arguments.callee.KyoshaStrIMG = 'koma_kyo';
- arguments.callee.KeimaStrIMG = 'koma_kei';
- arguments.callee.GinStrIMG = 'koma_gin';
- arguments.callee.KinStrIMG = 'koma_kin';
- arguments.callee.KakuStrIMG = 'koma_kaku';
- arguments.callee.HishaStrIMG = 'koma_hisha';
- arguments.callee.GyokuStrIMG = 'koma_ou';
- arguments.callee.NFuStrIMG = 'koma_to';
- arguments.callee.NKyoshaStrIMG = 'koma_nkyo';
- arguments.callee.NKeimaStrIMG = 'koma_nkei';
- arguments.callee.NGinStrIMG = 'koma_ngin';
- // arguments.callee.NKinStrIMG = 'koma_nkin';
- arguments.callee.NKakuStrIMG = 'koma_uma';
- arguments.callee.NHishaStrIMG = 'koma_ryu';
- // arguments.callee.NGyokuStrIMG = 'koma_nou';
- // arguments.callee.NariStrKIF = '成';
- // arguments.callee.UchiStrKIF = '打';
- // arguments.callee.DouStrKIF = '同　';
- // arguments.callee.FunariStr = '不成';
+ // this.FuStrIMG = 'koma_fu';
+ // this.KyoshaStrIMG = 'koma_kyo';
+ // this.KeimaStrIMG = 'koma_kei';
+ // this.GinStrIMG = 'koma_gin';
+ // this.KinStrIMG = 'koma_kin';
+ // this.KakuStrIMG = 'koma_kaku';
+ // this.HishaStrIMG = 'koma_hisha';
+ // this.GyokuStrIMG = 'koma_ou';
+ // this.NFuStrIMG = 'koma_to';
+ // this.NKyoshaStrIMG = 'koma_nkyo';
+ // this.NKeimaStrIMG = 'koma_nkei';
+ // this.NGinStrIMG = 'koma_ngin';
+ // // this.NKinStrIMG = 'koma_nkin';
+ // this.NKakuStrIMG = 'koma_uma';
+ // this.NHishaStrIMG = 'koma_ryu';
+ // // this.NGyokuStrIMG = 'koma_nou';
+ // // this.NariStrKIF = '成';
+ // // this.UchiStrKIF = '打';
+ // // this.DouStrKIF = '同　';
+ // // this.FunariStr = '不成';
 
  arguments.callee.KomaStrTbl = [
   '歩', '香', '桂', '銀', '金', '角', '飛', '玉',
@@ -888,25 +888,25 @@ function Koma(teban, x, y) {
  arguments.callee.KanjiNum =
   ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 
- // x,y,straight
- this.FuMovable = [[0, 1, false]];
- this.KyoshaMovable = [[0, 1, true]];
- this.KeimaMovable = [[1, 2, false], [-1, 2, false]];
- this.GinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                    [1, -1, false], [-1, -1, false]];
- this.KinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                    [1, 0, false], [-1, 0, false], [0, -1, false]];
- this.KakuMovable = [[1, 1, true], [-1, -1, true],
-                     [-1, 1, true],[1, -1, true]];
- this.HishaMovable = [[1, 0, true], [-1, 0, true],
-                      [0, 1, true], [0, -1, true]];
- this.UmaMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true], [1, -1, true],
-                  [0, 1, false], [1, 0, false], [-1, 0, false], [0, -1, false]];
- this.RyuMovable = [[1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, true],
-              [1, 1, false], [1, -1, false], [-1, 1, false], [-1, -1, false]];
- this.GyokuMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                      [1, 0, false], [-1, 0, false], [1, -1, false],
-                      [0, -1, false], [-1, -1, false]];
+ // // x,y,straight
+ // this.FuMovable = [[0, 1, false]];
+ // this.KyoshaMovable = [[0, 1, true]];
+ // this.KeimaMovable = [[1, 2, false], [-1, 2, false]];
+ // this.GinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
+ //                    [1, -1, false], [-1, -1, false]];
+ // this.KinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
+ //                    [1, 0, false], [-1, 0, false], [0, -1, false]];
+ // this.KakuMovable = [[1, 1, true], [-1, -1, true],
+ //                     [-1, 1, true],[1, -1, true]];
+ // this.HishaMovable = [[1, 0, true], [-1, 0, true],
+ //                      [0, 1, true], [0, -1, true]];
+ // this.UmaMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true], [1, -1, true],
+ //                  [0, 1, false], [1, 0, false], [-1, 0, false], [0, -1, false]];
+ // this.RyuMovable = [[1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, true],
+ //              [1, 1, false], [1, -1, false], [-1, 1, false], [-1, -1, false]];
+ // this.GyokuMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
+ //                      [1, 0, false], [-1, 0, false], [1, -1, false],
+ //                      [0, -1, false], [-1, -1, false]];
 
  this.teban = teban || Koma.AKI;
  this.strtype = '* ';
@@ -924,6 +924,45 @@ function Koma(teban, x, y) {
  this.x = x;
  this.y = y;
 }
+
+Koma.prototype.FuStrIMG = 'koma_fu';
+Koma.prototype.KyoshaStrIMG = 'koma_kyo';
+Koma.prototype.KeimaStrIMG = 'koma_kei';
+Koma.prototype.GinStrIMG = 'koma_gin';
+Koma.prototype.KinStrIMG = 'koma_kin';
+Koma.prototype.KakuStrIMG = 'koma_kaku';
+Koma.prototype.HishaStrIMG = 'koma_hisha';
+Koma.prototype.GyokuStrIMG = 'koma_ou';
+Koma.prototype.NFuStrIMG = 'koma_to';
+Koma.prototype.NKyoshaStrIMG = 'koma_nkyo';
+Koma.prototype.NKeimaStrIMG = 'koma_nkei';
+Koma.prototype.NGinStrIMG = 'koma_ngin';
+// Koma.prototype.NKinStrIMG = 'koma_nkin';
+Koma.prototype.NKakuStrIMG = 'koma_uma';
+Koma.prototype.NHishaStrIMG = 'koma_ryu';
+// Koma.prototype.NGyokuStrIMG = 'koma_nou';
+// Koma.prototype.NariStrKIF = '成';
+// Koma.prototype.UchiStrKIF = '打';
+// Koma.prototype.DouStrKIF = '同　';
+// Koma.prototype.FunariStr = '不成';
+
+// x,y,straight
+Koma.prototype.FuMovable = [[0, 1, false]];
+Koma.prototype.KyoshaMovable = [[0, 1, true]];
+Koma.prototype.KeimaMovable = [[1, 2, false], [-1, 2, false]];
+Koma.prototype.GinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
+                   [1, -1, false], [-1, -1, false]];
+Koma.prototype.KinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false], [1, 0, false],
+                   [-1, 0, false], [0, -1, false]];
+Koma.prototype.KakuMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true],[1, -1, true]];
+Koma.prototype.HishaMovable = [[1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, true]];
+Koma.prototype.UmaMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true], [1, -1, true],
+                 [0, 1, false], [1, 0, false], [-1, 0, false], [0, -1, false]];
+Koma.prototype.RyuMovable = [[1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, true],
+             [1, 1, false], [1, -1, false], [-1, 1, false], [-1, -1, false]];
+Koma.prototype.GyokuMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
+                     [1, 0, false], [-1, 0, false], [1, -1, false],
+                     [0, -1, false], [-1, -1, false]];
 
 /**
  * 初期化
@@ -1730,8 +1769,8 @@ function Fu(teban, x, y) {
  this.strntypeKIFU = Koma.NFuStrKIF;
  this.strtypeCSA = Koma.FuStr;
  this.strntypeCSA = Koma.NFuStr;
- this.strtypeIMG = Koma.FuStrIMG;
- this.strntypeIMG = Koma.NFuStrIMG;
+ this.strtypeIMG = this.FuStrIMG;
+ this.strntypeIMG = this.NFuStrIMG;
  this.id = Koma.FuID;
 }
 
@@ -1820,8 +1859,8 @@ function Kyosha(teban, x, y) {
  this.strntypeKIFU = Koma.NKyoshaStrKIF;
  this.strtypeCSA = Koma.KyoshaStr;
  this.strntypeCSA = Koma.NKyoshaStr;
- this.strtypeIMG = Koma.KyoshaStrIMG;
- this.strntypeIMG = Koma.NKyoshaStrIMG;
+ this.strtypeIMG = this.KyoshaStrIMG;
+ this.strntypeIMG = this.NKyoshaStrIMG;
  this.id = Koma.KyoshaID;
 }
 
@@ -1862,8 +1901,8 @@ function Keima(teban, x, y) {
  this.strntypeKIFU = Koma.NKeimaStrKIF;
  this.strtypeCSA = Koma.KeimaStr;
  this.strntypeCSA = Koma.NKeimaStr;
- this.strtypeIMG = Koma.KeimaStrIMG;
- this.strntypeIMG = Koma.NKeimaStrIMG;
+ this.strtypeIMG = this.KeimaStrIMG;
+ this.strntypeIMG = this.NKeimaStrIMG;
  this.id = Koma.KeimaID;
 }
 /**
@@ -1903,8 +1942,8 @@ function Gin(teban, x, y) {
  this.strntypeKIFU = Koma.NGinStrKIF;
  this.strtypeCSA = Koma.GinStr;
  this.strntypeCSA = Koma.NGinStr;
- this.strtypeIMG = Koma.GinStrIMG;
- this.strntypeIMG = Koma.NGinStrIMG;
+ this.strtypeIMG = this.GinStrIMG;
+ this.strntypeIMG = this.NGinStrIMG;
  this.id = Koma.GinID;
 }
 /**
@@ -1944,8 +1983,8 @@ function Kin(teban, x, y) {
  this.strntypeKIFU = Koma.KinStrKIF;
  this.strtypeCSA = Koma.KinStr;
  this.strntypeCSA = Koma.KinStr;
- this.strtypeIMG = Koma.KinStrIMG;
- this.strntypeIMG = Koma.KinStrIMG;
+ this.strtypeIMG = this.KinStrIMG;
+ this.strntypeIMG = this.KinStrIMG;
  this.id = Koma.KinID;
 }
 
@@ -2005,8 +2044,8 @@ function Kaku(teban, x, y) {
  this.strntypeKIFU = Koma.NKakuStrKIF;
  this.strtypeCSA = Koma.KakuStr;
  this.strntypeCSA = Koma.NKakuStr;
- this.strtypeIMG = Koma.KakuStrIMG;
- this.strntypeIMG = Koma.NKakuStrIMG;
+ this.strtypeIMG = this.KakuStrIMG;
+ this.strntypeIMG = this.NKakuStrIMG;
  this.id = Koma.KakuID;
 }
 /**
@@ -2046,8 +2085,8 @@ function Hisha(teban, x, y) {
  this.strntypeKIFU = Koma.NHishaStrKIF;
  this.strtypeCSA = Koma.HishaStr;
  this.strntypeCSA = Koma.NHishaStr;
- this.strtypeIMG = Koma.HishaStrIMG;
- this.strntypeIMG = Koma.NHishaStrIMG;
+ this.strtypeIMG = this.HishaStrIMG;
+ this.strntypeIMG = this.NHishaStrIMG;
  this.id = Koma.HishaID;
 }
 /**
@@ -2091,8 +2130,8 @@ function Gyoku(teban, x, y) {
  this.strntypeKIF = Koma.GyokuStrKIF;
  this.strtypeCSA = Koma.GyokuStr;
  this.strntypeCSA = Koma.GyokuStr;
- this.strtypeIMG = Koma.GyokuStrIMG;
- this.strntypeIMG = Koma.GyokuStrIMG;
+ this.strtypeIMG = this.GyokuStrIMG;
+ this.strntypeIMG = this.GyokuStrIMG;
  this.id = Koma.GyokuID;
 }
 /**
