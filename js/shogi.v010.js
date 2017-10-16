@@ -889,26 +889,24 @@ function Koma(teban, x, y) {
   ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 
  // x,y,straight
- arguments.callee.FuMovable = [[0, 1, false]];
- arguments.callee.KyoshaMovable = [[0, 1, true]];
- arguments.callee.KeimaMovable = [[1, 2, false], [-1, 2, false]];
- arguments.callee.GinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                               [1, -1, false], [-1, -1, false]];
- arguments.callee.KinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                               [1, 0, false], [-1, 0, false], [0, -1, false]];
- arguments.callee.KakuMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true],
-                                [1, -1, true]];
- arguments.callee.HishaMovable = [[1, 0, true], [-1, 0, true], [0, 1, true],
-                                 [0, -1, true]];
- arguments.callee.UmaMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true],
-                               [1, -1, true], [0, 1, false], [1, 0, false],
-                               [-1, 0, false], [0, -1, false]];
- arguments.callee.RyuMovable = [[1, 0, true], [-1, 0, true], [0, 1, true],
-                               [0, -1, true], [1, 1, false], [1, -1, false],
-                               [-1, 1, false], [-1, -1, false]];
- arguments.callee.GyokuMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                                 [1, 0, false], [-1, 0, false], [1, -1, false],
-                                 [0, -1, false], [-1, -1, false]];
+ this.FuMovable = [[0, 1, false]];
+ this.KyoshaMovable = [[0, 1, true]];
+ this.KeimaMovable = [[1, 2, false], [-1, 2, false]];
+ this.GinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
+                    [1, -1, false], [-1, -1, false]];
+ this.KinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
+                    [1, 0, false], [-1, 0, false], [0, -1, false]];
+ this.KakuMovable = [[1, 1, true], [-1, -1, true],
+                     [-1, 1, true],[1, -1, true]];
+ this.HishaMovable = [[1, 0, true], [-1, 0, true],
+                      [0, 1, true], [0, -1, true]];
+ this.UmaMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true], [1, -1, true],
+                  [0, 1, false], [1, 0, false], [-1, 0, false], [0, -1, false]];
+ this.RyuMovable = [[1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, true],
+              [1, 1, false], [1, -1, false], [-1, 1, false], [-1, -1, false]];
+ this.GyokuMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
+                      [1, 0, false], [-1, 0, false], [1, -1, false],
+                      [0, -1, false], [-1, -1, false]];
 
  this.teban = teban || Koma.AKI;
  this.strtype = '* ';
@@ -1746,9 +1744,9 @@ function Fu(teban, x, y) {
  */
 Fu.prototype.movable = function() {
  if (this.nari === Koma.NARI) {
-  return Koma.KinMovable;
+  return this.KinMovable;
  } else {
-  return Koma.FuMovable;
+  return this.FuMovable;
  }
 };
 /**
@@ -1836,9 +1834,9 @@ function Kyosha(teban, x, y) {
  */
 Kyosha.prototype.movable = function() {
  if (this.nari === Koma.NARI) {
-  return Koma.KinMovable;
+  return this.KinMovable;
  } else {
-  return Koma.KyoshaMovable;
+  return this.KyoshaMovable;
  }
 };
 
@@ -1877,9 +1875,9 @@ function Keima(teban, x, y) {
  */
 Keima.prototype.movable = function() {
  if (this.nari === Koma.NARI) {
-  return Koma.KinMovable;
+  return this.KinMovable;
  } else {
-  return Koma.KeimaMovable;
+  return this.KeimaMovable;
  }
 };
 
@@ -1918,9 +1916,9 @@ function Gin(teban, x, y) {
  */
 Gin.prototype.movable = function() {
  if (this.nari === Koma.NARI) {
-  return Koma.KinMovable;
+  return this.KinMovable;
  } else {
-  return Koma.GinMovable;
+  return this.GinMovable;
  }
 };
 
@@ -1970,7 +1968,7 @@ Kin.prototype.reset = function(teban) {
  * @return {Array} 動ける方向のリスト
  */
 Kin.prototype.movable = function() {
- return Koma.KinMovable;
+ return this.KinMovable;
 };
 
 /**
@@ -2020,9 +2018,9 @@ function Kaku(teban, x, y) {
  */
 Kaku.prototype.movable = function() {
  if (this.nari === Koma.NARI) {
-  return Koma.UmaMovable;
+  return this.UmaMovable;
  } else {
-  return Koma.KakuMovable;
+  return this.KakuMovable;
  }
 };
 
@@ -2061,9 +2059,9 @@ function Hisha(teban, x, y) {
  */
 Hisha.prototype.movable = function() {
  if (this.nari === Koma.NARI) {
-  return Koma.RyuMovable;
+  return this.RyuMovable;
  } else {
-  return Koma.HishaMovable;
+  return this.HishaMovable;
  }
 };
 
@@ -2105,7 +2103,7 @@ function Gyoku(teban, x, y) {
  * @return {Array} 動ける方向のリスト
  */
 Gyoku.prototype.movable = function() {
-  return Koma.GyokuMovable;
+  return this.GyokuMovable;
 };
 
 /**
