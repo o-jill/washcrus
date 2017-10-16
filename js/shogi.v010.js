@@ -782,24 +782,6 @@ function Koma(teban, x, y) {
  arguments.callee.HishaID = 6;
  arguments.callee.GyokuID = 7;
 
- //-- CSA
- arguments.callee.FuStr = 'FU';
- arguments.callee.KyoshaStr = 'KY';
- arguments.callee.KeimaStr = 'KE';
- arguments.callee.GinStr = 'GI';
- arguments.callee.KinStr = 'KI';
- arguments.callee.KakuStr = 'KA';
- arguments.callee.HishaStr = 'HI';
- arguments.callee.GyokuStr = 'OU';
- arguments.callee.NFuStr = 'TO';
- arguments.callee.NKyoshaStr = 'NY';
- arguments.callee.NKeimaStr = 'NK';
- arguments.callee.NGinStr = 'NG';
- //arguments.callee.NKinStr = 'KI';
- arguments.callee.NKakuStr = 'UM';
- arguments.callee.NHishaStr = 'RY';
- //arguments.callee.NGyokuStr = 'OU';
-
  //-- KIF
  arguments.callee.FuStrKIF = '歩';
  arguments.callee.KyoshaStrKIF = '香';
@@ -841,28 +823,6 @@ function Koma(teban, x, y) {
  arguments.callee.NHishaStrLong = '竜王';
  //arguments.callee.NGyokuStrLong = '王';
 
- //-- pictures
- // this.FuStrIMG = 'koma_fu';
- // this.KyoshaStrIMG = 'koma_kyo';
- // this.KeimaStrIMG = 'koma_kei';
- // this.GinStrIMG = 'koma_gin';
- // this.KinStrIMG = 'koma_kin';
- // this.KakuStrIMG = 'koma_kaku';
- // this.HishaStrIMG = 'koma_hisha';
- // this.GyokuStrIMG = 'koma_ou';
- // this.NFuStrIMG = 'koma_to';
- // this.NKyoshaStrIMG = 'koma_nkyo';
- // this.NKeimaStrIMG = 'koma_nkei';
- // this.NGinStrIMG = 'koma_ngin';
- // // this.NKinStrIMG = 'koma_nkin';
- // this.NKakuStrIMG = 'koma_uma';
- // this.NHishaStrIMG = 'koma_ryu';
- // // this.NGyokuStrIMG = 'koma_nou';
- // // this.NariStrKIF = '成';
- // // this.UchiStrKIF = '打';
- // // this.DouStrKIF = '同　';
- // // this.FunariStr = '不成';
-
  arguments.callee.KomaStrTbl = [
   '歩', '香', '桂', '銀', '金', '角', '飛', '玉',
   'と', '成香', '成桂', '成銀', '成金', '馬', '竜', '王'];
@@ -888,26 +848,6 @@ function Koma(teban, x, y) {
  arguments.callee.KanjiNum =
   ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 
- // // x,y,straight
- // this.FuMovable = [[0, 1, false]];
- // this.KyoshaMovable = [[0, 1, true]];
- // this.KeimaMovable = [[1, 2, false], [-1, 2, false]];
- // this.GinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
- //                    [1, -1, false], [-1, -1, false]];
- // this.KinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
- //                    [1, 0, false], [-1, 0, false], [0, -1, false]];
- // this.KakuMovable = [[1, 1, true], [-1, -1, true],
- //                     [-1, 1, true],[1, -1, true]];
- // this.HishaMovable = [[1, 0, true], [-1, 0, true],
- //                      [0, 1, true], [0, -1, true]];
- // this.UmaMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true], [1, -1, true],
- //                  [0, 1, false], [1, 0, false], [-1, 0, false], [0, -1, false]];
- // this.RyuMovable = [[1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, true],
- //              [1, 1, false], [1, -1, false], [-1, 1, false], [-1, -1, false]];
- // this.GyokuMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
- //                      [1, 0, false], [-1, 0, false], [1, -1, false],
- //                      [0, -1, false], [-1, -1, false]];
-
  this.teban = teban || Koma.AKI;
  this.strtype = '* ';
  this.strntype = '* ';
@@ -925,6 +865,27 @@ function Koma(teban, x, y) {
  this.y = y;
 }
 
+/* -- クラス定数ここから -- */
+
+//-- CSA
+Koma.prototype.FuStr = 'FU';
+Koma.prototype.KyoshaStr = 'KY';
+Koma.prototype.KeimaStr = 'KE';
+Koma.prototype.GinStr = 'GI';
+Koma.prototype.KinStr = 'KI';
+Koma.prototype.KakuStr = 'KA';
+Koma.prototype.HishaStr = 'HI';
+Koma.prototype.GyokuStr = 'OU';
+Koma.prototype.NFuStr = 'TO';
+Koma.prototype.NKyoshaStr = 'NY';
+Koma.prototype.NKeimaStr = 'NK';
+Koma.prototype.NGinStr = 'NG';
+//Koma.prototype.NKinStr = 'KI';
+Koma.prototype.NKakuStr = 'UM';
+Koma.prototype.NHishaStr = 'RY';
+//Koma.prototype.NGyokuStr = 'OU';
+
+//-- pictures
 Koma.prototype.FuStrIMG = 'koma_fu';
 Koma.prototype.KyoshaStrIMG = 'koma_kyo';
 Koma.prototype.KeimaStrIMG = 'koma_kei';
@@ -963,6 +924,8 @@ Koma.prototype.RyuMovable = [[1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, 
 Koma.prototype.GyokuMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
                      [1, 0, false], [-1, 0, false], [1, -1, false],
                      [0, -1, false], [-1, -1, false]];
+
+/* -- クラス定数ここまで -- */
 
 /**
  * 初期化
@@ -1767,8 +1730,8 @@ function Fu(teban, x, y) {
  this.strntypeKIF = Koma.NFuStrKIF;
  this.strtypeKIFU = Koma.FuStrKIF;
  this.strntypeKIFU = Koma.NFuStrKIF;
- this.strtypeCSA = Koma.FuStr;
- this.strntypeCSA = Koma.NFuStr;
+ this.strtypeCSA = this.FuStr;
+ this.strntypeCSA = this.NFuStr;
  this.strtypeIMG = this.FuStrIMG;
  this.strntypeIMG = this.NFuStrIMG;
  this.id = Koma.FuID;
@@ -1857,8 +1820,8 @@ function Kyosha(teban, x, y) {
  this.strntypeKIF = Koma.NKyoshaStrKIF;
  this.strtypeKIFU = Koma.KyoshaStrKIF;
  this.strntypeKIFU = Koma.NKyoshaStrKIF;
- this.strtypeCSA = Koma.KyoshaStr;
- this.strntypeCSA = Koma.NKyoshaStr;
+ this.strtypeCSA = this.KyoshaStr;
+ this.strntypeCSA = this.NKyoshaStr;
  this.strtypeIMG = this.KyoshaStrIMG;
  this.strntypeIMG = this.NKyoshaStrIMG;
  this.id = Koma.KyoshaID;
@@ -1899,8 +1862,8 @@ function Keima(teban, x, y) {
  this.strntypeKIF = Koma.NKeimaStrKIF;
  this.strtypeKIFU = Koma.KeimaStrKIF;
  this.strntypeKIFU = Koma.NKeimaStrKIF;
- this.strtypeCSA = Koma.KeimaStr;
- this.strntypeCSA = Koma.NKeimaStr;
+ this.strtypeCSA = this.KeimaStr;
+ this.strntypeCSA = this.NKeimaStr;
  this.strtypeIMG = this.KeimaStrIMG;
  this.strntypeIMG = this.NKeimaStrIMG;
  this.id = Koma.KeimaID;
@@ -1940,8 +1903,8 @@ function Gin(teban, x, y) {
  this.strntypeKIF = Koma.NGinStrKIF;
  this.strtypeKIFU = Koma.GinStrKIF;
  this.strntypeKIFU = Koma.NGinStrKIF;
- this.strtypeCSA = Koma.GinStr;
- this.strntypeCSA = Koma.NGinStr;
+ this.strtypeCSA = this.GinStr;
+ this.strntypeCSA = this.NGinStr;
  this.strtypeIMG = this.GinStrIMG;
  this.strntypeIMG = this.NGinStrIMG;
  this.id = Koma.GinID;
@@ -1981,8 +1944,8 @@ function Kin(teban, x, y) {
  this.strntypeKIF = Koma.KinStrKIF;
  this.strtypeKIFU = Koma.KinStrKIF;
  this.strntypeKIFU = Koma.KinStrKIF;
- this.strtypeCSA = Koma.KinStr;
- this.strntypeCSA = Koma.KinStr;
+ this.strtypeCSA = this.KinStr;
+ this.strntypeCSA = this.KinStr;
  this.strtypeIMG = this.KinStrIMG;
  this.strntypeIMG = this.KinStrIMG;
  this.id = Koma.KinID;
@@ -2042,8 +2005,8 @@ function Kaku(teban, x, y) {
  this.strntypeKIF = Koma.NKakuStrKIF;
  this.strtypeKIFU = Koma.KakuStrKIF;
  this.strntypeKIFU = Koma.NKakuStrKIF;
- this.strtypeCSA = Koma.KakuStr;
- this.strntypeCSA = Koma.NKakuStr;
+ this.strtypeCSA = this.KakuStr;
+ this.strntypeCSA = this.NKakuStr;
  this.strtypeIMG = this.KakuStrIMG;
  this.strntypeIMG = this.NKakuStrIMG;
  this.id = Koma.KakuID;
@@ -2083,8 +2046,8 @@ function Hisha(teban, x, y) {
  this.strntypeKIF = Koma.NHishaStrKIF;
  this.strtypeKIFU = Koma.HishaStrKIF;
  this.strntypeKIFU = Koma.NHishaStrKIF;
- this.strtypeCSA = Koma.HishaStr;
- this.strntypeCSA = Koma.NHishaStr;
+ this.strtypeCSA = this.HishaStr;
+ this.strntypeCSA = this.NHishaStr;
  this.strtypeIMG = this.HishaStrIMG;
  this.strntypeIMG = this.NHishaStrIMG;
  this.id = Koma.HishaID;
@@ -2128,8 +2091,8 @@ function Gyoku(teban, x, y) {
  this.strntypeKIF = Koma.GyokuStrKIF;
  this.strtypeKIF = Koma.GyokuStrKIF;
  this.strntypeKIF = Koma.GyokuStrKIF;
- this.strtypeCSA = Koma.GyokuStr;
- this.strntypeCSA = Koma.GyokuStr;
+ this.strtypeCSA = this.GyokuStr;
+ this.strntypeCSA = this.GyokuStr;
  this.strtypeIMG = this.GyokuStrIMG;
  this.strntypeIMG = this.GyokuStrIMG;
  this.id = Koma.GyokuID;
