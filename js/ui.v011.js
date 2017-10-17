@@ -72,12 +72,15 @@ function update_banindex() {
   var column = document.getElementById('bancolumn');
   var text = '';
   var numbersc = ['９', '８', '７', '６', '５', '４', '３', '２', '１'];
+  /*var numbersc = testKoma.ZenkakuNum;
+  numbersc.reverse();*/
   numbersc.forEach(function(c) {
     text += '<th width=45>' + c + '</th>';
   });
   column.innerHTML = text + '<th>&nbsp;</th>';
 
-  var numbersr = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
+  /* var numbersr = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];*/
+  var numbersr = testKoma.KanjiNum;
   var row = document.getElementById('banrow1');
   row.innerHTML = numbersr[0];
   row = document.getElementById('banrow2');
@@ -100,7 +103,8 @@ function update_banindex() {
 
 function update_banindex_rotate() {
   var column = document.getElementById('bancolumn');
-  var numbersc = ['１', '２', '３', '４', '５', '６', '７', '８', '９'];
+  /*var numbersc = ['１', '２', '３', '４', '５', '６', '７', '８', '９'];*/
+  var numbersc = testKoma.ZenkakuNum;
   var text = '';
   numbersc.forEach(function(c) {
     text += '<th width=45>' + c + '</th>';
@@ -108,6 +112,8 @@ function update_banindex_rotate() {
   column.innerHTML = text + '<th>&nbsp;</th>';
 
   var numbersr = ['九', '八', '七', '六', '五', '四', '三', '二', '一'];
+  /*var numbersr = testKoma.KanjiNum;
+  numbersr.reverse();*/
   var row = document.getElementById('banrow1');
   row.innerHTML = numbersr[0];
   row = document.getElementById('banrow2');

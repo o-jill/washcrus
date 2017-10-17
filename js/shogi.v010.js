@@ -49,10 +49,7 @@ var gotegyoku;
 /*直近の指手*/
 var movecsa = '%0000OU__P';
 
-/**
- * 手駒と盤上の駒の初期化。
- */
-function initKoma() {
+function populate_tegoma() {
  for (var i = 0; i < 7; ++i) {
   sentegoma[i][0] = [];
   sentegoma[i][1].x = -1;
@@ -78,18 +75,30 @@ function initKoma() {
  gotegoma[4][1].koma = new Kin(Koma.GOTEBAN, -1, -1);
  gotegoma[5][1].koma = new Kaku(Koma.GOTEBAN, -1, -1);
  gotegoma[6][1].koma = new Hisha(Koma.GOTEBAN, -1, -1);
+}
 
+function clear_ban()
+{
  var akigoma = new Koma();
- for (i = 0; i < 9; ++i) {
+ for (var i = 0; i < 9; ++i) {
   for (var j = 0; j < 9; ++j) {
    ban[i][j].x = i;
    ban[i][j].y = j;
    ban[i][j].koma = akigoma;
   }
  }
+}
+
+/**
+ * 手駒と盤上の駒の初期化。
+ */
+function initKoma() {
+ populate_tegoma();
+
+ clear_ban();
 
  // FU
- for (i = 0; i < 9; ++i) {
+ for (var i = 0; i < 9; ++i) {
   ban[i][2].koma = new Fu(Koma.GOTEBAN, i, 2);
   ban[i][6].koma = new Fu(Koma.SENTEBAN, i, 6);
  }
@@ -132,40 +141,8 @@ function initKoma() {
  * 手駒と盤上の駒の初期化。駒は置かない。
  */
 function initKomaEx() {
- for (var i = 0; i < 7; ++i) {
-  sentegoma[i][0] = [];
-  sentegoma[i][1].x = -1;
-  sentegoma[i][1].y = -1;
-  //sentegoma[i][1].el = null;
-
-  gotegoma[i][0] = [];
-  gotegoma[i][1].x = -1;
-  gotegoma[i][1].y = -1;
-  //gotegoma[i][1].el = null;
- }
- sentegoma[0][1].koma = new Fu(Koma.SENTEBAN, -1, -1);
- sentegoma[1][1].koma = new Kyosha(Koma.SENTEBAN, -1, -1);
- sentegoma[2][1].koma = new Keima(Koma.SENTEBAN, -1, -1);
- sentegoma[3][1].koma = new Gin(Koma.SENTEBAN, -1, -1);
- sentegoma[4][1].koma = new Kin(Koma.SENTEBAN, -1, -1);
- sentegoma[5][1].koma = new Kaku(Koma.SENTEBAN, -1, -1);
- sentegoma[6][1].koma = new Hisha(Koma.SENTEBAN, -1, -1);
- gotegoma[0][1].koma = new Fu(Koma.GOTEBAN, -1, -1);
- gotegoma[1][1].koma = new Kyosha(Koma.GOTEBAN, -1, -1);
- gotegoma[2][1].koma = new Keima(Koma.GOTEBAN, -1, -1);
- gotegoma[3][1].koma = new Gin(Koma.GOTEBAN, -1, -1);
- gotegoma[4][1].koma = new Kin(Koma.GOTEBAN, -1, -1);
- gotegoma[5][1].koma = new Kaku(Koma.GOTEBAN, -1, -1);
- gotegoma[6][1].koma = new Hisha(Koma.GOTEBAN, -1, -1);
-
- var akigoma = new Koma();
- for (i = 0; i < 9; ++i) {
-  for (var j = 0; j < 9; ++j) {
-   ban[i][j].x = i;
-   ban[i][j].y = j;
-   ban[i][j].koma = akigoma;
-  }
- }
+ populate_tegoma();
+ clear_ban();
 }
 
 /**
@@ -725,13 +702,13 @@ Kifu.prototype.komazon_text = function(komazon, nari) {
   for (var i = 0; i < 15; ++i) {
    if (komazon[i] > 0) {
     // 得
-    str = Koma.KomaStrTbl[i] + komazon[i] + '枚得,';
+    str = this.komaconst.KomaStrTbl[i] + komazon[i] + '枚得,';
    }
   }
   for (i = 0; i < 15; ++i) {
    if (komazon[i] < 0) {
     // 損
-    str += Koma.KomaStrTbl[i] + (-komazon[i]) + '枚損,';
+    str += this.komaconst.KomaStrTbl[i] + (-komazon[i]) + '枚損,';
    }
   }
  } else {
@@ -742,13 +719,13 @@ Kifu.prototype.komazon_text = function(komazon, nari) {
   for (i = 0; i < 7; ++i) {
    if (kz[i] > 0) {
     // 得
-    str += Koma.KomaStrTbl[i] + kz[i] + '枚得,';
+    str += this.komaconst.KomaStrTbl[i] + kz[i] + '枚得,';
    }
   }
   for (i = 0; i < 7; ++i) {
    if (kz[i] < 0) {
     // 損
-    str += Koma.KomaStrTbl[i] + (-kz[i]) + '枚損,';
+    str += this.komaconst.KomaStrTbl[i] + (-kz[i]) + '枚損,';
    }
   }
  }
@@ -782,10 +759,6 @@ function Koma(teban, x, y) {
  arguments.callee.NARERU = 3;
  arguments.callee.NATTA = 4;
 
- arguments.callee.KomaStrTbl = [
-  '歩', '香', '桂', '銀', '金', '角', '飛', '玉',
-  'と', '成香', '成桂', '成銀', '成金', '馬', '竜', '王'];
-
  arguments.callee.SenteStr = '▲';
  arguments.callee.GoteStr = '△';
  arguments.callee.AkiStr = ' ';
@@ -801,11 +774,6 @@ function Koma(teban, x, y) {
  arguments.callee.ToryoStr = '投了';
  arguments.callee.ToryoStrCSA = '%TORYO';
  arguments.callee.TsumiStrCSA = '%TSUMI';
-
- arguments.callee.ZenkakuNum =
-  ['１', '２', '３', '４', '５', '６', '７', '８', '９'];
- arguments.callee.KanjiNum =
-  ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 
  this.teban = teban || Koma.AKI;
  this.strtype = '* ';
@@ -922,18 +890,29 @@ Koma.prototype.FuMovable = [[0, 1, false]];
 Koma.prototype.KyoshaMovable = [[0, 1, true]];
 Koma.prototype.KeimaMovable = [[1, 2, false], [-1, 2, false]];
 Koma.prototype.GinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                   [1, -1, false], [-1, -1, false]];
-Koma.prototype.KinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false], [1, 0, false],
-                   [-1, 0, false], [0, -1, false]];
-Koma.prototype.KakuMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true],[1, -1, true]];
-Koma.prototype.HishaMovable = [[1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, true]];
-Koma.prototype.UmaMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true], [1, -1, true],
-                 [0, 1, false], [1, 0, false], [-1, 0, false], [0, -1, false]];
-Koma.prototype.RyuMovable = [[1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, true],
-             [1, 1, false], [1, -1, false], [-1, 1, false], [-1, -1, false]];
+                             [1, -1, false], [-1, -1, false]];
+Koma.prototype.KinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
+                             [1, 0, false], [-1, 0, false], [0, -1, false]];
+Koma.prototype.KakuMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true],
+                              [1, -1, true]];
+Koma.prototype.HishaMovable = [[1, 0, true], [-1, 0, true], [0, 1, true],
+                               [0, -1, true]];
+Koma.prototype.UmaMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true],
+                             [1, -1, true], [0, 1, false], [1, 0, false],
+                             [-1, 0, false], [0, -1, false]];
+Koma.prototype.RyuMovable = [[1, 0, true], [-1, 0, true], [0, 1, true],
+                             [0, -1, true], [1, 1, false], [1, -1, false],
+                             [-1, 1, false], [-1, -1, false]];
 Koma.prototype.GyokuMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                     [1, 0, false], [-1, 0, false], [1, -1, false],
-                     [0, -1, false], [-1, -1, false]];
+                               [1, 0, false], [-1, 0, false], [1, -1, false],
+                               [0, -1, false], [-1, -1, false]];
+
+Koma.prototype.KomaStrTbl = [
+ '歩', '香', '桂', '銀', '金', '角', '飛', '玉',
+ 'と', '成香', '成桂', '成銀', '成金', '馬', '竜', '王'];
+
+Koma.prototype.ZenkakuNum = ['１', '２', '３', '４', '５', '６', '７', '８', '９'];
+Koma.prototype.KanjiNum = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 
 /* -- クラス定数ここまで -- */
 
@@ -1550,8 +1529,8 @@ Koma.prototype.kifuKIF = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
  if (tox == lastx && toy == lasty) {
   str += this.DouStrKIF;
  } else {
-  str += Koma.ZenkakuNum[tox];
-  str += Koma.KanjiNum[toy];
+  str += this.ZenkakuNum[tox];
+  str += this.KanjiNum[toy];
  }
  if (this.nari === Koma.NARI) {
   if (nari === Koma.NARI) {
@@ -1598,8 +1577,8 @@ Koma.prototype.kifuKIFU = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
  if (tox == lastx && toy == lasty) {
   str += this.DouStrKIF;
  } else {
-  str += Koma.ZenkakuNum[tox];
-  str += Koma.KanjiNum[toy];
+  str += this.ZenkakuNum[tox];
+  str += this.KanjiNum[toy];
  }
  if (this.nari === Koma.NARI) {
   if (nari === Koma.NARI) {
@@ -1707,13 +1686,13 @@ Koma.prototype.checkNari = function(fromy, toy) {
 Koma.prototype.movemsg = function(tox, toy)
 {
  var x = this.x;
- var toxy = Koma.ZenkakuNum[tox] + Koma.KanjiNum[toy];
+ var toxy = this.ZenkakuNum[tox] + this.KanjiNum[toy];
  var str = this.getTypeStr();
  if (x < 0) {
   return str + 'を' + toxy + 'に打ちます。';
  } else {
   var y = this.y;
-  var fromxy = Koma.ZenkakuNum[x] + Koma.KanjiNum[y];
+  var fromxy = this.ZenkakuNum[x] + this.KanjiNum[y];
   return str + 'を' + fromxy + 'から' + toxy + 'に移動します。';
  }
 }
@@ -2506,10 +2485,10 @@ function KyokumenKIF() {
  var kyokumen = '後手の持駒：';
  var komadai = '';
  for (var idx in gotegoma) {
-  if (gotegoma[idx][0].length === 0) {
-  } else {
-   komadai += gotegoma[idx][1].koma.strtypeKIF +
-    Koma.KanjiNum[gotegoma[idx][0].length - 1] + '　';
+  if (gotegoma[idx][0].length !== 0) {
+   var koma = gotegoma[idx][1].koma;
+   komadai += koma.strtypeKIF +
+   koma.KanjiNum[gotegoma[idx][0].length - 1] + '　';
   }
  }
  if (komadai === '') {
@@ -2520,19 +2499,19 @@ function KyokumenKIF() {
  for (var i = 0; i < 9; ++i) {
   kyokumen += '|';
   for (var j = 8; j >= 0; --j) {
-   var koma = ban[j][i].koma;
+   koma = ban[j][i].koma;
    kyokumen += koma.getShortStrKIF();
   }
-  kyokumen += '|' + Koma.KanjiNum[i] + '\n';
+  kyokumen += '|' + koma.KanjiNum[i] + '\n';
  }
  kyokumen += '+---------------------------+\n先手の持駒：';
 
  komadai = '';
  for (var idx in sentegoma) {
-  if (sentegoma[idx][0].length === 0) {
-  } else {
-   komadai += sentegoma[idx][1].koma.strtypeKIF +
-    Koma.KanjiNum[sentegoma[idx][0].length - 1] + '　';
+  if (sentegoma[idx][0].length !== 0) {
+   koma = sentegoma[idx][1].koma;
+   komadai += koma.strtypeKIF +
+   koma.KanjiNum[sentegoma[idx][0].length - 1] + '　';
   }
  }
  if (komadai === '') {
