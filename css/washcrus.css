@@ -14,13 +14,12 @@ div.err{ font-size: 2rem; border: 1px solid red; }
 
 /* 将棋盤 */
 .block {
-  width:100%; display:table; box-sizing: border-box; table-layout: fixed;
+  width:100%;
   display: flex;
   justify-content: center;
 }
 .block_elem_ban {
   border: 1px solid red; vertical-align: top;
-  overflow: auto; min-width: 500px; /*width: 500px;*/
   flex: 2;
 }
 table.ban, table.sentegoma, table.gotegoma {
