@@ -1670,32 +1670,33 @@ function gensfen(nth /*= '1'*/) {
    shogibantext[i] = '';
    for (var j = 0; j < 9; ++j) {
     var komach = '';
-    if (shogiban[8 - j][i].koma.nari === Koma.NARI) {
+    var koma = shogiban[8 - j][i].koma;
+    if (koma.nari === Koma.NARI) {
      komach = '+';
     } else {
      komach = '';
     }
-    var komaid = shogiban[8 - j][i].koma.id;
-    if (komaid === Koma.FuID) {
+    var komaid = koma.id;
+    if (komaid === koma.FuID) {
      komach += 'P';
-    } else if (komaid === Koma.KyoshaID) {
+    } else if (komaid === koma.KyoshaID) {
      komach += 'L';
-    } else if (komaid === Koma.KeimaID) {
+    } else if (komaid === koma.KeimaID) {
      komach += 'N';
-    } else if (komaid === Koma.GinID) {
+    } else if (komaid === koma.GinID) {
      komach += 'S';
-    } else if (komaid === Koma.KinID) {
+    } else if (komaid === koma.KinID) {
      komach += 'G';
-    } else if (komaid === Koma.HishaID) {
+    } else if (komaid === koma.HishaID) {
      komach += 'R';
-    } else if (komaid === Koma.KakuID) {
+    } else if (komaid === koma.KakuID) {
      komach += 'B';
-    } else if (komaid === Koma.GyokuID) {
+    } else if (komaid === koma.GyokuID) {
      komach += 'K';
     } else {
      aki = aki + 1;
     }
-    var teban = shogiban[8 - j][i].koma.teban;
+    var teban = koma.teban;
     if (teban === Koma.GOTEBAN) {
      komach = komach.toLowerCase();
     }

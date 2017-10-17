@@ -203,6 +203,9 @@ function Kifu(md) {
   */
  arguments.callee.JSON = 4;
 
+ /* 駒定数用 */
+ this.komaconst = new Koma();
+
  /** 生成する棋譜の形式 */
  this.mode = md || Kifu.Org;
  /** 初手からの棋譜 */
@@ -220,7 +223,7 @@ function Kifu(md) {
  /** 今何手目か */
  this.NTeme = 0;
  /** 直前に取った駒のID */
- this.totta_id = Koma.NoID;
+ this.totta_id = this.komaconst.NoID;
  /** 対局中(又は直近)の棋譜 */
  this.Honp = []; // 一手分の棋譜 [手番, fromx, fromy, tox, toy, nari, totta_id];
 
@@ -332,7 +335,7 @@ Kifu.prototype.genKifu = function(koma, from_x, from_y, to_x, to_y, nari) {
  this.Sashita(koma.teban, from_x, from_y, to_x, to_y, nari, this.totta_id);
  // this.Honp.push(
  //  [koma.teban, from_x, from_y, to_x, to_y, nari, this.totta_id]);
- this.totta_id = Koma.NoID;
+ this.totta_id = this.komaconst.NoID;
 
  return this.lastTe.str;
 };
@@ -772,16 +775,6 @@ function Koma(teban, x, y) {
  arguments.callee.NARERU = 3;
  arguments.callee.NATTA = 4;
 
- arguments.callee.NoID = -1;
- arguments.callee.FuID = 0;
- arguments.callee.KyoshaID = 1;
- arguments.callee.KeimaID = 2;
- arguments.callee.GinID = 3;
- arguments.callee.KinID = 4;
- arguments.callee.KakuID = 5;
- arguments.callee.HishaID = 6;
- arguments.callee.GyokuID = 7;
-
  arguments.callee.KomaStrTbl = [
   '歩', '香', '桂', '銀', '金', '角', '飛', '玉',
   'と', '成香', '成桂', '成銀', '成金', '馬', '竜', '王'];
@@ -819,12 +812,22 @@ function Koma(teban, x, y) {
  this.strtypeIMG = '';
  this.strntypeIMG = '';
  this.nari = Koma.NARAZU;
- this.id = Koma.NoID;
+ this.id = this.NoID;
  this.x = x;
  this.y = y;
 }
 
 /* -- クラス定数ここから -- */
+// koma ID
+Koma.prototype.NoID = -1;
+Koma.prototype.FuID = 0;
+Koma.prototype.KyoshaID = 1;
+Koma.prototype.KeimaID = 2;
+Koma.prototype.GinID = 3;
+Koma.prototype.KinID = 4;
+Koma.prototype.KakuID = 5;
+Koma.prototype.HishaID = 6;
+Koma.prototype.GyokuID = 7;
 
 //-- CSA
 Koma.prototype.FuStr = 'FU';
@@ -1734,7 +1737,7 @@ function Fu(teban, x, y) {
  this.strntypeCSA = this.NFuStr;
  this.strtypeIMG = this.FuStrIMG;
  this.strntypeIMG = this.NFuStrIMG;
- this.id = Koma.FuID;
+ this.id = this.FuID;
 }
 
 /**
@@ -1824,7 +1827,7 @@ function Kyosha(teban, x, y) {
  this.strntypeCSA = this.NKyoshaStr;
  this.strtypeIMG = this.KyoshaStrIMG;
  this.strntypeIMG = this.NKyoshaStrIMG;
- this.id = Koma.KyoshaID;
+ this.id = this.KyoshaID;
 }
 
 /**
@@ -1866,7 +1869,7 @@ function Keima(teban, x, y) {
  this.strntypeCSA = this.NKeimaStr;
  this.strtypeIMG = this.KeimaStrIMG;
  this.strntypeIMG = this.NKeimaStrIMG;
- this.id = Koma.KeimaID;
+ this.id = this.KeimaID;
 }
 /**
  * 動ける方向のリストを返す。
@@ -1907,7 +1910,7 @@ function Gin(teban, x, y) {
  this.strntypeCSA = this.NGinStr;
  this.strtypeIMG = this.GinStrIMG;
  this.strntypeIMG = this.NGinStrIMG;
- this.id = Koma.GinID;
+ this.id = this.GinID;
 }
 /**
  * 動ける方向のリストを返す。
@@ -1948,7 +1951,7 @@ function Kin(teban, x, y) {
  this.strntypeCSA = this.KinStr;
  this.strtypeIMG = this.KinStrIMG;
  this.strntypeIMG = this.KinStrIMG;
- this.id = Koma.KinID;
+ this.id = this.KinID;
 }
 
 /**
@@ -2009,7 +2012,7 @@ function Kaku(teban, x, y) {
  this.strntypeCSA = this.NKakuStr;
  this.strtypeIMG = this.KakuStrIMG;
  this.strntypeIMG = this.NKakuStrIMG;
- this.id = Koma.KakuID;
+ this.id = this.KakuID;
 }
 /**
  * 動ける方向のリストを返す。
@@ -2050,7 +2053,7 @@ function Hisha(teban, x, y) {
  this.strntypeCSA = this.NHishaStr;
  this.strtypeIMG = this.HishaStrIMG;
  this.strntypeIMG = this.NHishaStrIMG;
- this.id = Koma.HishaID;
+ this.id = this.HishaID;
 }
 /**
  * 動ける方向のリストを返す。
@@ -2095,7 +2098,7 @@ function Gyoku(teban, x, y) {
  this.strntypeCSA = this.GyokuStr;
  this.strtypeIMG = this.GyokuStrIMG;
  this.strntypeIMG = this.GyokuStrIMG;
- this.id = Koma.GyokuID;
+ this.id = this.GyokuID;
 }
 /**
  * 動ける方向のリストを返す。
@@ -2177,7 +2180,7 @@ function move(koma, to_x, to_y, nari) {
  } else {
   movecsa += koma.strntypeCSA;
  }
- if (tottaid === Koma.NoID) {
+ if (tottaid === koma.NoID) {
   movecsa += '__';
  } else if (tottaid >= 1000) {
   movecsa += tottakoma.strntypeCSA;
@@ -2210,7 +2213,7 @@ function toru(x, y) {
   koma.reset(Koma.SENTEBAN);
   komadai_add(sentegoma, koma);
  } else {
-  mykifu.totta_id = Koma.NoID;
+  mykifu.totta_id = koma.NoID;
   return;
   //console.log('toremasen!!');
  }
@@ -2226,7 +2229,7 @@ function toru(x, y) {
  * @param {Object} koma 駒
  */
 function komadai_add(tegoma, koma) {
- if (koma.id < Koma.GyokuID)
+ if (koma.id < koma.GyokuID)
   tegoma[koma.id][0].push(koma);
 }
 
@@ -2239,7 +2242,7 @@ function komadai_add(tegoma, koma) {
  * @return {Object} 駒
  */
 function komadai_del(tegoma, id) {
- if (id < Koma.GyokuID) {
+ if (id < koma.GyokuID) {
   console.assert(tegoma[id][0].length > 0,
     'no koma on komadai@komadai_del(' + tegoma + ',' + id + ');');
   return tegoma[id][0].pop();
@@ -2375,7 +2378,7 @@ function move2(koma, to_x, to_y, nari) {
  } else {
   movecsa += koma.strtypeCSA;
  }
- if (mykifu.totta_id === Koma.NoID) {
+ if (mykifu.totta_id === koma.NoID) {
   movecsa += '__';
  } else if (mykifu.totta_id >= 1000) {
   movecsa += tottakoma.strntypeCSA;
@@ -2579,11 +2582,10 @@ Kifu.prototype.seek_te = function(idx) {
       uchi2(tegoma, koma, to_x, to_y);
      }
    } else {
-    if (te[6] >= 0) {
+    if (te[6] > this.komaconst.NoID) {
      toru(te[3], te[4]);
-     this.totta_id = Koma.NoID;
+     this.totta_id = this.komaconst.NoID;
     }
-
     var masu = ban[te[1]][te[2]];
     move2(masu, te[3], te[4], te[5]);  // 動かした駒を戻す
    }
@@ -2598,7 +2600,7 @@ Kifu.prototype.seek_te = function(idx) {
    if (te[1] === -1) {
     // 駒台に戻す
     toru(te[3], te[4]);
-    this.totta_id = Koma.NoID;
+    this.totta_id = this.komaconst.NoID;
    } else {
     var masu = ban[te[3]][te[4]];
     move2(masu, te[1], te[2], te[5]);  // 動かした駒を戻す
