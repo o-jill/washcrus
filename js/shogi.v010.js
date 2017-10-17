@@ -1167,7 +1167,7 @@ Koma.prototype.getKiki = function(ox, oy) {
      list.straight.push([x, y]);
     }
     var masu = ban[x][y];
-    if (masu.koma.teban == this.teban) {
+    if (masu.koma.teban === this.teban) {
      break;
     }
     if (masu.koma.teban !== Koma.AKI) {
@@ -1297,7 +1297,7 @@ Koma.prototype.getMovable = function(ox, oy) {
      break;
     }
     var masu = ban[x][y];
-    if (masu.koma.teban == this.teban) {
+    if (masu.koma.teban === this.teban) {
      break;
     }
     list.push([x, y]);
@@ -1320,7 +1320,7 @@ Koma.prototype.getMovable = function(ox, oy) {
     continue;
    }
    masu = ban[x][y];
-   if (masu.koma.teban != this.teban) {
+   if (masu.koma.teban !== this.teban) {
     list.push([x, y]);
    }
   }
@@ -1357,7 +1357,7 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
    var y = mvlist[i][1];
    // 移動した先に玉がある場合
    // すでに王手になっているということなので、ルール上ありえない条件
-   /*if (x == gx && y == gy) {
+   /*if (x === gx && y === gy) {
     ohtelist.push(mvlist[i]);
    }*/
    /*
@@ -1373,7 +1373,7 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
       var xx = list[i][0];
       var yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
-      if (xx == gx && yy == gy) {
+      if (xx === gx && yy === gy) {
        ohtelist.push([x, y, Koma.NARAZU]);
        break;
       }
@@ -1385,7 +1385,7 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
       var xx = list[i][0];
       var yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
-      if (xx == gx && yy == gy) {
+      if (xx === gx && yy === gy) {
        ohtelist.push([x, y, Koma.NARAZU]);
        break;
       }
@@ -1398,7 +1398,7 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
       var xx = list[i][0];
       var yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
-      if (xx == gx && yy == gy) {
+      if (xx === gx && yy === gy) {
        ohtelist.push([x, y, Koma.NARAZU]);
        break;
       }
@@ -1410,7 +1410,7 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
       var xx = list[i][0];
       var yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
-      if (xx == gx && yy == gy) {
+      if (xx === gx && yy === gy) {
        ohtelist.push([x, y, Koma.NARI]);
        break;
       }
@@ -1425,7 +1425,7 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
       var xx = list[i][0];
       var yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
-      if (xx == gx && yy == gy) {
+      if (xx === gx && yy === gy) {
        ohtelist.push([x, y, Koma.NARI]);
        break;
       }
@@ -1526,7 +1526,7 @@ Koma.prototype.kifuKIF = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
 } else if (this.teban === Koma.GOTEBAN) {
   str = Koma.GoteStrKIF;
  }*/
- if (tox == lastx && toy == lasty) {
+ if (tox === lastx && toy === lasty) {
   str += this.DouStrKIF;
  } else {
   str += this.ZenkakuNum[tox];
@@ -1574,7 +1574,7 @@ Koma.prototype.kifuKIFU = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
  } else if (this.teban === Koma.GOTEBAN) {
   str = Koma.GoteStrOrg;
  }
- if (tox == lastx && toy == lasty) {
+ if (tox === lastx && toy === lasty) {
   str += this.DouStrKIF;
  } else {
   str += this.ZenkakuNum[tox];
@@ -1782,7 +1782,7 @@ Fu.prototype.check2FU = function(x, starty, endy) {
   for (var j = starty; j < endy; ++j) {
    if (ban[x][j].koma.id === Koma.FuID &&
        ban[x][j].koma.nari === Koma.NARAZU &&
-       ban[x][j].koma.teban == this.teban) {
+       ban[x][j].koma.teban === this.teban) {
     return true;
    }
   }
@@ -2420,7 +2420,7 @@ function checkOHTe(gyoku) {
    if (koma.teban === Koma.AKI) {
     continue;
    }
-   if (koma.teban == gyoku.teban) {
+   if (koma.teban === gyoku.teban) {
     continue;
    }
 
@@ -2429,7 +2429,7 @@ function checkOHTe(gyoku) {
    //var masulist = koma.getMovable();
    for (var idx = 0; idx < masulist.length; ++idx) {
    //for (var idx in masulist) {
-    if (masulist[idx][0] == gyoku.x && masulist[idx][1] == gyoku.y) {
+    if (masulist[idx][0] === gyoku.x && masulist[idx][1] === gyoku.y) {
      return true;
     }
    }
