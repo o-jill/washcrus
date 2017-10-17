@@ -1098,10 +1098,10 @@ Koma.prototype.movable = function() {
  * @return {Boolean} true:まだ動ける, false:もう無理。
  */
 Koma.prototype.checkMovable = function(oy) {
- if (this.id >= Koma.GinID) {
+ if (this.id >= this.GinID) {
   return true;
  }
- if (this.id === Koma.FuID || this.id === Koma.KyoshaID) {
+ if (this.id === this.FuID || this.id === this.KyoshaID) {
   if (this.teban === Koma.SENTEBAN) {
    if (oy === 0) {
     return false;
@@ -1114,7 +1114,7 @@ Koma.prototype.checkMovable = function(oy) {
    return true;
   }
  }
- if (this.id === Koma.KeimaID) {
+ if (this.id === this.KeimaID) {
   if (this.teban === Koma.SENTEBAN) {
    if (oy <= 1) {
     return false;
@@ -1224,7 +1224,6 @@ Koma.prototype.getKiki2 = function(ox, oy) {
    var y = oy;
    if (this.teban === Koma.SENTEBAN) {
     ay = -ay;
-   } else {
    }
    for ( ; ; ) {
     x += ax;
@@ -1267,6 +1266,26 @@ Koma.prototype.getKiki2 = function(ox, oy) {
  return list;
 };
 
+Koma.prototype.getStraight = function (list, ax, ay, ox, oy) {
+ var x = ox;
+ var y = oy;
+ if (this.teban === Koma.SENTEBAN) {
+  ay = -ay;
+ }
+
+ for ( ; ; ) {
+  x += ax;
+  y += ay;
+  if (x < 0 || x > 8) break;
+  if (y < 0 || y > 8) break;
+  var masu = ban[x][y];
+  if (masu.koma.teban === this.teban) break;
+  list.push([x, y]);
+  if (masu.koma.teban !== Koma.AKI) break;
+ }
+ return list;
+};
+
 /**
  * 動けるマスのリストを返す。
  *
@@ -1283,30 +1302,7 @@ Koma.prototype.getMovable = function(ox, oy) {
   var ay = movablemasulist[idx][1];
   var straight = movablemasulist[idx][2];
   if (straight) {
-   var x = ox;
-   var y = oy;
-   if (this.teban === Koma.SENTEBAN) {
-    ay = -ay;
-   }
-
-   for ( ; ; ) {
-    x += ax;
-    y += ay;
-    if (x < 0 || x > 8) {
-     break;
-    }
-    if (y < 0 || y > 8) {
-     break;
-    }
-    var masu = ban[x][y];
-    if (masu.koma.teban === this.teban) {
-     break;
-    }
-    list.push([x, y]);
-    if (masu.koma.teban !== Koma.AKI) {
-     break;
-    }
-   }
+   list = getStraight(list, ax, ay, ox, oy);
   } else {
    x = ox + ax;
    if (x < 0 || x > 8) {
@@ -1447,15 +1443,15 @@ Koma.prototype.getUchable = function() {
  var starty = 0;
  var endy = 9;
  if (this.teban === Koma.SENTEBAN) {
-  if (this.id === Koma.FuID || this.id === Koma.KyoshaID) {
+  if (this.id === this.FuID || this.id === this.KyoshaID) {
    starty = 1;
-  } else if (this.id === Koma.KeimaID) {
+  } else if (this.id === this.KeimaID) {
    starty = 2;
   }
  } else {
-  if (this.id === Koma.FuID || this.id === Koma.KyoshaID) {
+  if (this.id === this.FuID || this.id === this.KyoshaID) {
    endy = 8;
-  } else if (this.id === Koma.KeimaID) {
+  } else if (this.id === this.KeimaID) {
    endy = 7;
   }
  }
@@ -1782,7 +1778,7 @@ Fu.prototype.getUchable = function() {
  */
 Fu.prototype.check2FU = function(x, starty, endy) {
   for (var j = starty; j < endy; ++j) {
-   if (ban[x][j].koma.id === Koma.FuID &&
+   if (ban[x][j].koma.id === this.FuID &&
        ban[x][j].koma.nari === Koma.NARAZU &&
        ban[x][j].koma.teban === this.teban) {
     return true;
