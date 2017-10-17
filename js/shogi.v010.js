@@ -38,8 +38,8 @@ var taikyokuchu = false;
 var activeteban = Koma.SENTEBAN;
 
 var mykifu = new Kifu();
-//var mykifu = new Kifu(Kifu.KIF);
-//var mykifu = new Kifu(Kifu.CSA);
+//var mykifu = new Kifu(this.KIF);
+//var mykifu = new Kifu(this.CSA);
 
 /** 先手玉 */
 var sentegyoku;
@@ -89,18 +89,11 @@ function clear_ban()
  }
 }
 
-/**
- * 手駒と盤上の駒の初期化。
- */
-function initKoma() {
- populate_tegoma();
-
- clear_ban();
-
+function populate_koma() {
  // FU
  for (var i = 0; i < 9; ++i) {
   ban[i][2].koma = new Fu(Koma.GOTEBAN, i, 2);
-  ban[i][6].koma = new Fu(Koma.SENTEBAN, i, 6);
+ ban[i][6].koma = new Fu(Koma. SENTEBAN, i, 6);
  }
  ban[1][1].koma = new Kaku(Koma.GOTEBAN, 1, 1);
  ban[7][7].koma = new Kaku(Koma.SENTEBAN, 7, 7);
@@ -132,6 +125,15 @@ function initKoma() {
  ban[8][0].koma = new Kyosha(Koma.GOTEBAN, 8, 0);
  ban[0][8].koma = new Kyosha(Koma.SENTEBAN, 0, 8);
  ban[8][8].koma = new Kyosha(Koma.SENTEBAN, 8, 8);
+}
+
+/**
+ * 手駒と盤上の駒の初期化。
+ */
+function initKoma() {
+ populate_tegoma();
+ clear_ban();
+ populate_koma();
 
  taikyokuchu = false;
  activeteban = Koma.SENTEBAN;
@@ -154,32 +156,6 @@ function initKomaEx() {
  * @param {Number} md 先手後手空き
  */
 function Kifu(md) {
- /**
-  * CSA形式
-  *
-  * @const
-  */
- arguments.callee.CSA = 1;
- /**
-  * KIF形式
-  *
-  * @const
-  */
- arguments.callee.KIF = 2;
- /**
-  * 独自形式
-  *
-  * @const
-  */
- arguments.callee.Org = 3;
-
- /**
-  * 独自形式(JSON)
-  *
-  * @const
-  */
- arguments.callee.JSON = 4;
-
  /* 駒定数用 */
  this.komaconst = new Koma();
 
@@ -221,6 +197,32 @@ function Kifu(md) {
  /** 戦型 */
  this.opening = '';
 }
+
+/**
+ * CSA形式
+ *
+ * @const
+ */
+Kifu.prototype.CSA = 1;
+/**
+ * KIF形式
+ *
+ * @const
+ */
+Kifu.prototype.KIF = 2;
+/**
+ * 独自形式
+ *
+ * @const
+ */
+Kifu.prototype.Org = 3;
+
+/**
+ * 独自形式(JSON)
+ *
+ * @const
+ */
+Kifu.prototype.JSON = 4;
 
 /**
  * 一手分を棋譜リストに覚える。
@@ -286,16 +288,16 @@ Kifu.prototype.toStringPadding = function(number, length, ch) {
  */
 Kifu.prototype.genKifu = function(koma, from_x, from_y, to_x, to_y, nari) {
  this.NTeme++;
- if (this.mode === Kifu.CSA) {
+ if (this.mode === this.CSA) {
   this.lastTe.str = koma.kifuCSA(from_x, from_y, to_x, to_y);
- } else if (this.mode === Kifu.KIF) {
+ } else if (this.mode === this.KIF) {
   this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
   this.lastTe.str += ' ';
   this.lastTe.strs = koma.kifuKIF(from_x, from_y, to_x, to_y,
                               this.lastTe.x, this.lastTe.y, nari);
   this.lastTe.str += this.lastTe.strs;
   this.lastTe.str += '   ( 0:00/00:00:00)';
- } else if (this.mode === Kifu.Org) {
+ } else if (this.mode === this.Org) {
   this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
   this.lastTe.str += ' ';
   this.lastTe.strs = koma.kifuKIFU(from_x, from_y, to_x, to_y,
@@ -357,11 +359,11 @@ Kifu.prototype.setPlayers = function(sentename, gotename) {
 Kifu.prototype.putHeader = function(sentename, gotename) {
  sentename = sentename || this.sentename;
  gotename = gotename || this.gotename;
- if (this.mode === Kifu.CSA) {
+ if (this.mode === this.CSA) {
   this.kifuText = this.headerCSA(sentename, gotename);
- } else if (this.mode === Kifu.KIF) {
+ } else if (this.mode === this.KIF) {
   this.kifuText = this.headerKIF(sentename, gotename);
- } else if (this.mode === Kifu.Org) {
+ } else if (this.mode === this.Org) {
   this.kifuText = this.headerOrg(sentename, gotename);
  } else {
   console.log('invalid mode@Kifu class!!(' + this.mode + ')');
@@ -450,11 +452,11 @@ Kifu.prototype.headerOrg = function(sentename, gotename) {
  * @param {Object} winte 勝った方の手番
  */
 Kifu.prototype.putFooter = function(winte) {
- if (this.mode === Kifu.CSA) {
+ if (this.mode === this.CSA) {
   this.kifuText += this.footerCSA();
- } else if (this.mode === Kifu.KIF) {
+ } else if (this.mode === this.KIF) {
   this.kifuText += this.footerKIF(winte);
- } else if (this.mode === Kifu.Org) {
+ } else if (this.mode === this.Org) {
   this.kifuText += this.footerOrg(winte);
  } else {
   console.log('invalid mode@Kifu class!!(' + this.mode + ')');
@@ -621,7 +623,7 @@ Kifu.prototype.readKIF = function(arr_text) {
  * ファイルの読み込み
  *
  * @param {String} path ファイルのパス
- * @param {Number} type ファイルの形式(Kifu.CSA, Kifu.KIF, Kifu.Org)
+ * @param {Number} type ファイルの形式(this.CSA, this.KIF, this.Org)
  */
 Kifu.prototype.receive = function(path, type) {
  var ajax = new XMLHttpRequest();
@@ -633,12 +635,12 @@ Kifu.prototype.receive = function(path, type) {
   ajax.onload = function(e) {
    utf8text = ajax.responseText;
    var kifulines = utf8text.split(/\r\n|\r|\n/);
-   if (type === Kifu.CSA) {
+   if (type === this.CSA) {
     // CSA形式
     this.readCSA(kifulines);
-   } else if (type === Kifu.KIF) {
+   } else if (type === this.KIF) {
     // KIF形式
-   } else if (type === Kifu.Org) {
+   } else if (type === this.Org) {
     // 独自形式
    } else {
     // ナニコレ？
@@ -1152,7 +1154,7 @@ Koma.prototype.getKiki = function(ox, oy) {
     ay = -ay;
    } else {
    }
-   while (true) {
+   for ( ; ; ) {
     x += ax;
     y += ay;
     if (x < 0 || x > 8) {
@@ -1224,7 +1226,7 @@ Koma.prototype.getKiki2 = function(ox, oy) {
     ay = -ay;
    } else {
    }
-   while (true) {
+   for ( ; ; ) {
     x += ax;
     y += ay;
     if (x < 0 || x > 8) {
