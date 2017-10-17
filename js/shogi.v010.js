@@ -392,6 +392,19 @@ Kifu.prototype.putHeader = function(sentename, gotename) {
 };
 
 /**
+ * 時刻文字列の生成
+ *
+ * @param {Time} n 時刻オブジェクト
+ *
+ * @return {String} 時刻文字列 'yyyy/mm/dd hh/mm/ss'
+ */
+Kifu.prototype.build_datetime = function(n) {
+ var ret = n.getFullYear() + '/' + (n.getMonth() + 1) + '/' + n.getDate()
+   + ' ' + n.getHours() + ':' + n.getMinutes() + ':' + n.getSeconds();
+ return ret;
+}
+
+/**
  * CSA棋譜ヘッダの出力。
  *
  * @param {String} sentename 先手の名前
@@ -401,9 +414,7 @@ Kifu.prototype.putHeader = function(sentename, gotename) {
  */
 Kifu.prototype.headerCSA = function(sentename, gotename) {
  var now = new Date();
- var time = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' +
-            now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes() +
-            ':' + now.getSeconds();
+ var time = build_datetime(now);
  var str = "'encoding=Shift_JIS\n" +
            "' ---- JavaScript Shogi CSA形式棋譜ファイル ----\n" +
            'V2.2\n' +
@@ -424,9 +435,7 @@ Kifu.prototype.headerCSA = function(sentename, gotename) {
  */
 Kifu.prototype.headerKIF = function(sentename, gotename) {
  var now = new Date();
- var time = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' +
-            now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes() +
-            ':' + now.getSeconds();
+ var time = build_datetime(now);
  var str = '#KIF version=2.0 encoding=Shift_JIS\n' +
            '# ---- JavaScript Shogi 棋譜ファイル ----\n' +
            '開始日時：' + time + '\n' + //2014/04/26 20:23
@@ -447,9 +456,7 @@ Kifu.prototype.headerKIF = function(sentename, gotename) {
  */
 Kifu.prototype.headerOrg = function(sentename, gotename) {
  var now = new Date();
- var time = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' +
-            now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes() +
-            ':' + now.getSeconds();
+ var time = build_datetime(now);
  var str = //'#KIF version=2.0 encoding=Shift_JIS\n'
            '# ---- JavaScript Shogi 棋譜ファイル ----\n' +
            '開始日時：' + time + '\n' + //2014/04/26 20:23
