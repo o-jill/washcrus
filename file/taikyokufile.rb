@@ -324,7 +324,9 @@ class TaikyokuFile
     namebs.each do |id, name|
       puts <<-LINE.unindent
         <TR>
-         <TD><a href='./washcrus.rb?game/#{id}'>#{id}</a></TD>
+         <TD><a href='./washcrus.rb?game/#{id}'>
+          <img src='image/right_fu.png' alt='#{id}' title='move to this game!'>
+         </a></TD>
          <TD>#{name}</TD><TD>#{namews[id]}</TD>
          <TD>#{times[id]}</TD><TD>#{comments[id]}</TD>
         </TR>
