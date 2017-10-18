@@ -2407,6 +2407,17 @@ function checkOHTe(gyoku) {
  return false;
 }
 
+function KyokumenCSATegoma(tegoma) {
+ var kyokumen = '';
+ for (var idx in tegoma) {
+  if (tegoma[idx][0].length !== 0) {
+   var koma = tegoma[idx][1].koma;
+   kyokumen += 'P' + koma.kifuShortCSA(-1, -1) + '\n';
+  }
+ }
+ return kyokumen;
+}
+
 /**
  * 局面の出力CSA
  *
@@ -2422,20 +2433,8 @@ function KyokumenCSA() {
   }
   kyokumen += '\n';
  }
- for (var idx in sentegoma) {
-  if (sentegoma[idx][0].length === 0) {
-  } else {
-   var koma = sentegoma[idx][1].koma;
-   kyokumen += 'P' + koma.kifuShortCSA(-1, -1) + '\n';
-  }
- }
- for (var idx in gotegoma) {
-  if (gotegoma[idx][0].length === 0) {
-  } else {
-   var koma = gotegoma[idx][1].koma;
-   kyokumen += 'P' + koma.kifuShortCSA(-1, -1) + '\n';
-  }
- }
+ kyokumen += KyokumenCSATegoma(sentegoma);
+ kyokumen += KyokumenCSATegoma(gotegoma);
  //kyokumen += '\nP-00AL\n';  // 残りは全部後手の駒台の上
  if (activeteban === Koma.SENTEBAN) {
   kyokumen += '+';
@@ -2445,6 +2444,21 @@ function KyokumenCSA() {
  return kyokumen;
 }
 
+function KyokumenKIFTegoma(tegoma) {
+ var komadai = '';
+ for (var idx in gotegoma) {
+  if (tegoma[idx][0].length !== 0) {
+   var koma = tegoma[idx][1].koma;
+   komadai += koma.strtypeKIF +
+   koma.KanjiNum[tegoma[idx][0].length - 1] + '　';
+  }
+ }
+ if (komadai === '') {
+  komadai = 'なし';
+ }
+ return komadai;
+}
+
 /**
  * 局面の出力KIF
  *
@@ -2452,17 +2466,7 @@ function KyokumenCSA() {
  */
 function KyokumenKIF() {
  var kyokumen = '後手の持駒：';
- var komadai = '';
- for (var idx in gotegoma) {
-  if (gotegoma[idx][0].length !== 0) {
-   var koma = gotegoma[idx][1].koma;
-   komadai += koma.strtypeKIF +
-   koma.KanjiNum[gotegoma[idx][0].length - 1] + '　';
-  }
- }
- if (komadai === '') {
-  komadai = 'なし';
- }
+ var komadai = KyokumenKIFTegoma(gotegoma);
  kyokumen += komadai;
  kyokumen += '\n  ９ ８ ７ ６ ５ ４ ３ ２ １\n+---------------------------+\n';
  for (var i = 0; i < 9; ++i) {
@@ -2475,17 +2479,7 @@ function KyokumenKIF() {
  }
  kyokumen += '+---------------------------+\n先手の持駒：';
 
- komadai = '';
- for (var idx in sentegoma) {
-  if (sentegoma[idx][0].length !== 0) {
-   koma = sentegoma[idx][1].koma;
-   komadai += koma.strtypeKIF +
-   koma.KanjiNum[sentegoma[idx][0].length - 1] + '　';
-  }
- }
- if (komadai === '') {
-  komadai = 'なし';
- }
+ var komadai = KyokumenKIFTegoma(gotegoma);
  kyokumen += komadai;
 
  kyokumen += '\n手数＝' + mykifu.NTeme + ' ' + mykifu.lastTe.strs + 'まで\n';
