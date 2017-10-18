@@ -487,7 +487,9 @@ function gethtmlelement_tegoma() {
   gotegoma[4][1].el2 = document.getElementById('gg_kin_num');
   gotegoma[5][1].el2 = document.getElementById('gg_kaku_num');
   gotegoma[6][1].el2 = document.getElementById('gg_hisha_num');
+}
 
+function gethtmlelement_tegomaclick() {
   sentegoma[0][1].el.onclick = clickstgfu;
   sentegoma[1][1].el.onclick = clickstgky;
   sentegoma[2][1].el.onclick = clickstgke;
@@ -529,6 +531,7 @@ function gethtmlelement() {
 
  // 手駒の設定
  gethtmlelement_tegoma();
+ gethtmlelement_tegomaclick();
 
  // 成り不成メニューの設定
  narimenu = document.getElementById('narimenu');
@@ -816,6 +819,22 @@ function absclick_on_mypiece(koma, masu, masui) {
  activecell(koma, masu, masui);
 }
 
+function deactivate_activecell() {
+ if (activetegoma !== null)
+  activeuchi(null, null, null);
+ else
+  activecell(null, null, null);
+}
+
+function check_activemovablemasu(hx, hy) {
+ for (var idx in activemovable) {
+  if (activemovable[idx][0] === hx && activemovable[idx][1] === hy) {
+   return true;
+  }
+ }
+ return false;
+}
+
 /**
  * マスをクリックした時に呼ばれる。
  *
@@ -852,19 +871,10 @@ function absclick(x, y) {
    absclick_on_mypiece(koma, masu, masui);
   } else if (koma.teban === Koma.AKI) {
    // 空きマスをクリックした
-   var ismovable = false;
-   for (var idx in activemovable) {
-    if (activemovable[idx][0] === hx && activemovable[idx][1] === hy) {
-     ismovable = true;
-     break;
-    }
-   }
+   var ismovable = check_activemovablemasu(hx, hy);
    if (ismovable === false) {
     // 選択キャンセル
-    if (activetegoma !== null)
-     activeuchi(null, null, null);
-    else
-     activecell(null, null, null);
+    deactivate_activecell();
    } else {
     if (activemasu.x === -1) {
      // uchi
@@ -906,19 +916,10 @@ function absclick(x, y) {
     }
    }
   } else {
-   var ismovable = false;
-   for (var idx in activemovable) {
-    if (activemovable[idx][0] === hx && activemovable[idx][1] === hy) {
-     ismovable = true;
-     break;
-    }
-   }
+   var ismovable = check_activemovablemasu(hx, hy);
    if (ismovable === false) {
     // 選択キャンセル
-    if (activetegoma !== null)
-     activeuchi(null, null, null);
-    else
-     activecell(null, null, null);
+    deactivate_activecell();
    } else {
      msg = activekoma.movemsg(hx, hy);
      if (!confirm(msg)) {
