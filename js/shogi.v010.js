@@ -37,7 +37,7 @@ var tegomaitem = function () {
 var taikyokuchu = false;
 var activeteban = Koma.SENTEBAN;
 
-var mykifu = new Kifu();
+var mykifu = new Kifu(3/*Kifu.prototype.Org*/);
 //var mykifu = new Kifu(this.KIF);
 //var mykifu = new Kifu(this.CSA);
 
@@ -160,7 +160,7 @@ function Kifu(md) {
  this.komaconst = new Koma();
 
  /** 生成する棋譜の形式 */
- this.mode = md || Kifu.Org;
+ this.mode = md || this.Org;
  /** 初手からの棋譜 */
  this.kifuText = '';
  /** 直前の手の情報 */
@@ -1375,10 +1375,10 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
      }
      break;
     case Koma.NARENAI:
-     var list = this.getMovable(x, y);
-     for (var i in list) {
-      var xx = list[i][0];
-      var yy = list[i][1];
+     list = this.getMovable(x, y);
+     for (i in list) {
+      xx = list[i][0];
+      yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
       if (xx === gx && yy === gy) {
        ohtelist.push([x, y, Koma.NARAZU]);
@@ -1388,22 +1388,22 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
      break;
     case Koma.NARERU:
      // 成る成らないで評価
-     var list = this.getMovable(x, y);
+     list = this.getMovable(x, y);
      for (var i in list) {
-      var xx = list[i][0];
-      var yy = list[i][1];
+      xx = list[i][0];
+      yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
       if (xx === gx && yy === gy) {
        ohtelist.push([x, y, Koma.NARAZU]);
        break;
       }
      }
-     var koma = this.clone();
+     koma = this.clone();
      koma.nari = Koma.NARI;
-     var list = koma.getMovable(x, y);
+     list = koma.getMovable(x, y);
      for (var i in list) {
-      var xx = list[i][0];
-      var yy = list[i][1];
+      xx = list[i][0];
+      yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
       if (xx === gx && yy === gy) {
        ohtelist.push([x, y, Koma.NARI]);
@@ -1413,12 +1413,12 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
      break;
     case Koma.NARU:
      // 成ってから評価
-     var koma = this.clone();
+     koma = this.clone();
      koma.nari = Koma.NARI;
-     var list = koma.getMovable(x, y);
+     list = koma.getMovable(x, y);
      for (var i in list) {
-      var xx = list[i][0];
-      var yy = list[i][1];
+      xx = list[i][0];
+      yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
       if (xx === gx && yy === gy) {
        ohtelist.push([x, y, Koma.NARI]);
@@ -1635,6 +1635,40 @@ Koma.prototype.kifuShortCSA = function(x, y) {
  return str;
 };
 
+Koma.prototype.checkNariSente = function(fromy, toy) {
+  // 動けるかのチェック
+ var ugokeru = this.checkMovable(toy);
+ if (ugokeru) {
+  // 動ければNARERU
+  if (fromy < 3 || toy < 3) {
+   return Koma.NARERU;
+  }
+ } else {
+  // 動けなければNARU
+  if (fromy < 3 || toy < 3) {
+   return Koma.NARU;
+  }
+ }
+ return Koma.NARENAI;
+};
+
+Koma.prototype.checkNariGote = function(fromy, toy) {
+ // 動けるかのチェック
+ var ugokeru = this.checkMovable(toy);
+ if (ugokeru) {
+  // 動ければNARERU
+  if (fromy >= 6 || toy >= 6) {
+   return Koma.NARERU;
+  }
+ } else {
+  // 動けなければNARU
+  if (fromy >= 6 || toy >= 6) {
+   return Koma.NARU;
+  }
+ }
+ return Koma.NARENAI;
+};
+
 /**
  * 成れるかどうかをチェック
  *
@@ -1651,39 +1685,9 @@ Koma.prototype.checkNari = function(fromy, toy) {
   return Koma.NATTA;
  }
  if (this.teban === Koma.SENTEBAN) {
-  // 動けるかのチェック
-  var ugokeru = this.checkMovable(toy);
-  if (ugokeru) {
-   // 動ければNARERU
-   if (fromy < 3 || toy < 3) {
-    return Koma.NARERU;
-   }
-  } else {
-   // 動けなければNARU
-   if (fromy < 3 || toy < 3) {
-    return Koma.NARU;
-   } else {
-    return Koma.NARENAI;
-   }
-  }
-  //return this.nareru;
- }
- if (this.teban === Koma.GOTEBAN) {
-  // 動けるかのチェック
-  var ugokeru = this.checkMovable(toy);
-  if (ugokeru) {
-   // 動ければNARERU
-   if (fromy >= 6 || toy >= 6) {
-    return Koma.NARERU;
-   }
-  } else {
-   // 動けなければNARU
-   if (fromy >= 6 || toy >= 6) {
-    return Koma.NARU;
-   } else {
-    return Koma.NARENAI;
-   }
-  }
+  return this.checkNariSente(fromy, toy);
+ } else if (this.teban === Koma.GOTEBAN) {
+  return this.checkNariSente(fromy, toy);
  }
  return Koma.NARENAI;
 };
@@ -2273,10 +2277,10 @@ function uchi2(tegoma, koma_id, to_x, to_y) {
  */
 Koma.prototype.kaesu = function (nari) {
  if (nari === Koma.NARI) {
-  if (koma.nari === Koma.NARI) {
-   koma.nari = Koma.NARAZU;
+  if (this.nari === Koma.NARI) {
+   this.nari = Koma.NARAZU;
   } else {
-   koma.nari = Koma.NARI;
+   this.nari = Koma.NARI;
   }
  }
 };
