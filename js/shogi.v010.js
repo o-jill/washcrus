@@ -1141,7 +1141,7 @@ Koma.prototype.checkMovable = function(oy) {
  * @param  {Boolean} bstop  他のコマの影響を考慮
  * @return {Hash}    利いているマスのリスト
  */
-Koma.prototype.getStraightKiki = function (list, ax, ay, ox, oy, bstop) {
+Koma.prototype.getStraightKiki = function(list, ax, ay, ox, oy, bstop) {
  var x = ox;
  var y = oy;
  if (this.teban === Koma.SENTEBAN) {
@@ -1171,6 +1171,36 @@ Koma.prototype.getStraightKiki = function (list, ax, ay, ox, oy, bstop) {
 };
 
 /**
+ * 利いているマスのリストを返す。 ax,ay方向の効き。
+ *
+ * @param  {Hash}    list  利いているマスのリスト
+ * @param  {Number}  ax    移動方向
+ * @param  {Number}  ay    移動方向
+ * @param  {Number}  ox    現在地
+ * @param  {Number}  oy    現在地
+ * @return {Hash}    利いているマスのリスト
+ */
+Koma.prototype.getCloseKiki = function(list, ax, ay, ox, oy) {
+ var x, y;
+ x = ox + ax;
+ if (x < 0 || x > 8) return list;
+
+ if (this.teban === Koma.SENTEBAN) {
+  y = oy - ay;
+ } else {
+  y = oy + ay;
+ }
+ if (y < 0 || y > 8) return list;
+
+ masu = ban[x][y];
+ if (Math.abs(x - ox) <= 1 && Math.abs(x - ox) <= 1) {
+  list.rin8.push([x, y]);
+ } else {
+  list.straight.push([x, y]);
+ }
+};
+
+/**
  * 利いているマスのリストを返す。他のコマの影響を考慮。
  *
  * @param {Number} ox 現在地
@@ -1189,28 +1219,9 @@ Koma.prototype.getKiki = function(ox, oy) {
   var ay = movablemasulist[idx][1];
   var straight = movablemasulist[idx][2];
   if (straight) {
-    list = this.getStraightKiki(list, ax, ay, ox, oy, true);
+   list = this.getStraightKiki(list, ax, ay, ox, oy, true);
   } else {
-   var x, y;
-   x = ox + ax;
-   if (x < 0 || x > 8) {
-    continue;
-   }
-
-   if (this.teban === Koma.SENTEBAN) {
-    y = oy - ay;
-   } else {
-    y = oy + ay;
-   }
-   if (y < 0 || y > 8) {
-    continue;
-   }
-   masu = ban[x][y];
-   if (Math.abs(x - ox) <= 1 && Math.abs(x - ox) <= 1) {
-    list.rin8.push([x, y]);
-   } else {
-    list.straight.push([x, y]);
-   }
+   list = this.getCloseKiki(list, ax, ay, ox, oy);
   }
  }
  return list;
@@ -1237,32 +1248,13 @@ Koma.prototype.getKiki2 = function(ox, oy) {
   if (straight) {
    list = this.getStraightKiki(list, ax, ay, ox, oy, false);
   } else {
-   var x, y;
-   x = ox + ax;
-   if (x < 0 || x > 8) {
-    continue;
-   }
-
-   if (this.teban === Koma.SENTEBAN) {
-    y = oy - ay;
-   } else {
-    y = oy + ay;
-   }
-   if (y < 0 || y > 8) {
-    continue;
-   }
-   masu = ban[x][y];
-   if (Math.abs(x - ox) <= 1 && Math.abs(x - ox) <= 1) {
-    list.rin8.push([x, y]);
-   } else {
-    list.straight.push([x, y]);
-   }
+   list = this.getCloseKiki(list, ax, ay, ox, oy);
   }
  }
  return list;
 };
 
-Koma.prototype.getStraight = function (list, ax, ay, ox, oy) {
+Koma.prototype.getStraightMovable = function (list, ax, ay, ox, oy) {
  var x = ox;
  var y = oy;
  if (this.teban === Koma.SENTEBAN) {
@@ -1274,10 +1266,29 @@ Koma.prototype.getStraight = function (list, ax, ay, ox, oy) {
   y += ay;
   if (x < 0 || x > 8) break;
   if (y < 0 || y > 8) break;
-  var masu = ban[x][y];
-  if (masu.koma.teban === this.teban) break;
+  var koma = ban[x][y].koma;
+  if (koma.teban === this.teban) break;
   list.push([x, y]);
   if (masu.koma.teban !== Koma.AKI) break;
+ }
+ return list;
+};
+
+Koma.prototype.getCloseMovable = function (list, ax, ay, ox, oy) {
+ var x, y;
+ x = ox + ax;
+ if (x < 0 || x > 8) return list;
+
+ if (this.teban === Koma.SENTEBAN) {
+  y = oy - ay;
+ } else {
+  y = oy + ay;
+ }
+ if (y < 0 || y > 8) return list;
+
+ masu = ban[x][y];
+ if (masu.koma.teban !== this.teban) {
+  list.push([x, y]);
  }
  return list;
 };
@@ -1298,26 +1309,9 @@ Koma.prototype.getMovable = function(ox, oy) {
   var ay = movablemasulist[idx][1];
   var straight = movablemasulist[idx][2];
   if (straight) {
-   list = this.getStraight(list, ax, ay, ox, oy);
+   list = this.getStraightMovable(list, ax, ay, ox, oy);
   } else {
-   var x, y;
-   x = ox + ax;
-   if (x < 0 || x > 8) {
-    continue;
-   }
-
-   if (this.teban === Koma.SENTEBAN) {
-    y = oy - ay;
-   } else {
-    y = oy + ay;
-   }
-   if (y < 0 || y > 8) {
-    continue;
-   }
-   masu = ban[x][y];
-   if (masu.koma.teban !== this.teban) {
-    list.push([x, y]);
-   }
+   list = this.getCloseMovable(list, ax, ay, ox, oy);
   }
  }
  return list;
@@ -1389,7 +1383,7 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
     case Koma.NARERU:
      // 成る成らないで評価
      list = this.getMovable(x, y);
-     for (var i in list) {
+     for (i in list) {
       xx = list[i][0];
       yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
@@ -1401,7 +1395,7 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
      koma = this.clone();
      koma.nari = Koma.NARI;
      list = koma.getMovable(x, y);
-     for (var i in list) {
+     for (i in list) {
       xx = list[i][0];
       yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
@@ -1416,7 +1410,7 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
      koma = this.clone();
      koma.nari = Koma.NARI;
      list = koma.getMovable(x, y);
-     for (var i in list) {
+     for (i in list) {
       xx = list[i][0];
       yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
@@ -1529,12 +1523,6 @@ Koma.prototype.kifuKIF = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
 } else if (this.teban === Koma.GOTEBAN) {
   str = this.GoteStrKIF;
  }*/
- /* if (tox === lastx && toy === lasty) {
-  str += this.DouStrKIF;
- } else {
-  str += this.ZenkakuNum[tox];
-  str += this.KanjiNum[toy];
- } */
  str += this.kifuDouNumKIF(tox, toy, lastx, lasty);
  if (this.nari === Koma.NARI) {
   if (nari === Koma.NARI) {
@@ -1578,12 +1566,6 @@ Koma.prototype.kifuKIFU = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
  } else if (this.teban === Koma.GOTEBAN) {
   str = this.GoteStrOrg;
  }
- /* if (tox === lastx && toy === lasty) {
-   str += this.DouStrKIF;
- } else {
-   str += this.ZenkakuNum[tox];
-   str += this.KanjiNum[toy];
- } */
  str += this.kifuDouNumKIF(tox, toy, lastx, lasty);
  if (this.nari === Koma.NARI) {
   if (nari === Koma.NARI) {
@@ -2466,8 +2448,10 @@ function KyokumenKIFTegoma(tegoma) {
  */
 function KyokumenKIF() {
  var kyokumen = '後手の持駒：';
+
  var komadai = KyokumenKIFTegoma(gotegoma);
  kyokumen += komadai;
+
  kyokumen += '\n  ９ ８ ７ ６ ５ ４ ３ ２ １\n+---------------------------+\n';
  for (var i = 0; i < 9; ++i) {
   kyokumen += '|';
