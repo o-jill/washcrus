@@ -1302,7 +1302,7 @@ Koma.prototype.getMovable = function(ox, oy) {
   var ay = movablemasulist[idx][1];
   var straight = movablemasulist[idx][2];
   if (straight) {
-   list = getStraight(list, ax, ay, ox, oy);
+   list = this.getStraight(list, ax, ay, ox, oy);
   } else {
    x = ox + ax;
    if (x < 0 || x > 8) {
