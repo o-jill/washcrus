@@ -761,18 +761,6 @@ function Koma(teban, x, y) {
  arguments.callee.NARERU = 3;
  arguments.callee.NATTA = 4;
 
- arguments.callee.SenteStr = '▲';
- arguments.callee.GoteStr = '△';
- arguments.callee.AkiStr = ' ';
- arguments.callee.SenteStrKIF = ' ';
- arguments.callee.GoteStrKIF = 'v';
- arguments.callee.AkiStrKIF = ' ・';
- arguments.callee.SenteStrCSA = '+';
- arguments.callee.GoteStrCSA = '-';
- arguments.callee.AkiStrCSA = ' * ';
- arguments.callee.SenteStrOrg = '先手';
- arguments.callee.GoteStrOrg = '後手';
-
  arguments.callee.ToryoStr = '投了';
  arguments.callee.ToryoStrCSA = '%TORYO';
  arguments.callee.TsumiStrCSA = '%TSUMI';
@@ -887,6 +875,19 @@ Koma.prototype.NKakuStrLong = '竜馬';
 Koma.prototype.NHishaStrLong = '竜王';
 //Koma.prototype.NGyokuStrLong = '王';
 
+// 先手、後手、空き
+Koma.prototype.SenteStr = '▲';
+Koma.prototype.GoteStr = '△';
+Koma.prototype.AkiStr = ' ';
+Koma.prototype.SenteStrKIF = ' ';
+Koma.prototype.GoteStrKIF = 'v';
+Koma.prototype.AkiStrKIF = ' ・';
+Koma.prototype.SenteStrCSA = '+';
+Koma.prototype.GoteStrCSA = '-';
+Koma.prototype.AkiStrCSA = ' * ';
+Koma.prototype.SenteStrOrg = '先手';
+Koma.prototype.GoteStrOrg = '後手';
+
 // x,y,straight
 Koma.prototype.FuMovable = [[0, 1, false]];
 Koma.prototype.KyoshaMovable = [[0, 1, true]];
@@ -951,11 +952,11 @@ Koma.prototype.clone = function(obj)  {
 Koma.prototype.getStr = function() {
  var str;
  if (this.teban === Koma.SENTEBAN) {
-  str = Koma.SenteStr;
+  str = this.SenteStr;
 } else if (this.teban === Koma.GOTEBAN) {
-  str = Koma.GoteStr;
+  str = this.GoteStr;
  } else {
-  str = Koma.AkiStr;
+  str = this.AkiStr;
   return str;
  }
   str += this.strntypeKIFU;
@@ -985,7 +986,7 @@ Koma.prototype.getHtmlStr = function(hanten) {
     str = '<div class=gotemoji>';
    }
  } else {
-  str = Koma.AkiStr;
+  str = this.AkiStr;
   return str;
  }
  if (this.nari === Koma.NARI) {
@@ -1033,11 +1034,11 @@ Koma.prototype.getImgStr = function(hanten) {
 Koma.prototype.getShortStrCSA = function() {
  var str;
  if (this.teban === Koma.SENTEBAN) {
-  str = Koma.SenteStrCSA;
+  str = this.SenteStrCSA;
  } else if (this.teban === Koma.GOTEBAN) {
-  str = Koma.GoteStrCSA;
+  str = this.GoteStrCSA;
  } else {
-  str = Koma.AkiStrCSA;
+  str = this.AkiStrCSA;
   return str;
  }
  if (this.nari === Koma.NARI) {
@@ -1055,11 +1056,11 @@ Koma.prototype.getShortStrCSA = function() {
 Koma.prototype.getShortStrKIF = function() {
  var str;
  if (this.teban === Koma.SENTEBAN) {
-  str = Koma.SenteStrKIF;
+  str = this.SenteStrKIF;
  } else if (this.teban === Koma.GOTEBAN) {
-  str = Koma.GoteStrKIF;
+  str = this.GoteStrKIF;
  } else {
-  str = Koma.AkiStrKIF;
+  str = this.AkiStrKIF;
   return str;
  }
  if (this.nari === Koma.NARI) {
@@ -1485,9 +1486,9 @@ Koma.prototype.kifuCSA = function(fromx, fromy, tox, toy) {
 
  var str;
  if (this.teban === Koma.SENTEBAN) {
-  str = Koma.SenteStrCSA;
+  str = this.SenteStrCSA;
  } else if (this.teban === Koma.GOTEBAN) {
-  str = Koma.GoteStrCSA;
+  str = this.GoteStrCSA;
  }
  str += fromx;
  str += fromy;
@@ -1520,9 +1521,9 @@ Koma.prototype.kifuKIF = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
 
  var str = '';
  /*if (this.teban === Koma.SENTEBAN) {
-  str = Koma.SenteStrKIF;
+  str = this.SenteStrKIF;
 } else if (this.teban === Koma.GOTEBAN) {
-  str = Koma.GoteStrKIF;
+  str = this.GoteStrKIF;
  }*/
  if (tox === lastx && toy === lasty) {
   str += this.DouStrKIF;
@@ -1568,9 +1569,9 @@ Koma.prototype.kifuKIFU = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
 
  var str;
  if (this.teban === Koma.SENTEBAN) {
-  str = Koma.SenteStrOrg;
+  str = this.SenteStrOrg;
  } else if (this.teban === Koma.GOTEBAN) {
-  str = Koma.GoteStrOrg;
+  str = this.GoteStrOrg;
  }
  if (tox === lastx && toy === lasty) {
   str += this.DouStrKIF;
@@ -1614,9 +1615,9 @@ Koma.prototype.kifuShortCSA = function(x, y) {
 
  var str;
  if (this.teban === Koma.SENTEBAN) {
-  str = Koma.SenteStrCSA;
+  str = this.SenteStrCSA;
  } else if (this.teban === Koma.GOTEBAN) {
-  str = Koma.GoteStrCSA;
+  str = this.GoteStrCSA;
  }
  str += x;
  str += y;
@@ -2151,9 +2152,9 @@ function move(koma, to_x, to_y, nari) {
 
  movecsa = '';
  if (koma.teban === Koma.SENTEBAN) {
-  movecsa += Koma.SenteStrCSA;
+  movecsa += koma.SenteStrCSA;
  } else {
-  movecsa += Koma.GoteStrCSA;
+  movecsa += koma.GoteStrCSA;
  }
  movecsa += from_x + 1;
  movecsa += from_y + 1;
@@ -2262,9 +2263,9 @@ function uchi(tegoma, koma, to_x, to_y) {
 
  movecsa = '';
  if (k.teban === Koma.SENTEBAN) {
-  movecsa += Koma.SenteStrCSA;
+  movecsa += koma.SenteStrCSA;
  } else {
-  movecsa += Koma.GoteStrCSA;
+  movecsa += koma.GoteStrCSA;
  }
  movecsa += '00';
  movecsa += to_x + 1;
@@ -2297,9 +2298,9 @@ function uchi2(tegoma, koma_id, to_x, to_y) {
 
  movecsa = '';
  if (masu.koma.teban === Koma.SENTEBAN) {
-  movecsa += Koma.SenteStrCSA;
+  movecsa += koma.SenteStrCSA;
  } else {
-  movecsa += Koma.GoteStrCSA;
+  movecsa += koma.GoteStrCSA;
  }
  movecsa += '00';
  movecsa += to_x + 1;
@@ -2349,9 +2350,9 @@ function move2(koma, to_x, to_y, nari) {
 
  movecsa = '';
  if (koma.teban === Koma.SENTEBAN) {
-  movecsa += Koma.SenteStrCSA;
+  movecsa += koma.SenteStrCSA;
  } else {
-  movecsa += Koma.GoteStrCSA;
+  movecsa += koma.GoteStrCSA;
  }
  movecsa += from_x + 1;
  movecsa += from_y + 1;
