@@ -67,13 +67,13 @@ textarea.kifu {
 }
 
 /* chat */
-input.chatnm { width:20%; font-size: 2rem }
-input.chatmsg { width:70%; font-size: 2rem }
-input.chatbtn { font-size: 2rem }
-div.chat { width:100%; min-height:200px; overflow:scroll; }
+.chatnm { width:20%; font-size: 2rem }
+.chatmsg { width:70%; font-size: 2rem }
+.chatbtn { font-size: 2rem }
+.chat { width:100%; min-height:200px; overflow:scroll; }
 
 /* notification */
-div.notify {
+.notify {
   width:100%;
   border: 1px solid orange;
   display: none;
@@ -141,7 +141,7 @@ div.gotemoji {
 /* menu */
 .menubase {
   margin: 0;
-  padding: 10px 0;
+  /*padding: 10px 0;*/
   background-Color: lightgray;
   display: flex;
   justify-content: center;
