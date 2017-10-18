@@ -66,6 +66,19 @@ textarea.kifu {
   }
 }
 
+/* nari menu */
+.narimenu {
+  border: 2px solid black;
+  position: absolute;
+  visibility: hidden;
+  background-Color: lightgray;
+  justify-content: center;
+}
+
+.narimenu span{
+  padding: 0 10px;
+}
+
 /* chat */
 .chatnm { width:20%; font-size: 2rem }
 .chatmsg { width:70%; font-size: 2rem }
