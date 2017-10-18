@@ -134,6 +134,20 @@ function update_banindex_rotate() {
   row.innerHTML = numbersr[8];
 }
 
+function Naraberu_tegoma(tegoma, tegomaui)
+{
+ for (var idx in tegoma) {
+  if (tegoma[idx][0].length === 0) {
+   tegomaui[idx][1].el.style.visibility = 'hidden';
+   tegomaui[idx][1].el2.style.visibility = 'hidden';
+  } else {
+   tegomaui[idx][1].el.style.visibility = 'visible';
+   tegomaui[idx][1].el2.style.visibility = 'visible';
+   tegomaui[idx][1].el2.innerHTML = tegoma[idx][0].length.toString();
+  }
+ }
+}
+
 /**
  * コマを並べる。
  */
@@ -162,26 +176,8 @@ function Naraberu() {
    }
   }
  }
- for (var idx in sentegoma) {
-  if (sentegoma[idx][0].length === 0) {
-   sentegoma[idx][1].el.style.visibility = 'hidden';
-   sentegoma[idx][1].el2.style.visibility = 'hidden';
-  } else {
-   sentegoma[idx][1].el.style.visibility = 'visible';
-   sentegoma[idx][1].el2.style.visibility = 'visible';
-   sentegoma[idx][1].el2.innerHTML = sentegoma[idx][0].length.toString();
-  }
- }
- for (idx in gotegoma) {
-  if (gotegoma[idx][0].length === 0) {
-   gotegoma[idx][1].el.style.visibility = 'hidden';
-   gotegoma[idx][1].el2.style.visibility = 'hidden';
-  } else {
-   gotegoma[idx][1].el.style.visibility = 'visible';
-   gotegoma[idx][1].el2.style.visibility = 'visible';
-   gotegoma[idx][1].el2.innerHTML = gotegoma[idx][0].length.toString();
-  }
- }
+ Naraberu_tegoma(sentegoma, sentegoma);
+ Naraberu_tegoma(gotegoma, gotegoma);
 }
 
 /**
@@ -212,26 +208,8 @@ function Naraberu_rotate() {
    }
   }
  }
- for (var idx in sentegoma) {
-  if (gotegoma[idx][0].length === 0) {
-   sentegoma[idx][1].el.style.visibility = 'hidden';
-   sentegoma[idx][1].el2.style.visibility = 'hidden';
-  } else {
-   sentegoma[idx][1].el.style.visibility = 'visible';
-   sentegoma[idx][1].el2.style.visibility = 'visible';
-   sentegoma[idx][1].el2.innerHTML = gotegoma[idx][0].length.toString();
-  }
- }
- for (idx in gotegoma) {
-  if (sentegoma[idx][0].length === 0) {
-   gotegoma[idx][1].el.style.visibility = 'hidden';
-   gotegoma[idx][1].el2.style.visibility = 'hidden';
-  } else {
-   gotegoma[idx][1].el.style.visibility = 'visible';
-   gotegoma[idx][1].el2.style.visibility = 'visible';
-   gotegoma[idx][1].el2.innerHTML = sentegoma[idx][0].length.toString();
-  }
- }
+ Naraberu_tegoma(sentegoma, gotegoma);
+ Naraberu_tegoma(gotegoma, sentegoma);
 }
 
 /**
@@ -1924,11 +1902,11 @@ function read_lastmove()
   /* e.g. -9300FU */
   var str = document.getElementById('lastmove').value;
 
-  var x = parseInt(str.charAt(3));  /* e.g. '9' -> 9 */
-  var y = parseInt(str.charAt(4));  /* e.g. '3' -> 3 */
+  var x = parseInt(str.charAt(3), 10);  /* e.g. '9' -> 9 */
+  var y = parseInt(str.charAt(4), 10);  /* e.g. '3' -> 3 */
 
-  if (x === NaN) x = 0;
-  if (y === NaN) y = 0;
+  if (isNaN(x)) x = 0;
+  if (isNaN(y)) y = 0;
 
   last_mx = x-1;
   last_my = y-1;
