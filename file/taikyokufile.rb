@@ -388,6 +388,13 @@ class TaikyokuFile
     @content.probe(id)
   end
 
+  # duplication check
+  #
+  # @param nid 対局ID
+  def exist_id(nid)
+    @content.exist_id(nid)
+  end
+
   # get taikyoku information by id
   #
   # @param id 対局ID
