@@ -1266,10 +1266,10 @@ Koma.prototype.getStraightMovable = function (list, ax, ay, ox, oy) {
   y += ay;
   if (x < 0 || x > 8) break;
   if (y < 0 || y > 8) break;
-  var koma = ban[x][y].koma;
-  if (koma.teban === this.teban) break;
+  var teban = ban[x][y].koma.teban;
+  if (teban === this.teban) break;
   list.push([x, y]);
-  if (masu.koma.teban !== Koma.AKI) break;
+  if (teban !== Koma.AKI) break;
  }
  return list;
 };
@@ -1286,8 +1286,8 @@ Koma.prototype.getCloseMovable = function (list, ax, ay, ox, oy) {
  }
  if (y < 0 || y > 8) return list;
 
- masu = ban[x][y];
- if (masu.koma.teban !== this.teban) {
+ var teban = ban[x][y].koma.teban;
+ if (teban !== this.teban) {
   list.push([x, y]);
  }
  return list;

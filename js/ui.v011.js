@@ -258,6 +258,288 @@ function mousemove(e) {
  mouseposy = e.clientY;
 }
 
+function gethtmlelement_ban() {
+  ban[0][0].el = document.getElementById('b11');
+  ban[0][1].el = document.getElementById('b12');
+  ban[0][2].el = document.getElementById('b13');
+  ban[0][3].el = document.getElementById('b14');
+  ban[0][4].el = document.getElementById('b15');
+  ban[0][5].el = document.getElementById('b16');
+  ban[0][6].el = document.getElementById('b17');
+  ban[0][7].el = document.getElementById('b18');
+  ban[0][8].el = document.getElementById('b19');
+  ban[1][0].el = document.getElementById('b21');
+  ban[1][1].el = document.getElementById('b22');
+  ban[1][2].el = document.getElementById('b23');
+  ban[1][3].el = document.getElementById('b24');
+  ban[1][4].el = document.getElementById('b25');
+  ban[1][5].el = document.getElementById('b26');
+  ban[1][6].el = document.getElementById('b27');
+  ban[1][7].el = document.getElementById('b28');
+  ban[1][8].el = document.getElementById('b29');
+  ban[2][0].el = document.getElementById('b31');
+  ban[2][1].el = document.getElementById('b32');
+  ban[2][2].el = document.getElementById('b33');
+  ban[2][3].el = document.getElementById('b34');
+  ban[2][4].el = document.getElementById('b35');
+  ban[2][5].el = document.getElementById('b36');
+  ban[2][6].el = document.getElementById('b37');
+  ban[2][7].el = document.getElementById('b38');
+  ban[2][8].el = document.getElementById('b39');
+  ban[3][0].el = document.getElementById('b41');
+  ban[3][1].el = document.getElementById('b42');
+  ban[3][2].el = document.getElementById('b43');
+  ban[3][3].el = document.getElementById('b44');
+  ban[3][4].el = document.getElementById('b45');
+  ban[3][5].el = document.getElementById('b46');
+  ban[3][6].el = document.getElementById('b47');
+  ban[3][7].el = document.getElementById('b48');
+  ban[3][8].el = document.getElementById('b49');
+  ban[4][0].el = document.getElementById('b51');
+  ban[4][1].el = document.getElementById('b52');
+  ban[4][2].el = document.getElementById('b53');
+  ban[4][3].el = document.getElementById('b54');
+  ban[4][4].el = document.getElementById('b55');
+  ban[4][5].el = document.getElementById('b56');
+  ban[4][6].el = document.getElementById('b57');
+  ban[4][7].el = document.getElementById('b58');
+  ban[4][8].el = document.getElementById('b59');
+  ban[5][0].el = document.getElementById('b61');
+  ban[5][1].el = document.getElementById('b62');
+  ban[5][2].el = document.getElementById('b63');
+  ban[5][3].el = document.getElementById('b64');
+  ban[5][4].el = document.getElementById('b65');
+  ban[5][5].el = document.getElementById('b66');
+  ban[5][6].el = document.getElementById('b67');
+  ban[5][7].el = document.getElementById('b68');
+  ban[5][8].el = document.getElementById('b69');
+  ban[6][0].el = document.getElementById('b71');
+  ban[6][1].el = document.getElementById('b72');
+  ban[6][2].el = document.getElementById('b73');
+  ban[6][3].el = document.getElementById('b74');
+  ban[6][4].el = document.getElementById('b75');
+  ban[6][5].el = document.getElementById('b76');
+  ban[6][6].el = document.getElementById('b77');
+  ban[6][7].el = document.getElementById('b78');
+  ban[6][8].el = document.getElementById('b79');
+  ban[7][0].el = document.getElementById('b81');
+  ban[7][1].el = document.getElementById('b82');
+  ban[7][2].el = document.getElementById('b83');
+  ban[7][3].el = document.getElementById('b84');
+  ban[7][4].el = document.getElementById('b85');
+  ban[7][5].el = document.getElementById('b86');
+  ban[7][6].el = document.getElementById('b87');
+  ban[7][7].el = document.getElementById('b88');
+  ban[7][8].el = document.getElementById('b89');
+  ban[8][0].el = document.getElementById('b91');
+  ban[8][1].el = document.getElementById('b92');
+  ban[8][2].el = document.getElementById('b93');
+  ban[8][3].el = document.getElementById('b94');
+  ban[8][4].el = document.getElementById('b95');
+  ban[8][5].el = document.getElementById('b96');
+  ban[8][6].el = document.getElementById('b97');
+  ban[8][7].el = document.getElementById('b98');
+  ban[8][8].el = document.getElementById('b99');
+
+  ban[0][0].el.onclick = click11; ban[0][1].el.onclick = click12;
+  ban[0][2].el.onclick = click13; ban[0][3].el.onclick = click14;
+  ban[0][4].el.onclick = click15; ban[0][5].el.onclick = click16;
+  ban[0][6].el.onclick = click17; ban[0][7].el.onclick = click18;
+  ban[0][8].el.onclick = click19;
+  ban[1][0].el.onclick = click21; ban[1][1].el.onclick = click22;
+  ban[1][2].el.onclick = click23; ban[1][3].el.onclick = click24;
+  ban[1][4].el.onclick = click25; ban[1][5].el.onclick = click26;
+  ban[1][6].el.onclick = click27; ban[1][7].el.onclick = click28;
+  ban[1][8].el.onclick = click29;
+  ban[2][0].el.onclick = click31; ban[2][1].el.onclick = click32;
+  ban[2][2].el.onclick = click33; ban[2][3].el.onclick = click34;
+  ban[2][4].el.onclick = click35; ban[2][5].el.onclick = click36;
+  ban[2][6].el.onclick = click37; ban[2][7].el.onclick = click38;
+  ban[2][8].el.onclick = click39;
+  ban[3][0].el.onclick = click41; ban[3][1].el.onclick = click42;
+  ban[3][2].el.onclick = click43; ban[3][3].el.onclick = click44;
+  ban[3][4].el.onclick = click45; ban[3][5].el.onclick = click46;
+  ban[3][6].el.onclick = click47; ban[3][7].el.onclick = click48;
+  ban[3][8].el.onclick = click49;
+  ban[4][0].el.onclick = click51; ban[4][1].el.onclick = click52;
+  ban[4][2].el.onclick = click53; ban[4][3].el.onclick = click54;
+  ban[4][4].el.onclick = click55; ban[4][5].el.onclick = click56;
+  ban[4][6].el.onclick = click57; ban[4][7].el.onclick = click58;
+  ban[4][8].el.onclick = click59;
+  ban[5][0].el.onclick = click61; ban[5][1].el.onclick = click62;
+  ban[5][2].el.onclick = click63; ban[5][3].el.onclick = click64;
+  ban[5][4].el.onclick = click65; ban[5][5].el.onclick = click66;
+  ban[5][6].el.onclick = click67; ban[5][7].el.onclick = click68;
+  ban[5][8].el.onclick = click69;
+  ban[6][0].el.onclick = click71; ban[6][1].el.onclick = click72;
+  ban[6][2].el.onclick = click73; ban[6][3].el.onclick = click74;
+  ban[6][4].el.onclick = click75; ban[6][5].el.onclick = click76;
+  ban[6][6].el.onclick = click77; ban[6][7].el.onclick = click78;
+  ban[6][8].el.onclick = click79;
+  ban[7][0].el.onclick = click81; ban[7][1].el.onclick = click82;
+  ban[7][2].el.onclick = click83; ban[7][3].el.onclick = click84;
+  ban[7][4].el.onclick = click85; ban[7][5].el.onclick = click86;
+  ban[7][6].el.onclick = click87; ban[7][7].el.onclick = click88;
+  ban[7][8].el.onclick = click89;
+  ban[8][0].el.onclick = click91; ban[8][1].el.onclick = click92;
+  ban[8][2].el.onclick = click93; ban[8][3].el.onclick = click94;
+  ban[8][4].el.onclick = click95; ban[8][5].el.onclick = click96;
+  ban[8][6].el.onclick = click97; ban[8][7].el.onclick = click98;
+  ban[8][8].el.onclick = click99;
+
+  ban[0][0].el.onmouseover = hoverin11; ban[0][1].el.onmouseover = hoverin12;
+  ban[0][2].el.onmouseover = hoverin13; ban[0][3].el.onmouseover = hoverin14;
+  ban[0][4].el.onmouseover = hoverin15; ban[0][5].el.onmouseover = hoverin16;
+  ban[0][6].el.onmouseover = hoverin17; ban[0][7].el.onmouseover = hoverin18;
+  ban[0][8].el.onmouseover = hoverin19;
+  ban[1][0].el.onmouseover = hoverin21; ban[1][1].el.onmouseover = hoverin22;
+  ban[1][2].el.onmouseover = hoverin23; ban[1][3].el.onmouseover = hoverin24;
+  ban[1][4].el.onmouseover = hoverin25; ban[1][5].el.onmouseover = hoverin26;
+  ban[1][6].el.onmouseover = hoverin27; ban[1][7].el.onmouseover = hoverin28;
+  ban[1][8].el.onmouseover = hoverin29;
+  ban[2][0].el.onmouseover = hoverin31; ban[2][1].el.onmouseover = hoverin32;
+  ban[2][2].el.onmouseover = hoverin33; ban[2][3].el.onmouseover = hoverin34;
+  ban[2][4].el.onmouseover = hoverin35; ban[2][5].el.onmouseover = hoverin36;
+  ban[2][6].el.onmouseover = hoverin37; ban[2][7].el.onmouseover = hoverin38;
+  ban[2][8].el.onmouseover = hoverin39;
+  ban[3][0].el.onmouseover = hoverin41; ban[3][1].el.onmouseover = hoverin42;
+  ban[3][2].el.onmouseover = hoverin43; ban[3][3].el.onmouseover = hoverin44;
+  ban[3][4].el.onmouseover = hoverin45; ban[3][5].el.onmouseover = hoverin46;
+  ban[3][6].el.onmouseover = hoverin47; ban[3][7].el.onmouseover = hoverin48;
+  ban[3][8].el.onmouseover = hoverin49;
+  ban[4][0].el.onmouseover = hoverin51; ban[4][1].el.onmouseover = hoverin52;
+  ban[4][2].el.onmouseover = hoverin53; ban[4][3].el.onmouseover = hoverin54;
+  ban[4][4].el.onmouseover = hoverin55; ban[4][5].el.onmouseover = hoverin56;
+  ban[4][6].el.onmouseover = hoverin57; ban[4][7].el.onmouseover = hoverin58;
+  ban[4][8].el.onmouseover = hoverin59;
+  ban[5][0].el.onmouseover = hoverin61; ban[5][1].el.onmouseover = hoverin62;
+  ban[5][2].el.onmouseover = hoverin63; ban[5][3].el.onmouseover = hoverin64;
+  ban[5][4].el.onmouseover = hoverin65; ban[5][5].el.onmouseover = hoverin66;
+  ban[5][6].el.onmouseover = hoverin67; ban[5][7].el.onmouseover = hoverin68;
+  ban[5][8].el.onmouseover = hoverin69;
+  ban[6][0].el.onmouseover = hoverin71; ban[6][1].el.onmouseover = hoverin72;
+  ban[6][2].el.onmouseover = hoverin73; ban[6][3].el.onmouseover = hoverin74;
+  ban[6][4].el.onmouseover = hoverin75; ban[6][5].el.onmouseover = hoverin76;
+  ban[6][6].el.onmouseover = hoverin77; ban[6][7].el.onmouseover = hoverin78;
+  ban[6][8].el.onmouseover = hoverin79;
+  ban[7][0].el.onmouseover = hoverin81; ban[7][1].el.onmouseover = hoverin82;
+  ban[7][2].el.onmouseover = hoverin83; ban[7][3].el.onmouseover = hoverin84;
+  ban[7][4].el.onmouseover = hoverin85; ban[7][5].el.onmouseover = hoverin86;
+  ban[7][6].el.onmouseover = hoverin87; ban[7][7].el.onmouseover = hoverin88;
+  ban[7][8].el.onmouseover = hoverin89;
+  ban[8][0].el.onmouseover = hoverin91; ban[8][1].el.onmouseover = hoverin92;
+  ban[8][2].el.onmouseover = hoverin93; ban[8][3].el.onmouseover = hoverin94;
+  ban[8][4].el.onmouseover = hoverin95; ban[8][5].el.onmouseover = hoverin96;
+  ban[8][6].el.onmouseover = hoverin97; ban[8][7].el.onmouseover = hoverin98;
+  ban[8][8].el.onmouseover = hoverin99;
+
+  ban[0][0].el.onmouseout = hoverout11; ban[0][1].el.onmouseout = hoverout12;
+  ban[0][2].el.onmouseout = hoverout13; ban[0][3].el.onmouseout = hoverout14;
+  ban[0][4].el.onmouseout = hoverout15; ban[0][5].el.onmouseout = hoverout16;
+  ban[0][6].el.onmouseout = hoverout17; ban[0][7].el.onmouseout = hoverout18;
+  ban[0][8].el.onmouseout = hoverout19;
+  ban[1][0].el.onmouseout = hoverout21; ban[1][1].el.onmouseout = hoverout22;
+  ban[1][2].el.onmouseout = hoverout23; ban[1][3].el.onmouseout = hoverout24;
+  ban[1][4].el.onmouseout = hoverout25; ban[1][5].el.onmouseout = hoverout26;
+  ban[1][6].el.onmouseout = hoverout27; ban[1][7].el.onmouseout = hoverout28;
+  ban[1][8].el.onmouseout = hoverout29;
+  ban[2][0].el.onmouseout = hoverout31; ban[2][1].el.onmouseout = hoverout32;
+  ban[2][2].el.onmouseout = hoverout33; ban[2][3].el.onmouseout = hoverout34;
+  ban[2][4].el.onmouseout = hoverout35; ban[2][5].el.onmouseout = hoverout36;
+  ban[2][6].el.onmouseout = hoverout37; ban[2][7].el.onmouseout = hoverout38;
+  ban[2][8].el.onmouseout = hoverout39;
+  ban[3][0].el.onmouseout = hoverout41; ban[3][1].el.onmouseout = hoverout42;
+  ban[3][2].el.onmouseout = hoverout43; ban[3][3].el.onmouseout = hoverout44;
+  ban[3][4].el.onmouseout = hoverout45; ban[3][5].el.onmouseout = hoverout46;
+  ban[3][6].el.onmouseout = hoverout47; ban[3][7].el.onmouseout = hoverout48;
+  ban[3][8].el.onmouseout = hoverout49;
+  ban[4][0].el.onmouseout = hoverout51; ban[4][1].el.onmouseout = hoverout52;
+  ban[4][2].el.onmouseout = hoverout53; ban[4][3].el.onmouseout = hoverout54;
+  ban[4][4].el.onmouseout = hoverout55; ban[4][5].el.onmouseout = hoverout56;
+  ban[4][6].el.onmouseout = hoverout57; ban[4][7].el.onmouseout = hoverout58;
+  ban[4][8].el.onmouseout = hoverout59;
+  ban[5][0].el.onmouseout = hoverout61; ban[5][1].el.onmouseout = hoverout62;
+  ban[5][2].el.onmouseout = hoverout63; ban[5][3].el.onmouseout = hoverout64;
+  ban[5][4].el.onmouseout = hoverout65; ban[5][5].el.onmouseout = hoverout66;
+  ban[5][6].el.onmouseout = hoverout67; ban[5][7].el.onmouseout = hoverout68;
+  ban[5][8].el.onmouseout = hoverout69;
+  ban[6][0].el.onmouseout = hoverout71; ban[6][1].el.onmouseout = hoverout72;
+  ban[6][2].el.onmouseout = hoverout73; ban[6][3].el.onmouseout = hoverout74;
+  ban[6][4].el.onmouseout = hoverout75; ban[6][5].el.onmouseout = hoverout76;
+  ban[6][6].el.onmouseout = hoverout77; ban[6][7].el.onmouseout = hoverout78;
+  ban[6][8].el.onmouseout = hoverout79;
+  ban[7][0].el.onmouseout = hoverout81; ban[7][1].el.onmouseout = hoverout82;
+  ban[7][2].el.onmouseout = hoverout83; ban[7][3].el.onmouseout = hoverout84;
+  ban[7][4].el.onmouseout = hoverout85; ban[7][5].el.onmouseout = hoverout86;
+  ban[7][6].el.onmouseout = hoverout87; ban[7][7].el.onmouseout = hoverout88;
+  ban[7][8].el.onmouseout = hoverout89;
+  ban[8][0].el.onmouseout = hoverout91; ban[8][1].el.onmouseout = hoverout92;
+  ban[8][2].el.onmouseout = hoverout93; ban[8][3].el.onmouseout = hoverout94;
+  ban[8][4].el.onmouseout = hoverout95; ban[8][5].el.onmouseout = hoverout96;
+  ban[8][6].el.onmouseout = hoverout97; ban[8][7].el.onmouseout = hoverout98;
+  ban[8][8].el.onmouseout = hoverout99;
+}
+
+function gethtmlelement_tegoma() {
+  sentegoma[0][1].el = document.getElementById('sg_fu_img');
+  sentegoma[1][1].el = document.getElementById('sg_kyo_img');
+  sentegoma[2][1].el = document.getElementById('sg_kei_img');
+  sentegoma[3][1].el = document.getElementById('sg_gin_img');
+  sentegoma[4][1].el = document.getElementById('sg_kin_img');
+  sentegoma[5][1].el = document.getElementById('sg_kaku_img');
+  sentegoma[6][1].el = document.getElementById('sg_hisha_img');
+  sentegoma[0][1].el2 = document.getElementById('sg_fu_num');
+  sentegoma[1][1].el2 = document.getElementById('sg_kyo_num');
+  sentegoma[2][1].el2 = document.getElementById('sg_kei_num');
+  sentegoma[3][1].el2 = document.getElementById('sg_gin_num');
+  sentegoma[4][1].el2 = document.getElementById('sg_kin_num');
+  sentegoma[5][1].el2 = document.getElementById('sg_kaku_num');
+  sentegoma[6][1].el2 = document.getElementById('sg_hisha_num');
+  gotegoma[0][1].el = document.getElementById('gg_fu_img');
+  gotegoma[1][1].el = document.getElementById('gg_kyo_img');
+  gotegoma[2][1].el = document.getElementById('gg_kei_img');
+  gotegoma[3][1].el = document.getElementById('gg_gin_img');
+  gotegoma[4][1].el = document.getElementById('gg_kin_img');
+  gotegoma[5][1].el = document.getElementById('gg_kaku_img');
+  gotegoma[6][1].el = document.getElementById('gg_hisha_img');
+  gotegoma[0][1].el2 = document.getElementById('gg_fu_num');
+  gotegoma[1][1].el2 = document.getElementById('gg_kyo_num');
+  gotegoma[2][1].el2 = document.getElementById('gg_kei_num');
+  gotegoma[3][1].el2 = document.getElementById('gg_gin_num');
+  gotegoma[4][1].el2 = document.getElementById('gg_kin_num');
+  gotegoma[5][1].el2 = document.getElementById('gg_kaku_num');
+  gotegoma[6][1].el2 = document.getElementById('gg_hisha_num');
+
+  sentegoma[0][1].el.onclick = clickstgfu;
+  sentegoma[1][1].el.onclick = clickstgky;
+  sentegoma[2][1].el.onclick = clickstgke;
+  sentegoma[3][1].el.onclick = clickstggi;
+  sentegoma[4][1].el.onclick = clickstgki;
+  sentegoma[5][1].el.onclick = clickstgka;
+  sentegoma[6][1].el.onclick = clickstghi;
+  sentegoma[0][1].el2.onclick = clickstgfu;
+  sentegoma[1][1].el2.onclick = clickstgky;
+  sentegoma[2][1].el2.onclick = clickstgke;
+  sentegoma[3][1].el2.onclick = clickstggi;
+  sentegoma[4][1].el2.onclick = clickstgki;
+  sentegoma[5][1].el2.onclick = clickstgka;
+  sentegoma[6][1].el2.onclick = clickstghi;
+  gotegoma[0][1].el.onclick = clickgtgfu;
+  gotegoma[1][1].el.onclick = clickgtgky;
+  gotegoma[2][1].el.onclick = clickgtgke;
+  gotegoma[3][1].el.onclick = clickgtggi;
+  gotegoma[4][1].el.onclick = clickgtgki;
+  gotegoma[5][1].el.onclick = clickgtgka;
+  gotegoma[6][1].el.onclick = clickgtghi;
+  gotegoma[0][1].el2.onclick = clickgtgfu;
+  gotegoma[1][1].el2.onclick = clickgtgky;
+  gotegoma[2][1].el2.onclick = clickgtgke;
+  gotegoma[3][1].el2.onclick = clickgtggi;
+  gotegoma[4][1].el2.onclick = clickgtgki;
+  gotegoma[5][1].el2.onclick = clickgtgka;
+  gotegoma[6][1].el2.onclick = clickgtghi;
+}
+
 /**
  * ページ読み込み時に最初に呼ばれる
  */
@@ -265,284 +547,10 @@ function gethtmlelement() {
  document.onmousemove = mousemove;
 
  // 盤の設定
- ban[0][0].el = document.getElementById('b11');
- ban[0][1].el = document.getElementById('b12');
- ban[0][2].el = document.getElementById('b13');
- ban[0][3].el = document.getElementById('b14');
- ban[0][4].el = document.getElementById('b15');
- ban[0][5].el = document.getElementById('b16');
- ban[0][6].el = document.getElementById('b17');
- ban[0][7].el = document.getElementById('b18');
- ban[0][8].el = document.getElementById('b19');
- ban[1][0].el = document.getElementById('b21');
- ban[1][1].el = document.getElementById('b22');
- ban[1][2].el = document.getElementById('b23');
- ban[1][3].el = document.getElementById('b24');
- ban[1][4].el = document.getElementById('b25');
- ban[1][5].el = document.getElementById('b26');
- ban[1][6].el = document.getElementById('b27');
- ban[1][7].el = document.getElementById('b28');
- ban[1][8].el = document.getElementById('b29');
- ban[2][0].el = document.getElementById('b31');
- ban[2][1].el = document.getElementById('b32');
- ban[2][2].el = document.getElementById('b33');
- ban[2][3].el = document.getElementById('b34');
- ban[2][4].el = document.getElementById('b35');
- ban[2][5].el = document.getElementById('b36');
- ban[2][6].el = document.getElementById('b37');
- ban[2][7].el = document.getElementById('b38');
- ban[2][8].el = document.getElementById('b39');
- ban[3][0].el = document.getElementById('b41');
- ban[3][1].el = document.getElementById('b42');
- ban[3][2].el = document.getElementById('b43');
- ban[3][3].el = document.getElementById('b44');
- ban[3][4].el = document.getElementById('b45');
- ban[3][5].el = document.getElementById('b46');
- ban[3][6].el = document.getElementById('b47');
- ban[3][7].el = document.getElementById('b48');
- ban[3][8].el = document.getElementById('b49');
- ban[4][0].el = document.getElementById('b51');
- ban[4][1].el = document.getElementById('b52');
- ban[4][2].el = document.getElementById('b53');
- ban[4][3].el = document.getElementById('b54');
- ban[4][4].el = document.getElementById('b55');
- ban[4][5].el = document.getElementById('b56');
- ban[4][6].el = document.getElementById('b57');
- ban[4][7].el = document.getElementById('b58');
- ban[4][8].el = document.getElementById('b59');
- ban[5][0].el = document.getElementById('b61');
- ban[5][1].el = document.getElementById('b62');
- ban[5][2].el = document.getElementById('b63');
- ban[5][3].el = document.getElementById('b64');
- ban[5][4].el = document.getElementById('b65');
- ban[5][5].el = document.getElementById('b66');
- ban[5][6].el = document.getElementById('b67');
- ban[5][7].el = document.getElementById('b68');
- ban[5][8].el = document.getElementById('b69');
- ban[6][0].el = document.getElementById('b71');
- ban[6][1].el = document.getElementById('b72');
- ban[6][2].el = document.getElementById('b73');
- ban[6][3].el = document.getElementById('b74');
- ban[6][4].el = document.getElementById('b75');
- ban[6][5].el = document.getElementById('b76');
- ban[6][6].el = document.getElementById('b77');
- ban[6][7].el = document.getElementById('b78');
- ban[6][8].el = document.getElementById('b79');
- ban[7][0].el = document.getElementById('b81');
- ban[7][1].el = document.getElementById('b82');
- ban[7][2].el = document.getElementById('b83');
- ban[7][3].el = document.getElementById('b84');
- ban[7][4].el = document.getElementById('b85');
- ban[7][5].el = document.getElementById('b86');
- ban[7][6].el = document.getElementById('b87');
- ban[7][7].el = document.getElementById('b88');
- ban[7][8].el = document.getElementById('b89');
- ban[8][0].el = document.getElementById('b91');
- ban[8][1].el = document.getElementById('b92');
- ban[8][2].el = document.getElementById('b93');
- ban[8][3].el = document.getElementById('b94');
- ban[8][4].el = document.getElementById('b95');
- ban[8][5].el = document.getElementById('b96');
- ban[8][6].el = document.getElementById('b97');
- ban[8][7].el = document.getElementById('b98');
- ban[8][8].el = document.getElementById('b99');
-
- ban[0][0].el.onclick = click11; ban[0][1].el.onclick = click12;
- ban[0][2].el.onclick = click13; ban[0][3].el.onclick = click14;
- ban[0][4].el.onclick = click15; ban[0][5].el.onclick = click16;
- ban[0][6].el.onclick = click17; ban[0][7].el.onclick = click18;
- ban[0][8].el.onclick = click19;
- ban[1][0].el.onclick = click21; ban[1][1].el.onclick = click22;
- ban[1][2].el.onclick = click23; ban[1][3].el.onclick = click24;
- ban[1][4].el.onclick = click25; ban[1][5].el.onclick = click26;
- ban[1][6].el.onclick = click27; ban[1][7].el.onclick = click28;
- ban[1][8].el.onclick = click29;
- ban[2][0].el.onclick = click31; ban[2][1].el.onclick = click32;
- ban[2][2].el.onclick = click33; ban[2][3].el.onclick = click34;
- ban[2][4].el.onclick = click35; ban[2][5].el.onclick = click36;
- ban[2][6].el.onclick = click37; ban[2][7].el.onclick = click38;
- ban[2][8].el.onclick = click39;
- ban[3][0].el.onclick = click41; ban[3][1].el.onclick = click42;
- ban[3][2].el.onclick = click43; ban[3][3].el.onclick = click44;
- ban[3][4].el.onclick = click45; ban[3][5].el.onclick = click46;
- ban[3][6].el.onclick = click47; ban[3][7].el.onclick = click48;
- ban[3][8].el.onclick = click49;
- ban[4][0].el.onclick = click51; ban[4][1].el.onclick = click52;
- ban[4][2].el.onclick = click53; ban[4][3].el.onclick = click54;
- ban[4][4].el.onclick = click55; ban[4][5].el.onclick = click56;
- ban[4][6].el.onclick = click57; ban[4][7].el.onclick = click58;
- ban[4][8].el.onclick = click59;
- ban[5][0].el.onclick = click61; ban[5][1].el.onclick = click62;
- ban[5][2].el.onclick = click63; ban[5][3].el.onclick = click64;
- ban[5][4].el.onclick = click65; ban[5][5].el.onclick = click66;
- ban[5][6].el.onclick = click67; ban[5][7].el.onclick = click68;
- ban[5][8].el.onclick = click69;
- ban[6][0].el.onclick = click71; ban[6][1].el.onclick = click72;
- ban[6][2].el.onclick = click73; ban[6][3].el.onclick = click74;
- ban[6][4].el.onclick = click75; ban[6][5].el.onclick = click76;
- ban[6][6].el.onclick = click77; ban[6][7].el.onclick = click78;
- ban[6][8].el.onclick = click79;
- ban[7][0].el.onclick = click81; ban[7][1].el.onclick = click82;
- ban[7][2].el.onclick = click83; ban[7][3].el.onclick = click84;
- ban[7][4].el.onclick = click85; ban[7][5].el.onclick = click86;
- ban[7][6].el.onclick = click87; ban[7][7].el.onclick = click88;
- ban[7][8].el.onclick = click89;
- ban[8][0].el.onclick = click91; ban[8][1].el.onclick = click92;
- ban[8][2].el.onclick = click93; ban[8][3].el.onclick = click94;
- ban[8][4].el.onclick = click95; ban[8][5].el.onclick = click96;
- ban[8][6].el.onclick = click97; ban[8][7].el.onclick = click98;
- ban[8][8].el.onclick = click99;
-
- ban[0][0].el.onmouseover = hoverin11; ban[0][1].el.onmouseover = hoverin12;
- ban[0][2].el.onmouseover = hoverin13; ban[0][3].el.onmouseover = hoverin14;
- ban[0][4].el.onmouseover = hoverin15; ban[0][5].el.onmouseover = hoverin16;
- ban[0][6].el.onmouseover = hoverin17; ban[0][7].el.onmouseover = hoverin18;
- ban[0][8].el.onmouseover = hoverin19;
- ban[1][0].el.onmouseover = hoverin21; ban[1][1].el.onmouseover = hoverin22;
- ban[1][2].el.onmouseover = hoverin23; ban[1][3].el.onmouseover = hoverin24;
- ban[1][4].el.onmouseover = hoverin25; ban[1][5].el.onmouseover = hoverin26;
- ban[1][6].el.onmouseover = hoverin27; ban[1][7].el.onmouseover = hoverin28;
- ban[1][8].el.onmouseover = hoverin29;
- ban[2][0].el.onmouseover = hoverin31; ban[2][1].el.onmouseover = hoverin32;
- ban[2][2].el.onmouseover = hoverin33; ban[2][3].el.onmouseover = hoverin34;
- ban[2][4].el.onmouseover = hoverin35; ban[2][5].el.onmouseover = hoverin36;
- ban[2][6].el.onmouseover = hoverin37; ban[2][7].el.onmouseover = hoverin38;
- ban[2][8].el.onmouseover = hoverin39;
- ban[3][0].el.onmouseover = hoverin41; ban[3][1].el.onmouseover = hoverin42;
- ban[3][2].el.onmouseover = hoverin43; ban[3][3].el.onmouseover = hoverin44;
- ban[3][4].el.onmouseover = hoverin45; ban[3][5].el.onmouseover = hoverin46;
- ban[3][6].el.onmouseover = hoverin47; ban[3][7].el.onmouseover = hoverin48;
- ban[3][8].el.onmouseover = hoverin49;
- ban[4][0].el.onmouseover = hoverin51; ban[4][1].el.onmouseover = hoverin52;
- ban[4][2].el.onmouseover = hoverin53; ban[4][3].el.onmouseover = hoverin54;
- ban[4][4].el.onmouseover = hoverin55; ban[4][5].el.onmouseover = hoverin56;
- ban[4][6].el.onmouseover = hoverin57; ban[4][7].el.onmouseover = hoverin58;
- ban[4][8].el.onmouseover = hoverin59;
- ban[5][0].el.onmouseover = hoverin61; ban[5][1].el.onmouseover = hoverin62;
- ban[5][2].el.onmouseover = hoverin63; ban[5][3].el.onmouseover = hoverin64;
- ban[5][4].el.onmouseover = hoverin65; ban[5][5].el.onmouseover = hoverin66;
- ban[5][6].el.onmouseover = hoverin67; ban[5][7].el.onmouseover = hoverin68;
- ban[5][8].el.onmouseover = hoverin69;
- ban[6][0].el.onmouseover = hoverin71; ban[6][1].el.onmouseover = hoverin72;
- ban[6][2].el.onmouseover = hoverin73; ban[6][3].el.onmouseover = hoverin74;
- ban[6][4].el.onmouseover = hoverin75; ban[6][5].el.onmouseover = hoverin76;
- ban[6][6].el.onmouseover = hoverin77; ban[6][7].el.onmouseover = hoverin78;
- ban[6][8].el.onmouseover = hoverin79;
- ban[7][0].el.onmouseover = hoverin81; ban[7][1].el.onmouseover = hoverin82;
- ban[7][2].el.onmouseover = hoverin83; ban[7][3].el.onmouseover = hoverin84;
- ban[7][4].el.onmouseover = hoverin85; ban[7][5].el.onmouseover = hoverin86;
- ban[7][6].el.onmouseover = hoverin87; ban[7][7].el.onmouseover = hoverin88;
- ban[7][8].el.onmouseover = hoverin89;
- ban[8][0].el.onmouseover = hoverin91; ban[8][1].el.onmouseover = hoverin92;
- ban[8][2].el.onmouseover = hoverin93; ban[8][3].el.onmouseover = hoverin94;
- ban[8][4].el.onmouseover = hoverin95; ban[8][5].el.onmouseover = hoverin96;
- ban[8][6].el.onmouseover = hoverin97; ban[8][7].el.onmouseover = hoverin98;
- ban[8][8].el.onmouseover = hoverin99;
-
- ban[0][0].el.onmouseout = hoverout11; ban[0][1].el.onmouseout = hoverout12;
- ban[0][2].el.onmouseout = hoverout13; ban[0][3].el.onmouseout = hoverout14;
- ban[0][4].el.onmouseout = hoverout15; ban[0][5].el.onmouseout = hoverout16;
- ban[0][6].el.onmouseout = hoverout17; ban[0][7].el.onmouseout = hoverout18;
- ban[0][8].el.onmouseout = hoverout19;
- ban[1][0].el.onmouseout = hoverout21; ban[1][1].el.onmouseout = hoverout22;
- ban[1][2].el.onmouseout = hoverout23; ban[1][3].el.onmouseout = hoverout24;
- ban[1][4].el.onmouseout = hoverout25; ban[1][5].el.onmouseout = hoverout26;
- ban[1][6].el.onmouseout = hoverout27; ban[1][7].el.onmouseout = hoverout28;
- ban[1][8].el.onmouseout = hoverout29;
- ban[2][0].el.onmouseout = hoverout31; ban[2][1].el.onmouseout = hoverout32;
- ban[2][2].el.onmouseout = hoverout33; ban[2][3].el.onmouseout = hoverout34;
- ban[2][4].el.onmouseout = hoverout35; ban[2][5].el.onmouseout = hoverout36;
- ban[2][6].el.onmouseout = hoverout37; ban[2][7].el.onmouseout = hoverout38;
- ban[2][8].el.onmouseout = hoverout39;
- ban[3][0].el.onmouseout = hoverout41; ban[3][1].el.onmouseout = hoverout42;
- ban[3][2].el.onmouseout = hoverout43; ban[3][3].el.onmouseout = hoverout44;
- ban[3][4].el.onmouseout = hoverout45; ban[3][5].el.onmouseout = hoverout46;
- ban[3][6].el.onmouseout = hoverout47; ban[3][7].el.onmouseout = hoverout48;
- ban[3][8].el.onmouseout = hoverout49;
- ban[4][0].el.onmouseout = hoverout51; ban[4][1].el.onmouseout = hoverout52;
- ban[4][2].el.onmouseout = hoverout53; ban[4][3].el.onmouseout = hoverout54;
- ban[4][4].el.onmouseout = hoverout55; ban[4][5].el.onmouseout = hoverout56;
- ban[4][6].el.onmouseout = hoverout57; ban[4][7].el.onmouseout = hoverout58;
- ban[4][8].el.onmouseout = hoverout59;
- ban[5][0].el.onmouseout = hoverout61; ban[5][1].el.onmouseout = hoverout62;
- ban[5][2].el.onmouseout = hoverout63; ban[5][3].el.onmouseout = hoverout64;
- ban[5][4].el.onmouseout = hoverout65; ban[5][5].el.onmouseout = hoverout66;
- ban[5][6].el.onmouseout = hoverout67; ban[5][7].el.onmouseout = hoverout68;
- ban[5][8].el.onmouseout = hoverout69;
- ban[6][0].el.onmouseout = hoverout71; ban[6][1].el.onmouseout = hoverout72;
- ban[6][2].el.onmouseout = hoverout73; ban[6][3].el.onmouseout = hoverout74;
- ban[6][4].el.onmouseout = hoverout75; ban[6][5].el.onmouseout = hoverout76;
- ban[6][6].el.onmouseout = hoverout77; ban[6][7].el.onmouseout = hoverout78;
- ban[6][8].el.onmouseout = hoverout79;
- ban[7][0].el.onmouseout = hoverout81; ban[7][1].el.onmouseout = hoverout82;
- ban[7][2].el.onmouseout = hoverout83; ban[7][3].el.onmouseout = hoverout84;
- ban[7][4].el.onmouseout = hoverout85; ban[7][5].el.onmouseout = hoverout86;
- ban[7][6].el.onmouseout = hoverout87; ban[7][7].el.onmouseout = hoverout88;
- ban[7][8].el.onmouseout = hoverout89;
- ban[8][0].el.onmouseout = hoverout91; ban[8][1].el.onmouseout = hoverout92;
- ban[8][2].el.onmouseout = hoverout93; ban[8][3].el.onmouseout = hoverout94;
- ban[8][4].el.onmouseout = hoverout95; ban[8][5].el.onmouseout = hoverout96;
- ban[8][6].el.onmouseout = hoverout97; ban[8][7].el.onmouseout = hoverout98;
- ban[8][8].el.onmouseout = hoverout99;
+ gethtmlelement_ban();
 
  // 手駒の設定
- sentegoma[0][1].el = document.getElementById('sg_fu_img');
- sentegoma[1][1].el = document.getElementById('sg_kyo_img');
- sentegoma[2][1].el = document.getElementById('sg_kei_img');
- sentegoma[3][1].el = document.getElementById('sg_gin_img');
- sentegoma[4][1].el = document.getElementById('sg_kin_img');
- sentegoma[5][1].el = document.getElementById('sg_kaku_img');
- sentegoma[6][1].el = document.getElementById('sg_hisha_img');
- sentegoma[0][1].el2 = document.getElementById('sg_fu_num');
- sentegoma[1][1].el2 = document.getElementById('sg_kyo_num');
- sentegoma[2][1].el2 = document.getElementById('sg_kei_num');
- sentegoma[3][1].el2 = document.getElementById('sg_gin_num');
- sentegoma[4][1].el2 = document.getElementById('sg_kin_num');
- sentegoma[5][1].el2 = document.getElementById('sg_kaku_num');
- sentegoma[6][1].el2 = document.getElementById('sg_hisha_num');
- gotegoma[0][1].el = document.getElementById('gg_fu_img');
- gotegoma[1][1].el = document.getElementById('gg_kyo_img');
- gotegoma[2][1].el = document.getElementById('gg_kei_img');
- gotegoma[3][1].el = document.getElementById('gg_gin_img');
- gotegoma[4][1].el = document.getElementById('gg_kin_img');
- gotegoma[5][1].el = document.getElementById('gg_kaku_img');
- gotegoma[6][1].el = document.getElementById('gg_hisha_img');
- gotegoma[0][1].el2 = document.getElementById('gg_fu_num');
- gotegoma[1][1].el2 = document.getElementById('gg_kyo_num');
- gotegoma[2][1].el2 = document.getElementById('gg_kei_num');
- gotegoma[3][1].el2 = document.getElementById('gg_gin_num');
- gotegoma[4][1].el2 = document.getElementById('gg_kin_num');
- gotegoma[5][1].el2 = document.getElementById('gg_kaku_num');
- gotegoma[6][1].el2 = document.getElementById('gg_hisha_num');
-
- sentegoma[0][1].el.onclick = clickstgfu;
- sentegoma[1][1].el.onclick = clickstgky;
- sentegoma[2][1].el.onclick = clickstgke;
- sentegoma[3][1].el.onclick = clickstggi;
- sentegoma[4][1].el.onclick = clickstgki;
- sentegoma[5][1].el.onclick = clickstgka;
- sentegoma[6][1].el.onclick = clickstghi;
- sentegoma[0][1].el2.onclick = clickstgfu;
- sentegoma[1][1].el2.onclick = clickstgky;
- sentegoma[2][1].el2.onclick = clickstgke;
- sentegoma[3][1].el2.onclick = clickstggi;
- sentegoma[4][1].el2.onclick = clickstgki;
- sentegoma[5][1].el2.onclick = clickstgka;
- sentegoma[6][1].el2.onclick = clickstghi;
- gotegoma[0][1].el.onclick = clickgtgfu;
- gotegoma[1][1].el.onclick = clickgtgky;
- gotegoma[2][1].el.onclick = clickgtgke;
- gotegoma[3][1].el.onclick = clickgtggi;
- gotegoma[4][1].el.onclick = clickgtgki;
- gotegoma[5][1].el.onclick = clickgtgka;
- gotegoma[6][1].el.onclick = clickgtghi;
- gotegoma[0][1].el2.onclick = clickgtgfu;
- gotegoma[1][1].el2.onclick = clickgtgky;
- gotegoma[2][1].el2.onclick = clickgtgke;
- gotegoma[3][1].el2.onclick = clickgtggi;
- gotegoma[4][1].el2.onclick = clickgtgki;
- gotegoma[5][1].el2.onclick = clickgtgka;
- gotegoma[6][1].el2.onclick = clickgtghi;
+ gethtmlelement_tegoma();
 
  // 成り不成メニューの設定
  narimenu = document.getElementById('narimenu');
@@ -813,6 +821,23 @@ function activecell(koma, masu, masui) {
  activatemovable(true);
 }
 
+function absclick_wo_active(koma, masu, masui) {
+  // アクティブなマスはないので
+ if ((koma.teban !== Koma.AKI) && (koma.teban === activeteban)) {
+  // 自分の駒をクリックしたならアクティブにする。
+  activecell(koma, masu, masui);
+ // } else {
+ // nothing to do
+ }
+}
+
+function absclick_on_mypiece(koma, masu, masui) {
+ // 自分の駒をクリックしたので非アクティブにする。
+ if (activetegoma !== null)
+  activeuchi(null, null, null);
+ activecell(koma, masu, masui);
+}
+
 /**
  * マスをクリックした時に呼ばれる。
  *
@@ -837,19 +862,18 @@ function absclick(x, y) {
  var masu = ban[x][y];
  var masui = ban[x][y].el;
  if (activemasu === masu) {
+  // アクティブなマスをクリックしたので非アクティブにする。
   activecell(null, null, null);
  } else {
   if (activemasu === null) {
-   if ((koma.teban !== Koma.AKI) && (koma.teban === activeteban)) {
-    activecell(koma, masu, masui);
-   // } else {
-    // nothing to do
-   }
+   // アクティブなマスはないので
+   // 自分の駒をクリックしたならアクティブにする。
+   absclick_wo_active(koma, masu, masui);
   } else if (activekoma.teban === koma.teban) {
-   if (activetegoma !== null)
-    activeuchi(null, null, null);
-   activecell(koma, masu, masui);
+   // 自分の駒をクリックしたので非アクティブにする。
+   absclick_on_mypiece(koma, masu, masui);
   } else if (koma.teban === Koma.AKI) {
+   // 空きマスをクリックした
    var ismovable = false;
    for (var idx in activemovable) {
     if (activemovable[idx][0] === hx && activemovable[idx][1] === hy) {
