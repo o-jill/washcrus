@@ -89,13 +89,13 @@ class TaikyokuData
     # @log.debug('TaikyokuFile.new')
     tdb = TaikyokuFile.new
     tdb.read
-    tdb.add(@gid, @id1, @id2, @player1, @player2, @datetime, '')
+    tdb.add([@gid, @id1, @id2, @player1, @player2, @datetime, ''])
     tdb.append(@gid)
 
     # @log.debug('TaikyokuChuFile.new')
     tcdb = TaikyokuChuFile.new
     tcdb.read
-    tcdb.add(@gid, @id1, @id2, @player1, @player2, @datetime, '')
+    tcdb.add([@gid, @id1, @id2, @player1, @player2, @datetime, ''])
     tcdb.append(@gid)
   end
 
