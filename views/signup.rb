@@ -48,6 +48,9 @@ class SignupScreen
     <TR>
      <TD colspan=2><input type='button' value='submit' onClick='check_form();' class='inpform'>&nbsp;<input type='reset' class='inpform'></TD>
     </TR>
+    <TR>
+     <TD colspan=2 id='errmsg'></TD>
+    </TR>
     </TABLE></FORM>
     TABLE_FORM
   end

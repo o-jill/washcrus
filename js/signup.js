@@ -84,6 +84,7 @@ function check_form()
   if (nmismatch === 0) {
     document.forms['signup'].submit();
   } else {
-    window.alert(alertmsg);
+    document.getElementById('errmsg').innerText = alertmsg;
+    // window.alert(alertmsg);
   }
 }
