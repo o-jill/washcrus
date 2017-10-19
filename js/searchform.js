@@ -27,7 +27,7 @@ function check_form()
   }
 
   if (nmismatch === 4) {
-    window.alert('please put some information!!');
+    document.getElementById('errmsg').innerText = 'please put some information!!';
   } else {
     document.forms['searchform'].submit();
   }

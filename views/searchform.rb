@@ -10,12 +10,18 @@ require './views/common_ui.rb'
 # 検索画面
 #
 class SearchformScreen
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  # @param title  ページタイトル
+  # @param name   ページヘッダタイトル
   def initialize(header, title, name)
     @header = header
     @title = title
     @name = name
   end
 
+  # フォームの出力
   def put_search_form
     now = Time.now
     today = now.strftime('%Y/%m/%d')
@@ -44,10 +50,16 @@ class SearchformScreen
       <TR>
        <TD colspan=2 align='center'><input type='button' value='Search' onClick='check_form();' class='inpform'>&nbsp;<input type='reset' class='inpform'></TD>
       </TR>
+      <TR>
+       <TD colspan=2 id='errmsg'></TD>
+      </TR>
       </TABLE></FORM>
       TABLE_FORM
   end
 
+  # 画面の表示
+  #
+  # @param userinfo ユーザー情報
   def show(userinfo)
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name, userinfo)
