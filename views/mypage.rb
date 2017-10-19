@@ -69,7 +69,6 @@ class MyPageScreen
     puts "<tr><th>#{title}</th><td>#{w}勝#{l}敗</td><td>#{r}</td></tr>"
   end
 
-
   # 成績表の出力
   #
   # @param ttl   総合成績[勝数, 負数, 対局数]
