@@ -1510,50 +1510,12 @@ var sfenkoma = function(dan, ndan) {
    --nsuji;
   } else if (ch === '+') {
    nari = 1;
-  } else if (ch === '1') {
-   result.push(new Koma());
+  } else if (/[1-9].test(ch)) {
+   var naki = +ch;
    nari = 0;
-   --nsuji;
-  } else if (ch === '2') {
-   nari = 0;
-   result.push(new Koma());
-   result.push(new Koma());
-   nsuji -= 2;
-  } else if (ch === '3') {
-   nari = 0;
-   for (var i = 0; i < 3; ++i)
-       result.push(new Koma());
-   nsuji -= 3;
-  } else if (ch === '4') {
-   nari = 0;
-   for (i = 0; i < 4; ++i)
-       result.push(new Koma());
-   nsuji -= 4;
-  } else if (ch === '5') {
-   nari = 0;
-   for (i = 0; i < 5; ++i)
-       result.push(new Koma());
-   nsuji -= 5;
-  } else if (ch === '6') {
-   nari = 0;
-   for (i = 0; i < 6; ++i)
-       result.push(new Koma());
-   nsuji -= 6;
-  } else if (ch === '7') {
-   nari = 0;
-   for (i = 0; i < 7; ++i)
-       result.push(new Koma());
-   nsuji -= 7;
-  } else if (ch === '8') {
-   nari = 0;
-   for (i = 0; i < 8; ++i)
-       result.push(new Koma());
-   nsuji -= 8;
-  } else if (ch === '9') {
-   nari = 0;
-   for (i = 0; i < 9; ++i)
-       result.push(new Koma());
-   nsuji -= 9;
+   for (var i = 0; i < naki; ++i)
+    result.push(new Koma());
+   nsuji -= naki;
   }
  }
  return result;
