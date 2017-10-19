@@ -12,6 +12,19 @@ function countbyte(str)
   return sz;
 }
 
+function check_name()
+{
+  var name = document.getElementById('rname');
+  var nameui = document.getElementById('trname').style;
+  if (countbyte(name.value) < 4) {
+    nameui.backgroundColor = 'tomato';
+    return false;
+  } else {
+    nameui.backgroundColor = 'transparent';
+    return true;
+  }
+}
+
 function check_identical(a1, a2, u1, u2)
 {
   var em1 = document.getElementById(a1);
@@ -43,19 +56,26 @@ function check_email_format()
   }
 }
 
+function check_password()
+{
+  password1 = document.getElementById('rpassword');
+  if (password1.value.length < 4) {
+    document.getElementById('trpassword').style.backgroundColor = 'tomato';
+    document.getElementById('trpassword2').style.backgroundColor = 'tomato';
+    return false;
+  }
+  return true;
+}
+
 function check_form()
 {
   var nmismatch = 0;
   var alertmsg = '';
 
-  var name;
-  name = document.getElementById('rname');
-  if (countbyte(name.value) < 4) {
-    document.getElementById('trname').style.backgroundColor = 'red';
+  var name = document.getElementById('rname');
+  if (!check_name()) {
     alertmsg += 'name is too short!\n';
     ++nmismatch;
-  } else {
-    document.getElementById('trname').style.backgroundColor = 'transparent';
   }
 
   if (!check_identical('remail', 'remail2', 'tremail', 'tremail2')) {
@@ -74,9 +94,7 @@ function check_form()
   }
 
   password1 = document.getElementById('rpassword');
-  if (password1.value.length < 4) {
-    document.getElementById('trpassword').style.backgroundColor = 'tomato';
-    document.getElementById('trpassword2').style.backgroundColor = 'tomato';
+  if (!check_password()) {
     alertmsg += 'password is too short!\n';
     ++nmismatch;
   }
@@ -85,6 +103,5 @@ function check_form()
     document.forms['signup'].submit();
   } else {
     document.getElementById('errmsg').innerText = alertmsg;
-    // window.alert(alertmsg);
   }
 }
