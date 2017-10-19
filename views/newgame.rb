@@ -62,6 +62,7 @@ class NewGameScreen
          <img id='furikomato5' src='image/komato.png' style='display:none' width='32' height='32'>
         </TD>
        </TR>
+       <TR><TD colspan='3' id='errmsg'></TD></TR>
       </TABLE>
       </FORM>
       FORM_NEW_GAME
@@ -123,6 +124,7 @@ class NewGameScreen
          <input type='button' value='作成' class='inpform' style='width:100%' onclick='check_form2();'>
         </td>
        </tr>
+       <tr><td colspan='3' id='errmsg2'></td></tr>
       </table>
       </form>
       FORM_NEW_GAME

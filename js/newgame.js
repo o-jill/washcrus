@@ -68,7 +68,7 @@ function check_form()
   if (nmismatch === 0) {
     document.forms['gennewgame'].submit();
   } else {
-    window.alert(alertmsg);
+    document.getElementById('errmsg').innerText = alertmsg;
   }
 }
 
@@ -101,13 +101,13 @@ function pre_check() {
         btn.disabled = false;
         var status = ajax.status;
     	if (status === 0) {  // XHR 通信失敗
-    	  alert("XHR 通信失敗");
+        document.getElementById('errmsg').innerText = "XHR 通信失敗";
     	} else {  // XHR 通信成功
     	  if ((200 <= status && status < 300) || status === 304) {
-            // リクエスト成功
-            window.alert(ajax.responseText);
+          // リクエスト成功
+          document.getElementById('errmsg').innerText = ajax.responseText;
     	  } else {  // リクエスト失敗
-    		alert("その他の応答:" + status);
+          document.getElementById('errmsg').innerText = "その他の応答:" + status;
     	  }
     	}
     	break;
@@ -258,7 +258,7 @@ function check_form2()
   if (nmismatch === 0) {
     document.forms['gennewgame2'].submit();
   } else {
-    window.alert(alertmsg);
+    document.getElementById('errmsg2').innerText = alertmsg;
   }
 }
 
