@@ -40,6 +40,16 @@ class MyPageScreen
     ttl
   end
 
+  # 先手と後手の総対局数を計算
+  #
+  # @param wl {swin:先手勝数, slose:先手負数, gwin:後手勝数, glose:後手負数}
+  # @return wlに:stotal, :gtotalが追加された計算結果。
+  def calc_sgtotal(wl)
+    wl[:stotal] = wl[:swin] + wl[:slose]
+    wl[:gtotal] = wl[:gwin] + wl[:glose]
+    wl
+  end
+
   # 勝率の文字列を生成
   #
   # @param total 局数
@@ -59,12 +69,27 @@ class MyPageScreen
     puts "<tr><th>#{title}</th><td>#{w}勝#{l}敗</td><td>#{r}</td></tr>"
   end
 
+
   # 成績表の出力
+  #
+  # @param ttl   総合成績[勝数, 負数, 対局数]
+  # @param wl    先後成績{swin:, slose:, stotal, gwin:, glose:, gtotal:}
+  # @param trate 総合勝率
+  # @param srate 先手勝率
+  # @param grate 後手勝率
+  def put_myseiseki(ttl, wl, trate, srate, grate)
+    puts "<table align='center' border='3'><caption>戦績</caption>"
+    put_seiseki('総合成績', ttl[0], ttl[1], trate)
+    put_seiseki('先手成績', wl[:swin], wl[:slose], srate)
+    put_seiseki('後手成績', wl[:gwin], wl[:glose], grate)
+    puts '</table>'
+  end
+
+  # 成績表の計算と出力
   #
   # @param wl {swin:先手勝数, slose:先手負数, gwin:後手勝数, glose:後手負数}
   def put_stats(wl)
-    wl[:stotal] = wl[:swin] + wl[:slose]
-    wl[:gtotal] = wl[:gwin] + wl[:glose]
+    wl = calc_sgtotal(wl)
 
     ttl = calctotal(wl)
 
@@ -72,11 +97,7 @@ class MyPageScreen
     grate = calcratestr(wl[:gtotal], wl[:gwin])
     trate = calcratestr(ttl[2], ttl[0])
 
-    puts "<table align='center' border='3'><caption>戦績</caption>"
-    put_seiseki('総合成績', ttl[0], ttl[1], trate)
-    put_seiseki('先手成績', wl[:swin], wl[:slose], srate)
-    put_seiseki('後手成績', wl[:gwin], wl[:glose], grate)
-    puts '</table>'
+    put_myseiseki(ttl, wl, trate, srate, grate)
   end
 
   # 対局履歴の表のヘッダの出力
@@ -128,7 +149,6 @@ class MyPageScreen
     print '</table>'
   end
 
-
   # 対局履歴の表示
   #
   # @param uid ユーザーID
@@ -148,6 +168,16 @@ class MyPageScreen
     print '</table>'
   end
 
+  # 対局成績を引っ張ってくる
+  #
+  # @param uid ユーザーID
+  # @return {swin:先手勝数, slose:先手負数, gwin:後手勝数, glose:後手負数}
+  def get_mystats(uid)
+    udb = UserInfoFile.new
+    udb.read
+    udb.stats[uid]
+  end
+
   # 画面の表示
   #
   # @param userinfo ユーザー情報
@@ -155,11 +185,8 @@ class MyPageScreen
     return put_err_sreen("your log-in information is wrong ...\n") \
       if userinfo.nil? || userinfo.invalid?
 
-    udb = UserInfoFile.new
-    udb.read
-
     uid = userinfo.user_id
-    wl = udb.stats[uid]
+    wl = get_mystats(uid)
 
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name, userinfo)
