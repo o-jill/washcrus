@@ -898,76 +898,19 @@ function absclick(x, y) {
      // uchi
      msg = activekoma.movemsg(hx, hy);
      myconfirm(msg, CFRM_UTSU, hx, hy);
-     /*if (!confirm(msg)) {
-       activeuchi(null, null, null);
-       return;
-     }
-     uchi(activetegoma, activekoma, hx, hy);
-     activeuchi(null, null, -1);
-     update_screen();
-     record_your_move();*/
     } else {
      msg = activekoma.movemsg(hx, hy);
      myconfirm(msg, CFRM_MOVE, hx, hy);
-     /*if (!confirm(msg)) {
-      activecell(null, null, null);
-      return;
-     }
-     // toru(取らないけど)
-     toru(hx, hy);
-     // move
-     var nareru = activekoma.checkNari(activekoma.y, hy);
-     if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
-      move(activekoma, hx, hy, Koma.NARAZU);
-      activecell(null, null, null);
-      update_screen();
-      record_your_move();
-     } else if (nareru === Koma.NARU) {
-      move(activekoma, hx, hy, Koma.NARI);
-      activecell(null, null);
-      update_screen();
-      record_your_move();
-     } else if (nareru === Koma.NARERU) {
-      // ユーザに聞く
-      narimenu_tox = hx;
-      narimenu_toy = hy;
-      popupnari(mouseposx, mouseposy);
-     }*/
     }
    }
   } else {
-   var ismovable = check_activemovablemasu(hx, hy);
+   ismovable = check_activemovablemasu(hx, hy);
    if (ismovable === false) {
     // 選択キャンセル
     deactivate_activecell();
    } else {
     msg = activekoma.movemsg(hx, hy);
     myconfirm(msg, CFRM_MVCAP, hx, hy);
-    /*if (!confirm(msg)) {
-     activecell(null, null, null);
-     return;
-    }
-    // toru and move
-    // toru
-    toru(hx, hy);
-    // move
-    var nareru = activekoma.checkNari(activekoma.y, hy);
-    if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
-     move(activekoma, hx, hy, Koma.NARAZU);
-     activecell(null, null, null);
-     update_screen();
-     record_your_move();
-    } else if (nareru === Koma.NARU) {
-     move(activekoma, hx, hy, Koma.NARI);
-     activecell(null, null, null);
-     update_screen();
-     record_your_move();
-    } else if (nareru === Koma.NARERU) {
-     // ユーザに聞く
-     narimenu_tox = hx;
-     narimenu_toy = hy;
-     popupnari(mouseposx, mouseposy);
-    }*/
    }
   }
  }
@@ -1839,7 +1782,6 @@ var sfen_genbantext = function(shogiban) {
      aki = 0;
     }
     shogibantext[i] += komach;
-   } else {
    }
   }
   if (aki > 0) {
@@ -1863,8 +1805,8 @@ var sfen_gentegomatext = function(sentekomadai, gotekomadai) {
    sfentegomatext += komatblb.charAt(i);
   }
  }
- for (var i = 0; i < 7; ++i) {
-  var num = gotekomadai[i][0].length;
+ for (i = 0; i < 7; ++i) {
+  num = gotekomadai[i][0].length;
   if (num > 1) {
    sfentegomatext += num;
   }

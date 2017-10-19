@@ -103,7 +103,7 @@ class EntranceScreen
     puts "<script type='text/javascript' defer src='js/entrance.js'></script>"
 
     # LOGO
-    show_logo
+    # show_logo
 
     show_visitcount(blogin, userinfo)
 
