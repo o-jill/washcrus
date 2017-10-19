@@ -1510,7 +1510,7 @@ var sfenkoma = function(dan, ndan) {
    --nsuji;
   } else if (ch === '+') {
    nari = 1;
-  } else if (/[1-9].test(ch)) {
+  } else if (/[1-9]/.test(ch)) {
    var naki = +ch;
    nari = 0;
    for (var i = 0; i < naki; ++i)
