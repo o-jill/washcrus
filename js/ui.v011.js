@@ -30,6 +30,13 @@ var narimenu_tox;
 /** 成るマスの座標 */
 var narimenu_toy;
 
+/** 着手確認ダイアログ */
+var cfrmdlg;
+var CFRM_UTSU = 0;  // 打つ
+var CFRM_MOVE = 1;  // 動かす
+var CFRM_MVCAP = 2;  // 動かして取る
+var CFRM_RESIGN = 3;  // 投了
+
 /** 棋譜情報出力欄 */
 //var kifuArea;
 /** 棋譜形式選択欄 */
@@ -544,6 +551,13 @@ function gethtmlelement() {
  nameSente = document.getElementById('sentename');
  nameGote = document.getElementById('gotename');
 
+ // confirm
+ cfrmdlg = document.getElementById('movecfrm');
+ var cfrmdlg_ok = document.getElementById('mvcfm_ok');
+ cfrmdlg_ok.onclick = clickcfrm_ok;
+ var cfrmdlg_cancel = document.getElementById('mvcfm_cancel');
+ cfrmdlg_cancel.onclick = clickcfrm_cancel;
+
  // initKoma();
  // update_screen();
 }
@@ -879,20 +893,22 @@ function absclick(x, y) {
     if (activemasu.x === -1) {
      // uchi
      msg = activekoma.movemsg(hx, hy);
-     if (!confirm(msg)) {
+     myconfirm(msg, CFRM_UTSU, hx, hy);
+     /*if (!confirm(msg)) {
        activeuchi(null, null, null);
        return;
      }
      uchi(activetegoma, activekoma, hx, hy);
      activeuchi(null, null, -1);
      update_screen();
-     record_your_move();
+     record_your_move();*/
     } else {
-      msg = activekoma.movemsg(hx, hy);
-      if (!confirm(msg)) {
-        activecell(null, null, null);
-        return;
-      }
+     msg = activekoma.movemsg(hx, hy);
+     myconfirm(msg, CFRM_MOVE, hx, hy);
+     /*if (!confirm(msg)) {
+      activecell(null, null, null);
+      return;
+     }
      // toru(取らないけど)
      toru(hx, hy);
      // move
@@ -912,7 +928,7 @@ function absclick(x, y) {
       narimenu_tox = hx;
       narimenu_toy = hy;
       popupnari(mouseposx, mouseposy);
-     }
+     }*/
     }
    }
   } else {
@@ -921,11 +937,12 @@ function absclick(x, y) {
     // 選択キャンセル
     deactivate_activecell();
    } else {
-     msg = activekoma.movemsg(hx, hy);
-     if (!confirm(msg)) {
-       activecell(null, null, null);
-       return;
-     }
+    msg = activekoma.movemsg(hx, hy);
+    myconfirm(msg, CFRM_MVCAP, hx, hy);
+    /*if (!confirm(msg)) {
+     activecell(null, null, null);
+     return;
+    }
     // toru and move
     // toru
     toru(hx, hy);
@@ -946,7 +963,7 @@ function absclick(x, y) {
      narimenu_tox = hx;
      narimenu_toy = hy;
      popupnari(mouseposx, mouseposy);
-    }
+    }*/
    }
   }
  }
@@ -1162,6 +1179,100 @@ function clicknarazu() {
  narimenu.style.visibility = 'hidden';
  update_screen();
  record_your_move();
+}
+
+/**
+ * 着手確認ダイアログの表示
+ * @param  {String} msg  メッセージ
+ * @param  {[type]} type 0:打つとき, 1:動かすだけの時, 2:駒をとって動かすとき
+ */
+function myconfirm(msg, type, hx, hy) {
+  msgui = document.getElementById('msg_movecfrm')
+  msgui.innerText = msg;
+  cfrmdlg.md = type;
+  cfrmdlg.hx = hx;
+  cfrmdlg.hy = hy;
+  cfrmdlg.style.visibility = 'visible';
+}
+
+/**
+ * 着手確認ダイアログのOKを押した
+ */
+function clickcfrm_ok() {
+ var hx = cfrmdlg.hx;
+ var hy = cfrmdlg.hy;
+
+ cfrmdlg.style.visibility = 'hidden';
+
+ if (cfrmdlg.md === CFRM_UTSU) {
+  uchi(activetegoma, activekoma, hx, hy);
+  activeuchi(null, null, -1);
+  update_screen();
+  record_your_move();
+} else if (cfrmdlg.md === CFRM_MOVE) {
+  // toru(取らないけど)
+  toru(hx, hy);
+  // move
+  var nareru = activekoma.checkNari(activekoma.y, hy);
+  if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
+   move(activekoma, hx, hy, Koma.NARAZU);
+   activecell(null, null, null);
+   update_screen();
+   record_your_move();
+  } else if (nareru === Koma.NARU) {
+   move(activekoma, hx, hy, Koma.NARI);
+   activecell(null, null);
+   update_screen();
+   record_your_move();
+  } else if (nareru === Koma.NARERU) {
+   // ユーザに聞く
+   narimenu_tox = hx;
+   narimenu_toy = hy;
+   popupnari(mouseposx, mouseposy);
+  }
+ } else if (cfrmdlg.md === CFRM_MVCAP) {
+  // toru and move
+  // toru
+  toru(hx, hy);
+  // move
+  var nareru = activekoma.checkNari(activekoma.y, hy);
+  if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
+   move(activekoma, hx, hy, Koma.NARAZU);
+   activecell(null, null, null);
+   update_screen();
+   record_your_move();
+  } else if (nareru === Koma.NARU) {
+   move(activekoma, hx, hy, Koma.NARI);
+   activecell(null, null, null);
+   update_screen();
+   record_your_move();
+  } else if (nareru === Koma.NARERU) {
+   // ユーザに聞く
+   narimenu_tox = hx;
+   narimenu_toy = hy;
+   popupnari(mouseposx, mouseposy);
+  }
+ } else if (cfrmdlg.md === CFRM_RESIGN) {
+  // 投了
+  movecsa = '%TORYO';
+  send_csamove();
+ }
+}
+
+/**
+ * 着手確認ダイアログのCancelを押した
+ */
+function clickcfrm_cancel() {
+ if (cfrmdlg.md === CFRM_UTSU) {
+  // 駒打ちをやめる
+  activeuchi(null, null, null);
+ } else if (cfrmdlg.md === CFRM_MOVE || cfrmdlg.md === CFRM_MVCAP) {
+  //駒の移動をやめる
+  activecell(null, null, null);
+ /* } else if (cfrmdlg.md === CFRM_RESIGN) { */
+ }
+
+ cfrmdlg.style.visibility = 'hidden';
 }
 
 /**
@@ -2030,8 +2141,9 @@ function openurlin_blank(url) {
 }
 
 function onresign() {
- if (!confirm("負けを認めますか？")) return;
+ myconfirm("負けを認めますか？", CFRM_RESIGN, -1, -1);
+ /*if (!confirm()) return;
 
  movecsa = '%TORYO';
- send_csamove();
+ send_csamove();*/
 }

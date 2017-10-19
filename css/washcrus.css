@@ -192,3 +192,33 @@ a.menu {
   margin: 0;
   background-color:#EEF;
 }
+
+/* 着手確認用 */
+/* 入力禁止用幕 */
+.movecfrm {
+        align-items: center;
+-webkit-align-items: center;
+        justify-content: center;
+-webkit-justify-content: center;
+        display: -webkit-flex;
+        display:         flex;
+        position: fixed;
+        visibility: hidden;
+        background-Color: white;
+        opacity: 0.85;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+}
+
+.movecfrm table {
+  font-size: 2rem;
+}
+
+.mvcfm_ok, .mvcfm_cancel {
+  border: 2px solid gray;
+  background-color: lightgray;
+  width: 100%;
+  text-align: center;
+}

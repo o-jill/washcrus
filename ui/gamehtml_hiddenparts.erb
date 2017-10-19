@@ -1,9 +1,27 @@
 <%# -*- coding: utf-8 -*- %>
+<!-- 成り/不成選択メニュー -->
+<div id="narimenu" class='narimenu'>
+ <span id="naru" style="color:red;">&nbsp;成り&nbsp;</span>
+ <HR>
+ <span id="narazu">&nbsp;不成&nbsp;</span>
+</div>
+<!-- 着手確認メッセージ -->
+<div class='movecfrm' id='movecfrm'>
+ <table>
+  <tr><td colspan='2' class='msg_movecfrm' id='msg_movecfrm'>msg</td></tr>
+  <tr height='15'><td></td></tr>
+  <tr><td><div id='mvcfm_ok' class='mvcfm_ok'>OK</div></td></tr>
+  <tr height='15'><td></td></tr>
+  <tr><td><div id='mvcfm_cancel' class='mvcfm_cancel'>Cancel</div></td></tr>
+ </table>
+</div>
+<!-- 入力禁止兼通信中メッセージ -->
 <div class='fogscreen' id='fogscreen'>
  <section class='msg_fogscreen' id='msg_fogscreen'>
   <BIG>sending data to server..</BIG><img src='image/komanim.gif'>
  </section>
 </div>
+<!-- 事前読み込み用 -->
 <div class='preload'>
  <img src='image/koma_fu.png'>
  <img src='image/koma_kyo.png'>
