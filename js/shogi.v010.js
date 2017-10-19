@@ -603,7 +603,8 @@ Kifu.prototype.readLineCSA = function(text) {
  * @param {Array} arr_text CSAファイルの全文を行毎に区切った配列
  */
 Kifu.prototype.readCSA = function(arr_text) {
- for (var i in arr_text) {
+ var sz = arr_text.length;
+ for (var i = 0 ; i < sz; ++i) {
   this.readLineCSA(arr_text[i]);
  }
 };
@@ -614,7 +615,8 @@ Kifu.prototype.readCSA = function(arr_text) {
  * @param {Array} arr_text KIFファイルの全文を行毎に区切った配列
  */
 Kifu.prototype.readKIF = function(arr_text) {
- for (var i in arr_text) {
+ var sz = arr_text.length;
+ for (var i = 0 ; i < sz; ++i) {
   this.readLineCSA(arr_text[i]);
  }
 };
@@ -1214,7 +1216,8 @@ Koma.prototype.getKiki = function(ox, oy) {
  //
  var list = {rin8: [], straight: []};
  var movablemasulist = this.movable();
- for (var idx in movablemasulist) {
+ var sz = movablemasulist.length;
+ for (var idx = 0; idx < sz; ++idx) {
   var ax = movablemasulist[idx][0];
   var ay = movablemasulist[idx][1];
   var straight = movablemasulist[idx][2];
@@ -1241,7 +1244,8 @@ Koma.prototype.getKiki2 = function(ox, oy) {
  //
  var list = {rin8: [], straight: []};
  var movablemasulist = this.movable();
- for (var idx in movablemasulist) {
+ var sz = movablemasulist.length;
+ for (var idx = 0; idx < sz; ++idx) {
   var ax = movablemasulist[idx][0];
   var ay = movablemasulist[idx][1];
   var straight = movablemasulist[idx][2];
@@ -1304,7 +1308,8 @@ Koma.prototype.getCloseMovable = function (list, ax, ay, ox, oy) {
 Koma.prototype.getMovable = function(ox, oy) {
  var list = [];
  var movablemasulist = this.movable();
- for (var idx in movablemasulist) {
+ var sz = movablemasulist.length;
+ for (var idx = 0; idx < sz; ++idx) {
   var ax = movablemasulist[idx][0];
   var ay = movablemasulist[idx][1];
   var straight = movablemasulist[idx][2];
