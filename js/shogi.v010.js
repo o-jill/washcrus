@@ -1322,7 +1322,17 @@ Koma.prototype.getMovable = function(ox, oy) {
  return list;
 };
 
-Koma.prototype.pickup_ohte(ohtelist, x, y, gx, gy, nari) {
+/**
+ * 王手になる指し手を抽出
+ * @param  {Array} ohtelist 王手になる指し手リスト
+ * @param  {Number} x       現在地
+ * @param  {Number} y       現在地
+ * @param  {Number} gx      玉の現在地
+ * @param  {Number} gy      玉の現在地
+ * @param  {Number} nari    成った手かどうか
+ * @return {Array} 王手になる指し手リスト
+ */
+Koma.prototype.pickup_ohte = function(ohtelist, x, y, gx, gy, nari) {
  var list = this.getMovable(x, y);
  var sz = list.length;
  for (var i = 0; i < sz; ++i) {
