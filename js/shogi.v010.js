@@ -1345,25 +1345,28 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
  } else {
   return null;
  }
+ var list, sz, i;
  var ohtelist = [];
-  for (var j in mvlist) {
-   var x = mvlist[j][0];
-   var y = mvlist[j][1];
-   // 移動した先に玉がある場合
-   // すでに王手になっているということなので、ルール上ありえない条件
-   /*if (x === gx && y === gy) {
-    ohtelist.push(mvlist[i]);
-   }*/
-   /*
-    * Koma.NARENAI 成れない
-    * Koma.NARERU  成れる
-    * Koma.NARU    成らないといけない
-    * Koma.NATTA   成った後
+ var szmvl = mvlist.length;
+ for (var j = 0; j < szmvl; ++j) {
+  var x = mvlist[j][0];
+  var y = mvlist[j][1];
+  // 移動した先に玉がある場合
+  // すでに王手になっているということなので、ルール上ありえない条件
+  /*if (x === gx && y === gy) {
+   ohtelist.push(mvlist[i]);
+  }*/
+  /*
+   * Koma.NARENAI 成れない
+   * Koma.NARERU  成れる
+   * Koma.NARU    成らないといけない
+   * Koma.NATTA   成った後
    */
    switch (this.checkNari(oy, y)) {
     case Koma.NATTA:
-     var list = this.getMovable(x, y);
-     for (var i in list) {
+     list = this.getMovable(x, y);
+     sz = list.length;
+     for (i = 0; i < sz; ++i) {
       var xx = list[i][0];
       var yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
@@ -1375,7 +1378,8 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
      break;
     case Koma.NARENAI:
      list = this.getMovable(x, y);
-     for (i in list) {
+     sz = list.length;
+     for (i = 0; i < sz; ++i) {
       xx = list[i][0];
       yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
@@ -1388,7 +1392,8 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
     case Koma.NARERU:
      // 成る成らないで評価
      list = this.getMovable(x, y);
-     for (i in list) {
+     sz = list.length;
+     for (var i = 0; i < sz; ++i) {
       xx = list[i][0];
       yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
@@ -1400,7 +1405,8 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
      koma = this.clone();
      koma.nari = Koma.NARI;
      list = koma.getMovable(x, y);
-     for (i in list) {
+     sz = list.length;
+     for (i = 0; i < sz; ++i) {
       xx = list[i][0];
       yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
@@ -1415,7 +1421,8 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
      koma = this.clone();
      koma.nari = Koma.NARI;
      list = koma.getMovable(x, y);
-     for (i in list) {
+     sz = list.length;
+     for (i = 0; i < sz; ++i) {
       xx = list[i][0];
       yy = list[i][1];
       // 相手方の玉の位置に移動できるなら王手になる手
