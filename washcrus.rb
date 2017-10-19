@@ -103,10 +103,10 @@ class WashCrus
     when 'newgame' then
       NewGameScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
     when 'gennewgame' then
-      gngs = GenNewGameScreen.new(@header, Pagetitle, Titlename, $stg)
+      gngs = GenNewGameScreen.new(@header, Pagetitle, Titlename)
       gngs.show(@userinfo, @params)
     when 'gennewgame2' then
-      gngs = GenNewGame2Screen.new(@header, Pagetitle, Titlename, $stg)
+      gngs = GenNewGame2Screen.new(@header, Pagetitle, Titlename)
       gngs.show(@userinfo, @params)
     when 'signup' then
       SignupScreen.new(@header, Pagetitle, Titlename).show
@@ -164,7 +164,6 @@ end
 #
 
 cgi = CGI.new
-$stg = Settings.new
 washcrus = WashCrus.new(cgi)
 washcrus.perform
 

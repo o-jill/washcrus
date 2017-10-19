@@ -22,7 +22,7 @@ require './util/settings.rb'
 class ByouyomiChan
   # 初期化
   def initialize
-    stg = Settings.new
+    stg = Settings.instance
     @baseurl = stg.value['base_url']
 
     @min_period = ARGV[0].to_i || 0

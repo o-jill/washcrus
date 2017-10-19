@@ -22,12 +22,11 @@ class GenNewGameScreen
   # @param header htmlヘッダ
   # @param title  ページタイトル
   # @param name   ページヘッダタイトル
-  # @param stg    グローバル設定
-  def initialize(header, title, name, stg)
+  def initialize(header, title, name)
     @header = header
     @title = title
     @name = name
-    @stg = stg
+    @stg = Settings.instance
 
     @errmsg = ''
 

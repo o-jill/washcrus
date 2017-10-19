@@ -57,7 +57,8 @@ module CommonUI
   # @param userinfo ユーザ情報
   def self.HTMLmenu(title, userinfo = nil)
     index = File.basename($PROGRAM_NAME)
-    sup = $stg.value['support_url']
+    stg = Settings.instance
+    sup = stg.value['support_url']
 
     bsignup = userinfo.nil? || userinfo.invalid?
     return HTMLmenuSignUp(title, index, sup) if bsignup

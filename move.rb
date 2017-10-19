@@ -299,7 +299,7 @@ end
 #
 
 cgi = CGI.new
-stg = Settings.new
+stg = Settings.instance
 begin
   move = Move.new(cgi, stg)
   move.readuserparam

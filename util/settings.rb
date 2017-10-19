@@ -1,10 +1,12 @@
 # -*- encoding: utf-8 -*-
 
+require 'singleton'
 require 'yaml'
 
 # グローバル設定
 # ./config/settings.yamlを読み込んで使います。
 class Settings
+  include Singleton
   # 初期化
   #
   # @param path 読み込むファイルのパス
