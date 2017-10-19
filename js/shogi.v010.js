@@ -1322,6 +1322,21 @@ Koma.prototype.getMovable = function(ox, oy) {
  return list;
 };
 
+Koma.prototype.pickup_ohte(ohtelist, x, y, gx, gy, nari) {
+ var list = this.getMovable(x, y);
+ var sz = list.length;
+ for (var i = 0; i < sz; ++i) {
+  var xx = list[i][0];
+  var yy = list[i][1];
+  // 相手方の玉の位置に移動できるなら王手になる手
+  if (xx === gx && yy === gy) {
+   ohtelist.push([x, y, nari]);
+   return ohtelist;
+  }
+ }
+ return ohtelist;
+}
+
 /**
  * 王手になるマスのリストを返す。
  *
@@ -1362,78 +1377,83 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
    * Koma.NARU    成らないといけない
    * Koma.NATTA   成った後
    */
-   switch (this.checkNari(oy, y)) {
-    case Koma.NATTA:
-     list = this.getMovable(x, y);
-     sz = list.length;
-     for (i = 0; i < sz; ++i) {
-      var xx = list[i][0];
-      var yy = list[i][1];
-      // 相手方の玉の位置に移動できるなら王手になる手
-      if (xx === gx && yy === gy) {
-       ohtelist.push([x, y, Koma.NARAZU]);
-       break;
-      }
+  switch (this.checkNari(oy, y)) {
+   case Koma.NATTA:
+    ohtelist = this.pickup_ohte(ohtelist, x, y, gx, gy, Koma.NARAZU);
+    /*list = this.getMovable(x, y);
+    sz = list.length;
+    for (i = 0; i < sz; ++i) {
+     var xx = list[i][0];
+     var yy = list[i][1];
+     // 相手方の玉の位置に移動できるなら王手になる手
+     if (xx === gx && yy === gy) {
+      ohtelist.push([x, y, Koma.NARAZU]);
+      break;
      }
-     break;
-    case Koma.NARENAI:
-     list = this.getMovable(x, y);
-     sz = list.length;
-     for (i = 0; i < sz; ++i) {
-      xx = list[i][0];
-      yy = list[i][1];
-      // 相手方の玉の位置に移動できるなら王手になる手
-      if (xx === gx && yy === gy) {
-       ohtelist.push([x, y, Koma.NARAZU]);
-       break;
-      }
+    }*/
+    break;
+   case Koma.NARENAI:
+    ohtelist = this.pickup_ohte(ohtelist, x, y, gx, gy, Koma.NARAZU);
+    /*list = this.getMovable(x, y);
+    sz = list.length;
+    for (i = 0; i < sz; ++i) {
+     xx = list[i][0];
+     yy = list[i][1];
+     // 相手方の玉の位置に移動できるなら王手になる手
+     if (xx === gx && yy === gy) {
+      ohtelist.push([x, y, Koma.NARAZU]);
+      break;
      }
-     break;
-    case Koma.NARERU:
-     // 成る成らないで評価
-     list = this.getMovable(x, y);
-     sz = list.length;
-     for (var i = 0; i < sz; ++i) {
-      xx = list[i][0];
-      yy = list[i][1];
-      // 相手方の玉の位置に移動できるなら王手になる手
-      if (xx === gx && yy === gy) {
-       ohtelist.push([x, y, Koma.NARAZU]);
-       break;
-      }
+    }*/
+    break;
+   case Koma.NARERU:
+    // 成る成らないで評価
+    ohtelist = this.pickup_ohte(ohtelist, x, y, gx, gy, Koma.NARAZU);
+    /*list = this.getMovable(x, y);
+    sz = list.length;
+    for (i = 0; i < sz; ++i) {
+     xx = list[i][0];
+     yy = list[i][1];
+     // 相手方の玉の位置に移動できるなら王手になる手
+     if (xx === gx && yy === gy) {
+      ohtelist.push([x, y, Koma.NARAZU]);
+      break;
      }
-     koma = this.clone();
-     koma.nari = Koma.NARI;
-     list = koma.getMovable(x, y);
-     sz = list.length;
-     for (i = 0; i < sz; ++i) {
-      xx = list[i][0];
-      yy = list[i][1];
-      // 相手方の玉の位置に移動できるなら王手になる手
-      if (xx === gx && yy === gy) {
-       ohtelist.push([x, y, Koma.NARI]);
-       break;
-      }
+    }*/
+    koma = this.clone();
+    koma.nari = Koma.NARI;
+    ohtelist = koma.pickup_ohte(ohtelist, x, y, gx, gy, Koma.NARI);
+    /*list = koma.getMovable(x, y);
+    sz = list.length;
+    for (i = 0; i < sz; ++i) {
+     xx = list[i][0];
+     yy = list[i][1];
+     // 相手方の玉の位置に移動できるなら王手になる手
+     if (xx === gx && yy === gy) {
+      ohtelist.push([x, y, Koma.NARI]);
+      break;
      }
-     break;
-    case Koma.NARU:
-     // 成ってから評価
-     koma = this.clone();
-     koma.nari = Koma.NARI;
-     list = koma.getMovable(x, y);
-     sz = list.length;
-     for (i = 0; i < sz; ++i) {
-      xx = list[i][0];
-      yy = list[i][1];
-      // 相手方の玉の位置に移動できるなら王手になる手
-      if (xx === gx && yy === gy) {
-       ohtelist.push([x, y, Koma.NARI]);
-       break;
-      }
+    }*/
+    break;
+   case Koma.NARU:
+    // 成ってから評価
+    koma = this.clone();
+    koma.nari = Koma.NARI;
+    ohtelist = koma.pickup_ohte(ohtelist, x, y, gx, gy, Koma.NARI);
+    /*list = koma.getMovable(x, y);
+    sz = list.length;
+    for (i = 0; i < sz; ++i) {
+     xx = list[i][0];
+     yy = list[i][1];
+     // 相手方の玉の位置に移動できるなら王手になる手
+     if (xx === gx && yy === gy) {
+      ohtelist.push([x, y, Koma.NARI]);
+      break;
      }
-     break;
-   }
+    }*/
+    break;
   }
+ }
  return ohtelist;
 };
 
@@ -2475,7 +2495,7 @@ function KyokumenKIF() {
  }
  kyokumen += '+---------------------------+\n先手の持駒：';
 
- var komadai = KyokumenKIFTegoma(gotegoma);
+ komadai = KyokumenKIFTegoma(gotegoma);
  kyokumen += komadai;
 
  kyokumen += '\n手数＝' + mykifu.NTeme + ' ' + mykifu.lastTe.strs + 'まで\n';
