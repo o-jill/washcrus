@@ -18,7 +18,7 @@ function check_identical(a1, a2, u1, u2)
   var em2 = document.getElementById(a2);
   var em1ui = document.getElementById(u1).style;
   var em2ui = document.getElementById(u2).style;
-  if (em1.value != em2.value) {
+  if (em1.value !== em2.value) {
     em1ui.backgroundColor = 'tomato';
     em2ui.backgroundColor = 'tomato';
     return false;
