@@ -87,6 +87,8 @@ class Game
     # @log.debug('Game.put')
     gh.put(@header)
     # @log.debug('Game.performed')
+  rescue => e
+    @log.warn("class=[#{e.class}] message=[#{e.message}] in game")
   end
 
   # class methods
