@@ -1529,56 +1529,16 @@ var sfentegoma = function(tegomastr) {
  }
  var num = 1;
  var len = tegomastr.length;
+ var komatbl = 'PLNSGBRplnsgbr';
  for (var j = 0; j < len; ++j) {
   var ch = tegomastr.charAt(j);
-  if (ch === 'p') {
-   tegoma[1][0] = num;
-   num = 1;
-  } else if (ch === 'l') {
-   tegoma[1][1] = num;
-   num = 1;
-  } else if (ch === 'n') {
-   tegoma[1][2] = num;
-   num = 1;
-  } else if (ch === 's') {
-   tegoma[1][3] = num;
-   num = 1;
-  } else if (ch === 'g') {
-   tegoma[1][4] = num;
-   num = 1;
-  } else if (ch === 'b') {
-   tegoma[1][5] = num;
-   num = 1;
-  } else if (ch === 'r') {
-   tegoma[1][6] = num;
-   num = 1;
-  // } else if (ch === 'k') {
-  //  tegoma[0][7] = num;
-  // num = 1;
-  } else if (ch === 'P') {
-   tegoma[0][0] = num;
-   num = 1;
-  } else if (ch === 'L') {
-   tegoma[0][1] = num;
-   num = 1;
-  } else if (ch === 'N') {
-   tegoma[0][2] = num;
-   num = 1;
-  } else if (ch === 'S') {
-   tegoma[0][3] = num;
-   num = 1;
-  } else if (ch === 'G') {
-   tegoma[0][4] = num;
-   num = 1;
-  } else if (ch === 'B') {
-   tegoma[0][5] = num;
-   num = 1;
-  } else if (ch === 'R') {
-   tegoma[0][6] = num;
-   num = 1;
-  // } else if (ch === 'K') {
-  //  tegoma[0][7] = num;
-  //  num = 1;
+  var idx = komatbl.indexOf(ch);
+  if (idx >= 7) {
+    tegoma[1][idx-7] = num;
+    num = 1;
+  } else if (idx >= 0) {
+    tegoma[0][idx] = num;
+    num = 1;
   } else if (/[1-9]/.test(ch)) {  // 1~9
    num = +ch;
   } else {
