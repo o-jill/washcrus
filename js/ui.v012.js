@@ -1388,6 +1388,33 @@ function check_hifumin_eye() {
  update_screen();
 }
 
+function sfenkoma_piece(ch, result, teban, nsuji, ndan, nari) {
+  var koma;
+  if (ch === 'P') {
+   koma = new Fu(teban, nsuji, ndan);
+  } else if (ch === 'L') {
+   koma = new Kyosha(teban, nsuji, ndan);
+  } else if (ch === 'N') {
+   koma = new Keima(teban, nsuji, ndan);
+  } else if (ch === 'S') {
+   koma = new Gin(teban, nsuji, ndan);
+  } else if (ch === 'G') {
+   koma = new Kin(teban, nsuji, ndan);
+  } else if (ch === 'B') {
+   koma = new Kaku(teban, nsuji, ndan);
+  } else if (ch === 'R') {
+   koma = new Hisha(teban, nsuji, ndan);
+  } else if (ch === 'K') {
+   koma = new Gyoku(teban, nsuji, ndan);
+  }
+  if (nari !== 0) {
+   koma.nari = Koma.NARI;
+  }
+  result.push(koma);
+
+  return result;
+}
+
 var sfenkoma = function(dan, ndan) {
  var result = [];
  var len = dan.length;
@@ -1396,116 +1423,13 @@ var sfenkoma = function(dan, ndan) {
  var nsuji = 8;
  for (var j = 0; j < len; ++j) {
   var ch = dan.charAt(j);
-  if (ch === 'p') {
-   var fu = new Fu(Koma.GOTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    fu.nari = Koma.NARI;
-   }
-   result.push(fu);
+  if (/[PLNSGBRK]/.test(ch)) {
+   result = sfenkoma_piece(ch, result, Koma.SENTEBAN, nsuji, ndan, nari);
    nari = 0;
    --nsuji;
-  } else if (ch === 'l') {
-   var kyosha = new Kyosha(Koma.GOTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    kyosha.nari = Koma.NARI;
-   }
-   result.push(kyosha);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'n') {
-   var keima = new Keima(Koma.GOTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    keima.nari = Koma.NARI;
-   }
-   result.push(keima);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 's') {
-   var gin = new Gin(Koma.GOTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    gin.nari = Koma.NARI;
-   }
-   result.push(gin);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'g') {
-   result.push(new Kin(Koma.GOTEBAN, nsuji, ndan));
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'b') {
-   var kaku = new Kaku(Koma.GOTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    kaku.nari = Koma.NARI;
-   }
-   result.push(kaku);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'r') {
-   var hisha = new Hisha(Koma.GOTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    hisha.nari = Koma.NARI;
-   }
-   result.push(hisha);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'k') {
-   result.push(new Gyoku(Koma.GOTEBAN, nsuji, ndan));
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'P') {
-   fu = new Fu(Koma.SENTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    fu.nari = Koma.NARI;
-   }
-   result.push(fu);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'L') {
-   kyosha = new Kyosha(Koma.SENTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    kyosha.nari = Koma.NARI;
-   }
-   result.push(kyosha);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'N') {
-   keima = new Keima(Koma.SENTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    keima.nari = Koma.NARI;
-   }
-   result.push(keima);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'S') {
-   gin = new Gin(Koma.SENTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    gin.nari = Koma.NARI;
-   }
-   result.push(gin);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'G') {
-   result.push(new Kin(Koma.SENTEBAN, nsuji, ndan));
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'B') {
-   kaku = new Kaku(Koma.SENTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    kaku.nari = Koma.NARI;
-   }
-   result.push(kaku);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'R') {
-   hisha = new Hisha(Koma.SENTEBAN, nsuji, ndan);
-   if (nari !== 0) {
-    hisha.nari = Koma.NARI;
-   }
-   result.push(hisha);
-   nari = 0;
-   --nsuji;
-  } else if (ch === 'K') {
-   result.push(new Gyoku(Koma.SENTEBAN, nsuji, ndan));
+  } else if (/[plnsgbrk]/.test(ch)) {
+   ch = ch.toUpperCase();
+   result = sfenkoma_piece(ch, result, Koma.GOTEBAN, nsuji, ndan, nari);
    nari = 0;
    --nsuji;
   } else if (ch === '+') {
