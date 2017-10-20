@@ -1015,6 +1015,30 @@ function activeuchi(koma, tegoma, tegomasu, i) {
 }
 
 /**
+ * 手駒をアクティブ表示にしたりする
+ *
+ * @param  {[type]} i        駒番号0:歩~6:飛車
+ * @param  {[type]} teban    先手か後手か
+ * @param  {[type]} tegoma   手駒
+ * @param  {[type]} tegomaui 手駒UI
+ */
+function absclick_tegoma(i, teban, tegoma, tegomaui) {
+ if (activeteban !== teban) {
+  return;
+ }
+ if (activemasu !== null) {
+  if (activetegoma === null) {
+   activecell(null, null, null);
+  }
+ }
+ var koma = tegoma[i][0][tegoma[i][0].length - 1];
+ if (koma === undefined) {
+  return;
+ }
+ activeuchi(koma, tegoma, tegomaui, i);
+}
+
+/**
  * 先手の手駒をクリックした
  *
  * @param {Number} i 駒ID
@@ -1031,20 +1055,8 @@ function absclickst(i) {
   myteban = Koma.SENTEBAN;
   mytegoma = sentegoma;
  }
- if (activeteban !== myteban) {
-  return;
- }
- if (activemasu !== null) {
-   if (activetegoma === null) {
-    activecell(null, null, null);
-   }
- }
- var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
- if (koma === undefined) {
-  return;
- }
- var mytegomasu = sentegoma;
- activeuchi(koma, mytegoma, mytegomasu, i);
+
+ absclick_tegoma(i, myteban, mytegoma, sentegoma);
 }
 
 /**
@@ -1064,20 +1076,8 @@ function absclickgt(i) {
   myteban = Koma.GOTEBAN;
   mytegoma = gotegoma;
  }
- if (activeteban !== myteban) {
-  return;
- }
- if (activemasu !== null) {
-   if (activetegoma === null) {
-    activecell(null, null, null);
-   }
- }
- var koma = mytegoma[i][0][mytegoma[i][0].length - 1];
- if (koma === undefined) {
-  return;
- }
- var mytegomasu = gotegoma;
- activeuchi(koma, mytegoma, mytegomasu, i);
+
+ absclick_tegoma(i, myteban, mytegoma, gotegoma);
 }
 
 function clickstgfu() {absclickst(0);} function clickstgky() {absclickst(1);}
