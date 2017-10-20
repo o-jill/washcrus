@@ -68,7 +68,7 @@ file './db/taikyokuchu.csv' do |f|
   chmod 0o666, f.name
 end
 
-task give_permissions: [:add_w2d, :add_x2rb, :add_w2lock]
+task give_permissions: [:add_w2d, :add_x2rb, :add_w2lock, :add_w2stg]
 task add_w2d: [:add_w2tmp, :add_w2taikyoku, :add_w2log, :add_w2d_msg]
 
 task :add_w2tmp do
@@ -102,6 +102,12 @@ task :add_w2lock do
   chmod 0o666, './db/taikyokufile.lock'
   chmod 0o666, './db/taikyokuchufile.lock'
   chmod 0o666, './db/userinfofile.lock'
+end
+
+task :add_w2stg do
+  chmod 0o666, './config/news.txt'
+  # chmod 0o666, './config/settings.txt'
+  chmod 0o666, './config/signature.txt'
 end
 
 task check_mailcfg: [:check_mailcfg_yaml, :check_mailcfg_sign, :check_settings_yaml]
