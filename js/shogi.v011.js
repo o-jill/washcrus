@@ -1711,7 +1711,7 @@ Koma.prototype.checkNari = function(fromy, toy) {
  if (this.teban === Koma.SENTEBAN) {
   return this.checkNariSente(fromy, toy);
  } else if (this.teban === Koma.GOTEBAN) {
-  return this.checkNariSente(fromy, toy);
+  return this.checkNariGote(fromy, toy);
  }
  return Koma.NARENAI;
 };
