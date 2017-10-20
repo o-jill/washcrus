@@ -1589,6 +1589,43 @@ var sfentegoma = function(tegomastr) {
 };
 
 /**
+ * 手駒にオブジェクトを入れる
+ * @param {Array} ntegoma  手駒の数が入った配列
+ * @param {[type]} tegoma  手駒オブジェクト
+ * @param {[type]} teban   先手か後手か
+ */
+function sfentegoma_add(ntegoma, tegoma, teban) {
+  var num = ntegoma[0];
+  for (var k = 0; k < num; ++k) {
+   komadai_add(tegoma, new Fu(teban, -1, -1));
+  }
+  num = ntegoma[1];
+  for (k = 0; k < num; ++k) {
+   komadai_add(tegoma, new Kyosha(teban, -1, -1));
+  }
+  num = ntegoma[2];
+  for (k = 0; k < num; ++k) {
+   komadai_add(tegoma, new Keima(teban, -1, -1));
+  }
+  num = ntegoma[3];
+  for (k = 0; k < num; ++k) {
+   komadai_add(tegoma, new Gin(teban, -1, -1));
+  }
+  num = ntegoma[4];
+  for (k = 0; k < num; ++k) {
+   komadai_add(tegoma, new Kin(teban, -1, -1));
+  }
+  num = ntegoma[5];
+  for (k = 0; k < num; ++k) {
+   komadai_add(tegoma, new Kaku(teban, -1, -1));
+  }
+  num = ntegoma[6];
+  for (k = 0; k < num; ++k) {
+   komadai_add(tegoma, new Hisha(teban, -1, -1));
+  }
+}
+
+/**
  *
  * @param {String} sfentext sfen文字列
  */
@@ -1617,62 +1654,8 @@ function fromsfen(sfentext) {
 
  // 手駒
  tegoma = sfentegoma(sfenitem[2]);
- var num = tegoma[0][0];
- for (var k = 0; k < num; ++k) {
-  komadai_add(sentegoma, new Fu(Koma.SENTEBAN, -1, -1));
- }
- num = tegoma[0][1];
- for (k = 0; k < num; ++k) {
-  komadai_add(sentegoma, new Kyosha(Koma.SENTEBAN, -1, -1));
- }
- num = tegoma[0][2];
- for (k = 0; k < num; ++k) {
-  komadai_add(sentegoma, new Keima(Koma.SENTEBAN, -1, -1));
- }
- num = tegoma[0][3];
- for (k = 0; k < num; ++k) {
-  komadai_add(sentegoma, new Gin(Koma.SENTEBAN, -1, -1));
- }
- num = tegoma[0][4];
- for (k = 0; k < num; ++k) {
-  komadai_add(sentegoma, new Kin(Koma.SENTEBAN, -1, -1));
- }
- num = tegoma[0][5];
- for (k = 0; k < num; ++k) {
-  komadai_add(sentegoma, new Kaku(Koma.SENTEBAN, -1, -1));
- }
- num = tegoma[0][6];
- for (k = 0; k < num; ++k) {
-  komadai_add(sentegoma, new Hisha(Koma.SENTEBAN, -1, -1));
- }
- num = tegoma[1][0];
- for (k = 0; k < num; ++k) {
-  komadai_add(gotegoma, new Fu(Koma.GOTEBAN, -1, -1));
- }
- num = tegoma[1][1];
- for (k = 0; k < num; ++k) {
-  komadai_add(gotegoma, new Kyosha(Koma.GOTEBAN, -1, -1));
- }
- num = tegoma[1][2];
- for (k = 0; k < num; ++k) {
-  komadai_add(gotegoma, new Keima(Koma.GOTEBAN, -1, -1));
- }
- num = tegoma[1][3];
- for (k = 0; k < num; ++k) {
-  komadai_add(gotegoma, new Gin(Koma.GOTEBAN, -1, -1));
- }
- num = tegoma[1][4];
- for (k = 0; k < num; ++k) {
-  komadai_add(gotegoma, new Kin(Koma.GOTEBAN, -1, -1));
- }
- num = tegoma[1][5];
- for (k = 0; k < num; ++k) {
-  komadai_add(gotegoma, new Kaku(Koma.GOTEBAN, -1, -1));
- }
- num = tegoma[1][6];
- for (k = 0; k < num; ++k) {
-  komadai_add(gotegoma, new Hisha(Koma.GOTEBAN, -1, -1));
- }
+ sfentegoma_add(tegoma[0], sentegoma, Koma.SENTEBAN);
+ sfentegoma_add(tegoma[1], gotegoma, Koma.GOTEBAN);
 
  if (sfenitem[1] === 'b') {
   activeteban = Koma.SENTEBAN;
@@ -1698,23 +1681,10 @@ var sfen_genbantext = function(shogiban) {
    } else {
     komach = '';
    }
+   var komatbl = 'PLNSGBRK';
    var komaid = koma.id;
-   if (komaid === koma.FuID) {
-    komach += 'P';
-   } else if (komaid === koma.KyoshaID) {
-    komach += 'L';
-   } else if (komaid === koma.KeimaID) {
-    komach += 'N';
-   } else if (komaid === koma.GinID) {
-    komach += 'S';
-   } else if (komaid === koma.KinID) {
-    komach += 'G';
-   } else if (komaid === koma.HishaID) {
-    komach += 'R';
-   } else if (komaid === koma.KakuID) {
-    komach += 'B';
-   } else if (komaid === koma.GyokuID) {
-    komach += 'K';
+   if (koma.FuID <= komaid && komaid <= koma.GyokuID) {
+    komach += komatbl.charAt(komaid);
    } else {
     aki = aki + 1;
    }
@@ -1738,28 +1708,29 @@ var sfen_genbantext = function(shogiban) {
  return shogibantext;
 };
 
-var sfen_gentegomatext = function(sentekomadai, gotekomadai) {
- var sfentegomatext = '';
+function sfen_gentegomatext(komadai, komatbl) {
+  var sfentegomatext = '';
+
+  for (var i = 0; i < 7; ++i) {
+   var num = komadai[i][0].length;
+   if (num >= 2) {
+    sfentegomatext += num;
+   }
+   if (num > 0) {
+    sfentegomatext += komatbl.charAt(i);
+   }
+  }
+
+  return sfentegomatext;
+}
+
+var sfen_gentegomatext_sengo = function(sentekomadai, gotekomadai) {
  var komatblb = 'PLNSGBR';
+ var sfentegomatext = sfen_gentegomatext(sentekomadai, komatblb);
+
  var komatblw = 'plnsgbr';
- for (var i = 0; i < 7; ++i) {
-  var num = sentekomadai[i][0].length;
-  if (num >= 2) {
-   sfentegomatext += num;
-  }
-  if (num > 0) {
-   sfentegomatext += komatblb.charAt(i);
-  }
- }
- for (i = 0; i < 7; ++i) {
-  num = gotekomadai[i][0].length;
-  if (num > 1) {
-   sfentegomatext += num;
-  }
-  if (num > 0) {
-   sfentegomatext += komatblw.charAt(i);
-  }
- }
+ sfentegomatext += sfen_gentegomatext(gotekomadai, komatblw);
+
  if (sfentegomatext.length === 0) {
    sfentegomatext = '-';
  }
@@ -1774,7 +1745,7 @@ function gensfen(nth /*= '1'*/) {
  var bantext = sfen_genbantext(ban);
 
  // 手駒
- var tegomatext = sfen_gentegomatext(sentegoma, gotegoma);
+ var tegomatext = sfen_gentegomatext_sengo(sentegoma, gotegoma);
 
  // いろいろ合体
  var sfentext = '';
