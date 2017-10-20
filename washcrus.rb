@@ -8,6 +8,8 @@ require './game/userinfo.rb'
 require './util/settings.rb'
 require './views/adminnews.rb'
 require './views/adminnewsupdate.rb'
+require './views/adminsignature.rb'
+require './views/adminsignatureupdate.rb'
 require './views/entrance.rb'
 require './views/error_action.rb'
 require './views/gennewgame.rb'
@@ -129,6 +131,11 @@ class WashCrus
     when 'adminnewsupdate' then
       anus = AdminNewsUpdateScreen.new(@header, Pagetitle, Titlename)
       anus.show(@userinfo, @params)
+    when 'adminsignature' then
+      AdminSignatureScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+    when 'adminsignatureupdate' then
+      asus = AdminSignatureUpdateScreen.new(@header, Pagetitle, Titlename)
+      asus.show(@userinfo, @params)
     when 'search' then
       srs = SearchResultScreen.new(@header, Pagetitle, Titlename)
       srs.show(@userinfo, @params)
