@@ -96,7 +96,7 @@ class NewGameScreen
        <tr>
         <td colspan=2>
          <input type="button" id='btnfurigoma2' class='inpform' onclick='lets_furigoma2();' value='player1の振り歩先で振り駒'>
-         <input type="hidden" id="furigoma2" name="furigoma" value="ftftf" class='inpform'>
+         <input type="hidden" id="furigoma2" name="furigoma" value="FTFTF" class='inpform'>
         </td>
        </tr>
        <tr height='32px'>
