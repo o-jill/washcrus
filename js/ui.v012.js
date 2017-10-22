@@ -1096,8 +1096,6 @@ function clickgtghi() {absclickgt(6);}
  * @param {Number} y 座標[ピクセル]
  */
 function popupnari(x, y) {
- narimenu.style.left = x + 'px';
- narimenu.style.top = y + 'px';
  narimenu.style.visibility = 'visible';
  wait_narimenu = true;
 }
