@@ -135,9 +135,14 @@ class SearchResultScreen
   def print_res(game)
     print <<-GAMEINFO.unindent
       <tr>
-       <td><a href='washcrus.rb?game/#{game[:id]}'>#{game[:id]}</a></td>
+       <td><a href='washcrus.rb?game/#{game[:id]}'>
+        <img src='image/right_fu.png' alt='#{gid}' title='move to this game!'>
+        <small>#{game[:id]}</small>
+       </a></td>
        <td>#{game[:nameb]}</td><td>#{game[:namew]}</td><td>#{game[:time]}</td>
-       <td><a href='washcrus.rb?dlkifu/#{game[:id]}' target=_blank>download</a></td>
+       <td><a href='washcrus.rb?dlkifu/#{game[:id]}' target=_blank>
+        <img src='image/dl_kif.png' alt='#{game[:id]}' title='download kif!'>
+       </a></td>
       </tr>
       GAMEINFO
   end
