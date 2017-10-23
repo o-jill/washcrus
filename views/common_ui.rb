@@ -22,7 +22,7 @@ module CommonUI
        <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
        <META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
        <link rel='shortcut icon' href='./image/favicon.ico' />
-       <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>
+       <link rel='stylesheet' type='text/css' href='./css/washcrus.v010.css'>
       </HEAD>
       <BODY>
       HEADER_TAG
@@ -45,7 +45,7 @@ module CommonUI
        <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
        <META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
        <link rel='shortcut icon' href='./image/favicon.ico' />
-       <link rel='stylesheet' type='text/css' href='./css/washcrus.css'>
+       <link rel='stylesheet' type='text/css' href='./css/washcrus.v010.css'>
       </HEAD>
       <BODY>
       HEADER2_TAG
