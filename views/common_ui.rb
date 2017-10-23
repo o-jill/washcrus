@@ -76,7 +76,7 @@ module CommonUI
   def self.HTMLmenuSignUp(title, index, sup)
     print <<-MENU.unindent
       <div align='center' class='menubase'>
-      <a class='menu' href='#{index}'> Entrance </a>
+      <a class='menu' href='#{index}'> Top </a>
       <a class='menu' href='#{index}?news'> News </a>
       <a class='menu' href='#{index}?signup'> Sign Up </a>
       <a class='menu' href='#{index}?login'> Log In </a>
@@ -94,7 +94,7 @@ module CommonUI
   def self.HTMLmenuLogIn(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
       <div class='menubase'>
-      <a class='menu' href='#{index}'> Entrance </a>
+      <a class='menu' href='#{index}'> Top </a>
       <a class='menu' href='#{index}?news'> News </a>
       <a class='menu' href='#{index}?mypage'> My Page </a>
       <a class='menu' href='#{index}?matchlist'> Watch </a>
@@ -114,7 +114,7 @@ module CommonUI
   def self.HTMLmenuAdmin(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
       <div class='menubase'>
-      <a class='menu' href='#{index}'> Entrance </a>
+      <a class='menu' href='#{index}'> Top </a>
       <a class='menu' href='#{index}?news'> News </a>
       <a class='menu' href='#{index}?mypage'> My Page </a>
       <a class='menu' href='#{index}?matchlist'> Watch </a>
