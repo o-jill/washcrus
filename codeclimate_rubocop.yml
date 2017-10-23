@@ -27,11 +27,11 @@ AllCops:
 
 # Avoid methods longer than 10 lines of code
 Metrics/MethodLength:
-    Max: 20
+    Max: 30
 #   Enabled: false
 
 Metrics/ClassLength:
-    Max: 200
+    Max: 250
 
 # Favor modifier if/unless usage when you have a single-line body.
 # IfUnlessModifier:

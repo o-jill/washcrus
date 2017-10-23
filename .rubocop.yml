@@ -27,11 +27,11 @@ Layout/EndOfLine:
 
 # Avoid methods longer than 10 lines of code
 Metrics/MethodLength:
-    Max: 20
+    Max: 30
 #   Enabled: false
 
 Metrics/ClassLength:
-    Max: 200
+    Max: 250
 
 # Favor modifier if/unless usage when you have a single-line body.
 # IfUnlessModifier:
@@ -48,6 +48,9 @@ Metrics/ClassLength:
 # Avoid Perl-style regex back references.
 # $1, $2, ... <-> Regexp.last_match[1], Regexp.last_match[2], ...
 Style/PerlBackrefs:
+  Enabled: false
+
+Style/RaiseArgs:
   Enabled: false
 
 # Don't interpolate global, instance and class variables directly in strings.
