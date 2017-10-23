@@ -70,7 +70,7 @@ class GameHtml
     @log.debug('banelement')
     ret = <<-BOARD_TEXT.unindent
       #{shogibanelement}
-      <script type='text/javascript' src='./js/shogi.v011.js'></script>
+      <script type='text/javascript' src='./js/shogi.v012.js'></script>
       <script type='text/javascript' src='./js/ui.v013.js' async></script>
       BOARD_TEXT
 
