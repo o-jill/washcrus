@@ -10,6 +10,11 @@ require './views/common_ui.rb'
 # 対局登録画面
 #
 class NewGameScreen
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  # @param title  ページタイトル
+  # @param name   ページヘッダタイトル
   def initialize(header, title, name)
     @header = header
     @title = title
@@ -130,7 +135,9 @@ class NewGameScreen
       FORM_NEW_GAME
   end
 
-  # ページの表示
+  # 画面の表示
+  #
+  # @param userinfo ユーザ情報
   def show(userinfo)
     CommonUI::HTMLHead(@header, @title)
     CommonUI::HTMLmenu(@name, userinfo)

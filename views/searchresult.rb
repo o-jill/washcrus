@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 # require 'rubygems'
-# require 'unindent'
+require 'unindent'
 
 require './game/userinfo.rb'
 require './views/common_ui.rb'
@@ -11,12 +11,22 @@ require './file/taikyokufile.rb'
 # 検索結果画面
 #
 class SearchResultScreen
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  # @param title  ページタイトル
+  # @param name   ページヘッダタイトル
   def initialize(header, title, name)
     @header = header
     @title = title
     @name = name
   end
 
+  # 先手を検索
+  #
+  # @param tdb  対局情報オブジェクト
+  # @param ply1 検索する先手の名前
+  # @return 対局IDのリスト
   def findply1(tdb, ply1)
     return [] if ply1.empty?
 
@@ -24,6 +34,11 @@ class SearchResultScreen
     res.empty? ? nil : res.keys
   end
 
+  # 後手を検索
+  #
+  # @param tdb  対局情報オブジェクト
+  # @param ply2 検索する後手の名前
+  # @return 対局IDのリスト
   def findply2(tdb, ply2)
     return [] if ply2.empty?
 
@@ -31,6 +46,11 @@ class SearchResultScreen
     res.empty? ? nil : res.keys
   end
 
+  # ２つの対局IDのリストをマージする。(重複削除)
+  #
+  # @param id1 対局IDのリスト
+  # @param id2 対局IDのリスト
+  # @return マージしたリスト
   def merge2ids(id1, id2)
     if id1.empty? && id2.empty?
       []
@@ -43,6 +63,12 @@ class SearchResultScreen
     end
   end
 
+  # 最終着手日から検索
+  #
+  # @param tdb  対局情報オブジェクト
+  # @param from この日から
+  # @param to   この日まで
+  # @return 対局IDのリスト
   def findtime(tdb, from, to)
     return [] if from.empty? && to.empty?
 
@@ -50,6 +76,14 @@ class SearchResultScreen
     res.empty? ? nil : res.keys
   end
 
+  # 最終着手日から検索
+  #
+  # @param tdb  対局情報オブジェクト
+  # @param ply1 検索する先手の名前
+  # @param ply2 検索する後手の名前
+  # @param from この日から
+  # @param to   この日まで
+  # @return 対局IDのリスト
   def findgameid(tdb, ply1, ply2, from, to)
     id1 = findply1(tdb, ply1)
     return nil if id1.nil?
@@ -64,11 +98,22 @@ class SearchResultScreen
     merge2ids(id12, id3)
   end
 
+  # 対局を検索
+  #
+  # @param params 検索条件
+  # @return 対局IDのリスト
   def searchgames(params)
     searchgames_(params['player1'][0], params['player2'][0],
                  params['time_frame_from'][0], params['time_frame_to'][0])
   end
 
+  # 対局を検索
+  #
+  # @param ply1 検索する先手の名前
+  # @param ply2 検索する後手の名前
+  # @param from この日から
+  # @param to   この日まで
+  # @return 対局IDのリスト
   def searchgames_(ply1, ply2, from, to)
     tdb = TaikyokuFile.new
     tdb.read
@@ -84,6 +129,9 @@ class SearchResultScreen
     res
   end
 
+  # 対局情報の出力
+  #
+  # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, time: , comment:}
   def print_res(game)
     print <<-GAMEINFO.unindent
       <tr>
@@ -94,6 +142,10 @@ class SearchResultScreen
       GAMEINFO
   end
 
+  # 画面の表示
+  #
+  # @param userinfo ユーザ情報
+  # @param params パラメータハッシュオブジェクト
   def show(userinfo, params)
     res = searchgames(params)
 
