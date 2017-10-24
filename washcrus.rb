@@ -36,9 +36,6 @@ class WashCrus
   # ウインドウタイトル
   Pagetitle = 'Wash Crus'.freeze
 
-  # ページタイトル
-  Titlename = '洗足池'.freeze
-
   # 初期化
   #
   # @param cgi CGIオブジェクト
@@ -102,52 +99,52 @@ class WashCrus
   def perform
     case @action
     when nil, '' then
-      EntranceScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+      EntranceScreen.new(@header, Pagetitle).show(@userinfo)
     when 'newgame' then
-      NewGameScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+      NewGameScreen.new(@header, Pagetitle).show(@userinfo)
     when 'gennewgame' then
-      gngs = GenNewGameScreen.new(@header, Pagetitle, Titlename)
+      gngs = GenNewGameScreen.new(@header, Pagetitle)
       gngs.show(@userinfo, @params)
     when 'gennewgame2' then
-      gngs = GenNewGame2Screen.new(@header, Pagetitle, Titlename)
+      gngs = GenNewGame2Screen.new(@header, Pagetitle)
       gngs.show(@userinfo, @params)
     when 'signup' then
-      SignupScreen.new(@header, Pagetitle, Titlename).show
+      SignupScreen.new(@header, Pagetitle).show
     when 'login' then
-      LoginScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+      LoginScreen.new(@header, Pagetitle).show(@userinfo)
     when 'logincheck' then
-      LoginCheckScreen.new(Pagetitle, Titlename).show(@session, @cgi)
+      LoginCheckScreen.new(Pagetitle).show(@session, @cgi)
     when 'logout' then
-      LogoutScreen.new(Pagetitle, Titlename).show(@session)
+      LogoutScreen.new(Pagetitle).show(@session)
     when 'register' then
-      RegisterScreen.new(@header, Pagetitle, Titlename).show(@params)
+      RegisterScreen.new(@header, Pagetitle).show(@params)
     when 'matchlist' then
-      matchlist_screen(@header, Pagetitle, Titlename, @userinfo)
+      matchlist_screen(@header, Pagetitle, @userinfo)
     when 'mypage' then
-      MyPageScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+      MyPageScreen.new(@header, Pagetitle).show(@userinfo)
     when 'news' then
-      NewsScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+      NewsScreen.new(@header, Pagetitle).show(@userinfo)
     when 'adminnews' then
-      AdminNewsScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+      AdminNewsScreen.new(@header, Pagetitle).show(@userinfo)
     when 'adminnewsupdate' then
-      anus = AdminNewsUpdateScreen.new(@header, Pagetitle, Titlename)
+      anus = AdminNewsUpdateScreen.new(@header, Pagetitle)
       anus.show(@userinfo, @params)
     when 'adminsettings' then
-      AdminSettingsScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+      AdminSettingsScreen.new(@header, Pagetitle).show(@userinfo)
     when 'adminsignature' then
-      AdminSignatureScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+      AdminSignatureScreen.new(@header, Pagetitle).show(@userinfo)
     when 'adminsignatureupdate' then
-      asus = AdminSignatureUpdateScreen.new(@header, Pagetitle, Titlename)
+      asus = AdminSignatureUpdateScreen.new(@header, Pagetitle)
       asus.show(@userinfo, @params)
     when 'search' then
-      srs = SearchResultScreen.new(@header, Pagetitle, Titlename)
+      srs = SearchResultScreen.new(@header, Pagetitle)
       srs.show(@userinfo, @params)
     when 'searchform' then
-      SearchformScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+      SearchformScreen.new(@header, Pagetitle).show(@userinfo)
     when 'userlist' then
-      userlist_screen(@header, Pagetitle, Titlename, @userinfo)
+      userlist_screen(@header, Pagetitle, @userinfo)
     when 'adminmenu' then  # when 'versions' then
-      VersionsScreen.new(@header, Pagetitle, Titlename).show(@userinfo)
+      VersionsScreen.new(@header, Pagetitle).show(@userinfo)
     when %r{game\/(\h+)}
       require './game/game.rb'
       gm = Game.new(@cgi, $1)
@@ -161,8 +158,7 @@ class WashCrus
       require './game/checknewgame.rb'
       CheckNewGame.new(@cgi).perform
     else
-      error_action_screen(@header, Pagetitle, Titlename,
-                          @userinfo, @params, @action)
+      error_action_screen(@header, Pagetitle, @userinfo, @params, @action)
     end
   end
 

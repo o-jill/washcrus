@@ -13,11 +13,9 @@ class EntranceScreen
   #
   # @param header htmlヘッダ
   # @param title  ページタイトル
-  # @param name   ページヘッダタイトル
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
   end
 
   # LOGO
@@ -98,7 +96,7 @@ class EntranceScreen
 
     CommonUI::HTMLHead(@header, @title)
 
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
 
     puts "<script type='text/javascript' defer src='js/entrance.js'></script>"
 

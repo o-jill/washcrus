@@ -25,9 +25,6 @@ class Game
     # ウインドウタイトル
     @pagetitle = 'Wash Crus'
 
-    # ページタイトル
-    @titlename = '洗足池'
-
     @params = cgi.params
 
     @gameid = gid
@@ -56,7 +53,7 @@ class Game
 
     # @log.debug('Game.check userinfo')
     # userinfoが変だよ
-    return LoginScreen.new(@header, @pagetitle, @titlename).show(@userinfo) \
+    return LoginScreen.new(@header, @pagetitle).show(@userinfo) \
         unless @userinfo.nil? || @userinfo.exist_indb
 
     # @log.debug('Game.check gameid with TaikyokuFile')

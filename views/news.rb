@@ -16,11 +16,9 @@ class NewsScreen
   #
   # @param header htmlヘッダ
   # @param title  ページタイトル
-  # @param name   ページヘッダタイトル
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
   end
 
   # newsの出力
@@ -51,7 +49,7 @@ class NewsScreen
   # @param userinfo ユーザ情報
   def show(userinfo)
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
 
     put_news
 

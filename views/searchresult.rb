@@ -15,11 +15,9 @@ class SearchResultScreen
   #
   # @param header htmlヘッダ
   # @param title  ページタイトル
-  # @param name   ページヘッダタイトル
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
   end
 
   # 先手を検索
@@ -155,7 +153,7 @@ class SearchResultScreen
     res = searchgames(params)
 
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
 
     if res.nil? || res.empty?
       print '<p>not found ...</p>'

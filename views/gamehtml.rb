@@ -36,7 +36,7 @@ class GameHtml
     print <<-HTMLELEMENTS.unindent
       <html>#{headerelement}
       <body>
-      #{CommonUI::HTMLmenu('洗足池', @userinfo)}
+      #{CommonUI::HTMLmenu(@userinfo)}
       <div class=gamearea>
        <div id='notify_area' class='notify'>
         <BR>指されました。ページを再読込してください。

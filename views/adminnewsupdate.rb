@@ -12,10 +12,9 @@ require './views/common_ui.rb'
 class AdminNewsUpdateScreen
   NEWSFILE = './config/news.txt'.freeze
 
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
     @errmsg = ''
   end
 
@@ -62,7 +61,7 @@ class AdminNewsUpdateScreen
     write_param(params)
 
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
     CommonUI::HTMLAdminMenu()
 
     if @errmsg.length.zero?

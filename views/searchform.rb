@@ -14,11 +14,9 @@ class SearchformScreen
   #
   # @param header htmlヘッダ
   # @param title  ページタイトル
-  # @param name   ページヘッダタイトル
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
   end
 
   # フォームの出力
@@ -62,7 +60,7 @@ class SearchformScreen
   # @param userinfo ユーザー情報
   def show(userinfo)
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
 
     put_search_form
 

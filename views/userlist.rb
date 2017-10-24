@@ -8,14 +8,14 @@ require './views/common_ui.rb'
 #
 # userlist画面
 #
-def userlist_screen(header, title, name, userinfo)
+def userlist_screen(header, title, userinfo)
   return puts "Content-Type: text/plain;\n\nERR_NOT_ADMIN" unless userinfo.admin
 
   userdb = UserInfoFile.new
   userdb.read
 
   CommonUI::HTMLHead(header, title)
-  CommonUI::HTMLmenu(name, userinfo)
+  CommonUI::HTMLmenu(userinfo)
 
   CommonUI::HTMLAdminMenu()
 

@@ -11,10 +11,8 @@ class LogoutScreen
   #
   # @param header htmlヘッダ
   # @param title  ページタイトル
-  # @param name   ページヘッダタイトル
-  def initialize(title, name)
+  def initialize(title)
     @title = title
-    @name = name
   end
 
   # ログアウト
@@ -24,7 +22,7 @@ class LogoutScreen
     session.delete if session
 
     CommonUI::HTMLHead2(@title)
-    CommonUI::HTMLmenu(@name)
+    CommonUI::HTMLmenu()
 
     puts 'Logged out ...'
 

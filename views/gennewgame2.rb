@@ -21,11 +21,9 @@ class GenNewGame2Screen
   #
   # @param header htmlヘッダ
   # @param title  ページタイトル
-  # @param name   ページヘッダタイトル
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
     @stg = Settings.instance
 
     @errmsg = ''
@@ -88,7 +86,7 @@ class GenNewGame2Screen
 
   def put_err_sreen(userinfo)
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
     puts @errmsg
     CommonUI::HTMLfoot()
   end
@@ -161,7 +159,7 @@ class GenNewGame2Screen
 
     # @log.debug('CommonUI::HTMLHead(header, title)')
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
     CommonUI::HTMLAdminMenu()
 
     @td.dumptable

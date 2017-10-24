@@ -7,9 +7,9 @@ require './views/common_ui.rb'
 #
 # ACTIONエラー画面
 #
-def error_action_screen(header, title, name, userinfo, params, action)
+def error_action_screen(header, title, userinfo, params, action)
   CommonUI::HTMLHead2(title)
-  CommonUI::HTMLmenu(name)
+  CommonUI::HTMLmenu()
 
   print 'cgi.params:'
   params.each { |key, val| print key, '=', val, '&' }

@@ -15,11 +15,9 @@ class AdminSignatureUpdateScreen
   #
   # @param header htmlヘッダ
   # @param title  ページタイトル
-  # @param name   ページヘッダタイトル
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
     @errmsg = ''
   end
 
@@ -76,7 +74,7 @@ class AdminSignatureUpdateScreen
     write_param(params)
 
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
     CommonUI::HTMLAdminMenu()
 
     if @errmsg.length.zero?

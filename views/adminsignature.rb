@@ -15,11 +15,9 @@ class AdminSignatureScreen
   #
   # @param header htmlヘッダ
   # @param title  ページタイトル
-  # @param name   ページヘッダタイトル
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
   end
 
   # 編集領域の出力
@@ -62,7 +60,7 @@ class AdminSignatureScreen
         unless userinfo.admin
 
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
     CommonUI::HTMLAdminMenu()
 
     put_edit_signature

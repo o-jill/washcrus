@@ -53,12 +53,12 @@ module CommonUI
 
   # メニュー部分の出力
   #
-  # @param title ページタイトル
   # @param userinfo ユーザ情報
-  def self.HTMLmenu(title, userinfo = nil)
+  def self.HTMLmenu(userinfo = nil)
     index = File.basename($PROGRAM_NAME)
     stg = Settings.instance
     sup = stg.value['support_url']
+    title = stg.value['title']
 
     bsignup = userinfo.nil? || userinfo.invalid?
     return HTMLmenuSignUp(title, index, sup) if bsignup

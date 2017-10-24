@@ -12,10 +12,9 @@ require './views/common_ui.rb'
 class AdminNewsScreen
   NEWSFILE = './config/news.txt'.freeze
 
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
   end
 
   def put_edit_news
@@ -54,7 +53,7 @@ class AdminNewsScreen
         unless userinfo.admin
 
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
     CommonUI::HTMLAdminMenu()
 
     put_edit_news

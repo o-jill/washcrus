@@ -15,11 +15,9 @@ class VersionsScreen
   #
   # @param header htmlヘッダ
   # @param title  ページタイトル
-  # @param name   ページヘッダタイトル
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
   end
 
   # エラー画面の表示
@@ -28,7 +26,7 @@ class VersionsScreen
   # @param userinfo ユーザ情報
   def put_err_sreen(errmsg, userinfo)
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
     puts errmsg
     CommonUI::HTMLfoot()
   end
@@ -86,7 +84,7 @@ class VersionsScreen
       if userinfo.nil? || userinfo.invalid?
 
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name, userinfo)
+    CommonUI::HTMLmenu(userinfo)
 
     CommonUI::HTMLAdminMenu()
 

@@ -18,11 +18,9 @@ class RegisterScreen
   #
   # @param header htmlヘッダ
   # @param title  ページタイトル
-  # @param name   ページヘッダタイトル
-  def initialize(header, title, name)
+  def initialize(header, title)
     @header = header
     @title = title
-    @name = name
 
     @errmsg = ''
   end
@@ -163,7 +161,7 @@ class RegisterScreen
     end
 
     CommonUI::HTMLHead(@header, @title)
-    CommonUI::HTMLmenu(@name)
+    CommonUI::HTMLmenu()
 
     print msg
     CommonUI::HTMLfoot()
