@@ -106,7 +106,7 @@ end
 
 task :add_w2stg do
   chmod 0o666, './config/news.txt'
-  # chmod 0o666, './config/settings.txt'
+  chmod 0o666, './config/settings.yaml'
   chmod 0o666, './config/signature.txt'
 end
 
@@ -128,9 +128,9 @@ end
 
 task check_settings_yaml: ['./config/settings.yaml']
 
-file './config/settings.yaml' do
-  puts "ERROR: './config/settings.yaml' is missing..."
-  exit 103
+file './config/settings.yaml' do |f|
+  cp './config/settings.yaml.sample', f.name
+  chmod 0o666, f.name
 end
 
 task check_adminconfig: ['./db/adminconfig.txt']
