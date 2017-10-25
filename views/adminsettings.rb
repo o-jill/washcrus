@@ -25,8 +25,12 @@ class AdminSettingsScreen
       <form action='#{scriptname}?adminsavesettings' method=post name='adminsettings'>
       <table align='center'>
        <tr>
-        <td>Title</td>
-        <td><input name='title' id='title' type=text size=50 value='#{stg.value['title']}'></td>
+        <td>Window title</td>
+        <td><input name='wintitle' id='wintitle' type=text size=50 value='#{stg.value['wintitle']}'></td>
+       </tr>
+       <tr>
+        <td>Page title</td>
+        <td><input name='pgtitle' id='pgtitle' type=text size=50 value='#{stg.value['title']}'></td>
        </tr>
        <tr>
         <td>Domain</td>
