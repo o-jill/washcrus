@@ -1445,21 +1445,18 @@ Koma.prototype.getOhteMovable = function(ox, oy) {
  * @return {Array} 打てるマスのリスト
  */
 Koma.prototype.getUchable = function() {
- var starty = 0;
- var endy = 9;
- if (this.teban === Koma.SENTEBAN) {
-  if (this.id === this.FuID || this.id === this.KyoshaID) {
-   starty = 1;
-  } else if (this.id === this.KeimaID) {
-   starty = 2;
-  }
- } else {
-  if (this.id === this.FuID || this.id === this.KyoshaID) {
-   endy = 8;
-  } else if (this.id === this.KeimaID) {
-   endy = 7;
-  }
- }
+ return this.getUchableGeneral(0, 9);
+};
+
+/**
+ * 打てるマスのリストを返す。
+ *
+ * @param {Number} starty 打てる段の始まり
+ * @param {Number} endyy  打てる段の終わり
+ *
+ * @return {Array} 打てるマスのリスト
+ */
+Koma.prototype.getUchableGeneral = function(starty, endy) {
  var list = [];
  for (var i = 0; i < 9; ++i) {
   for (var j = starty; j < endy; ++j) {
@@ -1875,6 +1872,23 @@ Kyosha.prototype.checkMovable = function(oy) {
  return true;
 };
 
+/**
+ * 打てるマスのリストを返す。
+ *
+ * @return {Array} 打てるマスのリスト
+ */
+Kyosha.prototype.getUchable = function() {
+ var starty, endy;
+ if (this.teban === Koma.SENTEBAN) {
+  starty = 1;
+  endy = 9;
+ } else {
+  starty = 0;
+  endy = 8;
+ }
+ return this.getUchableGeneral(starty, endy);
+};
+
 Keima.prototype = new Koma();
 /**
  * 桂馬クラス
@@ -1928,6 +1942,23 @@ Keima.prototype.checkMovable = function(oy) {
   }
  }
  return true;
+};
+
+/**
+ * 打てるマスのリストを返す。
+ *
+ * @return {Array} 打てるマスのリスト
+ */
+Keima.prototype.getUchable = function() {
+ var starty, endy;
+ if (this.teban === Koma.SENTEBAN) {
+  starty = 2;
+  endy = 9;
+ } else {
+  starty = 0;
+  endy = 7;
+ }
+ return this.getUchableGeneral(starty, endy);
 };
 
 Gin.prototype = new Koma();
