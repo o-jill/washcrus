@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'unindent'
 require 'redcarpet'
-# require './game/userinfo.rb'
+require './game/userinfo.rb'
 require './views/common_ui.rb'
 
 #
@@ -12,9 +12,8 @@ require './views/common_ui.rb'
 class AdminNewsUpdateScreen
   NEWSFILE = './config/news.txt'.freeze
 
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
     @errmsg = ''
   end
 
@@ -60,7 +59,7 @@ class AdminNewsUpdateScreen
 
     write_param(params)
 
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
     CommonUI::HTMLAdminMenu()
 

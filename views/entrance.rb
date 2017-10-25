@@ -12,10 +12,8 @@ class EntranceScreen
   # 初期化
   #
   # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
   end
 
   # LOGO
@@ -94,7 +92,7 @@ class EntranceScreen
   def show(userinfo)
     blogin = (!userinfo.user_id.nil? && userinfo.user_id != '')
 
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
 
     CommonUI::HTMLmenu(userinfo)
 

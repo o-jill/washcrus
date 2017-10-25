@@ -22,9 +22,6 @@ class Game
     # @log.level = Logger::INFO
     @log.info('Game.new()')
 
-    # ウインドウタイトル
-    @pagetitle = 'Wash Crus'
-
     @params = cgi.params
 
     @gameid = gid
@@ -53,7 +50,7 @@ class Game
 
     # @log.debug('Game.check userinfo')
     # userinfoが変だよ
-    return LoginScreen.new(@header, @pagetitle).show(@userinfo) \
+    return LoginScreen.new(@header).show(@userinfo) \
         unless @userinfo.nil? || @userinfo.exist_indb
 
     # @log.debug('Game.check gameid with TaikyokuFile')

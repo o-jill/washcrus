@@ -29,7 +29,7 @@ class GameHtml
 
   # 画面の表示
   #
-  #@param header htmlヘッダ
+  # @param header htmlヘッダ
   def put(header)
     @log.debug('print header')
     print header
@@ -90,6 +90,8 @@ class GameHtml
   # @return 部品の文字列
   def headerelement
     @log.debug('headerelement')
+    stg = Settings.instance
+    title = "#{stg.value['wintitle']} #{@mi.playerb}  vs  #{@mi.playerw}"
     ERB.new(File.read('./ui/gamehtml_header.erb')).result(binding)
   end
 

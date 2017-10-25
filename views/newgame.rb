@@ -13,10 +13,8 @@ class NewGameScreen
   # 初期化
   #
   # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
   end
 
   # フォームの出力
@@ -137,7 +135,7 @@ class NewGameScreen
   #
   # @param userinfo ユーザ情報
   def show(userinfo)
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
 
     CommonUI::HTMLAdminMenu()

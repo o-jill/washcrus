@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'unindent'
 require 'redcarpet'
-# require './game/userinfo.rb'
+require './game/userinfo.rb'
 require './views/common_ui.rb'
 
 #
@@ -12,9 +12,8 @@ require './views/common_ui.rb'
 class AdminNewsScreen
   NEWSFILE = './config/news.txt'.freeze
 
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
   end
 
   def put_edit_news
@@ -52,7 +51,7 @@ class AdminNewsScreen
     return puts "Content-Type: text/plain;\n\nERR_NOT_ADMIN" \
         unless userinfo.admin
 
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
     CommonUI::HTMLAdminMenu()
 

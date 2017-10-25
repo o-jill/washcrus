@@ -20,10 +20,8 @@ class GenNewGameScreen
   # 初期化
   #
   # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
     @stg = Settings.instance
 
     @errmsg = ''
@@ -83,7 +81,7 @@ class GenNewGameScreen
   end
 
   def put_err_sreen(userinfo)
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
     puts @errmsg
     CommonUI::HTMLfoot()
@@ -141,8 +139,8 @@ class GenNewGameScreen
   def show(userinfo, params)
     return put_err_sreen(userinfo) unless generate(userinfo, params)
 
-    # @log.debug('CommonUI::HTMLHead(header, title)')
-    CommonUI::HTMLHead(@header, @title)
+    # @log.debug('CommonUI::HTMLHead(header)')
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
     CommonUI::HTMLAdminMenu()
 

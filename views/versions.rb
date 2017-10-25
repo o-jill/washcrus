@@ -14,10 +14,8 @@ class VersionsScreen
   # 初期化
   #
   # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
   end
 
   # エラー画面の表示
@@ -25,7 +23,7 @@ class VersionsScreen
   # @param errmsg エラーメッセージ
   # @param userinfo ユーザ情報
   def put_err_sreen(errmsg, userinfo)
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
     puts errmsg
     CommonUI::HTMLfoot()
@@ -83,7 +81,7 @@ class VersionsScreen
     return put_err_sreen("your log-in information is wrong ...\n", userinfo) \
       if userinfo.nil? || userinfo.invalid?
 
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
 
     CommonUI::HTMLAdminMenu()

@@ -14,15 +14,13 @@ class MyPageScreen
   # 初期化
   #
   # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
   end
 
   # エラー画面の表示
   def put_err_sreen(errmsg)
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu()
     puts errmsg
     CommonUI::HTMLfoot()
@@ -185,7 +183,7 @@ class MyPageScreen
     uid = userinfo.user_id
     wl = get_mystats(uid)
 
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
 
     put_stats(wl)

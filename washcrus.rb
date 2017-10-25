@@ -33,9 +33,6 @@ require './views/versions.rb'
 # CGI本体
 #
 class WashCrus
-  # ウインドウタイトル
-  Pagetitle = 'Wash Crus'.freeze
-
   # 初期化
   #
   # @param cgi CGIオブジェクト
@@ -99,52 +96,47 @@ class WashCrus
   def perform
     case @action
     when nil, '' then
-      EntranceScreen.new(@header, Pagetitle).show(@userinfo)
+      EntranceScreen.new(@header).show(@userinfo)
     when 'newgame' then
-      NewGameScreen.new(@header, Pagetitle).show(@userinfo)
+      NewGameScreen.new(@header).show(@userinfo)
     when 'gennewgame' then
-      gngs = GenNewGameScreen.new(@header, Pagetitle)
-      gngs.show(@userinfo, @params)
+      GenNewGameScreen.new(@header).show(@userinfo, @params)
     when 'gennewgame2' then
-      gngs = GenNewGame2Screen.new(@header, Pagetitle)
-      gngs.show(@userinfo, @params)
+      GenNewGame2Screen.new(@header).show(@userinfo, @params)
     when 'signup' then
-      SignupScreen.new(@header, Pagetitle).show
+      SignupScreen.new(@header).show
     when 'login' then
-      LoginScreen.new(@header, Pagetitle).show(@userinfo)
+      LoginScreen.new(@header).show(@userinfo)
     when 'logincheck' then
-      LoginCheckScreen.new(Pagetitle).show(@session, @cgi)
+      LoginCheckScreen.new.show(@session, @cgi)
     when 'logout' then
-      LogoutScreen.new(Pagetitle).show(@session)
+      LogoutScreen.new.show(@session)
     when 'register' then
-      RegisterScreen.new(@header, Pagetitle).show(@params)
+      RegisterScreen.new(@header).show(@params)
     when 'matchlist' then
-      matchlist_screen(@header, Pagetitle, @userinfo)
+      matchlist_screen(@header, @userinfo)
     when 'mypage' then
-      MyPageScreen.new(@header, Pagetitle).show(@userinfo)
+      MyPageScreen.new(@header).show(@userinfo)
     when 'news' then
-      NewsScreen.new(@header, Pagetitle).show(@userinfo)
+      NewsScreen.new(@header).show(@userinfo)
     when 'adminnews' then
-      AdminNewsScreen.new(@header, Pagetitle).show(@userinfo)
+      AdminNewsScreen.new(@header).show(@userinfo)
     when 'adminnewsupdate' then
-      anus = AdminNewsUpdateScreen.new(@header, Pagetitle)
-      anus.show(@userinfo, @params)
+      AdminNewsUpdateScreen.new(@header).show(@userinfo, @params)
     when 'adminsettings' then
-      AdminSettingsScreen.new(@header, Pagetitle).show(@userinfo)
+      AdminSettingsScreen.new(@header).show(@userinfo)
     when 'adminsignature' then
-      AdminSignatureScreen.new(@header, Pagetitle).show(@userinfo)
+      AdminSignatureScreen.new(@header).show(@userinfo)
     when 'adminsignatureupdate' then
-      asus = AdminSignatureUpdateScreen.new(@header, Pagetitle)
-      asus.show(@userinfo, @params)
+      AdminSignatureUpdateScreen.new(@header).show(@userinfo, @params)
     when 'search' then
-      srs = SearchResultScreen.new(@header, Pagetitle)
-      srs.show(@userinfo, @params)
+      SearchResultScreen.new(@header).show(@userinfo, @params)
     when 'searchform' then
-      SearchformScreen.new(@header, Pagetitle).show(@userinfo)
+      SearchformScreen.new(@header).show(@userinfo)
     when 'userlist' then
-      userlist_screen(@header, Pagetitle, @userinfo)
-    when 'adminmenu' then  # when 'versions' then
-      VersionsScreen.new(@header, Pagetitle).show(@userinfo)
+      userlist_screen(@header, @userinfo)
+    when 'adminmenu' then # when 'versions' then
+      VersionsScreen.new(@header).show(@userinfo)
     when %r{game\/(\h+)}
       require './game/game.rb'
       gm = Game.new(@cgi, $1)
@@ -158,7 +150,7 @@ class WashCrus
       require './game/checknewgame.rb'
       CheckNewGame.new(@cgi).perform
     else
-      error_action_screen(@header, Pagetitle, @userinfo, @params, @action)
+      error_action_screen(@userinfo, @params, @action)
     end
   end
 

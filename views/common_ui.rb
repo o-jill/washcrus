@@ -12,13 +12,14 @@ module CommonUI
   # HTMLヘッダ出力
   #
   # @param header HTMLヘッダ
-  # @param title ページタイトル
-  def self.HTMLHead(header, title)
+  def self.HTMLHead(header)
     print header
+    stg = Settings.instance
+    title = stg.value['wintitle']
     print <<-HEADER_TAG.unindent
       <HTML lang=ja>
       <HEAD>
-       <TITLE>#{title}</TITLE>
+       <title>#{title}</title>
        <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
        <META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
        <link rel='shortcut icon' href='./image/favicon.ico' />
@@ -29,9 +30,9 @@ module CommonUI
   end
 
   # HTMLヘッダ出力(no cookie)
-  #
-  # @param title ページタイトル
-  def self.HTMLHead2(title)
+  def self.HTMLHead2()
+    stg = Settings.instance
+    title = stg.value['wintitle']
     print <<-HEADER2_TAG.unindent
       Content-Type: text/html; charset=UTF-8
       Set-Cookie: _washcrus_session=; expires=Thu, 01 Jan 1970 00:00:00 GMT
@@ -41,7 +42,7 @@ module CommonUI
 
       <HTML lang=ja>
       <HEAD>
-       <TITLE>#{title}</TITLE>
+       <title>#{title}</title>
        <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
        <META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
        <link rel='shortcut icon' href='./image/favicon.ico' />

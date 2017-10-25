@@ -6,11 +6,11 @@ require './views/common_ui.rb'
 #
 # matchlist画面
 #
-def matchlist_screen(header, title, userinfo)
+def matchlist_screen(header, userinfo)
   tkcdb = TaikyokuChuFile.new
   tkcdb.read
 
-  CommonUI::HTMLHead(header, title)
+  CommonUI::HTMLHead(header)
   CommonUI::HTMLmenu(userinfo)
 
   tkcdb.to_html('対局中')

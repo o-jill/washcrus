@@ -14,10 +14,8 @@ class SearchResultScreen
   # 初期化
   #
   # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
   end
 
   # 先手を検索
@@ -152,7 +150,7 @@ class SearchResultScreen
   def show(userinfo, params)
     res = searchgames(params)
 
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
 
     if res.nil? || res.empty?

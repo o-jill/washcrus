@@ -2,7 +2,7 @@
 
 require 'rubygems'
 require 'unindent'
-# require './game/userinfo.rb'
+require './game/userinfo.rb'
 require './views/common_ui.rb'
 
 #
@@ -14,10 +14,8 @@ class AdminSignatureScreen
   # 初期化
   #
   # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
   end
 
   # 編集領域の出力
@@ -59,7 +57,7 @@ class AdminSignatureScreen
     return puts "Content-Type: text/plain;\n\nERR_NOT_ADMIN" \
         unless userinfo.admin
 
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
     CommonUI::HTMLAdminMenu()
 

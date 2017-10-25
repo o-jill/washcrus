@@ -12,10 +12,8 @@ class SignupScreen
   # 初期化
   #
   # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
   end
 
   # 入力フォームの表示
@@ -55,7 +53,7 @@ class SignupScreen
 
   # 画面の表示
   def show
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu()
 
     puts "<script type='text/javascript' src='./js/signup.js' defer></script>"

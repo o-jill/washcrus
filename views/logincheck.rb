@@ -11,8 +11,7 @@ require './views/common_ui.rb'
 # ログイン完了orログインエラー画面
 #
 class LoginCheckScreen
-  def initialize(title)
-    @title = title
+  def initialize
     @errmsg = ''
     @userinfo = nil
     @userdata = []
@@ -104,7 +103,7 @@ class LoginCheckScreen
 
     header = header.gsub("\r\n", "\n")
 
-    CommonUI::HTMLHead(header, @title)
+    CommonUI::HTMLHead(header)
     CommonUI::HTMLmenu(@userinfo)
 
     if @userinfo.nil?

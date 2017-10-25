@@ -8,11 +8,7 @@ require './views/common_ui.rb'
 #
 class LogoutScreen
   # 初期化
-  #
-  # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(title)
-    @title = title
+  def initialize
   end
 
   # ログアウト
@@ -21,7 +17,7 @@ class LogoutScreen
   def show(session)
     session.delete if session
 
-    CommonUI::HTMLHead2(@title)
+    CommonUI::HTMLHead2()
     CommonUI::HTMLmenu()
 
     puts 'Logged out ...'

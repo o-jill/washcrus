@@ -14,10 +14,8 @@ class AdminSignatureUpdateScreen
   # 初期化
   #
   # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
     @errmsg = ''
   end
 
@@ -73,7 +71,7 @@ class AdminSignatureUpdateScreen
 
     write_param(params)
 
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
     CommonUI::HTMLAdminMenu()
 

@@ -17,10 +17,8 @@ class RegisterScreen
   # 初期化
   #
   # @param header htmlヘッダ
-  # @param title  ページタイトル
-  def initialize(header, title)
+  def initialize(header)
     @header = header
-    @title = title
 
     @errmsg = ''
   end
@@ -160,7 +158,7 @@ class RegisterScreen
       msg = "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>"
     end
 
-    CommonUI::HTMLHead(@header, @title)
+    CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu()
 
     print msg
