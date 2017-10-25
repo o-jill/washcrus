@@ -1101,35 +1101,7 @@ Koma.prototype.movable = function() {
  * @return {Boolean} true:まだ動ける, false:もう無理。
  */
 Koma.prototype.checkMovable = function(oy) {
- if (this.id >= this.GinID) {
-  return true;
- }
- if (this.id === this.FuID || this.id === this.KyoshaID) {
-  if (this.teban === Koma.SENTEBAN) {
-   if (oy === 0) {
-    return false;
-   }
-   return true;
-  } else {
-   if (oy === 8) {
-    return false;
-   }
-   return true;
-  }
- }
- if (this.id === this.KeimaID) {
-  if (this.teban === Koma.SENTEBAN) {
-   if (oy <= 1) {
-    return false;
-   }
-   return true;
-  } else {
-   if (oy >= 7) {
-    return false;
-   }
-   return true;
-  }
- }
+ return true;
 };
 
 /**
@@ -1808,6 +1780,26 @@ Fu.prototype.getUchable = function() {
 };
 
 /**
+ * その他の駒がないとしてこれ以上動けるか
+ *
+ * @param {Number} oy 現在地
+ *
+ * @return {Boolean} true:まだ動ける, false:もう無理。
+ */
+Fu.prototype.checkMovable = function(oy) {
+ if (this.teban === Koma.SENTEBAN) {
+  if (oy === 0) {
+   return false;
+  }
+ } else {
+  if (oy === 8) {
+   return false;
+  }
+ }
+ return true;
+};
+
+/**
  * 二歩になるかどうかチェックする。
  *
  * @param {Number} x      チェックする筋
@@ -1863,6 +1855,26 @@ Kyosha.prototype.movable = function() {
  }
 };
 
+/**
+ * その他の駒がないとしてこれ以上動けるか
+ *
+ * @param {Number} oy 現在地
+ *
+ * @return {Boolean} true:まだ動ける, false:もう無理。
+ */
+Kyosha.prototype.checkMovable = function(oy) {
+ if (this.teban === Koma.SENTEBAN) {
+  if (oy === 0) {
+   return false;
+  }
+ } else {
+  if (oy === 8) {
+   return false;
+  }
+ }
+ return true;
+};
+
 Keima.prototype = new Koma();
 /**
  * 桂馬クラス
@@ -1896,6 +1908,26 @@ Keima.prototype.movable = function() {
  } else {
   return this.KeimaMovable;
  }
+};
+
+/**
+ * その他の駒がないとしてこれ以上動けるか
+ *
+ * @param {Number} oy 現在地
+ *
+ * @return {Boolean} true:まだ動ける, false:もう無理。
+ */
+Keima.prototype.checkMovable = function(oy) {
+ if (this.teban === Koma.SENTEBAN) {
+  if (oy <= 1) {
+   return false;
+  }
+ } else {
+  if (oy >= 7) {
+   return false;
+  }
+ }
+ return true;
 };
 
 Gin.prototype = new Koma();
