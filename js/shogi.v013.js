@@ -2646,7 +2646,6 @@ Kifu.prototype.seek_te = function(idx) {
     move2(masu, te[1], te[2], te[5]);  // 動かした駒を戻す
 
     if (te[6] >= 0) {
-     var tegoma;
      if (te[0] === Koma.SENTEBAN) {
       tegoma = sentegoma;
      } else {
