@@ -16,7 +16,7 @@ class TaikyokuFileContent
     @idws = {}
     @namebs = {}
     @namews = {}
-    @turn = {}
+    @turns = {}
     @times = {}
     @comments = {}
   end
@@ -28,7 +28,7 @@ class TaikyokuFileContent
   # @param id 対局ID
   def build_line(id)
     "#{id},#{@idbs[id]},#{@idws[id]}," \
-    "#{@namebs[id]},#{@namews[id]},#{@turn[id]},#{@times[id]},#{@comments[id]}"
+    "#{@namebs[id]},#{@namews[id]},#{@turns[id]},#{@times[id]},#{@comments[id]}"
   end
 
   # ファイルに出力
@@ -51,7 +51,7 @@ class TaikyokuFileContent
       idw: @idws[id],
       nameb: @namebs[id],
       namew: @namews[id],
-      turn: @turn[id],
+      turn: @turns[id],
       time: @times[id],
       comment: @comments[id]
     }
@@ -65,7 +65,7 @@ class TaikyokuFileContent
     @idws.delete(nid)
     @namebs.delete(nid)
     @namews.delete(nid)
-    @turn.delete(nid)
+    @turns.delete(nid)
     @times.delete(nid)
     @comments.delete(nid)
   end
@@ -80,7 +80,7 @@ class TaikyokuFileContent
     @idws[nid]     = arr[2]
     @namebs[nid]   = arr[3]
     @namews[nid]   = arr[4]
-    @turn[nid]     = arr[5]
+    @turns[nid]     = arr[5]
     @times[nid]    = arr[6]
     @comments[nid] = arr[7]
   end
@@ -211,8 +211,8 @@ class TaikyokuFileContent
 
   # 着手日時の更新
   #
-  # @param dt_str 時刻文字列
   # @param nid    対局ID
+  # @param dt_str 時刻文字列
   def updatedatetime(nid, dt_str)
     @times[nid] = dt_str
   end
@@ -254,7 +254,8 @@ class TaikyokuFileContent
           <img src='image/right_fu.png' alt='#{id}' title='move to this game!'>
           <small>#{id}</small>
          </a></TD>
-         <TD>#{name}</TD><TD>#{@namews[id]}</TD><TD>#{TaikyokuFileContent::turn2str(@turn[id])}</TD>
+         <TD>#{name}</TD><TD>#{@namews[id]}</TD>
+         <TD>#{TaikyokuFileContent::turn2str(@turns[id])}</TD>
          <TD>#{@times[id]}</TD><TD>#{@comments[id]}</TD>
         </TR>
         LINE
@@ -267,14 +268,14 @@ class TaikyokuFileContent
   def dumphtml
     print <<-FNAME_AND_TABLE
       <table border=1> <Caption>path:#{fname}</caption>
-      <tr><th>ID</th><TH>Black</TH><TH>White</TH><TH>Time</TH><TH>Comment</TH></TR>
+      <tr><th>ID</th><TH>Black</TH><TH>White</TH><TH>Turn</TH><TH>Time</TH><TH>Comment</TH></TR>
       FNAME_AND_TABLE
     @namebs.each do |id, name|
       puts <<-DUMPCONTENT
         <TR>
          <TD><a href='./washcrus.rb?game/#{id}'>#{id}</a></TD>
          <TD>#{name}(#{@idbs[id]})</TD><TD>#{@namews[id]}(#{@idws[id]})</TD>
-         <TD>#{@times[id]}</TD><TD>#{@comments[id]}</TD>
+         <TD>#{@turns[id]}</TD><TD>#{@times[id]}</TD><TD>#{@comments[id]}</TD>
         </TR>
         DUMPCONTENT
     end

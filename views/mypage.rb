@@ -105,18 +105,6 @@ class MyPageScreen
       TAIKYOKURIREKI_TABLE
   end
 
-  # 手番文字をわかりやすい言葉に変換
-  #
-  # @param trn 手番文字
-  # @return 手番情報文字列
-  # def turn2str(trn)
-  #   tbl = [%w[b 先手番], %w[w 後手番], %w[fb 先手勝ち], %w[fw 後手勝ち]]
-  #   tbl.each do |elem|
-  #     return elem[1] if trn == elem[0]
-  #   end
-  #   'エラー'
-  # end
-
   # 対局履歴の表の中身の出力
   #
   # @param tklist 対局情報Array
