@@ -155,7 +155,24 @@ function lets_furigoma() {
   btn.disabled = true;
   koma = document.getElementById('furigoma');
   koma.value = "";
-  setTimeout("ontimer_furigoma()", 1000);
+  setTimeout(function() {
+    ontimer_furigoma()
+  }, 1000);
+}
+
+function randomchoose(anim, fu, to) {
+  var koma = document.getElementById(anim);
+  koma.style.display = 'none';
+  var value;
+  if (Math.random() < 0.5) {
+    value = "F";
+    koma = document.getElementById(fu);
+  } else {
+    value = "T";
+    koma = document.getElementById(to);
+  }
+  koma.style.display = 'inline';
+  return value;
 }
 
 function ontimer_furigoma() {
@@ -164,64 +181,32 @@ function ontimer_furigoma() {
   var koma;
   var komame = furikoma.value.length
   if (komame === 0) {
-    koma = document.getElementById('furikomanim1');
-    koma.style.display = 'none';
-    if (Math.random() < 0.5) {
-      furikoma.value += "F";
-      koma = document.getElementById('furikomafu1');
-    } else {
-      furikoma.value += "T";
-      koma = document.getElementById('furikomato1');
-    }
-    koma.style.display = 'inline';
-    setTimeout("ontimer_furigoma()", 1000);
+    furikoma.value +=
+        randomchoose('furikomanim1', 'furikomafu1', 'furikomato1');
+    setTimeout(function() {
+      ontimer_furigoma()
+    }, 1000);
   } else if (komame === 1) {
-    koma = document.getElementById('furikomanim2');
-    koma.style.display = 'none';
-    if (Math.random() < 0.5) {
-      furikoma.value += "F";
-      koma = document.getElementById('furikomafu2');
-    } else {
-      furikoma.value += "T";
-      koma = document.getElementById('furikomato2');
-    }
-    koma.style.display = 'inline';
-    setTimeout("ontimer_furigoma()", 1000);
+    furikoma.value +=
+        randomchoose('furikomanim2', 'furikomafu2', 'furikomato2');
+    setTimeout(function() {
+      ontimer_furigoma()
+    }, 1000);
   } else if (komame === 2) {
-    koma = document.getElementById('furikomanim3');
-    koma.style.display = 'none';
-    if (Math.random() < 0.5) {
-      furikoma.value += "F";
-      koma = document.getElementById('furikomafu3');
-    } else {
-      furikoma.value += "T";
-      koma = document.getElementById('furikomato3');
-    }
-    koma.style.display = 'inline';
-    setTimeout("ontimer_furigoma()", 1000);
+    furikoma.value +=
+        randomchoose('furikomanim3', 'furikomafu3', 'furikomato3');
+    setTimeout(function() {
+      ontimer_furigoma()
+    }, 1000);
   } else if (komame === 3) {
-    koma = document.getElementById('furikomanim4');
-    koma.style.display = 'none';
-    if (Math.random() < 0.5) {
-      furikoma.value += "F";
-      koma = document.getElementById('furikomafu4');
-    } else {
-      furikoma.value += "T";
-      koma = document.getElementById('furikomato4');
-    }
-    koma.style.display = 'inline';
-    setTimeout("ontimer_furigoma()", 1000);
+    furikoma.value +=
+        randomchoose('furikomanim4', 'furikomafu4', 'furikomato4');
+    setTimeout(function() {
+      ontimer_furigoma()
+    }, 1000);
   } else if (komame === 4) {
-    koma = document.getElementById('furikomanim5');
-    koma.style.display = 'none';
-    if (Math.random() < 0.5) {
-      furikoma.value += "F";
-      koma = document.getElementById('furikomafu5');
-    } else {
-      furikoma.value += "T";
-      koma = document.getElementById('furikomato5');
-    }
-    koma.style.display = 'inline';
+    furikoma.value +=
+        randomchoose('furikomanim5', 'furikomafu5', 'furikomato5');
     btn.disabled = false;
   } else {
     btn.disabled = false;
@@ -298,7 +283,9 @@ function lets_furigoma2() {
   btn.disabled = true;
   koma = document.getElementById('furigoma2');
   koma.value = "";
-  setTimeout("ontimer_furigoma2()", 1000);
+  setTimeout(function() {
+    ontimer_furigoma2()
+  }, 1000);
 }
 
 function ontimer_furigoma2() {
@@ -307,64 +294,32 @@ function ontimer_furigoma2() {
   var koma;
   var komame = furikoma.value.length
   if (komame === 0) {
-    koma = document.getElementById('furikomanim21');
-    koma.style.display = 'none';
-    if (Math.random() < 0.5) {
-      furikoma.value += "F";
-      koma = document.getElementById('furikomafu21');
-    } else {
-      furikoma.value += "T";
-      koma = document.getElementById('furikomato21');
-    }
-    koma.style.display = 'inline';
-    setTimeout("ontimer_furigoma2()", 1000);
+    furikoma.value +=
+        randomchoose('furikomanim21', 'furikomafu21', 'furikomato21');
+    setTimeout(function() {
+      ontimer_furigoma2()
+    }, 1000);
   } else if (komame === 1) {
-    koma = document.getElementById('furikomanim22');
-    koma.style.display = 'none';
-    if (Math.random() < 0.5) {
-      furikoma.value += "F";
-      koma = document.getElementById('furikomafu22');
-    } else {
-      furikoma.value += "T";
-      koma = document.getElementById('furikomato22');
-    }
-    koma.style.display = 'inline';
-    setTimeout("ontimer_furigoma2()", 1000);
+    furikoma.value +=
+        randomchoose('furikomanim22', 'furikomafu22', 'furikomato22');
+    setTimeout(function() {
+      ontimer_furigoma2()
+    }, 1000);
   } else if (komame === 2) {
-    koma = document.getElementById('furikomanim23');
-    koma.style.display = 'none';
-    if (Math.random() < 0.5) {
-      furikoma.value += "F";
-      koma = document.getElementById('furikomafu23');
-    } else {
-      furikoma.value += "T";
-      koma = document.getElementById('furikomato23');
-    }
-    koma.style.display = 'inline';
-    setTimeout("ontimer_furigoma2()", 1000);
+    furikoma.value +=
+        randomchoose('furikomanim23', 'furikomafu23', 'furikomato23');
+    setTimeout(function() {
+      ontimer_furigoma2()
+    }, 1000);
   } else if (komame === 3) {
-    koma = document.getElementById('furikomanim24');
-    koma.style.display = 'none';
-    if (Math.random() < 0.5) {
-      furikoma.value += "F";
-      koma = document.getElementById('furikomafu24');
-    } else {
-      furikoma.value += "T";
-      koma = document.getElementById('furikomato24');
-    }
-    koma.style.display = 'inline';
-    setTimeout("ontimer_furigoma2()", 1000);
+    furikoma.value +=
+        randomchoose('furikomanim24', 'furikomafu24', 'furikomato24');
+    setTimeout(function() {
+      ontimer_furigoma2()
+    }, 1000);
   } else if (komame === 4) {
-    koma = document.getElementById('furikomanim25');
-    koma.style.display = 'none';
-    if (Math.random() < 0.5) {
-      furikoma.value += "F";
-      koma = document.getElementById('furikomafu25');
-    } else {
-      furikoma.value += "T";
-      koma = document.getElementById('furikomato25');
-    }
-    koma.style.display = 'inline';
+    furikoma.value +=
+        randomchoose('furikomanim25', 'furikomafu25', 'furikomato25');
     btn.disabled = false;
   } else {
     btn.disabled = false;
