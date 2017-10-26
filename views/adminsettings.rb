@@ -36,19 +36,19 @@ class AdminSettingsScreen
       name = elem[0]
       id = elem[1]
       puts <<-ROW_TEXT.unindent
-       <tr>
-        <td>#{name}</td>
-        <td><input name='#{id}' id='#{id}' type=text size=50 value='#{stg.value[id]}'></td>
-       </tr>
+        <tr>
+         <td>#{name}</td>
+         <td><input name='#{id}' id='#{id}' type=text size=50 value='#{stg.value[id]}'></td>
+        </tr>
        ROW_TEXT
-     end
-     puts <<-FORM_SETTINGS_TAIL.unindent
-       <tr>
-        <td colspan=2>
-         <input type='submit' value='Save' class='inpform'>
-        </td>
-       </tr>
-       <tr><td colspan='2' id='errmsg'></td></tr>
+    end
+    puts <<-FORM_SETTINGS_TAIL.unindent
+      <tr>
+       <td colspan=2>
+        <input type='submit' value='Save' class='inpform'>
+       </td>
+      </tr>
+      <tr><td colspan='2' id='errmsg'></td></tr>
       </table>
       </form>
       FORM_SETTINGS_TAIL
