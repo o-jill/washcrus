@@ -217,6 +217,14 @@ class TaikyokuFileContent
     @times[nid] = dt_str
   end
 
+  # 手番の更新
+  #
+  # @param nid 対局ID
+  # @param trn 手番
+  def updateturn(nid, trn)
+    @turns[nid] = trn
+  end
+
   # １日以上経過した対局のIDを返す。
   def checkelapsed
     limit = Time.now - 86_400 # 24*3600
@@ -480,6 +488,14 @@ class TaikyokuFile
   # @param nid    対局ID
   def updatedatetime(nid, dt_str)
     @content.updatedatetime(nid, dt_str)
+  end
+
+  # 手番の更新
+  #
+  # @param nid 対局ID
+  # @param trn 手番
+  def updateturn(nid, trn)
+    @content.updateturn(nid, trn)
   end
 
   # HTML形式(TABLE)に変換して出力

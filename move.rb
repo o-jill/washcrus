@@ -33,6 +33,7 @@ class Move
     @gameid = cgi.query_string
     # @stg = stg
     @baseurl = stg.value['base_url']
+    @turn = '?'
     @log.info("gameid:#{@gameid}")
     @sfen = @params['sfen'][0] unless @params['sfen'].nil?
     @move = @params['jsonmove'][0] unless @params['jsonmove'].nil?
@@ -216,6 +217,7 @@ class Move
     tcdb.lock do
       tcdb.read
       tcdb.updatedatetime(@gameid, nowstr)
+      tcdb.updateturn(@gameid, @turn)
       tcdb.write
     end
   end
@@ -229,6 +231,7 @@ class Move
     tdb.lock do
       tdb.read
       tdb.updatedatetime(@gameid, nowstr)
+      tdb.updateturn(@gameid, @turn)
       tdb.write
     end
   end
@@ -240,7 +243,9 @@ class Move
   def finish_game(tcdb, now)
     # 終了日時の更新とか勝敗の記録とか
     @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")
-    @tkd.finished(now, @tkd.mi.teban == 'b')
+    gote_win = (@tkd.mi.teban == 'b')
+    @tkd.finished(now, gote_win)
+    @turn = gote_win ? 'fw' : 'fb'
     # 対局中からはずす
     @log.debug('tcdb.finished(@gameid)')
     tcdb.finished(@gameid)
@@ -268,6 +273,7 @@ class Move
     # @tkd.move(@jmv, now)
     ret = @tkd.move(@sfen, @jmv, now)
     return put_invalid_move if ret.nil?
+    @turn = @tkd.mi.teban
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
