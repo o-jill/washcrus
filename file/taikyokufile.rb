@@ -16,18 +16,19 @@ class TaikyokuFileContent
     @idws = {}
     @namebs = {}
     @namews = {}
+    @turn = {}
     @times = {}
     @comments = {}
   end
 
-  attr_accessor :fname, :idbs, :idws, :namebs, :namews, :times, :comments
+  attr_accessor :fname, :idbs, :idws, :namebs, :namews, :turn, :times, :comments
 
   # 1行分のデータ文字列の生成
   #
   # @param id 対局ID
   def build_line(id)
     "#{id},#{@idbs[id]},#{@idws[id]}," \
-    "#{@namebs[id]},#{@namews[id]},#{@times[id]},#{@comments[id]}"
+    "#{@namebs[id]},#{@namews[id]},#{@turn[id]},#{@times[id]},#{@comments[id]}"
   end
 
   # ファイルに出力
@@ -42,7 +43,7 @@ class TaikyokuFileContent
   # get game info by game id
   #
   # @param id 対局ID
-  # @return hash{id:, idb:, idw:, nameb:, namew:, time:, comment:}
+  # @return hash{id:, idb:, idw:, nameb:, namew:, turn:, time:, comment:}
   def probe(id)
     {
       id: id,
@@ -50,6 +51,7 @@ class TaikyokuFileContent
       idw: @idws[id],
       nameb: @namebs[id],
       namew: @namews[id],
+      turn: @turn[id],
       time: @times[id],
       comment: @comments[id]
     }
@@ -63,13 +65,14 @@ class TaikyokuFileContent
     @idws.delete(nid)
     @namebs.delete(nid)
     @namews.delete(nid)
+    @turn.delete(nid)
     @times.delete(nid)
     @comments.delete(nid)
   end
 
   # add taikyoku information
   #
-  # @param arr [nid, idb, idw, ply1, ply2, dt, cmt]
+  # @param arr [nid, idb, idw, ply1, ply2, turn, dt, cmt]
   def add_array(arr)
     # add(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6])
     nid = arr[0]
@@ -77,8 +80,9 @@ class TaikyokuFileContent
     @idws[nid]     = arr[2]
     @namebs[nid]   = arr[3]
     @namews[nid]   = arr[4]
-    @times[nid]    = arr[5]
-    @comments[nid] = arr[6]
+    @turn[nid]     = arr[5]
+    @times[nid]    = arr[6]
+    @comments[nid] = arr[7]
   end
 
   # get taikyoku information by id
@@ -139,6 +143,7 @@ class TaikyokuFileContent
   # get taikyoku information by user-id
   #
   # @param nid 対局者のID
+  # @return 対局情報リスト
   def finduid(nid)
     foundid = finduidb(nid)
     foundid.merge!(finduidw(nid))
@@ -152,6 +157,7 @@ class TaikyokuFileContent
   # 指定時刻までに着手した対局の取得
   #
   # @param to 時刻オブジェクト
+  # @return 対局IDと着手時刻のハッシュリスト
   def findtime_to(to)
     tto = Time.parse(to)
     @times.select do |_k, v|
@@ -163,6 +169,7 @@ class TaikyokuFileContent
   # 指定時刻以降に着手した対局の取得
   #
   # @param from 時刻オブジェクト
+  # @return 対局IDと着手時刻のハッシュリスト
   def findtime_from(from)
     tfrom = Time.parse(from)
     @times.select do |_k, v|
@@ -175,6 +182,7 @@ class TaikyokuFileContent
   #
   # @param to 時刻オブジェクト
   # @param from 時刻オブジェクト
+  # @return 対局IDと着手時刻のハッシュリスト
   def findtime_both(from, to)
     tfrom = Time.parse(from)
     tto = Time.parse(to)
@@ -192,6 +200,7 @@ class TaikyokuFileContent
   #
   # @param to 時刻オブジェクト。nil可
   # @param from 時刻オブジェクト。nil可
+  # @return 対局IDと着手時刻のハッシュリスト
   def findtime(from, to)
     return findtime_to(to) if from.empty?
 
@@ -218,13 +227,25 @@ class TaikyokuFileContent
     end
   end
 
+  # 手番文字をわかりやすい言葉に変換
+  #
+  # @param trn 手番文字
+  # @return 手番情報文字列
+  def self.turn2str(trn)
+    tbl = [%w[b 先手番], %w[w 後手番], %w[fb 先手勝ち], %w[fw 後手勝ち]]
+    tbl.each do |elem|
+      return elem[1] if trn == elem[0]
+    end
+    'エラー'
+  end
+
   # HTML形式(TABLE)に変換して出力
   #
   # @param title テーブルのキャプション
   def to_html(title)
     print <<-FNAME_AND_TABLE.unindent
       <table border=1 align=center> <Caption>#{title}</caption>
-      <tr><th>ID</th><TH>先手</TH><TH>後手</TH><TH>着手日時</TH><TH>コメント</TH></TR>
+      <tr><th>ID</th><TH>先手</TH><TH>後手</TH><TH>手番</TH><TH>着手日時</TH><TH>コメント</TH></TR>
       FNAME_AND_TABLE
     @namebs.each do |id, name|
       puts <<-LINE.unindent
@@ -233,7 +254,7 @@ class TaikyokuFileContent
           <img src='image/right_fu.png' alt='#{id}' title='move to this game!'>
           <small>#{id}</small>
          </a></TD>
-         <TD>#{name}</TD><TD>#{@namews[id]}</TD>
+         <TD>#{name}</TD><TD>#{@namews[id]}</TD><TD>#{TaikyokuFileContent::turn2str(@turn[id])}</TD>
          <TD>#{@times[id]}</TD><TD>#{@comments[id]}</TD>
         </TR>
         LINE
@@ -302,10 +323,17 @@ class TaikyokuFile
   #
   # @param elem 1要素
   def read_element(elem)
-    if elem.length == 7
+    if elem.length == 8
+      @content.add_array(elem)
+    elsif elem.length == 7
+      elem[7] = elem[6]
+      elem[6] = elem[5]
+      elem[5] = '?'
       @content.add_array(elem)
     elsif elem.length == 6
       elem[7] = '&lt;blank&gt;'
+      elem[6] = elem[5]
+      elem[5] = '?'
       @content.add_array(elem)
     # else
       # skip
@@ -339,7 +367,7 @@ class TaikyokuFile
   # @param file Fileオブジェクト
   def put_header(file)
     file.puts '# taikyoku information' + Time.now.to_s
-    file.puts '# id, idb, idw, nameb, namew, time, comment'
+    file.puts '# id, idb, idw, nameb, namew, turn, time, comment'
   end
 
   # ファイルへの書き出し

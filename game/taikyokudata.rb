@@ -85,17 +85,17 @@ class TaikyokuData
   end
 
   # 対局情報のDBへの登録
-  def register_taikyoku
+  def register_taikyoku(teban = 'b', cmt = 'blank')
     # @log.debug('TaikyokuFile.new')
     tdb = TaikyokuFile.new
     tdb.read
-    tdb.add([@gid, @id1, @id2, @player1, @player2, @datetime, ''])
+    tdb.add([@gid, @id1, @id2, @player1, @player2, teban, @datetime, cmt])
     tdb.append(@gid)
 
     # @log.debug('TaikyokuChuFile.new')
     tcdb = TaikyokuChuFile.new
     tcdb.read
-    tcdb.add([@gid, @id1, @id2, @player1, @player2, @datetime, ''])
+    tcdb.add([@gid, @id1, @id2, @player1, @player2, teban, @datetime, cmt])
     tcdb.append(@gid)
   end
 

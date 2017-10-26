@@ -100,10 +100,22 @@ class MyPageScreen
     print <<-TAIKYOKURIREKI_TABLE.unindent
       <table align='center' border='3'><caption>#{cap}</caption>
       <tr>
-       <th>ID</th><th>先手</th><th>後手</th><th>最終着手日時</th><th>棋譜</th>
+       <th>ID</th><th>先手</th><th>後手</th><th>手番</th><th>最終着手日時</th><th>棋譜</th>
       </tr>
       TAIKYOKURIREKI_TABLE
   end
+
+  # 手番文字をわかりやすい言葉に変換
+  #
+  # @param trn 手番文字
+  # @return 手番情報文字列
+  # def turn2str(trn)
+  #   tbl = [%w[b 先手番], %w[w 後手番], %w[fb 先手勝ち], %w[fw 後手勝ち]]
+  #   tbl.each do |elem|
+  #     return elem[1] if trn == elem[0]
+  #   end
+  #   'エラー'
+  # end
 
   # 対局履歴の表の中身の出力
   #
@@ -111,13 +123,15 @@ class MyPageScreen
   def put_taikyokulist_tbl(tklist)
     tklist.each do |game|
       gid = game[:id]
+      turnstr = TaikyokuFileContent::turn2str(game[:turn])
       print <<-TKLIST_DAN.unindent
         <tr>
          <td><a href='./washcrus.rb?game/#{gid}'>
           <img src='image/right_fu.png' alt='#{gid}' title='move to this game!'>
           <small>#{gid}</small>
          </a></td>
-         <td>#{game[:nameb]}</td><td>#{game[:namew]}</td><td>#{game[:time]}</td>
+         <td>#{game[:nameb]}</td><td>#{game[:namew]}</td>
+         <td>#{turnstr}</td><td>#{game[:time]}</td>
          <td><a href='./washcrus.rb?dlkifu/#{gid}' target='_blank'>
           <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
          </a></td>
