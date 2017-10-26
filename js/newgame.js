@@ -120,36 +120,18 @@ function pre_check() {
 }
 
 function lets_furigoma() {
-  var koma = document.getElementById('furikomanim1');
-  koma.style.display = 'inline';
-  koma = document.getElementById('furikomafu1');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomato1');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomanim2');
-  koma.style.display = 'inline';
-  koma = document.getElementById('furikomafu2');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomato2');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomanim3');
-  koma.style.display = 'inline';
-  koma = document.getElementById('furikomafu3');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomato3');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomanim4');
-  koma.style.display = 'inline';
-  koma = document.getElementById('furikomafu4');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomato4');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomanim5');
-  koma.style.display = 'inline';
-  koma = document.getElementById('furikomafu5');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomato5');
-  koma.style.display = 'none';
+  var koma, id;
+  for (var i = 1; i <= 5; ++i) {
+    id = 'furikomanim'+i;
+    koma = document.getElementById(id);
+    koma.style.display = 'inline';
+    id = 'furikomafu'+i;
+    koma = document.getElementById(id);
+    koma.style.display = 'none';
+    id = 'furikomato'+i;
+    koma = document.getElementById(id);
+    koma.style.display = 'none';
+  }
 
   var btn = document.getElementById('btnfurigoma')
   btn.disabled = true;
@@ -177,8 +159,7 @@ function randomchoose(anim, fu, to) {
 
 function ontimer_furigoma() {
   var furikoma = document.getElementById('furigoma');
-  var btn = document.getElementById('btnfurigoma')
-  var koma;
+  var btn = document.getElementById('btnfurigoma');
   var komame = furikoma.value.length
   if (komame === 0) {
     furikoma.value +=
@@ -248,38 +229,20 @@ function check_form2()
 }
 
 function lets_furigoma2() {
-  var koma = document.getElementById('furikomanim21');
-  koma.style.display = 'inline';
-  koma = document.getElementById('furikomafu21');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomato21');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomanim22');
-  koma.style.display = 'inline';
-  koma = document.getElementById('furikomafu22');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomato22');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomanim23');
-  koma.style.display = 'inline';
-  koma = document.getElementById('furikomafu23');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomato23');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomanim24');
-  koma.style.display = 'inline';
-  koma = document.getElementById('furikomafu24');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomato24');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomanim25');
-  koma.style.display = 'inline';
-  koma = document.getElementById('furikomafu25');
-  koma.style.display = 'none';
-  koma = document.getElementById('furikomato25');
-  koma.style.display = 'none';
+  var koma, id;
+  for (var i = 1; i <= 5; ++i) {
+    id = 'furikomanim2'+i;
+    koma = document.getElementById(id);
+    koma.style.display = 'inline';
+    id = 'furikomafu2'+i;
+    koma = document.getElementById(id);
+    koma.style.display = 'none';
+    id = 'furikomato2'+i;
+    koma = document.getElementById(id);
+    koma.style.display = 'none';
+  }
 
-  var btn = document.getElementById('btnfurigoma2')
+  var btn = document.getElementById('btnfurigoma2');
   btn.disabled = true;
   koma = document.getElementById('furigoma2');
   koma.value = "";
@@ -290,9 +253,8 @@ function lets_furigoma2() {
 
 function ontimer_furigoma2() {
   var furikoma = document.getElementById('furigoma2');
-  var btn = document.getElementById('btnfurigoma2')
-  var koma;
-  var komame = furikoma.value.length
+  var btn = document.getElementById('btnfurigoma2');
+  var komame = furikoma.value.length;
   if (komame === 0) {
     furikoma.value +=
         randomchoose('furikomanim21', 'furikomafu21', 'furikomato21');
