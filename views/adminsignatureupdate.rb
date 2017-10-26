@@ -34,9 +34,11 @@ class AdminSignatureUpdateScreen
   #
   # @param signature 書き込む内容
   def write_signature(signature)
-    File.write(SIGNATUREFILE, signature)
-  rescue
-    @errmsg += 'failed to update...'
+    File.write(SIGNATUREFILE, signature.gsub("\r\n", "\n"))
+  rescue => e
+    @errmsg += 'failed to update...<pre>'
+    @errmsg += e.to_s
+    @errmsg += '</pre>'
   end
 
   # 編集結果の表示
@@ -69,7 +71,7 @@ class AdminSignatureUpdateScreen
     return puts "Content-Type: text/plain;\n\nERR_NOT_ADMIN" \
         unless userinfo.admin
 
-    write_param(params)
+    update_param(params)
 
     CommonUI::HTMLHead(@header)
     CommonUI::HTMLmenu(userinfo)
