@@ -21,38 +21,37 @@ class AdminSettingsScreen
   def show_settingsform
     scriptname = File.basename($PROGRAM_NAME)
     stg = Settings.instance
-    print <<-FORM_SETTINGS.unindent
+    stg_elem = [
+      ['Window title', 'wintitle'],
+      ['Page title',   'title'],
+      ['Domain',       'domain'],
+      ['Base URL',     'base_url'],
+      ['Support URL',  'support_url']
+    ]
+    print <<-FORM_SETTINGS_HEAD.unindent
       <form action='#{scriptname}?adminsavesettings' method=post name='adminsettings'>
-      <table align='center'>
+      <table align='center' border=1>
+      FORM_SETTINGS_HEAD
+    stg_elem.each do |elem|
+      name = elem[0]
+      id = elem[1]
+      puts <<-ROW_TEXT.unindent
        <tr>
-        <td>Window title</td>
-        <td><input name='wintitle' id='wintitle' type=text size=50 value='#{stg.value['wintitle']}'></td>
+        <td>#{name}</td>
+        <td><input name='#{id}' id='#{id}' type=text size=50 value='#{stg.value[id]}'></td>
        </tr>
-       <tr>
-        <td>Page title</td>
-        <td><input name='pgtitle' id='pgtitle' type=text size=50 value='#{stg.value['title']}'></td>
-       </tr>
-       <tr>
-        <td>Domain</td>
-        <td><input name='domain' id='domain' type=text size=50 value='#{stg.value['domain']}'></td>
-       </tr>
-       <tr>
-        <td>Base URL</td>
-        <td><input name='base_url' id='base_url' type=text size=50 value='#{stg.value['base_url']}'></td>
-       </tr>
-       <tr>
-        <td>Support URL</td>
-        <td><input name='support_url' id='support_url' type=text size=50 value='#{stg.value['support_url']}'></td>
-       </tr>
+       ROW_TEXT
+     end
+     puts <<-FORM_SETTINGS_TAIL.unindent
        <tr>
         <td colspan=2>
-         <input type='button' value='Save' class='inpform' onclick='check__form();'>&nbsp;
+         <input type='submit' value='Save' class='inpform'>
         </td>
        </tr>
        <tr><td colspan='2' id='errmsg'></td></tr>
       </table>
       </form>
-      FORM_SETTINGS
+      FORM_SETTINGS_TAIL
   end
 
   # 画面の表示

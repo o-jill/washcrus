@@ -11,23 +11,21 @@ class Settings
   #
   # @param path 読み込むファイルのパス
   def initialize(path = './config/settings.yaml')
-    read(path)
+    @fpath = path
+    read
   end
 
   attr_accessor :value
+  attr_reader :fpath
 
   # yamlファイルの読み込み
-  #
-  # @param path 読み込むファイルのパス
-  def read(path)
-    @value = YAML.load_file(path)
+  def read
+    @value = YAML.load_file(@fpath)
   end
 
   # yamlファイルに書き出し
-  #
-  # @param path 読み込むファイルのパス
-  def write(path)
-    File.open(path, 'wb') do |file|
+  def write
+    File.open(@fpath, 'wb') do |file|
       file.flock File::LOCK_EX
       file.puts @value.to_yaml
     end

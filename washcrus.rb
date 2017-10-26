@@ -8,6 +8,7 @@ require './game/userinfo.rb'
 require './util/settings.rb'
 require './views/adminnews.rb'
 require './views/adminnewsupdate.rb'
+require './views/adminsavesettings.rb'
 require './views/adminsettings.rb'
 require './views/adminsignature.rb'
 require './views/adminsignatureupdate.rb'
@@ -125,6 +126,8 @@ class WashCrus
       AdminNewsUpdateScreen.new(@header).show(@userinfo, @params)
     when 'adminsettings' then
       AdminSettingsScreen.new(@header).show(@userinfo)
+    when 'adminsavesettings' then
+      AdminSaveSettingsScreen.new(@header).show(@userinfo, @params)
     when 'adminsignature' then
       AdminSignatureScreen.new(@header).show(@userinfo)
     when 'adminsignatureupdate' then
