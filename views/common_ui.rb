@@ -30,7 +30,7 @@ module CommonUI
   end
 
   # HTMLヘッダ出力(no cookie)
-  def self.HTMLHead2()
+  def self.HTMLHead2
     stg = Settings.instance
     title = stg.value['wintitle']
     print <<-HEADER2_TAG.unindent
