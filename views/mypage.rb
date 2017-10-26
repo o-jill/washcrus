@@ -111,7 +111,7 @@ class MyPageScreen
   def put_taikyokulist_tbl(tklist)
     tklist.each do |game|
       gid = game[:id]
-      turnstr = TaikyokuFileContent::turn2str(game[:turn])
+      turnstr = TaikyokuFileContent.turn2str(game[:turn])
       print <<-TKLIST_DAN.unindent
         <tr>
          <td><a href='./washcrus.rb?game/#{gid}'>

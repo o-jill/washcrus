@@ -80,7 +80,7 @@ class TaikyokuFileContent
     @idws[nid]     = arr[2]
     @namebs[nid]   = arr[3]
     @namews[nid]   = arr[4]
-    @turns[nid]     = arr[5]
+    @turns[nid]    = arr[5]
     @times[nid]    = arr[6]
     @comments[nid] = arr[7]
   end
@@ -255,7 +255,7 @@ class TaikyokuFileContent
           <small>#{id}</small>
          </a></TD>
          <TD>#{name}</TD><TD>#{@namews[id]}</TD>
-         <TD>#{TaikyokuFileContent::turn2str(@turns[id])}</TD>
+         <TD>#{TaikyokuFileContent.turn2str(@turns[id])}</TD>
          <TD>#{@times[id]}</TD><TD>#{@comments[id]}</TD>
         </TR>
         LINE
