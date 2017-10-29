@@ -232,6 +232,14 @@ class TaikyokuData
     URI.escape(path)
   end
 
+  def to_kif
+    @jkf.to_kif.encode('Shift_JIS')
+  end
+
+  def to_csa
+    @jkf.to_csa
+  end
+
   # 棋譜のダウンロードページのヘッダ文字列の生成
   #
   # @param fn ファイル名
