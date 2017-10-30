@@ -232,6 +232,13 @@ function update_screen() {
   Naraberu();
  }
  //kifuArea.innerText = mykifu.kifuText;
+
+ // switch names
+ var sname = document.getElementById('sg_pname');
+ var gname = document.getElementById('gg_pname');
+ var tmp = sname.innerText;
+ sname.innerText = gname.innerText;
+ gname.innerText = tmp;
 }
 
 /**

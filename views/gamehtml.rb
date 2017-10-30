@@ -60,7 +60,7 @@ class GameHtml
   # @return 部品の文字列
   def shogibanelement
     @log.debug('shogibanelement')
-    ERB.new(File.read('./ui/gamehtml_shogiban.erb')).result
+    ERB.new(File.read('./ui/gamehtml_shogiban.erb')).result(binding)
   end
 
   # 将棋盤まわりの部品
