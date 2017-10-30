@@ -1,6 +1,6 @@
 /** 将棋盤の色(画像の時はtransparentにする) */
 var banColor = 'transparent';
-//var banColor = '#FDA';
+// var banColor = '#FDA';
 /** マス目にカーソルが乗った時の色 */
 var hoverColor = 'yellow';
 /** 選択中のマス目の色 */
@@ -8,8 +8,8 @@ var activeColor = 'green';
 /** 選択中の駒が指せるマス目の色 */
 var movableColor = 'pink';
 
-//var testKoma = new Fu(Koma.SENTEBAN);
-//var testKoma = new Kaku(Koma.SENTEBAN);
+// var testKoma = new Fu(Koma.SENTEBAN);
+// var testKoma = new Kaku(Koma.SENTEBAN);
 var testKoma = new Koma();
 
 /** マウスの座標 */
@@ -38,11 +38,11 @@ var CFRM_MVCAP = 2;  // 動かして取る
 var CFRM_RESIGN = 3;  // 投了
 
 /** 棋譜情報出力欄 */
-//var kifuArea;
+// var kifuArea;
 /** 棋譜形式選択欄 */
-//var kifuType;
+// var kifuType;
 /** 解析結果出力欄 */
-//var analysisArea;
+// var analysisArea;
 /** 先手の名前 */
 var nameSente;
 /** 後手の名前 */
@@ -79,8 +79,8 @@ function update_banindex() {
   var column = document.getElementById('bancolumn');
   var text = '';
   var numbersc = ['９', '８', '７', '６', '５', '４', '３', '２', '１'];
-  /*var numbersc = testKoma.ZenkakuNum;
-  numbersc.reverse();*/
+  /* var numbersc = testKoma.ZenkakuNum;
+  numbersc.reverse(); */
   numbersc.forEach(function(c) {
     text += '<th width=45>' + c + '</th>';
   });
@@ -110,7 +110,7 @@ function update_banindex() {
 
 function update_banindex_rotate() {
   var column = document.getElementById('bancolumn');
-  /*var numbersc = ['１', '２', '３', '４', '５', '６', '７', '８', '９'];*/
+  /* var numbersc = ['１', '２', '３', '４', '５', '６', '７', '８', '９']; */
   var numbersc = testKoma.ZenkakuNum;
   var text = '';
   numbersc.forEach(function(c) {
@@ -119,8 +119,8 @@ function update_banindex_rotate() {
   column.innerHTML = text + '<th>&nbsp;</th>';
 
   var numbersr = ['九', '八', '七', '六', '五', '四', '三', '二', '一'];
-  /*var numbersr = testKoma.KanjiNum;
-  numbersr.reverse();*/
+  /* var numbersr = testKoma.KanjiNum;
+  numbersr.reverse(); */
   var row = document.getElementById('banrow1');
   row.innerHTML = numbersr[0];
   row = document.getElementById('banrow2');

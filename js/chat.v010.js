@@ -17,23 +17,23 @@ function onChatUpdate() {
       switch (ajax.readyState) {
       case 4:
         var status = ajax.status;
-    	if (status === 0) {  // XHR 通信失敗
-    	  elem_log.innerHTML = "XHR 通信失敗";
-    	} else {  // XHR 通信成功
+        if (status === 0) {  // XHR 通信失敗
+          elem_log.innerHTML = "XHR 通信失敗";
+        } else {  // XHR 通信成功
           if ((200 <= status && status < 300) || status === 304) {
             // リクエスト成功
             elem_log.innerHTML = ajax.responseText
-    	  } else {  // リクエスト失敗
-    		elem_log.innerHTML = "その他の応答:" + status;
-    	  }
-    	}
+          } else {  // リクエスト失敗
+            elem_log.innerHTML = "その他の応答:" + status;
+          }
+        }
         setTimeout("onChatUpdate()", 60000);
-    	break;
+        break;
       }
     };
-    ajax.onload = function(e) {
+    /* ajax.onload = function(e) {
       utf8text = ajax.responseText;
-    };
+    }; */
   }
 }
 
@@ -41,10 +41,10 @@ onChatUpdate();
 
 function buildMsg()
 {
-    ret = 'action=say&'
-    ret += 'chatname=' + encodeURIComponent(elem_nm.value);
-    ret += '&chatmsg=' + encodeURIComponent(elem_msg.value);
-    return ret;
+  var ret = 'action=say&'
+  ret += 'chatname=' + encodeURIComponent(elem_nm.value);
+  ret += '&chatmsg=' + encodeURIComponent(elem_msg.value);
+  return ret;
 }
 
 function onChatSay() {
@@ -60,25 +60,25 @@ function onChatSay() {
       switch (ajax.readyState) {
       case 4:
         var status = ajax.status;
-    	if (status === 0) {  // XHR 通信失敗
-    	  elem_log.innerHTML = "XHR 通信失敗";
-    	} else {  // XHR 通信成功
+        if (status === 0) {  // XHR 通信失敗
+          elem_log.innerHTML = "XHR 通信失敗";
+        } else {  // XHR 通信成功
           if ((200 <= status && status < 300) || status === 304) {
             // リクエスト成功
             elem_log.innerHTML = ajax.responseText
             elem_msg.value = '';
-    	  } else {  // リクエスト失敗
-    		elem_log.innerHTML = "その他の応答:" + status;
-    	  }
-    	}
+          } else {  // リクエスト失敗
+            elem_log.innerHTML = "その他の応答:" + status;
+          }
+        }
         btn.disabled = false;
         elem_msg.disabled = false;
         // setTimeout("onChatUpdate()", 60000);
-    	break;
+        break;
       }
     };
-    ajax.onload = function(e) {
+    /* ajax.onload = function(e) {
       utf8text = ajax.responseText;
-    };
+    }; */
   }
 }

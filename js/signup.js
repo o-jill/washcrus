@@ -58,7 +58,7 @@ function check_email_format()
 
 function check_password()
 {
-  password1 = document.getElementById('rpassword');
+  var password1 = document.getElementById('rpassword');
   if (password1.value.length < 4) {
     document.getElementById('trpassword').style.backgroundColor = 'tomato';
     document.getElementById('trpassword2').style.backgroundColor = 'tomato';
@@ -72,7 +72,6 @@ function check_form()
   var nmismatch = 0;
   var alertmsg = '';
 
-  var name = document.getElementById('rname');
   if (!check_name()) {
     alertmsg += 'name is too short!\n';
     ++nmismatch;
@@ -87,13 +86,11 @@ function check_form()
     ++nmismatch;
   }
 
-  var password1, password2;
   if (!check_identical('rpassword', 'rpassword2', 'trpassword', 'trpassword2')) {
     alertmsg += 'passwords are not same!\n';
     ++nmismatch;
   }
 
-  password1 = document.getElementById('rpassword');
   if (!check_password()) {
     alertmsg += 'password is too short!\n';
     ++nmismatch;

@@ -3,11 +3,11 @@
 /* - - - - - - - - - - */
 
 function bytes2(str) {
-    return encodeURIComponent(str).replace(/%../g, "x").length;
+  return encodeURIComponent(str).replace(/%../g, "x").length;
 }
 
 function validatemail(str) {
-    return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(str);
+  return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(str);
 }
 
 /* - - - - - - */
@@ -30,7 +30,7 @@ function check_name(id_name, id_ply, id_eml)
 
 function check_email(id_email, id_ply, id_eml)
 {
-  email = document.getElementById(id_email);
+  var email = document.getElementById(id_email);
   var ret = validatemail(email.value);
   if (!ret) {
     document.getElementById(id_ply).style.backgroundColor = 'red';
@@ -100,22 +100,22 @@ function pre_check() {
         var btn = document.getElementById('precheck')
         btn.disabled = false;
         var status = ajax.status;
-    	if (status === 0) {  // XHR 通信失敗
-        document.getElementById('errmsg').innerText = "XHR 通信失敗";
-    	} else {  // XHR 通信成功
-    	  if ((200 <= status && status < 300) || status === 304) {
-          // リクエスト成功
-          document.getElementById('errmsg').innerText = ajax.responseText;
-    	  } else {  // リクエスト失敗
-          document.getElementById('errmsg').innerText = "その他の応答:" + status;
-    	  }
-    	}
-    	break;
+        if (status === 0) {  // XHR 通信失敗
+          document.getElementById('errmsg').innerText = "XHR 通信失敗";
+        } else {  // XHR 通信成功
+          if ((200 <= status && status < 300) || status === 304) {
+            // リクエスト成功
+            document.getElementById('errmsg').innerText = ajax.responseText;
+          } else {  // リクエスト失敗
+            document.getElementById('errmsg').innerText = "その他の応答:" + status;
+          }
+        }
+        break;
       }
     };
-    ajax.onload = function(e) {
+    /* ajax.onload = function(e) {
       utf8text = ajax.responseText;
-    };
+    }; */
   }
 }
 

@@ -37,16 +37,16 @@ var tegomaitem = function () {
 var taikyokuchu = false;
 var activeteban = Koma.SENTEBAN;
 
-var mykifu = new Kifu(3/*Kifu.prototype.Org*/);
-//var mykifu = new Kifu(this.KIF);
-//var mykifu = new Kifu(this.CSA);
+var mykifu = new Kifu(3/* Kifu.prototype.Org */);
+// var mykifu = new Kifu(this.KIF);
+// var mykifu = new Kifu(this.CSA);
 
 /** 先手玉 */
 var sentegyoku;
 /** 後手玉 */
 var gotegyoku;
 
-/*直近の指手*/
+/* 直近の指手 */
 var movecsa = '%0000OU__P';
 
 function populate_tegoma() {
@@ -54,12 +54,12 @@ function populate_tegoma() {
   sentegoma[i][0] = [];
   sentegoma[i][1].x = -1;
   sentegoma[i][1].y = -1;
-  //sentegoma[i][1].el = null;
+  // sentegoma[i][1].el = null;
 
   gotegoma[i][0] = [];
   gotegoma[i][1].x = -1;
   gotegoma[i][1].y = -1;
-  //gotegoma[i][1].el = null;
+  // gotegoma[i][1].el = null;
  }
  sentegoma[0][1].koma = new Fu(Koma.SENTEBAN, -1, -1);
  sentegoma[1][1].koma = new Kyosha(Koma.SENTEBAN, -1, -1);
