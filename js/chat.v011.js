@@ -27,7 +27,7 @@ function onChatUpdate() {
             elem_log.innerHTML = "その他の応答:" + status;
           }
         }
-        setTimeout("onChatUpdate()", 60000);
+        setTimeout(function() {onChatUpdate();}, 60000);
         break;
       }
     };
