@@ -782,6 +782,8 @@ function Koma(teban, x, y) {
  this.id = this.NoID;
  this.x = x;
  this.y = y;
+ this.FunariMovable = [];
+ this.NariMovable = [];
 }
 
 /* -- クラス定数ここから -- */
@@ -1091,7 +1093,11 @@ Koma.prototype.getTypeStr = function() {
  * @return {Array} 空のArray
  */
 Koma.prototype.movable = function() {
- return [];
+  if (this.nari === Koma.NARI) {
+    return this.NariMovable;
+  } else {
+    return this.FunariMovable;
+  }
 };
 /**
  * その他の駒がないとしてこれ以上動けるか
@@ -1725,28 +1731,16 @@ Fu.prototype = new Koma();
  * @param {Number} y 座標
  */
 function Fu(teban, x, y) {
- Koma.call(this, teban, x, y);
+  Koma.call(this, teban, x, y);
 
- this.InitStr(this.FuStrLong, this.NFuStrLong, this.FuStrKIF, this.NFuStrKIF,
-              this.FuStrKIF, this.NFuStrKIF, this.FuStr, this.NFuStr,
-              this.FuStrIMG, this.NFuStrIMG);
- this.id = this.FuID;
+  this.InitStr(this.FuStrLong, this.NFuStrLong, this.FuStrKIF, this.NFuStrKIF,
+               this.FuStrKIF, this.NFuStrKIF, this.FuStr, this.NFuStr,
+               this.FuStrIMG, this.NFuStrIMG);
+  this.FunariMovable = this.FuMovable;
+  this.NariMovable = this.KinMovable;
+  this.id = this.FuID;
 }
 
-/**
- * 動ける方向のリストを返す。
- *
- * @override
- *
- * @return {Array} 動ける方向のリスト
- */
-Fu.prototype.movable = function() {
- if (this.nari === Koma.NARI) {
-  return this.KinMovable;
- } else {
-  return this.FuMovable;
- }
-};
 /**
  * 打てるマスのリストを返す。(二歩対策)
  *
@@ -1828,29 +1822,16 @@ Kyosha.prototype = new Koma();
  * @param {Number} y 座標
  */
 function Kyosha(teban, x, y) {
- Koma.call(this, teban, x, y);
+  Koma.call(this, teban, x, y);
 
- this.InitStr(this.KyoshaStrLong, this.NKyoshaStrLong, this.KyoshaStrKIF,
-              this.NKyoshaStrKIF, this.KyoshaStrKIF, this.NKyoshaStrKIF,
-              this.KyoshaStr, this.NKyoshaStr, this.KyoshaStrIMG,
-              this.NKyoshaStrIMG);
- this.id = this.KyoshaID;
+  this.InitStr(this.KyoshaStrLong, this.NKyoshaStrLong, this.KyoshaStrKIF,
+               this.NKyoshaStrKIF, this.KyoshaStrKIF, this.NKyoshaStrKIF,
+               this.KyoshaStr, this.NKyoshaStr, this.KyoshaStrIMG,
+               this.NKyoshaStrIMG);
+  this.FunariMovable = this.KyoshaMovable;
+  this.NariMovable = this.KinMovable;
+  this.id = this.KyoshaID;
 }
-
-/**
- * 動ける方向のリストを返す。
- *
- * @override
- *
- * @return {Array} 動ける方向のリスト
- */
-Kyosha.prototype.movable = function() {
- if (this.nari === Koma.NARI) {
-  return this.KinMovable;
- } else {
-  return this.KyoshaMovable;
- }
-};
 
 /**
  * その他の駒がないとしてこれ以上動けるか
@@ -1901,28 +1882,16 @@ Keima.prototype = new Koma();
  * @param {Number} y 座標
  */
 function Keima(teban, x, y) {
- Koma.call(this, teban, x, y);
+  Koma.call(this, teban, x, y);
 
- this.InitStr(this.KeimaStrLong, this.NKeimaStrLong, this.KeimaStrKIF,
-              this.NKeimaStrKIF, this.KeimaStrKIF, this.NKeimaStrKIF,
-              this.KeimaStr, this.NKeimaStr, this.KeimaStrIMG,
-              this.NKeimaStrIMG);
- this.id = this.KeimaID;
+  this.InitStr(this.KeimaStrLong, this.NKeimaStrLong, this.KeimaStrKIF,
+               this.NKeimaStrKIF, this.KeimaStrKIF, this.NKeimaStrKIF,
+               this.KeimaStr, this.NKeimaStr, this.KeimaStrIMG,
+               this.NKeimaStrIMG);
+  this.FunariMovable = this.KeimaMovable;
+  this.NariMovable = this.KinMovable;
+  this.id = this.KeimaID;
 }
-/**
- * 動ける方向のリストを返す。
- *
- * @override
- *
- * @return {Array} 動ける方向のリスト
- */
-Keima.prototype.movable = function() {
- if (this.nari === Koma.NARI) {
-  return this.KinMovable;
- } else {
-  return this.KeimaMovable;
- }
-};
 
 /**
  * その他の駒がないとしてこれ以上動けるか
@@ -1973,27 +1942,15 @@ Gin.prototype = new Koma();
  * @param {Number} y 座標
  */
 function Gin(teban, x, y) {
- Koma.call(this, teban, x, y);
+  Koma.call(this, teban, x, y);
 
- this.InitStr(this.GinStrLong, this.NGinStrLong, this.GinStrKIF,
-              this.NGinStrKIF, this.GinStrKIF, this.NGinStrKIF, this.GinStr,
-              this.NGinStr, this.GinStrIMG, this.NGinStrIMG);
- this.id = this.GinID;
+  this.InitStr(this.GinStrLong, this.NGinStrLong, this.GinStrKIF,
+               this.NGinStrKIF, this.GinStrKIF, this.NGinStrKIF, this.GinStr,
+               this.NGinStr, this.GinStrIMG, this.NGinStrIMG);
+  this.FunariMovable = this.GinMovable;
+  this.NariMovable = this.KinMovable;
+  this.id = this.GinID;
 }
-/**
- * 動ける方向のリストを返す。
- *
- * @override
- *
- * @return {Array} 動ける方向のリスト
- */
-Gin.prototype.movable = function() {
- if (this.nari === Koma.NARI) {
-  return this.KinMovable;
- } else {
-  return this.GinMovable;
- }
-};
 
 Kin.prototype = new Koma();
 /**
@@ -2007,12 +1964,14 @@ Kin.prototype = new Koma();
  * @param {Number} y 座標
  */
 function Kin(teban, x, y) {
- Koma.call(this, teban, x, y);
+  Koma.call(this, teban, x, y);
 
- this.InitStr(this.KinStrLong, this.KinStrLong, this.KinStrKIF, this.KinStrKIF,
-              this.KinStrKIF, this.KinStrKIF, this.KinStr, this.KinStr,
-              this.KinStrIMG, this.KinStrIMG);
- this.id = this.KinID;
+  this.InitStr(this.KinStrLong, this.KinStrLong, this.KinStrKIF, this.KinStrKIF,
+               this.KinStrKIF, this.KinStrKIF, this.KinStr, this.KinStr,
+               this.KinStrIMG, this.KinStrIMG);
+  this.FunariMovable = this.KinMovable;
+  this.NariMovable = this.KinMovable;
+  this.id = this.KinID;
 }
 
 /**
@@ -2024,17 +1983,6 @@ Kin.prototype.reset = function(teban) {
  this.teban = teban || Koma.AKI;
  this.x = -1;
  this.y = -1;
-};
-
-/**
- * 動ける方向のリストを返す。
- *
- * @override
- *
- * @return {Array} 動ける方向のリスト
- */
-Kin.prototype.movable = function() {
- return this.KinMovable;
 };
 
 /**
@@ -2061,27 +2009,15 @@ Kaku.prototype = new Koma();
  * @param {Number} y 座標
  */
 function Kaku(teban, x, y) {
- Koma.call(this, teban, x, y);
+  Koma.call(this, teban, x, y);
 
- this.InitStr(this.KakuStrLong, this.NKakuStrLong, this.KakuStrKIF,
-              this.NKakuStrKIF, this.KakuStrKIF, this.NKakuStrKIF, this.KakuStr,
-              this.NKakuStr, this.KakuStrIMG, this.NKakuStrIMG);
- this.id = this.KakuID;
+  this.InitStr(this.KakuStrLong, this.NKakuStrLong, this.KakuStrKIF,
+               this.NKakuStrKIF, this.KakuStrKIF, this.NKakuStrKIF, this.KakuStr,
+               this.NKakuStr, this.KakuStrIMG, this.NKakuStrIMG);
+  this.FunariMovable = this.KakuMovable;
+  this.NariMovable = this.UmaMovable;
+  this.id = this.KakuID;
 }
-/**
- * 動ける方向のリストを返す。
- *
- * @override
- *
- * @return {Array} 動ける方向のリスト
- */
-Kaku.prototype.movable = function() {
- if (this.nari === Koma.NARI) {
-  return this.UmaMovable;
- } else {
-  return this.KakuMovable;
- }
-};
 
 Hisha.prototype = new Koma();
 /**
@@ -2095,28 +2031,16 @@ Hisha.prototype = new Koma();
  * @param {Number} y 座標
  */
 function Hisha(teban, x, y) {
- Koma.call(this, teban, x, y);
+  Koma.call(this, teban, x, y);
 
- this.InitStr(this.HishaStrLong, this.NHishaStrLong, this.HishaStrKIF,
-              this.NHishaStrKIF, this.HishaStrKIF, this.NHishaStrKIF,
-              this.HishaStr, this.NHishaStr, this.HishaStrIMG,
-              this.NHishaStrIMG);
- this.id = this.HishaID;
+  this.InitStr(this.HishaStrLong, this.NHishaStrLong, this.HishaStrKIF,
+               this.NHishaStrKIF, this.HishaStrKIF, this.NHishaStrKIF,
+               this.HishaStr, this.NHishaStr, this.HishaStrIMG,
+               this.NHishaStrIMG);
+  this.FunariMovable = this.HishaMovable;
+  this.NariMovable = this.RyuMovable;
+  this.id = this.HishaID;
 }
-/**
- * 動ける方向のリストを返す。
- *
- * @override
- *
- * @return {Array} 動ける方向のリスト
- */
-Hisha.prototype.movable = function() {
- if (this.nari === Koma.NARI) {
-  return this.RyuMovable;
- } else {
-  return this.HishaMovable;
- }
-};
 
 // 成れない駒なところが金と同じ
 Gyoku.prototype = new Kin();
@@ -2131,24 +2055,16 @@ Gyoku.prototype = new Kin();
  * @param {Number} y 座標
  */
 function Gyoku(teban, x, y) {
- Koma.call(this, teban, x, y);
+  Koma.call(this, teban, x, y);
 
- this.InitStr((teban === Koma.SENTEBAN) ? this.GyokuStrLong : this.OuStrLong,
-              this.GyokuStrLong, this.GyokuStrKIF, this.GyokuStrKIF,
-              this.GyokuStrKIF, this.GyokuStrKIF, this.GyokuStr, this.GyokuStr,
-              this.GyokuStrIMG, this.GyokuStrIMG);
- this.id = this.GyokuID;
+  this.InitStr((teban === Koma.SENTEBAN) ? this.GyokuStrLong : this.OuStrLong,
+               this.GyokuStrLong, this.GyokuStrKIF, this.GyokuStrKIF,
+               this.GyokuStrKIF, this.GyokuStrKIF, this.GyokuStr, this.GyokuStr,
+               this.GyokuStrIMG, this.GyokuStrIMG);
+  this.FunariMovable = this.GyokuMovable;
+  this.NariMovable = this.GyokuMovable;
+  this.id = this.GyokuID;
 }
-/**
- * 動ける方向のリストを返す。
- *
- * @override
- *
- * @return {Array} 動ける方向のリスト
- */
-Gyoku.prototype.movable = function() {
-  return this.GyokuMovable;
-};
 
 /**
  * 成れるかどうかをチェック
