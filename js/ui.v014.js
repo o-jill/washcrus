@@ -140,102 +140,102 @@ function update_banindex_rotate() {
 
 function Naraberu_tegoma(tegoma, tegomaui)
 {
- var sz = tegoma.length;
- for (var idx = 0; idx < sz; ++idx) {
-  if (tegoma[idx][0].length === 0) {
-   tegomaui[idx][1].el.style.visibility = 'hidden';
-   tegomaui[idx][1].el2.style.visibility = 'hidden';
-  } else {
-   tegomaui[idx][1].el.style.visibility = 'visible';
-   tegomaui[idx][1].el2.style.visibility = 'visible';
-   tegomaui[idx][1].el2.innerHTML = tegoma[idx][0].length.toString();
+  var sz = tegoma.length;
+  for (var idx = 0; idx < sz; ++idx) {
+    if (tegoma[idx][0].length === 0) {
+      tegomaui[idx][1].el.style.visibility = 'hidden';
+      tegomaui[idx][1].el2.style.visibility = 'hidden';
+    } else {
+      tegomaui[idx][1].el.style.visibility = 'visible';
+      tegomaui[idx][1].el2.style.visibility = 'visible';
+      tegomaui[idx][1].el2.innerHTML = tegoma[idx][0].length.toString();
+    }
   }
- }
 }
 
 /**
  * コマを並べる。
  */
 function Naraberu() {
- for (var i = 0; i < 9; ++i) {
-  for (var j = 0; j < 9; ++j) {
-   var koma = ban[i][j].koma;
-   var el = ban[i][j].el;
-   if (koma !== null) {
-     var fn = koma.getImgStr(0);
-     if (fn.length === 0) {
-       el.innerHTML = '<BR>';
-     } else {
-       var komaimg = '<img width="48px" height="48px" src="./image/'+ fn +'.png">';
-       if (i === last_mx && j === last_my) {
-         // 最後に指したところに印をつける
-         var text = '<div style="position:relative;">' + komaimg;
-         text += '<div style="position:absolute;left:0;top:0;">';
-         text += '<img src="./image/dot16.png"></div></div>';
-         el.innerHTML = text;
-       } else {
-         el.innerHTML = komaimg;
-       }
-     }
-    // el.innerHTML = koma.getHtmlStr(0);
-   }
+  for (var i = 0; i < 9; ++i) {
+    for (var j = 0; j < 9; ++j) {
+      var koma = ban[i][j].koma;
+      var el = ban[i][j].el;
+      if (koma !== null) {
+        var fn = koma.getImgStr(0);
+        if (fn.length === 0) {
+          el.innerHTML = '<BR>';
+        } else {
+          var komaimg = '<img width="48px" height="48px" src="./image/'+ fn +'.png">';
+          if (i === last_mx && j === last_my) {
+            // 最後に指したところに印をつける
+            var text = '<div style="position:relative;">' + komaimg;
+            text += '<div style="position:absolute;left:0;top:0;">';
+            text += '<img src="./image/dot16.png"></div></div>';
+            el.innerHTML = text;
+          } else {
+            el.innerHTML = komaimg;
+          }
+        }
+        // el.innerHTML = koma.getHtmlStr(0);
+      }
+    }
   }
- }
- Naraberu_tegoma(sentegoma, sentegoma);
- Naraberu_tegoma(gotegoma, gotegoma);
+  Naraberu_tegoma(sentegoma, sentegoma);
+  Naraberu_tegoma(gotegoma, gotegoma);
 }
 
 /**
  * 逆さまにコマを並べる。
  */
 function Naraberu_rotate() {
- for (var i = 0; i < 9; ++i) {
-  for (var j = 0; j < 9; ++j) {
-   var koma = ban[8 - i][8 - j].koma;
-   var el = ban[i][j].el;
-   if (koma !== null) {
-    var fn = koma.getImgStr(1);
-    if (fn.length === 0) {
-      el.innerHTML = '<BR>';
-    } else {
-      var komaimg = '<img width="48px" height="48px" src="./image/'+ fn +'.png">';
-      if (8-i === last_mx && 8-j === last_my) {
-        // 最後に指したところに印をつける
-        var text = '<div style="position:relative;">' + komaimg;
-        text += '<div style="position:absolute;left:0;top:0;">';
-        text += '<img src="./image/dot16.png"></div></div>';
-        el.innerHTML = text;
-      } else {
-        el.innerHTML = komaimg;
+  for (var i = 0; i < 9; ++i) {
+    for (var j = 0; j < 9; ++j) {
+      var koma = ban[8 - i][8 - j].koma;
+      var el = ban[i][j].el;
+      if (koma !== null) {
+        var fn = koma.getImgStr(1);
+        if (fn.length === 0) {
+          el.innerHTML = '<BR>';
+        } else {
+          var komaimg = '<img width="48px" height="48px" src="./image/'+ fn +'.png">';
+          if (8-i === last_mx && 8-j === last_my) {
+            // 最後に指したところに印をつける
+            var text = '<div style="position:relative;">' + komaimg;
+            text += '<div style="position:absolute;left:0;top:0;">';
+            text += '<img src="./image/dot16.png"></div></div>';
+            el.innerHTML = text;
+          } else {
+            el.innerHTML = komaimg;
+          }
+        }
+        // el.innerHTML = koma.getHtmlStr(1);
       }
     }
-    // el.innerHTML = koma.getHtmlStr(1);
-   }
   }
- }
- Naraberu_tegoma(sentegoma, gotegoma);
- Naraberu_tegoma(gotegoma, sentegoma);
+  Naraberu_tegoma(sentegoma, gotegoma);
+  Naraberu_tegoma(gotegoma, sentegoma);
 }
 
 /**
  * 画面の更新
  */
 function update_screen() {
- if (hifumin_eye) {
-  update_banindex_rotate();
-  Naraberu_rotate();
- } else {
-  update_banindex();
-  Naraberu();
- }
- //kifuArea.innerText = mykifu.kifuText;
+  if (hifumin_eye) {
+    update_banindex_rotate();
+    Naraberu_rotate();
+  } else {
+    update_banindex();
+    Naraberu();
+  }
+  // kifuArea.innerText = mykifu.kifuText;
 
- // switch names
- var sname = document.getElementById('sg_pname');
- var gname = document.getElementById('gg_pname');
- var tmp = sname.innerText;
- sname.innerText = gname.innerText;
- gname.innerText = tmp;
+  // switch names
+  var sname = document.getElementById('sg_pname');
+  var gname = document.getElementById('gg_pname');
+  var tmp = sname.innerText;
+  sname.innerText = gname.innerText;
+  gname.innerText = tmp;
 }
 
 /**
@@ -244,8 +244,8 @@ function update_screen() {
  * @param {Event} e マウスイベント
  */
 function mousemove(e) {
- mouseposx = e.clientX;
- mouseposy = e.clientY;
+  mouseposx = e.clientX;
+  mouseposy = e.clientY;
 }
 
 function gethtmlelement_ban() {
@@ -536,35 +536,35 @@ function gethtmlelement_tegomaclick() {
  * ページ読み込み時に最初に呼ばれる
  */
 function gethtmlelement() {
- document.onmousemove = mousemove;
+  document.onmousemove = mousemove;
 
- // 盤の設定
- gethtmlelement_ban();
+  // 盤の設定
+  gethtmlelement_ban();
 
- // 手駒の設定
- gethtmlelement_tegoma();
- gethtmlelement_tegomaclick();
+  // 手駒の設定
+  gethtmlelement_tegoma();
+  gethtmlelement_tegomaclick();
 
- // 成り不成メニューの設定
- narimenu = document.getElementById('narimenu');
- narimenu_nari = document.getElementById('naru');
- narimenu_funari = document.getElementById('narazu');
- narimenu_nari.onclick = clicknari;
- narimenu_funari.onclick = clicknarazu;
- wait_narimenu = false;
+  // 成り不成メニューの設定
+  narimenu = document.getElementById('narimenu');
+  narimenu_nari = document.getElementById('naru');
+  narimenu_funari = document.getElementById('narazu');
+  narimenu_nari.onclick = clicknari;
+  narimenu_funari.onclick = clicknarazu;
+  wait_narimenu = false;
 
- nameSente = document.getElementById('sentename');
- nameGote = document.getElementById('gotename');
+  nameSente = document.getElementById('sentename');
+  nameGote = document.getElementById('gotename');
 
- // confirm
- cfrmdlg = document.getElementById('movecfrm');
- var cfrmdlg_ok = document.getElementById('mvcfm_ok');
- cfrmdlg_ok.onclick = clickcfrm_ok;
- var cfrmdlg_cancel = document.getElementById('mvcfm_cancel');
- cfrmdlg_cancel.onclick = clickcfrm_cancel;
+  // confirm
+  cfrmdlg = document.getElementById('movecfrm');
+  var cfrmdlg_ok = document.getElementById('mvcfm_ok');
+  cfrmdlg_ok.onclick = clickcfrm_ok;
+  var cfrmdlg_cancel = document.getElementById('mvcfm_cancel');
+  cfrmdlg_cancel.onclick = clickcfrm_cancel;
 
- // initKoma();
- // update_screen();
+  // initKoma();
+  // update_screen();
 }
 
 /**
@@ -575,14 +575,14 @@ function gethtmlelement() {
  */
 function hovercell(masui)
 {
- if (masui === null) {
-  if (hovermasui !== null) {
-   hovermasui.style.backgroundColor = banColor;
+  if (masui === null) {
+    if (hovermasui !== null) {
+      hovermasui.style.backgroundColor = banColor;
+    }
+  } else {
+    masui.style.backgroundColor = hoverColor;
   }
- } else {
-   masui.style.backgroundColor = hoverColor;
- }
- hovermasui = masui;
+  hovermasui = masui;
 }
 
 /**
@@ -592,9 +592,9 @@ function hovercell(masui)
  * @param {Number} y マス目の座標
  */
 function abshoverout(x, y) {
- // var masu = ban[x][y];
- hovercell(null);
- activatemovable(true);
+  // var masu = ban[x][y];
+  hovercell(null);
+  activatemovable(true);
 }
 
 function hoverout11() {abshoverout(0, 0);}
@@ -686,8 +686,8 @@ function hoverout99() {abshoverout(8, 8);}
  * @param {Number} y マス目の座標
  */
 function abshoverin(x, y) {
- var masui = ban[x][y].el;
- hovercell(masui);
+  var masui = ban[x][y].el;
+  hovercell(masui);
 }
 
 function hoverin11() {abshoverin(0, 0);} function hoverin12() {abshoverin(0, 1);}
@@ -740,7 +740,7 @@ function fillactivemasu(x, y, c)
 {
   var masui = ban[x][y].el;
   if (masui !== null) {
-   masui.style.backgroundColor = c;
+    masui.style.backgroundColor = c;
   }
 }
 
@@ -750,27 +750,27 @@ function fillactivemasu(x, y, c)
  * @param {Boolean} b true:ハイライトする, false:ハイライトしない
  */
 function activatemovable(b) {
- var c, sz, idx, x, y;
- if (b) {
-  c = movableColor;
- } else {
-  c = banColor;
- }
- if (hifumin_eye) {
-  sz = activemovable.length;
-  for (idx = 0; idx < sz; ++idx) {
-   x = 8 - activemovable[idx][0];
-   y = 8 - activemovable[idx][1];
-   fillactivemasu(x, y, c);
+  var c, sz, idx, x, y;
+  if (b) {
+    c = movableColor;
+  } else {
+    c = banColor;
   }
- } else {
-  sz = activemovable.length;
-  for (idx = 0; idx < sz; ++idx) {
-   x = activemovable[idx][0];
-   y = activemovable[idx][1];
-   fillactivemasu(x, y, c);
+  if (hifumin_eye) {
+    sz = activemovable.length;
+    for (idx = 0; idx < sz; ++idx) {
+      x = 8 - activemovable[idx][0];
+      y = 8 - activemovable[idx][1];
+      fillactivemasu(x, y, c);
+    }
+  } else {
+    sz = activemovable.length;
+    for (idx = 0; idx < sz; ++idx) {
+      x = activemovable[idx][0];
+      y = activemovable[idx][1];
+      fillactivemasu(x, y, c);
+    }
   }
- }
 }
 
 /**
@@ -780,11 +780,11 @@ function activatemovable(b) {
  * @param {Boolean} b true:選択状態にする,false:選択状態を解除する
  */
 function setactivecell(masui, b) {
- if (b) {
-  masui.style.border = '2px solid ' + activeColor;
- } else {
-  masui.style.border = '2px solid black';
- }
+  if (b) {
+    masui.style.border = '2px solid ' + activeColor;
+  } else {
+    masui.style.border = '2px solid black';
+  }
 }
 
 /**
@@ -796,65 +796,65 @@ function setactivecell(masui, b) {
  * @param {Object} masui 対象のマス目の見た目
  */
 function activecell(koma, masu, masui) {
- if (activemasu !== null) {
-  setactivecell(activemasui, false);
-  if (activemasu !== masu) {
-   activatemovable(false);
+  if (activemasu !== null) {
+    setactivecell(activemasui, false);
+    if (activemasu !== masu) {
+      activatemovable(false);
+    }
   }
- }
- if (masu === null) {
-  activetegoma = null;
-  activemasu = null;
-  activemasui = null;
-  activemovable = [];
-  return;
- }
+  if (masu === null) {
+    activetegoma = null;
+    activemasu = null;
+    activemasui = null;
+    activemovable = [];
+    return;
+  }
 
- activemasu = masu;
- activemasui = masui;
- activekoma = koma;
+  activemasu = masu;
+  activemasui = masui;
+  activekoma = koma;
 
- setactivecell(masui, true);
- if (hifumin_eye) {
-  activemovable = koma.getMovable(8 - masu.x, 8 - masu.y);
- } else {
-  activemovable = koma.getMovable(masu.x, masu.y);
- }
- activatemovable(true);
+  setactivecell(masui, true);
+  if (hifumin_eye) {
+    activemovable = koma.getMovable(8 - masu.x, 8 - masu.y);
+  } else {
+    activemovable = koma.getMovable(masu.x, masu.y);
+  }
+  activatemovable(true);
 }
 
 function absclick_wo_active(koma, masu, masui) {
   // アクティブなマスはないので
- if ((koma.teban !== Koma.AKI) && (koma.teban === activeteban)) {
-  // 自分の駒をクリックしたならアクティブにする。
-  activecell(koma, masu, masui);
- // } else {
- // nothing to do
- }
+  if ((koma.teban !== Koma.AKI) && (koma.teban === activeteban)) {
+    // 自分の駒をクリックしたならアクティブにする。
+    activecell(koma, masu, masui);
+    // } else {
+    // nothing to do
+  }
 }
 
 function absclick_on_mypiece(koma, masu, masui) {
- // 自分の駒をクリックしたので非アクティブにする。
- if (activetegoma !== null)
-  activeuchi(null, null, null);
- activecell(koma, masu, masui);
+  // 自分の駒をクリックしたので非アクティブにする。
+  if (activetegoma !== null)
+    activeuchi(null, null, null);
+  activecell(koma, masu, masui);
 }
 
 function deactivate_activecell() {
- if (activetegoma !== null)
-  activeuchi(null, null, null);
- else
-  activecell(null, null, null);
+  if (activetegoma !== null)
+    activeuchi(null, null, null);
+  else
+    activecell(null, null, null);
 }
 
 function check_activemovablemasu(hx, hy) {
- var sz = activemovable.length;
- for (var idx = 0; idx < sz; ++idx) {
-  if (activemovable[idx][0] === hx && activemovable[idx][1] === hy) {
-   return true;
+  var sz = activemovable.length;
+  for (var idx = 0; idx < sz; ++idx) {
+    if (activemovable[idx][0] === hx && activemovable[idx][1] === hy) {
+      return true;
+    }
   }
- }
- return false;
+  return false;
 }
 
 /**
@@ -864,60 +864,61 @@ function check_activemovablemasu(hx, hy) {
  * @param {Number} y マス目の座標
  */
 function absclick(x, y) {
- if (taikyokuchu === false) {
-  return;
- }
- if (wait_narimenu) {
-  return;
- }
- var hx = x;  // 1~９筋(0~8)
- var hy = y;  // 一~九段(0~8)
- if (hifumin_eye) {
-   hx = 8 - hx;
-   hy = 8 - hy;
- } else {
- }
- var koma = ban[hx][hy].koma;
- var masu = ban[x][y];
- var masui = ban[x][y].el;
- if (activemasu === masu) {
-  // アクティブなマスをクリックしたので非アクティブにする。
-  activecell(null, null, null);
- } else {
-  if (activemasu === null) {
-   // アクティブなマスはないので
-   // 自分の駒をクリックしたならアクティブにする。
-   absclick_wo_active(koma, masu, masui);
-  } else if (activekoma.teban === koma.teban) {
-   // 自分の駒をクリックしたので非アクティブにする。
-   absclick_on_mypiece(koma, masu, masui);
-  } else if (koma.teban === Koma.AKI) {
-   // 空きマスをクリックした
-   var ismovable = check_activemovablemasu(hx, hy);
-   if (ismovable === false) {
-    // 選択キャンセル
-    deactivate_activecell();
-   } else {
-    if (activemasu.x === -1) {
-     // uchi
-     msg = activekoma.movemsg(hx, hy);
-     myconfirm(msg, CFRM_UTSU, hx, hy);
-    } else {
-     msg = activekoma.movemsg(hx, hy);
-     myconfirm(msg, CFRM_MOVE, hx, hy);
-    }
-   }
-  } else {
-   ismovable = check_activemovablemasu(hx, hy);
-   if (ismovable === false) {
-    // 選択キャンセル
-    deactivate_activecell();
-   } else {
-    msg = activekoma.movemsg(hx, hy);
-    myconfirm(msg, CFRM_MVCAP, hx, hy);
-   }
+  if (taikyokuchu === false) {
+    return;
   }
- }
+  if (wait_narimenu) {
+    return;
+  }
+  var hx = x;  // 1~９筋(0~8)
+  var hy = y;  // 一~九段(0~8)
+  if (hifumin_eye) {
+    hx = 8 - hx;
+    hy = 8 - hy;
+    // } else {
+  }
+  var msg;
+  var koma = ban[hx][hy].koma;
+  var masu = ban[x][y];
+  var masui = ban[x][y].el;
+  if (activemasu === masu) {
+    // アクティブなマスをクリックしたので非アクティブにする。
+    activecell(null, null, null);
+  } else {
+    if (activemasu === null) {
+      // アクティブなマスはないので
+      // 自分の駒をクリックしたならアクティブにする。
+      absclick_wo_active(koma, masu, masui);
+    } else if (activekoma.teban === koma.teban) {
+      // 自分の駒をクリックしたので非アクティブにする。
+      absclick_on_mypiece(koma, masu, masui);
+    } else if (koma.teban === Koma.AKI) {
+      // 空きマスをクリックした
+      var ismovable = check_activemovablemasu(hx, hy);
+      if (ismovable === false) {
+        // 選択キャンセル
+        deactivate_activecell();
+      } else {
+        if (activemasu.x === -1) {
+          // uchi
+          msg = activekoma.movemsg(hx, hy);
+          myconfirm(msg, CFRM_UTSU, hx, hy);
+        } else {
+          msg = activekoma.movemsg(hx, hy);
+          myconfirm(msg, CFRM_MOVE, hx, hy);
+        }
+      }
+    } else {
+      ismovable = check_activemovablemasu(hx, hy);
+      if (ismovable === false) {
+        // 選択キャンセル
+        deactivate_activecell();
+      } else {
+        msg = activekoma.movemsg(hx, hy);
+        myconfirm(msg, CFRM_MVCAP, hx, hy);
+      }
+    }
+  }
 }
 
 function click11() {absclick(0, 0);} function click12() {absclick(0, 1);}
@@ -973,11 +974,11 @@ function click99() {absclick(8, 8);}
  * @param {Boolean} b true:選択状態にする,false:選択状態を解除する
  */
 function setactivecelluchi(masui, b) {
- if (b) {
-  masui.style.border = '2px solid ' + activeColor;
- } else {
-  masui.style.border = '0px solid black';
- }
+  if (b) {
+    masui.style.border = '2px solid ' + activeColor;
+  } else {
+    masui.style.border = '0px solid black';
+  }
 }
 
 /**
@@ -990,32 +991,32 @@ function setactivecelluchi(masui, b) {
  * @param {Number} i 駒のID
  */
 function activeuchi(koma, tegoma, tegomasu, i) {
- if (activetegoma !== null) {
-  if (activemasu !== null) {
-   setactivecelluchi(activemasui, false);
+  if (activetegoma !== null) {
+    if (activemasu !== null) {
+      setactivecelluchi(activemasui, false);
+    }
+    activatemovable(false);
   }
-  activatemovable(false);
- }
- if (tegoma === null || (activekoma !== null && activekoma.id === i)) {
-  activetegoma = null;
-  activemasu = null;
-  activemovable = [];
-  activekoma = null;
-  return;
- }
+  if (tegoma === null || (activekoma !== null && activekoma.id === i)) {
+    activetegoma = null;
+    activemasu = null;
+    activemovable = [];
+    activekoma = null;
+    return;
+  }
 
- var masu = tegomasu[i][1];
- var masui = tegomasu[i][1].el;
- // var koma = tegoma[i][0][tegoma[i][0].length - 1];
+  var masu = tegomasu[i][1];
+  var masui = tegomasu[i][1].el;
+  // var koma = tegoma[i][0][tegoma[i][0].length - 1];
 
- activetegoma = tegoma;
- activemasu = masu;
- activemasui = masui;
- activekoma = koma;
+  activetegoma = tegoma;
+  activemasu = masu;
+  activemasui = masui;
+  activekoma = koma;
 
- setactivecelluchi(masui, true);
- activemovable = koma.getUchable();
- activatemovable(true);
+  setactivecelluchi(masui, true);
+  activemovable = koma.getUchable();
+  activatemovable(true);
 }
 
 /**
@@ -1027,19 +1028,19 @@ function activeuchi(koma, tegoma, tegomasu, i) {
  * @param  {[type]} tegomaui 手駒UI
  */
 function absclick_tegoma(i, teban, tegoma, tegomaui) {
- if (activeteban !== teban) {
-  return;
- }
- if (activemasu !== null) {
-  if (activetegoma === null) {
-   activecell(null, null, null);
+  if (activeteban !== teban) {
+    return;
   }
- }
- var koma = tegoma[i][0][tegoma[i][0].length - 1];
- if (koma === undefined) {
-  return;
- }
- activeuchi(koma, tegoma, tegomaui, i);
+  if (activemasu !== null) {
+    if (activetegoma === null) {
+      activecell(null, null, null);
+    }
+  }
+  var koma = tegoma[i][0][tegoma[i][0].length - 1];
+  if (koma === undefined) {
+    return;
+  }
+  activeuchi(koma, tegoma, tegomaui, i);
 }
 
 /**
@@ -1048,19 +1049,19 @@ function absclick_tegoma(i, teban, tegoma, tegomaui) {
  * @param {Number} i 駒ID
  */
 function absclickst(i) {
- if (taikyokuchu === false) {
-  return;
- }
- var mytegoma, myteban;
- if (hifumin_eye) {
-  myteban = Koma.GOTEBAN;
-  mytegoma = gotegoma;
- } else {
-  myteban = Koma.SENTEBAN;
-  mytegoma = sentegoma;
- }
+  if (taikyokuchu === false) {
+    return;
+  }
+  var mytegoma, myteban;
+  if (hifumin_eye) {
+    myteban = Koma.GOTEBAN;
+    mytegoma = gotegoma;
+  } else {
+    myteban = Koma.SENTEBAN;
+    mytegoma = sentegoma;
+  }
 
- absclick_tegoma(i, myteban, mytegoma, sentegoma);
+  absclick_tegoma(i, myteban, mytegoma, sentegoma);
 }
 
 /**
@@ -1069,19 +1070,19 @@ function absclickst(i) {
  * @param {Number} i 駒ID
  */
 function absclickgt(i) {
- if (taikyokuchu === false) {
-  return;
- }
- var mytegoma, myteban;
- if (hifumin_eye) {
-  myteban = Koma.SENTEBAN;
-  mytegoma = sentegoma;
- } else {
-  myteban = Koma.GOTEBAN;
-  mytegoma = gotegoma;
- }
+  if (taikyokuchu === false) {
+    return;
+  }
+  var mytegoma, myteban;
+  if (hifumin_eye) {
+    myteban = Koma.SENTEBAN;
+    mytegoma = sentegoma;
+  } else {
+    myteban = Koma.GOTEBAN;
+    mytegoma = gotegoma;
+  }
 
- absclick_tegoma(i, myteban, mytegoma, gotegoma);
+  absclick_tegoma(i, myteban, mytegoma, gotegoma);
 }
 
 function clickstgfu() {absclickst(0);} function clickstgky() {absclickst(1);}
@@ -1100,34 +1101,34 @@ function clickgtghi() {absclickgt(6);}
  * @param {Number} y 座標[ピクセル]
  */
 function popupnari(x, y) {
- narimenu.style.visibility = 'visible';
- wait_narimenu = true;
+  narimenu.style.visibility = 'visible';
+  wait_narimenu = true;
 }
 
 /**
  * 駒を成る
  */
 function clicknari() {
- move(activekoma, narimenu_tox, narimenu_toy, Koma.NARI);
- activecell(null, null);
+  move(activekoma, narimenu_tox, narimenu_toy, Koma.NARI);
+  activecell(null, null);
 
- wait_narimenu = false;
- narimenu.style.visibility = 'hidden';
- update_screen();
- record_your_move();
+  wait_narimenu = false;
+  narimenu.style.visibility = 'hidden';
+  update_screen();
+  record_your_move();
 }
 
 /**
  * 駒を成らない
  */
 function clicknarazu() {
- move(activekoma, narimenu_tox, narimenu_toy, Koma.NARERU);
- activecell(null, null);
+  move(activekoma, narimenu_tox, narimenu_toy, Koma.NARERU);
+  activecell(null, null);
 
- wait_narimenu = false;
- narimenu.style.visibility = 'hidden';
- update_screen();
- record_your_move();
+  wait_narimenu = false;
+  narimenu.style.visibility = 'hidden';
+  update_screen();
+  record_your_move();
 }
 
 /**
@@ -1136,7 +1137,7 @@ function clicknarazu() {
  * @param  {[type]} type 0:打つとき, 1:動かすだけの時, 2:駒をとって動かすとき
  */
 function myconfirm(msg, type, hx, hy) {
-  msgui = document.getElementById('msg_movecfrm')
+  var msgui = document.getElementById('msg_movecfrm');
   msgui.innerText = msg;
   cfrmdlg.md = type;
   cfrmdlg.hx = hx;
@@ -1146,104 +1147,104 @@ function myconfirm(msg, type, hx, hy) {
 
 function clickcfrm_ok_move(hx, hy)
 {
- // toru(取らないけど)
- toru(hx, hy);
+  // toru(取らないけど)
+  toru(hx, hy);
 
- // move
- var nareru = activekoma.checkNari(activekoma.y, hy);
- if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
-  move(activekoma, hx, hy, Koma.NARAZU);
-  activecell(null, null, null);
-  update_screen();
-  record_your_move();
- } else if (nareru === Koma.NARU) {
-  move(activekoma, hx, hy, Koma.NARI);
-  activecell(null, null);
-  update_screen();
-  record_your_move();
- } else if (nareru === Koma.NARERU) {
-  // ユーザに聞く
-  narimenu_tox = hx;
-  narimenu_toy = hy;
-  popupnari(mouseposx, mouseposy);
- }
+  // move
+  var nareru = activekoma.checkNari(activekoma.y, hy);
+  if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
+    move(activekoma, hx, hy, Koma.NARAZU);
+    activecell(null, null, null);
+    update_screen();
+    record_your_move();
+  } else if (nareru === Koma.NARU) {
+    move(activekoma, hx, hy, Koma.NARI);
+    activecell(null, null);
+    update_screen();
+    record_your_move();
+  } else if (nareru === Koma.NARERU) {
+    // ユーザに聞く
+    narimenu_tox = hx;
+    narimenu_toy = hy;
+    popupnari(mouseposx, mouseposy);
+  }
 }
 
 function clickcfrm_ok_capmove(hx, hy)
 {
- // toru and move
- // toru
- toru(hx, hy);
+  // toru and move
+  // toru
+  toru(hx, hy);
 
- // move
- var nareru = activekoma.checkNari(activekoma.y, hy);
- if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
-  move(activekoma, hx, hy, Koma.NARAZU);
-  activecell(null, null, null);
-  update_screen();
-  record_your_move();
- } else if (nareru === Koma.NARU) {
-  move(activekoma, hx, hy, Koma.NARI);
-  activecell(null, null, null);
-  update_screen();
-  record_your_move();
- } else if (nareru === Koma.NARERU) {
-  // ユーザに聞く
-  narimenu_tox = hx;
-  narimenu_toy = hy;
-  popupnari(mouseposx, mouseposy);
- }
+  // move
+  var nareru = activekoma.checkNari(activekoma.y, hy);
+  if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
+    move(activekoma, hx, hy, Koma.NARAZU);
+    activecell(null, null, null);
+    update_screen();
+    record_your_move();
+  } else if (nareru === Koma.NARU) {
+    move(activekoma, hx, hy, Koma.NARI);
+    activecell(null, null, null);
+    update_screen();
+    record_your_move();
+  } else if (nareru === Koma.NARERU) {
+    // ユーザに聞く
+    narimenu_tox = hx;
+    narimenu_toy = hy;
+    popupnari(mouseposx, mouseposy);
+  }
 }
 
 /**
  * 着手確認ダイアログのOKを押した
  */
 function clickcfrm_ok() {
- var hx = cfrmdlg.hx;
- var hy = cfrmdlg.hy;
+  var hx = cfrmdlg.hx;
+  var hy = cfrmdlg.hy;
 
- cfrmdlg.style.visibility = 'hidden';
+  cfrmdlg.style.visibility = 'hidden';
 
- if (cfrmdlg.md === CFRM_UTSU) {
-  uchi(activetegoma, activekoma, hx, hy);
-  activeuchi(null, null, -1);
-  update_screen();
-  record_your_move();
- } else if (cfrmdlg.md === CFRM_MOVE) {
-  clickcfrm_ok_move(hx, hy);
- } else if (cfrmdlg.md === CFRM_MVCAP) {
-  clickcfrm_ok_capmove(hx, hy);
- } else if (cfrmdlg.md === CFRM_RESIGN) {
-  // 投了
-  movecsa = '%TORYO';
-  send_csamove();
- }
+  if (cfrmdlg.md === CFRM_UTSU) {
+    uchi(activetegoma, activekoma, hx, hy);
+    activeuchi(null, null, -1);
+    update_screen();
+    record_your_move();
+  } else if (cfrmdlg.md === CFRM_MOVE) {
+    clickcfrm_ok_move(hx, hy);
+  } else if (cfrmdlg.md === CFRM_MVCAP) {
+    clickcfrm_ok_capmove(hx, hy);
+  } else if (cfrmdlg.md === CFRM_RESIGN) {
+    // 投了
+    movecsa = '%TORYO';
+    send_csamove();
+  }
 }
 
 /**
  * 着手確認ダイアログのCancelを押した
  */
 function clickcfrm_cancel() {
- if (cfrmdlg.md === CFRM_UTSU) {
-  // 駒打ちをやめる
-  activeuchi(null, null, null);
- } else if (cfrmdlg.md === CFRM_MOVE || cfrmdlg.md === CFRM_MVCAP) {
-  //駒の移動をやめる
-  activecell(null, null, null);
- /* } else if (cfrmdlg.md === CFRM_RESIGN) { */
- }
+  if (cfrmdlg.md === CFRM_UTSU) {
+    // 駒打ちをやめる
+    activeuchi(null, null, null);
+  } else if (cfrmdlg.md === CFRM_MOVE || cfrmdlg.md === CFRM_MVCAP) {
+    // 駒の移動をやめる
+    activecell(null, null, null);
+    /* } else if (cfrmdlg.md === CFRM_RESIGN) { */
+  }
 
- cfrmdlg.style.visibility = 'hidden';
+  cfrmdlg.style.visibility = 'hidden';
 }
 
 /**
  * 新規対局
  */
 function new_kyoku() {
- mykifu.reset();
- initKoma();
- activeteban = Koma.SENTEBAN;
- update_screen();
+  mykifu.reset();
+  initKoma();
+  activeteban = Koma.SENTEBAN;
+  update_screen();
 }
 
 // タイマのID
@@ -1253,11 +1254,11 @@ var taikyokuchu_param = 0;
 
 function taikyokuchu_tmout()
 {
- ++taikyokuchu_param;
- taikyokuchu_param %= 255;
- var c = 255 - taikyokuchu_param;
- nameSente.style.backgroundColor = 'rgb(255,' + c + ',255)';
- nameGote.style.backgroundColor = 'rgb(' + c + ',255,' + c + ')';
+  ++taikyokuchu_param;
+  taikyokuchu_param %= 255;
+  var c = 255 - taikyokuchu_param;
+  nameSente.style.backgroundColor = 'rgb(255,' + c + ',255)';
+  nameGote.style.backgroundColor = 'rgb(' + c + ',255,' + c + ')';
 }
 
 
@@ -1279,25 +1280,25 @@ function start_kyoku() {
  * 対局中断
  */
 function stop_kyoku() {
- if (taikyokuchu === false) {
-  return;
- }
- taikyokuchu = false;
- update_screen();
- clearInterval(taikyokuchu_timer);
+  if (taikyokuchu === false) {
+    return;
+  }
+  taikyokuchu = false;
+  update_screen();
+  clearInterval(taikyokuchu_timer);
 }
 
 /**
  * 投了
  */
 function giveup() {
- if (taikyokuchu === false) {
-  return;
- }
- taikyokuchu = false;
- mykifu.putFooter(Koma.SENTEBAN);
- update_screen();
- clearInterval(taikyokuchu_timer);
+  if (taikyokuchu === false) {
+    return;
+  }
+  taikyokuchu = false;
+  mykifu.putFooter(Koma.SENTEBAN);
+  update_screen();
+  clearInterval(taikyokuchu_timer);
 }
 
 /**
@@ -1377,40 +1378,40 @@ function giveup() {
  * ひふみんEyeを切り替える
  */
 function check_hifumin_eye() {
- // アクティブなやつを解除。
- if (activemasu !== null) {
-  if (activemasu.x === -1) {
-   // uchi
-   activeuchi(null, null, -1);
-  } else {
-   activecell(null, null, null);
+  // アクティブなやつを解除。
+  if (activemasu !== null) {
+    if (activemasu.x === -1) {
+      // uchi
+      activeuchi(null, null, -1);
+    } else {
+      activecell(null, null, null);
+    }
   }
- }
- hifumin_eye = document.getElementById('hifumineye').checked;
- update_screen();
+  hifumin_eye = document.getElementById('hifumineye').checked;
+  update_screen();
 }
 
 function sfenkoma_piece(ch, result, teban, nsuji, ndan, nari) {
   var koma;
   if (ch === 'P') {
-   koma = new Fu(teban, nsuji, ndan);
+    koma = new Fu(teban, nsuji, ndan);
   } else if (ch === 'L') {
-   koma = new Kyosha(teban, nsuji, ndan);
+    koma = new Kyosha(teban, nsuji, ndan);
   } else if (ch === 'N') {
-   koma = new Keima(teban, nsuji, ndan);
+    koma = new Keima(teban, nsuji, ndan);
   } else if (ch === 'S') {
-   koma = new Gin(teban, nsuji, ndan);
+    koma = new Gin(teban, nsuji, ndan);
   } else if (ch === 'G') {
-   koma = new Kin(teban, nsuji, ndan);
+    koma = new Kin(teban, nsuji, ndan);
   } else if (ch === 'B') {
-   koma = new Kaku(teban, nsuji, ndan);
+    koma = new Kaku(teban, nsuji, ndan);
   } else if (ch === 'R') {
-   koma = new Hisha(teban, nsuji, ndan);
+    koma = new Hisha(teban, nsuji, ndan);
   } else if (ch === 'K') {
-   koma = new Gyoku(teban, nsuji, ndan);
+    koma = new Gyoku(teban, nsuji, ndan);
   }
   if (nari !== 0) {
-   koma.nari = Koma.NARI;
+    koma.nari = Koma.NARI;
   }
   result.push(koma);
 
@@ -1418,60 +1419,59 @@ function sfenkoma_piece(ch, result, teban, nsuji, ndan, nari) {
 }
 
 var sfenkoma = function(dan, ndan) {
- var result = [];
- var len = dan.length;
- var strdan = '';
- var nari = 0;
- var nsuji = 8;
- for (var j = 0; j < len; ++j) {
-  var ch = dan.charAt(j);
-  if (/[PLNSGBRK]/.test(ch)) {
-   result = sfenkoma_piece(ch, result, Koma.SENTEBAN, nsuji, ndan, nari);
-   nari = 0;
-   --nsuji;
-  } else if (/[plnsgbrk]/.test(ch)) {
-   ch = ch.toUpperCase();
-   result = sfenkoma_piece(ch, result, Koma.GOTEBAN, nsuji, ndan, nari);
-   nari = 0;
-   --nsuji;
-  } else if (ch === '+') {
-   nari = 1;
-  } else if (/[1-9]/.test(ch)) {
-   var naki = +ch;
-   nari = 0;
-   for (var i = 0; i < naki; ++i)
-    result.push(new Koma());
-   nsuji -= naki;
+  var result = [];
+  var len = dan.length;
+  var nari = 0;
+  var nsuji = 8;
+  for (var j = 0; j < len; ++j) {
+    var ch = dan.charAt(j);
+    if (/[PLNSGBRK]/.test(ch)) {
+      result = sfenkoma_piece(ch, result, Koma.SENTEBAN, nsuji, ndan, nari);
+      nari = 0;
+      --nsuji;
+    } else if (/[plnsgbrk]/.test(ch)) {
+      ch = ch.toUpperCase();
+      result = sfenkoma_piece(ch, result, Koma.GOTEBAN, nsuji, ndan, nari);
+      nari = 0;
+      --nsuji;
+    } else if (ch === '+') {
+      nari = 1;
+    } else if (/[1-9]/.test(ch)) {
+      var naki = +ch;
+      nari = 0;
+      for (var i = 0; i < naki; ++i)
+        result.push(new Koma());
+      nsuji -= naki;
+    }
   }
- }
- return result;
+  return result;
 };
 
 var sfentegoma = function(tegomastr) {
- var tegoma = [new Array(7), new Array(7)];
- for (var i = 0; i < 7; ++i) {
-  tegoma[0][i] = 0;
-  tegoma[1][i] = 0;
- }
- var num = 1;
- var len = tegomastr.length;
- var komatbl = 'PLNSGBRplnsgbr';
- for (var j = 0; j < len; ++j) {
-  var ch = tegomastr.charAt(j);
-  var idx = komatbl.indexOf(ch);
-  if (idx >= 7) {
-    tegoma[1][idx-7] = num;
-    num = 1;
-  } else if (idx >= 0) {
-    tegoma[0][idx] = num;
-    num = 1;
-  } else if (/[1-9]/.test(ch)) {  // 1~9
-   num = +ch;
-  } else {
-   // error
+  var tegoma = [new Array(7), new Array(7)];
+  for (var i = 0; i < 7; ++i) {
+    tegoma[0][i] = 0;
+    tegoma[1][i] = 0;
   }
- }
- return tegoma;
+  var num = 1;
+  var len = tegomastr.length;
+  var komatbl = 'PLNSGBRplnsgbr';
+  for (var j = 0; j < len; ++j) {
+    var ch = tegomastr.charAt(j);
+    var idx = komatbl.indexOf(ch);
+    if (idx >= 7) {
+      tegoma[1][idx-7] = num;
+      num = 1;
+    } else if (idx >= 0) {
+      tegoma[0][idx] = num;
+      num = 1;
+    } else if (/[1-9]/.test(ch)) {  // 1~9
+      num = +ch;
+    } else {
+      // error
+    }
+  }
+  return tegoma;
 };
 
 /**
@@ -1483,31 +1483,31 @@ var sfentegoma = function(tegomastr) {
 function sfentegoma_add(ntegoma, tegoma, teban) {
   var num = ntegoma[0];
   for (var k = 0; k < num; ++k) {
-   komadai_add(tegoma, new Fu(teban, -1, -1));
+    komadai_add(tegoma, new Fu(teban, -1, -1));
   }
   num = ntegoma[1];
   for (k = 0; k < num; ++k) {
-   komadai_add(tegoma, new Kyosha(teban, -1, -1));
+    komadai_add(tegoma, new Kyosha(teban, -1, -1));
   }
   num = ntegoma[2];
   for (k = 0; k < num; ++k) {
-   komadai_add(tegoma, new Keima(teban, -1, -1));
+    komadai_add(tegoma, new Keima(teban, -1, -1));
   }
   num = ntegoma[3];
   for (k = 0; k < num; ++k) {
-   komadai_add(tegoma, new Gin(teban, -1, -1));
+    komadai_add(tegoma, new Gin(teban, -1, -1));
   }
   num = ntegoma[4];
   for (k = 0; k < num; ++k) {
-   komadai_add(tegoma, new Kin(teban, -1, -1));
+    komadai_add(tegoma, new Kin(teban, -1, -1));
   }
   num = ntegoma[5];
   for (k = 0; k < num; ++k) {
-   komadai_add(tegoma, new Kaku(teban, -1, -1));
+    komadai_add(tegoma, new Kaku(teban, -1, -1));
   }
   num = ntegoma[6];
   for (k = 0; k < num; ++k) {
-   komadai_add(tegoma, new Hisha(teban, -1, -1));
+    komadai_add(tegoma, new Hisha(teban, -1, -1));
   }
 }
 
@@ -1516,186 +1516,186 @@ function sfentegoma_add(ntegoma, tegoma, teban) {
  * @param {String} sfentext sfen文字列
  */
 function fromsfen(sfentext) {
- // var sfenarea = document.getElementById('sfen');
- initKomaEx();
+  // var sfenarea = document.getElementById('sfen');
+  initKomaEx();
 
- var sfenitem = sfentext.split(' ');
- // var sz = sfenitem.length;
- // for (var i = 1; i < sz; ++i) {
- //  console.log(sfenitem[i]);
- // }
- var bandan = sfenitem[0].split('/');
- // sz = bandan.length;
- // for (var i = 0; i < sz; ++i) {
- //  console.log(bandan[i]);
- // }
+  var sfenitem = sfentext.split(' ');
+  // var sz = sfenitem.length;
+  // for (var i = 1; i < sz; ++i) {
+  //  console.log(sfenitem[i]);
+  // }
+  var bandan = sfenitem[0].split('/');
+  // sz = bandan.length;
+  // for (var i = 0; i < sz; ++i) {
+  //  console.log(bandan[i]);
+  // }
 
- sz = bandan.length;
- for (var i = 0; i < sz; ++i) {
-  dankoma = sfenkoma(bandan[i], i);
-  for (var j = 0; j < 9; ++j) {
-   ban[8 - j][i].koma = dankoma[j];
+  var sz = bandan.length;
+  for (var i = 0; i < sz; ++i) {
+    var dankoma = sfenkoma(bandan[i], i);
+    for (var j = 0; j < 9; ++j) {
+      ban[8 - j][i].koma = dankoma[j];
+    }
   }
- }
 
- // 手駒
- tegoma = sfentegoma(sfenitem[2]);
- sfentegoma_add(tegoma[0], sentegoma, Koma.SENTEBAN);
- sfentegoma_add(tegoma[1], gotegoma, Koma.GOTEBAN);
+  // 手駒
+  var tegoma = sfentegoma(sfenitem[2]);
+  sfentegoma_add(tegoma[0], sentegoma, Koma.SENTEBAN);
+  sfentegoma_add(tegoma[1], gotegoma, Koma.GOTEBAN);
 
- if (sfenitem[1] === 'b') {
-  activeteban = Koma.SENTEBAN;
- } else if (sfenitem[1] === 'w') {
-  activeteban = Koma.GOTEBAN;
- } else {
-  // keep current teban
- }
+  if (sfenitem[1] === 'b') {
+    activeteban = Koma.SENTEBAN;
+  } else if (sfenitem[1] === 'w') {
+    activeteban = Koma.GOTEBAN;
+  } else {
+    // keep current teban
+  }
 
- mykifu.NTeme = sfenitem[3] | 0;
+  mykifu.NTeme = sfenitem[3] | 0;
 }
 
 var sfen_genbantext_dan = function(shogiban, ndan) {
- var dantext = '';
- var aki = 0;
+  var dantext = '';
+  var aki = 0;
 
- for (var j = 0; j < 9; ++j) {
-  var komach = '';
-  var koma = shogiban[8-j][ndan].koma;
-  if (koma.nari === Koma.NARI) {
-   komach = '+';
-  } else {
-   komach = '';
+  for (var j = 0; j < 9; ++j) {
+    var komach = '';
+    var koma = shogiban[8-j][ndan].koma;
+    if (koma.nari === Koma.NARI) {
+      komach = '+';
+    } else {
+      komach = '';
+    }
+    var komatbl = 'PLNSGBRK';
+    var komaid = koma.id;
+    if (koma.FuID <= komaid && komaid <= koma.GyokuID) {
+      komach += komatbl.charAt(komaid);
+    } else {
+      ++aki;
+    }
+    var teban = koma.teban;
+    if (teban === Koma.GOTEBAN) {
+      komach = komach.toLowerCase();
+    }
+    if (komach !== '') {
+      if (aki > 0) {
+        dantext += aki;
+        aki = 0;
+      }
+      dantext += komach;
+    }
   }
-  var komatbl = 'PLNSGBRK';
-  var komaid = koma.id;
-  if (koma.FuID <= komaid && komaid <= koma.GyokuID) {
-   komach += komatbl.charAt(komaid);
-  } else {
-   ++aki;
-  }
-  var teban = koma.teban;
-  if (teban === Koma.GOTEBAN) {
-   komach = komach.toLowerCase();
-  }
-  if (komach !== '') {
-   if (aki > 0) {
+
+  if (aki > 0) {
     dantext += aki;
-    aki = 0;
-   }
-   dantext += komach;
   }
- }
 
- if (aki > 0) {
-  dantext += aki;
- }
-
- return dantext;
+  return dantext;
 }
 
 var sfen_genbantext = function(shogiban) {
- var shogibantext = [];
- for (var i = 0; i < 9; ++i) {
-  shogibantext[i] = sfen_genbantext_dan(shogiban, i);
- }
- return shogibantext;
+  var shogibantext = [];
+  for (var i = 0; i < 9; ++i) {
+    shogibantext[i] = sfen_genbantext_dan(shogiban, i);
+  }
+  return shogibantext;
 };
 
 function sfen_gentegomatext(komadai, komatbl) {
   var sfentegomatext = '';
 
   for (var i = 0; i < 7; ++i) {
-   var num = komadai[i][0].length;
-   if (num >= 2) {
-    sfentegomatext += num;
-   }
-   if (num > 0) {
-    sfentegomatext += komatbl.charAt(i);
-   }
+    var num = komadai[i][0].length;
+    if (num >= 2) {
+      sfentegomatext += num;
+    }
+    if (num > 0) {
+      sfentegomatext += komatbl.charAt(i);
+    }
   }
 
   return sfentegomatext;
 }
 
 var sfen_gentegomatext_sengo = function(sentekomadai, gotekomadai) {
- var komatblb = 'PLNSGBR';
- var sfentegomatext = sfen_gentegomatext(sentekomadai, komatblb);
+  var komatblb = 'PLNSGBR';
+  var sfentegomatext = sfen_gentegomatext(sentekomadai, komatblb);
 
- var komatblw = 'plnsgbr';
- sfentegomatext += sfen_gentegomatext(gotekomadai, komatblw);
+  var komatblw = 'plnsgbr';
+  sfentegomatext += sfen_gentegomatext(gotekomadai, komatblw);
 
- if (sfentegomatext.length === 0) {
-   sfentegomatext = '-';
- }
- return sfentegomatext;
+  if (sfentegomatext.length === 0) {
+    sfentegomatext = '-';
+  }
+  return sfentegomatext;
 };
 
 /**
  * @param {String} nth 何手目
  */
-function gensfen(nth /*= '1'*/) {
- // 盤
- var bantext = sfen_genbantext(ban);
+function gensfen(nth /* = '1' */) {
+  // 盤
+  var bantext = sfen_genbantext(ban);
 
- // 手駒
- var tegomatext = sfen_gentegomatext_sengo(sentegoma, gotegoma);
+  // 手駒
+  var tegomatext = sfen_gentegomatext_sengo(sentegoma, gotegoma);
 
- // いろいろ合体
- var sfentext = '';
- sfentext = bantext.join('/');
- // for (i = 0 ; i < bantext.length-1 ; ++i) {
- //  sfentext += bantext[i] + '/';
- // }
- // sfentext += bantext[i];
- sfentext += ' ';
- if (activeteban !== Koma.SENTEBAN) {
-  sfentext += 'w';
- } else {
-  sfentext += 'b';
- }
- sfentext += ' ';
- sfentext += tegomatext;
- sfentext += ' ';
- sfentext += nth;  // 何手目
+  // いろいろ合体
+  var sfentext = '';
+  sfentext = bantext.join('/');
+  // for (i = 0 ; i < bantext.length-1 ; ++i) {
+  //  sfentext += bantext[i] + '/';
+  // }
+  // sfentext += bantext[i];
+  sfentext += ' ';
+  if (activeteban !== Koma.SENTEBAN) {
+    sfentext += 'w';
+  } else {
+    sfentext += 'b';
+  }
+  sfentext += ' ';
+  sfentext += tegomatext;
+  sfentext += ' ';
+  sfentext += nth;  // 何手目
 
- // var sfenarea = document.getElementById('sfen');
- // sfenarea.value = sfentext;
- var sfenarea = document.getElementById('sfen_');
- sfenarea.innerHTML = sfentext;
+  // var sfenarea = document.getElementById('sfen');
+  // sfenarea.value = sfentext;
+  var sfenarea = document.getElementById('sfen_');
+  sfenarea.innerHTML = sfentext;
 }
 
 function activateteban()
 {
   // String('true') or String('false')
- var strfinished = document.getElementById('isfinished').value;
- var isfinished = (strfinished !== 'false');  // convert to boolean
- if (isfinished) {
-  taikyokuchu = false;
- } else {
-  // var teban = document.getElementById('myturn').value;
-  // if (teban !== '0') taikyokuchu = true;
-  var teban = document.getElementById('myteban').value;
-  if (teban === 'b' && activeteban === Koma.SENTEBAN) taikyokuchu = true;
-  else if (teban === 'w' && activeteban === Koma.GOTEBAN) taikyokuchu = true;
-  else taikyokuchu = false;
- }
+  var strfinished = document.getElementById('isfinished').value;
+  var isfinished = (strfinished !== 'false');  // convert to boolean
+  if (isfinished) {
+    taikyokuchu = false;
+  } else {
+    // var teban = document.getElementById('myturn').value;
+    // if (teban !== '0') taikyokuchu = true;
+    var teban = document.getElementById('myteban').value;
+    if (teban === 'b' && activeteban === Koma.SENTEBAN) taikyokuchu = true;
+    else if (teban === 'w' && activeteban === Koma.GOTEBAN) taikyokuchu = true;
+    else taikyokuchu = false;
+  }
 
- var strinfo = mykifu.NTeme + '手目です。<BR>';
- if (activeteban === Koma.SENTEBAN) {
-  strinfo += '先手の手番です。<BR>'
- } else if (activeteban === Koma.GOTEBAN) {
-  strinfo += '後手の手番です。<BR>'
- } else {
-  strinfo += '対局は終了/中断しました。<BR>'
- }
- document.getElementById('tebaninfo').innerHTML = strinfo;
+  var strinfo = mykifu.NTeme + '手目です。<BR>';
+  if (activeteban === Koma.SENTEBAN) {
+    strinfo += '先手の手番です。<BR>'
+  } else if (activeteban === Koma.GOTEBAN) {
+    strinfo += '後手の手番です。<BR>'
+  } else {
+    strinfo += '対局は終了/中断しました。<BR>'
+  }
+  document.getElementById('tebaninfo').innerHTML = strinfo;
 
- /* resign button */
- if (taikyokuchu) {
-  document.getElementById('btn_resign').style.display = 'inline';
- } else {
-  document.getElementById('btn_resign').style.display = 'none';
- }
+  /* resign button */
+  if (taikyokuchu) {
+    document.getElementById('btn_resign').style.display = 'inline';
+  } else {
+    document.getElementById('btn_resign').style.display = 'none';
+  }
 }
 
 function checkLatestMoveTmout()
@@ -1741,34 +1741,34 @@ function checkLatestMoveTmout()
 
 function checkSfenResponse(sfenstr)
 {
- if (sfenstr.match(/^ERROR:/)) {
-  // ERROR
-  return;
- }
-
- var oldsfen = document.getElementById('sfen_').innerHTML;
- if (sfenstr !== oldsfen) {
-  if (true) {
-   // show reload button
-   document.getElementById('notify_area').style.display = 'inline';
-  } else {
-   document.getElementById('sfen_').innerHTML = sfenstr;
-
-   fromsfen(sfentext);
-
-   activateteban();
-
-   hifumin_eye = document.getElementById('hifumineye').checked;
-
-   update_screen();
-
-   if (!taikyokuchu) {
-     startUpdateTimer();
-   }
+  if (sfenstr.match(/^ERROR:/)) {
+    // ERROR
+    return;
   }
- } else {
-  startUpdateTimer();
- }
+
+  var oldsfen = document.getElementById('sfen_').innerHTML;
+  if (sfenstr !== oldsfen) {
+    if (true) {
+      // show reload button
+      document.getElementById('notify_area').style.display = 'inline';
+    } else {
+      document.getElementById('sfen_').innerHTML = sfenstr;
+
+      fromsfen(sfentext);
+
+      activateteban();
+
+      hifumin_eye = document.getElementById('hifumineye').checked;
+
+      update_screen();
+
+      if (!taikyokuchu) {
+        startUpdateTimer();
+      }
+    }
+  } else {
+    startUpdateTimer();
+  }
 }
 
 
@@ -1799,23 +1799,23 @@ function read_lastmove()
  * sfenを読み込んで指せる状態にする。
  */
 function init_board() {
- gethtmlelement();
- mykifu.reset();
+  gethtmlelement();
+  mykifu.reset();
 
- var sfentext = document.getElementById('sfen_').innerHTML;
- fromsfen(sfentext);
+  var sfentext = document.getElementById('sfen_').innerHTML;
+  fromsfen(sfentext);
 
- read_lastmove();
+  read_lastmove();
 
- activateteban();
+  activateteban();
 
- if (!taikyokuchu) {
-  startUpdateTimer();
- }
+  if (!taikyokuchu) {
+    startUpdateTimer();
+  }
 
- hifumin_eye = document.getElementById('hifumineye').checked;
+  hifumin_eye = document.getElementById('hifumineye').checked;
 
- update_screen();
+  update_screen();
 }
 
 init_board();
@@ -1871,29 +1871,29 @@ function send_csamove()
 
 function record_your_move()
 {
- taikyokuchu = false;
+  taikyokuchu = false;
 
- nteme = mykifu.NTeme;
- // nteme = document.getElementById('nthmove').innerHTML;
- gensfen(nteme);
+  var nteme = mykifu.NTeme;
+  // nteme = document.getElementById('nthmove').innerHTML;
+  gensfen(nteme);
 
- send_csamove();
+  send_csamove();
 }
 
 function activatefogscreen()
 {
- block_elem_ban = document.getElementById('block_elem_ban');
- scr = document.getElementById('fogscreen');
- scr.style.zIndex = 0;
- scr.style.visibility = 'visible';
- scr.style.left = block_elem_ban.style.left;
- scr.style.top = block_elem_ban.style.top;
- scr.style.width = block_elem_ban.style.width;
- scr.style.clientHeight = block_elem_ban.style.clientHeight;
+  var block_elem_ban = document.getElementById('block_elem_ban');
+  var scr = document.getElementById('fogscreen');
+  scr.style.zIndex = 0;
+  scr.style.visibility = 'visible';
+  scr.style.left = block_elem_ban.style.left;
+  scr.style.top = block_elem_ban.style.top;
+  scr.style.width = block_elem_ban.style.width;
+  scr.style.clientHeight = block_elem_ban.style.clientHeight;
 
- msgscr = document.getElementById('msg_fogscreen');
- msgscr.style.zIndex = 0;
- msgscr.style.visibility = 'visible';
+  var msgscr = document.getElementById('msg_fogscreen');
+  msgscr.style.zIndex = 0;
+  msgscr.style.visibility = 'visible';
 }
 
 /**
@@ -1904,21 +1904,21 @@ function activatefogscreen()
  * @return {String} ページから抜ける時に表示する文字
  */
 window.onbeforeunload = function(e) {
- if (tsushinchu === false) {
-  return;
- }
- return '通信中に終了すると指し手が登録されない恐れがあります。\n終了しますか？';
+  if (tsushinchu === false) {
+    return;
+  }
+  return '通信中に終了すると指し手が登録されない恐れがあります。\n終了しますか？';
 };
 
 function openurlin_blank(url) {
- var win = window.open(url, '_blank');
- win.focus();
+  var win = window.open(url, '_blank');
+  win.focus();
 }
 
 function onresign() {
- myconfirm("負けを認めますか？", CFRM_RESIGN, -1, -1);
- /*if (!confirm()) return;
+  myconfirm("負けを認めますか？", CFRM_RESIGN, -1, -1);
+  /* if (!confirm()) return;
 
- movecsa = '%TORYO';
- send_csamove();*/
+  movecsa = '%TORYO';
+  send_csamove(); */
 }

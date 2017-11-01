@@ -763,10 +763,6 @@ function Koma(teban, x, y) {
  arguments.callee.NARERU = 3;
  arguments.callee.NATTA = 4;
 
- arguments.callee.ToryoStr = '投了';
- arguments.callee.ToryoStrCSA = '%TORYO';
- arguments.callee.TsumiStrCSA = '%TSUMI';
-
  this.teban = teban || Koma.AKI;
  this.strtype = '* ';
  this.strntype = '* ';
@@ -891,6 +887,10 @@ Koma.prototype.GoteStrCSA = '-';
 Koma.prototype.AkiStrCSA = ' * ';
 Koma.prototype.SenteStrOrg = '先手';
 Koma.prototype.GoteStrOrg = '後手';
+
+Koma.prototype.ToryoStr = '投了';
+Koma.prototype.ToryoStrCSA = '%TORYO';
+Koma.prototype.TsumiStrCSA = '%TSUMI';
 
 // x,y,straight
 Koma.prototype.FuMovable = [[0, 1, false]];
