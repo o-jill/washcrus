@@ -52,7 +52,17 @@ class UserInfoFile
     em
   end
 
-  def read_elements(elements, dec)
+  def hash_stats(elem)
+    {
+      swin: elem[4].to_i, slose: elem[5].to_i,
+      gwin: elem[6].to_i, glose: elem[7].to_i
+    }
+  end
+
+  def read_elements(elements)
+    dec = OpenSSL::Cipher.new('AES-256-CBC')
+    dec.decrypt
+
     id = elements[0]
     @names[id]     = elements[1]
     @passwords[id] = elements[2]
@@ -63,40 +73,34 @@ class UserInfoFile
     # @emails[id] = em
     @emails[id] = decode_mail(dec, elements[3])
     # @emails[id] = elements[3]
-    @stats[id] = {
-      swin: elements[4].to_i, slose: elements[5].to_i,
-      gwin: elements[6].to_i, glose: elements[7].to_i
-    }
+    @stats[id] = hash_stats(elements)
   end
 
   def read
-    dec = OpenSSL::Cipher.new('AES-256-CBC')
-    dec.decrypt
-    # dec.pkcs5_keyivgen(KEY)
-    begin
-      File.open(@fname, 'r:utf-8') do |file|
-        file.flock File::LOCK_EX
+    File.open(@fname, 'r:utf-8') do |file|
+      file.flock File::LOCK_EX
 
-        file.each_line do |line|
-          # comment
-          next if line =~ /^#/
+      file.each_line do |line|
+        # comment
+        next if line =~ /^#/
 
-          # id, name, password, e-mail(encrypted), swn, sls, gwn, gls
-          elements = line.chomp.split(',')
-          next if elements.length != 8 # invalid line
+        # id, name, password, e-mail(encrypted), swn, sls, gwn, gls
+        elements = line.chomp.split(',')
+        next if elements.length != 8 # invalid line
 
-          read_elements(elements, dec)
-        end
+        read_elements(elements)
       end
-    # 例外は小さい単位で捕捉する
-    rescue SystemCallError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in read"
-    rescue IOError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in read"
     end
+  # 例外は小さい単位で捕捉する
+  rescue SystemCallError => e
+    puts "#{e} in read"
+  rescue IOError => e
+    puts "#{e} in read"
   end
 
-  def encode_mail(enc, id)
+  def encode_mail(id)
+    enc = OpenSSL::Cipher.new('AES-256-CBC')
+    enc.encrypt
     enc.pkcs5_keyivgen(KEY)
     crypted = ''
     crypted << enc.update(@emails[id])
@@ -115,29 +119,24 @@ class UserInfoFile
     "#{@stats[id][:gwin]},#{@stats[id][:glose]}"
   end
 
-  # note: DON'T use this when you simply add a user. please use append().
+  # note: use with lock(*)
   def write
-    enc = OpenSSL::Cipher.new('AES-256-CBC')
-    enc.encrypt
-    # enc.pkcs5_keyivgen(KEY)
-    begin
-      File.open(@fname, 'w') do |file|
-        file.flock File::LOCK_EX
+    File.open(@fname, 'w') do |file|
+      file.flock File::LOCK_EX
 
-        put_header(file)
+      put_header(file)
 
-        names.each do |id, _name|
-          mailaddr = encode_mail(enc, id)
+      names.each do |id, _name|
+        mailaddr = encode_mail(id)
 
-          file.puts build_line(id, mailaddr)
-        end
+        file.puts build_line(id, mailaddr)
       end
-    # 例外は小さい単位で捕捉する
-    rescue SystemCallError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in write"
-    rescue IOError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in write"
     end
+  # 例外は小さい単位で捕捉する
+  rescue SystemCallError => e
+    puts "#{e} in write"
+  rescue IOError => e
+    puts "#{e} in write"
   end
 
   # get user information by id
