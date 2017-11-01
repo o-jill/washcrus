@@ -1265,14 +1265,14 @@ function taikyokuchu_tmout()
  * 対局始め
  */
 function start_kyoku() {
- if (taikyokuchu === true) {
-  return;
- }
- taikyokuchu = true;
- // activeteban = Koma.SENTEBAN;
- // mykifu.putHeader(nameSente.value, nameGote.value);
- update_screen();
- taikyokuchu_timer = setInterval('taikyokuchu_tmout()', 500);
+  if (taikyokuchu === true) {
+    return;
+  }
+  taikyokuchu = true;
+  // activeteban = Koma.SENTEBAN;
+  // mykifu.putHeader(nameSente.value, nameGote.value);
+  update_screen();
+  taikyokuchu_timer = setInterval(function() {taikyokuchu_tmout();}, 500);
 }
 
 /**
@@ -1774,7 +1774,7 @@ function checkSfenResponse(sfenstr)
 
 function startUpdateTimer()
 {
- setTimeout('checkLatestMoveTmout()', 60000);
+  setTimeout(function() {checkLatestMoveTmout();}, 60000);
 }
 
 /**
