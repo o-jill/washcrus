@@ -67,9 +67,6 @@ var activemovable = [];
 /** ひふみんアイ */
 var hifumin_eye = false;
 
-var elem_id = document.getElementById('gameid');
-var id = elem_id.value;
-
 /** 最終手 筋 */
 var last_mx = -1;
 /** 最終手 段 */
@@ -1703,40 +1700,43 @@ function activateteban()
 
 function checkLatestMoveTmout()
 {
- var ajax = new XMLHttpRequest();
- if (ajax !== null) {
-  // tsushinchu = true;
-  // activatefogscreen();
-  ajax.open('POST', 'getsfen.rb?' + id, true);
-  ajax.overrideMimeType('text/plain; charset=UTF-8');
-  ajax.send('');
-  ajax.onreadystatechange = function() {
-   // tsushinchu = false;
-   // var msg = document.getElementById('msg_fogscreen');
-   switch (ajax.readyState) {
-   case 4:
-    var status = ajax.status;
-    if (status === 0) {  // XHR 通信失敗
-    //  msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
-    //   location.reload(true);
-     startUpdateTimer();
-    } else {  // XHR 通信成功
-     if ((200 <= status && status < 300) || status === 304) {
-      // リクエスト成功
-      var resp = ajax.responseText
-      checkSfenResponse(resp);
-      // msg.innerHTML = '通信完了。\n自動的にリロードします。';
-      // location.reload(true);
-     } else {  // リクエスト失敗
-      // msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
-      // location.reload(true);
-      startUpdateTimer();
-     }
-    }
-    break;
-   }
-  };
- }
+  var elem_id = document.getElementById('gameid');
+  var gid = elem_id.value;
+
+  var ajax = new XMLHttpRequest();
+  if (ajax !== null) {
+    // tsushinchu = true;
+    // activatefogscreen();
+    ajax.open('POST', 'getsfen.rb?' + gid, true);
+    ajax.overrideMimeType('text/plain; charset=UTF-8');
+    ajax.send('');
+    ajax.onreadystatechange = function() {
+      // tsushinchu = false;
+      // var msg = document.getElementById('msg_fogscreen');
+      switch (ajax.readyState) {
+      case 4:
+        var status = ajax.status;
+        if (status === 0) {  // XHR 通信失敗
+          //  msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
+          //   location.reload(true);
+          startUpdateTimer();
+        } else {  // XHR 通信成功
+          if ((200 <= status && status < 300) || status === 304) {
+            // リクエスト成功
+            var resp = ajax.responseText
+            checkSfenResponse(resp);
+            // msg.innerHTML = '通信完了。\n自動的にリロードします。';
+            // location.reload(true);
+          } else {  // リクエスト失敗
+            // msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
+            // location.reload(true);
+            startUpdateTimer();
+          }
+        }
+        break;
+      }
+    };
+  }
 }
 
 function checkSfenResponse(sfenstr)
@@ -1822,45 +1822,49 @@ init_board();
 
 function buildMoveMsg()
 {
- ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen_').innerHTML);
- // ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen').value);
- ret += '&jsonmove=' + encodeURIComponent(movecsa);
+  var ret = 'sfen=' + encodeURIComponent(
+    document.getElementById('sfen_').innerHTML);
+  // ret = 'sfen=' + encodeURIComponent(document.getElementById('sfen').value);
+  ret += '&jsonmove=' + encodeURIComponent(movecsa);
 
- return ret;
+  return ret;
 }
 
 var tsushinchu = false;
 
 function send_csamove()
 {
+  var elem_id = document.getElementById('gameid');
+  var gid = elem_id.value;
+
   var ajax = new XMLHttpRequest();
   if (ajax !== null) {
     tsushinchu = true;
     activatefogscreen();
-    ajax.open('POST', 'move.rb?' + id, true);
+    ajax.open('POST', 'move.rb?' + gid, true);
     ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     ajax.send(buildMoveMsg());
     ajax.onreadystatechange = function() {
-     tsushinchu = false;
-     var msg = document.getElementById('msg_fogscreen');
-     switch (ajax.readyState) {
-     case 4:
-      var status = ajax.status;
-      if (status === 0) {  // XHR 通信失敗
-       msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
-        location.reload(true);
-      } else {  // XHR 通信成功
-       if ((200 <= status && status < 300) || status === 304) {
-        // リクエスト成功
-        msg.innerHTML = '通信完了。\n自動的にリロードします。';
-        location.reload(true);
-       } else {  // リクエスト失敗
-        msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
-        location.reload(true);
-       }
+      tsushinchu = false;
+      var msg = document.getElementById('msg_fogscreen');
+      switch (ajax.readyState) {
+      case 4:
+        var status = ajax.status;
+        if (status === 0) {  // XHR 通信失敗
+          msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
+          location.reload(true);
+        } else {  // XHR 通信成功
+          if ((200 <= status && status < 300) || status === 304) {
+            // リクエスト成功
+            msg.innerHTML = '通信完了。\n自動的にリロードします。';
+            location.reload(true);
+          } else {  // リクエスト失敗
+            msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
+            location.reload(true);
+          }
+        }
+        break;
       }
-      break;
-     }
     };
   }
 }
