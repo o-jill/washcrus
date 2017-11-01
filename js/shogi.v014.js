@@ -1719,6 +1719,17 @@ Koma.prototype.InitStr = function(a, b, c, d, e, f, g, h, i, j)
   this.strntypeIMG = j;
 }
 
+/**
+ * 動けるマスの情報の初期化
+ * @param  {Array} funari 不成状態での動けるところ
+ * @param  {Array} nari   成り状態での動けるところ
+ */
+Koma.prototype.InitMovable = function(funari, nari)
+{
+  this.FunariMovable = funari;
+  this.NariMovable = nari;
+}
+
 Fu.prototype = new Koma();
 /**
  * 歩クラス
@@ -1736,8 +1747,7 @@ function Fu(teban, x, y) {
   this.InitStr(this.FuStrLong, this.NFuStrLong, this.FuStrKIF, this.NFuStrKIF,
                this.FuStrKIF, this.NFuStrKIF, this.FuStr, this.NFuStr,
                this.FuStrIMG, this.NFuStrIMG);
-  this.FunariMovable = this.FuMovable;
-  this.NariMovable = this.KinMovable;
+  this.InitMovable(this.FuMovable, this.KinMovable);
   this.id = this.FuID;
 }
 
@@ -1828,8 +1838,7 @@ function Kyosha(teban, x, y) {
                this.NKyoshaStrKIF, this.KyoshaStrKIF, this.NKyoshaStrKIF,
                this.KyoshaStr, this.NKyoshaStr, this.KyoshaStrIMG,
                this.NKyoshaStrIMG);
-  this.FunariMovable = this.KyoshaMovable;
-  this.NariMovable = this.KinMovable;
+  this.InitMovable(this.KyoshaMovable, this.KinMovable);
   this.id = this.KyoshaID;
 }
 
@@ -1888,8 +1897,7 @@ function Keima(teban, x, y) {
                this.NKeimaStrKIF, this.KeimaStrKIF, this.NKeimaStrKIF,
                this.KeimaStr, this.NKeimaStr, this.KeimaStrIMG,
                this.NKeimaStrIMG);
-  this.FunariMovable = this.KeimaMovable;
-  this.NariMovable = this.KinMovable;
+  this.InitMovable(this.KeimaMovable, this.KinMovable);
   this.id = this.KeimaID;
 }
 
@@ -1947,8 +1955,7 @@ function Gin(teban, x, y) {
   this.InitStr(this.GinStrLong, this.NGinStrLong, this.GinStrKIF,
                this.NGinStrKIF, this.GinStrKIF, this.NGinStrKIF, this.GinStr,
                this.NGinStr, this.GinStrIMG, this.NGinStrIMG);
-  this.FunariMovable = this.GinMovable;
-  this.NariMovable = this.KinMovable;
+  this.InitMovable(this.GinMovable, this.KinMovable);
   this.id = this.GinID;
 }
 
@@ -1969,8 +1976,7 @@ function Kin(teban, x, y) {
   this.InitStr(this.KinStrLong, this.KinStrLong, this.KinStrKIF, this.KinStrKIF,
                this.KinStrKIF, this.KinStrKIF, this.KinStr, this.KinStr,
                this.KinStrIMG, this.KinStrIMG);
-  this.FunariMovable = this.KinMovable;
-  this.NariMovable = this.KinMovable;
+  this.InitMovable(this.KinMovable, this.KinMovable);
   this.id = this.KinID;
 }
 
@@ -2014,8 +2020,7 @@ function Kaku(teban, x, y) {
   this.InitStr(this.KakuStrLong, this.NKakuStrLong, this.KakuStrKIF,
                this.NKakuStrKIF, this.KakuStrKIF, this.NKakuStrKIF, this.KakuStr,
                this.NKakuStr, this.KakuStrIMG, this.NKakuStrIMG);
-  this.FunariMovable = this.KakuMovable;
-  this.NariMovable = this.UmaMovable;
+  this.InitMovable(this.KakuMovable, this.UmaMovable);
   this.id = this.KakuID;
 }
 
@@ -2037,8 +2042,7 @@ function Hisha(teban, x, y) {
                this.NHishaStrKIF, this.HishaStrKIF, this.NHishaStrKIF,
                this.HishaStr, this.NHishaStr, this.HishaStrIMG,
                this.NHishaStrIMG);
-  this.FunariMovable = this.HishaMovable;
-  this.NariMovable = this.RyuMovable;
+  this.InitMovable(this.HishaMovable, this.RyuMovable);
   this.id = this.HishaID;
 }
 
@@ -2061,8 +2065,7 @@ function Gyoku(teban, x, y) {
                this.GyokuStrLong, this.GyokuStrKIF, this.GyokuStrKIF,
                this.GyokuStrKIF, this.GyokuStrKIF, this.GyokuStr, this.GyokuStr,
                this.GyokuStrIMG, this.GyokuStrIMG);
-  this.FunariMovable = this.GyokuMovable;
-  this.NariMovable = this.GyokuMovable;
+  this.InitMovable(this.GyokuMovable, this.GyokuMovable);
   this.id = this.GyokuID;
 }
 
