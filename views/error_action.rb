@@ -8,8 +8,8 @@ require './views/common_ui.rb'
 # ACTIONエラー画面
 #
 def error_action_screen(userinfo, params, action)
-  CommonUI::HTMLHead2()
-  CommonUI::HTMLmenu()
+  CommonUI::html_head2()
+  CommonUI::html_menu()
 
   print 'cgi.params:'
   params.each { |key, val| print key, '=', val, '&' }
@@ -20,5 +20,5 @@ def error_action_screen(userinfo, params, action)
 
   userinfo.dumptable
 
-  CommonUI::HTMLfoot()
+  CommonUI::html_foot()
 end

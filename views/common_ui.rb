@@ -12,7 +12,7 @@ module CommonUI
   # HTMLヘッダ出力
   #
   # @param header HTMLヘッダ
-  def self.HTMLHead(header)
+  def self.html_head(header)
     print header
     stg = Settings.instance
     title = stg.value['wintitle']
@@ -30,7 +30,7 @@ module CommonUI
   end
 
   # HTMLヘッダ出力(no cookie)
-  def self.HTMLHead2
+  def self.html_head2
     stg = Settings.instance
     title = stg.value['wintitle']
     print <<-HEADER2_TAG.unindent
@@ -55,18 +55,18 @@ module CommonUI
   # メニュー部分の出力
   #
   # @param userinfo ユーザ情報
-  def self.HTMLmenu(userinfo = nil)
+  def self.html_menu(userinfo = nil)
     index = File.basename($PROGRAM_NAME)
     stg = Settings.instance
     sup = stg.value['support_url']
     title = stg.value['title']
 
     bsignup = userinfo.nil? || userinfo.invalid?
-    return HTMLmenuSignUp(title, index, sup) if bsignup
+    return html_menu_signup(title, index, sup) if bsignup
 
-    return HTMLmenuAdmin(title, index, sup) if userinfo.admin
+    return html_menu_admin(title, index, sup) if userinfo.admin
 
-    HTMLmenuLogIn(title, index, sup)
+    html_menu_login(title, index, sup)
   end
 
   # メニュー部分の出力 ログイン前
@@ -74,7 +74,7 @@ module CommonUI
   # @param title ページタイトル
   # @param index CGI本体
   # @param sup   サポートページのURL
-  def self.HTMLmenuSignUp(title, index, sup)
+  def self.html_menu_signup(title, index, sup)
     print <<-MENU.unindent
       <div align='center' class='menubase'>
       <a class='menu' href='#{index}'> Top </a>
@@ -92,7 +92,7 @@ module CommonUI
   # @param title ページタイトル
   # @param index CGI本体
   # @param sup   サポートページのURL
-  def self.HTMLmenuLogIn(title, index, sup)
+  def self.html_menu_login(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
       <div class='menubase'>
       <a class='menu' href='#{index}'> Top </a>
@@ -112,7 +112,7 @@ module CommonUI
   # @param title ページタイトル
   # @param index CGI本体
   # @param sup   サポートページのURL
-  def self.HTMLmenuAdmin(title, index, sup)
+  def self.html_menu_admin(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
       <div class='menubase'>
       <a class='menu' href='#{index}'> Top </a>
@@ -129,7 +129,7 @@ module CommonUI
   end
 
   # Administrationメニュー
-  def self.HTMLAdminMenu
+  def self.html_adminmenu
     index = File.basename($PROGRAM_NAME)
     puts <<-ADMINMENU.unindent
       <div class='menubase'>
@@ -144,7 +144,7 @@ module CommonUI
   end
 
   # フッターの出力
-  def self.HTMLfoot
+  def self.html_foot
     print "<HR><div align=right>&copy;ぢるっち 2017 with Ruby v#{RUBY_VERSION}" \
           '</div></BODY></HTML>'
   end

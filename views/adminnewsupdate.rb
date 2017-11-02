@@ -59,9 +59,9 @@ class AdminNewsUpdateScreen
 
     write_param(params)
 
-    CommonUI::HTMLHead(@header)
-    CommonUI::HTMLmenu(userinfo)
-    CommonUI::HTMLAdminMenu()
+    CommonUI::html_head(@header)
+    CommonUI::html_menu(userinfo)
+    CommonUI::html_adminmenu()
 
     if @errmsg.length.zero?
       put_news
@@ -69,6 +69,6 @@ class AdminNewsUpdateScreen
       puts @errmsg
     end
 
-    CommonUI::HTMLfoot()
+    CommonUI::html_foot()
   end
 end

@@ -46,11 +46,11 @@ class NewsScreen
   #
   # @param userinfo ユーザ情報
   def show(userinfo)
-    CommonUI::HTMLHead(@header)
-    CommonUI::HTMLmenu(userinfo)
+    CommonUI::html_head(@header)
+    CommonUI::html_menu(userinfo)
 
     put_news
 
-    CommonUI::HTMLfoot()
+    CommonUI::html_foot()
   end
 end

@@ -150,8 +150,8 @@ class SearchResultScreen
   def show(userinfo, params)
     res = searchgames(params)
 
-    CommonUI::HTMLHead(@header)
-    CommonUI::HTMLmenu(userinfo)
+    CommonUI::html_head(@header)
+    CommonUI::html_menu(userinfo)
 
     if res.nil? || res.empty?
       print '<p>not found ...</p>'
@@ -168,6 +168,6 @@ class SearchResultScreen
       print '</TABLE>'
     end
 
-    CommonUI::HTMLfoot()
+    CommonUI::html_foot()
   end
 end

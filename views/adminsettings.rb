@@ -58,13 +58,13 @@ class AdminSettingsScreen
   #
   # @param userinfo ユーザ情報
   def show(userinfo)
-    CommonUI::HTMLHead(@header)
-    CommonUI::HTMLmenu(userinfo)
+    CommonUI::html_head(@header)
+    CommonUI::html_menu(userinfo)
 
-    CommonUI::HTMLAdminMenu()
+    CommonUI::html_adminmenu()
 
     show_settingsform
 
-    CommonUI::HTMLfoot()
+    CommonUI::html_foot()
   end
 end

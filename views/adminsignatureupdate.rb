@@ -73,9 +73,9 @@ class AdminSignatureUpdateScreen
 
     update_param(params)
 
-    CommonUI::HTMLHead(@header)
-    CommonUI::HTMLmenu(userinfo)
-    CommonUI::HTMLAdminMenu()
+    CommonUI::html_head(@header)
+    CommonUI::html_menu(userinfo)
+    CommonUI::html_adminmenu()
 
     if @errmsg.length.zero?
       put_signature
@@ -83,6 +83,6 @@ class AdminSignatureUpdateScreen
       puts @errmsg
     end
 
-    CommonUI::HTMLfoot()
+    CommonUI::html_foot()
   end
 end

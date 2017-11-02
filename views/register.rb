@@ -134,10 +134,7 @@ class RegisterScreen
     send_mail_register(email, uname, pswd)
   end
 
-  # 画面の表示
-  #
-  # @param params パラメータハッシュオブジェクト
-  def show(params)
+  def check_register(params)
     userdb = UserInfoFile.new
     userdb.read
 
@@ -158,10 +155,19 @@ class RegisterScreen
       msg = "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>"
     end
 
-    CommonUI::HTMLHead(@header)
-    CommonUI::HTMLmenu()
+    msg
+  end
+
+  # 画面の表示
+  #
+  # @param params パラメータハッシュオブジェクト
+  def show(params)
+    msg = check_register(params)
+
+    CommonUI::html_head(@header)
+    CommonUI::html_menu()
 
     print msg
-    CommonUI::HTMLfoot()
+    CommonUI::html_foot()
   end
 end

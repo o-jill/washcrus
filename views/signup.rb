@@ -53,13 +53,13 @@ class SignupScreen
 
   # 画面の表示
   def show
-    CommonUI::HTMLHead(@header)
-    CommonUI::HTMLmenu()
+    CommonUI::html_head(@header)
+    CommonUI::html_menu()
 
     puts "<script type='text/javascript' src='./js/signup.js' defer></script>"
 
     show_tableform
 
-    CommonUI::HTMLfoot()
+    CommonUI::html_foot()
   end
 end

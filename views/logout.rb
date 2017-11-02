@@ -17,11 +17,11 @@ class LogoutScreen
   def show(session)
     session.delete if session
 
-    CommonUI::HTMLHead2()
-    CommonUI::HTMLmenu()
+    CommonUI::html_head2()
+    CommonUI::html_menu()
 
     puts 'Logged out ...'
 
-    CommonUI::HTMLfoot()
+    CommonUI::html_foot()
   end
 end

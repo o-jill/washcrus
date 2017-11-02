@@ -83,10 +83,10 @@ class GenNewGame2Screen
   end
 
   def put_err_sreen(userinfo)
-    CommonUI::HTMLHead(@header)
-    CommonUI::HTMLmenu(userinfo)
+    CommonUI::html_head(@header)
+    CommonUI::html_menu(userinfo)
     puts @errmsg
-    CommonUI::HTMLfoot()
+    CommonUI::html_foot()
   end
 
   def send_mail
@@ -155,16 +155,16 @@ class GenNewGame2Screen
   def show(userinfo, params)
     return put_err_sreen(userinfo) unless generate(userinfo, params)
 
-    # @log.debug('CommonUI::HTMLHead(header)')
-    CommonUI::HTMLHead(@header)
-    CommonUI::HTMLmenu(userinfo)
-    CommonUI::HTMLAdminMenu()
+    # @log.debug('CommonUI::html_head(header)')
+    CommonUI::html_head(@header)
+    CommonUI::html_menu(userinfo)
+    CommonUI::html_adminmenu()
 
     @td.dumptable
 
     put_msg
 
-    CommonUI::HTMLfoot()
+    CommonUI::html_foot()
   rescue ScriptError => e
     err2log(e)
   rescue SecurityError => e
