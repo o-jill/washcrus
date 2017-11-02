@@ -33,10 +33,14 @@ class GameHtml
   def put(header)
     @log.debug('print header')
     print header
-    print <<-HTMLELEMENTS.unindent
+    print <<-HTMLELEMENTS_HEADER.unindent
       <html>#{headerelement}
       <body>
-      #{CommonUI::html_menu(@userinfo)}
+      HTMLELEMENTS_HEADER
+
+    CommonUI::html_menu(@userinfo)
+
+    print <<-HTMLELEMENTS_BODY.unindent
       <div class=gamearea>
        <div id='notify_area' class='notify'>
         <BR>指されました。ページを再読込してください。
@@ -52,7 +56,7 @@ class GameHtml
       <HR><div style='text-align:right;'>ぢるっち(c)2017</div>
       #{hiddenelement}
       </body></html>
-      HTMLELEMENTS
+      HTMLELEMENTS_BODY
   end
 
   # 将棋盤の部品
