@@ -47,7 +47,7 @@ div.kifu {
    display: flex;
 }
 textarea.kifu {
-   width:100%; height:calc(620px + 4em);
+   width:100%; height:calc(600px + 7em);
 }
 .block_elem_kifu {
    border: 1px solid red; vertical-align: top;
