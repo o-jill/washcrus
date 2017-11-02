@@ -48,8 +48,8 @@ class LoginScreen
   #
   # @param userinfo ユーザ情報
   def show(userinfo)
-    CommonUI::html_head(@header)
-    CommonUI::html_menu(userinfo)
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
 
     if userinfo.invalid?
       put_login_form
@@ -57,6 +57,6 @@ class LoginScreen
       put_login_form_err
     end
 
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end

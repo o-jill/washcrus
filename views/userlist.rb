@@ -14,12 +14,12 @@ def userlist_screen(header, userinfo)
   userdb = UserInfoFile.new
   userdb.read
 
-  CommonUI::html_head(header)
-  CommonUI::html_menu(userinfo)
+  CommonUI.html_head(header)
+  CommonUI.html_menu(userinfo)
 
-  CommonUI::html_adminmenu()
+  CommonUI.html_adminmenu
 
   userdb.dumphtml
 
-  CommonUI::html_foot()
+  CommonUI.html_foot
 end

@@ -135,10 +135,10 @@ class NewGameScreen
   #
   # @param userinfo ユーザ情報
   def show(userinfo)
-    CommonUI::html_head(@header)
-    CommonUI::html_menu(userinfo)
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
 
-    CommonUI::html_adminmenu()
+    CommonUI.html_adminmenu
 
     udb = UserInfoFile.new
     udb.read
@@ -149,6 +149,6 @@ class NewGameScreen
     puts "<script type='text/javascript' src='./js/newgame.js' defer></script>"
     show_newgameform
 
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end

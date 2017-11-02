@@ -57,11 +57,11 @@ class SearchformScreen
   #
   # @param userinfo ユーザー情報
   def show(userinfo)
-    CommonUI::html_head(@header)
-    CommonUI::html_menu(userinfo)
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
 
     put_search_form
 
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end

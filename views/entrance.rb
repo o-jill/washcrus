@@ -92,9 +92,9 @@ class EntranceScreen
   def show(userinfo)
     blogin = (!userinfo.user_id.nil? && userinfo.user_id != '')
 
-    CommonUI::html_head(@header)
+    CommonUI.html_head(@header)
 
-    CommonUI::html_menu(userinfo)
+    CommonUI.html_menu(userinfo)
 
     puts "<script type='text/javascript' defer src='js/entrance.js'></script>"
 
@@ -108,6 +108,6 @@ class EntranceScreen
 
     # puts "<pre>header:#{header}</pre>"
 
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end

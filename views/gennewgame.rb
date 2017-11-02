@@ -81,10 +81,10 @@ class GenNewGameScreen
   end
 
   def put_err_sreen(userinfo)
-    CommonUI::html_head(@header)
-    CommonUI::html_menu(userinfo)
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
     puts @errmsg
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 
   def send_mail
@@ -139,10 +139,10 @@ class GenNewGameScreen
   def show(userinfo, params)
     return put_err_sreen(userinfo) unless generate(userinfo, params)
 
-    # @log.debug('CommonUI::html_head(header)')
-    CommonUI::html_head(@header)
-    CommonUI::html_menu(userinfo)
-    CommonUI::html_adminmenu()
+    # @log.debug('CommonUI.html_head(header)')
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
+    CommonUI.html_adminmenu
 
     @td.dumptable
 
@@ -153,6 +153,6 @@ class GenNewGameScreen
       mails were sent to both players.
       GENMSG
 
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end

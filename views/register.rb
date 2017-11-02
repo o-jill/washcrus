@@ -134,7 +134,7 @@ class RegisterScreen
     send_mail_register(email, uname, pswd)
   end
 
-  def check_register(params)
+  def check_and_mkmsg(params)
     userdb = UserInfoFile.new
     userdb.read
 
@@ -162,12 +162,12 @@ class RegisterScreen
   #
   # @param params パラメータハッシュオブジェクト
   def show(params)
-    msg = check_register(params)
+    msg = check_and_mkmsg(params)
 
-    CommonUI::html_head(@header)
-    CommonUI::html_menu()
+    CommonUI.html_head(@header)
+    CommonUI.html_menu()
 
     print msg
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end

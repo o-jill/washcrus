@@ -38,7 +38,7 @@ class GameHtml
       <body>
       HTMLELEMENTS_HEADER
 
-    CommonUI::html_menu(@userinfo)
+    CommonUI.html_menu(@userinfo)
 
     print <<-HTMLELEMENTS_BODY.unindent
       <div class=gamearea>

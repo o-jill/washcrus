@@ -86,12 +86,12 @@ class AdminSaveSettingsScreen
 
     update_settings(params)
 
-    CommonUI::html_head(@header)
-    CommonUI::html_menu(userinfo)
-    CommonUI::html_adminmenu()
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
+    CommonUI.html_adminmenu
 
     put_settings
 
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end

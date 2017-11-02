@@ -20,10 +20,10 @@ class MyPageScreen
 
   # エラー画面の表示
   def put_err_sreen(errmsg)
-    CommonUI::html_head(@header)
-    CommonUI::html_menu()
+    CommonUI.html_head(@header)
+    CommonUI.html_menu
     puts errmsg
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 
   # 合計勝ち負けの計算
@@ -185,8 +185,8 @@ class MyPageScreen
     uid = userinfo.user_id
     wl = get_mystats(uid)
 
-    CommonUI::html_head(@header)
-    CommonUI::html_menu(userinfo)
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
 
     put_stats(wl)
     print '<HR>'
@@ -194,6 +194,6 @@ class MyPageScreen
     print '<HR>'
     put_taikyokurireki(uid)
 
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end

@@ -57,12 +57,12 @@ class AdminSignatureScreen
     return puts "Content-Type: text/plain;\n\nERR_NOT_ADMIN" \
         unless userinfo.admin
 
-    CommonUI::html_head(@header)
-    CommonUI::html_menu(userinfo)
-    CommonUI::html_adminmenu()
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
+    CommonUI.html_adminmenu
 
     put_edit_signature
 
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end

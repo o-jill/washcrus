@@ -103,8 +103,8 @@ class LoginCheckScreen
 
     header = header.gsub("\r\n", "\n")
 
-    CommonUI::html_head(header)
-    CommonUI::html_menu(@userinfo)
+    CommonUI.html_head(header)
+    CommonUI.html_menu(@userinfo)
 
     if @userinfo.nil?
       # エラー
@@ -120,6 +120,6 @@ class LoginCheckScreen
         LOGINMSG
     end
 
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end

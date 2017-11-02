@@ -23,10 +23,10 @@ class VersionsScreen
   # @param errmsg エラーメッセージ
   # @param userinfo ユーザ情報
   def put_err_sreen(errmsg, userinfo)
-    CommonUI::html_head(@header)
-    CommonUI::html_menu(userinfo)
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
     puts errmsg
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 
   # './REVISION'の内容の表示
@@ -81,15 +81,15 @@ class VersionsScreen
     return put_err_sreen("your log-in information is wrong ...\n", userinfo) \
       if userinfo.nil? || userinfo.invalid?
 
-    CommonUI::html_head(@header)
-    CommonUI::html_menu(userinfo)
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
 
-    CommonUI::html_adminmenu()
+    CommonUI.html_adminmenu
 
     put_githash
 
     put_geminfo
 
-    CommonUI::html_foot()
+    CommonUI.html_foot
   end
 end
