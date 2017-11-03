@@ -1582,9 +1582,7 @@ Koma.prototype.kifuShortCSA = function(x, y) {
   return str;
 };
 
-Koma.prototype.checkNariSente = function(fromy, toy) {
-  // 動けるかのチェック
-  var ugokeru = this.checkMovable(toy);
+Koma.prototype.checkNariFromPos = function(ugokeru, fromy, toy) {
   if (ugokeru) {
     // 動ければNARERU
     if (fromy < 3 || toy < 3) {
@@ -1599,21 +1597,18 @@ Koma.prototype.checkNariSente = function(fromy, toy) {
   return Koma.NARENAI;
 };
 
-Koma.prototype.checkNariGote = function(fromy, toy) {
+Koma.prototype.checkNariSente = function(fromy, toy) {
   // 動けるかのチェック
   var ugokeru = this.checkMovable(toy);
-  if (ugokeru) {
-    // 動ければNARERU
-    if (fromy >= 6 || toy >= 6) {
-      return Koma.NARERU;
-    }
-  } else {
-    // 動けなければNARU
-    if (fromy >= 6 || toy >= 6) {
-      return Koma.NARU;
-    }
-  }
-  return Koma.NARENAI;
+  return this.checkNariFromPos(ugokeru, fromy, toy)
+};
+
+Koma.prototype.checkNariGote = function(fromy, toy) {
+  // 動けるかのチェック
+  var _fromy = 9-1-fromy;
+  var _toy = 9-1-toy;
+  var ugokeru = this.checkMovable(_toy);
+  return this.checkNariFromPos(ugokeru, _fromy, _toy)
 };
 
 /**
@@ -1731,21 +1726,12 @@ Fu.prototype.getUchable = function() {
 /**
  * その他の駒がないとしてこれ以上動けるか
  *
- * @param {Number} oy 現在地
+ * @param {Number} oy 現在地。後手はひっくり返して(9-1-y)から入れること。
  *
  * @return {Boolean} true:まだ動ける, false:もう無理。
  */
 Fu.prototype.checkMovable = function(oy) {
-  if (this.teban === Koma.SENTEBAN) {
-    if (oy === 0) {
-      return false;
-    }
-  } else {
-    if (oy === 8) {
-      return false;
-    }
-  }
-  return true;
+  return (oy !== 0);
 };
 
 /**
@@ -1793,21 +1779,12 @@ function Kyosha(teban, x, y) {
 /**
  * その他の駒がないとしてこれ以上動けるか
  *
- * @param {Number} oy 現在地
+ * @param {Number} oy 現在地。後手はひっくり返して(9-1-y)から入れること。
  *
  * @return {Boolean} true:まだ動ける, false:もう無理。
  */
 Kyosha.prototype.checkMovable = function(oy) {
-  if (this.teban === Koma.SENTEBAN) {
-    if (oy === 0) {
-      return false;
-    }
-  } else {
-    if (oy === 8) {
-      return false;
-    }
-  }
-  return true;
+  return (oy !== 0);
 };
 
 /**
@@ -1852,21 +1829,12 @@ function Keima(teban, x, y) {
 /**
  * その他の駒がないとしてこれ以上動けるか
  *
- * @param {Number} oy 現在地
+ * @param {Number} oy 現在地。後手はひっくり返して(9-1-y)から入れること。
  *
  * @return {Boolean} true:まだ動ける, false:もう無理。
  */
 Keima.prototype.checkMovable = function(oy) {
-  if (this.teban === Koma.SENTEBAN) {
-    if (oy <= 1) {
-      return false;
-    }
-  } else {
-    if (oy >= 7) {
-      return false;
-    }
-  }
-  return true;
+  return (oy > 1);
 };
 
 /**
