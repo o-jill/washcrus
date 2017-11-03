@@ -29,14 +29,11 @@ class Move
     # @log.level = Logger::INFO
     # @log.debug('Move.new()')
     @cgi = cgi
-    @params = cgi.params
-    @gameid = cgi.query_string
+    read_cgiparam
     # @stg = stg
     @baseurl = stg.value['base_url']
     @turn = '?'
     @log.info("gameid:#{@gameid}")
-    @sfen = @params['sfen'][0] unless @params['sfen'].nil?
-    @move = @params['jsonmove'][0] unless @params['jsonmove'].nil?
     @log.info("sfen:#{@sfen}")
     @log.info("move:#{@move}")
     @jmv = JsonMove.fromtext(@move)
@@ -44,6 +41,14 @@ class Move
   end
 
   attr_reader :log
+
+  # paramsから値の読み出し
+  def read_cgiparam
+    @params = @cgi.params
+    @gameid = @cgi.query_string
+    @sfen = @params['sfen'][0] unless @params['sfen'].nil?
+    @move = @params['jsonmove'][0] unless @params['jsonmove'].nil?
+  end
 
   # sessionの取得と情報の読み取り
   def readuserparam
@@ -196,12 +201,12 @@ class Move
   # メールの送信
   #
   # @param finished [boolean] 終局したかどうか
-  # @param now      [Time]    着手日時
-  def send_mail(finished, nowstr)
+  # @param now      [Time]    着手日時オブジェクト
+  def send_mail(finished, now)
     @log.debug('Move.sendmail')
     @tkd.read
-
-    if finished == 1
+    nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
+    if finished
       send_mail_finished(nowstr)
     else
       send_mail_next(nowstr)
@@ -211,8 +216,9 @@ class Move
   # 対局中データベースの着手日時の更新
   #
   # @param tcdb   対局中データベース
-  # @param nowstr 現在の時刻の文字列
-  def update_taikyokuchu_dt(tcdb, nowstr)
+  # @param now 現在の時刻オブジェクト
+  def update_taikyokuchu_dt(tcdb, now)
+    nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
     @log.debug('tcdb.updatedatetime')
     tcdb.lock do
       tcdb.read
@@ -224,9 +230,10 @@ class Move
 
   # 対局データベースの着手日時の更新
   #
-  # @param nowstr 現在の時刻の文字列
-  def update_taikyoku_dt(nowstr)
+  # @param now 現在の時刻オブジェクト
+  def update_taikyoku_dt(now)
     @log.debug('tdb.updatedatetime')
+    nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
     tdb = TaikyokuFile.new
     tdb.lock do
       tdb.read
@@ -239,7 +246,7 @@ class Move
   # 対局終了処理
   #
   # @param tcdb   対局中データベース
-  # @param nowstr 現在の時刻オブジェクト
+  # @param now 現在の時刻オブジェクト
   def finish_game(tcdb, now)
     # 終了日時の更新とか勝敗の記録とか
     @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")
@@ -251,6 +258,42 @@ class Move
     tcdb.finished(@gameid)
   end
 
+  # 対局情報の読み出しなどといった準備
+  def prepare_taikyokudata
+    @tkd = TaikyokuData.new
+    @tkd.log = @log
+    @tkd.setid(@gameid)
+    @tkd.read
+  end
+
+  # 対局情報の登録更新
+  #
+  # @param finished [boolean] 終局したかどうか
+  # @param now      [Time]    着手日時オブジェクト
+  def register_move(finished, now)
+    @turn = @tkd.mi.teban
+
+    tcdb = TaikyokuChuFile.new
+    tcdb.read
+
+    finish_game(tcdb, now) if finished
+
+    # @log.debug('Move.setlastmove')
+    @tkd.setlastmove(@move, now)
+
+    # @log.debug('Move.mi.write')
+    # @log.debug('Move.jkf.write')
+    @tkd.write
+
+    update_taikyokuchu_dt(tcdb, now) unless finished
+
+    update_taikyoku_dt(now)
+
+    send_mail(finished, now)
+
+    put_moved
+  end
+
   #
   # 実行本体。
   #
@@ -259,42 +302,20 @@ class Move
     # moveが変だよ, 存在しないはずのIDだよ
     return if check_param.nil?
 
-    # @log.debug('Move.read data')
-    @tkd = TaikyokuData.new
-    @tkd.setid(@gameid)
-    @tkd.read
+    @log.debug('Move.read data')
+    prepare_taikyokudata
 
     now = Time.now
-    nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
 
     # 指し手を適用する
     @log.debug('Move.apply sfen, jmv')
-    @tkd.log = @log
     # @tkd.move(@jmv, now)
     ret = @tkd.move(@sfen, @jmv, now)
+    @log.debug("@tkd.move() = #{ret}")
+
     return put_invalid_move if ret.nil?
-    @turn = @tkd.mi.teban
 
-    tcdb = TaikyokuChuFile.new
-    tcdb.read
-    finish_game(tcdb, now) if ret == 1
-
-    # @log.debug('Move.setlastmove')
-    @tkd.mi.setlastmove_dt(@move[0, 7], now)
-
-    # @log.debug('Move.mi.write')
-    # @tkd.mi.write(@tkd.matchinfopath)
-    # @log.debug('Move.jkf.write')
-    # @tkd.jkf.write(@tkd.kifupath)
-    @tkd.write
-
-    update_taikyokuchu_dt(tcdb, nowstr) if ret != 1
-
-    update_taikyoku_dt(nowstr)
-
-    send_mail(ret, nowstr)
-
-    put_moved
+    register_move(ret == 1, now)
 
     @log.debug('Move.performed')
   end
