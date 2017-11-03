@@ -165,7 +165,7 @@ class RegisterScreen
     msg = check_and_mkmsg(params)
 
     CommonUI.html_head(@header)
-    CommonUI.html_menu()
+    CommonUI.html_menu
 
     print msg
     CommonUI.html_foot

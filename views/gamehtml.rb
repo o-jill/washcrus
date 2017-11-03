@@ -67,6 +67,15 @@ class GameHtml
     ERB.new(File.read('./ui/gamehtml_shogiban.erb')).result(binding)
   end
 
+  def kyokumen_link
+    sr = WebApiSfenReader.new
+    sr.setplayers(@mi.playerb, @mi.playerw)
+    sr.sfen = @mi.sfen
+    sr.setlastmovecsa(@mi.lastmove)
+
+    "<a href='#{sr.genuri}' target='_blank'>局面図画像</a>"
+  end
+
   # 将棋盤まわりの部品
   #
   # @return 部品の文字列
@@ -80,11 +89,7 @@ class GameHtml
 
     ret += ERB.new(File.read('./ui/gamehtml_123neye.erb')).result(binding)
 
-    sr = WebApiSfenReader.new
-    sr.setplayers(@mi.playerb, @mi.playerw)
-    sr.sfen = @mi.sfen
-    sr.setlastmovecsa(@mi.lastmove)
-    ret += "<a href='#{sr.genuri}' target='_blank'>局面図画像</a>"
+    ret += kyokumen_link
 
     ret
   end
@@ -114,7 +119,8 @@ class GameHtml
     @log.debug('kifuelement')
     "<button onclick='openurlin_blank(\"washcrus.rb?dlkifu/#{@gameid}\")'>" \
     'Download KIF</button><BR>' \
-    "<textarea id='kifulog' class='kifu' cols=40 readonly>#{@jkf.to_kif}</textarea>"
+    "<textarea id='kifulog' class='kifu' cols=40 readonly>" \
+    "#{@jkf.to_kif}</textarea>"
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kif.gsub("\n", '<BR>')}</div>"
   end
 
