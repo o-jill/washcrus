@@ -166,7 +166,8 @@ function Naraberu() {
         if (fn.length === 0) {
           el.innerHTML = '<BR>';
         } else {
-          var komaimg = '<img width="48px" height="48px" src="./image/'+ fn +'.png">';
+          var komaimg = '<img width="48px" height="48px" src="./image/'
+                        + fn + '.png">';
           if (i === last_mx && j === last_my) {
             // 最後に指したところに印をつける
             var text = '<div style="position:relative;">' + komaimg;
@@ -198,7 +199,8 @@ function Naraberu_rotate() {
         if (fn.length === 0) {
           el.innerHTML = '<BR>';
         } else {
-          var komaimg = '<img width="48px" height="48px" src="./image/'+ fn +'.png">';
+          var komaimg = '<img width="48px" height="48px" src="./image/'
+                        + fn + '.png">';
           if (8-i === last_mx && 8-j === last_my) {
             // 最後に指したところに印をつける
             var text = '<div style="position:relative;">' + komaimg;
@@ -880,7 +882,7 @@ function absclick(x, y) {
   var msg;
   var koma = ban[hx][hy].koma;
   var masu = ban[x][y];
-  var masui = ban[x][y].el;
+  var masui = masu.el;
   if (activemasu === masu) {
     // アクティブなマスをクリックしたので非アクティブにする。
     activecell(null, null, null);
