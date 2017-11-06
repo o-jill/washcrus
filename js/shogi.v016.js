@@ -1139,7 +1139,7 @@ Koma.prototype.getStraightKiki = function(list, ax, ay, ox, oy, bstop) {
     if (y < 0 || y > 8) {
       break;
     }
-    if (Math.abs(x - ox) <= 1 && Math.abs(x - ox) <= 1) {
+    if (Math.abs(x - ox) <= 1 && Math.abs(y - oy) <= 1) {
       list.rin8.push([x, y]);  // 隣接８マス
     } else {
       list.straight.push([x, y]);
@@ -1176,7 +1176,7 @@ Koma.prototype.getCloseKiki = function(list, ax, ay, ox, oy) {
   if (y < 0 || y > 8) return list;
 
   // masu = ban[x][y];
-  if (Math.abs(x - ox) <= 1 && Math.abs(x - ox) <= 1) {
+  if (Math.abs(x - ox) <= 1 && Math.abs(y - oy) <= 1) {
     list.rin8.push([x, y]);
   } else {
     // 桂馬はこっち
