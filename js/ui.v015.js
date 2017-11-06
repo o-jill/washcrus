@@ -1588,7 +1588,7 @@ function gensfen(nth /* = '1' */) {
   sfenarea.innerHTML = sfentext;
 }
 
-function activateteban()
+function turn_taikyoku_on()
 {
   // String('true') or String('false')
   var strfinished = document.getElementById('isfinished').value;
@@ -1603,6 +1603,11 @@ function activateteban()
     else if (teban === 'w' && activeteban === Koma.GOTEBAN) taikyokuchu = true;
     else taikyokuchu = false;
   }
+}
+
+function activateteban()
+{
+  turn_taikyoku_on();
 
   var strinfo = mykifu.NTeme + '手目です。<BR>';
   if (activeteban === Koma.SENTEBAN) {
