@@ -808,42 +808,40 @@ function absclick(x, y) {
   var koma = ban[hx][hy].koma;
   var masu = ban[x][y];
   var masui = masu.el;
-  if (activemasu === masu) {
+  if (activemasu === null) {
+    // アクティブなマスはないので
+    // 自分の駒をクリックしたならアクティブにする。
+    absclick_wo_active(koma, masu, masui);
+  } else if (activemasu === masu) {
     // アクティブなマスをクリックしたので非アクティブにする。
     activecell(null, null, null);
-  } else {
-    if (activemasu === null) {
-      // アクティブなマスはないので
-      // 自分の駒をクリックしたならアクティブにする。
-      absclick_wo_active(koma, masu, masui);
-    } else if (activekoma.teban === koma.teban) {
-      // 自分の駒をクリックしたので非アクティブにする。
-      absclick_on_mypiece(koma, masu, masui);
-    } else if (koma.teban === Koma.AKI) {
-      // 空きマスをクリックした
-      var ismovable = check_activemovablemasu(hx, hy);
-      if (ismovable === false) {
-        // 選択キャンセル
-        deactivate_activecell();
-      } else {
-        if (activemasu.x === -1) {
-          // uchi
-          msg = activekoma.movemsg(hx, hy);
-          myconfirm(msg, CFRM_UTSU, hx, hy);
-        } else {
-          msg = activekoma.movemsg(hx, hy);
-          myconfirm(msg, CFRM_MOVE, hx, hy);
-        }
-      }
+  } else if (activekoma.teban === koma.teban) {
+    // 自分の駒をクリックしたので非アクティブにする。
+    absclick_on_mypiece(koma, masu, masui);
+  } else if (koma.teban === Koma.AKI) {
+    // 空きマスをクリックした
+    var ismovable = check_activemovablemasu(hx, hy);
+    if (ismovable === false) {
+      // 選択キャンセル
+      deactivate_activecell();
     } else {
-      ismovable = check_activemovablemasu(hx, hy);
-      if (ismovable === false) {
-        // 選択キャンセル
-        deactivate_activecell();
+      if (activemasu.x === -1) {
+        // uchi
+        msg = activekoma.movemsg(hx, hy);
+        myconfirm(msg, CFRM_UTSU, hx, hy);
       } else {
         msg = activekoma.movemsg(hx, hy);
-        myconfirm(msg, CFRM_MVCAP, hx, hy);
+        myconfirm(msg, CFRM_MOVE, hx, hy);
       }
+    }
+  } else {
+    ismovable = check_activemovablemasu(hx, hy);
+    if (ismovable === false) {
+      // 選択キャンセル
+      deactivate_activecell();
+    } else {
+      msg = activekoma.movemsg(hx, hy);
+      myconfirm(msg, CFRM_MVCAP, hx, hy);
     }
   }
 }
@@ -1032,11 +1030,9 @@ function popupnari(x, y) {
   wait_narimenu = true;
 }
 
-/**
- * 駒を成る
- */
-function clicknari() {
-  move(activekoma, narimenu_tox, narimenu_toy, Koma.NARI);
+function move_byclick_narinarazu(nari)
+{
+  move(activekoma, narimenu_tox, narimenu_toy, nari);
   activecell(null, null);
 
   wait_narimenu = false;
@@ -1046,16 +1042,17 @@ function clicknari() {
 }
 
 /**
+ * 駒を成る
+ */
+function clicknari() {
+  move_byclick_narinarazu(Koma.NARI);
+}
+
+/**
  * 駒を成らない
  */
 function clicknarazu() {
-  move(activekoma, narimenu_tox, narimenu_toy, Koma.NARERU);
-  activecell(null, null);
-
-  wait_narimenu = false;
-  narimenu.style.visibility = 'hidden';
-  update_screen();
-  record_your_move();
+  move_byclick_narinarazu(Koma.NARAZU);
 }
 
 /**
