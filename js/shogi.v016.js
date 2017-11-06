@@ -1179,6 +1179,7 @@ Koma.prototype.getCloseKiki = function(list, ax, ay, ox, oy) {
   if (Math.abs(x - ox) <= 1 && Math.abs(x - ox) <= 1) {
     list.rin8.push([x, y]);
   } else {
+    // 桂馬はこっち
     list.straight.push([x, y]);
   }
 };

@@ -19,6 +19,8 @@ class MyPageScreen
   end
 
   # エラー画面の表示
+  #
+  # @param errmsg エラーメッセージ
   def put_err_sreen(errmsg)
     CommonUI.html_head(@header)
     CommonUI.html_menu
@@ -96,6 +98,8 @@ class MyPageScreen
   end
 
   # 対局履歴の表のヘッダの出力
+  #
+  # @param cap 表のタイトル
   def put_taikyokurireki_tblhead(cap)
     print <<-TAIKYOKURIREKI_TABLE.unindent
       <table align='center' border='3'><caption>#{cap}</caption>

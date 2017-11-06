@@ -44,6 +44,12 @@ class UserInfoFile
     raise AccessDenied.new('timeout')
   end
 
+  # decode enctypted mail address
+  #
+  # [dec]  decoder object.
+  # [data] data to be decoded.
+  #
+  # returns decoded mail address
   def decode_mail(dec, data)
     dec.pkcs5_keyivgen(KEY)
     em = ''
@@ -52,6 +58,11 @@ class UserInfoFile
     em
   end
 
+  # number of wins and loses.
+  #
+  # [elem] user data got by spliting a line
+  #
+  # returns {swin:, slose:, gwin:, glose:}
   def hash_stats(elem)
     {
       swin: elem[4].to_i, slose: elem[5].to_i,
@@ -59,6 +70,9 @@ class UserInfoFile
     }
   end
 
+  # read a user's data.
+  #
+  # [elem] user data got by spliting a line
   def read_elements(elements)
     dec = OpenSSL::Cipher.new('AES-256-CBC')
     dec.decrypt
@@ -76,6 +90,7 @@ class UserInfoFile
     @stats[id] = hash_stats(elements)
   end
 
+  # read data from a file
   def read
     File.open(@fname, 'r:utf-8') do |file|
       file.flock File::LOCK_EX
@@ -98,6 +113,11 @@ class UserInfoFile
     puts "#{e} in read"
   end
 
+  # encode mail address
+  #
+  # [id] ID whose mail address will be encoded.
+  #
+  # returns encoded mail address
   def encode_mail(id)
     enc = OpenSSL::Cipher.new('AES-256-CBC')
     enc.encrypt
@@ -108,17 +128,25 @@ class UserInfoFile
     crypted.unpack('H*')[0]
   end
 
+  # put header part of the file.
+  #
+  # [file] File object
   def put_header(file)
     file.puts '# user information ' + Time.now.to_s
     file.puts '# id, name, password, e-mail(encrypted), swn, sls, gwn, gls'
   end
 
+  # build a line which contains a user's information.
+  #
+  # [id]       a user's ID
+  # [mailaddr] a user's encoded mail address
   def build_line(id, mailaddr)
     "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
     "#{@stats[id][:swin]},#{@stats[id][:slose]}," \
     "#{@stats[id][:gwin]},#{@stats[id][:glose]}"
   end
 
+  # write data to a file.
   # note: use with lock(*)
   def write
     File.open(@fname, 'w') do |file|
@@ -207,38 +235,53 @@ class UserInfoFile
   end
 
   # duplication check
+  #
+  # [id] user's ID to be checked
   def exist_id(id)
     @names.key?(id)
   end
 
   # duplication check
+  #
+  # [name] user's name to be checked
   def exist_name(name)
     @names.value?(name)
   end
 
   # duplication check?
+  #
+  # [pw] user's PASSWORD to be checked
   def exist_password(pw)
     @passwords.value?(pw)
   end
 
   # duplication check
+  #
+  # [addr] user's mail address to be checked
   def exist_email(addr)
     @emails.value?(addr)
   end
 
   # duplication check
+  #
+  # [name] user's name to be checked
+  # [addr] user's mail address to be checked
   def exist_name_or_email(name, addr)
     @names.value?(name) || @emails.value?(addr)
   end
 
+  # plus 1 win or lose
   # @param sym [symbol] :swin, :slose, :gwin, :glose
   def win_lose(id, sym)
     @stats[id][sym] += 1
   end
 
+  # build table of IDs and names
+  #
+  # returns html table text
   def to_table_id_name
     str = <<-FNAME_AND_TABLE.unindent
-      <table border=1> <Caption>path:#{fname}</caption>
+      <table border=1> <caption>path:#{fname}</caption>
       <tr><th>ID</th><TH>Name</TH></TR>
       FNAME_AND_TABLE
     names.each do |id, name|
@@ -248,6 +291,14 @@ class UserInfoFile
     str
   end
 
+  # build select element of IDs and names.
+  #
+  # [sname]  name of select element.
+  # [sid]    id of select element.
+  # [sclass] class of select element.
+  # [custom] additional attributes of select element.
+  #
+  # returns html select text whose options are "john_doe(abcdefg)".
   def to_select_id_name(sname, sid, sclass, custom)
     str = "<select id='#{sid}' class='#{sclass}' name='#{sname}' #{custom}>\n"
     str += " <option value=''>name(id)</option>\n"
@@ -259,6 +310,7 @@ class UserInfoFile
     str
   end
 
+  # put content of this class in html table format.
   def dumphtml
     print <<-FNAME_AND_TABLE.unindent
       <table border=1> <Caption>path:#{fname}</caption>

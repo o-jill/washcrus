@@ -134,26 +134,30 @@ class RegisterScreen
     send_mail_register(email, uname, pswd)
   end
 
+  # パラメータのチェックと表示メッセージ作成
+  #
+  # @param params パラメータハッシュオブジェクト
+  #
+  # @return 表示用メッセージ
   def check_and_mkmsg(params)
     userdb = UserInfoFile.new
     userdb.read
 
     user = check_register(userdb, params)
 
-    if @errmsg.length.zero?
-      # 登録する
-      add(userdb, user[:username], user[:password1], user[:email1])
+    # エラー
+    "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>" \
+        unless @errmsg.length.zero?
 
-      msg = <<-REG_SUC_MSG.unindent
-        Registered successfully.<BR>username:#{user[:username]}<BR>
-        password:****<BR>email address:#{user[:email1]}<BR>
-        <BR>
-        Registration mail has been sent.<BR>
-        REG_SUC_MSG
-    else
-      # エラー
-      msg = "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>"
-    end
+    # 登録する
+    add(userdb, user[:username], user[:password1], user[:email1])
+
+    msg = <<-REG_SUC_MSG.unindent
+      Registered successfully.<BR>username:#{user[:username]}<BR>
+      password:****<BR>email address:#{user[:email1]}<BR>
+      <BR>
+      Registration mail has been sent.<BR>
+      REG_SUC_MSG
 
     msg
   end
