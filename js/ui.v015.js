@@ -251,87 +251,12 @@ function mousemove(e) {
 }
 
 function gethtmlelement_ban() {
-  ban[0][0].el = document.getElementById('b11');
-  ban[0][1].el = document.getElementById('b12');
-  ban[0][2].el = document.getElementById('b13');
-  ban[0][3].el = document.getElementById('b14');
-  ban[0][4].el = document.getElementById('b15');
-  ban[0][5].el = document.getElementById('b16');
-  ban[0][6].el = document.getElementById('b17');
-  ban[0][7].el = document.getElementById('b18');
-  ban[0][8].el = document.getElementById('b19');
-  ban[1][0].el = document.getElementById('b21');
-  ban[1][1].el = document.getElementById('b22');
-  ban[1][2].el = document.getElementById('b23');
-  ban[1][3].el = document.getElementById('b24');
-  ban[1][4].el = document.getElementById('b25');
-  ban[1][5].el = document.getElementById('b26');
-  ban[1][6].el = document.getElementById('b27');
-  ban[1][7].el = document.getElementById('b28');
-  ban[1][8].el = document.getElementById('b29');
-  ban[2][0].el = document.getElementById('b31');
-  ban[2][1].el = document.getElementById('b32');
-  ban[2][2].el = document.getElementById('b33');
-  ban[2][3].el = document.getElementById('b34');
-  ban[2][4].el = document.getElementById('b35');
-  ban[2][5].el = document.getElementById('b36');
-  ban[2][6].el = document.getElementById('b37');
-  ban[2][7].el = document.getElementById('b38');
-  ban[2][8].el = document.getElementById('b39');
-  ban[3][0].el = document.getElementById('b41');
-  ban[3][1].el = document.getElementById('b42');
-  ban[3][2].el = document.getElementById('b43');
-  ban[3][3].el = document.getElementById('b44');
-  ban[3][4].el = document.getElementById('b45');
-  ban[3][5].el = document.getElementById('b46');
-  ban[3][6].el = document.getElementById('b47');
-  ban[3][7].el = document.getElementById('b48');
-  ban[3][8].el = document.getElementById('b49');
-  ban[4][0].el = document.getElementById('b51');
-  ban[4][1].el = document.getElementById('b52');
-  ban[4][2].el = document.getElementById('b53');
-  ban[4][3].el = document.getElementById('b54');
-  ban[4][4].el = document.getElementById('b55');
-  ban[4][5].el = document.getElementById('b56');
-  ban[4][6].el = document.getElementById('b57');
-  ban[4][7].el = document.getElementById('b58');
-  ban[4][8].el = document.getElementById('b59');
-  ban[5][0].el = document.getElementById('b61');
-  ban[5][1].el = document.getElementById('b62');
-  ban[5][2].el = document.getElementById('b63');
-  ban[5][3].el = document.getElementById('b64');
-  ban[5][4].el = document.getElementById('b65');
-  ban[5][5].el = document.getElementById('b66');
-  ban[5][6].el = document.getElementById('b67');
-  ban[5][7].el = document.getElementById('b68');
-  ban[5][8].el = document.getElementById('b69');
-  ban[6][0].el = document.getElementById('b71');
-  ban[6][1].el = document.getElementById('b72');
-  ban[6][2].el = document.getElementById('b73');
-  ban[6][3].el = document.getElementById('b74');
-  ban[6][4].el = document.getElementById('b75');
-  ban[6][5].el = document.getElementById('b76');
-  ban[6][6].el = document.getElementById('b77');
-  ban[6][7].el = document.getElementById('b78');
-  ban[6][8].el = document.getElementById('b79');
-  ban[7][0].el = document.getElementById('b81');
-  ban[7][1].el = document.getElementById('b82');
-  ban[7][2].el = document.getElementById('b83');
-  ban[7][3].el = document.getElementById('b84');
-  ban[7][4].el = document.getElementById('b85');
-  ban[7][5].el = document.getElementById('b86');
-  ban[7][6].el = document.getElementById('b87');
-  ban[7][7].el = document.getElementById('b88');
-  ban[7][8].el = document.getElementById('b89');
-  ban[8][0].el = document.getElementById('b91');
-  ban[8][1].el = document.getElementById('b92');
-  ban[8][2].el = document.getElementById('b93');
-  ban[8][3].el = document.getElementById('b94');
-  ban[8][4].el = document.getElementById('b95');
-  ban[8][5].el = document.getElementById('b96');
-  ban[8][6].el = document.getElementById('b97');
-  ban[8][7].el = document.getElementById('b98');
-  ban[8][8].el = document.getElementById('b99');
+  for (var i = 0 ; i < 9 ; ++i) {
+    for (var j = 0 ; j < 9 ; ++j) {
+      var strid = 'b' + (i+1) + (j+1);
+      ban[i][j].el = document.getElementById(strid);
+    }
+  }
 
   ban[0][0].el.onclick = click11; ban[0][1].el.onclick = click12;
   ban[0][2].el.onclick = click13; ban[0][3].el.onclick = click14;
