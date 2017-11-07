@@ -1988,21 +1988,26 @@ Gyoku.prototype.checkNari = function(fromy, toy) {
 };
 
 function build_movecsa(koma, from_x, from_y, to_x, to_y, tottaid, nari) {
-  var str = '';
+  var str ;
+
   if (koma.teban === Koma.SENTEBAN) {
-    str += koma.SenteStrCSA;
+    str = koma.SenteStrCSA;
   } else {
-    str += koma.GoteStrCSA;
+    str = koma.GoteStrCSA;
   }
+
   str += from_x + 1;
   str += from_y + 1;
+
   str += to_x + 1;
   str += to_y + 1;
+
   if (nari === Koma.NARI || koma.nari !== Koma.NARI) {
     str += koma.strtypeCSA;
   } else {
     str += koma.strntypeCSA;
   }
+
   if (tottaid === koma.NoID) {
     str += '__';
   } else if (tottaid >= 1000) {
@@ -2010,9 +2015,11 @@ function build_movecsa(koma, from_x, from_y, to_x, to_y, tottaid, nari) {
   } else {
     str += tottakoma.strtypeCSA;
   }
+
   if (nari === Koma.NARI) {
     str += 'P';
   }
+
   return str;
 }
 

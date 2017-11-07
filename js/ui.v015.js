@@ -258,143 +258,83 @@ function gethtmlelement_ban() {
     }
   }
 
-  ban[0][0].el.onclick = click11; ban[0][1].el.onclick = click12;
-  ban[0][2].el.onclick = click13; ban[0][3].el.onclick = click14;
-  ban[0][4].el.onclick = click15; ban[0][5].el.onclick = click16;
-  ban[0][6].el.onclick = click17; ban[0][7].el.onclick = click18;
-  ban[0][8].el.onclick = click19;
-  ban[1][0].el.onclick = click21; ban[1][1].el.onclick = click22;
-  ban[1][2].el.onclick = click23; ban[1][3].el.onclick = click24;
-  ban[1][4].el.onclick = click25; ban[1][5].el.onclick = click26;
-  ban[1][6].el.onclick = click27; ban[1][7].el.onclick = click28;
-  ban[1][8].el.onclick = click29;
-  ban[2][0].el.onclick = click31; ban[2][1].el.onclick = click32;
-  ban[2][2].el.onclick = click33; ban[2][3].el.onclick = click34;
-  ban[2][4].el.onclick = click35; ban[2][5].el.onclick = click36;
-  ban[2][6].el.onclick = click37; ban[2][7].el.onclick = click38;
-  ban[2][8].el.onclick = click39;
-  ban[3][0].el.onclick = click41; ban[3][1].el.onclick = click42;
-  ban[3][2].el.onclick = click43; ban[3][3].el.onclick = click44;
-  ban[3][4].el.onclick = click45; ban[3][5].el.onclick = click46;
-  ban[3][6].el.onclick = click47; ban[3][7].el.onclick = click48;
-  ban[3][8].el.onclick = click49;
-  ban[4][0].el.onclick = click51; ban[4][1].el.onclick = click52;
-  ban[4][2].el.onclick = click53; ban[4][3].el.onclick = click54;
-  ban[4][4].el.onclick = click55; ban[4][5].el.onclick = click56;
-  ban[4][6].el.onclick = click57; ban[4][7].el.onclick = click58;
-  ban[4][8].el.onclick = click59;
-  ban[5][0].el.onclick = click61; ban[5][1].el.onclick = click62;
-  ban[5][2].el.onclick = click63; ban[5][3].el.onclick = click64;
-  ban[5][4].el.onclick = click65; ban[5][5].el.onclick = click66;
-  ban[5][6].el.onclick = click67; ban[5][7].el.onclick = click68;
-  ban[5][8].el.onclick = click69;
-  ban[6][0].el.onclick = click71; ban[6][1].el.onclick = click72;
-  ban[6][2].el.onclick = click73; ban[6][3].el.onclick = click74;
-  ban[6][4].el.onclick = click75; ban[6][5].el.onclick = click76;
-  ban[6][6].el.onclick = click77; ban[6][7].el.onclick = click78;
-  ban[6][8].el.onclick = click79;
-  ban[7][0].el.onclick = click81; ban[7][1].el.onclick = click82;
-  ban[7][2].el.onclick = click83; ban[7][3].el.onclick = click84;
-  ban[7][4].el.onclick = click85; ban[7][5].el.onclick = click86;
-  ban[7][6].el.onclick = click87; ban[7][7].el.onclick = click88;
-  ban[7][8].el.onclick = click89;
-  ban[8][0].el.onclick = click91; ban[8][1].el.onclick = click92;
-  ban[8][2].el.onclick = click93; ban[8][3].el.onclick = click94;
-  ban[8][4].el.onclick = click95; ban[8][5].el.onclick = click96;
-  ban[8][6].el.onclick = click97; ban[8][7].el.onclick = click98;
-  ban[8][8].el.onclick = click99;
+  var click_functions = [
+    [click11, click12, click13, click14, click15, click16,
+      click17, click18, click19],
+    [click21, click22, click23, click24, click25, click26,
+      click27, click28, click29],
+    [click31, click32, click33, click34, click35, click36,
+      click37, click38, click39],
+    [click41, click42, click43, click44, click45, click46,
+      click47, click48, click49],
+    [click51, click52, click53, click54, click55, click56,
+      click57, click58, click59],
+    [click61, click62, click63, click64, click65, click66,
+      click67, click68, click69],
+    [click71, click72, click73, click74, click75, click76,
+      click77, click78, click79],
+    [click81, click82, click83, click84, click85, click86,
+      click87, click88, click89],
+    [click91, click92, click93, click94, click95, click96,
+      click97, click98, click99]
+  ];
+  for (i = 0 ; i < 9 ; ++i) {
+    for (j = 0 ; j < 9 ; ++j) {
+      ban[i][j].el.onclick = click_functions[i][j];
+    }
+  }
 
-  ban[0][0].el.onmouseover = hoverin11; ban[0][1].el.onmouseover = hoverin12;
-  ban[0][2].el.onmouseover = hoverin13; ban[0][3].el.onmouseover = hoverin14;
-  ban[0][4].el.onmouseover = hoverin15; ban[0][5].el.onmouseover = hoverin16;
-  ban[0][6].el.onmouseover = hoverin17; ban[0][7].el.onmouseover = hoverin18;
-  ban[0][8].el.onmouseover = hoverin19;
-  ban[1][0].el.onmouseover = hoverin21; ban[1][1].el.onmouseover = hoverin22;
-  ban[1][2].el.onmouseover = hoverin23; ban[1][3].el.onmouseover = hoverin24;
-  ban[1][4].el.onmouseover = hoverin25; ban[1][5].el.onmouseover = hoverin26;
-  ban[1][6].el.onmouseover = hoverin27; ban[1][7].el.onmouseover = hoverin28;
-  ban[1][8].el.onmouseover = hoverin29;
-  ban[2][0].el.onmouseover = hoverin31; ban[2][1].el.onmouseover = hoverin32;
-  ban[2][2].el.onmouseover = hoverin33; ban[2][3].el.onmouseover = hoverin34;
-  ban[2][4].el.onmouseover = hoverin35; ban[2][5].el.onmouseover = hoverin36;
-  ban[2][6].el.onmouseover = hoverin37; ban[2][7].el.onmouseover = hoverin38;
-  ban[2][8].el.onmouseover = hoverin39;
-  ban[3][0].el.onmouseover = hoverin41; ban[3][1].el.onmouseover = hoverin42;
-  ban[3][2].el.onmouseover = hoverin43; ban[3][3].el.onmouseover = hoverin44;
-  ban[3][4].el.onmouseover = hoverin45; ban[3][5].el.onmouseover = hoverin46;
-  ban[3][6].el.onmouseover = hoverin47; ban[3][7].el.onmouseover = hoverin48;
-  ban[3][8].el.onmouseover = hoverin49;
-  ban[4][0].el.onmouseover = hoverin51; ban[4][1].el.onmouseover = hoverin52;
-  ban[4][2].el.onmouseover = hoverin53; ban[4][3].el.onmouseover = hoverin54;
-  ban[4][4].el.onmouseover = hoverin55; ban[4][5].el.onmouseover = hoverin56;
-  ban[4][6].el.onmouseover = hoverin57; ban[4][7].el.onmouseover = hoverin58;
-  ban[4][8].el.onmouseover = hoverin59;
-  ban[5][0].el.onmouseover = hoverin61; ban[5][1].el.onmouseover = hoverin62;
-  ban[5][2].el.onmouseover = hoverin63; ban[5][3].el.onmouseover = hoverin64;
-  ban[5][4].el.onmouseover = hoverin65; ban[5][5].el.onmouseover = hoverin66;
-  ban[5][6].el.onmouseover = hoverin67; ban[5][7].el.onmouseover = hoverin68;
-  ban[5][8].el.onmouseover = hoverin69;
-  ban[6][0].el.onmouseover = hoverin71; ban[6][1].el.onmouseover = hoverin72;
-  ban[6][2].el.onmouseover = hoverin73; ban[6][3].el.onmouseover = hoverin74;
-  ban[6][4].el.onmouseover = hoverin75; ban[6][5].el.onmouseover = hoverin76;
-  ban[6][6].el.onmouseover = hoverin77; ban[6][7].el.onmouseover = hoverin78;
-  ban[6][8].el.onmouseover = hoverin79;
-  ban[7][0].el.onmouseover = hoverin81; ban[7][1].el.onmouseover = hoverin82;
-  ban[7][2].el.onmouseover = hoverin83; ban[7][3].el.onmouseover = hoverin84;
-  ban[7][4].el.onmouseover = hoverin85; ban[7][5].el.onmouseover = hoverin86;
-  ban[7][6].el.onmouseover = hoverin87; ban[7][7].el.onmouseover = hoverin88;
-  ban[7][8].el.onmouseover = hoverin89;
-  ban[8][0].el.onmouseover = hoverin91; ban[8][1].el.onmouseover = hoverin92;
-  ban[8][2].el.onmouseover = hoverin93; ban[8][3].el.onmouseover = hoverin94;
-  ban[8][4].el.onmouseover = hoverin95; ban[8][5].el.onmouseover = hoverin96;
-  ban[8][6].el.onmouseover = hoverin97; ban[8][7].el.onmouseover = hoverin98;
-  ban[8][8].el.onmouseover = hoverin99;
+  var hoverin_functions = [
+    [hoverin11, hoverin12, hoverin13, hoverin14, hoverin15, hoverin16,
+      hoverin17, hoverin18, hoverin19],
+    [hoverin21, hoverin22, hoverin23, hoverin24, hoverin25, hoverin26,
+      hoverin27, hoverin28, hoverin29],
+    [hoverin31, hoverin32, hoverin33, hoverin34, hoverin35, hoverin36,
+      hoverin37, hoverin38, hoverin39],
+    [hoverin41, hoverin42, hoverin43, hoverin44, hoverin45, hoverin46,
+      hoverin47, hoverin48, hoverin49],
+    [hoverin51, hoverin52, hoverin53, hoverin54, hoverin55, hoverin56,
+      hoverin57, hoverin58, hoverin59],
+    [hoverin61, hoverin62, hoverin63, hoverin64, hoverin65, hoverin66,
+      hoverin67, hoverin68, hoverin69],
+    [hoverin71, hoverin72, hoverin73, hoverin74, hoverin75, hoverin76,
+      hoverin77, hoverin78, hoverin79],
+    [hoverin81, hoverin82, hoverin83, hoverin84, hoverin85, hoverin86,
+      hoverin87, hoverin88, hoverin89],
+    [hoverin91, hoverin92, hoverin93, hoverin94, hoverin95, hoverin96,
+      hoverin97, hoverin98, hoverin99]
+  ];
+  for (i = 0 ; i < 9 ; ++i) {
+    for (j = 0 ; j < 9 ; ++j) {
+      ban[i][j].el.onmouseover = hoverin_functions[i][j];
+    }
+  }
 
-  ban[0][0].el.onmouseout = hoverout11; ban[0][1].el.onmouseout = hoverout12;
-  ban[0][2].el.onmouseout = hoverout13; ban[0][3].el.onmouseout = hoverout14;
-  ban[0][4].el.onmouseout = hoverout15; ban[0][5].el.onmouseout = hoverout16;
-  ban[0][6].el.onmouseout = hoverout17; ban[0][7].el.onmouseout = hoverout18;
-  ban[0][8].el.onmouseout = hoverout19;
-  ban[1][0].el.onmouseout = hoverout21; ban[1][1].el.onmouseout = hoverout22;
-  ban[1][2].el.onmouseout = hoverout23; ban[1][3].el.onmouseout = hoverout24;
-  ban[1][4].el.onmouseout = hoverout25; ban[1][5].el.onmouseout = hoverout26;
-  ban[1][6].el.onmouseout = hoverout27; ban[1][7].el.onmouseout = hoverout28;
-  ban[1][8].el.onmouseout = hoverout29;
-  ban[2][0].el.onmouseout = hoverout31; ban[2][1].el.onmouseout = hoverout32;
-  ban[2][2].el.onmouseout = hoverout33; ban[2][3].el.onmouseout = hoverout34;
-  ban[2][4].el.onmouseout = hoverout35; ban[2][5].el.onmouseout = hoverout36;
-  ban[2][6].el.onmouseout = hoverout37; ban[2][7].el.onmouseout = hoverout38;
-  ban[2][8].el.onmouseout = hoverout39;
-  ban[3][0].el.onmouseout = hoverout41; ban[3][1].el.onmouseout = hoverout42;
-  ban[3][2].el.onmouseout = hoverout43; ban[3][3].el.onmouseout = hoverout44;
-  ban[3][4].el.onmouseout = hoverout45; ban[3][5].el.onmouseout = hoverout46;
-  ban[3][6].el.onmouseout = hoverout47; ban[3][7].el.onmouseout = hoverout48;
-  ban[3][8].el.onmouseout = hoverout49;
-  ban[4][0].el.onmouseout = hoverout51; ban[4][1].el.onmouseout = hoverout52;
-  ban[4][2].el.onmouseout = hoverout53; ban[4][3].el.onmouseout = hoverout54;
-  ban[4][4].el.onmouseout = hoverout55; ban[4][5].el.onmouseout = hoverout56;
-  ban[4][6].el.onmouseout = hoverout57; ban[4][7].el.onmouseout = hoverout58;
-  ban[4][8].el.onmouseout = hoverout59;
-  ban[5][0].el.onmouseout = hoverout61; ban[5][1].el.onmouseout = hoverout62;
-  ban[5][2].el.onmouseout = hoverout63; ban[5][3].el.onmouseout = hoverout64;
-  ban[5][4].el.onmouseout = hoverout65; ban[5][5].el.onmouseout = hoverout66;
-  ban[5][6].el.onmouseout = hoverout67; ban[5][7].el.onmouseout = hoverout68;
-  ban[5][8].el.onmouseout = hoverout69;
-  ban[6][0].el.onmouseout = hoverout71; ban[6][1].el.onmouseout = hoverout72;
-  ban[6][2].el.onmouseout = hoverout73; ban[6][3].el.onmouseout = hoverout74;
-  ban[6][4].el.onmouseout = hoverout75; ban[6][5].el.onmouseout = hoverout76;
-  ban[6][6].el.onmouseout = hoverout77; ban[6][7].el.onmouseout = hoverout78;
-  ban[6][8].el.onmouseout = hoverout79;
-  ban[7][0].el.onmouseout = hoverout81; ban[7][1].el.onmouseout = hoverout82;
-  ban[7][2].el.onmouseout = hoverout83; ban[7][3].el.onmouseout = hoverout84;
-  ban[7][4].el.onmouseout = hoverout85; ban[7][5].el.onmouseout = hoverout86;
-  ban[7][6].el.onmouseout = hoverout87; ban[7][7].el.onmouseout = hoverout88;
-  ban[7][8].el.onmouseout = hoverout89;
-  ban[8][0].el.onmouseout = hoverout91; ban[8][1].el.onmouseout = hoverout92;
-  ban[8][2].el.onmouseout = hoverout93; ban[8][3].el.onmouseout = hoverout94;
-  ban[8][4].el.onmouseout = hoverout95; ban[8][5].el.onmouseout = hoverout96;
-  ban[8][6].el.onmouseout = hoverout97; ban[8][7].el.onmouseout = hoverout98;
-  ban[8][8].el.onmouseout = hoverout99;
+  var hoverout_functions = [
+    [hoverout11, hoverout12, hoverout13, hoverout14, hoverout15, hoverout16,
+      hoverout17, hoverout18, hoverout19],
+    [hoverout21, hoverout22, hoverout23, hoverout24, hoverout25, hoverout26,
+      hoverout27, hoverout28, hoverout29],
+    [hoverout31, hoverout32, hoverout33, hoverout34, hoverout35, hoverout36,
+      hoverout37, hoverout38, hoverout39],
+    [hoverout41, hoverout42, hoverout43, hoverout44, hoverout45, hoverout46,
+      hoverout47, hoverout48, hoverout49],
+    [hoverout51, hoverout52, hoverout53, hoverout54, hoverout55, hoverout56,
+      hoverout57, hoverout58, hoverout59],
+    [hoverout61, hoverout62, hoverout63, hoverout64, hoverout65, hoverout66,
+      hoverout67, hoverout68, hoverout69],
+    [hoverout71, hoverout72, hoverout73, hoverout74, hoverout75, hoverout76,
+      hoverout77, hoverout78, hoverout79],
+    [hoverout81, hoverout82, hoverout83, hoverout84, hoverout85, hoverout86,
+      hoverout87, hoverout88, hoverout89],
+    [hoverout91, hoverout92, hoverout93, hoverout94, hoverout95, hoverout96,
+      hoverout97, hoverout98, hoverout99]
+  ];
+  for (i = 0 ; i < 9 ; ++i) {
+    for (j = 0 ; j < 9 ; ++j) {
+      ban[i][j].el.onmouseout = hoverout_functions[i][j];
+    }
+  }
 }
 
 function gethtmlelement_tegoma() {
