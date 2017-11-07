@@ -1987,6 +1987,34 @@ Gyoku.prototype.checkNari = function(fromy, toy) {
   return Koma.NARENAI;
 };
 
+function build_movecsa(koma, from_x, from_y, to_x, to_y, tottaid, nari) {
+  var str = '';
+  if (koma.teban === Koma.SENTEBAN) {
+    str += koma.SenteStrCSA;
+  } else {
+    str += koma.GoteStrCSA;
+  }
+  str += from_x + 1;
+  str += from_y + 1;
+  str += to_x + 1;
+  str += to_y + 1;
+  if (nari === Koma.NARI || koma.nari !== Koma.NARI) {
+    str += koma.strtypeCSA;
+  } else {
+    str += koma.strntypeCSA;
+  }
+  if (tottaid === koma.NoID) {
+    str += '__';
+  } else if (tottaid >= 1000) {
+    str += tottakoma.strntypeCSA;
+  } else {
+    str += tottakoma.strtypeCSA;
+  }
+  if (nari === Koma.NARI) {
+    str += 'P';
+  }
+  return str;
+}
 
 /**
  * コマの移動。
@@ -2023,31 +2051,7 @@ function move(koma, to_x, to_y, nari) {
     activeteban = Koma.SENTEBAN;
   }
 
-  movecsa = '';
-  if (koma.teban === Koma.SENTEBAN) {
-    movecsa += koma.SenteStrCSA;
-  } else {
-    movecsa += koma.GoteStrCSA;
-  }
-  movecsa += from_x + 1;
-  movecsa += from_y + 1;
-  movecsa += to_x + 1;
-  movecsa += to_y + 1;
-  if (nari === Koma.NARI || koma.nari !== Koma.NARI) {
-    movecsa += koma.strtypeCSA;
-  } else {
-    movecsa += koma.strntypeCSA;
-  }
-  if (tottaid === koma.NoID) {
-    movecsa += '__';
-  } else if (tottaid >= 1000) {
-    movecsa += tottakoma.strntypeCSA;
-  } else {
-    movecsa += tottakoma.strtypeCSA;
-  }
-  if (nari === Koma.NARI) {
-    movecsa += 'P';
-  }
+  movecsa = build_movecsa(koma, from_x, from_y, to_x, to_y, tottaid, nari);
 }
 
 /**
@@ -2231,31 +2235,8 @@ function move2(koma, to_x, to_y, nari) {
     activeteban = Koma.SENTEBAN;
   }
 
-  movecsa = '';
-  if (koma.teban === Koma.SENTEBAN) {
-    movecsa += koma.SenteStrCSA;
-  } else {
-    movecsa += koma.GoteStrCSA;
-  }
-  movecsa += from_x + 1;
-  movecsa += from_y + 1;
-  movecsa += to_x + 1;
-  movecsa += to_y + 1;
-  if (koma.nari === Koma.NARI) {
-    movecsa += koma.strntypeCSA;
-  } else {
-    movecsa += koma.strtypeCSA;
-  }
-  if (mykifu.totta_id === koma.NoID) {
-    movecsa += '__';
-  } else if (mykifu.totta_id >= 1000) {
-    movecsa += tottakoma.strntypeCSA;
-  } else {
-    movecsa += tottakoma.strtypeCSA;
-  }
-  if (nari === Koma.NARI) {
-    movecsa += 'P';
-  }
+  var tottaid = mykifu.totta_id;
+  movecsa = build_movecsa(koma, from_x, from_y, to_x, to_y, tottaid, nari);
 }
 
 /**

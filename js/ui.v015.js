@@ -1372,11 +1372,8 @@ var sfenkoma = function(dan, ndan) {
 };
 
 var sfentegoma = function(tegomastr) {
-  var tegoma = [new Array(7), new Array(7)];
-  for (var i = 0; i < 7; ++i) {
-    tegoma[0][i] = 0;
-    tegoma[1][i] = 0;
-  }
+  /* tegoma[0]:先手, tegoma[0]:後手 */
+  var tegoma = [[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]];
   var num = 1;
   var len = tegomastr.length;
   var komatbl = 'PLNSGBRplnsgbr';
