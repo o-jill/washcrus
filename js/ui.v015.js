@@ -226,18 +226,21 @@ function update_screen() {
   if (hifumin_eye) {
     update_banindex_rotate();
     Naraberu_rotate();
+
+    var sname = document.getElementById('sg_pname');
+    var gname = document.getElementById('gg_pname');
+    sname.innerText = mykifu.gotename;
+    gname.innerText = mykifu.sentename;
   } else {
     update_banindex();
     Naraberu();
+
+    var sname = document.getElementById('sg_pname');
+    var gname = document.getElementById('gg_pname');
+    sname.innerText = mykifu.sentename;
+    gname.innerText = mykifu.gotename;
   }
   // kifuArea.innerText = mykifu.kifuText;
-
-  // switch names
-  var sname = document.getElementById('sg_pname');
-  var gname = document.getElementById('gg_pname');
-  var tmp = sname.innerText;
-  sname.innerText = gname.innerText;
-  gname.innerText = tmp;
 }
 
 /**
@@ -1667,6 +1670,11 @@ function read_lastmove()
 function init_board() {
   gethtmlelement();
   mykifu.reset();
+
+  var sname = document.getElementById('sg_pname');
+  var gname = document.getElementById('gg_pname');
+  mykifu.gotename = gname.innerText;
+  mykifu.sentename = sname.innerText;
 
   var sfentext = document.getElementById('sfen_').innerHTML;
   fromsfen(sfentext);
