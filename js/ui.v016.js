@@ -1024,29 +1024,29 @@ function check_hifumin_eye() {
   update_screen();
 }
 
+var sfenkomabako = null;
+
 function sfenkoma_piece(ch, result, teban, nsuji, ndan, nari) {
-  var koma;
-  if (ch === 'P') {
-    koma = new Fu(teban, nsuji, ndan);
-  } else if (ch === 'L') {
-    koma = new Kyosha(teban, nsuji, ndan);
-  } else if (ch === 'N') {
-    koma = new Keima(teban, nsuji, ndan);
-  } else if (ch === 'S') {
-    koma = new Gin(teban, nsuji, ndan);
-  } else if (ch === 'G') {
-    koma = new Kin(teban, nsuji, ndan);
-  } else if (ch === 'B') {
-    koma = new Kaku(teban, nsuji, ndan);
-  } else if (ch === 'R') {
-    koma = new Hisha(teban, nsuji, ndan);
-  } else if (ch === 'K') {
-    koma = new Gyoku(teban, nsuji, ndan);
+  sfenkomabako = sfenkomabako || [new Fu(teban, 0, 0), new Kyosha(teban, 0, 0),
+    new Keima(teban, 0, 0), new Gin(teban, 0, 0), new Kin(teban, 0, 0),
+    new Kaku(teban, 0, 0), new Hisha(teban, 0, 0), new Gyoku(teban, 0, 0)];
+
+  var komatbl = 'PLNSGBRK';
+
+  var nid = komatbl.indexOf(ch);
+  if (nid >= 0) {
+    var koma = sfenkomabako[nid].clone();
+
+    koma.teban = teban;
+    koma.x = nsuji;
+    koma.y = ndan;
+
+    if (nari !== 0) {
+      koma.nari = Koma.NARI;
+    }
+
+    result.push(koma);
   }
-  if (nari !== 0) {
-    koma.nari = Koma.NARI;
-  }
-  result.push(koma);
 
   return result;
 }
@@ -1111,33 +1111,19 @@ var sfentegoma = function(tegomastr) {
  * @param {[type]} teban   先手か後手か
  */
 function sfentegoma_add(ntegoma, tegoma, teban) {
-  var num = ntegoma[0];
-  for (var k = 0; k < num; ++k) {
-    komadai_add(tegoma, new Fu(teban, -1, -1));
-  }
-  num = ntegoma[1];
-  for (k = 0; k < num; ++k) {
-    komadai_add(tegoma, new Kyosha(teban, -1, -1));
-  }
-  num = ntegoma[2];
-  for (k = 0; k < num; ++k) {
-    komadai_add(tegoma, new Keima(teban, -1, -1));
-  }
-  num = ntegoma[3];
-  for (k = 0; k < num; ++k) {
-    komadai_add(tegoma, new Gin(teban, -1, -1));
-  }
-  num = ntegoma[4];
-  for (k = 0; k < num; ++k) {
-    komadai_add(tegoma, new Kin(teban, -1, -1));
-  }
-  num = ntegoma[5];
-  for (k = 0; k < num; ++k) {
-    komadai_add(tegoma, new Kaku(teban, -1, -1));
-  }
-  num = ntegoma[6];
-  for (k = 0; k < num; ++k) {
-    komadai_add(tegoma, new Hisha(teban, -1, -1));
+  sfenkomabako = sfenkomabako || [new Fu(teban, 0, 0), new Kyosha(teban, 0, 0),
+    new Keima(teban, 0, 0), new Gin(teban, 0, 0), new Kin(teban, 0, 0),
+    new Kaku(teban, 0, 0), new Hisha(teban, 0, 0), new Gyoku(teban, 0, 0)];
+
+  for (var idx = 0 ; idx < 7 ; ++idx) {
+    var num = ntegoma[idx];
+    for (var k = 0; k < num; ++k) {
+      var koma = sfenkomabako[idx].clone();
+      koma.teban = teban;
+      koma.x = -1;
+      koma.y = -1;
+      komadai_add(tegoma, koma);
+    }
   }
 }
 
