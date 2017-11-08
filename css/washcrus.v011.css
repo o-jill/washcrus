@@ -56,7 +56,8 @@ textarea.kifu {
 }
 
 /* Mobile */
-@media screen and (max-width: 600px) {
+/*@media screen and (max-width: 600px) {*/
+@media screen and (orientation: portrait) {
   .block {
     -webkit-flex-direction: column;
     flex-direction: column;
