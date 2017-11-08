@@ -195,20 +195,18 @@ function Naraberu_rotate() {
  * 画面の更新
  */
 function update_screen() {
+  var sname = document.getElementById('sg_pname');
+  var gname = document.getElementById('gg_pname');
   if (hifumin_eye) {
     update_banindex_rotate();
     Naraberu_rotate();
 
-    var sname = document.getElementById('sg_pname');
-    var gname = document.getElementById('gg_pname');
     sname.innerText = mykifu.gotename;
     gname.innerText = mykifu.sentename;
   } else {
     update_banindex();
     Naraberu();
 
-    var sname = document.getElementById('sg_pname');
-    var gname = document.getElementById('gg_pname');
     sname.innerText = mykifu.sentename;
     gname.innerText = mykifu.gotename;
   }
@@ -230,23 +228,8 @@ function gethtmlelement_ban() {
     for (var j = 0 ; j < 9 ; ++j) {
       var strid = 'b' + (i+1) + (j+1);
       ban[i][j].el = document.getElementById(strid);
-    }
-  }
-
-  for (i = 0 ; i < 9 ; ++i) {
-    for (j = 0 ; j < 9 ; ++j) {
       ban[i][j].el.onclick = absclick;
-    }
-  }
-
-  for (i = 0 ; i < 9 ; ++i) {
-    for (j = 0 ; j < 9 ; ++j) {
       ban[i][j].el.onmouseover = abshoverin;
-    }
-  }
-
-  for (i = 0 ; i < 9 ; ++i) {
-    for (j = 0 ; j < 9 ; ++j) {
       ban[i][j].el.onmouseout = abshoverout;
     }
   }
