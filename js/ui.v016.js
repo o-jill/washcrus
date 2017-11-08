@@ -566,9 +566,21 @@ function absclick(event) {
     hy = 8 - hy;
     // } else {
   }
-  var msg;
   var koma = ban[hx][hy].koma;
   var masu = ban[x][y];
+
+  absclick_ban(hx, hy, koma, masu);
+}
+
+/**
+ * 盤をクリックした時に呼ばれる。
+ *
+ * @param  {Number} hx   1~９筋(0~8)
+ * @param  {Number} hy   一~九段(0~8)
+ * @param  {Object} koma Komaオブジェクト
+ * @param  {Object} masu Masuオブジェクト
+ */
+function absclick_ban(hx, hy, koma, masu) {
   var masui = masu.el;
   if (activemasu === null) {
     // アクティブなマスはないので
