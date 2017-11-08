@@ -261,81 +261,21 @@ function gethtmlelement_ban() {
     }
   }
 
-  var click_functions = [
-    [click11, click12, click13, click14, click15, click16,
-      click17, click18, click19],
-    [click21, click22, click23, click24, click25, click26,
-      click27, click28, click29],
-    [click31, click32, click33, click34, click35, click36,
-      click37, click38, click39],
-    [click41, click42, click43, click44, click45, click46,
-      click47, click48, click49],
-    [click51, click52, click53, click54, click55, click56,
-      click57, click58, click59],
-    [click61, click62, click63, click64, click65, click66,
-      click67, click68, click69],
-    [click71, click72, click73, click74, click75, click76,
-      click77, click78, click79],
-    [click81, click82, click83, click84, click85, click86,
-      click87, click88, click89],
-    [click91, click92, click93, click94, click95, click96,
-      click97, click98, click99]
-  ];
   for (i = 0 ; i < 9 ; ++i) {
     for (j = 0 ; j < 9 ; ++j) {
-      ban[i][j].el.onclick = click_functions[i][j];
+      ban[i][j].el.onclick = absclick;
     }
   }
 
-  var hoverin_functions = [
-    [hoverin11, hoverin12, hoverin13, hoverin14, hoverin15, hoverin16,
-      hoverin17, hoverin18, hoverin19],
-    [hoverin21, hoverin22, hoverin23, hoverin24, hoverin25, hoverin26,
-      hoverin27, hoverin28, hoverin29],
-    [hoverin31, hoverin32, hoverin33, hoverin34, hoverin35, hoverin36,
-      hoverin37, hoverin38, hoverin39],
-    [hoverin41, hoverin42, hoverin43, hoverin44, hoverin45, hoverin46,
-      hoverin47, hoverin48, hoverin49],
-    [hoverin51, hoverin52, hoverin53, hoverin54, hoverin55, hoverin56,
-      hoverin57, hoverin58, hoverin59],
-    [hoverin61, hoverin62, hoverin63, hoverin64, hoverin65, hoverin66,
-      hoverin67, hoverin68, hoverin69],
-    [hoverin71, hoverin72, hoverin73, hoverin74, hoverin75, hoverin76,
-      hoverin77, hoverin78, hoverin79],
-    [hoverin81, hoverin82, hoverin83, hoverin84, hoverin85, hoverin86,
-      hoverin87, hoverin88, hoverin89],
-    [hoverin91, hoverin92, hoverin93, hoverin94, hoverin95, hoverin96,
-      hoverin97, hoverin98, hoverin99]
-  ];
   for (i = 0 ; i < 9 ; ++i) {
     for (j = 0 ; j < 9 ; ++j) {
-      ban[i][j].el.onmouseover = hoverin_functions[i][j];
+      ban[i][j].el.onmouseover = abshoverin;
     }
   }
 
-  var hoverout_functions = [
-    [hoverout11, hoverout12, hoverout13, hoverout14, hoverout15, hoverout16,
-      hoverout17, hoverout18, hoverout19],
-    [hoverout21, hoverout22, hoverout23, hoverout24, hoverout25, hoverout26,
-      hoverout27, hoverout28, hoverout29],
-    [hoverout31, hoverout32, hoverout33, hoverout34, hoverout35, hoverout36,
-      hoverout37, hoverout38, hoverout39],
-    [hoverout41, hoverout42, hoverout43, hoverout44, hoverout45, hoverout46,
-      hoverout47, hoverout48, hoverout49],
-    [hoverout51, hoverout52, hoverout53, hoverout54, hoverout55, hoverout56,
-      hoverout57, hoverout58, hoverout59],
-    [hoverout61, hoverout62, hoverout63, hoverout64, hoverout65, hoverout66,
-      hoverout67, hoverout68, hoverout69],
-    [hoverout71, hoverout72, hoverout73, hoverout74, hoverout75, hoverout76,
-      hoverout77, hoverout78, hoverout79],
-    [hoverout81, hoverout82, hoverout83, hoverout84, hoverout85, hoverout86,
-      hoverout87, hoverout88, hoverout89],
-    [hoverout91, hoverout92, hoverout93, hoverout94, hoverout95, hoverout96,
-      hoverout97, hoverout98, hoverout99]
-  ];
   for (i = 0 ; i < 9 ; ++i) {
     for (j = 0 ; j < 9 ; ++j) {
-      ban[i][j].el.onmouseout = hoverout_functions[i][j];
+      ban[i][j].el.onmouseout = abshoverout;
     }
   }
 }
@@ -458,153 +398,32 @@ function hovercell(masui)
 /**
  * マスからカーソルが出た時に呼ばれる
  *
- * @param {Number} x マス目の座標
- * @param {Number} y マス目の座標
+ * @param {Event} event マウスイベント
  */
-function abshoverout(x, y) {
+function abshoverout(event) {
+  /* var clickid = event.currentTarget.id;
+  var x = +clickid.substring(1, 2)-1;
+  var y = +clickid.substring(2, 3)-1; */
+
   // var masu = ban[x][y];
   hovercell(null);
   activatemovable(true);
 }
 
-function hoverout11() {abshoverout(0, 0);}
-function hoverout12() {abshoverout(0, 1);}
-function hoverout13() {abshoverout(0, 2);}
-function hoverout14() {abshoverout(0, 3);}
-function hoverout15() {abshoverout(0, 4);}
-function hoverout16() {abshoverout(0, 5);}
-function hoverout17() {abshoverout(0, 6);}
-function hoverout18() {abshoverout(0, 7);}
-function hoverout19() {abshoverout(0, 8);}
-function hoverout21() {abshoverout(1, 0);}
-function hoverout22() {abshoverout(1, 1);}
-function hoverout23() {abshoverout(1, 2);}
-function hoverout24() {abshoverout(1, 3);}
-function hoverout25() {abshoverout(1, 4);}
-function hoverout26() {abshoverout(1, 5);}
-function hoverout27() {abshoverout(1, 6);}
-function hoverout28() {abshoverout(1, 7);}
-function hoverout29() {abshoverout(1, 8);}
-function hoverout31() {abshoverout(2, 0);}
-function hoverout32() {abshoverout(2, 1);}
-function hoverout33() {abshoverout(2, 2);}
-function hoverout34() {abshoverout(2, 3);}
-function hoverout35() {abshoverout(2, 4);}
-function hoverout36() {abshoverout(2, 5);}
-function hoverout37() {abshoverout(2, 6);}
-function hoverout38() {abshoverout(2, 7);}
-function hoverout39() {abshoverout(2, 8);}
-function hoverout41() {abshoverout(3, 0);}
-function hoverout42() {abshoverout(3, 1);}
-function hoverout43() {abshoverout(3, 2);}
-function hoverout44() {abshoverout(3, 3);}
-function hoverout45() {abshoverout(3, 4);}
-function hoverout46() {abshoverout(3, 5);}
-function hoverout47() {abshoverout(3, 6);}
-function hoverout48() {abshoverout(3, 7);}
-function hoverout49() {abshoverout(3, 8);}
-function hoverout51() {abshoverout(4, 0);}
-function hoverout52() {abshoverout(4, 1);}
-function hoverout53() {abshoverout(4, 2);}
-function hoverout54() {abshoverout(4, 3);}
-function hoverout55() {abshoverout(4, 4);}
-function hoverout56() {abshoverout(4, 5);}
-function hoverout57() {abshoverout(4, 6);}
-function hoverout58() {abshoverout(4, 7);}
-function hoverout59() {abshoverout(4, 8);}
-function hoverout61() {abshoverout(5, 0);}
-function hoverout62() {abshoverout(5, 1);}
-function hoverout63() {abshoverout(5, 2);}
-function hoverout64() {abshoverout(5, 3);}
-function hoverout65() {abshoverout(5, 4);}
-function hoverout66() {abshoverout(5, 5);}
-function hoverout67() {abshoverout(5, 6);}
-function hoverout68() {abshoverout(5, 7);}
-function hoverout69() {abshoverout(5, 8);}
-function hoverout71() {abshoverout(6, 0);}
-function hoverout72() {abshoverout(6, 1);}
-function hoverout73() {abshoverout(6, 2);}
-function hoverout74() {abshoverout(6, 3);}
-function hoverout75() {abshoverout(6, 4);}
-function hoverout76() {abshoverout(6, 5);}
-function hoverout77() {abshoverout(6, 6);}
-function hoverout78() {abshoverout(6, 7);}
-function hoverout79() {abshoverout(6, 8);}
-function hoverout81() {abshoverout(7, 0);}
-function hoverout82() {abshoverout(7, 1);}
-function hoverout83() {abshoverout(7, 2);}
-function hoverout84() {abshoverout(7, 3);}
-function hoverout85() {abshoverout(7, 4);}
-function hoverout86() {abshoverout(7, 5);}
-function hoverout87() {abshoverout(7, 6);}
-function hoverout88() {abshoverout(7, 7);}
-function hoverout89() {abshoverout(7, 8);}
-function hoverout91() {abshoverout(8, 0);}
-function hoverout92() {abshoverout(8, 1);}
-function hoverout93() {abshoverout(8, 2);}
-function hoverout94() {abshoverout(8, 3);}
-function hoverout95() {abshoverout(8, 4);}
-function hoverout96() {abshoverout(8, 5);}
-function hoverout97() {abshoverout(8, 6);}
-function hoverout98() {abshoverout(8, 7);}
-function hoverout99() {abshoverout(8, 8);}
-
 /**
  * マスにカーソルが入った時に呼ばれる
  *
- * @param {Number} x マス目の座標
- * @param {Number} y マス目の座標
+ * @param {Event} event マウスイベント
  */
-function abshoverin(x, y) {
+function abshoverin(event) {
+  var clickid = event.currentTarget.id;
+  var x = +clickid.substring(1, 2)-1;
+  var y = +clickid.substring(2, 3)-1;
+
   var masui = ban[x][y].el;
+
   hovercell(masui);
 }
-
-function hoverin11() {abshoverin(0, 0);} function hoverin12() {abshoverin(0, 1);}
-function hoverin13() {abshoverin(0, 2);} function hoverin14() {abshoverin(0, 3);}
-function hoverin15() {abshoverin(0, 4);} function hoverin16() {abshoverin(0, 5);}
-function hoverin17() {abshoverin(0, 6);} function hoverin18() {abshoverin(0, 7);}
-function hoverin19() {abshoverin(0, 8);}
-function hoverin21() {abshoverin(1, 0);} function hoverin22() {abshoverin(1, 1);}
-function hoverin23() {abshoverin(1, 2);} function hoverin24() {abshoverin(1, 3);}
-function hoverin25() {abshoverin(1, 4);} function hoverin26() {abshoverin(1, 5);}
-function hoverin27() {abshoverin(1, 6);} function hoverin28() {abshoverin(1, 7);}
-function hoverin29() {abshoverin(1, 8);}
-function hoverin31() {abshoverin(2, 0);} function hoverin32() {abshoverin(2, 1);}
-function hoverin33() {abshoverin(2, 2);} function hoverin34() {abshoverin(2, 3);}
-function hoverin35() {abshoverin(2, 4);} function hoverin36() {abshoverin(2, 5);}
-function hoverin37() {abshoverin(2, 6);} function hoverin38() {abshoverin(2, 7);}
-function hoverin39() {abshoverin(2, 8);}
-function hoverin41() {abshoverin(3, 0);} function hoverin42() {abshoverin(3, 1);}
-function hoverin43() {abshoverin(3, 2);} function hoverin44() {abshoverin(3, 3);}
-function hoverin45() {abshoverin(3, 4);} function hoverin46() {abshoverin(3, 5);}
-function hoverin47() {abshoverin(3, 6);} function hoverin48() {abshoverin(3, 7);}
-function hoverin49() {abshoverin(3, 8);}
-function hoverin51() {abshoverin(4, 0);} function hoverin52() {abshoverin(4, 1);}
-function hoverin53() {abshoverin(4, 2);} function hoverin54() {abshoverin(4, 3);}
-function hoverin55() {abshoverin(4, 4);} function hoverin56() {abshoverin(4, 5);}
-function hoverin57() {abshoverin(4, 6);} function hoverin58() {abshoverin(4, 7);}
-function hoverin59() {abshoverin(4, 8);}
-function hoverin61() {abshoverin(5, 0);} function hoverin62() {abshoverin(5, 1);}
-function hoverin63() {abshoverin(5, 2);} function hoverin64() {abshoverin(5, 3);}
-function hoverin65() {abshoverin(5, 4);} function hoverin66() {abshoverin(5, 5);}
-function hoverin67() {abshoverin(5, 6);} function hoverin68() {abshoverin(5, 7);}
-function hoverin69() {abshoverin(5, 8);}
-function hoverin71() {abshoverin(6, 0);} function hoverin72() {abshoverin(6, 1);}
-function hoverin73() {abshoverin(6, 2);} function hoverin74() {abshoverin(6, 3);}
-function hoverin75() {abshoverin(6, 4);} function hoverin76() {abshoverin(6, 5);}
-function hoverin77() {abshoverin(6, 6);} function hoverin78() {abshoverin(6, 7);}
-function hoverin79() {abshoverin(6, 8);}
-function hoverin81() {abshoverin(7, 0);} function hoverin82() {abshoverin(7, 1);}
-function hoverin83() {abshoverin(7, 2);} function hoverin84() {abshoverin(7, 3);}
-function hoverin85() {abshoverin(7, 4);} function hoverin86() {abshoverin(7, 5);}
-function hoverin87() {abshoverin(7, 6);} function hoverin88() {abshoverin(7, 7);}
-function hoverin89() {abshoverin(7, 8);}
-function hoverin91() {abshoverin(8, 0);} function hoverin92() {abshoverin(8, 1);}
-function hoverin93() {abshoverin(8, 2);} function hoverin94() {abshoverin(8, 3);}
-function hoverin95() {abshoverin(8, 4);} function hoverin96() {abshoverin(8, 5);}
-function hoverin97() {abshoverin(8, 6);} function hoverin98() {abshoverin(8, 7);}
-function hoverin99() {abshoverin(8, 8);}
 
 function fillactivemasu(x, y, c)
 {
@@ -730,16 +549,20 @@ function check_activemovablemasu(hx, hy) {
 /**
  * マスをクリックした時に呼ばれる。
  *
- * @param {Number} x マス目の座標
- * @param {Number} y マス目の座標
+ * @param {Event} event クリックイベント
  */
-function absclick(x, y) {
+function absclick(event) {
   if (taikyokuchu === false) {
     return;
   }
   if (wait_narimenu) {
     return;
   }
+
+  var clickid = event.currentTarget.id;
+  var x = +clickid.substring(1, 2)-1;
+  var y = +clickid.substring(2, 3)-1;
+
   var hx = x;  // 1~９筋(0~8)
   var hy = y;  // 一~九段(0~8)
   if (hifumin_eye) {
@@ -788,52 +611,6 @@ function absclick(x, y) {
     }
   }
 }
-
-function click11() {absclick(0, 0);} function click12() {absclick(0, 1);}
-function click13() {absclick(0, 2);} function click14() {absclick(0, 3);}
-function click15() {absclick(0, 4);} function click16() {absclick(0, 5);}
-function click17() {absclick(0, 6);} function click18() {absclick(0, 7);}
-function click19() {absclick(0, 8);}
-function click21() {absclick(1, 0);} function click22() {absclick(1, 1);}
-function click23() {absclick(1, 2);} function click24() {absclick(1, 3);}
-function click25() {absclick(1, 4);} function click26() {absclick(1, 5);}
-function click27() {absclick(1, 6);} function click28() {absclick(1, 7);}
-function click29() {absclick(1, 8);}
-function click31() {absclick(2, 0);} function click32() {absclick(2, 1);}
-function click33() {absclick(2, 2);} function click34() {absclick(2, 3);}
-function click35() {absclick(2, 4);} function click36() {absclick(2, 5);}
-function click37() {absclick(2, 6);} function click38() {absclick(2, 7);}
-function click39() {absclick(2, 8);}
-function click41() {absclick(3, 0);} function click42() {absclick(3, 1);}
-function click43() {absclick(3, 2);} function click44() {absclick(3, 3);}
-function click45() {absclick(3, 4);} function click46() {absclick(3, 5);}
-function click47() {absclick(3, 6);} function click48() {absclick(3, 7);}
-function click49() {absclick(3, 8);}
-function click51() {absclick(4, 0);} function click52() {absclick(4, 1);}
-function click53() {absclick(4, 2);} function click54() {absclick(4, 3);}
-function click55() {absclick(4, 4);} function click56() {absclick(4, 5);}
-function click57() {absclick(4, 6);} function click58() {absclick(4, 7);}
-function click59() {absclick(4, 8);}
-function click61() {absclick(5, 0);} function click62() {absclick(5, 1);}
-function click63() {absclick(5, 2);} function click64() {absclick(5, 3);}
-function click65() {absclick(5, 4);} function click66() {absclick(5, 5);}
-function click67() {absclick(5, 6);} function click68() {absclick(5, 7);}
-function click69() {absclick(5, 8);}
-function click71() {absclick(6, 0);} function click72() {absclick(6, 1);}
-function click73() {absclick(6, 2);} function click74() {absclick(6, 3);}
-function click75() {absclick(6, 4);} function click76() {absclick(6, 5);}
-function click77() {absclick(6, 6);} function click78() {absclick(6, 7);}
-function click79() {absclick(6, 8);}
-function click81() {absclick(7, 0);} function click82() {absclick(7, 1);}
-function click83() {absclick(7, 2);} function click84() {absclick(7, 3);}
-function click85() {absclick(7, 4);} function click86() {absclick(7, 5);}
-function click87() {absclick(7, 6);} function click88() {absclick(7, 7);}
-function click89() {absclick(7, 8);}
-function click91() {absclick(8, 0);} function click92() {absclick(8, 1);}
-function click93() {absclick(8, 2);} function click94() {absclick(8, 3);}
-function click95() {absclick(8, 4);} function click96() {absclick(8, 5);}
-function click97() {absclick(8, 6);} function click98() {absclick(8, 7);}
-function click99() {absclick(8, 8);}
 
 /**
  * 手駒のマスを選択状態表示にする。
