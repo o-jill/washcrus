@@ -46,11 +46,13 @@ class AdminSettingsScreen
       <tr>
        <td colspan=2>
         <input type='submit' value='Save' class='inpform'>
+        <input type='button' value='Current URL' class='inpform' onclick="use_url();">
        </td>
       </tr>
       <tr><td colspan='2' id='errmsg'></td></tr>
       </table>
       </form>
+      <script type="text/javascript" src="./js/adminsettings.js"></script>
       FORM_SETTINGS_TAIL
   end
 
