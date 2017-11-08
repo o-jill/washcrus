@@ -72,6 +72,13 @@ var last_mx = -1;
 /** 最終手 段 */
 var last_my = -1;
 
+function update_banindex_row(strtbl) {
+  for (var i = 0 ; i < 9 ; ++i) {
+    var row = document.getElementById('banrow'+(i+1));
+    row.innerHTML = strtbl[i];
+  }
+}
+
 function update_banindex() {
   var column = document.getElementById('bancolumn');
   var text = '';
@@ -84,11 +91,7 @@ function update_banindex() {
   column.innerHTML = text + '<th>&nbsp;</th>';
 
   /* var numbersr = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];*/
-  var numbersr = testKoma.KanjiNum;
-  for (var i = 0 ; i < 9 ; ++i) {
-    var row = document.getElementById('banrow'+(i+1));
-    row.innerHTML = numbersr[i];
-  }
+  update_banindex_row(testKoma.KanjiNum);
 }
 
 function update_banindex_rotate() {
@@ -104,10 +107,7 @@ function update_banindex_rotate() {
   var numbersr = ['九', '八', '七', '六', '五', '四', '三', '二', '一'];
   /* var numbersr = testKoma.KanjiNum;
   numbersr.reverse(); */
-  for (var i = 0 ; i < 9 ; ++i) {
-    var row = document.getElementById('banrow'+(i+1));
-    row.innerHTML = numbersr[i];
-  }
+  update_banindex_row(numbersr);
 }
 
 function Naraberu_tegoma(tegoma, tegomaui)
@@ -1027,10 +1027,6 @@ function check_hifumin_eye() {
 var sfenkomabako = null;
 
 function sfenkoma_piece(ch, result, teban, nsuji, ndan, nari) {
-  sfenkomabako = sfenkomabako || [new Fu(teban, 0, 0), new Kyosha(teban, 0, 0),
-    new Keima(teban, 0, 0), new Gin(teban, 0, 0), new Kin(teban, 0, 0),
-    new Kaku(teban, 0, 0), new Hisha(teban, 0, 0), new Gyoku(teban, 0, 0)];
-
   var komatbl = 'PLNSGBRK';
 
   var nid = komatbl.indexOf(ch);
@@ -1111,10 +1107,6 @@ var sfentegoma = function(tegomastr) {
  * @param {[type]} teban   先手か後手か
  */
 function sfentegoma_add(ntegoma, tegoma, teban) {
-  sfenkomabako = sfenkomabako || [new Fu(teban, 0, 0), new Kyosha(teban, 0, 0),
-    new Keima(teban, 0, 0), new Gin(teban, 0, 0), new Kin(teban, 0, 0),
-    new Kaku(teban, 0, 0), new Hisha(teban, 0, 0), new Gyoku(teban, 0, 0)];
-
   for (var idx = 0 ; idx < 7 ; ++idx) {
     var num = ntegoma[idx];
     for (var k = 0; k < num; ++k) {
@@ -1134,6 +1126,11 @@ function sfentegoma_add(ntegoma, tegoma, teban) {
 function fromsfen(sfentext) {
   // var sfenarea = document.getElementById('sfen');
   initKomaEx();
+
+  var t = Koma.SENTEBAN;
+  sfenkomabako = [new Fu(t, 0, 0), new Kyosha(t, 0, 0),
+    new Keima(t, 0, 0), new Gin(t, 0, 0), new Kin(t, 0, 0),
+    new Kaku(t, 0, 0), new Hisha(t, 0, 0), new Gyoku(t, 0, 0)];
 
   var sfenitem = sfentext.split(' ');
   // var sz = sfenitem.length;
