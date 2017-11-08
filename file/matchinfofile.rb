@@ -25,13 +25,14 @@ class MatchInfoFile
     @lastmove = '-9300FU'
     @dt_lastmove = 'yyyy/mm/dd hh:mm:ss'
     @finished = false
+    @turn = 'b'
     @log = nil
   end
 
   attr_reader :gid, :idb, :playerb, :emailb, :idw, :playerw, :emailw,
               :creator, :dt_created, :teban, :tegoma, :nth, :sfen,
               :lastmove, :dt_lastmove, :finished
-  attr_accessor :log
+  attr_accessor :log, :turn
 
   # 対局者のセット
   #
@@ -210,10 +211,36 @@ class MatchInfoFile
     setsfen(sfenstr, item)
   end
 
-  # 対局終了フラグのセット
-  def done_game
+  # 対局終了フラグのセットと勝ち負けの記入
+  #
+  # @param per100_text %から始まる文字列。%TORYOなど。
+  #        %TORYOであれば@tebanにより勝敗を@turnに、
+  #        それ以外であれば@turnに。引き分けを入れる。
+  def done_game_sp(per100_text)
+    @finished = true
+    @turn =
+      if per100_text == '%TORYO'
+        if @teban == 'b'
+          'fw'  # 後手勝ち
+        else
+          'fb'  # 先手勝ち
+        end
+      else
+        'd'  # 引き分け
+      end
+    # @teban = 'f'
+  end
+
+  # 対局終了フラグのセットと勝ち負けの記入
+  def done_game_gyoku
     @finished = true
     # @teban = 'f'
+    @turn =
+      if @teban == 'b'
+        'fw'  # 後手勝ち
+      else
+        'fb'  # 先手勝ち
+      end
   end
 
   # 手番文字を返す
@@ -223,6 +250,17 @@ class MatchInfoFile
     @finished ? 'f' : @teban
   end
 
+  # 手番情報の更新
+  #
+  # @param trn 手番文字。nilならば@tebanがコピーされる。
+  def setturn(trn)
+    @turn = trn || @teban
+  end
+
+  # ハッシュを読み取る
+  #
+  # @param data ハッシュオブジェクト{gid:, creator:, dt_created:,
+  #  idb:, playerb:, idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished: }
   def read_data(data)
     setcreator(data[:creator], data[:dt_created])
     setplayers(data[:idb], data[:idw])
@@ -230,6 +268,7 @@ class MatchInfoFile
     setlastmove(data[:lastmove], data[:dt_lastmove])
     @finished = data[:finished] || false
     # @teban = 'f' if @finished
+    # @turn = data[:turn] || @teban
   end
 
   # ファイルからデータの読み込み
@@ -269,7 +308,8 @@ class MatchInfoFile
     {
       gid: gid, creator: creator, dt_created: dt_created,
       idb: idb, playerb: playerb, idw: idw, playerw: playerw, sfen: sfen,
-      lastmove: lastmove, dt_lastmove: dt_lastmove, finished: finished
+      lastmove: lastmove, dt_lastmove: dt_lastmove, finished: finished,
+      turn: turn
     }
   end
 

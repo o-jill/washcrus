@@ -251,8 +251,8 @@ class Move
     # 終了日時の更新とか勝敗の記録とか
     @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")
     gote_win = (@tkd.mi.teban == 'b')
-    @tkd.finished(now, gote_win)
     @turn = gote_win ? 'fw' : 'fb'
+    @tkd.finished(now, gote_win, @turn)
     # 対局中からはずす
     @log.debug('tcdb.finished(@gameid)')
     tcdb.finished(@gameid)

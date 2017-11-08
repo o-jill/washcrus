@@ -279,12 +279,7 @@ class TaikyokuData
     sfs = SfenStore.new(@sfenpath)
     sfs.add(sfen)
 
-    if jsmv[:special]
-      @log.debug('if jsmv[:special]')
-      @jkf.move(jsmv)
-      @mi.done_game
-      return 1
-    end
+    return finish_special(jsmv) if jsmv[:special]
 
     @mi.log = @log
     return if @mi.fromsfen_strict(sfen).nil?
@@ -325,9 +320,24 @@ class TaikyokuData
     jc
   end
 
+  # 特殊文字での終局。投了とか。
+  #
+  # @param jsmv JsonMoveオブジェクト
+  # @return 1:投了などで終局
+  def finish_special(jsmv)
+    @log.debug('if jsmv[:special]')
+    @jkf.move(jsmv)
+    @mi.done_game_sp(jsmv[:special])
+    1
+  end
+
+  # 玉を取って終局の処理
+  #
+  # @param jsmv JsonMoveオブジェクト
+  # @return 0:まだまだ続ける, 1:玉を取って終局
   def finish_if_catch_gyoku(jsmv)
     if JsonMove.catchOU?(jsmv)
-      @mi.done_game
+      @mi.done_game_gyoku
       @jkf.resign
       1
     else
@@ -335,7 +345,7 @@ class TaikyokuData
     end
   end
 
-  # 勝敗の記入(買った方と負けた方に１加算)
+  # 勝敗の記入(勝った方と負けた方に１加算)
   #
   # @param udb  ユーザDBオブジェクト
   # @param gwin 後手勝ちの時true
@@ -353,14 +363,17 @@ class TaikyokuData
 
   # 対局の終了処理
   # 対局終了日時のセット
-  # 勝敗の記入(買った方と負けた方に１加算)
+  # 勝敗の記入(勝った方と負けた方に１加算)
   #
   # @param dt [Time] 終局時刻
-  #
-  def finished(dt, gwin)
+  # @param gwin [Boolean] 後手勝ちの時
+  # @param turn [String] 終局情報文字
+  def finished(dt, gwin, turn)
     # 対局終了日時のセット
     @log.debug('@jkf.setfinishdate()')
     @jkf.setfinishdate(dt.strftime('%Y/%m/%d %H:%M:%S'))
+
+    @mi.turn = turn
 
     # 勝敗の記入(買った方と負けた方に１加算)
     # userdb読み込み
