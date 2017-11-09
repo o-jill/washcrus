@@ -1183,7 +1183,7 @@ var sfen_genbantext_dan = function(shogiban, ndan) {
         komach = '+';
       }
 
-      komach += komatbl.charAt(komaid);
+      komach += komatbl.charAt(koma.id);
 
       if (koma.teban === Koma.GOTEBAN) {
         komach = komach.toLowerCase();
