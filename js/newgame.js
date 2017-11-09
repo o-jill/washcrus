@@ -7,24 +7,31 @@ function bytes2(str) {
 }
 
 function validatemail(str) {
-  return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(str);
+  return /^[\w.!#$%&'*+/=?^`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$/.test(str);
 }
 
 /* - - - - - - */
 /* new game 1  */
 /* - - - - - - */
 
+function chgbgcolor(bOK, id_ply, id_eml)
+{
+  if (bOK) {
+    document.getElementById(id_ply).style.backgroundColor = 'transparent';
+    document.getElementById(id_eml).style.backgroundColor = 'transparent';
+  } else {
+    document.getElementById(id_ply).style.backgroundColor = 'red';
+    document.getElementById(id_eml).style.backgroundColor = 'red';
+  }
+}
+
 function check_name(id_name, id_ply, id_eml)
 {
   var name = document.getElementById(id_name);
-  var ret = (bytes2(name.value) < 4);
-  if (ret) {
-    document.getElementById(id_ply).style.backgroundColor = 'red';
-    document.getElementById(id_eml).style.backgroundColor = 'red';
-  } else {
-    document.getElementById(id_ply).style.backgroundColor = 'transparent';
-    document.getElementById(id_eml).style.backgroundColor = 'transparent';
-  }
+  var ret = (bytes2(name.value) >= 4);
+
+  chgbgcolor(ret, id_ply, id_eml);
+
   return ret;
 }
 
@@ -32,13 +39,9 @@ function check_email(id_email, id_ply, id_eml)
 {
   var email = document.getElementById(id_email);
   var ret = validatemail(email.value);
-  if (!ret) {
-    document.getElementById(id_ply).style.backgroundColor = 'red';
-    document.getElementById(id_eml).style.backgroundColor = 'red';
-  } else {
-    document.getElementById(id_ply).style.backgroundColor = 'transparent';
-    document.getElementById(id_eml).style.backgroundColor = 'transparent';
-  }
+
+  chgbgcolor(ret, id_ply, id_eml);
+
   return ret;
 }
 
@@ -47,11 +50,11 @@ function check_form()
   var nmismatch = 0;
   var alertmsg = '';
 
-  if (check_name('rname', 'player1', 'tremail')) {
+  if (!check_name('rname', 'player1', 'tremail')) {
     alertmsg += 'name is too short in player1!\n';
     ++nmismatch;
   }
-  if (check_name('rname2', 'player2', 'tremail2')) {
+  if (!check_name('rname2', 'player2', 'tremail2')) {
     alertmsg += 'name is too short in player2!\n';
     ++nmismatch;
   }
@@ -159,37 +162,19 @@ function randomchoose(anim, fu, to) {
 
 function ontimer_furigoma() {
   var furikoma = document.getElementById('furigoma');
-  var btn = document.getElementById('btnfurigoma');
   var komame = furikoma.value.length
-  if (komame === 0) {
-    furikoma.value +=
-        randomchoose('furikomanim1', 'furikomafu1', 'furikomato1');
+  if (komame <= 4) {
+    var idanim = 'furikomanim' + (komame+1);
+    var idfu = 'furikomafu' + (komame+1);
+    var idto = 'furikomato' + (komame+1);
+    furikoma.value += randomchoose(idanim, idfu, idto);
+  }
+  if (komame <= 3) {
     setTimeout(function() {
       ontimer_furigoma()
     }, 1000);
-  } else if (komame === 1) {
-    furikoma.value +=
-        randomchoose('furikomanim2', 'furikomafu2', 'furikomato2');
-    setTimeout(function() {
-      ontimer_furigoma()
-    }, 1000);
-  } else if (komame === 2) {
-    furikoma.value +=
-        randomchoose('furikomanim3', 'furikomafu3', 'furikomato3');
-    setTimeout(function() {
-      ontimer_furigoma()
-    }, 1000);
-  } else if (komame === 3) {
-    furikoma.value +=
-        randomchoose('furikomanim4', 'furikomafu4', 'furikomato4');
-    setTimeout(function() {
-      ontimer_furigoma()
-    }, 1000);
-  } else if (komame === 4) {
-    furikoma.value +=
-        randomchoose('furikomanim5', 'furikomafu5', 'furikomato5');
-    btn.disabled = false;
   } else {
+    var btn = document.getElementById('btnfurigoma');
     btn.disabled = false;
   }
 }
@@ -253,37 +238,19 @@ function lets_furigoma2() {
 
 function ontimer_furigoma2() {
   var furikoma = document.getElementById('furigoma2');
-  var btn = document.getElementById('btnfurigoma2');
-  var komame = furikoma.value.length;
-  if (komame === 0) {
-    furikoma.value +=
-        randomchoose('furikomanim21', 'furikomafu21', 'furikomato21');
+  var komame = furikoma.value.length
+  if (komame <= 4) {
+    var idanim = 'furikomanim2' + (komame+1);
+    var idfu = 'furikomafu2' + (komame+1);
+    var idto = 'furikomato2' + (komame+1);
+    furikoma.value += randomchoose(idanim, idfu, idto);
+  }
+  if (komame <= 3) {
     setTimeout(function() {
       ontimer_furigoma2()
     }, 1000);
-  } else if (komame === 1) {
-    furikoma.value +=
-        randomchoose('furikomanim22', 'furikomafu22', 'furikomato22');
-    setTimeout(function() {
-      ontimer_furigoma2()
-    }, 1000);
-  } else if (komame === 2) {
-    furikoma.value +=
-        randomchoose('furikomanim23', 'furikomafu23', 'furikomato23');
-    setTimeout(function() {
-      ontimer_furigoma2()
-    }, 1000);
-  } else if (komame === 3) {
-    furikoma.value +=
-        randomchoose('furikomanim24', 'furikomafu24', 'furikomato24');
-    setTimeout(function() {
-      ontimer_furigoma2()
-    }, 1000);
-  } else if (komame === 4) {
-    furikoma.value +=
-        randomchoose('furikomanim25', 'furikomafu25', 'furikomato25');
-    btn.disabled = false;
   } else {
+    var btn = document.getElementById('btnfurigoma2');
     btn.disabled = false;
   }
 }
