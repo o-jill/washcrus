@@ -183,27 +183,30 @@ function ontimer_furigoma() {
 /* - new game 2  - */
 /* - - - - - - - - */
 
+function check_selectindex(rid, eid)
+{
+  var index = document.getElementById(rid).selectedIndex;
+  var ret = (index >= 1);
+  if (ret) {
+    document.getElementById(eid).style.backgroundColor = 'transparent';
+  } else {
+    document.getElementById(eid).style.backgroundColor = 'red';
+  }
+  return ret;
+}
+
 function check_form2()
 {
   var nmismatch = 0;
   var alertmsg = '';
 
-  var index1 = document.getElementById('rid').selectedIndex;
-  var index2 = document.getElementById('rid2').selectedIndex;
-
-  if (index1 < 1) {
-    document.getElementById('player21').style.backgroundColor = 'red';
+  if (!check_selectindex('rid', 'player21')) {
     alertmsg += 'please select player1!\n';
     ++nmismatch;
-  } else {
-    document.getElementById('player21').style.backgroundColor = 'transparent';
   }
-  if (index2 < 1) {
-    document.getElementById('player22').style.backgroundColor = 'red';
+  if (!check_selectindex('rid2', 'player22')) {
     alertmsg += 'please select player2!\n';
     ++nmismatch;
-  } else {
-    document.getElementById('player22').style.backgroundColor = 'transparent';
   }
 
   if (nmismatch === 0) {
