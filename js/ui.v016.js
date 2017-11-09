@@ -1170,27 +1170,25 @@ function fromsfen(sfentext) {
 var sfen_genbantext_dan = function(shogiban, ndan) {
   var dantext = '';
   var aki = 0;
+  var komatbl = 'PLNSGBRK';
 
   for (var j = 0; j < 9; ++j) {
     var komach = '';
     var koma = shogiban[8-j][ndan].koma;
-    if (koma.nari === Koma.NARI) {
-      komach = '+';
-    } else {
-      komach = '';
-    }
-    var komatbl = 'PLNSGBRK';
-    var komaid = koma.id;
-    if (koma.FuID <= komaid && komaid <= koma.GyokuID) {
-      komach += komatbl.charAt(komaid);
-    } else {
+
+    if (koma.id < koma.FuID) {
       ++aki;
-    }
-    var teban = koma.teban;
-    if (teban === Koma.GOTEBAN) {
-      komach = komach.toLowerCase();
-    }
-    if (komach !== '') {
+    } else {
+      if (koma.nari === Koma.NARI) {
+        komach = '+';
+      }
+
+      komach += komatbl.charAt(komaid);
+
+      if (koma.teban === Koma.GOTEBAN) {
+        komach = komach.toLowerCase();
+      }
+
       if (aki > 0) {
         dantext += aki;
         aki = 0;
