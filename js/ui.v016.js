@@ -83,7 +83,7 @@ function update_banindex() {
   var column = document.getElementById('bancolumn');
   var text = '';
   var numbersc = ['９', '８', '７', '６', '５', '４', '３', '２', '１'];
-  /* var numbersc = testKoma.ZenkakuNum;
+  /* var numbersc = Koma.ZenkakuNum;
   numbersc.reverse(); */
   numbersc.forEach(function(c) {
     text += '<th width=45>' + c + '</th>';
@@ -91,13 +91,13 @@ function update_banindex() {
   column.innerHTML = text + '<th>&nbsp;</th>';
 
   /* var numbersr = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];*/
-  update_banindex_row(testKoma.KanjiNum);
+  update_banindex_row(Koma.KanjiNum);
 }
 
 function update_banindex_rotate() {
   var column = document.getElementById('bancolumn');
   /* var numbersc = ['１', '２', '３', '４', '５', '６', '７', '８', '９']; */
-  var numbersc = testKoma.ZenkakuNum;
+  var numbersc = Koma.ZenkakuNum;
   var text = '';
   numbersc.forEach(function(c) {
     text += '<th width=45>' + c + '</th>';
@@ -105,7 +105,7 @@ function update_banindex_rotate() {
   column.innerHTML = text + '<th>&nbsp;</th>';
 
   var numbersr = ['九', '八', '七', '六', '五', '四', '三', '二', '一'];
-  /* var numbersr = testKoma.KanjiNum;
+  /* var numbersr = Koma.KanjiNum;
   numbersr.reverse(); */
   update_banindex_row(numbersr);
 }
@@ -1176,7 +1176,7 @@ var sfen_genbantext_dan = function(shogiban, ndan) {
     var komach = '';
     var koma = shogiban[8-j][ndan].koma;
 
-    if (koma.id < koma.FuID) {
+    if (koma.id < Koma.FuID) {
       ++aki;
     } else {
       if (koma.nari === Koma.NARI) {
