@@ -68,13 +68,24 @@ class MailManager
     mail.deliver
   end
 
+  def self.read_signature(path)
+    File.open(path, 'r:utf-8') do |file|
+      file.flock File::LOCK_EX
+      msg = file.read
+      # file.each_line do |line|
+      #   msg += line
+      # end
+      return msg
+    end
+  end
+
   # メール本文に追加するフッタ
   def self.footer
     msg = <<-FOOTER_MSG.unindent
       * Please delete this email if you believe you are not the intended recipient.
       * Please do not respond to this auto-generated email.
       FOOTER_MSG
-    msg += File.read('./config/signature.txt')
+    msg += read_signature('./config/signature.txt')
     msg
   end
 end
