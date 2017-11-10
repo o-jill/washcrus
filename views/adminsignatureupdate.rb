@@ -4,13 +4,12 @@ require 'rubygems'
 require 'unindent'
 # require './game/userinfo.rb'
 require './views/common_ui.rb'
+require './util/mailmgr.rb'
 
 #
 # mail signature編集結果画面
 #
 class AdminSignatureUpdateScreen
-  SIGNATUREFILE = './config/signature.txt'.freeze
-
   # 初期化
   #
   # @param header htmlヘッダ
@@ -34,7 +33,7 @@ class AdminSignatureUpdateScreen
   #
   # @param signature 書き込む内容
   def write_signature(signature)
-    File.write(SIGNATUREFILE, signature.gsub("\r\n", "\n"))
+    File.write(PathList::SIGNATUREFILE, signature.gsub("\r\n", "\n"))
   rescue => e
     @errmsg += 'failed to update...<pre>'
     @errmsg += e.to_s
@@ -43,7 +42,7 @@ class AdminSignatureUpdateScreen
 
   # 編集結果の表示
   def put_signature
-    msg = File.read(SIGNATUREFILE)
+    msg = MailManager.read_signature(PathList::SIGNATUREFILE)
 
     puts <<-SIGNATURE_INFO.unindent
       <style type=text/css>

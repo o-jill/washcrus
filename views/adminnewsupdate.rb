@@ -3,6 +3,8 @@
 require 'rubygems'
 require 'unindent'
 require 'redcarpet'
+
+require './file/pathlist.rb'
 require './game/userinfo.rb'
 require './views/common_ui.rb'
 
@@ -10,8 +12,9 @@ require './views/common_ui.rb'
 # NEWS編集結果画面
 #
 class AdminNewsUpdateScreen
-  NEWSFILE = './config/news.txt'.freeze
-
+  # 初期化
+  #
+  # @param header htmlヘッダ
   def initialize(header)
     @header = header
     @errmsg = ''
@@ -26,14 +29,14 @@ class AdminNewsUpdateScreen
   end
 
   def update_news(news)
-    File.write(NEWSFILE, news)
+    File.write(PathList::NEWSFILE, news)
   rescue
     @errmsg += 'failed to update...'
   end
 
   def put_news
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-    msg = markdown.render(File.read(NEWSFILE))
+    msg = markdown.render(File.read(PathList::NEWSFILE))
 
     puts <<-NEWS_INFO.unindent
       <style type=text/css>

@@ -3,6 +3,8 @@
 require 'rubygems'
 require 'unindent'
 require 'redcarpet'
+
+require './file/pathlist.rb'
 require './game/userinfo.rb'
 require './views/common_ui.rb'
 
@@ -10,14 +12,15 @@ require './views/common_ui.rb'
 # NEWS編集画面
 #
 class AdminNewsScreen
-  NEWSFILE = './config/news.txt'.freeze
-
+  # 初期化
+  #
+  # @param header htmlヘッダ
   def initialize(header)
     @header = header
   end
 
   def put_edit_news
-    msg = File.read(NEWSFILE)
+    msg = File.read(PathList::NEWSFILE)
     scriptname = File.basename($PROGRAM_NAME)
 
     puts <<-NEWS_EDIT1.unindent

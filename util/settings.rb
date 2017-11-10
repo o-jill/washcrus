@@ -3,15 +3,14 @@
 require 'singleton'
 require 'yaml'
 
+require './file/pathlist.rb'
+
 # グローバル設定
 # ./config/settings.yamlを読み込んで使います。
 class Settings
   include Singleton
   # 初期化
-  #
-  # @param path 読み込むファイルのパス
-  def initialize(path = './config/settings.yaml')
-    @fpath = path
+  def initialize
     read
   end
 
@@ -20,12 +19,12 @@ class Settings
 
   # yamlファイルの読み込み
   def read
-    @value = YAML.load_file(@fpath)
+    @value = YAML.load_file(PathList::SETTINGSFILE)
   end
 
   # yamlファイルに書き出し
   def write
-    File.open(@fpath, 'wb') do |file|
+    File.open(PathList::SETTINGSFILE, 'wb') do |file|
       file.flock File::LOCK_EX
       file.puts @value.to_yaml
     end

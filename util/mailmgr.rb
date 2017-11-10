@@ -10,8 +10,8 @@ require 'unindent'
 #
 class MailManager
   # 初期化
-  def initialize(path = './config/mail.yaml')
-    @dlvcfg = YAML.load_file(path)
+  def initialize
+    @dlvcfg = YAML.load_file(PathList::MAILSETTINGFILE)
   end
 
   attr_reader :dlvcfg
@@ -85,7 +85,7 @@ class MailManager
       * Please delete this email if you believe you are not the intended recipient.
       * Please do not respond to this auto-generated email.
       FOOTER_MSG
-    msg += read_signature('./config/signature.txt')
+    msg += read_signature(PathList::SIGNATUREFILE)
     msg
   end
 end

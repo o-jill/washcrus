@@ -2,15 +2,15 @@
 
 require 'rubygems'
 require 'unindent'
+require './file/pathlist.rb'
 require './game/userinfo.rb'
 require './views/common_ui.rb'
+require './util/mailmgr.rb'
 
 #
 # mail signature編集画面
 #
 class AdminSignatureScreen
-  SIGNATUREFILE = './config/signature.txt'.freeze
-
   # 初期化
   #
   # @param header htmlヘッダ
@@ -20,7 +20,7 @@ class AdminSignatureScreen
 
   # 編集領域の出力
   def put_edit_signature
-    msg = File.read(SIGNATUREFILE)
+    msg = MailManager.read_signature(PathList::SIGNATUREFILE)
     scriptname = File.basename($PROGRAM_NAME)
 
     puts <<-SIGNATURE_EDIT1.unindent
