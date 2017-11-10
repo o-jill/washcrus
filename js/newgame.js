@@ -16,12 +16,14 @@ function validatemail(str) {
 
 function chgbgcolor(bOK, id_ply, id_eml)
 {
+  var ply = document.getElementById(id_ply).style;
+  var eml = document.getElementById(id_eml).style;
   if (bOK) {
-    document.getElementById(id_ply).style.backgroundColor = 'transparent';
-    document.getElementById(id_eml).style.backgroundColor = 'transparent';
+    ply.backgroundColor = 'transparent';
+    eml.backgroundColor = 'transparent';
   } else {
-    document.getElementById(id_ply).style.backgroundColor = 'red';
-    document.getElementById(id_eml).style.backgroundColor = 'red';
+    ply.backgroundColor = 'red';
+    eml.backgroundColor = 'red';
   }
 }
 
