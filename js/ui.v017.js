@@ -1439,7 +1439,9 @@ function init_board() {
   update_screen();
 }
 
-init_board();
+document.addEventListener( 'DOMContentLoaded', function() {
+      init_board();
+    }, false );
 
 function buildMoveMsg()
 {
