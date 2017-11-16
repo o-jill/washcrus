@@ -9,6 +9,7 @@ require 'unindent'
 require './file/jsonkifu.rb'
 require './file/jsonmove.rb'
 require './file/matchinfofile.rb'
+require './file/pathlist.rb'
 require './file/taikyokufile.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
@@ -25,7 +26,7 @@ class Move
   # @param cgi CGIオブジェクト
   # @param stg グローバル設定
   def initialize(cgi, stg)
-    @log = Logger.new('./log/movelog.txt')
+    @log = Logger.new(PathList::MOVELOG)
     # @log.level = Logger::INFO
     # @log.debug('Move.new()')
     @cgi = cgi

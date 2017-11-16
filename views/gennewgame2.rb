@@ -6,6 +6,7 @@ require 'unindent'
 require './file/chatfile.rb'
 require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
+require './file/pathlist.rb'
 require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
 require './game/userinfo.rb'
@@ -26,7 +27,7 @@ class GenNewGame2Screen
 
     @errmsg = ''
 
-    @log = Logger.new('./log/newgamegenlog.txt')
+    @log = Logger.new(PathList::GENNEWGAMELOG)
   end
 
   def check_datalost_gengame(params)

@@ -6,6 +6,7 @@ require 'time'
 require 'timeout'
 require 'unindent'
 
+require './file/pathlist.rb'
 require './util/myerror.rb'
 
 # Contents management of TaikyokuFiles
@@ -295,13 +296,12 @@ end
 # 対局情報DB管理クラス
 #
 class TaikyokuFile
-  LOCKFILE = './db/taikyokufile.lock'.freeze
-
   # 初期化
   #
   # @param name   データベースファイルのパス
   # @param lockfn 同期用ファイルのパス
-  def initialize(name = './db/taikyoku.csv', lockfn = LOCKFILE)
+  def initialize(name = PathList::TAIKYOKUFILE,
+                 lockfn = PathList::TAIKYOKULOCKFILE)
     @fname = name
     @lockfn = lockfn
     @content = TaikyokuFileContent.new
@@ -518,13 +518,12 @@ end
 # 終わった対局は、ここから消してTaikyokuFileへ
 #
 class TaikyokuChuFile < TaikyokuFile
-  LOCKFILE = './db/taikyokuchufile.lock'.freeze
-
   # 初期化
   #
   # @param name   データベースファイルのパス
   # @param lockfn 同期用ファイルのパス
-  def initialize(name = './db/taikyokuchu.csv', lockfn = LOCKFILE)
+  def initialize(name = PathList::TAIKYOKUCHUFILE,
+                 lockfn = PathList::TAIKYOKUCHULOCKFILE)
     super
   end
 

@@ -5,6 +5,7 @@ require 'openssl'
 require 'timeout'
 require 'unindent'
 require './secret_token.rb'
+require './file/pathlist.rb'
 require './util/myerror.rb'
 
 #
@@ -12,10 +13,9 @@ require './util/myerror.rb'
 #
 class UserInfoFile
   KEY = Globals::KEY
-  LOCKFILE = './db/userinfofile.lock'.freeze
 
-  def initialize(name = './db/userinfo.csv')
-    @fname = name
+  def initialize
+    @fname = PathList::USERINFOFILE
     @names = {}
     @passwords = {}
     @emails = {}
@@ -31,7 +31,7 @@ class UserInfoFile
   # end
   def lock(*)
     Timeout.timeout(10) do
-      File.open(LOCKFILE, 'w') do |file|
+      File.open(PathList::USERINFOLOCKFILE, 'w') do |file|
         begin
           file.flock(File::LOCK_EX)
           yield

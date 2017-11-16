@@ -7,6 +7,7 @@ require 'logger'
 
 require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
+require './file/pathlist.rb'
 require './file/taikyokufile.rb'
 require './game/userinfo.rb'
 require './util/settings.rb'
@@ -18,7 +19,7 @@ require './views/login.rb'
 #
 class Game
   def initialize(cgi, gid)
-    @log = Logger.new('./log/gamelog.txt')
+    @log = Logger.new(PathList::GAMELOG)
     # @log.level = Logger::INFO
     @log.info('Game.new()')
 

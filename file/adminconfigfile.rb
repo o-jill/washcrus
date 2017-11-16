@@ -1,12 +1,12 @@
 # -*- encoding: utf-8 -*-
 
+require './file/pathlist.rb'
+
 # Admin登録ファイル管理クラス
 class AdminConfigFile
   # 初期化
-  #
-  # @param fpath ファイルパス'./db/adminconfig.txt'
-  def initialize(fpath = './db/adminconfig.txt')
-    @path = fpath
+  def initialize
+    @path = PathList::ADMINCONFIGFILE
     @idlist = []
   end
 
