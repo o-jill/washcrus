@@ -4,7 +4,6 @@ require 'rubygems'
 require 'unindent'
 # require './game/userinfo.rb'
 require './views/common_ui.rb'
-require './util/mailmgr.rb'
 
 #
 # mail signature編集結果画面
@@ -42,7 +41,7 @@ class AdminSignatureUpdateScreen
 
   # 編集結果の表示
   def put_signature
-    msg = MailManager.read_signature(PathList::SIGNATUREFILE)
+    msg = File.read(PathList::SIGNATUREFILE, encoding: 'utf-8')
 
     puts <<-SIGNATURE_INFO.unindent
       <style type=text/css>

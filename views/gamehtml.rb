@@ -64,7 +64,8 @@ class GameHtml
   # @return 部品の文字列
   def shogibanelement
     @log.debug('shogibanelement')
-    ERB.new(File.read('./ui/gamehtml_shogiban.erb')).result(binding)
+    erbtxt = File.read('./ui/gamehtml_shogiban.erb', encoding: 'utf-8')
+    ERB.new(erbtxt).result(binding)
   end
 
   def kyokumen_link
@@ -87,7 +88,8 @@ class GameHtml
       <script type='text/javascript' src='./js/ui.v018.js'></script>
       BOARD_TEXT
 
-    ret += ERB.new(File.read('./ui/gamehtml_123neye.erb')).result(binding)
+    erbtxt = File.read('./ui/gamehtml_123neye.erb', encoding: 'utf-8')
+    ret += ERB.new(erbtxt).result(binding)
 
     ret += kyokumen_link
 
@@ -101,7 +103,8 @@ class GameHtml
     @log.debug('headerelement')
     stg = Settings.instance
     title = "#{stg.value['wintitle']} #{@mi.playerb}  vs  #{@mi.playerw}"
-    ERB.new(File.read('./ui/gamehtml_header.erb')).result(binding)
+    erbtxt = File.read('./ui/gamehtml_header.erb', encoding: 'utf-8')
+    ERB.new(erbtxt).result(binding)
   end
 
   # チャットまわりの部品
@@ -109,7 +112,8 @@ class GameHtml
   # @return 部品の文字列
   def chatelement
     @log.debug('chatelement')
-    ERB.new(File.read('./ui/gamehtml_chat.erb')).result(binding)
+    erbtxt = File.read('./ui/gamehtml_chat.erb', encoding: 'utf-8')
+    ERB.new(erbtxt).result(binding)
   end
 
   # 棋譜まわりの部品
@@ -128,7 +132,8 @@ class GameHtml
   #
   # @return 部品の文字列
   def hiddenelement
-    ERB.new(File.read('./ui/gamehtml_hiddenparts.erb')).result
+    erbtxt = File.read('./ui/gamehtml_hiddenparts.erb', encoding: 'utf-8')
+    ERB.new(erbtxt).result
   end
 
   # class methods

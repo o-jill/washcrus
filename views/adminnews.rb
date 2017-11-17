@@ -20,7 +20,7 @@ class AdminNewsScreen
   end
 
   def put_edit_news
-    msg = File.read(PathList::NEWSFILE)
+    msg = File.read(PathList::NEWSFILE, encoding: 'utf-8')
     scriptname = File.basename($PROGRAM_NAME)
 
     puts <<-NEWS_EDIT1.unindent

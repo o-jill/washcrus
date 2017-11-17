@@ -5,7 +5,6 @@ require 'unindent'
 require './file/pathlist.rb'
 require './game/userinfo.rb'
 require './views/common_ui.rb'
-require './util/mailmgr.rb'
 
 #
 # mail signature編集画面
@@ -20,7 +19,7 @@ class AdminSignatureScreen
 
   # 編集領域の出力
   def put_edit_signature
-    msg = MailManager.read_signature(PathList::SIGNATUREFILE)
+    msg = File.read(PathList::SIGNATUREFILE, encoding: 'utf-8')
     scriptname = File.basename($PROGRAM_NAME)
 
     puts <<-SIGNATURE_EDIT1.unindent

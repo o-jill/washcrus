@@ -36,7 +36,7 @@ class AdminNewsUpdateScreen
 
   def put_news
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-    msg = markdown.render(File.read(PathList::NEWSFILE))
+    msg = markdown.render(File.read(PathList::NEWSFILE, encoding: 'utf-8'))
 
     puts <<-NEWS_INFO.unindent
       <style type=text/css>
