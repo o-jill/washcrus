@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'unindent'
 require 'redcarpet'
+require './file/pathlist.rb'
 # require './game/userinfo.rb'
 require './views/common_ui.rb'
 
@@ -10,8 +11,6 @@ require './views/common_ui.rb'
 # NEWS画面
 #
 class NewsScreen
-  NEWSFILE = './config/news.txt'.freeze
-
   # 初期化
   #
   # @param header htmlヘッダ
@@ -22,7 +21,7 @@ class NewsScreen
   # newsの出力
   def put_news
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-    msg = markdown.render(File.read(NEWSFILE))
+    msg = markdown.render(File.read(PathList::NEWSFILE))
 
     puts <<-NEWS_INFO.unindent
       <style type=text/css>
