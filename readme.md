@@ -2,6 +2,7 @@
 [![issues](https://img.shields.io/github/issues/o-jill/washcrus.svg)](https://github.com/o-jill/washcrus/issues/)
 [![Code Climate](https://codeclimate.com/github/o-jill/washcrus/badges/gpa.svg)](https://codeclimate.com/github/o-jill/washcrus)
 [![Inline docs](http://inch-ci.org/github/o-jill/washcrus.svg?branch=master)](http://inch-ci.org/github/o-jill/washcrus)
+[![Dependency Status](https://gemnasium.com/badges/github.com/o-jill/washcrus.svg)](https://gemnasium.com/github.com/o-jill/washcrus)
 
 "WashCrus" will be online shogi match management system.
 
