@@ -45,7 +45,7 @@ class AdminSignatureUpdateScreen
 
     puts <<-SIGNATURE_INFO.unindent
       <style type=text/css>
-       .news {
+       .signature {
          border: inset 5px blue;
          padding: 5px;
          text-align: left;
@@ -54,7 +54,7 @@ class AdminSignatureUpdateScreen
       </style>
       <div align='center'>
        Signature updated
-       <div class='news'>
+       <div class='signature'>
         <pre>#{msg}</pre>
        </div>
       </div>

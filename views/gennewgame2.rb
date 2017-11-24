@@ -13,11 +13,12 @@ require './game/userinfo.rb'
 require './util/mailmgr.rb'
 require './util/settings.rb'
 require './views/common_ui.rb'
+require './views/gennewgame.rb'
 
 #
 # 対局作成確認
 #
-class GenNewGame2Screen
+class GenNewGame2Screen < GenNewGameScreen
   # 初期化
   #
   # @param header htmlヘッダ
@@ -33,10 +34,6 @@ class GenNewGame2Screen
   def check_datalost_gengame(params)
     params['rid'].nil? || params['rid2'].nil? || params['furigoma'].nil? \
       || params['teai'].nil?
-  end
-
-  def furifusen(furigoma)
-    furigoma.count('F') >= 3
   end
 
   def check_players(id1, id2)
@@ -67,36 +64,6 @@ class GenNewGame2Screen
     id2 = params['rid2'][0]
 
     check_players(id1, id2)
-  end
-
-  def mail_msg_newgame(user1, user2, gameid)
-    baseurl = @stg.value['base_url']
-    msg = <<-MAIL_MSG.unindent
-      Dear #{user1} and #{user2}
-
-      a new game is ready for you.
-      please visit a URL bellow to play.
-      #{baseurl}washcrus.rb?game/#{gameid}
-
-      MAIL_MSG
-    msg += MailManager.footer
-    msg
-  end
-
-  def put_err_sreen(userinfo)
-    CommonUI.html_head(@header)
-    CommonUI.html_menu(userinfo)
-    puts @errmsg
-    CommonUI.html_foot
-  end
-
-  def send_mail
-    subject = "a game is ready!! (#{@td.player1} vs #{@td.player2})"
-    msg = mail_msg_newgame(@td.player1, @td.player2, @td.gid)
-
-    mailmgr = MailManager.new
-    mailmgr.send_mail(@td.email1, subject, msg)
-    mailmgr.send_mail(@td.email2, subject, msg)
   end
 
   def config_taikyoku(userdata1, userdata2, userinfo, furigomastr)
@@ -138,39 +105,5 @@ class GenNewGame2Screen
     send_mail
 
     true
-  end
-
-  def put_msg
-    puts <<-GENMSG.unindent
-      new game generated!<BR>
-      <a href='washcrus.rb?game/#{@td.gid}'><big>start playing &gt;&gt;</big></a><BR>
-
-      mails were sent to both players.
-      GENMSG
-  end
-
-  def err2log(e)
-    @log.warn("class=[#{e.class}] message=[#{e.message}] in gennewgame")
-  end
-
-  def show(userinfo, params)
-    return put_err_sreen(userinfo) unless generate(userinfo, params)
-
-    # @log.debug('CommonUI.html_head(header)')
-    CommonUI.html_head(@header)
-    CommonUI.html_menu(userinfo)
-    CommonUI.html_adminmenu
-
-    @td.dumptable
-
-    put_msg
-
-    CommonUI.html_foot
-  rescue ScriptError => e
-    err2log(e)
-  rescue SecurityError => e
-    err2log(e)
-  rescue => e
-    err2log(e)
   end
 end

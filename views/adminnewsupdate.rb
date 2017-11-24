@@ -7,11 +7,12 @@ require 'redcarpet'
 require './file/pathlist.rb'
 require './game/userinfo.rb'
 require './views/common_ui.rb'
+require './views/news.rb'
 
 #
 # NEWS編集結果画面
 #
-class AdminNewsUpdateScreen
+class AdminNewsUpdateScreen < NewsScreen
   # 初期化
   #
   # @param header htmlヘッダ
@@ -32,28 +33,6 @@ class AdminNewsUpdateScreen
     File.write(PathList::NEWSFILE, news)
   rescue
     @errmsg += 'failed to update...'
-  end
-
-  def put_news
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-    msg = markdown.render(File.read(PathList::NEWSFILE, encoding: 'utf-8'))
-
-    puts <<-NEWS_INFO.unindent
-      <style type=text/css>
-       .news {
-         border: inset 5px blue;
-         padding: 5px;
-         text-align: left;
-         width: 60vw;
-       }
-      </style>
-      <div align='center'>
-       NEWS updated
-       <div class='news'>
-        #{msg}
-       </div>
-      </div>
-      NEWS_INFO
   end
 
   def show(userinfo, params)
