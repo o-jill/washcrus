@@ -11,12 +11,15 @@ var ban = [
   [{}, {}, {}, {}, {}, {}, {}, {}, {}]];
 
 /** 先手手持ち、擬似マス情報 */
-var sentegoma = [[[], {}], [[], {}], [[], {}], [[], {}],
-                 [[], {}], [[], {}], [[], {}]];
+var sentegoma = [
+  [[], {}], [[], {}], [[], {}], [[], {}],
+  [[], {}], [[], {}], [[], {}]];
 
 /** 後手手持ち、擬似マス情報 */
-var gotegoma = [[[], {}], [[], {}], [[], {}], [[], {}],
-                [[], {}], [[], {}], [[], {}]];
+var gotegoma = [
+  [[], {}], [[], {}], [[], {}], [[], {}],
+  [[], {}], [[], {}], [[], {}]];
+
 /*
 [7][0]:持ち駒配列
 [7][1]:駒情報
@@ -30,15 +33,10 @@ var tegomaitem = function () {
  this.y = -1;
  this.el = null:
 }
-
 */
-/** 対局中かどうか */
-var taikyokuchu = false;
-var activeteban = Koma.SENTEBAN;
 
-// var mykifu = new Kifu(Kifu.Org);
-// var mykifu = new Kifu(Kifu.KIF);
-// var mykifu = new Kifu(Kifu.CSA);
+/** 現在の手番 */
+var activeteban = Koma.SENTEBAN;
 
 /** 先手玉 */
 var sentegyoku;
@@ -137,7 +135,6 @@ function initKoma() {
   clear_ban();
   populate_koma();
 
-  taikyokuchu = false;
   activeteban = Koma.SENTEBAN;
 }
 
@@ -305,21 +302,23 @@ Koma.TsumiStrCSA = '%TSUMI';
 Koma.FuMovable = [[0, 1, false]];
 Koma.KyoshaMovable = [[0, 1, true]];
 Koma.KeimaMovable = [[1, 2, false], [-1, 2, false]];
-Koma.GinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                   [1, -1, false], [-1, -1, false]];
-Koma.KinMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                   [1, 0, false], [-1, 0, false], [0, -1, false]];
+Koma.GinMovable = [
+  [1, 1, false], [0, 1, false], [-1, 1, false],
+  [1, -1, false], [-1, -1, false]];
+Koma.KinMovable = [
+  [1, 1, false], [0, 1, false], [-1, 1, false],
+  [1, 0, false], [-1, 0, false], [0, -1, false]];
 Koma.KakuMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true], [1, -1, true]];
 Koma.HishaMovable = [[1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, true]];
-Koma.UmaMovable = [[1, 1, true], [-1, -1, true], [-1, 1, true],
-                   [1, -1, true], [0, 1, false], [1, 0, false],
-                   [-1, 0, false], [0, -1, false]];
-Koma.RyuMovable = [[1, 0, true], [-1, 0, true], [0, 1, true],
-                   [0, -1, true], [1, 1, false], [1, -1, false],
-                   [-1, 1, false], [-1, -1, false]];
-Koma.GyokuMovable = [[1, 1, false], [0, 1, false], [-1, 1, false],
-                     [1, 0, false], [-1, 0, false], [1, -1, false],
-                     [0, -1, false], [-1, -1, false]];
+Koma.UmaMovable = [
+  [1, 1, true], [-1, -1, true], [-1, 1, true], [1, -1, true],
+  [0, 1, false], [1, 0, false], [-1, 0, false], [0, -1, false]];
+Koma.RyuMovable = [
+  [1, 0, true], [-1, 0, true], [0, 1, true], [0, -1, true],
+  [1, 1, false], [1, -1, false], [-1, 1, false], [-1, -1, false]];
+Koma.GyokuMovable = [
+  [1, 1, false], [0, 1, false], [-1, 1, false], [1, 0, false],
+  [-1, 0, false], [1, -1, false], [0, -1, false], [-1, -1, false]];
 
 Koma.KomaStrTbl = [
   '歩', '香', '桂', '銀', '金', '角', '飛', '玉',
@@ -1094,8 +1093,8 @@ function Fu(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.FuStrLong, Koma.NFuStrLong, Koma.FuStrKIF, Koma.NFuStrKIF,
-               Koma.FuStrKIF, Koma.NFuStrKIF, Koma.FuStr, Koma.NFuStr,
-               Koma.FuStrIMG, Koma.NFuStrIMG);
+    Koma.FuStrKIF, Koma.NFuStrKIF, Koma.FuStr, Koma.NFuStr,
+    Koma.FuStrIMG, Koma.NFuStrIMG);
   this.InitMovable(Koma.FuMovable, Koma.KinMovable);
   this.id = Koma.FuID;
 }
@@ -1175,9 +1174,8 @@ function Kyosha(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.KyoshaStrLong, Koma.NKyoshaStrLong, Koma.KyoshaStrKIF,
-               Koma.NKyoshaStrKIF, Koma.KyoshaStrKIF, Koma.NKyoshaStrKIF,
-               Koma.KyoshaStr, Koma.NKyoshaStr, Koma.KyoshaStrIMG,
-               Koma.NKyoshaStrIMG);
+    Koma.NKyoshaStrKIF, Koma.KyoshaStrKIF, Koma.NKyoshaStrKIF,
+    Koma.KyoshaStr, Koma.NKyoshaStr, Koma.KyoshaStrIMG, Koma.NKyoshaStrIMG);
   this.InitMovable(Koma.KyoshaMovable, Koma.KinMovable);
   this.id = Koma.KyoshaID;
 }
@@ -1225,9 +1223,8 @@ function Keima(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.KeimaStrLong, Koma.NKeimaStrLong, Koma.KeimaStrKIF,
-               Koma.NKeimaStrKIF, Koma.KeimaStrKIF, Koma.NKeimaStrKIF,
-               Koma.KeimaStr, Koma.NKeimaStr, Koma.KeimaStrIMG,
-               Koma.NKeimaStrIMG);
+    Koma.NKeimaStrKIF, Koma.KeimaStrKIF, Koma.NKeimaStrKIF,
+    Koma.KeimaStr, Koma.NKeimaStr, Koma.KeimaStrIMG, Koma.NKeimaStrIMG);
   this.InitMovable(Koma.KeimaMovable, Koma.KinMovable);
   this.id = Koma.KeimaID;
 }
@@ -1275,8 +1272,8 @@ function Gin(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.GinStrLong, Koma.NGinStrLong, Koma.GinStrKIF,
-               Koma.NGinStrKIF, Koma.GinStrKIF, Koma.NGinStrKIF, Koma.GinStr,
-               Koma.NGinStr, Koma.GinStrIMG, Koma.NGinStrIMG);
+    Koma.NGinStrKIF, Koma.GinStrKIF, Koma.NGinStrKIF, Koma.GinStr,
+    Koma.NGinStr, Koma.GinStrIMG, Koma.NGinStrIMG);
   this.InitMovable(Koma.GinMovable, Koma.KinMovable);
   this.id = Koma.GinID;
 }
@@ -1296,8 +1293,8 @@ function Kin(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.KinStrLong, Koma.KinStrLong, Koma.KinStrKIF, Koma.KinStrKIF,
-               Koma.KinStrKIF, Koma.KinStrKIF, Koma.KinStr, Koma.KinStr,
-               Koma.KinStrIMG, Koma.KinStrIMG);
+    Koma.KinStrKIF, Koma.KinStrKIF, Koma.KinStr, Koma.KinStr,
+    Koma.KinStrIMG, Koma.KinStrIMG);
   this.InitMovable(Koma.KinMovable, Koma.KinMovable);
   this.id = Koma.KinID;
 }
@@ -1329,8 +1326,8 @@ function Kaku(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.KakuStrLong, Koma.NKakuStrLong, Koma.KakuStrKIF,
-             Koma.NKakuStrKIF, Koma.KakuStrKIF, Koma.NKakuStrKIF, Koma.KakuStr,
-             Koma.NKakuStr, Koma.KakuStrIMG, Koma.NKakuStrIMG);
+    Koma.NKakuStrKIF, Koma.KakuStrKIF, Koma.NKakuStrKIF, Koma.KakuStr,
+    Koma.NKakuStr, Koma.KakuStrIMG, Koma.NKakuStrIMG);
   this.InitMovable(Koma.KakuMovable, Koma.UmaMovable);
   this.id = Koma.KakuID;
 }
@@ -1350,9 +1347,8 @@ function Hisha(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.HishaStrLong, Koma.NHishaStrLong, Koma.HishaStrKIF,
-               Koma.NHishaStrKIF, Koma.HishaStrKIF, Koma.NHishaStrKIF,
-               Koma.HishaStr, Koma.NHishaStr, Koma.HishaStrIMG,
-               Koma.NHishaStrIMG);
+    Koma.NHishaStrKIF, Koma.HishaStrKIF, Koma.NHishaStrKIF,
+    Koma.HishaStr, Koma.NHishaStr, Koma.HishaStrIMG, Koma.NHishaStrIMG);
   this.InitMovable(Koma.HishaMovable, Koma.RyuMovable);
   this.id = Koma.HishaID;
 }
@@ -1373,9 +1369,9 @@ function Gyoku(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr((teban === Koma.SENTEBAN) ? Koma.GyokuStrLong : Koma.OuStrLong,
-               Koma.GyokuStrLong, Koma.GyokuStrKIF, Koma.GyokuStrKIF,
-               Koma.GyokuStrKIF, Koma.GyokuStrKIF, Koma.GyokuStr, Koma.GyokuStr,
-               Koma.GyokuStrIMG, Koma.GyokuStrIMG);
+    Koma.GyokuStrLong, Koma.GyokuStrKIF, Koma.GyokuStrKIF,
+    Koma.GyokuStrKIF, Koma.GyokuStrKIF, Koma.GyokuStr, Koma.GyokuStr,
+    Koma.GyokuStrIMG, Koma.GyokuStrIMG);
   this.InitMovable(Koma.GyokuMovable, Koma.GyokuMovable);
   this.id = Koma.GyokuID;
 }
@@ -1491,7 +1487,7 @@ function toru(x, y) {
     // console.log('toremasen!!');
     return;
   }
-  ban[x][y].koma = testKoma;
+  ban[x][y].koma = new Koma();
   tottakoma = koma;
   mykifu.totta_id += koma.id;
 }
@@ -1517,8 +1513,8 @@ function komadai_add(tegoma, koma) {
  */
 function komadai_del(tegoma, id) {
   if (id < Koma.GyokuID) {
-    console.assert(tegoma[id][0].length > 0,
-      'no koma on komadai@komadai_del(' + tegoma + ',' + id + ');');
+    /* console.assert(tegoma[id][0].length > 0,
+      'no koma on komadai@komadai_del(' + tegoma + ',' + id + ');'); */
     return tegoma[id][0].pop();
   }
 }
@@ -1938,18 +1934,20 @@ Kifu.prototype.genKifu = function(koma, from_x, from_y, to_x, to_y, nari) {
   } else if (this.mode === Kifu.KIF) {
     this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
     this.lastTe.str += ' ';
-    this.lastTe.strs = koma.kifuKIF(from_x, from_y, to_x, to_y,
-                                    this.lastTe.x, this.lastTe.y, nari);
+    this.lastTe.strs =
+      koma.kifuKIF(from_x, from_y, to_x, to_y,
+        this.lastTe.x, this.lastTe.y, nari);
     this.lastTe.str += this.lastTe.strs;
     this.lastTe.str += '   ( 0:00/00:00:00)';
   } else if (this.mode === Kifu.Org) {
     this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
     this.lastTe.str += ' ';
-    this.lastTe.strs = koma.kifuKIFU(from_x, from_y, to_x, to_y,
-                                     this.lastTe.x, this.lastTe.y, nari);
+    this.lastTe.strs =
+      koma.kifuKIFU(from_x, from_y, to_x, to_y,
+        this.lastTe.x, this.lastTe.y, nari);
     this.lastTe.str += this.lastTe.strs;
   } else {
-    console.log('invalid mode@Kifu class!!(' + this.mode + ')');
+    /* console.log('invalid mode@Kifu class!!(' + this.mode + ')'); */
   }
   this.kifuText += this.lastTe.str + '\n';
   this.lastTe.x = to_x;
@@ -2011,7 +2009,7 @@ Kifu.prototype.putHeader = function(sentename, gotename) {
   } else if (this.mode === Kifu.Org) {
     this.kifuText = this.headerOrg(sentename, gotename);
   } else {
-    console.log('invalid mode@Kifu class!!(' + this.mode + ')');
+    /* console.log('invalid mode@Kifu class!!(' + this.mode + ')'); */
   }
 };
 
@@ -2104,7 +2102,7 @@ Kifu.prototype.putFooter = function(winte) {
   } else if (this.mode === Kifu.Org) {
     this.kifuText += this.footerOrg(winte);
   } else {
-    console.log('invalid mode@Kifu class!!(' + this.mode + ')');
+    /* console.log('invalid mode@Kifu class!!(' + this.mode + ')'); */
   }
 };
 
@@ -2306,8 +2304,9 @@ Kifu.prototype.receive = function(path, type) {
  * @return {Array} 損得リスト
  */
 Kifu.prototype.evalKomazon = function(ban, sentegoma, gotegoma) {
-  var komazon = [0, 0, 0, 0, 0, 0, 0, 0,  // 歩香桂銀金角飛玉
-                 0, 0, 0, 0, 0, 0, 0, 0];  // 成り駒
+  var komazon = [
+    0, 0, 0, 0, 0, 0, 0, 0,  // 歩香桂銀金角飛玉
+    0, 0, 0, 0, 0, 0, 0, 0];  // 成り駒
 
   for (var i = 0; i < 9; ++i) {
     for (var j = 0; j < 9; ++j) {

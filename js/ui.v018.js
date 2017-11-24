@@ -10,7 +10,7 @@ var movableColor = 'pink';
 
 // var testKoma = new Fu(Koma.SENTEBAN);
 // var testKoma = new Kaku(Koma.SENTEBAN);
-var testKoma = new Koma();
+// var testKoma = new Koma();
 
 /** マウスの座標 */
 var mouseposx;
@@ -48,6 +48,8 @@ var nameSente;
 /** 後手の名前 */
 var nameGote;
 
+/** 対局中かどうか */
+var taikyokuchu = false;
 
 /** 選択中のマス目 */
 var activemasu = null;
@@ -876,6 +878,7 @@ function clickcfrm_cancel() {
 function new_kyoku() {
   mykifu.reset();
   initKoma();
+  taikyokuchu = false;
   activeteban = Koma.SENTEBAN;
   update_screen();
 }
@@ -1370,7 +1373,7 @@ function checkSfenResponse(sfenstr)
     } else {
       document.getElementById('sfen_').innerHTML = sfenstr;
 
-      fromsfen(sfentext);
+      fromsfen(sfenstr);
 
       activateteban();
 
@@ -1440,8 +1443,8 @@ function init_board() {
 }
 
 document.addEventListener( 'DOMContentLoaded', function() {
-      init_board();
-    }, false );
+  init_board();
+}, false );
 
 function buildMoveMsg()
 {
