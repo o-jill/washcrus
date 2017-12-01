@@ -30,15 +30,29 @@ class GenNewGameScreen
     @log = Logger.new(PathList::GENNEWGAMELOG)
   end
 
+  # データの存在チェック
+  #
+  # @param params パラメータハッシュオブジェクト
   def check_datalost_gengame(params)
     params['rname'].nil? || params['remail'].nil? \
         || params['rname2'].nil? || params['remail2'].nil?
   end
 
+  # 歩とと金のどっちが多いかを返す
+  #
+  #　@param furigoma 振りごま結果文字列。F or T
+  #　@return 歩が３枚以上ならtrue
   def furifusen(furigoma)
     furigoma.count('F') >= 3
   end
 
+  # プレイヤー情報の取得
+  #
+  # @param name1  プレイヤー1の名前
+  # @param email1 プレイヤー1のアドレス
+  # @param name2  プレイヤー2の名前
+  # @param email2 プレイヤー2のアドレス
+  # @return { userdata1:, userdata2: }
   def check_players(name1, email1, name2, email2)
     userdb = UserInfoFile.new
     userdb.read
@@ -56,6 +70,10 @@ class GenNewGameScreen
     { userdata1: userdata1, userdata2: userdata2 }
   end
 
+  # プレイヤー情報の確認
+  #
+  # @param params パラメータハッシュオブジェクト
+  # @return { userdata1:, userdata2: }
   def check_newgame(params)
     return @errmsg += 'data lost ...<BR>' if check_datalost_gengame(params)
 
@@ -67,6 +85,12 @@ class GenNewGameScreen
     check_players(name1, email1, name2, email2)
   end
 
+  # 新規対局のメール文面の生成
+  #
+  # @param user1 名前1
+  # @param user2 名前2
+  # @param gameid game-id
+  # @return 文面
   def mail_msg_newgame(user1, user2, gameid)
     baseurl = @stg.value['base_url']
     msg = <<-MAIL_MSG.unindent
@@ -81,6 +105,9 @@ class GenNewGameScreen
     msg
   end
 
+  # エラー画面の出力
+  #
+  # @param userinfo ユーザー情報
   def put_err_sreen(userinfo)
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
@@ -88,6 +115,7 @@ class GenNewGameScreen
     CommonUI.html_foot
   end
 
+  # 新規対局メールの送信
   def send_mail
     subject = "a game is ready!! (#{@td.player1} vs #{@td.player2})"
     msg = mail_msg_newgame(@td.player1, @td.player2, @td.gid)
@@ -97,6 +125,12 @@ class GenNewGameScreen
     mailmgr.send_mail(@td.email2, subject, msg)
   end
 
+  # 対局情報の設定
+  #
+  # @param userdata1 対局者１情報
+  # @param userdata2 対局者2情報
+  # @param userinfo ユーザー情報
+  # @param params パラメータハッシュオブジェクト
   def config_taikyoku(userdata1, userdata2, userinfo, params)
     # @log.debug('td.setplayer1')
     @td.setplayer1(userdata1[0], userdata1[1], userdata1[3])
@@ -114,6 +148,11 @@ class GenNewGameScreen
     @td.generate
   end
 
+  # 対局生成
+  #
+  # @param userinfo ユーザー情報
+  # @param params パラメータハッシュオブジェクト
+  # @return 生成できたらtrue
   def generate(userinfo, params)
     ret = check_newgame(params)
 
@@ -137,6 +176,7 @@ class GenNewGameScreen
     true
   end
 
+  # メッセージの出力
   def put_msg
     @td.dumptable
 
@@ -148,10 +188,17 @@ class GenNewGameScreen
       GENMSG
   end
 
+  # エラーをログに出力
+  #
+  # @param e エラー情報
   def err2log(e)
     @log.warn("class=[#{e.class}] message=[#{e.message}] in gennewgame")
   end
 
+  # 画面の表示
+  #
+  # @param userinfo ユーザー情報
+  # @param params パラメータハッシュオブジェクト
   def show(userinfo, params)
     return put_err_sreen(userinfo) unless generate(userinfo, params)
 
