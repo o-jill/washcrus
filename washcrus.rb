@@ -115,7 +115,7 @@ class WashCrus
     when 'register' then
       RegisterScreen.new(@header).show(@params)
     when 'matchlist' then
-      matchlist_screen(@header, @userinfo)
+      MatchListScreen.new(@header).show(@userinfo)
     when 'mypage' then
       MyPageScreen.new(@header).show(@userinfo)
     when 'news' then

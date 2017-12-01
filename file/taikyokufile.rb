@@ -157,7 +157,7 @@ class TaikyokuFileContent
 
   # 指定時刻までに着手した対局の取得
   #
-  # @param to 時刻オブジェクト
+  # @param to 時刻文字列
   # @return 対局IDと着手時刻のハッシュリスト
   def findtime_to(to)
     tto = Time.parse(to)
@@ -169,7 +169,7 @@ class TaikyokuFileContent
 
   # 指定時刻以降に着手した対局の取得
   #
-  # @param from 時刻オブジェクト
+  # @param from 時刻文字列
   # @return 対局IDと着手時刻のハッシュリスト
   def findtime_from(from)
     tfrom = Time.parse(from)
@@ -181,8 +181,8 @@ class TaikyokuFileContent
 
   # 指定時刻間に着手した対局の取得
   #
-  # @param to 時刻オブジェクト
-  # @param from 時刻オブジェクト
+  # @param to 時刻文字列
+  # @param from 時刻文字列
   # @return 対局IDと着手時刻のハッシュリスト
   def findtime_both(from, to)
     tfrom = Time.parse(from)
@@ -199,8 +199,8 @@ class TaikyokuFileContent
 
   # 指定時刻間に着手した対局の取得
   #
-  # @param to 時刻オブジェクト。nil可
-  # @param from 時刻オブジェクト。nil可
+  # @param to 時刻文字列。null文字列可
+  # @param from 時刻文字列。null文字列可
   # @return 対局IDと着手時刻のハッシュリスト
   def findtime(from, to)
     return findtime_to(to) if from.empty?
@@ -469,8 +469,8 @@ class TaikyokuFile
 
   # 指定時刻間に着手した対局の取得
   #
-  # @param to 時刻オブジェクト。nil可
-  # @param from 時刻オブジェクト。nil可
+  # @param to 時刻文字列。null文字列可
+  # @param from 時刻文字列。null文字列可
   def findtime(from, to)
     @content.findtime(from, to)
   end
