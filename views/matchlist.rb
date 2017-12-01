@@ -63,7 +63,7 @@ class MatchListScreen
 
     put_taikyokuchu
 
-    puts "<HR>"
+    puts '<HR>'
 
     put_recentgames
 
