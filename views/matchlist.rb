@@ -7,10 +7,14 @@ require './views/common_ui.rb'
 # matchlist画面
 #
 class MatchListScreen
+  # 初期化
+  #
+  # @param header htmlヘッダ
   def initialize(header)
     @header = header
   end
 
+  # 対局中の対局のリストの出力
   def put_taikyokuchu
     tkcdb = TaikyokuChuFile.new
     tkcdb.read
@@ -34,6 +38,7 @@ class MatchListScreen
       GAMEINFO
   end
 
+  # 最近の対局のリストの出力
   def put_recentgames
     tdb = TaikyokuFile.new
     tdb.read
@@ -57,6 +62,9 @@ class MatchListScreen
     puts '</TABLE>'
   end
 
+  # 画面の表示
+  #
+  # @param userinfo ユーザー情報
   def show(userinfo)
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)

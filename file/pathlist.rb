@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+# パス情報
 module PathList
   ADMINCONFIGFILE = './db/adminconfig.txt'.freeze
   GAMELOG = './log/gamelog.txt'.freeze
