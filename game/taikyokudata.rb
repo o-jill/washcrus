@@ -85,6 +85,9 @@ class TaikyokuData
   end
 
   # 対局情報のDBへの登録
+  #
+  # @param teban 手番
+  # @param cmt コメント
   def register_taikyoku(teban = 'b', cmt = 'blank')
     # @log.debug('TaikyokuFile.new')
     tdb = TaikyokuFile.new
@@ -232,10 +235,16 @@ class TaikyokuData
     URI.escape(path)
   end
 
+  # kif形式の棋譜を返す。
+  #
+  # @return kif形式の棋譜
   def to_kif
     @jkf.to_kif.encode('Shift_JIS')
   end
 
+  # csa形式の棋譜を返す。
+  #
+  # @return csa形式の棋譜
   def to_csa
     @jkf.to_csa
   end

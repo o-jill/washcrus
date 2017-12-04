@@ -68,6 +68,9 @@ class GameHtml
     ERB.new(erbtxt).result(binding)
   end
 
+  # 局面画像生成サイトへのリンクの生成
+  #
+  # @return 局面画像へのリンク
   def kyokumen_link
     sr = WebApiSfenReader.new
     sr.setplayers(@mi.playerb, @mi.playerw)

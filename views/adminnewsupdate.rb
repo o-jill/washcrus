@@ -21,6 +21,9 @@ class AdminNewsUpdateScreen < NewsScreen
     @errmsg = ''
   end
 
+  # news内容の確認と保存
+  #
+  # @param params パラメータハッシュオブジェクト
   def write_param(params)
     if params['news'].nil?
       @errmsg += 'invalid parameters...<br>'
@@ -29,12 +32,19 @@ class AdminNewsUpdateScreen < NewsScreen
     end
   end
 
+  # newsをファイルに書き込む
+  #
+  # @param news newsの内容
   def update_news(news)
     File.write(PathList::NEWSFILE, news)
   rescue
     @errmsg += 'failed to update...'
   end
 
+  # 画面の表示
+  #
+  # @param userinfo ユーザー情報
+  # @param params パラメータハッシュオブジェクト
   def show(userinfo, params)
     return puts "Content-Type: text/plain;\n\nERR_NOT_ADMIN" \
         unless userinfo.admin

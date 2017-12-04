@@ -10,6 +10,7 @@ class WebApiSfenReader
   PIECE_ALPHABET = 1
   PIECE_INTL = 2
 
+  # 初期化
   def initialize
     @player1 = ''
     @player2 = ''
@@ -23,6 +24,9 @@ class WebApiSfenReader
   attr_accessor :player1, :player2, :title, :sfen, :lastmove, :piecetype, :turn
 
   # set players' names
+  #
+  # @param pl1 先手の名前
+  # @param pl2 後手の名前
   def setplayers(pl1, pl2)
     @player1 = pl1 || ''
     @player2 = pl2 || ''
@@ -36,6 +40,9 @@ class WebApiSfenReader
     @lastmove = csa[3, 2] || ''
   end
 
+  # パラメータをハッシュで返す
+  #
+  # @return {sfen:, lm:, sname:, gname:, title:, piece:, turn:}
   def params
     ret = { sfen: @sfen }
     ret[:lm] = @lastmove unless @lastmove.empty?
@@ -55,6 +62,9 @@ class WebApiSfenReader
     ret
   end
 
+  # uriの生成
+  #
+  # @return uri文字列
   def genuri
     'http://sfenreader.appspot.com/sfen?' + URI.encode_www_form(params)
   end

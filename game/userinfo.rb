@@ -43,12 +43,16 @@ class UserInfo
   end
 
   # check if data is valid.
+  #
+  # @return user_id, user_name, user_emailすべてが文字列を持っていればfalse
   def invalid?
     user_id.nil? || user_id.length.zero? || user_name.nil? \
     || user_name.length.zero? || user_email.nil? || user_email.length.zero?
   end
 
   # check if exist
+  #
+  # @return user_idがdbにあればtrue
   def exist_indb
     db = UserInfoFile.new
     db.read

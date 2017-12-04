@@ -19,6 +19,7 @@ class AdminNewsScreen
     @header = header
   end
 
+  # 編集欄の出力
   def put_edit_news
     msg = File.read(PathList::NEWSFILE, encoding: 'utf-8')
     scriptname = File.basename($PROGRAM_NAME)
@@ -50,6 +51,9 @@ class AdminNewsScreen
       NEWS_EDIT2
   end
 
+  # 画面の表示
+  #
+  # @param userinfo ユーザー情報
   def show(userinfo)
     return puts "Content-Type: text/plain;\n\nERR_NOT_ADMIN" \
         unless userinfo.admin

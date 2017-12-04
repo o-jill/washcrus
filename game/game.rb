@@ -18,6 +18,10 @@ require './views/login.rb'
 # 対局画面管理
 #
 class Game
+  # 初期化
+  #
+  # @param cgi CGIオブジェクト
+  # @param gid game-id
   def initialize(cgi, gid)
     @log = Logger.new(PathList::GAMELOG)
     # @log.level = Logger::INFO
@@ -31,6 +35,10 @@ class Game
 
   attr_reader :log
 
+  # userinfoとheaderのセット
+  #
+  # @param userinfo ユーザー情報
+  # @param header htmlヘッダ
   def setparam(userinfo, header)
     @userinfo = userinfo
     @header = header
@@ -38,6 +46,7 @@ class Game
 
   # class methods
 
+  # アクセス違反画面の出力
   def put_illegal_access
     print "Content-Type: text/plain; charset=UTF-8\n\nillegal access."
   end

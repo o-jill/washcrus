@@ -4,6 +4,9 @@ require 'fileutils'
 
 # 対局情報ファイル生成クラス
 class GenTaikyokuData
+  # 初期化
+  #
+  # @param taikyoku TaikyokuDataオブジェクト
   def initialize(taikyoku = nil)
     @taikyoku = taikyoku
     @id = taikyoku.gid
