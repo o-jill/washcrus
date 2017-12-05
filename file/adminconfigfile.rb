@@ -22,7 +22,7 @@ class AdminConfigFile
 
   # ファイルの読み込み
   #
-  # @param path ファイルパス
+  # @param fpath ファイルパス
   def read(fpath = @path)
     File.open(fpath, 'r:utf-8') do |file|
       file.flock File::LOCK_EX
@@ -40,7 +40,7 @@ class AdminConfigFile
 
   # ファイルの書き込み
   #
-  # @param path ファイルパス
+  # @param fpath ファイルパス
   def write(fpath = @path)
     File.open(fpath, 'w') do |file|
       file.flock File::LOCK_EX
@@ -58,7 +58,7 @@ class AdminConfigFile
   # ファイルの追加書き込み
   #
   # @param newid 追加するID
-  # @param path ファイルパス
+  # @param fpath ファイルパス
   def add(newid, fpath = @path)
     @idlist << newid
 

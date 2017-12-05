@@ -14,6 +14,7 @@ require './util/myerror.rb'
 class UserInfoFile
   KEY = Globals::KEY
 
+  # 初期化
   def initialize
     @fname = PathList::USERINFOFILE
     @names = {}

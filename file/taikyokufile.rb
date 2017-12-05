@@ -58,6 +58,18 @@ class TaikyokuFileContent
     }
   end
 
+  # get game info by game ids
+  #
+  # @param array_id 対局IDの配列
+  # @return array of probe(i)
+  def probeex(array_id)
+    games = []
+    array_id.each do |i|
+      games << probe(i)
+    end
+    games
+  end
+
   # remove taikyoku information
   #
   # @param nid 対局ID
@@ -89,6 +101,7 @@ class TaikyokuFileContent
   # get taikyoku information by id
   #
   # @param id 対局ID
+  # @return nil or probe(id)
   def findid(id)
     probe(id) if exist_id(id)
   end
@@ -96,6 +109,7 @@ class TaikyokuFileContent
   # duplication check
   #
   # @param nid 対局ID
+  # @return true if nid exists.
   def exist_id(nid)
     @namebs.key?(nid)
   end
@@ -103,6 +117,7 @@ class TaikyokuFileContent
   # get taikyoku information by name
   #
   # @param name 先手の対局者名
+  # @return 対局IDと先手の対局者名のハッシュリスト
   def findnameb(name)
     @namebs.select { |_k, v| v == name }
   end
@@ -110,6 +125,7 @@ class TaikyokuFileContent
   # get taikyoku information by name
   #
   # @param name 後手の対局者名
+  # @return 対局IDと後手の対局者名のハッシュリスト
   def findnamew(name)
     @namews.select { |_k, v| v == name }
   end
@@ -117,19 +133,17 @@ class TaikyokuFileContent
   # get taikyoku information by name
   #
   # @param name 対局者名
+  # @return array of probe(i)
   def findname(name)
     foundid = findnameb(name)
     foundid.merge!(findnamew(name))
-    res = []
-    foundid.each do |i, _uid|
-      res << probe(i)
-    end
-    res
+    probeex(foundid.keys)
   end
 
   # get taikyoku information by user-id
   #
   # @param nid 先手の対局者のID
+  # @return 対局IDと先手のIDのハッシュリスト
   def finduidb(nid)
     @idbs.select { |_k, v| v == nid }
   end
@@ -137,6 +151,7 @@ class TaikyokuFileContent
   # get taikyoku information by user-id
   #
   # @param nid 後手の対局者のID
+  # @return 対局IDと後手のIDのハッシュリスト
   def finduidw(nid)
     @idws.select { |_k, v| v == nid }
   end
@@ -148,11 +163,7 @@ class TaikyokuFileContent
   def finduid(nid)
     foundid = finduidb(nid)
     foundid.merge!(finduidw(nid))
-    res = []
-    foundid.each do |i, _uid|
-      res << probe(i)
-    end
-    res
+    probeex(foundid.keys)
   end
 
   # 指定時刻までに着手した対局の取得
@@ -227,6 +238,8 @@ class TaikyokuFileContent
   end
 
   # １日以上経過した対局のIDを返す。
+  #
+  # @return 対局IDと着手時刻のハッシュリスト
   def checkelapsed
     limit = Time.now - 86_400 # 24*3600
     @times.select do |_key, val|
@@ -425,9 +438,18 @@ class TaikyokuFile
     @content.probe(id)
   end
 
+  # get game info by game id
+  #
+  # @param array_id 対局IDの配列
+  # @return array of probe(i)
+  def probeex(array_id)
+    @content.probeex(array_id)
+  end
+
   # duplication check
   #
   # @param nid 対局ID
+  # @return true if nid exists.
   def exist_id(nid)
     @content.exist_id(nid)
   end
@@ -435,6 +457,7 @@ class TaikyokuFile
   # get taikyoku information by id
   #
   # @param id 対局ID
+  # @return nil or probe(id)
   def findid(id)
     @content.findid(id)
   end
@@ -442,6 +465,7 @@ class TaikyokuFile
   # get taikyoku information by name
   #
   # @param name 先手の対局者名
+  # @return 対局IDと先手の対局者名のハッシュリスト
   def findnameb(name)
     @content.findnameb(name)
   end
@@ -449,6 +473,7 @@ class TaikyokuFile
   # get taikyoku information by name
   #
   # @param name 後手の対局者名
+  # @return 対局IDと後手の対局者名のハッシュリスト
   def findnamew(name)
     @content.findnamew(name)
   end
@@ -456,6 +481,7 @@ class TaikyokuFile
   # get taikyoku information by name
   #
   # @param name 対局者名
+  # @return 対局情報リスト
   def findname(name)
     @content.findname(name)
   end
@@ -463,6 +489,7 @@ class TaikyokuFile
   # get taikyoku information by user-id
   #
   # @param nid 対局者のID
+  # @return 対局情報リスト
   def finduid(nid)
     @content.finduid(nid)
   end
@@ -471,6 +498,7 @@ class TaikyokuFile
   #
   # @param to 時刻文字列。null文字列可
   # @param from 時刻文字列。null文字列可
+  # @return 対局IDと着手時刻のハッシュリスト
   def findtime(from, to)
     @content.findtime(from, to)
   end
@@ -539,6 +567,8 @@ class TaikyokuChuFile < TaikyokuFile
   end
 
   # １日以上経過した対局のIDを返す。
+  #
+  # @return 対局IDと着手時刻のハッシュリスト
   def checkelapsed
     @content.checkelapsed
   end
