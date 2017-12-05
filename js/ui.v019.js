@@ -128,6 +128,23 @@ function Naraberu_tegoma(tegoma, tegomaui)
 }
 
 /**
+ * 最後に指したところに印をつける
+ */
+function Naraberu_lastmove(x, y)
+{
+  if (x < 0 || x > 8 || y < 0 || y > 9)
+    return;
+
+  var el = ban[x][y].el;
+  if (el !== null) {
+    var text = '<div style="position:relative;">' + el.innerHTML;
+    text += '<div style="position:absolute;left:0;top:0;">';
+    text += '<img src="./image/dot16.png"></div></div>';
+    el.innerHTML = text;
+  }
+}
+
+/**
  * コマを並べる。
  */
 function Naraberu() {
@@ -140,22 +157,15 @@ function Naraberu() {
         if (fn.length === 0) {
           el.innerHTML = '<BR>';
         } else {
-          var komaimg = '<img width="48px" height="48px" src="./image/'
+          el.innerHTML = '<img width="48px" height="48px" src="./image/'
                         + fn + '.png">';
-          if (i === last_mx && j === last_my) {
-            // 最後に指したところに印をつける
-            var text = '<div style="position:relative;">' + komaimg;
-            text += '<div style="position:absolute;left:0;top:0;">';
-            text += '<img src="./image/dot16.png"></div></div>';
-            el.innerHTML = text;
-          } else {
-            el.innerHTML = komaimg;
-          }
         }
-        // el.innerHTML = koma.getHtmlStr(0);
       }
     }
   }
+  // 最後に指したところに印をつける
+  Naraberu_lastmove(last_mx, last_my);
+
   Naraberu_tegoma(sentegoma, sentegoma);
   Naraberu_tegoma(gotegoma, gotegoma);
 }
@@ -173,22 +183,15 @@ function Naraberu_rotate() {
         if (fn.length === 0) {
           el.innerHTML = '<BR>';
         } else {
-          var komaimg = '<img width="48px" height="48px" src="./image/'
+          el.innerHTML = '<img width="48px" height="48px" src="./image/'
                         + fn + '.png">';
-          if (8-i === last_mx && 8-j === last_my) {
-            // 最後に指したところに印をつける
-            var text = '<div style="position:relative;">' + komaimg;
-            text += '<div style="position:absolute;left:0;top:0;">';
-            text += '<img src="./image/dot16.png"></div></div>';
-            el.innerHTML = text;
-          } else {
-            el.innerHTML = komaimg;
-          }
         }
-        // el.innerHTML = koma.getHtmlStr(1);
       }
     }
   }
+  // 最後に指したところに印をつける
+  Naraberu_lastmove(8 - last_mx, 8 - last_my);
+
   Naraberu_tegoma(sentegoma, gotegoma);
   Naraberu_tegoma(gotegoma, sentegoma);
 }
@@ -1458,6 +1461,24 @@ function buildMoveMsg()
 
 var tsushinchu = false;
 
+function send_csamove_resp(status)
+{
+  var msg = document.getElementById('msg_fogscreen');
+  if (status === 0) {  // XHR 通信失敗
+    msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
+    location.reload(true);
+  } else {  // XHR 通信成功
+    if ((200 <= status && status < 300) || status === 304) {
+      // リクエスト成功
+      msg.innerHTML = '通信完了。\n自動的にリロードします。';
+      location.reload(true);
+    } else {  // リクエスト失敗
+      msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
+      location.reload(true);
+    }
+  }
+}
+
 function send_csamove()
 {
   var elem_id = document.getElementById('gameid');
@@ -1472,23 +1493,9 @@ function send_csamove()
     ajax.send(buildMoveMsg());
     ajax.onreadystatechange = function() {
       tsushinchu = false;
-      var msg = document.getElementById('msg_fogscreen');
       switch (ajax.readyState) {
       case 4:
-        var status = ajax.status;
-        if (status === 0) {  // XHR 通信失敗
-          msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
-          location.reload(true);
-        } else {  // XHR 通信成功
-          if ((200 <= status && status < 300) || status === 304) {
-            // リクエスト成功
-            msg.innerHTML = '通信完了。\n自動的にリロードします。';
-            location.reload(true);
-          } else {  // リクエスト失敗
-            msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
-            location.reload(true);
-          }
-        }
+        send_csamove_resp(ajax.status);
         break;
       }
     };
