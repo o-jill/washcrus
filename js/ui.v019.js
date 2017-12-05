@@ -144,6 +144,17 @@ function Naraberu_lastmove(x, y)
   }
 }
 
+function Naraberu_putkoma(el, koma, n123)
+{
+  var fn = koma.getImgStr(n123);
+  if (fn.length === 0) {
+    el.innerHTML = '<BR>';
+  } else {
+    el.innerHTML = '<img width="48px" height="48px" src="./image/'
+                  + fn + '.png">';
+  }
+}
+
 /**
  * コマを並べる。
  */
@@ -151,16 +162,10 @@ function Naraberu() {
   for (var i = 0; i < 9; ++i) {
     for (var j = 0; j < 9; ++j) {
       var koma = ban[i][j].koma;
+      if (koma === null)
+        continue;
       var el = ban[i][j].el;
-      if (koma !== null) {
-        var fn = koma.getImgStr(0);
-        if (fn.length === 0) {
-          el.innerHTML = '<BR>';
-        } else {
-          el.innerHTML = '<img width="48px" height="48px" src="./image/'
-                        + fn + '.png">';
-        }
-      }
+      Naraberu_putkoma(el, koma, 0);
     }
   }
   // 最後に指したところに印をつける
@@ -177,16 +182,10 @@ function Naraberu_rotate() {
   for (var i = 0; i < 9; ++i) {
     for (var j = 0; j < 9; ++j) {
       var koma = ban[8 - i][8 - j].koma;
+      if (koma === null)
+        continue;
       var el = ban[i][j].el;
-      if (koma !== null) {
-        var fn = koma.getImgStr(1);
-        if (fn.length === 0) {
-          el.innerHTML = '<BR>';
-        } else {
-          el.innerHTML = '<img width="48px" height="48px" src="./image/'
-                        + fn + '.png">';
-        }
-      }
+      Naraberu_putkoma(el, koma, 1);
     }
   }
   // 最後に指したところに印をつける
@@ -1467,15 +1466,16 @@ function send_csamove_resp(status)
   if (status === 0) {  // XHR 通信失敗
     msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
     location.reload(true);
-  } else {  // XHR 通信成功
-    if ((200 <= status && status < 300) || status === 304) {
-      // リクエスト成功
-      msg.innerHTML = '通信完了。\n自動的にリロードします。';
-      location.reload(true);
-    } else {  // リクエスト失敗
-      msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
-      location.reload(true);
-    }
+    return;
+  }
+  // XHR 通信成功
+  if ((200 <= status && status < 300) || status === 304) {
+    // リクエスト成功
+    msg.innerHTML = '通信完了。\n自動的にリロードします。';
+    location.reload(true);
+  } else {  // リクエスト失敗
+    msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
+    location.reload(true);
   }
 }
 
