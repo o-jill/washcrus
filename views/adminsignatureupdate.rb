@@ -19,7 +19,7 @@ class AdminSignatureUpdateScreen
 
   # 署名ファイルの更新
   #
-  # @param signature 書き込む内容
+  # @param params パラメータハッシュオブジェクト
   def update_param(params)
     if params['signature'].nil?
       @errmsg += 'invalid parameters...<br>'

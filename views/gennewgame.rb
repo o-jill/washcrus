@@ -40,8 +40,8 @@ class GenNewGameScreen
 
   # 歩とと金のどっちが多いかを返す
   #
-  #　@param furigoma 振りごま結果文字列。F or T
-  #　@return 歩が３枚以上ならtrue
+  # @param furigoma 振りごま結果文字列。F or T
+  # @return 歩が３枚以上ならtrue
   def furifusen(furigoma)
     furigoma.count('F') >= 3
   end

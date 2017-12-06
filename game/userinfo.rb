@@ -10,12 +10,24 @@ require './file/userinfofile.rb'
 # ユーザー情報管理クラス
 #
 class UserInfo
+  # 初期化
+  #
+  # @param count 訪問回数
+  # @param id    ユーザーID
+  # @param name  ユーザー名
+  # @param addr  メールアドレス
   def initialize(count = -1, id = nil, name = nil, addr = nil)
+    # 訪問回数
     @visitcount = count
+    # ユーザーID
     @user_id = id
+    # ユーザー名
     @user_name = name
+    # メールアドレス
     @user_email = addr
+    # 戦績
     @win_lose = { swin: 0, slose: 0, gwin: 0, glose: 0 }
+    # 管理者権限
     @admin = id.nil? ? false : check_admin
   end
 
@@ -23,6 +35,8 @@ class UserInfo
   attr_reader :admin
 
   # read data from session hash object.
+  #
+  # @param session セッションオブジェクト
   def readsession(session)
     # keys for session must be Strings, not symbols.
     @visitcount = session['count'].to_i + 1
@@ -33,6 +47,8 @@ class UserInfo
   end
 
   # generate data hash object.
+  #
+  # @return {'count':, 'user_id':, 'user_name':, 'user_email':, 'adminright':}
   def hashsession
     {
       # keys for session must be Strings, not symbols.

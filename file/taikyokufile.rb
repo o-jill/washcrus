@@ -557,7 +557,7 @@ class TaikyokuChuFile < TaikyokuFile
 
   # 終局処理
   #
-  # @param nid 対局ID
+  # @param gid 対局ID
   def finished(gid)
     lock do
       read
