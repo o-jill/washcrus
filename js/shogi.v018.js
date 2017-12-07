@@ -385,26 +385,15 @@ Koma.prototype.getStr = function() {
 Koma.prototype.getHtmlStr = function(hanten) {
   var str;
   if (this.teban === Koma.SENTEBAN) {
-    if (hanten) {
-      str = '<div class=gotemoji>';
-    } else {
-      str = '<div class=sentemoji>';
-    }
+    str = (hanten) ? '<div class=gotemoji>' : '<div class=sentemoji>';
   } else if (this.teban === Koma.GOTEBAN) {
-    if (hanten) {
-      str = '<div class=sentemoji>';
-    } else {
-      str = '<div class=gotemoji>';
-    }
+    str = (hanten) ? '<div class=sentemoji>' : '<div class=gotemoji>';
   } else {
-    str = Koma.AkiStr;
-    return str;
+    return Koma.AkiStr;
   }
-  if (this.nari === Koma.NARI) {
-    str += this.strntypeKIFU;
-  } else {
-    str += this.strtypeKIFU;
-  }
+
+  str += (this.nari === Koma.NARI) ? this.strntypeKIFU : this.strtypeKIFU;
+
   str += '</div>';
   return str;
 };
@@ -1379,13 +1368,7 @@ Gyoku.prototype.checkNari = function(fromy, toy) {
 };
 
 function build_movecsa(koma, from_x, from_y, to_x, to_y, tottaid, nari) {
-  var str ;
-
-  if (koma.teban === Koma.SENTEBAN) {
-    str = Koma.SenteStrCSA;
-  } else {
-    str = Koma.GoteStrCSA;
-  }
+  var str = (koma.teban === Koma.SENTEBAN) ? Koma.SenteStrCSA : Koma.GoteStrCSA;
 
   str += from_x + 1;
   str += from_y + 1;
