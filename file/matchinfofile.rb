@@ -145,7 +145,7 @@ class MatchInfoFile
     @nth = items[3]
   end
 
-  # minimal syntax check
+  # minimal sfen board syntax check
   #
   # @param sfenstr sfen文字列
   # @return nil if invalid, otherwise successful.
@@ -221,12 +221,12 @@ class MatchInfoFile
     @turn =
       if per100_text == '%TORYO'
         if @teban == 'b'
-          'fw'  # 後手勝ち
+          'fw' # 後手勝ち
         else
-          'fb'  # 先手勝ち
+          'fb' # 先手勝ち
         end
       else
-        'd'  # 引き分け
+        'd' # 引き分け
       end
     # @teban = 'f'
   end
@@ -303,7 +303,8 @@ class MatchInfoFile
 
   # ハッシュにして返す
   #
-  # @return ハッシュオブジェクト
+  # @return ハッシュオブジェクト { gid:, creator:, dt_created:, idb:, playerb:,
+  #         idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished:, turn: }
   def genhash
     {
       gid: gid, creator: creator, dt_created: dt_created,

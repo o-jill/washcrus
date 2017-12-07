@@ -416,25 +416,15 @@ Koma.prototype.getHtmlStr = function(hanten) {
 Koma.prototype.getImgStr = function(hanten) {
   var str;
   if (this.teban === Koma.SENTEBAN) {
-    if (hanten) {
-      str = 'h';
-    } else {
-      str = '';
-    }
+    str = (hanten) ? 'h' : '';
   } else if (this.teban === Koma.GOTEBAN) {
-    if (hanten) {
-      str = '';
-    } else {
-      str = 'h';
-    }
+    str = (hanten) ? '' : 'h';
   } else {
     return '';
   }
-  if (this.nari === Koma.NARI) {
-    str += this.strntypeIMG;
-  } else {
-    str += this.strtypeIMG;
-  }
+
+  str += (this.nari === Koma.NARI) ? this.strntypeIMG : this.strtypeIMG;
+
   return str;
 };
 /**
