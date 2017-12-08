@@ -142,11 +142,45 @@ class JsonMove
         if ('1'..'9').cover?(x) && ('1'..'9').cover?(y)
   end
 
-  # 指し手文字列からJsonMoveに変換
+  # 指し手文字列の読み取り
   #
-  # @param t [+-][0-9][0-9][0-9][0-9]{FU|KY|KE|...}{__|FU|KY|KE|...}P?
+  # @param t 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
+  # @return 指し手ハッシュ
+  def self.read_move(t)
+    mycolor = read_sengo(t[0])
+    txy = read_toxy(t[3], t[4])
+    mypiece = checkpiece(t[5, 2])
+
+    ret = {
+      'to' => txy,
+      'piece' => mypiece,
+      'color' => mycolor
+    }
+    ret.values.each do |v|
+      return nil if v.nil?
+    end
+
+    fxy = read_fromxy(t[1], t[2])
+    return nil if fxy[:ret].zero?
+    ret['from'] = fxy[:val]
+
+    mycapture = checkpiece(t[7, 2])
+    ret['capture'] = mycapture unless mycapture.nil?
+
+    if t[9] == 'P'
+      ret['promote'] = true
+    elsif !t[9].nil?
+      return nil
+    end
+
+    ret
+  end
+
+  # 指し手文字列から指し手ハッシュに変換
+  #
+  # @param t 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
   #          %TORYO, %SENNICHITEなど
-  # @return エラー:nil, 正常終了:JsonMoveオブジェクト
+  # @return エラー:nil, 正常終了:指し手ハッシュ
   def self.fromtext(t)
     return if t.nil?
 
@@ -154,28 +188,6 @@ class JsonMove
 
     return unless (9..10).cover?(t.length)
 
-    mycolor = read_sengo(t[0])
-    return nil if mycolor.nil?
-    ret = { 'color' => mycolor }
-
-    fxy = read_fromxy(t[1], t[2])
-    return nil if fxy[:ret].zero?
-    ret['from'] = fxy[:val]
-
-    txy = read_toxy(t[3], t[4])
-    return nil if txy.nil?
-    ret['to'] = txy
-
-    mypiece = checkpiece(t[5, 2])
-    return nil if mypiece.nil?
-    ret['piece'] = mypiece
-
-    mycapture = checkpiece(t[7, 2])
-    ret['capture'] = mycapture unless mycapture.nil?
-
-    return nil unless t[9].nil? || t[9] == 'P'
-    ret['promote'] = true if t[9] == 'P'
-
-    ret
+    read_move(t)
   end
 end
