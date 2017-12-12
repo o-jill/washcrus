@@ -77,6 +77,24 @@ function check_form()
   }
 }
 
+function precheck_result(status, resp)
+{
+  var komanim = document.getElementById('komanim');
+  komanim.style.display = 'none';
+  var btn = document.getElementById('precheck');
+  btn.disabled = false;
+  var errmsg = document.getElementById('errmsg');
+  if (status === 0) {  // XHR 通信失敗
+    errmsg.innerText = "XHR 通信失敗";
+  } else if ((200 <= status && status < 300) || status === 304) {
+    // XHR 通信成功, リクエスト成功
+    errmsg.innerText = resp;
+  } else {
+    // XHR 通信成功, リクエスト失敗
+    errmsg.innerText = "その他の応答:" + status;
+  }
+}
+
 function pre_check() {
   var name = document.getElementById('rname');
   var name2 = document.getElementById('rname2');
@@ -87,41 +105,25 @@ function pre_check() {
   postmsg += "&remail="+email.value+"&remail2="+email2.value;
 
   var ajax = new XMLHttpRequest();
-  if (ajax !== null) {
-    var komanim = document.getElementById('komanim');
-    komanim.style.display = 'inline';
-    var btn = document.getElementById('precheck')
-    btn.disabled = true;
+  if (ajax === null)
+    return;
 
-    ajax.open('POST', './washcrus.rb?checknewgame', true);
-    ajax.overrideMimeType('text/plain; charset=UTF-8');
-    ajax.send(postmsg);
+  var komanim = document.getElementById('komanim');
+  komanim.style.display = 'inline';
+  var btn = document.getElementById('precheck')
+  btn.disabled = true;
 
-    ajax.onreadystatechange = function () {
-      switch (ajax.readyState) {
-      case 4:
-        var komanim = document.getElementById('komanim');
-        komanim.style.display = 'none';
-        var btn = document.getElementById('precheck')
-        btn.disabled = false;
-        var status = ajax.status;
-        if (status === 0) {  // XHR 通信失敗
-          document.getElementById('errmsg').innerText = "XHR 通信失敗";
-        } else {  // XHR 通信成功
-          if ((200 <= status && status < 300) || status === 304) {
-            // リクエスト成功
-            document.getElementById('errmsg').innerText = ajax.responseText;
-          } else {  // リクエスト失敗
-            document.getElementById('errmsg').innerText = "その他の応答:" + status;
-          }
-        }
-        break;
-      }
-    };
-    /* ajax.onload = function(e) {
-      utf8text = ajax.responseText;
-    }; */
-  }
+  ajax.open('POST', './washcrus.rb?checknewgame', true);
+  ajax.overrideMimeType('text/plain; charset=UTF-8');
+  ajax.send(postmsg);
+
+  ajax.onreadystatechange = function () {
+    switch (ajax.readyState) {
+    case 4:
+      precheck_result(ajax.status, ajax.responseText);
+      break;
+    }
+  };
 }
 
 function lets_furigoma() {
