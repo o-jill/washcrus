@@ -3,89 +3,23 @@
 require 'json'
 
 #
-# 指し手クラス
+# 指し手モジュール
 #
-class JsonMove
-  # 初期化
-  def initialize
-    @from = { 'x' => -1, 'y' => -1 }
-    @to   = { 'x' => -1, 'y' => -1 }
-    @piece = 'OU'
-    @color = 0
-    @promote = false
-    @capture = nil # 'OU'
-    @same = false
-  end
-
-  attr_reader :from, :to, :piece, :color, :promote, :capture, :same
-
-  # 駒を打つ
-  #
-  # to    {x: 1~9, y: 1~9}
-  # koma  打つ駒
-  # teban 0:sente, 1:gote
-  def utu(to, koma, teban)
-    move(nil, to, koma, teban)
-  end
-
-  # 駒を動かす
-  #
-  # from {x: 1~9, y: 1~9}
-  # to   {x: 1~9, y: 1~9}
-  # koma  動かす駒/打つ駒
-  # teban 0:sente, 1:gote
-  def move(from, to, koma, teban)
-    @from = from
-    @to = to
-    @piece = koma
-    @color = teban
-    @promote = false
-    @capture = nil
-    @same = false
-  end
-
-  # 成る
-  def nari
-    @promote = true
-  end
-
-  # 取る
-  #
-  # @param koma 取られる駒
-  def toru(koma)
-    @capture = koma
-  end
-
-  # 同xxかどうか
-  #
-  # @param a {'from'=>{'x'=>x,'y'=>y},'to'=>{'x'=>x,'y'=>y}}
-  # @return 同xxのときtrue
-  def checkdou(a)
-    # @same =
-    # (@to['x'] == a['to']['x'] &&
-    #  @to['y'] == a['to']['y'])
-    @same = (@to == a['to'])
-  end
-
+# 指し手ハッシュ:
+#  data = {
+#    'from' => @from, 'to' => @to, 'piece' => @piece, 'color' => @color
+#  }
+#  data['promote'] = @promote if @promote
+#  data['capture'] = @capture unless @capture.nil?
+#  data['same'] = @same if @same
+#
+module JsonMove
   # 玉をとったかどうか
   #
   # @param a 取られた駒
   # @return 玉をとったらtrue
   def self.catchOU?(a)
     a['capture'] == 'OU'
-  end
-
-  # ハッシュの生成
-  #
-  # @return 指し手ハッシュ
-  def genhash
-    data = {
-      'from' => @from, 'to' => @to, 'piece' => @piece, 'color' => @color
-    }
-    data['promote'] = @promote if @promote
-    data['capture'] = @capture unless @capture.nil?
-    data['same'] = @same if @same
-    data
   end
 
   # 投了などの特別な手のハッシュ
@@ -113,7 +47,7 @@ class JsonMove
   # @param c 先後を示す文字
   # @return 0:先手, 1:後手, nil:その他
   def self.read_sengo(c)
-    case c
+    case c[0]
     when '+' then 0
     when '-' then 1
       # else          nil
@@ -122,33 +56,61 @@ class JsonMove
 
   # 移動元座標をハッシュに変換
   #
-  # @param x 移動元筋
-  # @param y 移動元段
-  # @return {ret:0(エラー)} or {ret:1, val:nil or {'x' => x, 'y'=>y}}
-  def self.read_fromxy(x, y)
-    return { ret: 0 } unless ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
-    ret = { ret: 1 }
+  # @param xy 移動元
+  # @return nil:エラー or ret[val:]:nil or {'x' => x, 'y'=>y}
+  def self.read_fromxy(xy)
+    x = xy[1]
+    y = xy[2]
+    return nil unless ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
     ret[:val] = x == '0' && y == '0' ? nil : { 'x' => x.to_i, 'y' => y.to_i }
     ret
   end
 
   # 行き先座標をハッシュに変換
   #
-  # @param x 行き先筋
-  # @param y 行き先段
+  # @param xy 行き先
   # @return {'x' => x, 'y'=>y}
-  def self.read_toxy(x, y)
+  def self.read_toxy(xy)
+    x = xy[3]
+    y = xy[4]
     { 'x' => x.to_i, 'y' => y.to_i } \
         if ('1'..'9').cover?(x) && ('1'..'9').cover?(y)
+  end
+
+  # 取った駒の読み取り
+  #
+  # @param cap 取った駒
+  # @param data 指し手ハッシュ
+  # @return 指し手ハッシュ
+  def self.read_capture(cap, data)
+    mycapture = checkpiece(cap[7, 2])
+    data['capture'] = mycapture unless mycapture.nil?
+    data
+  end
+
+  # 成ったかどうかの確認
+  # 成っていればdata['capture']がtrueになる。
+  #
+  # @param p 成ったかどうかを表す文字
+  # @param data 指し手ハッシュ
+  # @return nil:エラー or 指し手ハッシュ
+  def self.read_promote(p, data)
+    if p[9] == 'P'
+      data['promote'] = true
+    elsif !p[9].nil?
+      return nil
+    end
+
+    data
   end
 
   # 指し手文字列の読み取り
   #
   # @param t 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
-  # @return 指し手ハッシュ
+  # @return エラー:nil, 正常終了:指し手ハッシュ
   def self.read_move(t)
-    mycolor = read_sengo(t[0])
-    txy = read_toxy(t[3], t[4])
+    mycolor = read_sengo(t)
+    txy = read_toxy(t)
     mypiece = checkpiece(t[5, 2])
 
     ret = {
@@ -160,18 +122,13 @@ class JsonMove
       return nil if v.nil?
     end
 
-    fxy = read_fromxy(t[1], t[2])
-    return nil if fxy[:ret].zero?
+    fxy = read_fromxy(t)
+    return if fxy.nil?
     ret['from'] = fxy[:val]
 
-    mycapture = checkpiece(t[7, 2])
-    ret['capture'] = mycapture unless mycapture.nil?
+    ret = read_capture(t, ret)
 
-    if t[9] == 'P'
-      ret['promote'] = true
-    elsif !t[9].nil?
-      return nil
-    end
+    ret = read_promote(t, ret)
 
     ret
   end
