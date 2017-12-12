@@ -62,8 +62,7 @@ module JsonMove
     x = xy[1]
     y = xy[2]
     return nil unless ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
-    ret[:val] = x == '0' && y == '0' ? nil : { 'x' => x.to_i, 'y' => y.to_i }
-    ret
+    { val: x == '0' && y == '0' ? nil : { 'x' => x.to_i, 'y' => y.to_i } }
   end
 
   # 行き先座標をハッシュに変換
