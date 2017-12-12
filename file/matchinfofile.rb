@@ -145,23 +145,31 @@ class MatchInfoFile
     @nth = items[3]
   end
 
+  # count # of pieces on a line.
+  #
+  # @param sfenstr sfen文字列
+  # @return # of pieces
+  private def checksfen_line(line)
+    nkoma = 0
+    line.each_char do |chr|
+      case chr
+      when '1'..'9' then nkoma += chr.to_i
+      when '+' then next
+      else nkoma += 1
+      end
+    end
+  end
+
   # minimal sfen board syntax check
   #
   # @param sfenstr sfen文字列
   # @return nil if invalid, otherwise successful.
-  def checksfen(sfenstr)
+  private def checksfen(sfenstr)
     dan = sfenstr.split('/')
     return nil if dan.length != 9
     dan.each do |line|
-      nine = 9
-      line.each_char do |chr|
-        case chr
-        when '1'..'9' then nine -= chr.to_i
-        when '+' then next
-        else nine -= 1
-        end
-      end
-      return nil unless nine.zero?
+      nkoma = checksfen_line(line)
+      return nil if nkoma != 9
     end
   end
 
@@ -169,7 +177,7 @@ class MatchInfoFile
   #
   # @param item sfenを空白でsplitしたArray
   # @return true if invalid
-  def invalid_sfenitem?(item)
+  private def invalid_sfenitem?(item)
     # @log.debug('return if @teban == item[1]')
     # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
     # @log.debug('return if checksfen(item[0]).nil?')
