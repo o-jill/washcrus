@@ -354,20 +354,24 @@ Koma.prototype.clone = function(obj)  {
   return new f();
 };
 
+Koma.prototype.getTebanStr = function(strSente, strGote) {
+  if (this.teban === Koma.SENTEBAN) {
+    return strSente;
+  } else if (this.teban === Koma.GOTEBAN) {
+    return strGote;
+  } else {
+    return null;
+  }
+}
 /**
  * 表示用の文字列の取得
  *
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getStr = function() {
-  var str;
-  if (this.teban === Koma.SENTEBAN) {
-    str = Koma.SenteStr;
-  } else if (this.teban === Koma.GOTEBAN) {
-    str = Koma.GoteStr;
-  } else {
-    str = Koma.AkiStr;
-    return str;
+  var str = this.getTebanStr(Koma.SenteStr, Koma.GoteStr);
+  if (str == null) {
+    return Koma.AkiStr;
   }
   str += this.strntypeKIFU;
   if (this.nari === Koma.NARI) {
@@ -422,15 +426,11 @@ Koma.prototype.getImgStr = function(hanten) {
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getShortStrCSA = function() {
-  var str;
-  if (this.teban === Koma.SENTEBAN) {
-    str = Koma.SenteStrCSA;
-  } else if (this.teban === Koma.GOTEBAN) {
-    str = Koma.GoteStrCSA;
-  } else {
-    str = Koma.AkiStrCSA;
-    return str;
+  var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
+  if (str == null) {
+    return Koma.AkiStrCSA;
   }
+
   if (this.nari === Koma.NARI) {
     str += this.strntypeCSA;
   } else {
@@ -444,15 +444,11 @@ Koma.prototype.getShortStrCSA = function() {
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getShortStrKIF = function() {
-  var str;
-  if (this.teban === Koma.SENTEBAN) {
-    str = Koma.SenteStrKIF;
-  } else if (this.teban === Koma.GOTEBAN) {
-    str = Koma.GoteStrKIF;
-  } else {
-    str = Koma.AkiStrKIF;
-    return str;
+  var str = this.getTebanStr(Koma.SenteStrKIF, Koma.GoteStrKIF);
+  if (str == null) {
+    return Koma.AkiStrKIF;
   }
+
   if (this.nari === Koma.NARI) {
     str += Koma.strntypeKIF;
   } else {
@@ -823,12 +819,8 @@ Koma.prototype.kifuCSA = function(fromx, fromy, tox, toy) {
   tox++;
   toy++;
 
-  var str;
-  if (this.teban === Koma.SENTEBAN) {
-    str = Koma.SenteStrCSA;
-  } else if (this.teban === Koma.GOTEBAN) {
-    str = Koma.GoteStrCSA;
-  }
+  var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
+
   str += fromx;
   str += fromy;
   str += tox;
@@ -909,12 +901,8 @@ Koma.prototype.kifuKIFU = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
   fromx++;
   fromy++;
 
-  var str;
-  if (this.teban === Koma.SENTEBAN) {
-    str = Koma.SenteStrOrg;
-  } else if (this.teban === Koma.GOTEBAN) {
-    str = Koma.GoteStrOrg;
-  }
+  var str = this.getTebanStr(Koma.SenteStrOrg, Koma.GoteStrOrg);
+
   str += this.kifuDouNumKIF(tox, toy, lastx, lasty);
   if (this.nari === Koma.NARI) {
     if (nari === Koma.NARI) {
@@ -950,12 +938,8 @@ Koma.prototype.kifuShortCSA = function(x, y) {
   x++;
   y++;
 
-  var str;
-  if (this.teban === Koma.SENTEBAN) {
-    str = Koma.SenteStrCSA;
-  } else if (this.teban === Koma.GOTEBAN) {
-    str = Koma.GoteStrCSA;
-  }
+  var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
+
   str += x;
   str += y;
   if (this.nari === Koma.NARI) {
@@ -2113,13 +2097,7 @@ Kifu.prototype.footerKIF = function(winte) {
  * @return {String} 棋譜フッタ文字列
  */
 Kifu.prototype.footerOrg = function(winte) {
-  var str = 'まで' + this.NTeme + '手で';
-  if (winte === Koma.SENTEBAN) {
-    str += '先手の勝ち';
-  } else {
-    str += '後手の勝ち';
-  }
-  return str;
+  return this.footerKIF(winte);
 };
 
 /**
