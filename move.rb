@@ -41,6 +41,7 @@ class Move
     @log.debug('Move.initialized')
   end
 
+  # logging
   attr_reader :log
 
   # paramsから値の読み出し

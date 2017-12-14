@@ -33,6 +33,7 @@ class Game
     @log.info("gameid:#{@gameid}")
   end
 
+  # logging
   attr_reader :log
 
   # userinfoとheaderのセット

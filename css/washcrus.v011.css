@@ -101,7 +101,9 @@ textarea.kifu {
 }
 
 /* 入力禁止用幕 */
-div.fogscreen {
+.fogscreen {
+-webkit-align-items: center;
+-webkit-justify-content: center;
         align-items: center;
         background-Color: white;
         display: -webkit-flex;
@@ -114,11 +116,9 @@ div.fogscreen {
         position: fixed;
         visibility: hidden;
         width: 100%;
--webkit-align-items: center;
--webkit-justify-content: center;
 }
 
-div.msg_fogscreen {
+.msg_fogscreen {
   background-Color: yellow;
   border-radius: 5px;
   margin: 20px auto;
@@ -127,15 +127,15 @@ div.msg_fogscreen {
   visibility: hidden;
 }
 
-div.gotemoji {
-  -ms-transform-origin: 0 0;
-  -ms-transform: rotate(180deg) translate(-2em, -1em);
-  -moz-transform-origin: 0 0;
-  -moz-transform: rotate(180deg) translate(-2em, -1em);
-  -o-transform-origin: 0 0;
-  -o-transform: rotate(180deg) translate(-2em, -1em);
-  -webkit-transform-origin: 0 0;
-  -webkit-transform: rotate(180deg) translate(-2em, -1em);
+.gotemoji {
+-moz-transform-origin: 0 0;
+-moz-transform: rotate(180deg) translate(-2em, -1em);
+-ms-transform-origin: 0 0;
+-ms-transform: rotate(180deg) translate(-2em, -1em);
+-o-transform-origin: 0 0;
+-o-transform: rotate(180deg) translate(-2em, -1em);
+-webkit-transform-origin: 0 0;
+-webkit-transform: rotate(180deg) translate(-2em, -1em);
   transform-origin: 0 0;
   transform: rotate(180deg) translate(-2em, -1em);
 }
@@ -176,7 +176,7 @@ div.gotemoji {
   color: white;
 }
 
-a.menu {
+.menu {
   padding: 3px 10px;
 }
 
@@ -207,6 +207,8 @@ a.menu {
 /* 着手確認用 */
 /* 入力禁止用幕 */
 .movecfrm {
+-webkit-align-items: center;
+-webkit-justify-content: center;
         align-items: center;
         background-Color: white;
         display: -webkit-flex;
@@ -219,8 +221,6 @@ a.menu {
         top: 0;
         visibility: hidden;
         width: 100%;
--webkit-align-items: center;
--webkit-justify-content: center;
 }
 
 .movecfrm table {

@@ -25,6 +25,7 @@ class GameHtml
     @log = nil
   end
 
+  # logging
   attr_accessor :log
 
   # 画面の表示

@@ -32,6 +32,8 @@ class JsonKifu
   end
 
   attr_reader :header, :moves, :initial
+
+  # logging
   attr_accessor :log
 
   # 対局IDと記録IDのセット
