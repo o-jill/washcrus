@@ -117,7 +117,7 @@ module JsonMove
       'piece' => mypiece,
       'color' => mycolor
     }
-    ret.values.each do |v|
+    ret.each_value do |v|
       return nil if v.nil?
     end
 

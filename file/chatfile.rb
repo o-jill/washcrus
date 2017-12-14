@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 
+require './file/pathlist.rb'
+
 # チャットファイル管理クラス
 class ChatFile
-  DIRPATH = './taikyoku/'.freeze
-  CHATFILE = '/chat.txt'.freeze
   ERRMSG = 'ERROR:read a file at first...'.freeze
 
   # 初期化
@@ -11,7 +11,7 @@ class ChatFile
   # @param id 対局ID
   def initialize(id)
     @id = id
-    @path = DIRPATH + @id + CHATFILE
+    @path = PathList::TAIKYOKUDIR + @id + '/' + PathList::CHATFILE
     @msg = ERRMSG
   end
 

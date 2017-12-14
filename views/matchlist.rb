@@ -46,7 +46,7 @@ class MatchListScreen
     res = tdb.findtime(from.to_s, '') # {gid, time}
 
     games = []
-    res.each do |i, _tm|
+    res.each_key do |i|
       games << tdb.probe(i)
     end
 

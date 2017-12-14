@@ -9,6 +9,7 @@ require './file/chatfile.rb'
 require './file/jsonkifu.rb'
 require './file/jsonconsump.rb'
 require './file/matchinfofile.rb'
+require './file/pathlist.rb'
 require './file/sfenstore.rb'
 require './file/taikyokufile.rb'
 require './file/userinfofile.rb'
@@ -35,11 +36,11 @@ class TaikyokuData
               :mi, :jkf
   attr_accessor :creator, :log
 
-  DIRPATH = './taikyoku/'.freeze
-  CHATFILE = 'chat.txt'.freeze
-  MATCHFILE = 'matchinfo.txt'.freeze
-  KIFUFILE = 'kifu.jkf'.freeze
-  SFENFILE = 'sfenlog.txt'.freeze
+  # DIRPATH = './taikyoku/'.freeze
+  # CHATFILE = 'chat.txt'.freeze
+  # MATCHFILE = 'matchinfo.txt'.freeze
+  # KIFUFILE = 'kifu.jkf'.freeze
+  # SFENFILE = 'sfenlog.txt'.freeze
 
   # 先手のセット
   #
@@ -77,11 +78,11 @@ class TaikyokuData
   # @param id_ 対局ID
   def setid(id_)
     @gid = id_
-    @taikyokupath = DIRPATH + id_ + '/'
-    @matchinfopath = @taikyokupath + MATCHFILE
-    @chatpath = @taikyokupath + CHATFILE
-    @kifupath = @taikyokupath + KIFUFILE
-    @sfenpath = @taikyokupath + SFENFILE
+    @taikyokupath = PathList::TAIKYOKUDIR + id_ + '/'
+    @matchinfopath = @taikyokupath + PathList::MATCHFILE
+    @chatpath = @taikyokupath + PathList::CHATFILE
+    @kifupath = @taikyokupath + PathList::KIFUFILE
+    @sfenpath = @taikyokupath + PathList::SFENFILE
   end
 
   # 対局情報のDBへの登録
@@ -152,14 +153,14 @@ class TaikyokuData
 
   # 対局情報の生成
   # ファイルなどの準備はしません。
-  def checkgenerate
-    # 生成者
-    @creator = 'nanashi' if creator.nil?
-    # 生成日時
-    @datetime = Time.now.strftime('%Y/%m/%d %H:%M:%S')
-    # 対局ID
-    setid(genid)
-  end
+  # def checkgenerate
+  #   # 生成者
+  #   @creator = 'nanashi' if creator.nil?
+  #   # 生成日時
+  #   @datetime = Time.now.strftime('%Y/%m/%d %H:%M:%S')
+  #   # 対局ID
+  #   setid(genid)
+  # end
 
   # 先手の情報が正しいかの確認。nilとブランクチェック。
   #
@@ -235,20 +236,6 @@ class TaikyokuData
     URI.escape(path)
   end
 
-  # kif形式の棋譜を返す。
-  #
-  # @return kif形式の棋譜
-  def to_kif
-    @jkf.to_kif.encode('Shift_JIS')
-  end
-
-  # csa形式の棋譜を返す。
-  #
-  # @return csa形式の棋譜
-  def to_csa
-    @jkf.to_csa
-  end
-
   # 棋譜のダウンロードページのヘッダ文字列の生成
   #
   # @param fn ファイル名
@@ -272,7 +259,7 @@ class TaikyokuData
     filename = @mi.build_fn2dl('kif')
 
     puts build_header2dl(filename)
-    puts @jkf.to_kif.encode('Shift_JIS')
+    puts @jkf.to_kif
   end
 
   # １手指す

@@ -32,7 +32,7 @@ class TaikyokuFileContent
   #
   # @param file ファイルオブジェクト
   def put(file)
-    @namebs.each do |id, _name|
+    @namebs.each_key do |id|
       file.puts build_line(id)
     end
   end

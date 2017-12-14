@@ -23,8 +23,7 @@ class UserInfoFile
     @stats = {}
   end
 
-  attr_accessor :fname, :names, :passwords, :emails
-  attr_reader :stats
+  attr_reader :fname, :names, :passwords, :emails, :stats
 
   # usage:
   # lock do
@@ -74,7 +73,14 @@ class UserInfoFile
   # read a user's data.
   #
   # [elem] user data got by spliting a line
-  def read_elements(elements)
+  def read_elements(line)
+    # comment
+    return if line =~ /^#/
+
+    # id, name, password, e-mail(encrypted), swn, sls, gwn, gls
+    elements = line.chomp.split(',')
+    return if elements.length != 8 # invalid line
+
     dec = OpenSSL::Cipher.new('AES-256-CBC')
     dec.decrypt
 
@@ -98,13 +104,13 @@ class UserInfoFile
 
       file.each_line do |line|
         # comment
-        next if line =~ /^#/
+        # next if line =~ /^#/
 
-        # id, name, password, e-mail(encrypted), swn, sls, gwn, gls
-        elements = line.chomp.split(',')
-        next if elements.length != 8 # invalid line
+        # # id, name, password, e-mail(encrypted), swn, sls, gwn, gls
+        # elements = line.chomp.split(',')
+        # next if elements.length != 8 # invalid line
 
-        read_elements(elements)
+        read_elements(line)
       end
     end
   # 例外は小さい単位で捕捉する
@@ -155,7 +161,7 @@ class UserInfoFile
 
       put_header(file)
 
-      names.each do |id, _name|
+      names.each_key do |id|
         mailaddr = encode_mail(id)
 
         file.puts build_line(id, mailaddr)

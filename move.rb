@@ -158,13 +158,14 @@ class Move
 
     kifufile = {
       filename: @tkd.escape_fnu8(filename),
-      content:  @tkd.to_kif
+      content:  @tkd.jkf.to_kif
     }
 
     # @log.debug("msg:#{msg}")
+    mi = @tkd.mi
     mmgr = MailManager.new
-    mmgr.send_mailex(@tkd.mi.emailb, subject, msg, kifufile)
-    mmgr.send_mailex(@tkd.mi.emailw, subject, msg, kifufile)
+    mmgr.send_mailex(mi.emailb, subject, msg, kifufile)
+    mmgr.send_mailex(mi.emailw, subject, msg, kifufile)
   end
 
   # 指されましたメールの本文の生成

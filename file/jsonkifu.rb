@@ -186,7 +186,7 @@ class JsonKifu
 
   # kif形式文字列に変換
   def to_kif
-    Jkf::Converter::Kif.new.convert(genjson)
+    Jkf::Converter::Kif.new.convert(genjson).encode('Shift_JIS')
   end
 
   # ki2形式文字列に変換
