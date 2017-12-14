@@ -25,8 +25,13 @@ function check_name()
   }
 }
 
-function check_identical(a1, a2, u1, u2)
+function check_identical(a)
 {
+  var a1 = 'r' + a;
+  var a2 = a1 + '2';
+  var u1 = 't' + a1;
+  var u2 = u1 + '2';
+
   var em1 = document.getElementById(a1);
   var em2 = document.getElementById(a2);
   var em1ui = document.getElementById(u1).style;
@@ -70,7 +75,7 @@ function check_password_format()
 function check_email()
 {
   var alertmsg = '';
-  if (!check_identical('remail', 'remail2', 'tremail', 'tremail2')) {
+  if (!check_identical('email')) {
     alertmsg += 'e-mail addresses are not same!\n';
   }
   if (!check_email_format()) {
@@ -82,8 +87,7 @@ function check_email()
 function check_password()
 {
   var alertmsg = '';
-  if (
-    !check_identical('rpassword', 'rpassword2', 'trpassword', 'trpassword2')) {
+  if (!check_identical('password')) {
     alertmsg += 'passwords are not same!\n';
   }
   if (!check_password()) {
