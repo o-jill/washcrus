@@ -127,8 +127,8 @@ class GameHtml
     "<button onclick='openurlin_blank(\"washcrus.rb?dlkifu/#{@gameid}\")'>" \
     'Download KIF</button><BR>' \
     "<textarea id='kifulog' class='kifu' cols=40 readonly>" \
-    "#{@jkf.to_kif}</textarea>"
-    # "<div id='kifulog' class='kifu'>#{@jkf.to_kif.gsub("\n", '<BR>')}</div>"
+    "#{@jkf.to_kifu}</textarea>"
+    # "<div id='kifulog' class='kifu'>#{@jkf.to_kifu.gsub("\n", '<BR>')}</div>"
   end
 
   # 隠し部品

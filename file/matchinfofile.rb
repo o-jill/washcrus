@@ -158,6 +158,7 @@ class MatchInfoFile
       else nkoma += 1
       end
     end
+    nkoma
   end
 
   # minimal sfen board syntax check
