@@ -111,9 +111,9 @@ textarea.kifu {
         justify-content: center;
         height: 100%;
         left: 0;
-        top: 0;
         opacity: 0.8;
         position: fixed;
+        top: 0;
         visibility: hidden;
         width: 100%;
 }
@@ -128,16 +128,16 @@ textarea.kifu {
 }
 
 .gotemoji {
--moz-transform-origin: 0 0;
--ms-transform-origin: 0 0;
--o-transform-origin: 0 0;
--webkit-transform-origin: 0 0;
-        transform-origin: 0 0;
 -moz-transform: rotate(180deg) translate(-2em, -1em);
 -ms-transform: rotate(180deg) translate(-2em, -1em);
 -o-transform: rotate(180deg) translate(-2em, -1em);
 -webkit-transform: rotate(180deg) translate(-2em, -1em);
         transform: rotate(180deg) translate(-2em, -1em);
+-moz-transform-origin: 0 0;
+-ms-transform-origin: 0 0;
+-o-transform-origin: 0 0;
+-webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
 }
 
 .preload {
