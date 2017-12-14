@@ -102,8 +102,6 @@ textarea.kifu {
 
 /* 入力禁止用幕 */
 .fogscreen {
--webkit-align-items: center;
--webkit-justify-content: center;
         align-items: center;
         background-Color: white;
         display: -webkit-flex;
@@ -115,6 +113,8 @@ textarea.kifu {
         opacity: 0.8;
         position: fixed;
         visibility: hidden;
+-webkit-align-items: center;
+-webkit-justify-content: center;
         width: 100%;
 }
 
@@ -134,10 +134,10 @@ textarea.kifu {
 -ms-transform: rotate(180deg) translate(-2em, -1em);
 -o-transform-origin: 0 0;
 -o-transform: rotate(180deg) translate(-2em, -1em);
+   transform-origin: 0 0;
+   transform: rotate(180deg) translate(-2em, -1em);
 -webkit-transform-origin: 0 0;
 -webkit-transform: rotate(180deg) translate(-2em, -1em);
-  transform-origin: 0 0;
-  transform: rotate(180deg) translate(-2em, -1em);
 }
 
 .preload {
@@ -168,7 +168,7 @@ textarea.kifu {
   flex-wrap: wrap;
   justify-content: center;
   margin: 0;
-  /*padding: 10px 0;*/
+  /* padding: 10px 0; */
 }
 
 .menubase a:hover {
@@ -207,8 +207,6 @@ textarea.kifu {
 /* 着手確認用 */
 /* 入力禁止用幕 */
 .movecfrm {
--webkit-align-items: center;
--webkit-justify-content: center;
         align-items: center;
         background-Color: white;
         display: -webkit-flex;
@@ -220,6 +218,8 @@ textarea.kifu {
         position: fixed;
         top: 0;
         visibility: hidden;
+-webkit-align-items: center;
+-webkit-justify-content: center;
         width: 100%;
 }
 
