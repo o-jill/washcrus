@@ -31,12 +31,11 @@ class Chat
   def say
     @name = @params['chatname'][0]
     @msg = @params['chatmsg'][0]
-    unless @name.empty? || @msg.empty?
-      @msg.gsub!(',&<>',
-                 ',' => '&#44;', '&' => '&amp;',
-                 '<' => '&lt;', '>' => '&gt;')
-      write
-    end
+    return if @name.empty? || @msg.empty?
+    @msg.gsub!(',&<>',
+               ',' => '&#44;', '&' => '&amp;',
+               '<' => '&lt;', '>' => '&gt;')
+    write
   end
 
   # 本体
