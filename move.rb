@@ -94,7 +94,7 @@ class Move
   # 情報のチェック
   def check_param
     # gameid が無いよ
-    return put_illegal_access if @gameid.nil? || @gameid.empty?
+    return put_illegal_access if @gameid.nil?
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
