@@ -240,65 +240,24 @@ function gethtmlelement_ban() {
 }
 
 function gethtmlelement_tegoma() {
-  sentegoma[0][1].el = document.getElementById('sg_fu_img');
-  sentegoma[1][1].el = document.getElementById('sg_kyo_img');
-  sentegoma[2][1].el = document.getElementById('sg_kei_img');
-  sentegoma[3][1].el = document.getElementById('sg_gin_img');
-  sentegoma[4][1].el = document.getElementById('sg_kin_img');
-  sentegoma[5][1].el = document.getElementById('sg_kaku_img');
-  sentegoma[6][1].el = document.getElementById('sg_hisha_img');
-  sentegoma[0][1].el2 = document.getElementById('sg_fu_num');
-  sentegoma[1][1].el2 = document.getElementById('sg_kyo_num');
-  sentegoma[2][1].el2 = document.getElementById('sg_kei_num');
-  sentegoma[3][1].el2 = document.getElementById('sg_gin_num');
-  sentegoma[4][1].el2 = document.getElementById('sg_kin_num');
-  sentegoma[5][1].el2 = document.getElementById('sg_kaku_num');
-  sentegoma[6][1].el2 = document.getElementById('sg_hisha_num');
-  gotegoma[0][1].el = document.getElementById('gg_fu_img');
-  gotegoma[1][1].el = document.getElementById('gg_kyo_img');
-  gotegoma[2][1].el = document.getElementById('gg_kei_img');
-  gotegoma[3][1].el = document.getElementById('gg_gin_img');
-  gotegoma[4][1].el = document.getElementById('gg_kin_img');
-  gotegoma[5][1].el = document.getElementById('gg_kaku_img');
-  gotegoma[6][1].el = document.getElementById('gg_hisha_img');
-  gotegoma[0][1].el2 = document.getElementById('gg_fu_num');
-  gotegoma[1][1].el2 = document.getElementById('gg_kyo_num');
-  gotegoma[2][1].el2 = document.getElementById('gg_kei_num');
-  gotegoma[3][1].el2 = document.getElementById('gg_gin_num');
-  gotegoma[4][1].el2 = document.getElementById('gg_kin_num');
-  gotegoma[5][1].el2 = document.getElementById('gg_kaku_num');
-  gotegoma[6][1].el2 = document.getElementById('gg_hisha_num');
+  var kmtbl = ['fu', 'kyo', 'kei', 'gin', 'kin', 'kaku', 'hisha']
+
+  for (var i = 0 ; i < 7 ; ++i) {
+    sentegoma[i][1].el = document.getElementById('sg_' + kmtbl[i] + '_img');
+    sentegoma[i][1].el2 = document.getElementById('sg_' + kmtbl[i] + '_num');
+    gotegoma[i][1].el = document.getElementById('gg_' + kmtbl[i] + '_img');
+    gotegoma[i][1].el2 = document.getElementById('gg_' + kmtbl[i] + '_num');
+  }
 }
 
 function gethtmlelement_tegomaclick() {
-  sentegoma[0][1].el.onclick = clickstgfu;
-  sentegoma[1][1].el.onclick = clickstgky;
-  sentegoma[2][1].el.onclick = clickstgke;
-  sentegoma[3][1].el.onclick = clickstggi;
-  sentegoma[4][1].el.onclick = clickstgki;
-  sentegoma[5][1].el.onclick = clickstgka;
-  sentegoma[6][1].el.onclick = clickstghi;
-  sentegoma[0][1].el2.onclick = clickstgfu;
-  sentegoma[1][1].el2.onclick = clickstgky;
-  sentegoma[2][1].el2.onclick = clickstgke;
-  sentegoma[3][1].el2.onclick = clickstggi;
-  sentegoma[4][1].el2.onclick = clickstgki;
-  sentegoma[5][1].el2.onclick = clickstgka;
-  sentegoma[6][1].el2.onclick = clickstghi;
-  gotegoma[0][1].el.onclick = clickgtgfu;
-  gotegoma[1][1].el.onclick = clickgtgky;
-  gotegoma[2][1].el.onclick = clickgtgke;
-  gotegoma[3][1].el.onclick = clickgtggi;
-  gotegoma[4][1].el.onclick = clickgtgki;
-  gotegoma[5][1].el.onclick = clickgtgka;
-  gotegoma[6][1].el.onclick = clickgtghi;
-  gotegoma[0][1].el2.onclick = clickgtgfu;
-  gotegoma[1][1].el2.onclick = clickgtgky;
-  gotegoma[2][1].el2.onclick = clickgtgke;
-  gotegoma[3][1].el2.onclick = clickgtggi;
-  gotegoma[4][1].el2.onclick = clickgtgki;
-  gotegoma[5][1].el2.onclick = clickgtgka;
-  gotegoma[6][1].el2.onclick = clickgtghi;
+  for (var i = 0 ; i < 7 ; ++i) {
+    sentegoma[i][1].el.onclick = function() {absclickst(i);
+    }
+    sentegoma[i][1].el2.onclick = function() {absclickst(i);}
+    gotegoma[i][1].el.onclick = function() {absclickst(i);}
+    gotegoma[i][1].el2.onclick = function() {absclickst(i);}
+  }
 }
 
 /**
@@ -404,20 +363,15 @@ function activatemovable(b) {
   } else {
     c = banColor;
   }
-  if (hifumin_eye) {
-    sz = activemovable.length;
-    for (idx = 0; idx < sz; ++idx) {
-      x = 8 - activemovable[idx][0];
-      y = 8 - activemovable[idx][1];
-      fillactivemasu(x, y, c);
+  sz = activemovable.length;
+  for (idx = 0; idx < sz; ++idx) {
+    x = activemovable[idx][0];
+    y = activemovable[idx][1];
+    if (hifumin_eye) {
+      x = 8 - x;
+      y = 8 - y;
     }
-  } else {
-    sz = activemovable.length;
-    for (idx = 0; idx < sz; ++idx) {
-      x = activemovable[idx][0];
-      y = activemovable[idx][1];
-      fillactivemasu(x, y, c);
-    }
+    fillactivemasu(x, y, c);
   }
 }
 
@@ -1031,10 +985,15 @@ function check_hifumin_eye() {
 
 var sfenkomabako = null;
 
-function sfenkoma_piece(ch, result, teban, nsuji, ndan, nari) {
-  var komatbl = 'PLNSGBRK';
+// KING無しのSFEN用駒文字 先手
+var komatblb = 'PLNSGBR';
+// KING有りのSFEN用駒文字 先手
+var komatblbk = 'PLNSGBRK';
+// KING無しのSFEN用駒文字 後手
+var komatblw = 'plnsgbr';
 
-  var nid = komatbl.indexOf(ch);
+function sfenkoma_piece(ch, result, teban, nsuji, ndan, nari) {
+  var nid = komatblbk.indexOf(ch);
   if (nid >= 0) {
     var koma = sfenkomabako[nid].clone();
 
@@ -1086,7 +1045,7 @@ var sfentegoma = function(tegomastr) {
   var tegoma = [[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]];
   var num = 1;
   var len = tegomastr.length;
-  var komatbl = 'PLNSGBRplnsgbr';
+  var komatbl = komatblb+komatblw;
   for (var j = 0; j < len; ++j) {
     var ch = tegomastr.charAt(j);
     var idx = komatbl.indexOf(ch);
@@ -1165,7 +1124,7 @@ function fromsfen(sfentext) {
     activeteban = Koma.SENTEBAN;
   } else if (sfenitem[1] === 'w') {
     activeteban = Koma.GOTEBAN;
-  } else {
+    // } else {
     // keep current teban
   }
 
@@ -1175,7 +1134,6 @@ function fromsfen(sfentext) {
 var sfen_genbantext_dan = function(shogiban, ndan) {
   var dantext = '';
   var aki = 0;
-  var komatbl = 'PLNSGBRK';
 
   for (var j = 0; j < 9; ++j) {
     var komach = '';
@@ -1190,7 +1148,7 @@ var sfen_genbantext_dan = function(shogiban, ndan) {
       komach = '+';
     }
 
-    komach += komatbl.charAt(koma.id);
+    komach += komatblbk.charAt(koma.id);
 
     if (koma.teban === Koma.GOTEBAN) {
       komach = komach.toLowerCase();
@@ -1235,10 +1193,8 @@ function sfen_gentegomatext(komadai, komatbl) {
 }
 
 var sfen_gentegomatext_sengo = function(sentekomadai, gotekomadai) {
-  var komatblb = 'PLNSGBR';
   var sfentegomatext = sfen_gentegomatext(sentekomadai, komatblb);
 
-  var komatblw = 'plnsgbr';
   sfentegomatext += sfen_gentegomatext(gotekomadai, komatblw);
 
   if (sfentegomatext.length === 0) {
@@ -1286,16 +1242,17 @@ function turn_taikyoku_on()
   // String('true') or String('false')
   var strfinished = document.getElementById('isfinished').value;
   var isfinished = (strfinished !== 'false');  // convert to boolean
+
   if (isfinished) {
     taikyokuchu = false;
-  } else {
-    // var teban = document.getElementById('myturn').value;
-    // if (teban !== '0') taikyokuchu = true;
-    var teban = document.getElementById('myteban').value;
-    if (teban === 'b' && activeteban === Koma.SENTEBAN) taikyokuchu = true;
-    else if (teban === 'w' && activeteban === Koma.GOTEBAN) taikyokuchu = true;
-    else taikyokuchu = false;
+    return;
   }
+  // var teban = document.getElementById('myturn').value;
+  // if (teban !== '0') taikyokuchu = true;
+  var teban = document.getElementById('myteban').value;
+  if (teban === 'b' && activeteban === Koma.SENTEBAN) taikyokuchu = true;
+  else if (teban === 'w' && activeteban === Koma.GOTEBAN) taikyokuchu = true;
+  else taikyokuchu = false;
 }
 
 function activateteban()
