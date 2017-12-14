@@ -1183,23 +1183,24 @@ var sfen_genbantext_dan = function(shogiban, ndan) {
 
     if (koma.id < Koma.FuID) {
       ++aki;
-    } else {
-      if (koma.nari === Koma.NARI) {
-        komach = '+';
-      }
-
-      komach += komatbl.charAt(koma.id);
-
-      if (koma.teban === Koma.GOTEBAN) {
-        komach = komach.toLowerCase();
-      }
-
-      if (aki > 0) {
-        dantext += aki;
-        aki = 0;
-      }
-      dantext += komach;
+      continue;
     }
+
+    if (koma.nari === Koma.NARI) {
+      komach = '+';
+    }
+
+    komach += komatbl.charAt(koma.id);
+
+    if (koma.teban === Koma.GOTEBAN) {
+      komach = komach.toLowerCase();
+    }
+
+    if (aki > 0) {
+      dantext += aki;
+      aki = 0;
+    }
+    dantext += komach;
   }
 
   if (aki > 0) {

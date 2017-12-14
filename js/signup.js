@@ -47,7 +47,7 @@ function check_email_format()
   var email1 = document.getElementById('remail').value;
   var email1ui = document.getElementById('tremail').style;
   var email2ui = document.getElementById('tremail2').style;
-  if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email1)) {
+  if (/^[\w.!#$%&'*+/=?^`{|}~-]+@\w+(?:\.\w+)*$/.test(email1)) {
     return true;
   } else {
     email1ui.backgroundColor = 'tomato';
@@ -56,7 +56,7 @@ function check_email_format()
   }
 }
 
-function check_password()
+function check_password_format()
 {
   var password1 = document.getElementById('rpassword');
   if (password1.value.length < 4) {
@@ -65,6 +65,31 @@ function check_password()
     return false;
   }
   return true;
+}
+
+function check_email()
+{
+  var alertmsg = '';
+  if (!check_identical('remail', 'remail2', 'tremail', 'tremail2')) {
+    alertmsg += 'e-mail addresses are not same!\n';
+  }
+  if (!check_email_format()) {
+    alertmsg += 'e-mail addresses is strange!\n';
+  }
+  return alertmsg;
+}
+
+function check_password()
+{
+  var alertmsg = '';
+  if (
+    !check_identical('rpassword', 'rpassword2', 'trpassword', 'trpassword2')) {
+    alertmsg += 'passwords are not same!\n';
+  }
+  if (!check_password()) {
+    alertmsg += 'password is too short!\n';
+  }
+  return alertmsg;
 }
 
 function check_form()
@@ -77,22 +102,14 @@ function check_form()
     ++nmismatch;
   }
 
-  if (!check_identical('remail', 'remail2', 'tremail', 'tremail2')) {
-    alertmsg += 'e-mail addresses are not same!\n';
-    ++nmismatch;
-  }
-  if (!check_email_format()) {
-    alertmsg += 'e-mail addresses is strange!\n';
-    ++nmismatch;
-  }
-
-  if (!check_identical('rpassword', 'rpassword2', 'trpassword', 'trpassword2')) {
-    alertmsg += 'passwords are not same!\n';
+  var ret = check_email();
+  if (ret !== '') {
+    alertmsg += ret;
     ++nmismatch;
   }
 
   if (!check_password()) {
-    alertmsg += 'password is too short!\n';
+    alertmsg += ret;
     ++nmismatch;
   }
 

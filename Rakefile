@@ -169,6 +169,6 @@ end
 
 desc 'make REVISION file from repository HEAD.'
 task :revision do
-  puts "`git log -1 >REVISION`"
+  puts '`git log -1 >REVISION`'
   `git log -1 >REVISION`
 end

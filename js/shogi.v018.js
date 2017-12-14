@@ -388,11 +388,12 @@ Koma.prototype.getStr = function() {
  */
 Koma.prototype.getHtmlStr = function(hanten) {
   var str;
-  if (this.teban === Koma.SENTEBAN) {
-    str = (hanten) ? '<div class=gotemoji>' : '<div class=sentemoji>';
-  } else if (this.teban === Koma.GOTEBAN) {
-    str = (hanten) ? '<div class=sentemoji>' : '<div class=gotemoji>';
+  if (hanten) {
+    str = this.getTebanStr('<div class=gotemoji>', '<div class=sentemoji>');
   } else {
+    str = this.getTebanStr('<div class=sentemoji>', '<div class=gotemoji>');
+  }
+  if (str == null) {
     return Koma.AkiStr;
   }
 
@@ -408,11 +409,12 @@ Koma.prototype.getHtmlStr = function(hanten) {
  */
 Koma.prototype.getImgStr = function(hanten) {
   var str;
-  if (this.teban === Koma.SENTEBAN) {
-    str = (hanten) ? 'h' : '';
-  } else if (this.teban === Koma.GOTEBAN) {
-    str = (hanten) ? '' : 'h';
+  if (hanten) {
+    str = this.getTebanStr('h', '');
   } else {
+    str = this.getTebanStr('', 'h');
+  }
+  if (str == null) {
     return '';
   }
 
@@ -2223,26 +2225,26 @@ Kifu.prototype.readKIF = function(arr_text) {
  */
 Kifu.prototype.receive = function(path, type) {
   var ajax = new XMLHttpRequest();
-  if (ajax !== null) {
-    ajax.open('GET', path, true);
-    // CSA file's charset is Shift-JIS.
-    ajax.overrideMimeType('text/plain; charset=Shift_JIS');
-    ajax.send(null);
-    ajax.onload = function(e) {
-      var utf8text = ajax.responseText;
-      var kifulines = utf8text.split(/\r\n|\r|\n/);
-      if (type === Kifu.CSA) {
-        // CSA形式
-        this.readCSA(kifulines);
-      } else if (type === Kifu.KIF) {
-        // KIF形式
-      } else if (type === Kifu.Org) {
-        // 独自形式
-      } else {
-        // ナニコレ？
-      }
-    };
-  }
+  if (ajax === null) return;
+
+  ajax.open('GET', path, true);
+  // CSA file's charset is Shift-JIS.
+  ajax.overrideMimeType('text/plain; charset=Shift_JIS');
+  ajax.send(null);
+  ajax.onload = function(e) {
+    var utf8text = ajax.responseText;
+    var kifulines = utf8text.split(/\r\n|\r|\n/);
+    if (type === Kifu.CSA) {
+      // CSA形式
+      this.readCSA(kifulines);
+    } else if (type === Kifu.KIF) {
+      // KIF形式
+    } else if (type === Kifu.Org) {
+      // 独自形式
+    } else {
+      // ナニコレ？
+    }
+  };
 };
 
 /**

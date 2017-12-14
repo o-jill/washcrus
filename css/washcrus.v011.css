@@ -103,31 +103,33 @@ textarea.kifu {
 /* 入力禁止用幕 */
 div.fogscreen {
         align-items: center;
--webkit-align-items: center;
-        justify-content: center;
--webkit-justify-content: center;
+        background-Color: white;
         display: -webkit-flex;
         display:         flex;
-        position: fixed;
-        visibility: hidden;
-        background-Color: white;
-        opacity: 0.8;
-        width: 100%;
+        justify-content: center;
         height: 100%;
         left: 0;
         top: 0;
+        opacity: 0.8;
+        position: fixed;
+        visibility: hidden;
+        width: 100%;
+-webkit-align-items: center;
+-webkit-justify-content: center;
 }
 
 div.msg_fogscreen {
-    visibility: hidden;
-    border-radius: 5px;
-    margin: 20px auto;
-    padding: 10px;
-    background-Color: yellow;
-    opacity: 1.0;
+  background-Color: yellow;
+  border-radius: 5px;
+  margin: 20px auto;
+  padding: 10px;
+  opacity: 1.0;
+  visibility: hidden;
 }
 
 div.gotemoji {
+  -ms-transform-origin: 0 0;
+  -ms-transform: rotate(180deg) translate(-2em, -1em);
   -moz-transform-origin: 0 0;
   -moz-transform: rotate(180deg) translate(-2em, -1em);
   -o-transform-origin: 0 0;
@@ -144,29 +146,29 @@ div.gotemoji {
 
 /* LOGO */
 .logo_center {
-  width: 30vw;
-  height: 30vw;
   font-size: 20vw;
-  text-align: center;
   font-weight: bold;
+  height: 30vw;
+  text-align: center;
+  width: 30vw;
 }
 .logo_edge_ud {
-  width: 30vw;
   height: 5vw;
+  width: 30vw;
 }
 .logo_edge_lr {
-  width: 5vw;
   height: 30vw;
+  width: 5vw;
 }
 
 /* menu */
 .menubase {
-  margin: 0;
-  /*padding: 10px 0;*/
   background-Color: lightgray;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  /*padding: 10px 0;*/
 }
 
 .menubase a:hover {
@@ -186,9 +188,9 @@ a.menu {
   width: 80vw;
 }
 .githash pre{
-  padding: 10px;
-  margin: 0;
   background-color:#EEE;
+  margin: 0;
+  padding: 10px;
 }
 .geminfo {
   border: solid 5px #cc342d;
@@ -197,9 +199,9 @@ a.menu {
   width: 80vw;
 }
 .geminfo pre{
-  padding: 10px;
-  margin: 0;
   background-color:#EEF;
+  margin: 0;
+  padding: 10px;
 }
 
 /* 着手確認用 */
