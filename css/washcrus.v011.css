@@ -107,9 +107,9 @@ textarea.kifu {
         background-Color: white;
         display: -webkit-flex;
         display:         flex;
+        height: 100%;
 -webkit-justify-content: center;
         justify-content: center;
-        height: 100%;
         left: 0;
         opacity: 0.8;
         position: fixed;
