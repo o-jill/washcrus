@@ -74,7 +74,7 @@ class GameHtml
   # @return 局面画像へのリンク
   def kyokumen_link
     sr = WebApiSfenReader.new
-    sr.setplayers(@mi.playerb, @mi.playerw)
+    sr.setplayers(@mi.playerb.name, @mi.playerw.name)
     sr.sfen = @mi.sfen
     sr.setlastmovecsa(@mi.lastmove)
 
@@ -106,7 +106,7 @@ class GameHtml
   def headerelement
     @log.debug('headerelement')
     stg = Settings.instance
-    title = "#{stg.value['wintitle']} #{@mi.playerb}  vs  #{@mi.playerw}"
+    title = "#{stg.value['wintitle']} #{@mi.to_vs}"
     erbtxt = File.read('./ui/gamehtml_header.erb', encoding: 'utf-8')
     ERB.new(erbtxt).result(binding)
   end

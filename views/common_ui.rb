@@ -148,4 +148,16 @@ module CommonUI
     print "<HR><div align=right>&copy;ぢるっち 2017 with Ruby v#{RUBY_VERSION}" \
           '</div></BODY></HTML>'
   end
+
+  # 手番文字をわかりやすい言葉に変換
+  #
+  # @param trn 手番文字
+  # @return 手番情報文字列
+  def self.turn2str(trn)
+    tbl = [%w[b 先手番], %w[w 後手番], %w[fb 先手勝ち], %w[fw 後手勝ち], %[d 引き分け]]
+    tbl.each do |elem|
+      return elem[1] if trn == elem[0]
+    end
+    'エラー'
+  end
 end

@@ -1,13 +1,13 @@
 <%# -*- coding: utf-8 -*- %>
 <label>
- <input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'<%= ' checked' if @mi.idw == @userinfo.user_id %> >ひふみんアイ</input>
+ <input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'<%= ' checked' if @mi.playerw.id == @userinfo.user_id %> >ひふみんアイ</input>
 </label>
 <span style='display:none;' id='sfen_'><%= @mi.sfen %></span>
 <input type='hidden' id='lastmove' value='<%= @mi.lastmove %>'/>
 <input type='hidden' id='isfinished' value='<%= @mi.finished %>'/><BR>
-<% if @mi.idb == @userinfo.user_id %>
+<% if @mi.playerb.id == @userinfo.user_id %>
 <input type='hidden' id='myteban' value='b'/>
-<% elsif @mi.idw == @userinfo.user_id %>
+<% elsif @mi.playerw.id == @userinfo.user_id %>
 <input type='hidden' id='myteban' value='w'/>
 <% else %>
 <input type='hidden' id='myteban' value='0'/>

@@ -32,14 +32,16 @@ class MatchListScreen
         <small>#{game[:id]}</small>
        </a></td>
        <td>#{game[:nameb]}</td><td>#{game[:namew]}</td>
-       <td>#{TaikyokuFileContent.turn2str(game[:turn])}</td>
+       <td>#{CommonUI.turn2str(game[:turn])}</td>
        <td>#{game[:time]}</td><td>#{game[:comment]}</td>
       </tr>
       GAMEINFO
   end
 
   # 最近の対局のリストの出力
-  def put_recentgames
+  #
+  # @return 対局リスト
+  def select_recentgames
     tdb = TaikyokuFile.new
     tdb.read
     from = Time.now - 6_480_000 # 30days
@@ -47,9 +49,15 @@ class MatchListScreen
 
     games = []
     res.each_key do |i|
-      games << tdb.probe(i)
+      games << tdb.content.probe(i)
     end
+    games
+  end
 
+  # 最近の対局のリストの出力
+  #
+  # @param games 対局リスト
+  def put_recentgames(games)
     print <<-RESULT_TABLE.unindent
       <TABLE align='center' border='1'>
       <caption><a href='#chu'>対局中へ</a> <a name='recent'>30日以内</a></caption>
@@ -73,7 +81,7 @@ class MatchListScreen
 
     puts '<HR>'
 
-    put_recentgames
+    put_recentgames(select_recentgames)
 
     CommonUI.html_foot
   end

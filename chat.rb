@@ -28,22 +28,25 @@ class Chat
     @action = @params['action'][0]
   end
 
+  def say
+    @name = @params['chatname'][0]
+    @msg = @params['chatmsg'][0]
+    unless @name.empty? || @msg.empty?
+      @msg.gsub!(',&<>',
+                 ',' => '&#44;', '&' => '&amp;',
+                 '<' => '&lt;', '>' => '&gt;')
+      write
+    end
+  end
+
   # 本体
   def perform
     # check game id
     tdb = TaikyokuFile.new
     tdb.read
     if tdb.exist_id(@gameid)
-      if @action == 'say'
-        @name = @params['chatname'][0]
-        @msg = @params['chatmsg'][0]
-        unless @msg.empty?
-          @msg.gsub!(',&<>',
-                     ',' => '&#44;', '&' => '&amp;',
-                     '<' => '&lt;', '>' => '&gt;')
-          write
-        end
-      end
+      say if @action == 'say'
+
       # put chat log
       put
     else

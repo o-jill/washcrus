@@ -128,29 +128,6 @@ class TaikyokuFile
     puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
-  # add taikyoku information
-  #
-  # @param arr [nid, idb, idw, ply1, ply2, dt, cmt]
-  def add(arr)
-    @content.add_array(arr)
-  end
-
-  # get game info by game id
-  #
-  # @param id 対局ID
-  # @return hash{id:, idb:, idw:, nameb:, namew:, time:, comment:}
-  def probe(id)
-    @content.probe(id)
-  end
-
-  # get game info by game id
-  #
-  # @param array_id 対局IDの配列
-  # @return array of probe(i)
-  def probeex(array_id)
-    @content.probeex(array_id)
-  end
-
   # duplication check
   #
   # @param nid 対局ID
@@ -236,12 +213,6 @@ class TaikyokuFile
   # @param title テーブルのキャプション
   def to_html(title)
     @content.to_html(title)
-  end
-
-  # データのダンプ。
-  # HTML形式(TABLE)に変換して出力
-  def dumphtml
-    @content.dumphtml
   end
 end
 

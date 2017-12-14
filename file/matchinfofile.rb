@@ -6,6 +6,36 @@ require 'logger'
 require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
 
+# 対局者情報
+class Player
+  # 初期化
+  #
+  # @param i  ID
+  # @param nm 名前
+  # @param em メールアドレス
+  def initialize(i, nm, em)
+    @id = i
+    @name = nm
+    @email = em
+  end
+
+  attr_reader :id, :name, :email
+
+  # ハッシュの生成
+  #
+  # @return { id: @id, name: @name, mail: @email }
+  def genhash
+    { id: @id, name: @name, mail: @email }
+  end
+
+  # 自分のIDと同じかどうか
+  #
+  # @return 同じIDの時true
+  def myid?(i)
+    @id == i
+  end
+end
+
 #
 # 対局情報ファイル管理クラス
 #
@@ -15,10 +45,8 @@ class MatchInfoFile
   # @param gameid 対局ID
   def initialize(gameid)
     @gid = gameid # 'ididididid'
-    # @idb = '', @playerb = '', @emailb = ''
-    setplayerb('', ['', '', ''])
-    # @idw = '', @playerw = '', @emailw = ''
-    setplayerw('', ['', '', ''])
+    @playerb = Player.new('', '', '')
+    @playerw = Player.new('', '', '')
     # @creator = '', @dt_created = ''
     setcreator('', '')
     fromsfen('lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1')
@@ -29,9 +57,8 @@ class MatchInfoFile
     @log = nil
   end
 
-  attr_reader :gid, :idb, :playerb, :emailb, :idw, :playerw, :emailw,
-              :creator, :dt_created, :teban, :tegoma, :nth, :sfen,
-              :lastmove, :dt_lastmove, :finished
+  attr_reader :gid, :playerb, :playerw, :creator, :dt_created,
+              :teban, :tegoma, :nth, :sfen, :lastmove, :dt_lastmove, :finished
   attr_accessor :log, :turn
 
   # 対局者のセット
@@ -56,9 +83,7 @@ class MatchInfoFile
   # userinfo 対局者の情報
   def setplayerb(id_b, userinfo)
     return if userinfo.nil?
-    @idb = id_b
-    @playerb = userinfo[0]
-    @emailb = userinfo[2]
+    @playerb = Player.new(id_b, userinfo[0], userinfo[2])
   end
 
   # 対局者のセット
@@ -67,9 +92,7 @@ class MatchInfoFile
   # userinfo 対局者の情報
   def setplayerw(id_w, userinfo)
     return if userinfo.nil?
-    @idw = id_w
-    @playerw = userinfo[0]
-    @emailw = userinfo[2]
+    @playerw = Player.new(id_w, userinfo[0], userinfo[2])
   end
 
   # 対局者のセット
@@ -89,10 +112,10 @@ class MatchInfoFile
   # @param id_ ユーザーID
   # @return 対戦相手の情報 { id: id, name: nm, mail: em }
   def getopponent(id_)
-    if @idb == id_
-      { id: @idw, name: @playerw, mail: @emailw }
-    elsif @idw == id_
-      { id: @idb, name: @playerb, mail: @emailb }
+    if @playerb.myid?(id_)
+      @playerw.genhash
+    elsif @playerw.myid?(id_)
+      @playerb.genhash
     end
   end
 
@@ -101,9 +124,9 @@ class MatchInfoFile
   # @return 対局者の情報 { id: id, name: nm, mail: em }
   def getnextplayer
     if @teban == 'b'
-      { id: @idb, name: @playerb, mail: @emailb }
+      @playerb.genhash
     elsif @teban == 'w'
-      { id: @idw, name: @playerw, mail: @emailw }
+      @playerw.genhash
     end
   end
 
@@ -165,7 +188,7 @@ class MatchInfoFile
   #
   # @param sfenstr sfen文字列
   # @return nil if invalid, otherwise successful.
-  private def checksfen(sfenstr)
+  def checksfen(sfenstr)
     dan = sfenstr.split('/')
     return nil if dan.length != 9
     dan.each do |line|
@@ -316,10 +339,11 @@ class MatchInfoFile
   #         idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished:, turn: }
   def genhash
     {
-      gid: gid, creator: creator, dt_created: dt_created,
-      idb: idb, playerb: playerb, idw: idw, playerw: playerw, sfen: sfen,
-      lastmove: lastmove, dt_lastmove: dt_lastmove, finished: finished,
-      turn: turn
+      gid: @gid, creator: @creator, dt_created: @dt_created,
+      idb: @playerb.id, playerb: @playerb.name,
+      idw: @playerw.id, playerw: @playerw.name, sfen: @sfen,
+      lastmove: @lastmove, dt_lastmove: @dt_lastmove, finished: @finished,
+      turn: @turn
     }
   end
 
@@ -342,7 +366,7 @@ class MatchInfoFile
   #
   # @return vs形式の文字列
   def to_vs
-    "#{playerb} vs #{playerw}"
+    "#{@playerb.name} vs #{@playerw.name}"
   end
 
   # ダウンロードファイル名の生成
@@ -351,6 +375,6 @@ class MatchInfoFile
   # @return ダウンロードファイル名文字列
   def build_fn2dl(ext)
     dt = @dt_lastmove.delete('/:').sub(' ', '_')
-    "#{@playerb}_#{@playerw}_#{dt}.#{ext}"
+    "#{@playerb.name}_#{@playerw.name}_#{dt}.#{ext}"
   end
 end

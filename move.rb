@@ -94,9 +94,6 @@ class Move
 
   # 情報のチェック
   def check_param
-    # gameid が無いよ
-    return put_illegal_access if @gameid.nil?
-
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
@@ -122,7 +119,7 @@ class Move
   # @param filename 添付ファイル名
   def build_finishedmsg(nowstr, filename)
     msg = <<-MSG_TEXT.unindent
-      #{@tkd.mi.playerb}さん、 #{@tkd.mi.playerw}さん
+      #{@tkd.mi.playerb.name}さん、 #{@tkd.mi.playerw.name}さん
 
       対局(#{@gameid})が#{nowstr}に終局しました。
 
@@ -139,7 +136,7 @@ class Move
   #
   # @param dt   現在の時刻の文字列
   def build_attachfilename(dt)
-    "#{@tkd.mi.playerb}_#{@tkd.mi.playerw}_#{dt}.kif"
+    "#{@tkd.mi.playerb.name}_#{@tkd.mi.playerw.name}_#{dt}.kif"
   end
 
   # 数字だけの時刻の文字列の生成
@@ -165,8 +162,8 @@ class Move
     # @log.debug("msg:#{msg}")
     mi = @tkd.mi
     mmgr = MailManager.new
-    mmgr.send_mailex(mi.emailb, subject, msg, kifufile)
-    mmgr.send_mailex(mi.emailw, subject, msg, kifufile)
+    mmgr.send_mailex(mi.playerb.email, subject, msg, kifufile)
+    mmgr.send_mailex(mi.playerw.email, subject, msg, kifufile)
   end
 
   # 指されましたメールの本文の生成
@@ -301,8 +298,10 @@ class Move
   # 実行本体。
   #
   def perform
-    # gameid が無いよ, userinfoが変だよ
-    # moveが変だよ, 存在しないはずのIDだよ
+    # gameid が無いよ
+    return put_illegal_access if @gameid.nil?
+
+    # userinfoが変だよ, moveが変だよ, 存在しないはずのIDだよ
     return if check_param.nil?
 
     @log.debug('Move.read data')

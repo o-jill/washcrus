@@ -93,13 +93,17 @@ class TaikyokuData
     # @log.debug('TaikyokuFile.new')
     tdb = TaikyokuFile.new
     tdb.read
-    tdb.add([@gid, @id1, @id2, @player1, @player2, teban, @datetime, cmt])
+    tdb.content.add_array(
+      [@gid, @id1, @id2, @player1, @player2, teban, @datetime, cmt]
+    )
     tdb.append(@gid)
 
     # @log.debug('TaikyokuChuFile.new')
     tcdb = TaikyokuChuFile.new
     tcdb.read
-    tcdb.add([@gid, @id1, @id2, @player1, @player2, teban, @datetime, cmt])
+    tcdb.content.add_array(
+      [@gid, @id1, @id2, @player1, @player2, teban, @datetime, cmt]
+    )
     tcdb.append(@gid)
   end
 
@@ -196,8 +200,8 @@ class TaikyokuData
     # データを読み込んで
     @mi = MatchInfoFile.new(@gid)
     return nil if @mi.read(matchinfopath).nil?
-    @id1 = @mi.idb
-    @id2 = @mi.idw
+    @id1 = @mi.playerb.id
+    @id2 = @mi.playerw.id
     @jkf = JsonKifu.new(@gid)
     return nil if @jkf.read(kifupath).nil?
     # @chat = ChatFile.new(@gameid)
@@ -332,7 +336,7 @@ class TaikyokuData
   # @param jsmv JsonMoveオブジェクト
   # @return 0:まだまだ続ける, 1:玉を取って終局
   def finish_if_catch_gyoku(jsmv)
-    if JsonMove.catchOU?(jsmv)
+    if JsonMove.catch_gyoku?(jsmv)
       @mi.done_game_gyoku
       @jkf.resign
       1

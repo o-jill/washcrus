@@ -4,6 +4,7 @@ require 'digest/sha2'
 require 'openssl'
 require 'time'
 require 'unindent'
+require './views/common_ui.rb'
 
 # Contents management of TaikyokuFiles
 class TaikyokuFileContent
@@ -245,18 +246,6 @@ class TaikyokuFileContent
     end
   end
 
-  # 手番文字をわかりやすい言葉に変換
-  #
-  # @param trn 手番文字
-  # @return 手番情報文字列
-  def self.turn2str(trn)
-    tbl = [%w[b 先手番], %w[w 後手番], %w[fb 先手勝ち], %w[fw 後手勝ち], %[d 引き分け]]
-    tbl.each do |elem|
-      return elem[1] if trn == elem[0]
-    end
-    'エラー'
-  end
-
   # HTML形式(TABLE)に変換して出力
   #
   # @param title テーブルのキャプション
@@ -273,7 +262,7 @@ class TaikyokuFileContent
           <small>#{id}</small>
          </a></TD>
          <TD>#{name}</TD><TD>#{@namews[id]}</TD>
-         <TD>#{TaikyokuFileContent.turn2str(@turns[id])}</TD>
+         <TD>#{CommonUI.turn2str(@turns[id])}</TD>
          <TD>#{@times[id]}</TD><TD>#{@comments[id]}</TD>
         </TR>
         LINE

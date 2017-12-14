@@ -56,9 +56,6 @@ class Game
   # userinfoが変だよ
   # 存在しないはずのIDだよ
   def check_params
-    # gameid が無いよ
-    return put_illegal_access if @gameid.nil? || @gameid.empty?
-
     # @log.debug('Game.check userinfo')
     # userinfoが変だよ
     return LoginScreen.new(@header).show(@userinfo) \
@@ -78,6 +75,9 @@ class Game
   #
   def perform
     # @log.debug('Game.check gameid')
+    # gameid が無いよ
+    return put_illegal_access if @gameid.nil?
+
     return if check_params.nil?
 
     # @log.debug('Game.read TaikyokuData')

@@ -69,7 +69,7 @@ class ByouyomiChan
   #
   # @param mi MatchInfoFileオブジェクト
   def send_mail(mi)
-    subject = "[reminder] it's your turn!! (#{mi.playerb} vs #{mi.playerw})"
+    subject = "[reminder] it's your turn!! (#{mi.to_vs})"
     # @log.debug("subject:#{subject}")
     nply = mi.getnextplayer
     pply = mi.getopponent(nply[:id])

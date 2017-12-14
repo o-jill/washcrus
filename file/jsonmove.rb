@@ -18,7 +18,7 @@ module JsonMove
   #
   # @param a 取られた駒
   # @return 玉をとったらtrue
-  def self.catchOU?(a)
+  def self.catch_gyoku?(a)
     a['capture'] == 'OU'
   end
 

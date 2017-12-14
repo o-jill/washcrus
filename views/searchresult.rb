@@ -120,7 +120,7 @@ class SearchResultScreen
 
     res = []
     foundid.each do |i|
-      res << tdb.probe(i)
+      res << tdb.content.probe(i)
     end
     res
   end
@@ -159,8 +159,8 @@ class SearchResultScreen
       print <<-RESULT_TABLE.unindent
         <TABLE align='center' border='1'>
         <caption>検索結果</caption>
-        <tr><th>id</th><th>先手</th><th>後手</th>
-        <th>time</th><th>download</th></tr>
+        <tr><th>ID</th><th>先手</th><th>後手</th>
+        <th>着手日時</th><th>棋譜</th></tr>
         RESULT_TABLE
       res.each do |game|
         print_res(game)

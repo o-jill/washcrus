@@ -109,18 +109,32 @@ class JsonKifu
   # @param mv  指し手
   # @param tm  消費時間
   # @param cmt コメント
+  def movehash(mv, tm)
+    # @log.debug("mv.checkdou if $#{@moves[-1]['move'].to_s}$")
+    mv['same'] = true if checkdou(mv)
+
+    # @log.debug("data = { 'move' => mv }")
+    data = { 'move' => mv }
+
+    # @log.debug("data['time'] = tm || zerotime")
+    data['time'] = tm || zerotime
+
+    data
+  end
+
+  # 駒の移動の反映
+  #
+  # @param mv  指し手
+  # @param tm  消費時間
+  # @param cmt コメント
   def move(mv, tm = nil, cmt = nil)
-    # @log.debug("if mv['special']")
-    if mv[:special] || mv['special']
-      data = mv
-    else
-      # @log.debug("mv.checkdou if $#{@moves[-1]['move'].to_s}$")
-      mv['same'] = true if checkdou(mv)
-      # @log.debug("data = { 'move' => mv }")
-      data = { 'move' => mv }
-      # @log.debug("data['time'] = tm || zerotime")
-      data['time'] = tm || zerotime
-    end
+    # @log.debug("if mv[:special]")
+    data =
+      if mv[:special] || mv['special']
+        mv
+      else
+        movehash(mv, tm)
+      end
     # @log.debug("data['comments'] = cmt unless cmt.nil?")
     data['comments'] = cmt unless cmt.nil?
     @moves << data

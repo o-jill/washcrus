@@ -1,6 +1,6 @@
 <%# -*- coding: utf-8 -*- %>
 <div style="margin:4px;"><table id='gotegoma' class='gotegoma' border='0'>
- <tr><td colspan='14' id='gg_pname'>後手 <%= @mi.playerw %></td></tr>
+ <tr><td colspan='14' id='gg_pname'>後手 <%= @mi.playerw.name %></td></tr>
  <tr><td></td><td colspan='13'></td></tr>
  <tr id='gg_fu'>
   <td id='gg_hisha_img'><img src='./image/hkoma_hisha.png' width='52' height='52'></td><td id='gg_hisha_num' align='center'>0</td>
@@ -35,5 +35,5 @@
   <td id='sg_hisha_img'><img src='./image/koma_hisha.png' width='52' height='52'></td><td id='sg_hisha_num' align='center'>0</td>
  </tr>
  <tr><td></td><td colspan='13'></td></tr>
- <tr><td colspan='14' id='sg_pname'>先手 <%= @mi.playerb %></td></tr>
+ <tr><td colspan='14' id='sg_pname'>先手 <%= @mi.playerb.name %></td></tr>
 </table></div>

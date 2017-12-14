@@ -21,7 +21,8 @@ class WebApiSfenReader
     @turn = ''
   end
 
-  attr_reader :player1, :player2, :title, :sfen, :lastmove, :piecetype, :turn
+  attr_reader :player1, :player2, :title, :lastmove, :piecetype, :turn
+  attr_accessor :sfen
 
   # set players' names
   #
