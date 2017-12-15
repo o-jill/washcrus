@@ -41,14 +41,23 @@ class WebApiSfenReader
     @lastmove = csa[3, 2] || ''
   end
 
+  # ハッシュに名前を追加
+  #
+  # @param h ハッシュ
+  # @return 名前が追加されたハッシュ
+  def params_plys(h)
+    h[:sname] = @player1 unless @player1.empty?
+    h[:gname] = @player2 unless @player2.empty?
+    h
+  end
+
   # パラメータをハッシュで返す
   #
   # @return {sfen:, lm:, sname:, gname:, title:, piece:, turn:}
   def params
     ret = { sfen: @sfen }
     ret[:lm] = @lastmove unless @lastmove.empty?
-    ret[:sname] = @player1 unless @player1.empty?
-    ret[:gname] = @player2 unless @player2.empty?
+    ret = params_plys(ret)
     ret[:title] = @title unless @title.empty?
 
     case @piecetype
