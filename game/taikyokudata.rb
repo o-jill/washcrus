@@ -299,7 +299,7 @@ class TaikyokuData
   # @param movestr 着手内容文字列
   # @param now 着手日時オブジェクト
   def setlastmove(movestr, now)
-    @mi.setlastmove_dt(movestr[0, 7], now)
+    @mi.setlastmove(movestr[0, 7], now.strftime('%Y/%m/%d %H:%M:%S'))
   end
 
   # 消費時間の計算

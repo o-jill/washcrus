@@ -37,9 +37,55 @@ class Player
 end
 
 #
+# 対局情報ファイル管理クラス他クラスから必要ない奴ら
+#
+class MatchInfoFilePrivate
+  # count # of pieces on a line.
+  #
+  # @param sfenstr sfen文字列
+  # @return # of pieces
+  def checksfen_line(line)
+    nkoma = 0
+    line.each_char do |chr|
+      case chr
+      when '1'..'9' then nkoma += chr.to_i
+      when '+' then next
+      else nkoma += 1
+      end
+    end
+    nkoma
+  end
+
+  # minimal sfen board syntax check
+  #
+  # @param sfenstr sfen文字列
+  # @return nil if invalid, otherwise successful.
+  def checksfen(sfenstr)
+    dan = sfenstr.split('/')
+    return nil if dan.length != 9
+    dan.each do |line|
+      nkoma = checksfen_line(line)
+      return nil if nkoma != 9
+    end
+  end
+
+  # sfenの内容の確認
+  #
+  # @param item sfenを空白でsplitしたArray
+  # @return true if invalid
+  def invalid_sfenitem?(item, tbn, nth)
+    # @log.debug('return unless @teban =~ /[bw]/')
+    # @log.debug('return if @teban == item[1]')
+    # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
+
+    !%w[b w].include?(tbn) || tbn == item[1] || nth.to_i + 1 != item[3].to_i
+  end
+end
+
+#
 # 対局情報ファイル管理クラス
 #
-class MatchInfoFile
+class MatchInfoFile < MatchInfoFilePrivate
   # 初期化
   #
   # @param gameid 対局ID
@@ -60,22 +106,6 @@ class MatchInfoFile
   attr_reader :gid, :playerb, :playerw, :creator, :dt_created,
               :teban, :tegoma, :nth, :sfen, :lastmove, :dt_lastmove, :finished
   attr_accessor :log, :turn
-
-  # 対局者のセット
-  #
-  # id     対局者のID
-  # bsente true:先手, false:後手
-  def setplayer(id, bsente)
-    db = UserInfoFile.new
-    db.read
-    user = db.findid(id)
-    return if user.nil?
-    if bsente
-      setplayerb(id, user)
-    else
-      setplayerw(id, user)
-    end
-  end
 
   # 対局者のセット
   #
@@ -103,8 +133,8 @@ class MatchInfoFile
     db = UserInfoFile.new
     db.read
 
-    setplayerb(id_b, db.findid(id_b))
-    setplayerw(id_w, db.findid(id_w))
+    setplayerb(id_b, db.findid(id_b)) unless id_b.nil?
+    setplayerw(id_w, db.findid(id_w)) unless id_w.nil?
   end
 
   # 対戦相手の情報を得る
@@ -142,15 +172,6 @@ class MatchInfoFile
   # 着手情報のセット
   #
   # @param mv 着手情報文字列
-  # @param dt [Time] 着手日時オブジェクト
-  def setlastmove_dt(mv, dt)
-    @lastmove = mv
-    @dt_lastmove = dt.strftime('%Y/%m/%d %H:%M:%S')
-  end
-
-  # 着手情報のセット
-  #
-  # @param mv 着手情報文字列
   # @param dt [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
   def setlastmove(mv, dt)
     @lastmove = mv
@@ -168,48 +189,6 @@ class MatchInfoFile
     @nth = items[3]
   end
 
-  # count # of pieces on a line.
-  #
-  # @param sfenstr sfen文字列
-  # @return # of pieces
-  private def checksfen_line(line)
-    nkoma = 0
-    line.each_char do |chr|
-      case chr
-      when '1'..'9' then nkoma += chr.to_i
-      when '+' then next
-      else nkoma += 1
-      end
-    end
-    nkoma
-  end
-
-  # minimal sfen board syntax check
-  #
-  # @param sfenstr sfen文字列
-  # @return nil if invalid, otherwise successful.
-  def checksfen(sfenstr)
-    dan = sfenstr.split('/')
-    return nil if dan.length != 9
-    dan.each do |line|
-      nkoma = checksfen_line(line)
-      return nil if nkoma != 9
-    end
-  end
-
-  # sfenの内容の確認
-  #
-  # @param item sfenを空白でsplitしたArray
-  # @return true if invalid
-  private def invalid_sfenitem?(item)
-    # @log.debug('return unless @teban =~ /[bw]/')
-    # @log.debug('return if @teban == item[1]')
-    # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
-
-    !%w[b w].include?(@teban) || @teban == item[1] || \
-    @nth.to_i + 1 != item[3].to_i
-  end
-
   # sfen to parameters with minimal syntax check.
   # teban and nth are also checked if strict is true.
   #
@@ -222,7 +201,7 @@ class MatchInfoFile
 
     return if checksfen(item[0]).nil?
 
-    return if strict && invalid_sfenitem?(item)
+    return if strict && invalid_sfenitem?(item, @teban, @nth)
 
     setsfen(sfenstr, item)
   end
