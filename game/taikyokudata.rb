@@ -115,7 +115,9 @@ class TaikyokuData
     # @log.debug('MatchInfoFile.new(gid)')
     # match information file
     @mi = MatchInfoFile.new(@gid)
-    @mi.initial_write(@id1, @id2, @creator, @datetime, @matchinfopath)
+    @mi.setplayers(@id1, @id2)
+    @mi.setcreator(@creator, @datetime)
+    @mi.write(@matchinfopath)
 
     # kifu file
     @jkf = JsonKifu.new(@gid)
@@ -250,20 +252,19 @@ class TaikyokuData
     "filename*=UTF-8''#{escape_fnu8(fn)}\n\n"
   end
 
-  # CSA形式の棋譜のダウンロードページの出力
-  def download_csa
-    filename = @mi.build_fn2dl('csa')
+  # 棋譜のダウンロードページの出力
+  #
+  # @param type 棋譜形式 'csa','kif','kifu'
+  def download_kifu_file(type)
+    filename = @mi.build_fn2dl(type)
 
     puts build_header2dl(filename)
-    puts @jkf.to_csa
-  end
 
-  # KIF形式の棋譜のダウンロードページの出力
-  def download_kif
-    filename = @mi.build_fn2dl('kif')
-
-    puts build_header2dl(filename)
-    puts @jkf.to_kif
+    case type
+    when 'kif'  then puts @jkf.to_kif  # KIF形式の棋譜のダウンロードページの出力
+    when 'kifu' then puts @jkf.to_kifu # KIFU形式の棋譜のダウンロードページの出力
+    when 'csa'  then puts @jkf.to_csa  # CSA形式の棋譜のダウンロードページの出力
+    end
   end
 
   # １手指す
@@ -282,8 +283,7 @@ class TaikyokuData
     return finish_special(jsmv) if jsmv[:special]
 
     @mi.log = @log
-    return if @mi.fromsfen_strict(sfen).nil?
-    # return if @mi.fromsfen(sfen).nil?
+    return if @mi.fromsfen(sfen, true).nil?
 
     jc = calc_consumption(dt)
 

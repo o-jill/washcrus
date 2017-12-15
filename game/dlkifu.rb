@@ -40,8 +40,8 @@ class DownloadKifu
     tkd.read
 
     # 表示する
-    # tkd.download_csa
-    tkd.download_kif
+    # tkd.download_kifu_file('csa')
+    tkd.download_kifu_file('kif')
   end
 
   # class methods

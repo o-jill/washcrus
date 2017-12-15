@@ -202,43 +202,27 @@ class MatchInfoFile
   # @param item sfenを空白でsplitしたArray
   # @return true if invalid
   private def invalid_sfenitem?(item)
+    # @log.debug('return unless @teban =~ /[bw]/')
     # @log.debug('return if @teban == item[1]')
     # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
-    # @log.debug('return if checksfen(item[0]).nil?')
-    item.length != 4 || @teban == item[1] \
-      || @nth.to_i + 1 != item[3].to_i || checksfen(item[0]).nil?
+
+    !%w[b w].include?(@teban) || @teban == item[1] || \
+    @nth.to_i + 1 != item[3].to_i
   end
 
   # sfen to parameters with minimal syntax check.
-  # teban and nth are also checked.
+  # teban and nth are also checked if strict is true.
   #
   # @param sfenstr sfen文字列
-  def fromsfen_strict(sfenstr)
-    # @log.debug('return unless @teban =~ /[bw]/')
-    return unless @teban =~ /[bw]/
-
-    item = sfenstr.split(' ')
-
-    # return if item.length != 4
-    # # @log.debug('return if @teban == item[1]')
-    # return if @teban == item[1]
-    # # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
-    # return if @nth.to_i + 1 != item[3].to_i
-    # # @log.debug('return if checksfen(item[0]).nil?')
-    # return if checksfen(item[0]).nil?
-    return if invalid_sfenitem?(item)
-
-    setsfen(sfenstr, item)
-  end
-
-  # sfen to parameters with minimal syntax check.
-  #
-  # @param sfenstr sfen文字列
-  def fromsfen(sfenstr)
+  # @param strict trueのとき厳しくチェック
+  def fromsfen(sfenstr, strict = false)
     item = sfenstr.split(' ')
 
     return if item.length != 4
+
     return if checksfen(item[0]).nil?
+
+    return if strict && invalid_sfenitem?(item)
 
     setsfen(sfenstr, item)
   end
@@ -318,19 +302,6 @@ class MatchInfoFile
     self
   rescue
     return nil
-  end
-
-  # 初期化データの書き込み
-  #
-  # @param id_b    先手のID
-  # @param id_w    後手のID
-  # @param creator 生成者
-  # @param path    ファイルパス
-  def initial_write(id_b, id_w, creator, cdt, path)
-    setplayers(id_b, id_w)
-    setcreator(creator, cdt)
-    @dt_lastmove = cdt
-    write(path)
   end
 
   # ハッシュにして返す
