@@ -11,6 +11,8 @@ require './util/myerror.rb'
 #
 # ユーザー情報DB管理クラス
 #
+# @note draw非対応
+#
 class UserInfoFile
   KEY = Globals::KEY
 
@@ -103,13 +105,6 @@ class UserInfoFile
       file.flock File::LOCK_EX
 
       file.each_line do |line|
-        # comment
-        # next if line =~ /^#/
-
-        # # id, name, password, e-mail(encrypted), swn, sls, gwn, gls
-        # elements = line.chomp.split(',')
-        # next if elements.length != 8 # invalid line
-
         read_elements(line)
       end
     end
@@ -269,18 +264,21 @@ class UserInfoFile
     @emails.value?(addr)
   end
 
-  # duplication check
+  # 勝敗の記入(勝った方と負けた方に１加算)
   #
-  # [name] user's name to be checked
-  # [addr] user's mail address to be checked
-  def exist_name_or_email(name, addr)
-    @names.value?(name) || @emails.value?(addr)
-  end
-
-  # plus 1 win or lose
-  # @param sym [symbol] :swin, :slose, :gwin, :glose
-  def win_lose(id, sym)
-    @stats[id][sym] += 1
+  # @param gwin 後手勝ちの時true
+  # @param id1  先手のID
+  # @param id2  後手のID
+  #
+  # @note draw非対応
+  def give_win_lose(gwin, id1, id2)
+    if gwin
+      @stats[id1][:slose] += 1
+      @stats[id2][:gwin] += 1
+    else
+      @stats[id1][:swin] += 1
+      @stats[id2][:lose] += 1
+    end
   end
 
   # build table of IDs and names

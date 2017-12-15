@@ -19,22 +19,17 @@ class TaikyokuFileContent
     @comments = {}
   end
 
-  attr_accessor :fname, :idbs, :idws, :namebs, :namews, :turn, :times, :comments
-
-  # 1行分のデータ文字列の生成
-  #
-  # @param id 対局ID
-  def build_line(id)
-    "#{id},#{@idbs[id]},#{@idws[id]}," \
-    "#{@namebs[id]},#{@namews[id]},#{@turns[id]},#{@times[id]},#{@comments[id]}"
-  end
+  attr_reader :idbs, :idws, :namebs, :namews, :turns, :times, :comments
 
   # ファイルに出力
   #
   # @param file ファイルオブジェクト
-  def put(file)
-    @namebs.each_key do |id|
-      file.puts build_line(id)
+  # @param a_id 対局IDのリスト。nilならすべて。
+  def put(file, a_id)
+    a_id = @idbs.keys
+    a_id.each do |id|
+      file.puts "#{id},#{@idbs[id]},#{@idws[id]},#{@namebs[id]}," \
+                "#{@namews[id]},#{@turns[id]},#{@times[id]},#{@comments[id]}"
     end
   end
 
@@ -266,25 +261,6 @@ class TaikyokuFileContent
          <TD>#{@times[id]}</TD><TD>#{@comments[id]}</TD>
         </TR>
         LINE
-    end
-    puts '</table>'
-  end
-
-  # データのダンプ。
-  # HTML形式(TABLE)に変換して出力
-  def dumphtml
-    print <<-FNAME_AND_TABLE
-      <table border=1> <Caption>path:#{fname}</caption>
-      <tr><th>ID</th><TH>Black</TH><TH>White</TH><TH>Turn</TH><TH>Time</TH><TH>Comment</TH></TR>
-      FNAME_AND_TABLE
-    @namebs.each do |id, name|
-      puts <<-DUMPCONTENT
-        <TR>
-         <TD><a href='./washcrus.rb?game/#{id}'>#{id}</a></TD>
-         <TD>#{name}(#{@idbs[id]})</TD><TD>#{@namews[id]}(#{@idws[id]})</TD>
-         <TD>#{@turns[id]}</TD><TD>#{@times[id]}</TD><TD>#{@comments[id]}</TD>
-        </TR>
-        DUMPCONTENT
     end
     puts '</table>'
   end

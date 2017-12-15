@@ -134,14 +134,16 @@ class Move
 
   # 添付ファイル名の生成
   #
-  # @param dt   現在の時刻の文字列
-  def build_attachfilename(dt)
-    "#{@tkd.mi.playerb.name}_#{@tkd.mi.playerw.name}_#{dt}.kif"
-  end
+  # @return 添付ファイル名
+  def build_attachfilename
+    # 数字だけの時刻の文字列の生成
+    dt = @tkd.mi.dt_lastmove.delete('/:').sub(' ', '_')
 
-  # 数字だけの時刻の文字列の生成
-  def build_short_dt
-    @tkd.mi.dt_lastmove.delete('/:').sub(' ', '_')
+    fname = "#{@tkd.mi.playerb.name}_#{@tkd.mi.playerw.name}_#{dt}.kif"
+
+    fname.gsub(%r{[\\/*:<>?|]},
+               '\\' => '￥', '/' => '／', '*' => '＊', ':' => '：',
+               '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
   end
 
   # 終局メールの生成と送信
@@ -149,13 +151,14 @@ class Move
     subject = build_finishedtitle
     # @log.debug("subject:#{subject}")
 
-    dt = build_short_dt
-    filename = build_attachfilename(dt)
+    # dt = build_short_dt
+    filename = build_attachfilename
 
     msg = build_finishedmsg(nowstr, filename)
 
     kifufile = {
-      filename: @tkd.escape_fnu8(filename),
+      filename: filename,
+      # filename: @tkd.escape_fnu8(filename),
       content:  @tkd.jkf.to_kif
     }
 
@@ -247,6 +250,8 @@ class Move
   #
   # @param tcdb   対局中データベース
   # @param now 現在の時刻オブジェクト
+  #
+  # @note draw非対応
   def finish_game(tcdb, now)
     # 終了日時の更新とか勝敗の記録とか
     @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")

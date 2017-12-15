@@ -39,7 +39,7 @@ end
 #
 # 対局情報ファイル管理クラス他クラスから必要ない奴ら
 #
-class MatchInfoFilePrivate
+module MatchInfoFilePrivate
   # count # of pieces on a line.
   #
   # @param sfenstr sfen文字列
@@ -80,12 +80,35 @@ class MatchInfoFilePrivate
 
     !%w[b w].include?(tbn) || tbn == item[1] || nth.to_i + 1 != item[3].to_i
   end
+
+  # ファイル名に使えない文字の変換
+  # _に変換
+  #
+  # @param fname 対象文字列
+  # @return 変換結果文字列
+  def escape_fn(fname)
+    path = fname.gsub(%r{[\\\/*:<>?|]}, '_')
+    URI.escape(path)
+  end
+
+  # ファイル名に使えない文字の変換
+  # 全角に変換
+  #
+  # @param fname 対象文字列
+  # @return 変換結果文字列
+  def escape_fnu8(fname)
+    path = fname.gsub(%r{[\\/*:<>?|]},
+                      '\\' => '￥', '/' => '／', '*' => '＊', ':' => '：',
+                      '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
+    URI.escape(path)
+  end
 end
 
 #
 # 対局情報ファイル管理クラス
 #
-class MatchInfoFile < MatchInfoFilePrivate
+class MatchInfoFile
+  include MatchInfoFilePrivate
   # 初期化
   #
   # @param gameid 対局ID
@@ -319,12 +342,17 @@ class MatchInfoFile < MatchInfoFilePrivate
     "#{@playerb.name} vs #{@playerw.name}"
   end
 
-  # ダウンロードファイル名の生成
+  # ダウンロードファイル名の生成と
+  # 棋譜のダウンロードページのヘッダ文字列の生成
   #
   # @param ext 拡張子
-  # @return ダウンロードファイル名文字列
-  def build_fn2dl(ext)
+  # @return ヘッダ文字列
+  def build_header2dl(ext)
     dt = @dt_lastmove.delete('/:').sub(' ', '_')
-    "#{@playerb.name}_#{@playerw.name}_#{dt}.#{ext}"
+    fn = "#{@playerb.name}_#{@playerw.name}_#{dt}.#{ext}"
+
+    "Content-type: application/octet-stream\n" \
+    "Content-Disposition: attachment; filename='#{escape_fn(fn)}'; " \
+    "filename*=UTF-8''#{escape_fnu8(fn)}\n\n"
   end
 end

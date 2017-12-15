@@ -220,45 +220,11 @@ class TaikyokuData
     @jkf.write(@kifupath)
   end
 
-  # ファイル名に使えない文字の変換
-  # _に変換
-  #
-  # @param fname 対象文字列
-  # @return 変換結果文字列
-  def escape_fn(fname)
-    path = fname.gsub(%r{[\\\/*:<>?|]}, '_')
-    URI.escape(path)
-  end
-
-  # ファイル名に使えない文字の変換
-  # 全角に変換
-  #
-  # @param fname 対象文字列
-  # @return 変換結果文字列
-  def escape_fnu8(fname)
-    path = fname.gsub(%r{[\\/*:<>?|]},
-                      '\\' => '￥', '/' => '／', '*' => '＊', ':' => '：',
-                      '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
-    URI.escape(path)
-  end
-
-  # 棋譜のダウンロードページのヘッダ文字列の生成
-  #
-  # @param fn ファイル名
-  # @return ヘッダ文字列
-  def build_header2dl(fn)
-    "Content-type: application/octet-stream\n" \
-    "Content-Disposition: attachment; filename='#{escape_fn(fn)}'; " \
-    "filename*=UTF-8''#{escape_fnu8(fn)}\n\n"
-  end
-
   # 棋譜のダウンロードページの出力
   #
   # @param type 棋譜形式 'csa','kif','kifu'
   def download_kifu_file(type)
-    filename = @mi.build_fn2dl(type)
-
-    puts build_header2dl(filename)
+    puts @mi.build_header2dl(type)
 
     case type
     when 'kif'  then puts @jkf.to_kif  # KIF形式の棋譜のダウンロードページの出力
@@ -345,29 +311,15 @@ class TaikyokuData
     end
   end
 
-  # 勝敗の記入(勝った方と負けた方に１加算)
-  #
-  # @param udb  ユーザDBオブジェクト
-  # @param gwin 後手勝ちの時true
-  def give_win_lose(udb, gwin)
-    if gwin
-      @log.debug("udb.win_lose(#{id2}, :gwin)")
-      udb.win_lose(id1, :slose)
-      udb.win_lose(id2, :gwin)
-    else
-      @log.debug("udb.win_lose(#{id1}, :swin)")
-      udb.win_lose(id1, :swin)
-      udb.win_lose(id2, :glose)
-    end
-  end
-
   # 対局の終了処理
   # 対局終了日時のセット
   # 勝敗の記入(勝った方と負けた方に１加算)
   #
   # @param dt [Time] 終局時刻
-  # @param gwin [Boolean] 後手勝ちの時
+  # @param gwin [Boolean] 後手勝ちの時true
   # @param turn [String] 終局情報文字
+  #
+  # @note draw非対応
   def finished(dt, gwin, turn)
     # 対局終了日時のセット
     @log.debug('@jkf.setfinishdate()')
@@ -381,7 +333,7 @@ class TaikyokuData
     userdb = UserInfoFile.new
     userdb.lock do
       userdb.read
-      give_win_lose(userdb, gwin)
+      userdb.give_win_lose(gwin, @id1, @id2)
       # @log.debug('userdb.write')
       userdb.write
     end

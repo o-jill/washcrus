@@ -102,7 +102,7 @@ class TaikyokuFile
     File.open(@fname, 'w') do |file|
       file.flock File::LOCK_EX
       put_header(file)
-      @content.put(file)
+      @content.put(file, nil)
     end
   # 例外は小さい単位で捕捉する
   rescue SystemCallError => e
@@ -118,7 +118,7 @@ class TaikyokuFile
     lock do
       File.open(@fname, 'a') do |file|
         file.flock File::LOCK_EX
-        file.puts @content.build_line(id)
+        @content.put(file, [id])
       end
     end
   # 例外は小さい単位で捕捉する
