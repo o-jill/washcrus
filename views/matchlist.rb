@@ -61,8 +61,8 @@ class MatchListScreen
     print <<-RESULT_TABLE.unindent
       <TABLE align='center' border='1'>
       <caption><a href='#chu'>対局中へ</a> <a name='recent'>30日以内</a></caption>
-      <tr><th>id</th><th>先手</th><th>後手</th><th>手番</th>
-      <th>time</th><th>コメント</th></tr>
+      <tr><th>ID</th><th>先手</th><th>後手</th><th>手番</th>
+      <th>着手日時</th><th>コメント</th></tr>
       RESULT_TABLE
     games.each do |game|
       print_res(game)
