@@ -182,7 +182,7 @@ class TaikyokuReqFile
       <tr><th>名前</th><th>コメント</th></tr>
       TABLE_HEAD
     @names.each do |id, name|
-      print "<tr><td>"
+      print '<tr><td>'
       if id == myid
         print name
       else
