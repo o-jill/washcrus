@@ -59,7 +59,7 @@ class WashCrus
   ].freeze
   WORDS_ADMIN = WORDS_ADMIN_SHOW + WORDS_ADMIN_UPDATE
 
-  WORDS_GAMESTG_SHOW = %w[matchlist mypage newgame].freeze
+  WORDS_GAMESTG_SHOW = %w[file2lounge lounge matchlist mypage newgame].freeze
   WORDS_GAMESTG_GEN = %w[checknewgame gennewgame gennewgame2].freeze
   WORDS_GAMESTG = WORDS_GAMESTG_SHOW + WORDS_GAMESTG_GEN
 
@@ -152,13 +152,19 @@ class WashCrus
   # ゲーム系の画面
   def gamestg_show
     case @action
-    when 'matchlist' then
+    when 'file2lounge'
+      require './game/file2lounge.rb'
+      File2Lounge.new.perform(@userinfo, @params)
+    when 'lounge'
+      require './views/lounge.rb'
+      LoungeScreen.new(@header).show(@userinfo)
+    when 'matchlist'
       require './views/matchlist.rb'
       MatchListScreen.new(@header).show(@userinfo)
-    when 'mypage' then
+    when 'mypage'
       require './views/mypage.rb'
       MyPageScreen.new(@header).show(@userinfo)
-    when 'newgame' then
+    when 'newgame'
       require './views/newgame.rb'
       NewGameScreen.new(@header).show(@userinfo)
     end

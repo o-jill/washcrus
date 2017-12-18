@@ -98,6 +98,7 @@ module CommonUI
       <a class='menu' href='#{index}'> Top </a>
       <a class='menu' href='#{index}?news'> News </a>
       <a class='menu' href='#{index}?mypage'> My Page </a>
+      <a class='menu' href='#{index}?lounge'> Lounge </a>
       <a class='menu' href='#{index}?matchlist'> Watch </a>
       <a class='menu' href='#{index}?searchform'> Search </a>
       <a class='menu' href='#{sup}' target='_blank'> Support </a>
@@ -118,6 +119,7 @@ module CommonUI
       <a class='menu' href='#{index}'> Top </a>
       <a class='menu' href='#{index}?news'> News </a>
       <a class='menu' href='#{index}?mypage'> My Page </a>
+      <a class='menu' href='#{index}?lounge'> Lounge </a>
       <a class='menu' href='#{index}?matchlist'> Watch </a>
       <a class='menu' href='#{index}?searchform'> Search </a>
       <a class='menu' href='#{sup}' target='_blank'> Support </a>

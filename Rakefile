@@ -52,6 +52,7 @@ task gen_info: [:gen_userinfo, :gen_taikyokuinfo, :gen_taikyokuchuinfo]
 task gen_userinfo: ['./db/userinfo.csv']
 task gen_taikyokuinfo: ['./db/taikyoku.csv']
 task gen_taikyokuchuinfo: ['./db/taikyokuchu.csv']
+task gen_taikyokureqinfo: ['./db/taikyokureq.csv']
 
 file './db/userinfo.csv' do |f|
   cp './init/userinfo.csv.tmpl', f.name
@@ -65,6 +66,11 @@ end
 
 file './db/taikyokuchu.csv' do |f|
   cp './init/taikyoku.csv.tmpl', f.name
+  chmod 0o666, f.name
+end
+
+file './db/taikyokureq.csv' do |f|
+  cp './init/taikyokreq.csv.tmpl', f.name
   chmod 0o666, f.name
 end
 
@@ -101,6 +107,7 @@ end
 task :add_w2lock do
   chmod 0o666, './db/taikyokufile.lock'
   chmod 0o666, './db/taikyokuchufile.lock'
+  chmod 0o666, './db/taikyokureqfile.lock'
   chmod 0o666, './db/userinfofile.lock'
 end
 

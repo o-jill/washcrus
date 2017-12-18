@@ -24,14 +24,6 @@ class NewsScreen
     msg = markdown.render(File.read(PathList::NEWSFILE, encoding: 'utf-8'))
 
     puts <<-NEWS_INFO.unindent
-      <style type=text/css>
-       .news {
-         border: inset 5px blue;
-         padding: 5px;
-         text-align: left;
-         width: 60vw;
-       }
-      </style>
       <div align='center'>
        NEWS
        <div class='news'>

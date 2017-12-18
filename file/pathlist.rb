@@ -19,6 +19,8 @@ module PathList
   TAIKYOKULOCKFILE = './db/taikyokufile.lock'.freeze
   TAIKYOKUCHUFILE = './db/taikyokuchu.csv'.freeze
   TAIKYOKUCHULOCKFILE = './db/taikyokuchufile.lock'.freeze
+  TAIKYOKUREQFILE = './db/taikyokureq.csv'.freeze
+  TAIKYOKUREQLOCKFILE = './db/taikyokureqfile.lock'.freeze
   USERINFOLOCKFILE = './db/userinfofile.lock'.freeze
   USERINFOFILE = './db/userinfo.csv'.freeze
 end
