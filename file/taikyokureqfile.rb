@@ -175,22 +175,24 @@ class TaikyokuReqFile
   # HTML形式(TABLE)に変換して出力
   #
   # @param title テーブルのキャプション
-  def to_html(title)
+  # @param myid 出力したくないユーザーID
+  def to_html(title, myid = nil)
     print <<-TABLE_HEAD.unindent
       <table border=1 align=center> <caption>#{title}</caption>
       <tr><th>名前</th><th>コメント</th></tr>
       TABLE_HEAD
     @names.each do |id, name|
-      puts <<-CONTENT.unindent
-        <tr>
-          <td>
-           <label>
-            <input type="radio" name="opponent" value="#{id}" onclick='onclick_radiobtn(event)'>#{name}
-           </label>
-          </td>
-          <td>#{@comments[id]}</td>
-        </tr>
-        CONTENT
+      print "<tr><td>"
+      if id == myid
+        print name
+      else
+        puts <<-CONTENT.unindent
+          <label>
+           <input type="radio" name="opponent" value="#{id}" onclick='onclick_radiobtn(event)'>#{name}
+          </label>
+          CONTENT
+      end
+      puts "</td><td>#{@comments[id]}</td></tr>"
     end
     puts '</table>'
   end

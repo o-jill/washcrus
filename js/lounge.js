@@ -30,6 +30,7 @@ function file2lounge_resp(status, resp)
 function file2lounge()
 {
   document.getElementById('btn_f2l').disabled = true;
+  document.getElementById('cmt').disabled = true;
 
   var ajax = new XMLHttpRequest();
   if (ajax === null)

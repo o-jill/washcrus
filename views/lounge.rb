@@ -53,7 +53,7 @@ class LoungeScreen
   end
 
   # 対局待ちユーザーの表示
-  def put_userinlounge(reqdb)
+  def put_userinlounge(reqdb, uid)
     scriptname = File.basename($PROGRAM_NAME)
 
     puts <<-TAIKYOKU_LOUNGE.unindent
@@ -63,7 +63,7 @@ class LoungeScreen
         <form action='#{scriptname}?gennewgame3' method='post' name='gennewgame'>
       TAIKYOKU_LOUNGE
 
-    reqdb.to_html('対局待ちユーザー')
+    reqdb.to_html('対局待ちユーザー', uid)
 
     puts <<-TAIKYOKU_BTN.unindent
       対戦相手は「<span id='opponentname'>(対戦相手を選んでください)</span>」です。<BR>
@@ -74,7 +74,7 @@ class LoungeScreen
       </select>
       <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
       <button id='btn_f2l' class='inpform' onclick='return onstart()' disabled>Start!</button>
-      <BR>
+      </form><BR>
       <img id='furikomanim1' src='image/komanim.gif' style='display:none' width='32' height='32'>
       <img id='furikomafu1' src='image/komafu.png' style='display:none' width='32' height='32'>
       <img id='furikomato1' src='image/komato.png' style='display:none' width='32' height='32'>
@@ -104,7 +104,7 @@ class LoungeScreen
     reqdb = TaikyokuReqFile.new
     reqdb.read
 
-    put_userinlounge(reqdb)
+    put_userinlounge(reqdb, userinfo.user_id)
 
     if reqdb.exist_id(userinfo.user_id)
       put_canceling_button

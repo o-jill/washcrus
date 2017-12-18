@@ -60,7 +60,7 @@ class WashCrus
   WORDS_ADMIN = WORDS_ADMIN_SHOW + WORDS_ADMIN_UPDATE
 
   WORDS_GAMESTG_SHOW = %w[file2lounge lounge matchlist mypage newgame].freeze
-  WORDS_GAMESTG_GEN = %w[checknewgame gennewgame gennewgame2].freeze
+  WORDS_GAMESTG_GEN = %w[checknewgame gennewgame gennewgame2 gennewgame3].freeze
   WORDS_GAMESTG = WORDS_GAMESTG_SHOW + WORDS_GAMESTG_GEN
 
   WORDS_LOGINOUT_SU = %w[signup register].freeze
@@ -182,6 +182,9 @@ class WashCrus
     when 'gennewgame2' then
       require './views/gennewgame2.rb'
       GenNewGame2Screen.new(@header).show(@userinfo, @params)
+    when 'gennewgame3' then
+      require './views/gennewgame3.rb'
+      GenNewGame3Screen.new(@header).show(@userinfo, @params)
     end
   end
 

@@ -53,13 +53,15 @@ class File2Lounge
   # @param userinfo ユーザー情報
   def canceling(userinfo)
     reqdb = TaikyokuReqFile.new
-    reqdb.read
+    reqdb.lock do
+      reqdb.read
 
-    return puts "Content-type: text/plain;\n\nyou are not in the list." \
-      unless reqdb.exist_id(userinfo.user_id)
+      return puts "Content-type: text/plain;\n\nyou are not in the list." \
+        unless reqdb.exist_id(userinfo.user_id)
 
-    reqdb.remove(userinfo.user_id)
-    reqdb.write
+      reqdb.remove(userinfo.user_id)
+      reqdb.write
+    end
 
     puts "Content-type: text/plain;\n\nsuccessflly canceled."
   end
