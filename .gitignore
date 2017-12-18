@@ -11,12 +11,8 @@ config/signature.txt
 config/news.txt
 db/adminconfig.txt
 db/taikyoku.csv
-db/taikyokufile.lock
 db/taikyokuchu.csv
-db/taikyokuchufile.lock
 db/taikyokureq.csv
-db/taikyokureqfile.lock
 db/userinfo.csv
-db/userinfofile.lock
 log
 REVISION
