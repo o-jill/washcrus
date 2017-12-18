@@ -183,7 +183,11 @@ class TaikyokuReqFile
     @names.each do |id, name|
       puts <<-CONTENT.unindent
         <tr>
-          <td><label><input type="radio" name="opponent" value="#{id}">#{name}</label></td>
+          <td>
+           <label>
+            <input type="radio" name="opponent" value="#{id}" onclick='onclick_radiobtn(event)'>#{name}
+           </label>
+          </td>
           <td>#{@comments[id]}</td>
         </tr>
         CONTENT

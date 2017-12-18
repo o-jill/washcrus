@@ -82,3 +82,83 @@ function cancelfromlounge()
     }
   };
 }
+
+function onclick_radiobtn(e)
+{
+  var name = e.target.parentElement.innerText.trim();
+  document.getElementById('opponentname').innerText = name;
+  document.getElementById('btn_f2l').disabled = false;
+}
+
+function lets_furigoma() {
+  var koma, id;
+  for (var i = 1; i <= 5; ++i) {
+    id = 'furikomanim'+i;
+    koma = document.getElementById(id);
+    koma.style.display = 'inline';
+    id = 'furikomafu'+i;
+    koma = document.getElementById(id);
+    koma.style.display = 'none';
+    id = 'furikomato'+i;
+    koma = document.getElementById(id);
+    koma.style.display = 'none';
+  }
+
+  document.getElementById('btn_f2l').disabled = true;
+  document.getElementById('furigoma').value = "";
+
+  setTimeout(function() {
+    ontimer_furigoma()
+  }, 1000);
+}
+
+function randomchoose(anim, fu, to) {
+  var koma = document.getElementById(anim);
+  koma.style.display = 'none';
+  var value;
+  if (Math.random() < 0.5) {
+    value = "F";
+    koma = document.getElementById(fu);
+  } else {
+    value = "T";
+    koma = document.getElementById(to);
+  }
+  koma.style.display = 'inline';
+  return value;
+}
+
+function ontimer_furigoma() {
+  var furikoma = document.getElementById('furigoma');
+  var komame = furikoma.value.length
+  if (komame <= 4) {
+    var idanim = 'furikomanim' + (komame+1);
+    var idfu = 'furikomafu' + (komame+1);
+    var idto = 'furikomato' + (komame+1);
+    furikoma.value += randomchoose(idanim, idfu, idto);
+  }
+  if (komame <= 3) {
+    setTimeout(function() {
+      ontimer_furigoma()
+    }, 1000);
+  } else {
+    document.forms['gennewgame'].submit();
+  }
+}
+
+function onstart()
+{
+  var sengo = document.getElementById('sengo').selectedIndex;
+
+  if (sengo == 0) {
+    document.getElementById('furigoma').value = 'FFFFF';
+    return true;
+  } else if (sengo == 1) {
+    document.getElementById('furigoma').value = 'TTTTT';
+    return true;
+  } else if (sengo == 2) {
+    lets_furigoma();
+    return false;
+  } else {
+    return false;
+  }
+}
