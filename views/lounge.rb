@@ -68,9 +68,9 @@ class LoungeScreen
     puts <<-TAIKYOKU_BTN.unindent
       対戦相手は「<span id='opponentname'>(対戦相手を選んでください)</span>」です。<BR>
       <select class='inpform' name='sengo' id='sengo'>
-       <option value='0'>自分が先手で</option>
-       <option value='1'>自分が後手で</option>
-       <option value='2'>振り駒で</option>
+       <option value='0'>振り駒で</option>
+       <option value='1'>自分が先手で</option>
+       <option value='2'>自分が後手で</option>
       </select>
       <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
       <button id='btn_gen' class='inpform' onclick='return onstart()' disabled>Start!</button>

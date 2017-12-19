@@ -166,16 +166,16 @@ function randomchoose(anim, fu, to) {
 
 function ontimer_furigoma() {
   var furikoma = document.getElementById('furigoma');
-  var komame = furikoma.value.length
-  if (komame <= 4) {
-    var idanim = 'furikomanim' + (komame+1);
-    var idfu = 'furikomafu' + (komame+1);
-    var idto = 'furikomato' + (komame+1);
+  var komame = furikoma.value.length+1;
+  if (komame <= 5) {
+    var idanim = 'furikomanim' + komame;
+    var idfu = 'furikomafu' + komame;
+    var idto = 'furikomato' + komame;
     furikoma.value += randomchoose(idanim, idfu, idto);
   }
-  if (komame <= 3) {
+  if (komame <= 4) {
     setTimeout(function() {
-      ontimer_furigoma()
+      ontimer_furigoma();
     }, 1000);
   } else {
     var btn = document.getElementById('btnfurigoma');
@@ -245,16 +245,16 @@ function lets_furigoma2() {
 
 function ontimer_furigoma2() {
   var furikoma = document.getElementById('furigoma2');
-  var komame = furikoma.value.length
-  if (komame <= 4) {
-    var idanim = 'furikomanim2' + (komame+1);
-    var idfu = 'furikomafu2' + (komame+1);
-    var idto = 'furikomato2' + (komame+1);
+  var komame = furikoma.value.length+1;
+  if (komame <= 5) {
+    var idanim = 'furikomanim2' + komame;
+    var idfu = 'furikomafu2' + komame;
+    var idto = 'furikomato2' + komame;
     furikoma.value += randomchoose(idanim, idfu, idto);
   }
-  if (komame <= 3) {
+  if (komame <= 4) {
     setTimeout(function() {
-      ontimer_furigoma2()
+      ontimer_furigoma2();
     }, 1000);
   } else {
     var btn = document.getElementById('btnfurigoma2');

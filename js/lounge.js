@@ -130,16 +130,16 @@ function randomchoose(anim, fu, to) {
 
 function ontimer_furigoma() {
   var furikoma = document.getElementById('furigoma');
-  var komame = furikoma.value.length
-  if (komame <= 4) {
-    var idanim = 'furikomanim' + (komame+1);
-    var idfu = 'furikomafu' + (komame+1);
-    var idto = 'furikomato' + (komame+1);
+  var komame = furikoma.value.length+1;
+  if (komame <= 5) {
+    var idanim = 'furikomanim' + komame;
+    var idfu = 'furikomafu' + komame;
+    var idto = 'furikomato' + komame;
     furikoma.value += randomchoose(idanim, idfu, idto);
   }
-  if (komame <= 3) {
+  if (komame <= 4) {
     setTimeout(function() {
-      ontimer_furigoma()
+      ontimer_furigoma();
     }, 1000);
   } else {
     document.forms['gennewgame'].submit();
@@ -151,14 +151,14 @@ function onstart()
   var sengo = document.getElementById('sengo').selectedIndex;
 
   if (sengo == 0) {
-    document.getElementById('furigoma').value = 'FFFFF';
-    return true;
-  } else if (sengo == 1) {
-    document.getElementById('furigoma').value = 'TTTTT';
-    return true;
-  } else if (sengo == 2) {
     lets_furigoma();
     return false;
+  } else if (sengo == 1) {
+    document.getElementById('furigoma').value = 'FFFFF';
+    return true;
+  } else if (sengo == 2) {
+    document.getElementById('furigoma').value = 'TTTTT';
+    return true;
   } else {
     return false;
   }
