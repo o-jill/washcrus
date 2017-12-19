@@ -31,11 +31,20 @@ class GenNewGame2Screen < GenNewGameScreen
     @log = Logger.new(PathList::GENNEWGAMELOG)
   end
 
+  # データの存在チェック
+  #
+  # @param params パラメータハッシュオブジェクト
+  # @return データが１つでも欠けてたらtrue
   def check_datalost_gengame(params)
     params['rid'].nil? || params['rid2'].nil? || params['furigoma'].nil? \
       || params['teai'].nil?
   end
 
+  # プレイヤー情報の取得
+  #
+  # @param id1 プレイヤー1のID
+  # @param id2 プレイヤー2のID
+  # @return { userdata1:, userdata2: }
   def check_players(id1, id2)
     userdb = UserInfoFile.new
     userdb.read
@@ -57,6 +66,10 @@ class GenNewGame2Screen < GenNewGameScreen
     { userdata1: userdata1, userdata2: userdata2 }
   end
 
+  # プレイヤー情報の確認
+  #
+  # @param params パラメータハッシュオブジェクト
+  # @return { userdata1:, userdata2: }
   def check_newgame(params)
     return @errmsg += 'data lost ...<BR>' if check_datalost_gengame(params)
 
@@ -64,46 +77,5 @@ class GenNewGame2Screen < GenNewGameScreen
     id2 = params['rid2'][0]
 
     check_players(id1, id2)
-  end
-
-  def config_taikyoku(userdata1, userdata2, userinfo, furigomastr)
-    # @log.debug('td.setplayer1')
-    @td.setplayer1(userdata1[0], userdata1[1], userdata1[3])
-
-    # @log.debug('td.setplayer2')
-    @td.setplayer2(userdata2[0], userdata2[1], userdata2[3])
-
-    # @log.debug("furifusen(#{params['furigoma'][0].count('F')})")
-    @td.switchplayers unless furifusen(furigomastr)
-
-    # @log.debug('td.creator')
-    @td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
-
-    # @log.debug('td.generate')
-    @td.generate
-  end
-
-  def generate(userinfo, params)
-    ret = check_newgame(params)
-
-    # @log.debug('check_newgame(params)')
-    @errmsg += "your log-in information is wrong ...\n" \
-        if userinfo.nil? || userinfo.invalid?
-
-    return false unless @errmsg.length.zero?
-
-    # @log.debug('put_err_sreen')
-
-    # @log.debug('TaikyokuData.new')
-    @td = TaikyokuData.new
-    @td.log = @log
-
-    config_taikyoku(ret[:userdata1], ret[:userdata2], userinfo,
-                    params['furigoma'][0])
-
-    # send mail to the players
-    send_mail
-
-    true
   end
 end

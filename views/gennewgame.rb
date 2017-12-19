@@ -33,6 +33,7 @@ class GenNewGameScreen
   # データの存在チェック
   #
   # @param params パラメータハッシュオブジェクト
+  # @return データが１つでも欠けてたらtrue
   def check_datalost_gengame(params)
     params['rname'].nil? || params['remail'].nil? \
         || params['rname2'].nil? || params['remail2'].nil?
@@ -130,8 +131,8 @@ class GenNewGameScreen
   # @param userdata1 対局者１情報
   # @param userdata2 対局者2情報
   # @param userinfo ユーザー情報
-  # @param params パラメータハッシュオブジェクト
-  def config_taikyoku(userdata1, userdata2, userinfo, params)
+  # @param furigomastr 振りごま結果文字列。[FT]{5}
+  def config_taikyoku(userdata1, userdata2, userinfo, furigomastr)
     # @log.debug('td.setplayer1')
     @td.setplayer1(userdata1[0], userdata1[1], userdata1[3])
 
@@ -139,7 +140,7 @@ class GenNewGameScreen
     @td.setplayer2(userdata2[0], userdata2[1], userdata2[3])
 
     # @log.debug("furifusen(#{params['furigoma'][0].count('F')})")
-    @td.switchplayers unless furifusen(params['furigoma'][0])
+    @td.switchplayers unless furifusen(furigomastr)
 
     # @log.debug('td.creator')
     @td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
@@ -168,7 +169,8 @@ class GenNewGameScreen
     @td = TaikyokuData.new
     @td.log = @log
 
-    config_taikyoku(ret[:userdata1], ret[:userdata2], userinfo, params)
+    config_taikyoku(ret[:userdata1], ret[:userdata2], userinfo,
+                    params['furigoma'][0])
 
     # send mail to the players
     send_mail
