@@ -19,7 +19,14 @@ class Player
     @email = em
   end
 
-  attr_reader :id, :name, :email
+  # ID
+  attr_reader :id
+
+  # 名前
+  attr_reader :name
+
+  # メールアドレス
+  attr_reader :email
 
   # ハッシュの生成
   #
