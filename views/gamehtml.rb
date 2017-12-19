@@ -88,8 +88,8 @@ class GameHtml
     @log.debug('banelement')
     ret = <<-BOARD_TEXT.unindent
       #{shogibanelement}
-      <script type='text/javascript' src='./js/shogi.v018.js'></script>
-      <script type='text/javascript' src='./js/ui.v019.js'></script>
+      <script type='text/javascript' src='./js/shogi.v019.js'></script>
+      <script type='text/javascript' src='./js/ui.v020.js'></script>
       BOARD_TEXT
 
     erbtxt = File.read('./ui/gamehtml_123neye.erb', encoding: 'utf-8')
