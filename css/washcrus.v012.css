@@ -246,8 +246,8 @@ textarea.kifu {
 
 /* lounge */
 .btn_filing_lounge {
-  border: inset 5px blue;
-  padding: 5px;
+  /* border: inset 5px blue; */
+  /* padding: 5px; */
   text-align: center;
-  width: 60vw;
+  width: 80vw;
 }
