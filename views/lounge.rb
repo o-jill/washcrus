@@ -19,24 +19,31 @@ class LoungeScreen
 
   # 登録ボタンの表示
   def put_filing_button
-    puts <<-FILING_BUTTON.unindent
+    msg_tmpl = [
+      '後手がいいです。',
+      '先手がいいです。',
+      '強い人はカンベン。',
+      'どなたでも歓迎！',
+      '振り駒バッチ来い',
+      'よろしくお願いします。'
+    ]
+    puts <<-FILING_BUTTON_CMT.unindent
       <hr>
       <div align='center'>
        <div id='filing_btn' class='btn_filing_lounge'>
         <input type='text' list='cmt_tmpl' id='cmt' class='inpform' placeholder='コメント欄'></input>
         <datalist id='cmt_tmpl'>
-         <option value='よろしくお願いします。'>
-         <option value='どなたでも歓迎！'>
-         <option value='先手がいいです。'>
-         <option value='後手がいいです。'>
-         <option value='振り駒バッチ来い'>
-         <option value='強い人はカンベン。'>
+      FILING_BUTTON_CMT
+    msg_tmpl.each do |msg|
+      puts "<option value='#{msg}'>"
+    end
+    puts <<-FILING_BUTTON_BTN.unindent
         </datalist>
         <button id='btn_f2l' class='inpform' onclick='file2lounge();'>対局待ちに登録</button>
         <br><span id='msg_l2f'></span>
        </div>
       </div>
-      FILING_BUTTON
+      FILING_BUTTON_BTN
   end
 
   # Cancelボタンの表示
@@ -75,23 +82,15 @@ class LoungeScreen
       <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
       <button id='btn_gen' class='inpform' onclick='return onstart()' disabled>Start!</button>
       </form>
-      <img id='furikomanim1' src='image/komanim.gif' style='display:none' width='32' height='32'>
-      <img id='furikomafu1' src='image/komafu.png' style='display:none' width='32' height='32'>
-      <img id='furikomato1' src='image/komato.png' style='display:none' width='32' height='32'>
-      <img id='furikomanim2' src='image/komanim.gif' style='display:none' width='32' height='32'>
-      <img id='furikomafu2' src='image/komafu.png' style='display:none' width='32' height='32'>
-      <img id='furikomato2' src='image/komato.png' style='display:none' width='32' height='32'>
-      <img id='furikomanim3' src='image/komanim.gif' style='display:none' width='32' height='32'>
-      <img id='furikomafu3' src='image/komafu.png' style='display:none' width='32' height='32'>
-      <img id='furikomato3' src='image/komato.png' style='display:none' width='32' height='32'>
-      <img id='furikomanim4' src='image/komanim.gif' style='display:none' width='32' height='32'>
-      <img id='furikomafu4' src='image/komafu.png' style='display:none' width='32' height='32'>
-      <img id='furikomato4' src='image/komato.png' style='display:none' width='32' height='32'>
-      <img id='furikomanim5' src='image/komanim.gif' style='display:none' width='32' height='32'>
-      <img id='furikomafu5' src='image/komafu.png' style='display:none' width='32' height='32'>
-      <img id='furikomato5' src='image/komato.png' style='display:none' width='32' height='32'>
-      </div>
       TAIKYOKU_BTN
+    (1..5).each do |i|
+      puts <<-KOMAIMG.unindent
+        <img id='furikomanim#{i}' src='image/komanim.gif' style='display:none' width='32' height='32'>
+        <img id='furikomafu#{i}' src='image/komafu.png' style='display:none' width='32' height='32'>
+        <img id='furikomato#{i}' src='image/komato.png' style='display:none' width='32' height='32'>
+        KOMAIMG
+    end
+    puts '</div>'
   end
 
   # 画面の表示
