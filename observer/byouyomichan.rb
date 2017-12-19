@@ -50,7 +50,7 @@ class ByouyomiChan
     { day: day, hour: hour, min: min, sec: sec, total: totalsec }
   end
 
-  # メールを送る対極のリストの取得
+  # メールを送る対局リストの取得
   #
   # @param list 対局リスト
   # @param tm   時刻
@@ -65,24 +65,41 @@ class ByouyomiChan
     end
   end
 
-  # メールの送信
+  # メール本文の生成
   #
-  # @param mi MatchInfoFileオブジェクト
-  def send_mail(mi)
-    subject = "[reminder] it's your turn!! (#{mi.to_vs})"
-    # @log.debug("subject:#{subject}")
-    nply = mi.getnextplayer
-    pply = mi.getopponent(nply[:id])
-    # @log.debug("opp:#{opp}")
+  # @param me   手番プレイヤーのの情報
+  # @param opp  相手の情報
+  # @param dt   最終着手日時
+  # @param gid  対局ID
+  # @param days 経過日数
+  # @return メール本文文字列
+  def build_msg(me, opp, dt, gid, days)
     msg = <<-MSG_TEXT.unindent
-      #{nply[:name]}さん
+      #{me[:name]}さん
 
-      #{pply[:name]}さんが#{mi.dt_lastmove}に１手指されました。
+      #{opp[:name]}さんが#{dt}に１手指してから#{days}日経過しました。
 
-      #{@baseurl}washcrus.rb?game/#{mi.gid}
+      #{@baseurl}washcrus.rb?game/#{gid}
 
       MSG_TEXT
     msg += MailManager.footer
+    msg
+  end
+
+  # メールの送信
+  #
+  # @param mi MatchInfoFileオブジェクト
+  def send_mail(mi, sec)
+    days = (sec / 86_400).floor
+
+    subject = "[reminder]#{days} day(s) passed! (#{mi.to_vs})"
+    # @log.debug("subject:#{subject}")
+
+    nply = mi.getnextplayer
+    pply = mi.getopponent(nply[:id])
+    # @log.debug("opp:#{opp}")
+
+    msg = build_msg(nply, pply, mi.dt_lastmove, mi.gid, days)
     # @log.debug("msg:#{msg}")
 
     mmgr = MailManager.new
@@ -94,6 +111,14 @@ class ByouyomiChan
       FAKE_MAIL
   end
 
+  # logのヘッダの出力
+  #
+  # @param t 時刻オブジェクト
+  def put_log_header(t)
+    puts "# list 2 be sent (#{t.strftime('%Y/%m/%d %H:%M:%S')})"
+    puts "# #{@min_period} minutes period."
+  end
+
   # 実行本体。
   def perform
     tcdb = TaikyokuChuFile.new
@@ -103,14 +128,14 @@ class ByouyomiChan
     now = Time.now
     list2send = getlist2send(list, now)
 
-    puts "# list 2 be sent (#{now.strftime('%Y/%m/%d %H:%M:%S')})"
-    puts "# #{@min_period} minutes period."
+    put_log_header(now)
+
     list2send.each do |id, t|
       puts "#{id} | #{t}"
       tkd = TaikyokuData.new
       tkd.setid(id)
       tkd.read
-      send_mail(tkd.mi)
+      send_mail(tkd.mi, t)
     end
   end
 end
