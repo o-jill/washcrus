@@ -47,7 +47,7 @@ end
 desc 'init task'
 task init: [:check_mailcfg, :gen_info, :give_permissions, :revision]
 
-task gen_info: [:gen_userinfo, :gen_taikyokuinfo, :gen_taikyokuchuinfo]
+task gen_info: [:gen_userinfo, :gen_taikyokuinfo, :gen_taikyokuchuinfo, :gen_taikyokureqinfo]
 
 task gen_userinfo: ['./db/userinfo.csv']
 task gen_taikyokuinfo: ['./db/taikyoku.csv']
