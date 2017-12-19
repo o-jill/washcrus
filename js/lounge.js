@@ -88,7 +88,7 @@ function onclick_radiobtn(e)
 {
   var name = e.target.parentElement.innerText.trim();
   document.getElementById('opponentname').innerText = name;
-  document.getElementById('btn_f2l').disabled = false;
+  document.getElementById('btn_gen').disabled = false;
 }
 
 function lets_furigoma() {
@@ -105,7 +105,7 @@ function lets_furigoma() {
     koma.style.display = 'none';
   }
 
-  document.getElementById('btn_f2l').disabled = true;
+  document.getElementById('btn_gen').disabled = true;
   document.getElementById('furigoma').value = "";
 
   setTimeout(function() {

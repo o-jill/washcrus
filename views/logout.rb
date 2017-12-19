@@ -8,8 +8,7 @@ require './views/common_ui.rb'
 #
 class LogoutScreen
   # 初期化
-  def initialize
-  end
+  def initialize; end
 
   # ログアウト
   #

@@ -63,8 +63,8 @@ class WebApiSfenReader
     case @piecetype
     when PIECE_ALPHABET then ret[:piece] = 'alphabet'
     when PIECE_INTL     then ret[:piece] = 'international'
-    # when PIECE_KANJI then ret[:piece] = 'kanji'
-    # else ret[:piece] = 'kanji'
+      # when PIECE_KANJI then ret[:piece] = 'kanji'
+      # else ret[:piece] = 'kanji'
     end
 
     ret[:turn] = @turn unless @turn.empty?

@@ -73,8 +73,8 @@ class LoungeScreen
        <option value='2'>振り駒で</option>
       </select>
       <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
-      <button id='btn_f2l' class='inpform' onclick='return onstart()' disabled>Start!</button>
-      </form><BR>
+      <button id='btn_gen' class='inpform' onclick='return onstart()' disabled>Start!</button>
+      </form>
       <img id='furikomanim1' src='image/komanim.gif' style='display:none' width='32' height='32'>
       <img id='furikomafu1' src='image/komafu.png' style='display:none' width='32' height='32'>
       <img id='furikomato1' src='image/komato.png' style='display:none' width='32' height='32'>

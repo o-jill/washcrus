@@ -62,8 +62,8 @@ class TaikyokuFile
       elem[6] = elem[5]
       elem[5] = '?'
       @content.add_array(elem)
-    # else
-      # skip
+      # else
+      #   skip
     end
   end
 

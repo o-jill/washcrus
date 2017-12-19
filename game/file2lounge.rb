@@ -13,8 +13,7 @@ require './file/taikyokureqfile.rb'
 #
 class File2Lounge
   # 初期化
-  def initialize
-  end
+  def initialize; end
 
   # パラメータの確認
   #

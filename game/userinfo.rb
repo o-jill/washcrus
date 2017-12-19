@@ -16,7 +16,7 @@ class UserInfo
   # @param id    ユーザーID
   # @param name  ユーザー名
   # @param addr  メールアドレス
-  def initialize(count = -1, id = nil, name = nil, addr = nil)
+  def initialize(count = -1, id = '', name = '', addr = '')
     # 訪問回数
     @visitcount = count
     # ユーザーID
@@ -28,7 +28,7 @@ class UserInfo
     # 戦績
     @win_lose = { swin: 0, slose: 0, gwin: 0, glose: 0 }
     # 管理者権限
-    @admin = id.nil? ? false : check_admin
+    @admin = id.length.zero? ? false : check_admin
   end
 
   attr_accessor :visitcount, :user_id, :user_name, :user_email, :win_lose
@@ -62,8 +62,7 @@ class UserInfo
   #
   # @return user_id, user_name, user_emailすべてが文字列を持っていればfalse
   def invalid?
-    user_id.nil? || user_id.length.zero? || user_name.nil? \
-    || user_name.length.zero? || user_email.nil? || user_email.length.zero?
+    user_id.length.zero? || user_name.length.zero? || user_email.length.zero?
   end
 
   # check if exist
