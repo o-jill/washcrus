@@ -70,7 +70,7 @@ file './db/taikyokuchu.csv' do |f|
 end
 
 file './db/taikyokureq.csv' do |f|
-  cp './init/taikyokreq.csv.tmpl', f.name
+  cp './init/taikyokureq.csv.tmpl', f.name
   chmod 0o666, f.name
 end
 
