@@ -252,11 +252,10 @@ function gethtmlelement_tegoma() {
 
 function gethtmlelement_tegomaclick() {
   for (var i = 0 ; i < 7 ; ++i) {
-    sentegoma[i][1].el.onclick = function() {absclickst(i);
-    }
+    sentegoma[i][1].el.onclick = function() {absclickst(i);}
     sentegoma[i][1].el2.onclick = function() {absclickst(i);}
-    gotegoma[i][1].el.onclick = function() {absclickst(i);}
-    gotegoma[i][1].el2.onclick = function() {absclickst(i);}
+    gotegoma[i][1].el.onclick = function() {absclickgt(i);}
+    gotegoma[i][1].el2.onclick = function() {absclickgt(i);}
   }
 }
 
