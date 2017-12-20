@@ -69,6 +69,29 @@ Style/RaiseArgs:
 AsciiComments:
   Enabled: false
 
+Style/PercentLiteralDelimiters:
+  # Specify the default preferred delimiter for all types with the 'default' key
+  # Override individual delimiters (even with default specified) by specifying
+  # an individual key
+  PreferredDelimiters:
+    default: []
+    '%i': '[]'
+    '%I': '[]'
+    '%r': '{}'
+    '%w': '[]'
+    '%W': '[]'
+
+# Checks whether the source file has a utf-8 encoding comment or not
+# AutoCorrectEncodingComment must match the regex
+# /#.*coding\s?[:=]\s?(?:UTF|utf)-8/
+Style/Encoding:
+  EnforcedStyle: when_needed
+  # SupportedStyles:
+  #   - when_needed
+  #   - always
+  #   - never
+#  AutoCorrectEncodingComment: '# encoding: utf-8'
+
 # TODO: Change it to true when $redis and $mixpanel is removed
 #
 # Do not introduce global variables.
