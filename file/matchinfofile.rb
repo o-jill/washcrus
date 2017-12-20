@@ -95,7 +95,7 @@ module MatchInfoFilePrivate
   # @return 変換結果文字列
   def escape_fn(fname)
     path = fname.gsub(%r{[\\\/*:<>?|]}, '_')
-    URI.escape(path)
+    URI.encode_www_form(path)
   end
 
   # ファイル名に使えない文字の変換
@@ -107,7 +107,7 @@ module MatchInfoFilePrivate
     path = fname.gsub(%r{[\\/*:<>?|]},
                       '\\' => '￥', '/' => '／', '*' => '＊', ':' => '：',
                       '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
-    URI.escape(path)
+    URI.encode_www_form(path)
   end
 end
 
