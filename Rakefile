@@ -75,21 +75,12 @@ file './db/taikyokureq.csv' do |f|
 end
 
 task give_permissions: [:add_w2d, :add_x2rb, :add_w2lock, :add_w2stg]
-task add_w2d: [:add_w2tmp, :add_w2taikyoku, :add_w2log, :add_w2d_msg]
-
-task :add_w2tmp do
+task :add_w2d do
   chmod 0o777, './tmp'
-end
-
-task :add_w2taikyoku do
   chmod 0o777, './taikyoku'
-end
-
-task :add_w2log do
   chmod 0o777, './log'
-end
+  chmod 0o777, './backup'
 
-task :add_w2d_msg do
   puts 'please arrange permissions ',
        'according to your server\'s rule before you start this service.'
 end
@@ -178,4 +169,10 @@ desc 'make REVISION file from repository HEAD.'
 task :revision do
   puts '`git log -1 >REVISION`'
   `git log -1 >REVISION`
+end
+
+desc 'make tarball to backup taikyoku/, config/ and db/.'
+task :backup do
+  fn = Time.now.strftime('%Y%m%d%H%M%S') + '_bak.tar.gz'
+  `tar cvfz ./backup/#{fn} taikyoku/ config/ db/`
 end

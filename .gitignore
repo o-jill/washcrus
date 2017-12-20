@@ -5,6 +5,7 @@ secret_token.rb
 taikyoku
 test.html
 tmp
+backup
 config/mail.yaml
 config/settings.yaml
 config/signature.txt
