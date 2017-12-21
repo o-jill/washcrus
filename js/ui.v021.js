@@ -240,7 +240,7 @@ function gethtmlelement_ban() {
 }
 
 function gethtmlelement_tegoma() {
-  var kmtbl = ['fu', 'kyo', 'kei', 'gin', 'kin', 'kaku', 'hisha']
+  var kmtbl = ['fu', 'kyo', 'kei', 'gin', 'kin', 'kaku', 'hisha'];
 
   for (var i = 0 ; i < 7 ; ++i) {
     sentegoma[i][1].el = document.getElementById('sg_' + kmtbl[i] + '_img');
@@ -252,10 +252,17 @@ function gethtmlelement_tegoma() {
 
 function gethtmlelement_tegomaclick() {
   for (var i = 0 ; i < 7 ; ++i) {
-    sentegoma[i][1].el.onclick = function() {absclickst(i);}
-    sentegoma[i][1].el2.onclick = function() {absclickst(i);}
-    gotegoma[i][1].el.onclick = function() {absclickgt(i);}
-    gotegoma[i][1].el2.onclick = function() {absclickgt(i);}
+    sentegoma[i][1].el.onclick = sentegoma[i][1].el2.onclick
+      = gotegoma[i][1].el.onclick = gotegoma[i][1].el2.onclick
+       = function(event) {
+          if (taikyokuchu === false) {
+            return;
+          }
+          if (wait_narimenu) {
+            return;
+          }
+          absclick_tegoma_ui(event.currentTarget.id);
+        };
   }
 }
 
@@ -619,9 +626,6 @@ function activeuchi(koma, tegoma, tegomasu, i) {
  * @param  {[type]} tegomaui 手駒UI
  */
 function absclick_tegoma(i, teban, tegoma, tegomaui) {
-  if (activeteban !== teban) {
-    return;
-  }
   if (activemasu !== null) {
     if (activetegoma === null) {
       activecell(null, null, null);
@@ -640,9 +644,6 @@ function absclick_tegoma(i, teban, tegoma, tegomaui) {
  * @param {Number} i 駒ID
  */
 function absclickst(i) {
-  if (taikyokuchu === false) {
-    return;
-  }
   var mytegoma, myteban;
   if (hifumin_eye) {
     myteban = Koma.GOTEBAN;
@@ -661,9 +662,6 @@ function absclickst(i) {
  * @param {Number} i 駒ID
  */
 function absclickgt(i) {
-  if (taikyokuchu === false) {
-    return;
-  }
   var mytegoma, myteban;
   if (hifumin_eye) {
     myteban = Koma.SENTEBAN;
@@ -676,14 +674,28 @@ function absclickgt(i) {
   absclick_tegoma(i, myteban, mytegoma, gotegoma);
 }
 
-function clickstgfu() {absclickst(0);} function clickstgky() {absclickst(1);}
-function clickstgke() {absclickst(2);} function clickstggi() {absclickst(3);}
-function clickstgki() {absclickst(4);} function clickstgka() {absclickst(5);}
-function clickstghi() {absclickst(6);}
-function clickgtgfu() {absclickgt(0);} function clickgtgky() {absclickgt(1);}
-function clickgtgke() {absclickgt(2);} function clickgtggi() {absclickgt(3);}
-function clickgtgki() {absclickgt(4);} function clickgtgka() {absclickgt(5);}
-function clickgtghi() {absclickgt(6);}
+/**
+ * 手駒をクリックした
+ *
+ * @param  {[type]} id html element ID
+ */
+function absclick_tegoma_ui(id) {
+  var kmtbl = ['fu', 'kyo', 'kei', 'gin', 'kin', 'kaku', 'hisha'];
+
+  var id_sub = id.substring(0, id.length-4);
+  for (var i = 0 ; i < 7 ; ++i) {
+    var str = 'sg_' + kmtbl[i];
+    if (str === id_sub) {
+      absclickst(i);
+      return;
+    }
+    str = 'gg_' + kmtbl[i];
+    if (str === id_sub) {
+      absclickgt(i);
+      return;
+    }
+  }
+}
 
 /**
  * 成り選択メニューを出す
