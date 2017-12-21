@@ -8,6 +8,7 @@ require 'unindent'
 
 require './file/userinfofile.rb'
 require './util/mailmgr.rb'
+require './util/settings.rb'
 require './views/common_ui.rb'
 
 #
@@ -115,8 +116,11 @@ class RegisterScreen
       MAIL_MSG
     msg += MailManager.footer
 
+    stg = Settings.instance
+    subject = "Welcome to #{stg.value['title']}!"
+
     mailmgr = MailManager.new
-    mailmgr.send_mail(addr, 'Welcome to Wash Crus!', msg)
+    mailmgr.send_mail(addr, subject, msg)
   end
 
   # ユーザーの追加
