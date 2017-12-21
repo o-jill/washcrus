@@ -14,6 +14,7 @@ class MailManager
     @dlvcfg = YAML.load_file(PathList::MAILSETTINGFILE)
   end
 
+  # メールの設定
   attr_reader :dlvcfg
 
   def setdeliverymethod

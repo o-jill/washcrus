@@ -7,6 +7,7 @@ require './file/pathlist.rb'
 
 # グローバル設定
 # ./config/settings.yamlを読み込んで使います。
+# Singleton
 class Settings
   include Singleton
   # 初期化
@@ -14,7 +15,10 @@ class Settings
     read
   end
 
+  # 設定内容
   attr_accessor :value
+
+  # 設定ファイルのパス
   attr_reader :fpath
 
   # yamlファイルの読み込み
