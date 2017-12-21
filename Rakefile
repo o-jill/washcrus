@@ -13,6 +13,7 @@ file 'secret_token.rb' do |fn|
     suf = SecureRandom.hex(2)
     f.puts <<"SECRET_TOKEN"
 # coding: utf-8
+
 module Globals
   KEY = '#{keydata}'.freeze
   USERINFO = './db/userinfo#{suf}.csv'.freeze
@@ -47,12 +48,25 @@ end
 desc 'init task'
 task init: [:check_mailcfg, :gen_info, :give_permissions, :revision]
 
-task gen_info: [:gen_userinfo, :gen_taikyokuinfo, :gen_taikyokuchuinfo, :gen_taikyokureqinfo]
+task gen_info: [:gen_news, :gen_settings, :gen_userinfo, :gen_taikyokuinfo,
+                :gen_taikyokuchuinfo, :gen_taikyokureqinfo]
 
+task gen_news: ['./config/news.txt']
+task gen_settings: ['./config/settings.yaml']
 task gen_userinfo: ['./db/userinfo.csv']
 task gen_taikyokuinfo: ['./db/taikyoku.csv']
 task gen_taikyokuchuinfo: ['./db/taikyokuchu.csv']
 task gen_taikyokureqinfo: ['./db/taikyokureq.csv']
+
+file './config/news.txt' do |f|
+  cp './init/news.txt.tmpl', f.name
+  chmod 0o666, f.name
+end
+
+file './config/settings.yaml' do |f|
+  cp './config/settings.yaml.sample', f.name
+  chmod 0o666, f.name
+end
 
 file './db/userinfo.csv' do |f|
   cp './init/userinfo.csv.tmpl', f.name
@@ -87,9 +101,6 @@ end
 
 task :add_x2rb do
   chmod 0o755, 'chat.rb'
-  # chmod 0o755, 'checknewgame.rb'
-  # chmod 0o755, 'dlkifu.rb'
-  # chmod 0o755, 'game.rb'
   chmod 0o755, 'getsfen.rb'
   chmod 0o755, 'move.rb'
   chmod 0o755, 'washcrus.rb'
@@ -103,12 +114,11 @@ task :add_w2lock do
 end
 
 task :add_w2stg do
-  chmod 0o666, './config/news.txt'
   chmod 0o666, './config/settings.yaml'
   chmod 0o666, './config/signature.txt'
 end
 
-task check_mailcfg: [:check_mailcfg_yaml, :check_mailcfg_sign, :check_settings_yaml]
+task check_mailcfg: [:check_mailcfg_yaml, :check_mailcfg_sign]
 
 task check_mailcfg_yaml: ['./config/mail.yaml']
 
@@ -122,13 +132,6 @@ task check_mailcfg_sign: ['./config/signature.txt']
 file './config/signature.txt' do
   puts "ERROR: './config/signature.txt' is missing..."
   exit 102
-end
-
-task check_settings_yaml: ['./config/settings.yaml']
-
-file './config/settings.yaml' do |f|
-  cp './config/settings.yaml.sample', f.name
-  chmod 0o666, f.name
 end
 
 task check_adminconfig: ['./db/adminconfig.txt']
