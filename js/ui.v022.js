@@ -659,7 +659,7 @@ function absclick_tegoma_sg(i, bgote, ui) {
     return;
   }
 
-  absclick_tegoma(i, myteban, mytegoma, ui);
+  absclick_tegoma(i, mytegoma, ui);
 }
 
 /**
