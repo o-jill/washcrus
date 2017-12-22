@@ -180,3 +180,14 @@ task :backup do
   puts "`tar cvfz ./backup/#{fn} taikyoku/ config/ db/`"
   `tar cvfz ./backup/#{fn} taikyoku/ config/ db/`
 end
+
+desc 'restore backup from tarball.'
+task :restore_backup do
+  fl = Dir.glob('./backup/*.tar.gz').sort
+  puts '-- files in backup --'
+  fl.each do |fn|
+    puts fn
+  end
+  puts '-- files in backup --'
+  puts "please run `tar zxvf #{fl.last}` to go back to latest backup."
+end
