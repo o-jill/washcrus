@@ -51,7 +51,7 @@ class LoginCheckScreen
     userdb.read
     @userdata = userdb.findemail(email) # [id, @names[id], @passwords[id]]
 
-    return false if @userdata.nil?
+    return false unless @userdata
 
     dgpw = Digest::SHA256.hexdigest pswd
 
@@ -106,17 +106,17 @@ class LoginCheckScreen
   # @param cgi CGIオブジェクト
   # @return ログイン出来てるときtrue
   def check_session_params(session, cgi)
-    if session.nil?
+    if session
+      @errmsg = 'you already logged in!'
+
+      return true
+    else
       check_login(cgi.params)
       if @errmsg.length.zero?
         gen_new_session(cgi)
 
         return true
       end
-    else
-      @errmsg = 'you already logged in!'
-
-      return true
     end
 
     false
@@ -138,10 +138,7 @@ class LoginCheckScreen
     CommonUI.html_head(header)
     CommonUI.html_menu(@userinfo)
 
-    if @userinfo.nil?
-      # エラー
-      puts "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>"
-    else
+    if @userinfo
       print <<-LOGINMSG.unindent
         <div align='center'>
         Logged in successfully.<BR>
@@ -150,6 +147,9 @@ class LoginCheckScreen
         email address:#{@userinfo.user_email}<BR>
         </div>
         LOGINMSG
+    else
+      # エラー
+      puts "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>"
     end
 
     CommonUI.html_foot

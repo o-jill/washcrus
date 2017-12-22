@@ -182,7 +182,7 @@ class UserInfoFile
   def findname(name)
     found = @names.find { |_k, v| v == name }
 
-    [(id = found[0]), found[1], @passwords[id], @emails[id]] unless found.nil?
+    [(id = found[0]), found[1], @passwords[id], @emails[id]] if found
   end
 
   # get user information by e-mail address
@@ -191,7 +191,7 @@ class UserInfoFile
   def findemail(addr)
     found = @emails.find { |_k, v| v == addr }
 
-    [(id = found[0]), @names[id], @passwords[id]] unless found.nil?
+    [(id = found[0]), @names[id], @passwords[id]] if found
   end
 
   # add user information and generate id

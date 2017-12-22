@@ -38,7 +38,7 @@ module JsonMove
   # @return 駒が有効ならcc, 無効ならnil
   def self.checkpiece(cc)
     return if cc == '__'
-    return if Koma.find_index(cc).nil?
+    return unless Koma.find_index(cc)
     cc
   end
 
@@ -83,7 +83,7 @@ module JsonMove
   # @return 指し手ハッシュ
   def self.read_capture(cap, data)
     mycapture = checkpiece(cap[7, 2])
-    data['capture'] = mycapture unless mycapture.nil?
+    data['capture'] = mycapture if mycapture
     data
   end
 
@@ -96,7 +96,7 @@ module JsonMove
   def self.read_promote(p, data)
     if p[9] == 'P'
       data['promote'] = true
-    elsif !p[9].nil?
+    elsif p[9]
       return nil
     end
 
@@ -107,27 +107,27 @@ module JsonMove
   #
   # @param t 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
   # @return エラー:nil, 正常終了:指し手ハッシュ
-  def self.read_move(t)
-    mycolor = read_sengo(t)
-    txy = read_toxy(t)
-    mypiece = checkpiece(t[5, 2])
+  def self.read_move(tx)
+    mycolor = read_sengo(tx)
+    txy = read_toxy(tx)
+    mypiece = checkpiece(tx[5, 2])
 
     ret = {
       'to' => txy,
       'piece' => mypiece,
       'color' => mycolor
     }
-    ret.each_value do |v|
-      return nil if v.nil?
+    ret.each_value do |vl|
+      return nil unless vl
     end
 
-    fxy = read_fromxy(t)
-    return if fxy.nil?
+    fxy = read_fromxy(tx)
+    return unless fxy
     ret['from'] = fxy[:val]
 
-    ret = read_capture(t, ret)
+    ret = read_capture(tx, ret)
 
-    ret = read_promote(t, ret)
+    ret = read_promote(tx, ret)
 
     ret
   end
@@ -137,13 +137,13 @@ module JsonMove
   # @param t 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
   #          %TORYO, %SENNICHITEなど
   # @return エラー:nil, 正常終了:指し手ハッシュ
-  def self.fromtext(t)
-    return if t.nil?
+  def self.fromtext(tx)
+    return unless tx
 
-    return fromtextspecial(t) if t[0] == '%'
+    return fromtextspecial(tx) if tx[0] == '%'
 
-    return unless (9..10).cover?(t.length)
+    return unless (9..10).cover?(tx.length)
 
-    read_move(t)
+    read_move(tx)
   end
 end

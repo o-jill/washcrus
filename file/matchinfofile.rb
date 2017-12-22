@@ -142,8 +142,7 @@ class MatchInfoFile
   # id_b 対局者のID
   # userinfo 対局者の情報
   def setplayerb(id_b, userinfo)
-    return if userinfo.nil?
-    @playerb = Player.new(id_b, userinfo[0], userinfo[2])
+    @playerb = Player.new(id_b, userinfo[0], userinfo[2]) if userinfo
   end
 
   # 対局者のセット
@@ -151,8 +150,7 @@ class MatchInfoFile
   # id_w 対局者のID
   # userinfo 対局者の情報
   def setplayerw(id_w, userinfo)
-    return if userinfo.nil?
-    @playerw = Player.new(id_w, userinfo[0], userinfo[2])
+    @playerw = Player.new(id_w, userinfo[0], userinfo[2]) if userinfo
   end
 
   # 対局者のセット
@@ -163,8 +161,8 @@ class MatchInfoFile
     db = UserInfoFile.new
     db.read
 
-    setplayerb(id_b, db.findid(id_b)) unless id_b.nil?
-    setplayerw(id_w, db.findid(id_w)) unless id_w.nil?
+    setplayerb(id_b, db.findid(id_b)) if id_b
+    setplayerw(id_w, db.findid(id_w)) if id_w
   end
 
   # 対戦相手の情報を得る
@@ -229,7 +227,7 @@ class MatchInfoFile
 
     return if item.length != 4
 
-    return if checksfen(item[0]).nil?
+    return unless checksfen(item[0])
 
     return if strict && invalid_sfenitem?(item, @teban, @nth)
 
@@ -304,7 +302,7 @@ class MatchInfoFile
     data = YAML.load_file(path)
 
     @gid = data[:gid]
-    return nil if @gid.nil?
+    return nil unless @gid
 
     read_data(data)
 

@@ -79,19 +79,22 @@ class SearchResultScreen
   # @param ply2 検索する後手の名前
   # @param from この日から
   # @param to   この日まで
-  # @return 対局IDのリスト
+  # @return 対局IDのリスト。検索結果がない時nil。
   def findgameid(tdb, ply1, ply2, from, to)
     id1 = findply1(tdb, ply1)
-    return nil if id1.nil?
+    return nil unless id1
 
     id2 = findply2(tdb, ply2)
-    return nil if id2.nil?
+    return nil unless id2
 
     id3 = findtime(tdb, from, to)
-    return nil if id3.nil?
+    return nil unless id3
 
     id12 = merge2ids(id1, id2)
-    merge2ids(id12, id3)
+    ret = merge2ids(id12, id3)
+
+    return nil if ret.empty?
+    ret
   end
 
   # 対局を検索
@@ -116,7 +119,7 @@ class SearchResultScreen
 
     foundid = findgameid(tdb, ply1, ply2, from, to)
 
-    return nil if foundid.nil? || foundid.empty?
+    return nil unless foundid
 
     res = []
     foundid.each do |i|

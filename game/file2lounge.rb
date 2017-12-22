@@ -12,21 +12,18 @@ require './file/taikyokureqfile.rb'
 # 対局作成確認
 #
 class File2Lounge
+  # ヘッダ情報
+  TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n".freeze
+
   # 初期化
   def initialize; end
 
-  # パラメータの確認
-  #
-  # @param params パラメータハッシュオブジェクト
-  # @return 値が入っていればfalse
-  def check(params)
-    params['action'].nil? || params['f2lcmt'].nil?
-  end
-
   # パラメータの読み込み
   def read(params)
-    @act = params['action'][0]
-    @cmt = "#{params['f2lcmt'][0]} (#{Time.now})"
+    @act = (params['action'] || [])[0]
+
+    @cmt = params['f2lcmt']
+    @cmt = "#{@cmt[0]} (#{Time.now})" if @cmt
   end
 
   # データの確認と応答(対局待ち登録)
@@ -36,7 +33,7 @@ class File2Lounge
     reqdb = TaikyokuReqFile.new
     reqdb.read
 
-    return puts "Content-type: text/plain;\n\nalready exists." \
+    return puts TEXTPLAIN_HEAD + "already exists." \
       if reqdb.exist_id(userinfo.user_id)
 
     reqdb = TaikyokuReqFile.new
@@ -44,7 +41,7 @@ class File2Lounge
     reqdb.add(userinfo.user_id, userinfo.user_name, @cmt)
     reqdb.append(userinfo.user_id)
 
-    puts "Content-type: text/plain;\n\nsuccessflly filed."
+    puts TEXTPLAIN_HEAD + "successflly filed."
   end
 
   # データの確認と応答(対局待ち解除)
@@ -55,19 +52,19 @@ class File2Lounge
     reqdb.lock do
       reqdb.read
 
-      return puts "Content-type: text/plain;\n\nyou are not in the list." \
+      return puts TEXTPLAIN_HEAD + "you are not in the list." \
         unless reqdb.exist_id(userinfo.user_id)
 
       reqdb.remove(userinfo.user_id)
       reqdb.write
     end
 
-    puts "Content-type: text/plain;\n\nsuccessflly canceled."
+    puts TEXTPLAIN_HEAD + "successflly canceled."
   end
 
   # データの確認と応答(不正)
   def invalid
-    puts "Content-type: text/plain;\n\ninvalid action..."
+    puts TEXTPLAIN_HEAD + "invalid action..."
   end
 
   # データの確認と応答
@@ -75,8 +72,7 @@ class File2Lounge
   # @param userinfo ユーザー情報
   # @param params パラメータハッシュオブジェクト
   def perform(userinfo, params)
-    return puts "Content-type: text/plain;\n\ndata lost ..." \
-      if userinfo.invalid? || check(params)
+    return puts TEXTPLAIN_HEAD + "please log-in ..." if userinfo.invalid?
 
     read(params)
 

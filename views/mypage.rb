@@ -139,8 +139,8 @@ class MyPageScreen
     tkcdb = TaikyokuChuFile.new
     tkcdb.read
     chu = tkcdb.finduid(uid)
-    chu.sort! do |a, b|
-      b[:time] <=> a[:time]
+    chu.sort! do |aa, bb|
+      bb[:time] <=> aa[:time]
     end
 
     put_taikyokurireki_tblhead('対局中')
@@ -157,9 +157,9 @@ class MyPageScreen
     tkdb = TaikyokuFile.new
     tkdb.read
     rireki = tkdb.finduid(uid)
-    rireki.sort! do |a, b|
-      # a[:time] <=> b[:time]
-      b[:time] <=> a[:time]
+    rireki.sort! do |aa, bb|
+      # aa[:time] <=> bb[:time]
+      bb[:time] <=> aa[:time]
     end
 
     put_taikyokurireki_tblhead('対局履歴')
