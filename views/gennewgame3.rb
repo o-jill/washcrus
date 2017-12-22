@@ -31,9 +31,9 @@ class GenNewGame3Screen < GenNewGame2Screen
   # データの存在チェック
   #
   # @param params パラメータハッシュオブジェクト
-  # @return データが１つでも欠けてたらtrue
+  # @return データが１つでも欠けてたらfalse
   def check_datalost_gengame(params)
-    params['opponent'].nil? || params['sengo'].nil? || params['furigoma'].nil?
+    params['opponent'] && params['sengo'] && params['furigoma']
   end
 
   # プレイヤー情報の確認
@@ -42,7 +42,7 @@ class GenNewGame3Screen < GenNewGame2Screen
   # @param params パラメータハッシュオブジェクト
   # @return { userdata1:, userdata2: }
   def check_newgame(userinfo, params)
-    return @errmsg += 'data lost ...<BR>' if check_datalost_gengame(params)
+    return @errmsg += 'data lost ...<BR>' unless check_datalost_gengame(params)
 
     @id1 = userinfo.user_id
     @id2 = params['opponent'][0]
@@ -77,12 +77,11 @@ class GenNewGame3Screen < GenNewGame2Screen
     ret = check_newgame(userinfo, params)
 
     # @log.debug('check_newgame(params)')
-    @errmsg += "your log-in information is wrong ...\n" \
-        if userinfo.nil? || userinfo.invalid?
+    @errmsg += "your log-in information is wrong ...\n" if userinfo.invalid?
 
     checkrequest
 
-    return false unless @errmsg.length.zero?
+    return false unless @errmsg.empty?
 
     # @log.debug('TaikyokuData.new')
     @td = TaikyokuData.new

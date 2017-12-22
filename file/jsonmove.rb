@@ -16,18 +16,18 @@ require 'json'
 module JsonMove
   # 玉をとったかどうか
   #
-  # @param a 取られた駒
+  # @param ha 取られた駒
   # @return 玉をとったらtrue
-  def self.catch_gyoku?(a)
-    a['capture'] == 'OU'
+  def self.catch_gyoku?(ha)
+    ha['capture'] == 'OU'
   end
 
   # 投了などの特別な手のハッシュ
   #
-  # @param t 特別な手の文字列
+  # @param tx 特別な手の文字列
   # @return 特別な手のハッシュ
-  def self.fromtextspecial(t)
-    { special: t[1, t.length - 1] }
+  def self.fromtextspecial(tx)
+    { special: tx[1, tx.length - 1] }
   end
 
   Koma = %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY].freeze
@@ -44,10 +44,10 @@ module JsonMove
 
   # 先手か後手の読み取り
   #
-  # @param c 先後を示す文字
+  # @param ch 先後を示す文字
   # @return 0:先手, 1:後手, nil:その他
-  def self.read_sengo(c)
-    case c[0]
+  def self.read_sengo(ch)
+    case ch[0]
     when '+' then 0
     when '-' then 1
       # else          nil
@@ -90,13 +90,13 @@ module JsonMove
   # 成ったかどうかの確認
   # 成っていればdata['capture']がtrueになる。
   #
-  # @param p 成ったかどうかを表す文字
+  # @param ch 成ったかどうかを表す文字
   # @param data 指し手ハッシュ
   # @return nil:エラー or 指し手ハッシュ
-  def self.read_promote(p, data)
-    if p[9] == 'P'
+  def self.read_promote(ch, data)
+    if ch[9] == 'P'
       data['promote'] = true
-    elsif p[9]
+    elsif ch[9]
       return nil
     end
 
@@ -105,7 +105,7 @@ module JsonMove
 
   # 指し手文字列の読み取り
   #
-  # @param t 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
+  # @param tx 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
   # @return エラー:nil, 正常終了:指し手ハッシュ
   def self.read_move(tx)
     mycolor = read_sengo(tx)
@@ -134,7 +134,7 @@ module JsonMove
 
   # 指し手文字列から指し手ハッシュに変換
   #
-  # @param t 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
+  # @param tx 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
   #          %TORYO, %SENNICHITEなど
   # @return エラー:nil, 正常終了:指し手ハッシュ
   def self.fromtext(tx)

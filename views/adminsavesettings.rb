@@ -25,15 +25,15 @@ class AdminSaveSettingsScreen
   def update_settings(params)
     tags = %w[wintitle title domain base_url support_url]
     isng = 0
-    tags.each do |t|
-      if params[t].nil?
+    tags.each do |tg|
+      unless params[tg]
         isng = 1
-        @errmsg += "#{t} is nil.<br>"
+        @errmsg += "#{tg} is nil.<br>"
       end
     end
     if isng.zero?
-      tags.each do |t|
-        @stg.value[t] = params[t][0]
+      tags.each do |tg|
+        @stg.value[tg] = params[tg][0]
       end
       write_settings
     else
@@ -44,9 +44,9 @@ class AdminSaveSettingsScreen
   # 設定ファイルへの書き込み
   def write_settings
     @stg.write
-  rescue => e
+  rescue => er
     @errmsg += 'failed to update...<pre>'
-    @errmsg += e.to_s
+    @errmsg += er.to_s
     @errmsg += '</pre>'
   end
 

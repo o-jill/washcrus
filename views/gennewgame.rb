@@ -33,10 +33,9 @@ class GenNewGameScreen
   # データの存在チェック
   #
   # @param params パラメータハッシュオブジェクト
-  # @return データが１つでも欠けてたらtrue
+  # @return データが１つでも欠けてたらfalse
   def check_datalost_gengame(params)
-    params['rname'].nil? || params['remail'].nil? \
-        || params['rname2'].nil? || params['remail2'].nil?
+    params['rname'] && params['remail'] && params['rname2'] && params['remail2']
   end
 
   # 歩とと金のどっちが多いかを返す
@@ -59,12 +58,12 @@ class GenNewGameScreen
     userdb.read
 
     userdata1 = userdb.findname(name1) # [id, name, pw, email]
-    if userdata1.nil? || email1 != userdata1[3]
+    unless userdata1 && email1 == userdata1[3]
       @errmsg += "name or e-mail address in player 1 is wrong ...<BR>\n"
     end
 
     userdata2 = userdb.findname(name2) # [id, name, pw, email]
-    if userdata2.nil? || email2 != userdata2[3]
+    unless userdata2 && email2 == userdata2[3]
       @errmsg += "name or e-mail address in player 2 is wrong ...<BR>\n"
     end
 
@@ -76,7 +75,7 @@ class GenNewGameScreen
   # @param params パラメータハッシュオブジェクト
   # @return { userdata1:, userdata2: }
   def check_newgame(params)
-    return @errmsg += 'data lost ...<BR>' if check_datalost_gengame(params)
+    return @errmsg += 'data lost ...<BR>' unless check_datalost_gengame(params)
 
     name1 = params['rname'][0]
     email1 = params['remail'][0]
@@ -88,14 +87,14 @@ class GenNewGameScreen
 
   # 新規対局のメール文面の生成
   #
-  # @param user1 名前1
-  # @param user2 名前2
+  # @param userb 先手の名前
+  # @param userw 後手の名前
   # @param gameid game-id
   # @return 文面
-  def mail_msg_newgame(user1, user2, gameid)
+  def mail_msg_newgame(userb, userw, gameid)
     baseurl = @stg.value['base_url']
     msg = <<-MAIL_MSG.unindent
-      Dear #{user1} and #{user2}
+      Dear #{userb} and #{userw}
 
       a new game is ready for you.
       please visit a URL bellow to play.
@@ -118,12 +117,12 @@ class GenNewGameScreen
 
   # 新規対局メールの送信
   def send_mail
-    subject = "a game is ready!! (#{@td.player1} vs #{@td.player2})"
-    msg = mail_msg_newgame(@td.player1, @td.player2, @td.gid)
+    subject = "a game is ready!! (#{@td.playerb} vs #{@td.playerw})"
+    msg = mail_msg_newgame(@td.playerb, @td.playerw, @td.gid)
 
     mailmgr = MailManager.new
-    mailmgr.send_mail(@td.email1, subject, msg)
-    mailmgr.send_mail(@td.email2, subject, msg)
+    mailmgr.send_mail(@td.emailb, subject, msg)
+    mailmgr.send_mail(@td.emailw, subject, msg)
   end
 
   # 対局情報の設定
@@ -133,11 +132,11 @@ class GenNewGameScreen
   # @param userinfo ユーザー情報
   # @param furigomastr 振りごま結果文字列。[FT]{5}
   def config_taikyoku(userdata1, userdata2, userinfo, furigomastr)
-    # @log.debug('td.setplayer1')
-    @td.setplayer1(userdata1[0], userdata1[1], userdata1[3])
+    # @log.debug('td.setplayerb')
+    @td.setplayerb(userdata1[0], userdata1[1], userdata1[3])
 
-    # @log.debug('td.setplayer2')
-    @td.setplayer2(userdata2[0], userdata2[1], userdata2[3])
+    # @log.debug('td.setplayerw')
+    @td.setplayerw(userdata2[0], userdata2[1], userdata2[3])
 
     # @log.debug("furifusen(#{params['furigoma'][0].count('F')})")
     @td.switchplayers unless furifusen(furigomastr)
@@ -158,10 +157,9 @@ class GenNewGameScreen
     ret = check_newgame(params)
 
     # @log.debug('check_newgame(params)')
-    @errmsg += "your log-in information is wrong ...\n" \
-        if userinfo.nil? || userinfo.invalid?
+    @errmsg += "your log-in information is wrong ...\n" if userinfo.invalid?
 
-    return false unless @errmsg.length.zero?
+    return false unless @errmsg.empty?
 
     # @log.debug('put_err_sreen')
 
@@ -193,8 +191,8 @@ class GenNewGameScreen
   # エラーをログに出力
   #
   # @param e エラー情報
-  def err2log(e)
-    @log.warn("class=[#{e.class}] message=[#{e.message}] in gennewgame")
+  def err2log(er)
+    @log.warn("class=[#{er.class}] message=[#{er.message}] in gennewgame")
   end
 
   # 画面の表示
@@ -212,11 +210,11 @@ class GenNewGameScreen
     put_msg
 
     CommonUI.html_foot
-  rescue ScriptError => e
-    err2log(e)
-  rescue SecurityError => e
-    err2log(e)
-  rescue => e
-    err2log(e)
+  rescue ScriptError => er
+    err2log(er)
+  rescue SecurityError => er
+    err2log(er)
+  rescue => er
+    err2log(er)
   end
 end

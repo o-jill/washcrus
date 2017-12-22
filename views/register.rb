@@ -27,11 +27,10 @@ class RegisterScreen
   # パラメータの確認
   #
   # @param params パラメータハッシュオブジェクト
-  # @return 値が入っていればtrue
+  # @return すべて値が入っていればtrue
   def check_params(params)
-    params['rname'].nil? || params['rpassword'].nil? \
-        || params['rpassword2'].nil? || params['remail'].nil? \
-        || params['remail2'].nil?
+    params['rname'] && params['rpassword'] && params['rpassword2'] \
+      && params['remail'] && params['remail2']
   end
 
   # パラメータの読み込み。ハッシュで返す
@@ -58,20 +57,20 @@ class RegisterScreen
 
   # パスワードの確認。エラーメッセージ転記。
   #
-  # @param pswd1 パスワード1
-  # @param pswd2 パスワード2
-  def check_passwords(pswd1, pswd2)
-    @errmsg += 'wrong password ...<BR>' if pswd1 != pswd2
-    @errmsg += 'short password ...<BR>' if pswd1.length < 4
+  # @param pswd  パスワード
+  # @param pswdv パスワード2回目
+  def check_passwords(pswd, pswdv)
+    @errmsg += 'wrong password ...<BR>' if pswd != pswdv
+    @errmsg += 'short password ...<BR>' if pswd.length < 4
   end
 
   # メールアドレスの確認。エラーメッセージ転記。
   #
-  # @param email1 メールアドレス1
-  # @param email2 メールアドレス2
-  def check_emails(email1, email2)
-    @errmsg += 'wrong e-mail address ...<BR>' if email1 != email2
-    @errmsg += 'short e-mail address ...<BR>' if email1.length < 4
+  # @param email  メールアドレス
+  # @param emailv メールアドレス2回目
+  def check_emails(email, emailv)
+    @errmsg += 'wrong e-mail address ...<BR>' if email != emailv
+    @errmsg += 'short e-mail address ...<BR>' if email.length < 4
   end
 
   # 登録情報の確認
@@ -80,7 +79,7 @@ class RegisterScreen
   # @param params パラメータハッシュオブジェクト
   # @return nil or 登録情報{:username, :password1, :password2, :email1, :email2}
   def check_register(userdb, params)
-    return @errmsg += 'data lost ...<BR>' if check_params(params)
+    return @errmsg += 'data lost ...<BR>' unless check_params(params)
 
     user = read_params(params)
 
@@ -152,7 +151,7 @@ class RegisterScreen
 
     # エラー
     "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>" \
-        unless @errmsg.length.zero?
+        unless @errmsg.empty?
 
     # 登録する
     add(userdb, user[:username], user[:password1], user[:email1])

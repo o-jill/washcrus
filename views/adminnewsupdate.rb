@@ -55,7 +55,7 @@ class AdminNewsUpdateScreen < NewsScreen
     CommonUI.html_menu(userinfo)
     CommonUI.html_adminmenu
 
-    if @errmsg.length.zero?
+    if @errmsg.empty?
       put_news
     else
       puts @errmsg

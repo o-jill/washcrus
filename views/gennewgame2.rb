@@ -34,10 +34,9 @@ class GenNewGame2Screen < GenNewGameScreen
   # データの存在チェック
   #
   # @param params パラメータハッシュオブジェクト
-  # @return データが１つでも欠けてたらtrue
+  # @return データが１つでも欠けてたらfalse
   def check_datalost_gengame(params)
-    params['rid'].nil? || params['rid2'].nil? || params['furigoma'].nil? \
-      || params['teai'].nil?
+    params['rid'] && params['rid2'] && params['furigoma'] && params['teai']
   end
 
   # プレイヤー情報の取得
@@ -50,17 +49,17 @@ class GenNewGame2Screen < GenNewGameScreen
     userdb.read
 
     userdata1 = userdb.findid(id1) # [name, pw, email]
-    if userdata1.nil?
-      @errmsg += "player1's id is wrong ...<BR>\n"
-    else
+    if userdata1
       userdata1.unshift(id1) # [id, name, pw, email]
+    else
+      @errmsg += "player1's id is wrong ...<BR>\n"
     end
 
     userdata2 = userdb.findid(id2) # [name, pw, email]
-    if userdata2.nil?
-      @errmsg += "player2's id is wrong ...<BR>\n"
-    else
+    if userdata2
       userdata2.unshift(id2) # [id, name, pw, email]
+    else
+      @errmsg += "player2's id is wrong ...<BR>\n"
     end
 
     { userdata1: userdata1, userdata2: userdata2 }
@@ -71,7 +70,7 @@ class GenNewGame2Screen < GenNewGameScreen
   # @param params パラメータハッシュオブジェクト
   # @return { userdata1:, userdata2: }
   def check_newgame(params)
-    return @errmsg += 'data lost ...<BR>' if check_datalost_gengame(params)
+    return @errmsg += 'data lost ...<BR>' unless check_datalost_gengame(params)
 
     id1 = params['rid'][0]
     id2 = params['rid2'][0]

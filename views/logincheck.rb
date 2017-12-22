@@ -55,7 +55,7 @@ class LoginCheckScreen
 
     dgpw = Digest::SHA256.hexdigest pswd
 
-    if @errmsg.length.zero? && dgpw == @userdata[2]
+    if @errmsg.empty? && dgpw == @userdata[2]
       @userinfo = UserInfo.new(1, @userdata[0], @userdata[1], email)
       true
     else
@@ -112,7 +112,7 @@ class LoginCheckScreen
       return true
     else
       check_login(cgi.params)
-      if @errmsg.length.zero?
+      if @errmsg.empty?
         gen_new_session(cgi)
 
         return true

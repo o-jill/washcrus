@@ -55,11 +55,11 @@ class ByouyomiChan
   # @param list 対局リスト
   # @param tm   時刻
   def getlist2send(list, tm)
-    list.select do |_id, t|
-      et = getelapsed(Time.parse(t), tm)
+    list.select do |_id, tt|
+      et = getelapsed(Time.parse(tt), tm)
       et[:day] > 0 && et[:hour].zero? && et[:min] / @min_period < 1
       # bmail = et[:day] > 0 && et[:hour].zero? && et[:min] / @min_period < 1
-      # puts "#{_id} | #{t} | #{et[:total]} | " \
+      # puts "#{_id} | #{tt} | #{et[:total]} | " \
       #      "#{et[:day]}:#{et[:hour]}:#{et[:min]}:#{et[:sec]} | #{bmail}"
       # bmail
     end
@@ -114,8 +114,8 @@ class ByouyomiChan
   # logのヘッダの出力
   #
   # @param t 時刻オブジェクト
-  def put_log_header(t)
-    puts "# list 2 be sent (#{t.strftime('%Y/%m/%d %H:%M:%S')})"
+  def put_log_header(tm)
+    puts "# list 2 be sent (#{tm.strftime('%Y/%m/%d %H:%M:%S')})"
     puts "# #{@min_period} minutes period."
   end
 
@@ -130,12 +130,12 @@ class ByouyomiChan
 
     put_log_header(now)
 
-    list2send.each do |id, t|
-      puts "#{id} | #{t}"
+    list2send.each do |id, tk|
+      puts "#{id} | #{tk}"
       tkd = TaikyokuData.new
       tkd.setid(id)
       tkd.read
-      send_mail(tkd.mi, t)
+      send_mail(tkd.mi, tk)
     end
   end
 end

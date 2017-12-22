@@ -320,9 +320,11 @@ class Move
     ret = @tkd.move(@sfen, @jmv, now)
     @log.debug("@tkd.move() = #{ret}")
 
-    return put_invalid_move if ret.nil?
-
-    register_move(ret == 1, now)
+    case ret
+    when 0 then register_move(false, now)
+    when 1 then register_move(true, now) # 終局した
+    else return put_invalid_move
+    end
 
     @log.debug('Move.performed')
   end
@@ -338,12 +340,12 @@ begin
   move = Move.new(cgi, stg)
   move.readuserparam
   move.perform
-rescue ScriptError => e
-  move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
-rescue SecurityError => e
-  move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
-rescue => e
-  move.log.warn("class=[#{e.class}] message=[#{e.message}] in move")
+rescue ScriptError => er
+  move.log.warn("class=[#{er.class}] message=[#{er.message}] in move")
+rescue SecurityError => er
+  move.log.warn("class=[#{er.class}] message=[#{er.message}] in move")
+rescue => er
+  move.log.warn("class=[#{er.class}] message=[#{er.message}] in move")
 end
 # -----------------------------------
 #   testing

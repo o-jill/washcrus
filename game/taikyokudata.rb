@@ -19,10 +19,10 @@ require './game/gentaikyoku.rb'
 class TaikyokuData
   # 初期化
   def initialize
-    # @id1 = '', @player1 = '', @email1 = ''
-    setplayer1('', '', '')
-    # @id2 = '', @player2 = '', @email2 = ''
-    setplayer2('', '', '')
+    # @idb = '', @playerb = '', @emailb = ''
+    setplayerb('', '', '')
+    # @idw = '', @playerw = '', @emailw = ''
+    setplayerw('', '', '')
     @creator = '' # "name(email)"
     @gid = 'ididididid'
     @datetime = 'yyyy/mm/dd hh:mm:ss'
@@ -31,26 +31,20 @@ class TaikyokuData
     @log = nil
   end
 
-  attr_reader :id1, :player1, :email1, :id2, :player2, :email2, :gid, :datetime,
+  attr_reader :idb, :playerb, :emailb, :idw, :playerw, :emailw, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :sfenpath,
               :mi, :jkf
   attr_accessor :creator, :log
-
-  # DIRPATH = './taikyoku/'.freeze
-  # CHATFILE = 'chat.txt'.freeze
-  # MATCHFILE = 'matchinfo.txt'.freeze
-  # KIFUFILE = 'kifu.jkf'.freeze
-  # SFENFILE = 'sfenlog.txt'.freeze
 
   # 先手のセット
   #
   # @param id ID
   # @param nm 名前
   # @param em メールアドレス
-  def setplayer1(id, nm, em)
-    @id1 = id
-    @player1 = nm
-    @email1 = em
+  def setplayerb(id, nm, em)
+    @idb = id
+    @playerb = nm
+    @emailb = em
   end
 
   # 後手のセット
@@ -58,19 +52,19 @@ class TaikyokuData
   # @param id ID
   # @param nm 名前
   # @param em メールアドレス
-  def setplayer2(id, nm, em)
-    @id2 = id
-    @player2 = nm
-    @email2 = em
+  def setplayerw(id, nm, em)
+    @idw = id
+    @playerw = nm
+    @emailw = em
   end
 
   # 先後手の交換
   def switchplayers
-    @id1, @id2 = @id2, @id1
+    @idb, @idw = @idw, @idb
 
-    @player1, @player2 = @player2, @player1
+    @playerb, @playerw = @playerw, @playerb
 
-    @email1, @email2 = @email2, @email1
+    @emailb, @emailw = @emailw, @emailb
   end
 
   # 対局IDのセット
@@ -94,7 +88,7 @@ class TaikyokuData
     tdb = TaikyokuFile.new
     tdb.read
     tdb.content.add_array(
-      [@gid, @id1, @id2, @player1, @player2, teban, @datetime, cmt]
+      [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
     )
     tdb.append(@gid)
 
@@ -102,7 +96,7 @@ class TaikyokuData
     tcdb = TaikyokuChuFile.new
     tcdb.read
     tcdb.content.add_array(
-      [@gid, @id1, @id2, @player1, @player2, teban, @datetime, cmt]
+      [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
     )
     tcdb.append(@gid)
   end
@@ -115,17 +109,17 @@ class TaikyokuData
     # @log.debug('MatchInfoFile.new(gid)')
     # match information file
     @mi = MatchInfoFile.new(@gid)
-    @mi.setplayers(@id1, @id2)
+    @mi.setplayers(@idb, @idw)
     @mi.setcreator(@creator, @datetime)
     @mi.write(@matchinfopath)
 
     # kifu file
     @jkf = JsonKifu.new(@gid)
-    @jkf.initial_write(@player1, @player2, @datetime, @kifupath)
+    @jkf.initial_write(@playerb, @playerw, @datetime, @kifupath)
 
     # chat file
     chat = ChatFile.new(@gid)
-    chat.say_start(@player1)
+    chat.say_start(@playerb)
 
     # sfen log
     sfs = SfenStore.new(@sfenpath)
@@ -142,7 +136,7 @@ class TaikyokuData
     # @log.debug('id = genid')
     # 対局ID
     id = genid
-    return print "generation failed...\n" if id.nil?
+    return print "generation failed...\n" unless id
     setid(id)
 
     # @log.debug('GenTaikyokuData.new(self)')
@@ -168,29 +162,29 @@ class TaikyokuData
   #   setid(genid)
   # end
 
-  # 先手の情報が正しいかの確認。nilとブランクチェック。
+  # 先手の情報が正しいかの確認。ブランクチェック。
   #
-  # @return 先手の情報が正しいときtrue
-  def player1ng?
-    player1.nil? || player1 == '' || email1.nil? || email1 == ''
+  # @return 先手の情報が正しいときfalse
+  def playerbng?
+    @idb == '' || @playerb == '' || @emailb == ''
   end
 
-  # 後手の情報が正しいかの確認。nilとブランクチェック。
+  # 後手の情報が正しいかの確認。ブランクチェック。
   #
-  # @return 先手の情報が正しいときtrue
-  def player2ng?
-    player2.nil? || player2 == '' || email2.nil? || email2 == ''
+  # @return 後手の情報が正しいときfalse
+  def playerwng?
+    @idw == '' || @playerw == '' || @emailw == ''
   end
 
   # 対局IDの生成
   #
   # @return 対局ID
   def genid
-    return nil if player1ng?
-    return nil if player2ng?
-    return nil if creator.nil? || creator == ''
+    return nil if playerbng?
+    return nil if playerwng?
+    return nil if creator == ''
 
-    id_raw = "#{player1}_#{email1}_#{player2}_#{email2}_#{creator}_#{datetime}"
+    id_raw = "#{playerb}_#{emailb}_#{playerw}_#{emailw}_#{creator}_#{datetime}"
     id = Digest::SHA256.hexdigest id_raw
     id[0, 10]
   end
@@ -201,11 +195,11 @@ class TaikyokuData
   def read
     # データを読み込んで
     @mi = MatchInfoFile.new(@gid)
-    return nil if @mi.read(matchinfopath).nil?
-    @id1 = @mi.playerb.id
-    @id2 = @mi.playerw.id
+    return nil unless @mi.read(matchinfopath)
+    @idb = @mi.playerb.id
+    @idw = @mi.playerw.id
     @jkf = JsonKifu.new(@gid)
-    return nil if @jkf.read(kifupath).nil?
+    return nil unless @jkf.read(kifupath)
     # @chat = ChatFile.new(@gameid)
     # @chat.read()
     self
@@ -249,7 +243,7 @@ class TaikyokuData
     return finish_special(jsmv) if jsmv[:special]
 
     @mi.log = @log
-    return if @mi.fromsfen(sfen, true).nil?
+    return unless @mi.fromsfen(sfen, true)
 
     jc = calc_consumption(dt)
 
@@ -278,7 +272,7 @@ class TaikyokuData
     total = @jkf.last_time
     # totalstr = total.nil? ? 'nil' : total.to_s
     # @log.debug("total:#{totalstr}")
-    jc.settotal(total['total']) unless total.nil?
+    jc.settotal(total['total']) if total
     # @log.debug("Time.parse(#{@mi.dt_lastmove})")
     t_last = Time.parse(@mi.dt_lastmove)
     # @log.debug('jc.diff(dt, t_last)')
@@ -333,7 +327,7 @@ class TaikyokuData
     userdb = UserInfoFile.new
     userdb.lock do
       userdb.read
-      userdb.give_win_lose(gwin, @id1, @id2)
+      userdb.give_win_lose(gwin, @idb, @idw)
       # @log.debug('userdb.write')
       userdb.write
     end
@@ -343,8 +337,8 @@ class TaikyokuData
   def dump
     print <<-DUMP
       taikyoku-id:#{@gid}\ncreator: #{@creator}\ndatetime: #{@datetime}
-      id1:#{@id1}\nplayer1: #{@player1}\nemail1: #{@email1}
-      id2:#{@id2}\nplayer2: #{@player2}\nemail2: #{@email2}
+      idb:#{@idb}\nplayerb: #{@playerb}\nemailb: #{@emailb}
+      idw:#{@idw}\nplayerw: #{@playerw}\nemailw: #{@emailw}
       DUMP
   end
 
@@ -355,10 +349,10 @@ class TaikyokuData
       <TR><TD>taikyoku-id</TD><TD>#{@gid}</TD></TR>
       <TR><TD>creator</TD><TD>#{@creator}</TD></TR>
       <TR><TD>datetime</TD><TD>#{@datetime}</TD></TR>
-      <TR><TD>player1</TD><TD>#{@player1}</TD></TR>
-      <TR><TD>email1</TD><TD>#{@email1}</TD></TR>
-      <TR><TD>player2</TD><TD>#{@player2}</TD></TR>
-      <TR><TD>email2</TD><TD>#{@email2}</TD></TR>
+      <TR><TD>playerb</TD><TD>#{@playerb}</TD></TR>
+      <TR><TD>emailb</TD><TD>#{@emailb}</TD></TR>
+      <TR><TD>playerw</TD><TD>#{@playerw}</TD></TR>
+      <TR><TD>emailw</TD><TD>#{@emailw}</TD></TR>
       </TABLE>
       DUMP
   end

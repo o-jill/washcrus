@@ -28,7 +28,7 @@ class UserInfo
     # 戦績
     @win_lose = { swin: 0, slose: 0, gwin: 0, glose: 0 }
     # 管理者権限
-    @admin = id.length.zero? ? false : check_admin
+    @admin = id.empty? ? false : check_admin
   end
 
   attr_accessor :visitcount, :user_id, :user_name, :user_email, :win_lose
@@ -62,7 +62,7 @@ class UserInfo
   #
   # @return user_id, user_name, user_emailすべてが文字列を持っていればfalse
   def invalid?
-    user_id.length.zero? || user_name.length.zero? || user_email.length.zero?
+    user_id.empty? || user_name.empty? || user_email.empty?
   end
 
   # check if exist

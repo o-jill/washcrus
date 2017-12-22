@@ -55,11 +55,11 @@ class JsonKifu
 
   # 対局者の名前をセット
   #
-  # @param b 先手
-  # @param w 後手
-  def setplayers(b, w)
-    @header['先手'] = b
-    @header['後手'] = w
+  # @param nb 先手
+  # @param nw 後手
+  def setplayers(nb, nw)
+    @header['先手'] = nb
+    @header['後手'] = nw
   end
 
   # 開始日時と終了日時のセット
@@ -177,12 +177,12 @@ class JsonKifu
 
   # 初期値の書き出し
   #
-  # @param pl1 先手
-  # @param pl2 後手
+  # @param plb 先手
+  # @param plw 後手
   # @param cdt 開始日時
   # @param path ファイルパス
-  def initial_write(pl1, pl2, cdt, path)
-    setplayers(pl1, pl2)
+  def initial_write(plb, plw, cdt, path)
+    setplayers(plb, plw)
     setdate(cdt)
     write(path)
   end

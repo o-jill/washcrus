@@ -75,7 +75,7 @@ class AdminSignatureUpdateScreen
     CommonUI.html_menu(userinfo)
     CommonUI.html_adminmenu
 
-    if @errmsg.length.zero?
+    if @errmsg.empty?
       put_signature
     else
       puts @errmsg
