@@ -5,33 +5,38 @@ require 'digest/sha2'
 require './file/adminconfigfile.rb'
 require './file/userinfofile.rb'
 
+# 標準入力からの読み込み
+def get_line_stdin
+  STDIN.gets.to_s.chomp
+end
+
 # メールアドレスの確認
 def velify_email
   print 'e-mail address:'
-  email1 = STDIN.gets.to_s.chomp
+  email = get_line_stdin
 
   print 'e-mail address(again):'
-  email2 = STDIN.gets.to_s.chomp
+  emaila = get_line_stdin
 
-  if email1 != email2
+  if email != emaila
     puts 'e-mail addresses are not same!'
   else
-    email1
+    email
   end
 end
 
 # パスワードの確認
 def velify_pw
   print 'password:'
-  pw1 = STDIN.gets.to_s.chomp
+  pw = get_line_stdin
 
   print 'password(again):'
-  pw2 = STDIN.gets.to_s.chomp
+  pwa = get_line_stdin
 
-  if pw1 != pw2
+  if pw != pwa
     puts 'passwords are not same!'
   else
-    pw1
+    pw
   end
 end
 
@@ -40,13 +45,13 @@ end
 # @return nil:succeeded. otherwise error.
 def genadmin
   print 'username:'
-  name = STDIN.gets.to_s.chomp
+  name = get_line_stdin
 
   email = velify_email
-  return 100 if email.nil?
+  return 100 unless email
 
   pw = velify_pw
-  return 200 if pw.nil?
+  return 200 unless pw
 
   dgpw = Digest::SHA256.hexdigest pw
 
