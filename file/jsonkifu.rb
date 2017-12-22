@@ -42,7 +42,7 @@ class JsonKifu
   # @param rid 記録ID
   def setid(tid, rid = nil)
     @header['対局ID'] = tid
-    @header['記録ID'] = rid unless rid.nil?
+    @header['記録ID'] = rid if rid
   end
 
   # カスタムヘッダの追加
@@ -100,7 +100,7 @@ class JsonKifu
   # @return 同xxのときtrue
   def checkdou(a)
     lt = @moves[-1]['move']
-    return false if lt.nil?
+    return false unless lt
     lt['to'] == a['to']
   end
 
@@ -137,7 +137,7 @@ class JsonKifu
         movehash(mv, tm)
       end
     # @log.debug("data['comments'] = cmt unless cmt.nil?")
-    data['comments'] = cmt unless cmt.nil?
+    data['comments'] = cmt if cmt
     @moves << data
   end
 

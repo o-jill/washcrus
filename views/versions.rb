@@ -79,7 +79,7 @@ class VersionsScreen
   # @param userinfo ユーザ情報
   def show(userinfo)
     return put_err_sreen("your log-in information is wrong ...\n", userinfo) \
-      if userinfo.nil? || userinfo.invalid?
+      if userinfo.invalid?
 
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)

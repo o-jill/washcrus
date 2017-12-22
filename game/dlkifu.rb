@@ -7,7 +7,7 @@ require './game/taikyokudata.rb'
 require './game/userinfo.rb'
 
 #
-# CGI本体
+# 棋譜のダウンロード
 #
 class DownloadKifu
   def initialize(gid, userinfo)
@@ -23,11 +23,11 @@ class DownloadKifu
   def perform
     # gameid が無いよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
-        if @gameid.nil? || @gameid.empty?
+        unless @gameid
 
     # userinfoが変だよ
     return print "Content-Type: text/plain; charset=UTF-8\n\nplease log in." \
-        unless @userinfo.nil? || @userinfo.exist_indb
+        unless @userinfo.exist_indb
 
     tdb = TaikyokuFile.new
     tdb.read

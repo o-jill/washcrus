@@ -8,9 +8,7 @@ require 'cgi/session'
 
 require './game/userinfo.rb'
 require './util/settings.rb'
-require './views/entrance.rb'
 require './views/error_action.rb'
-require './views/news.rb'
 require './views/userlist.rb'
 
 #
@@ -35,11 +33,11 @@ class WashCrus
       @session = nil
     end
     @userinfo = UserInfo.new
-    if @session.nil?
-      @userinfo.visitcount = '1'
-    else
+    if @session
       @userinfo.readsession(@session)
-      @userinfo.hashsession.each { |k, v| @session[k] = v }
+      @userinfo.hashsession.each { |ky, vl| @session[ky] = vl }
+    else
+      @userinfo.visitcount = '1'
     end
 
     @header = cgi.header('charset' => 'UTF-8',
@@ -200,16 +198,18 @@ class WashCrus
   # その他いろいろな画面
   def miscellaneous
     case @action
-    when nil, '' then
-      EntranceScreen.new(@header).show(@userinfo)
-    when 'news' then
+    when 'news'
+      require './views/news.rb'
       NewsScreen.new(@header).show(@userinfo)
-    when 'search' then
+    when 'search'
       require './views/searchresult.rb'
       SearchResultScreen.new(@header).show(@userinfo, @params)
-    when 'searchform' then
+    when 'searchform'
       require './views/searchform.rb'
       SearchformScreen.new(@header).show(@userinfo)
+    else
+      require './views/entrance.rb'
+      EntranceScreen.new(@header).show(@userinfo)
     end
   end
 

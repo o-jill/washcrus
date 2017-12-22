@@ -36,7 +36,7 @@ class GetSfen
     end
 
     @userinfo = UserInfo.new
-    @userinfo.readsession(@session) unless @session.nil?
+    @userinfo.readsession(@session) if @session
   end
 
   # 情報のチェック
@@ -58,7 +58,7 @@ class GetSfen
   def perform
     # gameid が無いよ
     # userinfoが変だよ
-    return if check_param.nil?
+    return unless check_param
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
