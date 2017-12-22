@@ -32,10 +32,10 @@ class AdminConfigFile
       end
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => e
-    puts "class=[#{e.class}] message=[#{e.message}] in read"
-  rescue IOError => e
-    puts "class=[#{e.class}] message=[#{e.message}] in read"
+  rescue SystemCallError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in read"
+  rescue IOError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in read"
   end
 
   # ファイルの書き込み
@@ -49,10 +49,10 @@ class AdminConfigFile
       end
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => e
-    puts "class=[#{e.class}] message=[#{e.message}] in write"
-  rescue IOError => e
-    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue SystemCallError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue IOError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in write"
   end
 
   # ファイルの追加書き込み
@@ -67,9 +67,9 @@ class AdminConfigFile
       file.puts newid
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => e
-    puts "class=[#{e.class}] message=[#{e.message}] in write"
-  rescue IOError => e
-    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue SystemCallError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue IOError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in write"
   end
 end

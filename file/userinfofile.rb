@@ -109,10 +109,10 @@ class UserInfoFile
       end
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => e
-    puts "#{e} in read"
-  rescue IOError => e
-    puts "#{e} in read"
+  rescue SystemCallError => er
+    puts "#{er} in read"
+  rescue IOError => er
+    puts "#{er} in read"
   end
 
   # encode mail address
@@ -163,10 +163,10 @@ class UserInfoFile
       end
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => e
-    puts "#{e} in write"
-  rescue IOError => e
-    puts "#{e} in write"
+  rescue SystemCallError => er
+    puts "#{er} in write"
+  rescue IOError => er
+    puts "#{er} in write"
   end
 
   # get user information by id
@@ -180,7 +180,7 @@ class UserInfoFile
   #
   # return nil if not found.
   def findname(name)
-    found = @names.find { |_k, v| v == name }
+    found = @names.find { |_ky, vl| vl == name }
 
     [(id = found[0]), found[1], @passwords[id], @emails[id]] if found
   end
@@ -189,7 +189,7 @@ class UserInfoFile
   #
   # return nil if not found.
   def findemail(addr)
-    found = @emails.find { |_k, v| v == addr }
+    found = @emails.find { |_ky, vl| vl == addr }
 
     [(id = found[0]), @names[id], @passwords[id]] if found
   end
@@ -229,10 +229,10 @@ class UserInfoFile
         end
       end
     # 例外は小さい単位で捕捉する
-    rescue SystemCallError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in write"
-    rescue IOError => e
-      puts "class=[#{e.class}] message=[#{e.message}] in write"
+    rescue SystemCallError => er
+      puts "class=[#{er.class}] message=[#{er.message}] in write"
+    rescue IOError => er
+      puts "class=[#{er.class}] message=[#{er.message}] in write"
     end
   end
 
@@ -267,17 +267,17 @@ class UserInfoFile
   # 勝敗の記入(勝った方と負けた方に１加算)
   #
   # @param gwin 後手勝ちの時true
-  # @param id1  先手のID
-  # @param id2  後手のID
+  # @param idb  先手のID
+  # @param idw  後手のID
   #
   # @note draw非対応
-  def give_win_lose(gwin, id1, id2)
+  def give_win_lose(gwin, idb, idw)
     if gwin
-      @stats[id1][:slose] += 1
-      @stats[id2][:gwin] += 1
+      @stats[idb][:slose] += 1
+      @stats[idw][:gwin] += 1
     else
-      @stats[id1][:swin] += 1
-      @stats[id2][:lose] += 1
+      @stats[idb][:swin] += 1
+      @stats[idw][:lose] += 1
     end
   end
 

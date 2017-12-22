@@ -56,8 +56,8 @@ class TaikyokuFileContent
   # @return array of probe(i)
   def probeex(array_id)
     games = []
-    array_id.each do |i|
-      games << probe(i)
+    array_id.each do |id|
+      games << probe(id)
     end
     games
   end
@@ -111,7 +111,7 @@ class TaikyokuFileContent
   # @param name 先手の対局者名
   # @return 対局IDと先手の対局者名のハッシュリスト
   def findnameb(name)
-    @namebs.select { |_k, v| v == name }
+    @namebs.select { |_ky, vl| vl == name }
   end
 
   # get taikyoku information by name
@@ -119,7 +119,7 @@ class TaikyokuFileContent
   # @param name 後手の対局者名
   # @return 対局IDと後手の対局者名のハッシュリスト
   def findnamew(name)
-    @namews.select { |_k, v| v == name }
+    @namews.select { |_ky, vl| vl == name }
   end
 
   # get taikyoku information by name
@@ -137,7 +137,7 @@ class TaikyokuFileContent
   # @param nid 先手の対局者のID
   # @return 対局IDと先手のIDのハッシュリスト
   def finduidb(nid)
-    @idbs.select { |_k, v| v == nid }
+    @idbs.select { |_ky, vl| vl == nid }
   end
 
   # get taikyoku information by user-id
@@ -145,7 +145,7 @@ class TaikyokuFileContent
   # @param nid 後手の対局者のID
   # @return 対局IDと後手のIDのハッシュリスト
   def finduidw(nid)
-    @idws.select { |_k, v| v == nid }
+    @idws.select { |_ky, vl| vl == nid }
   end
 
   # get taikyoku information by user-id
@@ -164,9 +164,9 @@ class TaikyokuFileContent
   # @return 対局IDと着手時刻のハッシュリスト
   def findtime_to(to)
     tto = Time.parse(to)
-    @times.select do |_k, v|
-      t = Time.parse(v)
-      (tto <=> t) > 0 # toの日は含まない
+    @times.select do |_ky, vl|
+      tm = Time.parse(vl)
+      (tto <=> tm) > 0 # toの日は含まない
     end
   end
 
@@ -176,9 +176,9 @@ class TaikyokuFileContent
   # @return 対局IDと着手時刻のハッシュリスト
   def findtime_from(from)
     tfrom = Time.parse(from)
-    @times.select do |_k, v|
-      t = Time.parse(v)
-      (t <=> tfrom) >= 0
+    @times.select do |_ky, vl|
+      tm = Time.parse(vl)
+      (tm <=> tfrom) >= 0
     end
   end
 
@@ -190,13 +190,13 @@ class TaikyokuFileContent
   def findtime_both(from, to)
     tfrom = Time.parse(from)
     tto = Time.parse(to)
-    tmpid = @times.select do |_k, v|
-      t = Time.parse(v)
-      (t <=> tfrom) >= 0
+    tmpid = @times.select do |_ky, vl|
+      tm = Time.parse(vl)
+      (tm <=> tfrom) >= 0
     end
-    tmpid.select do |_k, v|
-      t = Time.parse(v)
-      (tto <=> t) > 0 # toの日は含まない
+    tmpid.select do |_ky, vl|
+      tm = Time.parse(vl)
+      (tto <=> tm) > 0 # toの日は含まない
     end
   end
 

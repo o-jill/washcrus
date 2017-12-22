@@ -29,16 +29,13 @@ class CheckNewGame
   # パラメータの確認
   #
   # @param params パラメータハッシュオブジェクト
-  # @return 値が入っていればtrue
+  # @return すべて値が入っていればtrue
   def check_params(params)
-    params['rname'].nil? || params['remail'].nil? \
-      || params['rname2'].nil? || params['remail2'].nil?
+    params['rname'] && params['remail'] && params['rname2'] && params['remail2']
   end
 
   # パラメータの読み込み
   def read_params
-    return if @errmsg.length !~ 0
-
     @name1 = @params['rname'][0]
     @email1 = @params['remail'][0]
     @name2 = @params['rname2'][0]
@@ -49,14 +46,14 @@ class CheckNewGame
   #
   # @param userdata メールアドレスに紐付けられたユーザ情報
   # @param userdata ユーザ名
-  # @return ユーザ情報とユーザ名が同じ時false
+  # @return ユーザ情報とユーザ名が同じ時true
   def check_ply(userdata, name)
-    userdata.nil? || name != userdata[1]
+    userdata && name == userdata[1]
   end
 
   # 登録情報の確認
   def check
-    return @errmsg += 'data lost ...' if check_params(@params)
+    return @errmsg += 'data lost ...' unless check_params(@params)
 
     read_params
 
@@ -65,19 +62,18 @@ class CheckNewGame
 
     userdata1 = userdb.findemail(@email1)  # [id, @names[id], @passwords[id]]
     @errmsg = "name or e-mail address in player 1 is wrong ...\n" \
-      if check_ply(userdata1, @name1)
+        unless check_ply(userdata1, @name1)
 
     userdata2 = userdb.findemail(@email2)  # [id, @names[id], @passwords[id]]
     @errmsg += "name or e-mail address in player 2 is wrong ...\n" \
-        if check_ply(userdata2, @name2)
+        unless check_ply(userdata2, @name2)
   end
 
   # データの確認と応答
   def perform
     check
 
-    return puts "Content-type: text/plain;\n\n#{@errmsg}" \
-      unless @errmsg.length.zero?
+    return puts "Content-type: text/plain;\n\n#{@errmsg}" unless @errmsg.empty?
 
     puts "Content-type: text/plain;\n\nnew game check passed!\n"
 

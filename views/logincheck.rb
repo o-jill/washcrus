@@ -22,23 +22,23 @@ class LoginCheckScreen
   #
   # @param pswd パスワード
   def check_pswd(pswd)
-    @errmsg += 'wrong password ...<BR>' if pswd.nil? || pswd.length < 4
+    @errmsg += 'wrong password ...<BR>' unless pswd && pswd.length >= 4
   end
 
   # メールアドレスのチェック
   #
   # @param email メールアドレス
   def check_email(email)
-    @errmsg += 'wrong e-mail address ...<BR>' if email.nil? || email.length < 4
+    @errmsg += 'wrong e-mail address ...<BR>' unless email && email.length >= 4
   end
 
   # データの存在確認
   #
   # @param pswd パスワード
   # @param email メールアドレス
-  # @return パスワードかメールアドレスが空ならtrue
+  # @return パスワードかメールアドレスが空ならfalse
   def check_datalost(pswd, email)
-    pswd.nil? || pswd.length.zero? || email.nil? || email.length.zero?
+    pswd && email
   end
 
   # メールアドレスとパスワードからユーザー情報の確認
@@ -70,7 +70,7 @@ class LoginCheckScreen
     pswd = params['sipassword']
     email = params['siemail']
 
-    return @errmsg = 'data lost ...<BR>' if check_datalost(pswd, email)
+    return @errmsg = 'data lost ...<BR>' unless check_datalost(pswd, email)
 
     pswd = pswd[0]
     check_pswd(pswd)
@@ -93,7 +93,7 @@ class LoginCheckScreen
                                'tmpdir' => './tmp',
                                'session_expires' => expire)
 
-    @userinfo.hashsession.each { |k, v| session[k] = v }
+    @userinfo.hashsession.each { |ky, vl| session[ky] = vl }
 
     session['session_expires'] = expire
 

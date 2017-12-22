@@ -10,11 +10,11 @@ require './game/taikyokudata.rb'
 class Player
   # 初期化
   #
-  # @param i  ID
+  # @param id_ ID
   # @param nm 名前
   # @param em メールアドレス
-  def initialize(i, nm, em)
-    @id = i
+  def initialize(id_, nm, em)
+    @id = id_
     @name = nm
     @email = em
   end
@@ -334,10 +334,10 @@ class MatchInfoFile
       file.puts YAML.dump(genhash, file)
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => e
-    puts "class=[#{e.class}] message=[#{e.message}] in yaml write"
-  rescue IOError => e
-    puts "class=[#{e.class}] message=[#{e.message}] in yaml write"
+  rescue SystemCallError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in yaml write"
+  rescue IOError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in yaml write"
   end
 
   # vs形式の文字列の生成

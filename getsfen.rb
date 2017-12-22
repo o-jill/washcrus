@@ -43,11 +43,11 @@ class GetSfen
   def check_param
     # gameid が無いよ
     return print TEXTPLAIN_HEAD + 'ERROR:illegal access.' \
-        if @gameid.nil? || @gameid.empty?
+        unless @gameid && !@gameid.empty?
 
     # userinfoが変だよ
     return print TEXTPLAIN_HEAD + 'ERROR:please log in.' \
-        unless @userinfo.nil? || @userinfo.exist_indb
+        unless @userinfo.exist_indb
 
     self
   end

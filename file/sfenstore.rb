@@ -23,9 +23,9 @@ class SfenStore
       file.puts line
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => e
-    puts "class=[#{e.class}] message=[#{e.message}] in write"
-  rescue IOError => e
-    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue SystemCallError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue IOError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in write"
   end
 end

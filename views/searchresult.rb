@@ -21,41 +21,41 @@ class SearchResultScreen
   # 先手を検索
   #
   # @param tdb  対局情報オブジェクト
-  # @param ply1 検索する先手の名前
+  # @param plyb 検索する先手の名前
   # @return 対局IDのリスト
-  def findply1(tdb, ply1)
-    return [] if ply1.empty?
+  def findplyb(tdb, plyb)
+    return [] if plyb.empty?
 
-    res = tdb.findnameb(ply1)
+    res = tdb.findnameb(plyb)
     res.empty? ? nil : res.keys
   end
 
   # 後手を検索
   #
   # @param tdb  対局情報オブジェクト
-  # @param ply2 検索する後手の名前
+  # @param plyw 検索する後手の名前
   # @return 対局IDのリスト
-  def findply2(tdb, ply2)
-    return [] if ply2.empty?
+  def findplyw(tdb, plyw)
+    return [] if plyw.empty?
 
-    res = tdb.findnamew(ply2)
+    res = tdb.findnamew(plyw)
     res.empty? ? nil : res.keys
   end
 
   # ２つの対局IDのリストをマージする。(重複削除)
   #
-  # @param id1 対局IDのリスト
-  # @param id2 対局IDのリスト
+  # @param idb 対局IDのリスト
+  # @param idw 対局IDのリスト
   # @return マージしたリスト
-  def merge2ids(id1, id2)
-    if id1.empty? && id2.empty?
+  def merge2ids(idb, idw)
+    if idb.empty? && idw.empty?
       []
-    elsif id1.empty?
-      id2
-    elsif id2.empty?
-      id1
+    elsif idb.empty?
+      idw
+    elsif idw.empty?
+      idb
     else
-      id1.merge(id2)
+      idb.merge(idw)
     end
   end
 
@@ -75,23 +75,23 @@ class SearchResultScreen
   # 最終着手日から検索
   #
   # @param tdb  対局情報オブジェクト
-  # @param ply1 検索する先手の名前
-  # @param ply2 検索する後手の名前
+  # @param plyb 検索する先手の名前
+  # @param plyw 検索する後手の名前
   # @param from この日から
   # @param to   この日まで
   # @return 対局IDのリスト。検索結果がない時nil。
-  def findgameid(tdb, ply1, ply2, from, to)
-    id1 = findply1(tdb, ply1)
-    return nil unless id1
+  def findgameid(tdb, plyb, plyw, from, to)
+    idb = findplyb(tdb, plyb)
+    return nil unless idb
 
-    id2 = findply2(tdb, ply2)
-    return nil unless id2
+    idw = findplyw(tdb, plyw)
+    return nil unless idw
 
-    id3 = findtime(tdb, from, to)
-    return nil unless id3
+    idt = findtime(tdb, from, to)
+    return nil unless idt
 
-    id12 = merge2ids(id1, id2)
-    ret = merge2ids(id12, id3)
+    idbw = merge2ids(idb, idw)
+    ret = merge2ids(idbw, idt)
 
     return nil if ret.empty?
     ret
@@ -108,16 +108,16 @@ class SearchResultScreen
 
   # 対局を検索
   #
-  # @param ply1 検索する先手の名前
-  # @param ply2 検索する後手の名前
+  # @param plyb 検索する先手の名前
+  # @param plyw 検索する後手の名前
   # @param from この日から
   # @param to   この日まで
   # @return 対局IDのリスト
-  def searchgames_(ply1, ply2, from, to)
+  def searchgames_(plyb, plyw, from, to)
     tdb = TaikyokuFile.new
     tdb.read
 
-    foundid = findgameid(tdb, ply1, ply2, from, to)
+    foundid = findgameid(tdb, plyb, plyw, from, to)
 
     return nil unless foundid
 
@@ -156,9 +156,7 @@ class SearchResultScreen
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
-    if res.nil? || res.empty?
-      print '<p>not found ...</p>'
-    else
+    if res && !res.empty?
       print <<-RESULT_TABLE.unindent
         <TABLE align='center' border='1'>
         <caption>検索結果</caption>
@@ -169,6 +167,8 @@ class SearchResultScreen
         print_res(game)
       end
       print '</TABLE>'
+    else
+      print '<p>not found ...</p>'
     end
 
     CommonUI.html_foot

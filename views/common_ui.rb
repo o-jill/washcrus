@@ -61,7 +61,7 @@ module CommonUI
     sup = stg.value['support_url']
     title = stg.value['title']
 
-    bsignup = userinfo.nil? || userinfo.invalid?
+    bsignup = !userinfo || userinfo.invalid?
     return html_menu_signup(title, index, sup) if bsignup
 
     return html_menu_admin(title, index, sup) if userinfo.admin

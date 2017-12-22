@@ -12,8 +12,8 @@ class WebApiSfenReader
 
   # 初期化
   def initialize
-    @player1 = ''
-    @player2 = ''
+    @playerb = ''
+    @playerw = ''
     @title = ''
     @sfen = '9/9/9/9/9/9/9/9/9 b - 1'
     @lastmove = ''
@@ -26,11 +26,11 @@ class WebApiSfenReader
 
   # set players' names
   #
-  # @param pl1 先手の名前
-  # @param pl2 後手の名前
-  def setplayers(pl1, pl2)
-    @player1 = pl1 || ''
-    @player2 = pl2 || ''
+  # @param plb 先手の名前
+  # @param plw 後手の名前
+  def setplayers(plb, plw)
+    @playerb = plb || ''
+    @playerw = plw || ''
   end
 
   # extract moved position
@@ -46,8 +46,8 @@ class WebApiSfenReader
   # @param h ハッシュ
   # @return 名前が追加されたハッシュ
   def params_plys(h)
-    h[:sname] = @player1 unless @player1.empty?
-    h[:gname] = @player2 unless @player2.empty?
+    h[:sname] = @playerb unless @playerw.empty?
+    h[:gname] = @playerw unless @playerb.empty?
     h
   end
 

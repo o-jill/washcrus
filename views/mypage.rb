@@ -60,11 +60,11 @@ class MyPageScreen
   # 勝ち負け一段分の出力
   #
   # @param title 項目名
-  # @param w 勝数
-  # @param l 負数
-  # @param r 勝率文字列
-  def put_seiseki(title, w, l, r)
-    puts "<tr><th>#{title}</th><td>#{w}勝#{l}敗</td><td>#{r}</td></tr>"
+  # @param wn 勝数
+  # @param ls 負数
+  # @param rt 勝率文字列
+  def put_seiseki(title, wn, ls, rt)
+    puts "<tr><th>#{title}</th><td>#{wn}勝#{ls}敗</td><td>#{rt}</td></tr>"
   end
 
   # 成績表の出力
@@ -184,7 +184,7 @@ class MyPageScreen
   # @param userinfo ユーザー情報
   def show(userinfo)
     return put_err_sreen("your log-in information is wrong ...\n") \
-      if userinfo.nil? || userinfo.invalid?
+      if userinfo.invalid?
 
     uid = userinfo.user_id
     wl = get_mystats(uid)

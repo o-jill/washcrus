@@ -58,8 +58,7 @@ class Game
   def check_params
     # @log.debug('Game.check userinfo')
     # userinfoが変だよ
-    return LoginScreen.new(@header).show(@userinfo) \
-        unless @userinfo.nil? || @userinfo.exist_indb
+    return LoginScreen.new(@header).show(@userinfo) unless @userinfo.exist_indb
 
     # @log.debug('Game.check gameid with TaikyokuFile')
     tdb = TaikyokuFile.new
@@ -76,9 +75,9 @@ class Game
   def perform
     # @log.debug('Game.check gameid')
     # gameid が無いよ
-    return put_illegal_access if @gameid.nil?
+    return put_illegal_access unless @gameid
 
-    return if check_params.nil?
+    return unless check_params
 
     # @log.debug('Game.read TaikyokuData')
     tkd = TaikyokuData.new
@@ -92,8 +91,8 @@ class Game
     # @log.debug('Game.put')
     gh.put(@header)
     # @log.debug('Game.performed')
-  rescue => e
-    @log.warn("class=[#{e.class}] message=[#{e.message}] in game")
+  rescue => er
+    @log.warn("class=[#{er.class}] message=[#{er.message}] in game")
   end
 
   # class methods
