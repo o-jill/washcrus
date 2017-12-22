@@ -25,10 +25,10 @@ class AdminNewsUpdateScreen < NewsScreen
   #
   # @param params パラメータハッシュオブジェクト
   def write_param(params)
-    if params['news'].nil?
-      @errmsg += 'invalid parameters...<br>'
-    else
+    if params['news']
       update_news(params['news'][0])
+    else
+      @errmsg += 'invalid parameters...<br>'
     end
   end
 

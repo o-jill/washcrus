@@ -19,12 +19,12 @@ class AdminSignatureUpdateScreen
 
   # 署名ファイルの更新
   #
-  # @param params パラメータハッシュオブジェクト
+  # @param params パラメータハッシュオブジェクトのparams['signature']
   def update_param(params)
-    if params['signature'].nil?
-      @errmsg += 'invalid parameters...<br>'
+    if params
+      write_signature(params[0])
     else
-      write_signature(params['signature'][0])
+      @errmsg += 'invalid parameters...<br>'
     end
   end
 
@@ -69,7 +69,7 @@ class AdminSignatureUpdateScreen
     return puts "Content-Type: text/plain;\n\nERR_NOT_ADMIN" \
         unless userinfo.admin
 
-    update_param(params)
+    update_param(params['signature'])
 
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)

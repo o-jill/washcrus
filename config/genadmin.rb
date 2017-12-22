@@ -6,17 +6,17 @@ require './file/adminconfigfile.rb'
 require './file/userinfofile.rb'
 
 # 標準入力からの読み込み
-def get_line_stdin
+def line_stdin
   STDIN.gets.to_s.chomp
 end
 
 # メールアドレスの確認
 def velify_email
   print 'e-mail address:'
-  email = get_line_stdin
+  email = line_std
 
   print 'e-mail address(again):'
-  emaila = get_line_stdin
+  emaila = line_std
 
   if email != emaila
     puts 'e-mail addresses are not same!'
@@ -28,10 +28,10 @@ end
 # パスワードの確認
 def velify_pw
   print 'password:'
-  pw = get_line_stdin
+  pw = line_std
 
   print 'password(again):'
-  pwa = get_line_stdin
+  pwa = line_std
 
   if pw != pwa
     puts 'passwords are not same!'
@@ -45,7 +45,7 @@ end
 # @return nil:succeeded. otherwise error.
 def genadmin
   print 'username:'
-  name = get_line_stdin
+  name = line_std
 
   email = velify_email
   return 100 unless email

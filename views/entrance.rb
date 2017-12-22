@@ -71,17 +71,16 @@ class EntranceScreen
 
   # 訪問回数の表示
   #
-  # @param blogin   ログインしてるかどうか
   # @param userinfo ユーザ情報
-  def show_visitcount(blogin, userinfo)
-    if blogin
-      print "<HR><div align=center>#{userinfo.user_name}さん" \
-            "#{userinfo.visitcount}回目の訪問ですね。</div><HR>\n" \
-            '<input type=hidden id=isloggedin value=1/>'
-    else
+  def show_visitcount(userinfo)
+    if userinfo.invalid?
       print '<HR><div align=center>どなたか存じ上げませんが' \
-            "#{userinfo.visitcount}回目の訪問ですね。</div><HR>\n" \
-            '<input type=hidden id=isloggedin value=0/>'
+      "#{userinfo.visitcount}回目の訪問ですね。</div><HR>\n" \
+      '<input type=hidden id=isloggedin value=0/>'
+    else
+      print "<HR><div align=center>#{userinfo.user_name}さん" \
+      "#{userinfo.visitcount}回目の訪問ですね。</div><HR>\n" \
+      '<input type=hidden id=isloggedin value=1/>'
     end
   end
 
@@ -90,8 +89,6 @@ class EntranceScreen
   #
   # @param userinfo ユーザ情報
   def show(userinfo)
-    blogin = (!userinfo.user_id.nil? && userinfo.user_id != '')
-
     CommonUI.html_head(@header)
 
     CommonUI.html_menu(userinfo)
@@ -101,7 +98,7 @@ class EntranceScreen
     # LOGO
     show_logo
 
-    show_visitcount(blogin, userinfo)
+    show_visitcount(userinfo)
 
     # test
     # test_area

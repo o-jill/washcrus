@@ -33,7 +33,7 @@ class File2Lounge
     reqdb = TaikyokuReqFile.new
     reqdb.read
 
-    return puts TEXTPLAIN_HEAD + "already exists." \
+    return puts TEXTPLAIN_HEAD + 'already exists.' \
       if reqdb.exist_id(userinfo.user_id)
 
     reqdb = TaikyokuReqFile.new
@@ -41,7 +41,7 @@ class File2Lounge
     reqdb.add(userinfo.user_id, userinfo.user_name, @cmt)
     reqdb.append(userinfo.user_id)
 
-    puts TEXTPLAIN_HEAD + "successflly filed."
+    puts TEXTPLAIN_HEAD + 'successflly filed.'
   end
 
   # データの確認と応答(対局待ち解除)
@@ -52,19 +52,19 @@ class File2Lounge
     reqdb.lock do
       reqdb.read
 
-      return puts TEXTPLAIN_HEAD + "you are not in the list." \
+      return puts TEXTPLAIN_HEAD + 'you are not in the list.' \
         unless reqdb.exist_id(userinfo.user_id)
 
       reqdb.remove(userinfo.user_id)
       reqdb.write
     end
 
-    puts TEXTPLAIN_HEAD + "successflly canceled."
+    puts TEXTPLAIN_HEAD + 'successflly canceled.'
   end
 
   # データの確認と応答(不正)
   def invalid
-    puts TEXTPLAIN_HEAD + "invalid action..."
+    puts TEXTPLAIN_HEAD + 'invalid action...'
   end
 
   # データの確認と応答
@@ -72,7 +72,7 @@ class File2Lounge
   # @param userinfo ユーザー情報
   # @param params パラメータハッシュオブジェクト
   def perform(userinfo, params)
-    return puts TEXTPLAIN_HEAD + "please log-in ..." if userinfo.invalid?
+    return puts TEXTPLAIN_HEAD + 'please log-in ...' if userinfo.invalid?
 
     read(params)
 

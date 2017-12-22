@@ -48,8 +48,8 @@ class Move
   def read_cgiparam
     @params = @cgi.params
     @gameid = @cgi.query_string
-    @sfen = @params['sfen'][0] unless @params['sfen'].nil?
-    @move = @params['jsonmove'][0] unless @params['jsonmove'].nil?
+    @sfen = @params['sfen'][0] if @params['sfen']
+    @move = @params['jsonmove'][0] if @params['jsonmove']
   end
 
   # sessionの取得と情報の読み取り
@@ -66,7 +66,7 @@ class Move
     end
 
     @userinfo = UserInfo.new
-    @userinfo.readsession(@session) unless @session.nil?
+    @userinfo.readsession(@session) if @session
 
     @header = @cgi.header('charset' => 'UTF-8')
     @header = @header.gsub("\r\n", "\n")
@@ -103,7 +103,7 @@ class Move
     return put_please_login unless @userinfo.exist_indb
 
     # moveが変だよ
-    return put_invalid_move if @jmv.nil?
+    return put_invalid_move unless @jmv
 
     self
   end
@@ -304,10 +304,10 @@ class Move
   #
   def perform
     # gameid が無いよ
-    return put_illegal_access if @gameid.nil?
+    return put_illegal_access unless @gameid
 
     # userinfoが変だよ, moveが変だよ, 存在しないはずのIDだよ
-    return if check_param.nil?
+    return unless check_param
 
     @log.debug('Move.read data')
     prepare_taikyokudata
