@@ -31,15 +31,14 @@ class File2Lounge
   # @param userinfo ユーザー情報
   def filing(userinfo)
     reqdb = TaikyokuReqFile.new
+
     reqdb.read
 
-    return puts TEXTPLAIN_HEAD + 'already exists.' \
-      if reqdb.exist_id(userinfo.user_id)
+    uid = userinfo.user_id
+    return puts TEXTPLAIN_HEAD + 'already exists.' if reqdb.exist_id(uid)
 
-    reqdb = TaikyokuReqFile.new
-    reqdb.read
-    reqdb.add(userinfo.user_id, userinfo.user_name, @cmt)
-    reqdb.append(userinfo.user_id)
+    reqdb.add(uid, userinfo.user_name, @cmt)
+    reqdb.append(uid)
 
     puts TEXTPLAIN_HEAD + 'successflly filed.'
   end
@@ -52,10 +51,11 @@ class File2Lounge
     reqdb.lock do
       reqdb.read
 
+      uid = userinfo.user_id
       return puts TEXTPLAIN_HEAD + 'you are not in the list.' \
-        unless reqdb.exist_id(userinfo.user_id)
+        unless reqdb.exist_id(uid)
 
-      reqdb.remove(userinfo.user_id)
+      reqdb.remove(uid)
       reqdb.write
     end
 
