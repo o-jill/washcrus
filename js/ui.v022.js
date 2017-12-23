@@ -139,7 +139,7 @@ function Naraberu_lastmove(x, y)
   if (el !== null) {
     var text = '<div style="position:relative;">' + el.innerHTML;
     text += '<div style="position:absolute;left:0;top:0;">';
-    text += '<img src="./image/dot16.png"></div></div>';
+    text += '<img src="./image/dot16.png" class="lmmark"></div></div>';
     el.innerHTML = text;
   }
 }
@@ -148,7 +148,7 @@ function Naraberu_putkoma(el, koma, n123)
 {
   var fn = koma.getImgStr(n123);
   if (fn.length === 0) {
-    el.innerHTML = '<BR>';
+    el.innerHTML = '&nbsp;';//'<img src="./image/dot16.png" width="100%" height="100%" />';
   } else {
     el.innerHTML = '<img width="100%" height="100%" src="./image/'
                   + fn + '.png">';
