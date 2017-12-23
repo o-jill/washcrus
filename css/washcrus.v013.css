@@ -35,8 +35,8 @@ table.ban tr td, table.ban tr th {
   border:2px solid black;
 }
 table.ban tr td img {
-  width: 3em;
   height: 3em;
+  width: 3em;
 }
 table.ban tr td img.lmmark {
   width: 16px;
@@ -48,16 +48,6 @@ table.sentegoma tr td {
 table.gotegoma tr td {
   text-align:center;
 }
-
-/*.tegoma_koma {
-  width:48px
-}
-.ban_dan_num {
-  height:52px;
-}
-.ban_suji_num {
-  width:52px;
-}*/
 
 /*@media screen and (max-width: 600px) {*/
 .tegoma_koma {
@@ -108,8 +98,28 @@ textarea.kifu {
         flex-direction: column;
   }
   textarea.kifu {
-    height:10em;
-    width:100%;
+    height: 10em;
+    width: 100%;
+  }
+  table.ban tr td img {
+    height: 9vw;
+    width: 9vw;
+  }
+  table.ban tr td img.lmmark {
+    height: 3vw;
+    width: 3vw;
+  }
+  .ban_suji_num {
+    font-weight: bold;
+    width: calc(9vw + 2px);
+  }
+  .ban_dan_num {
+    font-weight: bold;
+    height: calc(9vw + 2px);
+  }
+  .tegoma_koma {
+    height: 9vw;
+    width: 9vw;
   }
 }
 
