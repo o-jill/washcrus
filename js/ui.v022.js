@@ -150,7 +150,7 @@ function Naraberu_putkoma(el, koma, n123)
   if (fn.length === 0) {
     el.innerHTML = '<BR>';
   } else {
-    el.innerHTML = '<img width="48px" height="48px" src="./image/'
+    el.innerHTML = '<img width="100%" height="100%" src="./image/'
                   + fn + '.png">';
   }
 }
