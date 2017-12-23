@@ -88,7 +88,7 @@ function update_banindex() {
   /* var numbersc = Koma.ZenkakuNum;
   numbersc.reverse(); */
   numbersc.forEach(function(c) {
-    text += '<th width=45>' + c + '</th>';
+    text += '<th class="ban_suji_num">' + c + '</th>';
   });
   column.innerHTML = text + '<th>&nbsp;</th>';
 
@@ -102,7 +102,7 @@ function update_banindex_rotate() {
   var numbersc = Koma.ZenkakuNum;
   var text = '';
   numbersc.forEach(function(c) {
-    text += '<th width=45>' + c + '</th>';
+    text += '<th class="ban_suji_num">' + c + '</th>';
   });
   column.innerHTML = text + '<th>&nbsp;</th>';
 
