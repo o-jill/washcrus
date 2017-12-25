@@ -3,16 +3,9 @@
 require 'logger'
 require 'unindent'
 
-# require './file/chatfile.rb'
-# require './file/jsonkifu.rb'
-# require './file/matchinfofile.rb'
-# require './file/pathlist.rb'
 require './file/taikyokureqfile.rb'
-# require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
 require './game/userinfo.rb'
-# require './util/mailmgr.rb'
-# require './util/settings.rb'
 require './views/common_ui.rb'
 require './views/gennewgame.rb'
 require './views/gennewgame2.rb'
@@ -54,17 +47,10 @@ class GenNewGame3Screen < GenNewGame2Screen
   # 対局リクエスト情報の確認とリストからの破棄
   def checkrequest
     reqdb = TaikyokuReqFile.new
-    reqdb.lock do
-      reqdb.read
 
-      unless reqdb.exist_id(@id2)
-        return @errmsg += 'you chose a wrong user or ' \
+    unless reqdb.byebye(@id1, @id2)
+      @errmsg += 'you chose a wrong user or ' \
           "the user already started another game.\n"
-      end
-
-      reqdb.remove(@id1)
-      reqdb.remove(@id2)
-      reqdb.write
     end
   end
 

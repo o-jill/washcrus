@@ -132,6 +132,26 @@ class TaikyokuReqFile
     @comments.delete(id)
   end
 
+  # remove 2 users and update a file.
+  #
+  # @param ida ユーザーAID
+  # @param idb ユーザーBID
+  # @return ユーザーBがリストにないときfalse
+  def byebye(ida, idb)
+    lock do
+      read
+
+      return false unless exist_id(idb)
+
+      remove(ida)
+      remove(idb)
+
+      write
+    end
+
+    true
+  end
+
   # duplication check
   #
   # @param id ユーザーID
