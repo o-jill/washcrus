@@ -23,14 +23,14 @@ class GenTaikyokuData
 
   # 対局に必要なファイル群の生成
   def generate
-    FileUtils.mkdir(taikyoku.taikyokupath, mode: 0o777)
+    FileUtils.mkdir(@taikyoku.taikyokupath, mode: 0o777)
 
-    touch(taikyoku.matchinfopath)
+    touch(@taikyoku.matchinfopath)
 
-    touch(taikyoku.chatpath)
+    touch(@taikyoku.chatpath)
 
-    touch(taikyoku.kifupath)
+    touch(@taikyoku.kifupath)
 
-    touch(taikyoku.sfenpath)
+    touch(@taikyoku.sfenpath)
   end
 end
