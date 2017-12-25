@@ -177,8 +177,8 @@ end
 desc 'make tarball to backup taikyoku/, config/ and db/.'
 task :backup do
   fn = Time.now.strftime('%Y%m%d%H%M%S') + '_bak.tar.gz'
-  puts "`tar cvfz ./backup/#{fn} taikyoku/ config/ db/`"
-  `tar cvfz ./backup/#{fn} taikyoku/ config/ db/`
+  puts "`tar cvfz ./backup/#{fn} taikyoku/ config/ db/ secret_token.rb`"
+  `tar cvfz ./backup/#{fn} taikyoku/ config/ db/ secret_token.rb`
 end
 
 desc 'restore backup from tarball.'
