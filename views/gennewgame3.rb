@@ -57,7 +57,7 @@ class GenNewGame3Screen < GenNewGame2Screen
     reqdb.lock do
       reqdb.read
 
-      if reqdb.exist_id(@id2)
+      unless reqdb.exist_id(@id2)
         return @errmsg += 'you chose a wrong user or ' \
           "the user already started another game.\n"
       end
