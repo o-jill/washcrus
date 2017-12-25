@@ -188,13 +188,14 @@ class MatchInfoFile
     end
   end
 
-  # 対局設定者の情報のセット
+  # 対局設定者の情報のセットと初期最終着手日時のセット
   #
   # @param name 対局設定者の名前
   # @param dt   生成時刻
   def setcreator(name, dt)
     @creator = name
     @dt_created = dt
+    @dt_lastmove = dt
   end
 
   # 着手情報のセット
