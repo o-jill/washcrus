@@ -48,7 +48,7 @@ class GenNewGame3Screen < GenNewGame2Screen
   def checkrequest
     reqdb = TaikyokuReqFile.new
 
-    unless reqdb.byebye(@id1, @id2)
+    unless reqdb.bonvoyage(@id1, @id2)
       @errmsg += 'you chose a wrong user or ' \
           "the user already started another game.\n"
     end

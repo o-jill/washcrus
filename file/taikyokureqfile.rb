@@ -137,7 +137,7 @@ class TaikyokuReqFile
   # @param ida ユーザーAID
   # @param idb ユーザーBID
   # @return ユーザーBがリストにないときfalse
-  def byebye(ida, idb)
+  def bonvoyage(ida, idb)
     lock do
       read
 
