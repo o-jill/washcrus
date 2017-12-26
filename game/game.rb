@@ -81,6 +81,7 @@ class Game
 
     # @log.debug('Game.read TaikyokuData')
     tkd = TaikyokuData.new
+    tkd.log = @log
     tkd.setid(@gameid)
     tkd.read
 

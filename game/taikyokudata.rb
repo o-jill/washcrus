@@ -111,10 +111,16 @@ class TaikyokuData
     @mi = MatchInfoFile.new(@gid)
     @mi.setplayers(@idb, @idw)
     @mi.setcreator(@creator, @datetime)
+    # 持ち時間の設定をここに入れる
+    @mi.initmochijikan(0, 259_200, 20, 86_400) # 持ち時間なし、1手3日、考慮日数20日
     @mi.write(@matchinfopath)
 
     # kifu file
     @jkf = JsonKifu.new(@gid)
+    # 持ち時間の設定をここに入れる
+    @jkf.setheader('持ち時間', '持ち時間0秒、1手3日、考慮日数20日')
+    @jkf.setheader('先手考慮日数', '20日')
+    @jkf.setheader('後手考慮日数', '20日')
     @jkf.initial_write(@playerb, @playerw, @datetime, @kifupath)
 
     # chat file
@@ -195,6 +201,7 @@ class TaikyokuData
   def read
     # データを読み込んで
     @mi = MatchInfoFile.new(@gid)
+    @mi.log = @log
     return nil unless @mi.read(matchinfopath)
     @idb = @mi.playerb.id
     @idw = @mi.playerw.id

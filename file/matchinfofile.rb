@@ -4,44 +4,8 @@ require 'yaml'
 require 'logger'
 
 require './file/userinfofile.rb'
+require './game/player.rb'
 require './game/taikyokudata.rb'
-
-# 対局者情報
-class Player
-  # 初期化
-  #
-  # @param id_ ID
-  # @param nm 名前
-  # @param em メールアドレス
-  def initialize(id_, nm, em)
-    @id = id_
-    @name = nm
-    @email = em
-  end
-
-  # ID
-  attr_reader :id
-
-  # 名前
-  attr_reader :name
-
-  # メールアドレス
-  attr_reader :email
-
-  # ハッシュの生成
-  #
-  # @return { id: @id, name: @name, mail: @email }
-  def genhash
-    { id: @id, name: @name, mail: @email }
-  end
-
-  # 自分のIDと同じかどうか
-  #
-  # @return 同じIDの時true
-  def myid?(i)
-    @id == i
-  end
-end
 
 #
 # 対局情報ファイル管理クラス他クラスから必要ない奴ら
@@ -130,6 +94,12 @@ class MatchInfoFile
     @dt_lastmove = 'yyyy/mm/dd hh:mm:ss'
     @finished = false
     @turn = 'b'
+
+    @dt_lasttick = Time.now
+    @maxbyouyomi = 259_200 # 3days
+    @extratime = 86_400 # 考慮時間１回の時間 1day
+    @byouyomi = 259_200 # 秒読み残り時間 3days
+
     @log = nil
   end
 
@@ -235,6 +205,31 @@ class MatchInfoFile
     setsfen(sfenstr, item)
   end
 
+  def initmochijikan(tt, byou, ex, ext)
+    @playerb.setmochijikan(thinktime: tt, extracount: ex)
+    @playerw.setmochijikan(thinktime: tt, extracount: ex)
+    @maxbyouyomi = byou
+    @byouyomi = byou
+    @extratime = ext
+  end
+
+  def setmochijikanb(tt, ex)
+    @playerb.setmochijikan(thinktime: tt, extracount: ex)
+  end
+
+  def setmochijikanw(tt, ex)
+    @playerw.setmochijikan(thinktime: tt, extracount: ex)
+  end
+
+  def setmochijikans(data)
+    @dt_lasttick = data[:dt_lasttick] # 持ち時間最終確認時刻
+    @maxbyouyomi = data[:maxbyouyomi] # 秒読み設定
+    @extratime = data[:extratime] # 考慮時間１回の時間
+    @byouyomi = data[:byouyomi]
+    @playerb.setmochijikan(data[:thinktimeb])
+    @playerw.setmochijikan(data[:thinktimew])
+  end
+
   # 対局終了フラグのセットと勝ち負けの記入
   #
   # @param per100_text %から始まる文字列。%TORYOなど。
@@ -283,8 +278,11 @@ class MatchInfoFile
 
   # ハッシュを読み取る
   #
-  # @param data ハッシュオブジェクト{gid:, creator:, dt_created:,
-  #  idb:, playerb:, idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished: }
+  # @param data ハッシュオブジェクト { gid:, creator:, dt_created:, idb:, playerb:,
+  #         idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished:, turn:,
+  #         byouyomi: { dt_lasttick:, maxbyouyomi: , extratime:, byouyomi:,
+  #         thinktimeb: { thinktime:, extracount: }, thinktimew:{ thinktime:,
+  #         extracount: } } }
   def read_data(data)
     setcreator(data[:creator], data[:dt_created])
     setplayers(data[:idb], data[:idw])
@@ -293,6 +291,11 @@ class MatchInfoFile
     @finished = data[:finished] || false
     # @teban = 'f' if @finished
     # @turn = data[:turn] || @teban
+    byou = data[:byouyomi]
+    setmochijikans(byou) if byou
+
+    # @log.debug(data) if @log
+    # @log.debug(genhash) if @log
   end
 
   # ファイルからデータの読み込み
@@ -315,14 +318,25 @@ class MatchInfoFile
   # ハッシュにして返す
   #
   # @return ハッシュオブジェクト { gid:, creator:, dt_created:, idb:, playerb:,
-  #         idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished:, turn: }
+  #         idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished:, turn:,
+  #         byouyomi: { dt_lasttick:, maxbyouyomi: , extratime:, byouyomi:,
+  #         thinktimeb: { thinktime:, extracount: }, thinktimew:{ thinktime:,
+  #         extracount: } } }
   def genhash
     {
       gid: @gid, creator: @creator, dt_created: @dt_created,
       idb: @playerb.id, playerb: @playerb.name,
       idw: @playerw.id, playerw: @playerw.name, sfen: @sfen,
       lastmove: @lastmove, dt_lastmove: @dt_lastmove, finished: @finished,
-      turn: @turn
+      turn: @turn,
+      byouyomi: {
+        dt_lasttick: @dt_lasttick, # 持ち時間最終確認時刻
+        maxbyouyomi: @maxbyouyomi, # 秒読みの設定時間
+        extratime: @extratime, # 考慮時間１回の設定時間
+        byouyomi: @byouyomi, # カウント中の秒読み
+        thinktimeb: @playerb.gentimehash,
+        thinktimew: @playerw.gentimehash
+      }
     }
   end
 
