@@ -104,7 +104,8 @@ class MatchInfoFile
   end
 
   attr_reader :gid, :playerb, :playerw, :creator, :dt_created,
-              :teban, :tegoma, :nth, :sfen, :lastmove, :dt_lastmove, :finished
+              :teban, :tegoma, :nth, :sfen, :lastmove, :dt_lastmove, :finished,
+              :byouyomi, :dt_lasttick
   attr_accessor :log, :turn
 
   # 対局者のセット
@@ -228,6 +229,11 @@ class MatchInfoFile
     @byouyomi = data[:byouyomi]
     @playerb.setmochijikan(data[:thinktimeb])
     @playerw.setmochijikan(data[:thinktimew])
+  end
+
+  def setlasttick(byou, dt_lt)
+    @byouyomi = byou
+    @dt_lastmove = dt_lt
   end
 
   # 対局終了フラグのセットと勝ち負けの記入

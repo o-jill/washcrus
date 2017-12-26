@@ -12,6 +12,7 @@ require 'unindent'
 
 require './file/matchinfofile.rb'
 require './file/taikyokufile.rb'
+require './game/timekeeper.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
 require './util/settings.rb'
@@ -65,19 +66,27 @@ class ByouyomiChan
     end
   end
 
+  # 対局者に持ち時間がなくなったことを知らせる
+  def build_subj_reminder(mi)
+    "[reminder] it's your turn!! (#{mi.to_vs})"
+  end
+
   # メール本文の生成
   #
-  # @param me   手番プレイヤーのの情報
+  # @param me   手番プレイヤーの情報
   # @param opp  相手の情報
   # @param dt   最終着手日時
   # @param gid  対局ID
   # @param days 経過日数
   # @return メール本文文字列
-  def build_msg(me, opp, dt, gid, days)
+  def build_msg_reminder(me, opp, dt, gid, remains)
+    days = (remains / 86_400).ceil
     msg = <<-MSG_TEXT.unindent
       #{me[:name]}さん
 
-      #{opp[:name]}さんが#{dt}に１手指してから#{days}日経過しました。
+      残り時間は#{days}日です。
+
+      #{opp[:name]}さんは#{dt}に１手指されました。
 
       #{@baseurl}washcrus.rb?game/#{gid}
 
@@ -86,20 +95,120 @@ class ByouyomiChan
     msg
   end
 
+  # 対局者に持ち時間がなくなったことを知らせる
+  def build_subj_nothinktime(mi)
+    "main thinking time was run out! (#{mi.to_vs})"
+  end
+
+  # 対局者に持ち時間がなくなったことを知らせる
+  def build_msg_nothinktime(me, opp, dt, gid)
+    msg = <<-MSG_TEXT.unindent
+      #{me[:name]}さん
+
+      持ち時間がなくなりました。秒読みに入ります。
+
+      #{opp[:name]}さんは#{dt}に１手指されました。
+
+      #{@baseurl}washcrus.rb?game/#{gid}
+
+      MSG_TEXT
+    msg
+  end
+
+  # 対局者に秒読みが終わった/考慮時間を使ったことを知らせる
+  def build_subj_useextra(mi)
+    "byo-yomi thinking time was run out! (#{mi.to_vs})"
+  end
+
+  # 対局者に秒読みが終わった/考慮時間を使ったことを知らせる
+  def build_msg_useextra(me, opp, dt, gid, extra)
+    msg = <<-MSG_TEXT.unindent
+      #{me[:name]}さん
+
+      秒読みが終わりました。考慮時間に入ります。
+      残り考慮時間は#{extra}日です。
+
+      #{opp[:name]}さんは#{dt}に１手指されました。
+
+      #{@baseurl}washcrus.rb?game/#{gid}
+
+      MSG_TEXT
+    msg
+  end
+
+  # 対局者に最後の考慮時間を使ったことを知らせる
+  def build_subj_noextra(mi)
+    "extra thinking time was run out! (#{mi.to_vs})"
+  end
+
+  # 対局者に最後の考慮時間を使ったことを知らせる
+  def build_msg_noextra(me, opp, dt, gid)
+    msg = <<-MSG_TEXT.unindent
+      #{me[:name]}さん
+
+      最後の考慮時間に入りました。残りはありません。
+
+      #{opp[:name]}さんは#{dt}に１手指されました。
+
+      #{@baseurl}washcrus.rb?game/#{gid}
+
+      MSG_TEXT
+    msg
+  end
+
+  # 対局者に時間切れを知らせる
+  def build_subj_tmout
+    "all thinking time was run out! (#{mi.to_vs})"
+  end
+
+  # 対局者に時間切れを知らせる
+  def build_msg_tmout(me, opp, dt, gid)
+    msg = <<-MSG_TEXT.unindent
+      #{me[:name]}さん
+
+      時間がなくなりました。
+      投了するか、対局相手と相談してください。
+
+      #{opp[:name]}さんは#{dt}に１手指されました。
+
+      #{@baseurl}washcrus.rb?game/#{gid}
+
+      MSG_TEXT
+    msg
+  end
+
   # メールの送信
   #
   # @param mi MatchInfoFileオブジェクト
-  def send_mail(mi, sec)
-    days = (sec / 86_400).floor
-
-    subject = "[reminder]#{days} day(s) passed! (#{mi.to_vs})"
-    # @log.debug("subject:#{subject}")
-
+  # @param tmkp TimeKeeperオブジェクト
+  def send_mail(mi, tmkp)
     nply = mi.getnextplayer
     pply = mi.getopponent(nply[:id])
-    # @log.debug("opp:#{opp}")
 
-    msg = build_msg(nply, pply, mi.dt_lastmove, mi.gid, days)
+    gid = mi.gid
+    dtlm = mi.dt_lastmove
+    case tmkp.houchi
+    when TimeKeeper::HOUCHI_REMINDER # 対局者に1日経過を知らせる
+      subject = build_subj_reminder(mi)
+      msg = build_msg_reminder(nply, pply, dtlm, gid, mi.byouyomi)
+    when TimeKeeper::HOUCHI_NOTHINKINGTIME # 対局者に持ち時間がなくなったことを知らせる
+      subject = build_subj_nothinktime
+      msg = build_msg_nothinktime(nply, pply, dtlm, gid)
+    when TimeKeeper::HOUCHI_USEEXTRA
+      # 対局者に秒読みが終わった/考慮時間を使ったことを知らせる
+      subject = build_subj_useextra
+      msg = build_msg_useextra(nply, pply, dtlm, gid, tmkp.extracount)
+    when TimeKeeper::HOUCHI_NOEXTRA # 対局者に最後の考慮時間を使ったことを知らせる
+      subject = build_subj_noextra
+      msg = build_msg_noextra(nply, pply, dtlm, gid)
+    when TimeKeeper::HOUCHI_TMOUT # 対局者に時間切れを知らせる
+      subject = build_subj_tmout
+      msg = build_msg_tmout(nply, pply, dtlm, gid)
+    else return
+    end
+    msg += MailManager.footer
+
+    # @log.debug("subject:#{subject}")
     # @log.debug("msg:#{msg}")
 
     mmgr = MailManager.new
@@ -123,19 +232,21 @@ class ByouyomiChan
   def perform
     tcdb = TaikyokuChuFile.new
     tcdb.read
-    list = tcdb.checkelapsed
+    list = tcdb.content.gameids
 
-    now = Time.now
-    list2send = getlist2send(list, now)
-
-    put_log_header(now)
-
-    list2send.each do |id, tk|
-      puts "#{id} | #{tk}"
+    list.each do |id|
       tkd = TaikyokuData.new
       tkd.setid(id)
       tkd.read
-      send_mail(tkd.mi, tk)
+      mi = tkd.mi
+
+      next if mi.finished
+      puts "id:#{id}"
+      tmkp = TimeKeeper.new
+
+      tkd.tick(tmkp)
+
+      send_mail(mi, tmkp)
     end
   end
 end

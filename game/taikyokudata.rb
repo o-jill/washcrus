@@ -14,6 +14,7 @@ require './file/sfenstore.rb'
 require './file/taikyokufile.rb'
 require './file/userinfofile.rb'
 require './game/gentaikyoku.rb'
+require './game/timekeeper.rb'
 
 # 対局情報クラス
 class TaikyokuData
@@ -338,6 +339,50 @@ class TaikyokuData
       # @log.debug('userdb.write')
       userdb.write
     end
+  end
+
+  #
+  def update_data(tmkp)
+    turn = @mi.turn
+
+    @mi.setlasttick(tmkp.byouyomi, tmkp.dt_lasttick)
+    case turn
+    when 'b' then @mi.setmochijikanw(tmkp.thinktime, tmkp.extracount)
+    when 'w' then @mi.setmochijikanw(tmkp.thinktime, tmkp.extracount)
+    else return
+    end
+
+    @mi.write(@matchinfopath)
+
+    if tmkp.houchi.nonzero?
+      case turn
+      when 'b' then
+        @jkf.setheader('先手考慮日数', "#{tmkp.extracount}日")
+      when 'w' then
+        @jkf.setheader('後手考慮日数', "#{tmkp.extracount}日")
+      else return
+      end
+    end
+
+    @jkf.write(@kifupath)
+  end
+
+  #
+  def tick(tmkp)
+    case @mi.turn
+    when 'b' then ply = mi.playerb
+    when 'w' then ply = mi.playerw
+    else return
+    end
+
+    # puts "tmkp.read(ply.thinktime, @mi.byouyomi," \
+    #                 ply.extracount, @mi.dt_lasttick)"
+    tmkp.read(ply.thinktime, @mi.byouyomi, ply.extracount, @mi.dt_lasttick)
+
+    # puts "tmkp.tick(Time.now)"
+    tmkp.tick(Time.now)
+
+    update_data(tmkp)
   end
 
   # 内容のダンプ

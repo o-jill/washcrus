@@ -4,14 +4,16 @@
 class TimeKeeper
   # 対局者に知らせる必要なし
   HOUCHI_NONE = 0
+  # 対局者に1日経過を知らせる
+  HOUCHI_REMINDER = 1
   # 対局者に持ち時間がなくなったことを知らせる
-  HOUCHI_NOTHINKINGTIME = 1
+  HOUCHI_NOTHINKINGTIME = 2
   # 対局者に秒読みが終わった/考慮時間を使ったことを知らせる
-  HOUCHI_USEEXTRA = 2
+  HOUCHI_USEEXTRA = 3
   # 対局者に最後の考慮時間を使ったことを知らせる
-  HOUCHI_NOEXTRA = 3
+  HOUCHI_NOEXTRA = 4
   # 対局者に時間切れを知らせる
-  HOUCHI_TMOUT = 4
+  HOUCHI_TMOUT = 5
 
   # 初期化
   def initialize
@@ -50,6 +52,14 @@ class TimeKeeper
     @dt_lasttick = lt
   end
 
+  # 何日分の秒
+  #
+  # @param sec 秒数
+  # @return 何日分
+  def sec2day(sec)
+    (sec / 86_400).floor
+  end
+
   # 持ち時間の計算
   # 報知が必要かどうかが@houchiに入る。
   #
@@ -60,7 +70,9 @@ class TimeKeeper
 
     return elapsed if @thinktime.zero?
 
+    bef = sec2day(@thinktime)
     @thinktime += elapsed
+    aft = sec2day(@thinktime)
 
     if @thinktime <= 0
       remain = @thinktime
@@ -68,6 +80,7 @@ class TimeKeeper
       @houchi = HOUCHI_NOTHINKINGTIME
       remain
     else
+      @houchi = HOUCHI_REMINDER if bef != aft
       0
     end
   end
@@ -77,9 +90,14 @@ class TimeKeeper
   #
   # @param elapsed 持ち時間から引いた余り(秒読みから減らす分)マイナス値
   def tick_byouyomi(elapsed)
+    bef = sec2day(@byouyomi)
     @byouyomi += elapsed
+    aft = sec2day(@byouyomi)
 
-    return if @byouyomi > 0
+    if @byouyomi > 0
+      @houchi = HOUCHI_REMINDER if bef != aft
+      return
+    end
 
     @extracount -= 1 # 考慮時間を１回消費
     @byouyomi += @sec_extracount

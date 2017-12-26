@@ -18,7 +18,8 @@ class GenTaikyokuData
   #
   # @param path ファイルパス
   def touch(path)
-    File.open(path, 'w', 0o666).close
+    File.open(path, 'w').close
+    File.chmod(0o666, path)
   end
 
   # 対局に必要なファイル群の生成
