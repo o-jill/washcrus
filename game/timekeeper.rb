@@ -58,18 +58,17 @@ class TimeKeeper
   def tick_thinktime(elapsed)
     @houchi = HOUCHI_NONE
 
-    if @thinktime.zero?
-      elapsed
+    return elapsed if @thinktime.zero?
+
+    @thinktime += elapsed
+
+    if @thinktime <= 0
+      remain = @thinktime
+      @thinktime = 0
+      @houchi = HOUCHI_NOTHINKINGTIME
+      remain
     else
-      @thinktime += elapsed
-      if @thinktime <= 0
-        remain = @thinktime
-        @thinktime = 0
-        @houchi = HOUCHI_NOTHINKINGTIME
-        remain
-      else
-        0
-      end
+      0
     end
   end
 
@@ -80,15 +79,15 @@ class TimeKeeper
   def tick_byouyomi(elapsed)
     @byouyomi += elapsed
 
-    if @byouyomi <= 0
-      @extracount -= 1 # 考慮時間を１回消費
-      @byouyomi += @sec_extracount
+    return if @byouyomi > 0
 
-      case @extracount <=> 0
-      when 1 then @houchi = HOUCHI_USEEXTRA
-      when 0 then @houchi = HOUCHI_NOEXTRA
-      else return @houchi = HOUCHI_TMOUT
-      end
+    @extracount -= 1 # 考慮時間を１回消費
+    @byouyomi += @sec_extracount
+
+    case @extracount <=> 0
+    when 1 then @houchi = HOUCHI_USEEXTRA
+    when 0 then @houchi = HOUCHI_NOEXTRA
+    else return @houchi = HOUCHI_TMOUT
     end
   end
 
