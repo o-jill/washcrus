@@ -55,7 +55,7 @@ class Player
   # 自分のIDと同じかどうか
   #
   # @return 同じIDの時true
-  def myid?(i)
-    @id == i
+  def myid?(some_id)
+    @id == some_id
   end
 end

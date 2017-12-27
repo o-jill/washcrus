@@ -3,3 +3,41 @@
 # Directories below will not be scanned at all
 exclude_paths:
   - vendor
+DuplicateMethodCall:
+  enabled: true
+  exclude: []
+  max_calls: 3
+  allow_calls: []
+LongParameterList:
+  enabled: true
+  exclude: []
+  max_params: 5
+  overrides:
+    initialize:
+      max_params: 5
+TooManyConstants:
+  enabled: true
+  exclude: []
+  max_constants: 7
+TooManyInstanceVariables:
+  enabled: true
+  exclude: []
+  max_instance_variables: 7
+TooManyMethods:
+  enabled: true
+  exclude: []
+  max_methods: 25
+TooManyStatements:
+  enabled: true
+  exclude:
+  - initialize
+  max_statements: 10
+UncommunicativeVariableName:
+  enabled: true
+  exclude: []
+  reject:
+  - !ruby/regexp /^.$/
+  - !ruby/regexp /[0-9]$/
+  - !ruby/regexp /[A-Z]/
+  accept:
+  - !ruby/regexp /^[eijxyz_]$/

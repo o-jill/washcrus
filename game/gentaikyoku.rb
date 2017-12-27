@@ -17,7 +17,7 @@ class GenTaikyokuData
   # ファイルをモード666で作成
   #
   # @param path ファイルパス
-  def touch(path)
+  def self.touch(path)
     File.open(path, 'w').close
     File.chmod(0o666, path)
   end
@@ -26,12 +26,12 @@ class GenTaikyokuData
   def generate
     FileUtils.mkdir(@taikyoku.taikyokupath, mode: 0o777)
 
-    touch(@taikyoku.matchinfopath)
+    GenTaikyokuData.touch(@taikyoku.matchinfopath)
 
-    touch(@taikyoku.chatpath)
+    GenTaikyokuData.touch(@taikyoku.chatpath)
 
-    touch(@taikyoku.kifupath)
+    GenTaikyokuData.touch(@taikyoku.kifupath)
 
-    touch(@taikyoku.sfenpath)
+    GenTaikyokuData.touch(@taikyoku.sfenpath)
   end
 end

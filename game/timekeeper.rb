@@ -56,7 +56,7 @@ class TimeKeeper
   #
   # @param sec 秒数
   # @return 何日分
-  def sec2day(sec)
+  def self.sec2day(sec)
     (sec / 86_400).floor
   end
 
@@ -70,9 +70,9 @@ class TimeKeeper
 
     return elapsed if @thinktime.zero?
 
-    bef = sec2day(@thinktime)
+    bef = TimeKeeper.sec2day(@thinktime)
     @thinktime += elapsed
-    aft = sec2day(@thinktime)
+    aft = TimeKeeper.sec2day(@thinktime)
 
     # puts "bef:#{bef}, aft:#{aft}}, byou:#{@byouyomi}"
 
@@ -92,9 +92,9 @@ class TimeKeeper
   #
   # @param elapsed 持ち時間から引いた余り(秒読みから減らす分)マイナス値
   def tick_byouyomi(elapsed)
-    bef = sec2day(@byouyomi)
+    bef = TimeKeeper.sec2day(@byouyomi)
     @byouyomi += elapsed
-    aft = sec2day(@byouyomi)
+    aft = TimeKeeper.sec2day(@byouyomi)
     # puts "bbef:#{bef}, aft:#{aft}}, byou:#{@byouyomi}"
     if @byouyomi > 0
       @houchi = HOUCHI_REMINDER if bef != aft

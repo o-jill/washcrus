@@ -6,16 +6,17 @@ require 'logger'
 require './file/userinfofile.rb'
 require './game/player.rb'
 require './game/taikyokudata.rb'
+require './game/timekeeper.rb'
 
 #
 # 対局情報ファイル管理クラス他クラスから必要ない奴ら
 #
-module MatchInfoFilePrivate
+module MatchInfoFileUtil
   # count # of pieces on a line.
   #
   # @param sfenstr sfen文字列
   # @return # of pieces
-  def checksfen_line(line)
+  def self.checksfen_line(line)
     nkoma = 0
     line.each_char do |chr|
       case chr
@@ -31,7 +32,7 @@ module MatchInfoFilePrivate
   #
   # @param sfenstr sfen文字列
   # @return nil if invalid, otherwise successful.
-  def checksfen(sfenstr)
+  def self.checksfen(sfenstr)
     dan = sfenstr.split('/')
     return nil if dan.length != 9
     dan.each do |line|
@@ -44,7 +45,7 @@ module MatchInfoFilePrivate
   #
   # @param item sfenを空白でsplitしたArray
   # @return true if invalid
-  def invalid_sfenitem?(item, tbn, nth)
+  def self.invalid_sfenitem?(item, tbn, nth)
     # @log.debug('return unless @teban =~ /[bw]/')
     # @log.debug('return if @teban == item[1]')
     # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
@@ -57,7 +58,7 @@ module MatchInfoFilePrivate
   #
   # @param fname 対象文字列
   # @return 変換結果文字列
-  def escape_fn(fname)
+  def self.escape_fn(fname)
     path = fname.gsub(%r{[\\\/*:<>?|]}, '_')
     URI.encode_www_form(path)
   end
@@ -67,7 +68,7 @@ module MatchInfoFilePrivate
   #
   # @param fname 対象文字列
   # @return 変換結果文字列
-  def escape_fnu8(fname)
+  def self.escape_fnu8(fname)
     path = fname.gsub(%r{[\\/*:<>?|]},
                       '\\' => '￥', '/' => '／', '*' => '＊', ':' => '：',
                       '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
@@ -79,7 +80,7 @@ end
 # 対局情報ファイル管理クラス
 #
 class MatchInfoFile
-  include MatchInfoFilePrivate
+  include MatchInfoFileUtil
   # 初期化
   #
   # @param gameid 対局ID
@@ -199,9 +200,9 @@ class MatchInfoFile
 
     return if item.length != 4
 
-    return unless checksfen(item[0])
+    return unless MatchInfoFileUtil.checksfen(item[0])
 
-    return if strict && invalid_sfenitem?(item, @teban, @nth)
+    return if strict && MatchInfoFileUtil.invalid_sfenitem?(item, @teban, @nth)
 
     setsfen(sfenstr, item)
   end
@@ -361,6 +362,23 @@ class MatchInfoFile
     puts "class=[#{er.class}] message=[#{er.message}] in yaml write"
   end
 
+  # 持ち時間の更新
+  #
+  # @param tmkp TimeKeeperオブジェクト
+  # @param path 保存ファイルパス
+  def update_time(tmkp, path)
+    setlasttick(tmkp.byouyomi, tmkp.dt_lasttick)
+    # puts "@mi.setlasttick(#{tmkp.byouyomi}, #{tmkp.dt_lasttick})"
+    case @turn
+    when 'b' then setmochijikanb(tmkp.thinktime, tmkp.extracount)
+    when 'w' then setmochijikanw(tmkp.thinktime, tmkp.extracount)
+    else return
+    end
+
+    write(path)
+    # puts "@mi.write(@matchinfopath)"
+  end
+
   # vs形式の文字列の生成
   #
   # @return vs形式の文字列
@@ -378,7 +396,8 @@ class MatchInfoFile
     fn = "#{@playerb.name}_#{@playerw.name}_#{dt}.#{ext}"
 
     "Content-type: application/octet-stream\n" \
-    "Content-Disposition: attachment; filename='#{escape_fn(fn)}'; " \
-    "filename*=UTF-8''#{escape_fnu8(fn)}\n\n"
+    "Content-Disposition: attachment; filename='" \
+    "#{MatchInfoFileUtil.escape_fn(fn)}'; " \
+    "filename*=UTF-8''#{MatchInfoFileUtil.escape_fnu8(fn)}\n\n"
   end
 end
