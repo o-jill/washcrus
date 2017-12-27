@@ -91,7 +91,6 @@ class ByouyomiChan
       #{@baseurl}washcrus.rb?game/#{gid}
 
       MSG_TEXT
-    msg += MailManager.footer
     msg
   end
 
@@ -157,7 +156,7 @@ class ByouyomiChan
   end
 
   # 対局者に時間切れを知らせる
-  def build_subj_tmout
+  def build_subj_tmout(mi)
     "all thinking time was run out! (#{mi.to_vs})"
   end
 
@@ -192,24 +191,24 @@ class ByouyomiChan
       subject = build_subj_reminder(mi)
       msg = build_msg_reminder(nply, pply, dtlm, gid, mi.byouyomi)
     when TimeKeeper::HOUCHI_NOTHINKINGTIME # 対局者に持ち時間がなくなったことを知らせる
-      subject = build_subj_nothinktime
+      subject = build_subj_nothinktime(mi)
       msg = build_msg_nothinktime(nply, pply, dtlm, gid)
     when TimeKeeper::HOUCHI_USEEXTRA
       # 対局者に秒読みが終わった/考慮時間を使ったことを知らせる
-      subject = build_subj_useextra
+      subject = build_subj_useextra(mi)
       msg = build_msg_useextra(nply, pply, dtlm, gid, tmkp.extracount)
     when TimeKeeper::HOUCHI_NOEXTRA # 対局者に最後の考慮時間を使ったことを知らせる
-      subject = build_subj_noextra
+      subject = build_subj_noextra(mi)
       msg = build_msg_noextra(nply, pply, dtlm, gid)
     when TimeKeeper::HOUCHI_TMOUT # 対局者に時間切れを知らせる
-      subject = build_subj_tmout
+      subject = build_subj_tmout(mi)
       msg = build_msg_tmout(nply, pply, dtlm, gid)
     else return
     end
     msg += MailManager.footer
 
-    # @log.debug("subject:#{subject}")
-    # @log.debug("msg:#{msg}")
+    # puts("subject:#{subject}")
+    # puts("msg:#{msg}")
 
     mmgr = MailManager.new
     # mmgr.send_mail(nply[:mail], subject, msg)

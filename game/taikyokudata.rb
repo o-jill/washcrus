@@ -341,18 +341,22 @@ class TaikyokuData
     end
   end
 
+  # 持ち時間の更新
   #
-  def update_data(tmkp)
+  # @param tmkp TimeKeeperオブジェクト
+  def update_time(tmkp)
     turn = @mi.turn
 
     @mi.setlasttick(tmkp.byouyomi, tmkp.dt_lasttick)
+    # puts "@mi.setlasttick(#{tmkp.byouyomi}, #{tmkp.dt_lasttick})"
     case turn
-    when 'b' then @mi.setmochijikanw(tmkp.thinktime, tmkp.extracount)
+    when 'b' then @mi.setmochijikanb(tmkp.thinktime, tmkp.extracount)
     when 'w' then @mi.setmochijikanw(tmkp.thinktime, tmkp.extracount)
     else return
     end
 
     @mi.write(@matchinfopath)
+    # puts "@mi.write(@matchinfopath)"
 
     if tmkp.houchi.nonzero?
       case turn
@@ -367,7 +371,9 @@ class TaikyokuData
     @jkf.write(@kifupath)
   end
 
+  # 時間の確認
   #
+  # @param tmkp TimeKeeperオブジェクト
   def tick(tmkp)
     case @mi.turn
     when 'b' then ply = mi.playerb
@@ -375,14 +381,14 @@ class TaikyokuData
     else return
     end
 
-    # puts "tmkp.read(ply.thinktime, @mi.byouyomi," \
-    #                 ply.extracount, @mi.dt_lasttick)"
+    # puts "tmkp.read(#{ply.thinktime}, #{@mi.byouyomi}," \
+    #                 "#{ply.extracount}, #{@mi.dt_lasttick})"
     tmkp.read(ply.thinktime, @mi.byouyomi, ply.extracount, @mi.dt_lasttick)
 
-    # puts "tmkp.tick(Time.now)"
+    # puts "tmkp.tick(Time.now#{Time.now})"
     tmkp.tick(Time.now)
 
-    update_data(tmkp)
+    update_time(tmkp)
   end
 
   # 内容のダンプ

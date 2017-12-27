@@ -74,6 +74,8 @@ class TimeKeeper
     @thinktime += elapsed
     aft = sec2day(@thinktime)
 
+    # puts "bef:#{bef}, aft:#{aft}}, byou:#{@byouyomi}"
+
     if @thinktime <= 0
       remain = @thinktime
       @thinktime = 0
@@ -93,7 +95,7 @@ class TimeKeeper
     bef = sec2day(@byouyomi)
     @byouyomi += elapsed
     aft = sec2day(@byouyomi)
-
+    # puts "bbef:#{bef}, aft:#{aft}}, byou:#{@byouyomi}"
     if @byouyomi > 0
       @houchi = HOUCHI_REMINDER if bef != aft
       return
@@ -115,6 +117,7 @@ class TimeKeeper
   # @param now Timeオブジェクト
   def tick(now)
     elapsed = @dt_lasttick - now
+    # puts "#{@dt_lasttick} - #{now} = #{elapsed}"
     @dt_lasttick = now
 
     # 持ち時間の計算
@@ -122,5 +125,6 @@ class TimeKeeper
 
     # 秒読みの計算、考慮時間の計算
     tick_byouyomi(elapsed) if elapsed.nonzero?
+    # puts "houch:#{@houchi}"
   end
 end

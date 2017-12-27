@@ -233,7 +233,7 @@ class MatchInfoFile
 
   def setlasttick(byou, dt_lt)
     @byouyomi = byou
-    @dt_lastmove = dt_lt
+    @dt_lasttick = dt_lt
   end
 
   # 対局終了フラグのセットと勝ち負けの記入
