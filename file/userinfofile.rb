@@ -277,7 +277,7 @@ class UserInfoFile
       @stats[idw][:gwin] += 1
     else
       @stats[idb][:swin] += 1
-      @stats[idw][:lose] += 1
+      @stats[idw][:glose] += 1
     end
   end
 
