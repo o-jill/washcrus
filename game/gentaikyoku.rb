@@ -33,5 +33,7 @@ class GenTaikyokuData
     GenTaikyokuData.touch(@taikyoku.kifupath)
 
     GenTaikyokuData.touch(@taikyoku.sfenpath)
+
+    GenTaikyokuData.touch(@taikyoku.lockpath)
   end
 end

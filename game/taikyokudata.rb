@@ -15,6 +15,7 @@ require './file/taikyokufile.rb'
 require './file/userinfofile.rb'
 require './game/gentaikyoku.rb'
 require './game/timekeeper.rb'
+require './util/myerror.rb'
 
 # 対局情報クラス
 class TaikyokuData
@@ -78,6 +79,7 @@ class TaikyokuData
     @chatpath = @taikyokupath + PathList::CHATFILE
     @kifupath = @taikyokupath + PathList::KIFUFILE
     @sfenpath = @taikyokupath + PathList::SFENFILE
+    @lockpath = @taikyokupath + PathList::GAMELOCK
   end
 
   # 対局情報のDBへの登録
@@ -191,6 +193,25 @@ class TaikyokuData
     id_raw = "#{playerb}_#{emailb}_#{playerw}_#{emailw}_#{creator}_#{datetime}"
     id = Digest::SHA256.hexdigest id_raw
     id[0, 10]
+  end
+
+  # usage:
+  # lock do
+  #   do_something
+  # end
+  def lock(*)
+    Timeout.timeout(10) do
+      File.open(@lockpath, 'w') do |file|
+        begin
+          file.flock(File::LOCK_EX)
+          yield
+        ensure
+          file.flock(File::LOCK_UN)
+        end
+      end
+    end
+  rescue Timeout::Error
+    raise AccessDenied.new('timeout')
   end
 
   # 対局情報の読み込み

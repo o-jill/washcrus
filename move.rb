@@ -11,6 +11,7 @@ require './file/jsonmove.rb'
 require './file/matchinfofile.rb'
 require './file/pathlist.rb'
 require './file/taikyokufile.rb'
+require './game/taikyokudata.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
 require './util/settings.rb'
@@ -74,26 +75,29 @@ class Move
 
   # 不正アクセスの表示
   def put_illegal_access
-    print TEXTPLAIN_HEAD + 'illegal access.'
+    puts TEXTPLAIN_HEAD + 'illegal access.'
   end
 
   # 移動完了の表示
   def put_moved
-    print TEXTPLAIN_HEAD + 'Moved.'
+    puts TEXTPLAIN_HEAD + 'Moved.'
   end
 
   # 違反移動の表示
   def put_invalid_move
-    print TEXTPLAIN_HEAD + 'invalid move.'
+    puts TEXTPLAIN_HEAD + 'invalid move.'
   end
 
   # ログインしてないエラーの表示
   def put_please_login
-    print TEXTPLAIN_HEAD + 'please log in.'
+    puts TEXTPLAIN_HEAD + 'please log in.'
   end
 
   # 情報のチェック
   def check_param
+    # gameid が無いよ
+    return put_illegal_access unless @gameid
+
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
@@ -207,42 +211,12 @@ class Move
   # @param now      [Time]    着手日時オブジェクト
   def send_mail(finished, now)
     @log.debug('Move.sendmail')
-    @tkd.read
+    @tkd.read # これいるの？
     nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
     if finished
       send_mail_finished(nowstr)
     else
       send_mail_next(nowstr)
-    end
-  end
-
-  # 対局中データベースの着手日時の更新
-  #
-  # @param tcdb   対局中データベース
-  # @param now 現在の時刻オブジェクト
-  def update_taikyokuchu_dt(tcdb, now)
-    nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
-    @log.debug('tcdb.updatedatetime')
-    tcdb.lock do
-      tcdb.read
-      tcdb.updatedatetime(@gameid, nowstr)
-      tcdb.updateturn(@gameid, @turn)
-      tcdb.write
-    end
-  end
-
-  # 対局データベースの着手日時の更新
-  #
-  # @param now 現在の時刻オブジェクト
-  def update_taikyoku_dt(now)
-    @log.debug('tdb.updatedatetime')
-    nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
-    tdb = TaikyokuFile.new
-    tdb.lock do
-      tdb.read
-      tdb.updatedatetime(@gameid, nowstr)
-      tdb.updateturn(@gameid, @turn)
-      tdb.write
     end
   end
 
@@ -258,6 +232,7 @@ class Move
     gote_win = (@tkd.mi.teban == 'b')
     @turn = gote_win ? 'fw' : 'fb'
     @tkd.finished(now, gote_win, @turn)
+
     # 対局中からはずす
     @log.debug('tcdb.finished(@gameid)')
     tcdb.finished(@gameid)
@@ -290,9 +265,9 @@ class Move
     # @log.debug('Move.jkf.write')
     @tkd.write
 
-    update_taikyokuchu_dt(tcdb, now) unless finished
+    tcdb.update_dt_turn(@gameid, now, @turn) unless finished
 
-    update_taikyoku_dt(now)
+    TaikyokuFile.new.update_dt_turn(@gameid, now, @turn)
 
     send_mail(finished, now)
 
@@ -303,29 +278,32 @@ class Move
   # 実行本体。
   #
   def perform
-    # gameid が無いよ
-    return put_illegal_access unless @gameid
+    # # gameid が無いよ
+    # return put_illegal_access unless @gameid
 
     # userinfoが変だよ, moveが変だよ, 存在しないはずのIDだよ
     return unless check_param
 
     @log.debug('Move.read data')
-    prepare_taikyokudata
 
-    now = Time.now
+    @tkd = TaikyokuData.new
+    @tkd.log = @log
+    @tkd.setid(@gameid)
+    @tkd.lock do
+      @tkd.read
 
-    # 指し手を適用する
-    @log.debug('Move.apply sfen, jmv')
-    # @tkd.move(@jmv, now)
-    ret = @tkd.move(@sfen, @jmv, now)
-    @log.debug("@tkd.move() = #{ret}")
+      now = Time.now
 
-    case ret
-    when 0 then register_move(false, now)
-    when 1 then register_move(true, now) # 終局した
-    else return put_invalid_move
+      # 指し手を適用する
+      @log.debug('Move.apply sfen, jmv')
+      # @tkd.move(@jmv, now)
+      ret = @tkd.move(@sfen, @jmv, now)
+      @log.debug("@tkd.move() = #{ret}")
+
+      return put_invalid_move unless ret
+
+      register_move(ret != 0, now)
     end
-
     @log.debug('Move.performed')
   end
 end

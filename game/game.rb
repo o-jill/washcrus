@@ -83,7 +83,9 @@ class Game
     tkd = TaikyokuData.new
     tkd.log = @log
     tkd.setid(@gameid)
-    tkd.read
+    tkd.lock do
+      tkd.read
+    end
 
     # @log.debug('Game. html rendering')
     # 表示する

@@ -126,16 +126,17 @@ class ByouyomiChan
     list.each do |id|
       tkd = TaikyokuData.new
       tkd.setid(id)
-      tkd.read
-      mi = tkd.mi
+      tkd.lock do
+        tkd.read
+        mi = tkd.mi
 
-      next if mi.finished
-      puts "id:#{id}"
-      tmkp = TimeKeeper.new
+        next if mi.finished
+        puts "id:#{id}"
+        tmkp = TimeKeeper.new
 
-      tkd.tick(tmkp)
-
-      send_mail(mi, tmkp)
+        tkd.tick(tmkp)
+        send_mail(mi, tmkp)
+      end
     end
   end
 end
