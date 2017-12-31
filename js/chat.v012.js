@@ -34,7 +34,7 @@ function onChatUpdate() {
   ajax.onreadystatechange = function () {
     switch (ajax.readyState) {
     case 4:
-      updateMsg(ajax.status, ajax.responseText, true);
+      updateMsg(ajax.status, ajax.responseText, false);
       setTimeout(function() {onChatUpdate();}, 60000);
       break;
     }
