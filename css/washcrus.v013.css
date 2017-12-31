@@ -28,11 +28,19 @@ table.ban, table.sentegoma, table.gotegoma {
   background-Color: #C96;
   border-collapse: collapse;
 }
-table.ban {
+/*table.ban {
   border:2px solid black;
-}
+}*/
 table.ban tr td, table.ban tr th {
   border:2px solid black;
+}
+table.ban tr td img {
+  height: 3em;
+  width: 3em;
+}
+table.ban tr td img.lmmark {
+  width: 16px;
+  height: 16px;
 }
 table.sentegoma tr td {
   text-align:center;
@@ -41,6 +49,27 @@ table.gotegoma tr td {
   text-align:center;
 }
 
+/*@media screen and (max-width: 600px) {*/
+.tegoma_koma {
+  height: 3em;
+  width: 3em;
+}
+/*.ban_masu {
+  height: 3em;
+  width: 3em;
+}
+.ban_dan_row {
+  height: 3em;
+}*/
+.ban_dan_num {
+  height: calc(3em + 2px);
+  font-weight: bold;
+}
+.ban_suji_num {
+  font-weight: bold;
+  width: calc(3em + 2px);
+}
+/*}*/
 /* 棋譜 */
 div.kifu {
   column-count: 2;
@@ -69,8 +98,28 @@ textarea.kifu {
         flex-direction: column;
   }
   textarea.kifu {
-    height:10em;
-    width:100%;
+    height: 10em;
+    width: 100%;
+  }
+  table.ban tr td img {
+    height: 9vw;
+    width: 9vw;
+  }
+  table.ban tr td img.lmmark {
+    height: 3vw;
+    width: 3vw;
+  }
+  .ban_suji_num {
+    font-weight: bold;
+    width: calc(9vw + 2px);
+  }
+  .ban_dan_num {
+    font-weight: bold;
+    height: calc(9vw + 2px);
+  }
+  .tegoma_koma {
+    height: 9vw;
+    width: 9vw;
   }
 }
 

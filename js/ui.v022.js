@@ -88,7 +88,7 @@ function update_banindex() {
   /* var numbersc = Koma.ZenkakuNum;
   numbersc.reverse(); */
   numbersc.forEach(function(c) {
-    text += '<th width=45>' + c + '</th>';
+    text += '<th class="ban_suji_num">' + c + '</th>';
   });
   column.innerHTML = text + '<th>&nbsp;</th>';
 
@@ -102,7 +102,7 @@ function update_banindex_rotate() {
   var numbersc = Koma.ZenkakuNum;
   var text = '';
   numbersc.forEach(function(c) {
-    text += '<th width=45>' + c + '</th>';
+    text += '<th class="ban_suji_num">' + c + '</th>';
   });
   column.innerHTML = text + '<th>&nbsp;</th>';
 
@@ -139,7 +139,7 @@ function Naraberu_lastmove(x, y)
   if (el !== null) {
     var text = '<div style="position:relative;">' + el.innerHTML;
     text += '<div style="position:absolute;left:0;top:0;">';
-    text += '<img src="./image/dot16.png"></div></div>';
+    text += '<img src="./image/dot16.png" class="lmmark"></div></div>';
     el.innerHTML = text;
   }
 }
@@ -148,9 +148,9 @@ function Naraberu_putkoma(el, koma, n123)
 {
   var fn = koma.getImgStr(n123);
   if (fn.length === 0) {
-    el.innerHTML = '<BR>';
+    el.innerHTML = '&nbsp;';//'<img src="./image/dot16.png" width="100%" height="100%" />';
   } else {
-    el.innerHTML = '<img width="48px" height="48px" src="./image/'
+    el.innerHTML = '<img src="./image/'
                   + fn + '.png">';
   }
 }
