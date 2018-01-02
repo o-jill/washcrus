@@ -3,7 +3,14 @@
  チャットえりあ
 </div>
  <input id='chatname' type='text' value='<%= @userinfo.user_name %>' size='10' class='chatnm' readonly/>
- :<input id='chatmsg' type='text' size='60' class='chatmsg'/>
+ : <input id='chatmsg' list='chatmsg_tmpl' type='text' size='60' class='chatmsg' placeholder='メッセージ欄'/>
+ <datalist id='chatmsg_tmpl'>
+   <option value='よろしくお願いします。'>
+   <option value='こんにちは'>
+   <option value='ありがとうございました。'>
+   <option value='負けました。'>
+   <option value='まいりました。'>
+ </datalist>
  <input type='button' id='chatbtn' onClick='onChatSay();' class='chatbtn' value='&gt;&gt;'/>
  <input type='hidden' id='gameid' value='<%= @gameid %>'/>
 <script type='text/javascript' src='./js/chat.v013.js' defer></script>
