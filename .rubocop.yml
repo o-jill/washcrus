@@ -11,7 +11,7 @@ AllCops:
     - './js/*'
     - './css/*'
     - './spec/**/*'
-  TargetRubyVersion: 2.0
+  TargetRubyVersion: 2.1
 
 
 # Use UTF-8 as the source file encoding.
