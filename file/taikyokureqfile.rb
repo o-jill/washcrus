@@ -152,6 +152,38 @@ class TaikyokuReqFile
     true
   end
 
+  # ユーザーを登録する
+  #
+  # @param uid ユーザーID
+  # @param uname ユーザー名
+  # @param cmt コメント
+  # @return 成功すればtrue
+  def fileauser(uid, uname, cmt)
+    lock do
+      read
+      return false if exist_id(uid)
+
+      add(uid, uname, cmt)
+      append(uid)
+    end
+
+    true
+  end
+
+  # ユーザーを登録から外す
+  #
+  # @param uid ユーザーID
+  # @return 成功すればtrue
+  def cancelauser(uid)
+    lock do
+      read
+      return false unless exist_id(uid)
+      remove(uid)
+      write
+    end
+    true
+  end
+
   # duplication check
   #
   # @param id ユーザーID

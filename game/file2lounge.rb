@@ -32,15 +32,10 @@ class File2Lounge
   def filing(userinfo)
     reqdb = TaikyokuReqFile.new
 
-    reqdb.read
+    return puts TEXTPLAIN_HEAD + 'successflly filed.' \
+        if reqdb.fileauser(userinfo.user_id, userinfo.user_name, @cmt)
 
-    uid = userinfo.user_id
-    return puts TEXTPLAIN_HEAD + 'already exists.' if reqdb.exist_id(uid)
-
-    reqdb.add(uid, userinfo.user_name, @cmt)
-    reqdb.append(uid)
-
-    puts TEXTPLAIN_HEAD + 'successflly filed.'
+    puts TEXTPLAIN_HEAD + 'already exists.'
   end
 
   # データの確認と応答(対局待ち解除)
@@ -48,18 +43,11 @@ class File2Lounge
   # @param userinfo ユーザー情報
   def canceling(userinfo)
     reqdb = TaikyokuReqFile.new
-    reqdb.lock do
-      reqdb.read
 
-      uid = userinfo.user_id
-      return puts TEXTPLAIN_HEAD + 'you are not in the list.' \
-        unless reqdb.exist_id(uid)
+    return puts TEXTPLAIN_HEAD + 'successflly canceled.' \
+        if reqdb.cancel(userinfo.user_id)
 
-      reqdb.remove(uid)
-      reqdb.write
-    end
-
-    puts TEXTPLAIN_HEAD + 'successflly canceled.'
+    puts TEXTPLAIN_HEAD + 'you are not in the list.' \
   end
 
   # データの確認と応答(不正)
