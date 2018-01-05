@@ -57,7 +57,10 @@ class TimeKeeper
   # @param sec 秒数
   # @return 何日分
   def self.sec2day(sec)
-    (sec / 86_400).floor
+    # (sec / 86_400).floor
+    day, hour = sec.divmod(86_400)
+    day -= 1 if hour.zero?
+    day
   end
 
   # 持ち時間の計算
