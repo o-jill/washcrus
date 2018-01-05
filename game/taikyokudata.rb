@@ -35,7 +35,7 @@ class TaikyokuData
 
   attr_reader :idb, :playerb, :emailb, :idw, :playerw, :emailw, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :sfenpath,
-              :mi, :jkf
+              :lockpath, :mi, :jkf
   attr_accessor :creator, :log
 
   # 先手のセット

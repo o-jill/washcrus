@@ -25,15 +25,11 @@ class GenTaikyokuData
   # 対局に必要なファイル群の生成
   def generate
     FileUtils.mkdir(@taikyoku.taikyokupath, mode: 0o777)
-
-    GenTaikyokuData.touch(@taikyoku.matchinfopath)
-
-    GenTaikyokuData.touch(@taikyoku.chatpath)
-
-    GenTaikyokuData.touch(@taikyoku.kifupath)
-
-    GenTaikyokuData.touch(@taikyoku.sfenpath)
-
-    GenTaikyokuData.touch(@taikyoku.lockpath)
+    [
+      @taikyoku.matchinfopath, @taikyoku.chatpath, @taikyoku.kifupath,
+      @taikyoku.sfenpath, @taikyoku.lockpath
+    ].each do |path|
+      GenTaikyokuData.touch(path)
+    end
   end
 end
