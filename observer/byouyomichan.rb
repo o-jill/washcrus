@@ -113,12 +113,14 @@ class ByouyomiChan
   #
   # @param t 時刻オブジェクト
   def put_log_header(tm)
-    puts "# list 2 be sent (#{tm.strftime('%Y/%m/%d %H:%M:%S')})"
+    puts "# list 2 be checked (#{tm.strftime('%Y/%m/%d %H:%M:%S')})"
     puts "# #{@min_period} minutes period."
   end
 
   # 実行本体。
   def perform
+    put_log_header(Time.now)
+
     tcdb = TaikyokuChuFile.new
     tcdb.read
     list = tcdb.content.gameids

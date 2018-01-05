@@ -368,7 +368,7 @@ class MatchInfoFile
   # @param path 保存ファイルパス
   def update_time(tmkp, path)
     setlasttick(tmkp.byouyomi, tmkp.dt_lasttick)
-    # puts "@mi.setlasttick(#{tmkp.byouyomi}, #{tmkp.dt_lasttick})"
+    puts "@mi.setlasttick(#{tmkp.byouyomi}, #{tmkp.dt_lasttick})"
     case @turn
     when 'b' then setmochijikanb(tmkp.thinktime, tmkp.extracount)
     when 'w' then setmochijikanw(tmkp.thinktime, tmkp.extracount)
@@ -376,7 +376,7 @@ class MatchInfoFile
     end
 
     write(path)
-    # puts "@mi.write(@matchinfopath)"
+    puts "@mi.write(@matchinfopath)"
   end
 
   # vs形式の文字列の生成
