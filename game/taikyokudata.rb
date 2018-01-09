@@ -87,21 +87,13 @@ class TaikyokuData
   # @param teban 手番
   # @param cmt コメント
   def register_taikyoku(teban = 'b', cmt = 'blank')
+    newdt = [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
+
     # @log.debug('TaikyokuFile.new')
-    tdb = TaikyokuFile.new
-    tdb.read
-    tdb.content.add_array(
-      [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
-    )
-    tdb.append(@gid)
+    TaikyokuFile.new.newgame(newdt)
 
     # @log.debug('TaikyokuChuFile.new')
-    tcdb = TaikyokuChuFile.new
-    tcdb.read
-    tcdb.content.add_array(
-      [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
-    )
-    tcdb.append(@gid)
+    TaikyokuChuFile.new.newgame(newdt)
   end
 
   # 対局情報ファイルの初期情報の書き込み

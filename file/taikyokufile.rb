@@ -115,17 +115,26 @@ class TaikyokuFile
   #
   # @param id 対局ID
   def append(id)
-    lock do
-      File.open(@fname, 'a') do |file|
-        file.flock File::LOCK_EX
-        @content.put(file, [id])
-      end
+    File.open(@fname, 'a') do |file|
+      file.flock File::LOCK_EX
+      @content.put(file, [id])
     end
   # 例外は小さい単位で捕捉する
   rescue SystemCallError => er
     puts "class=[#{er.class}] message=[#{er.message}] in write"
   rescue IOError => er
     puts "class=[#{er.class}] message=[#{er.message}] in write"
+  end
+
+  # 対局の追加、ファイルへの追加書き出し
+  #
+  # @param data 対局情報
+  def newgame(data)
+    lock do
+      read
+      @content.add_array(data)
+      append(data[0])
+    end
   end
 
   # duplication check
