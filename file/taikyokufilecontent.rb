@@ -26,7 +26,7 @@ class TaikyokuFileContent
   # @param file ファイルオブジェクト
   # @param a_id 対局IDのリスト。nilならすべて。
   def put(file, a_id)
-    a_id = @idbs.keys
+    a_id ||= @idbs.keys
     a_id.each do |id|
       file.puts "#{id},#{@idbs[id]},#{@idws[id]},#{@namebs[id]}," \
                 "#{@namews[id]},#{@turns[id]},#{@times[id]},#{@comments[id]}"
