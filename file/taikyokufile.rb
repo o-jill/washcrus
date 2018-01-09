@@ -203,7 +203,7 @@ class TaikyokuFile
       read
       @content.updatedatetime(gid, nowstr)
       @content.updateturn(gid, trn)
-      tcdb.write
+      write
     end
   end
 
