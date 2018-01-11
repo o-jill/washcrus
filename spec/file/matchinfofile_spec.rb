@@ -147,22 +147,22 @@ describe 'MatchInfoFile' do
     expect(mi.sfen).to eq(sfen)
   end
   it 'can check sfen' do
-    mi = MatchInfoFile.new('0123456')
+    # mi = MatchInfoFile.new('0123456')
     sfen = 'lnsgkgsnl/1r5+B1/ppppppppp/5p3/9/3P5/PP1PPPPPP/7R1/LNSGKGSNL'
-    expect(mi.checksfen(sfen)).to_not be nil
+    expect(MatchInfoFileUtil.checksfen(sfen)).to_not be nil
     sfen = 'lnsgkgsnl/1r5+B1/+p+p+p+p+p+p+p+p+p/5p3/9/3P5/' \
            '+P+P1+P+P+P+P+P+P/7R1/LNSGKGSNL'
-    expect(mi.checksfen(sfen)).to_not be nil
+    expect(MatchInfoFileUtil.checksfen(sfen)).to_not be nil
 
     sfen = 'nsgkgsnl/1r5+B1/ppppppppp/5p3/9/3P5/PP1PPPPPP/7R1/LNSGKGSNL'
-    expect(mi.checksfen(sfen)).to be nil
+    expect(MatchInfoFileUtil.checksfen(sfen)).to be nil
     sfen = 'lnsgkgsnl1r5+B1/ppppppppp/5p3/9/3P5/PP1PPPPPP/7R1/LNSGKGSNL'
-    expect(mi.checksfen(sfen)).to be nil
+    expect(MatchInfoFileUtil.checksfen(sfen)).to be nil
     sfen = 'lnsgkgsnl/1r5+B1/pppppppp/5p3/9/3P5/PP1PPPPPP/7R1/LNSGKGSNL'
-    expect(mi.checksfen(sfen)).to be nil
+    expect(MatchInfoFileUtil.checksfen(sfen)).to be nil
     sfen = 'lnsgkgsnl/1r5+B/ppppppppp/5p3/9/3P5/PP1PPPPPP/7R1/LNSGKGSNL'
-    expect(mi.checksfen(sfen)).to be nil
+    expect(MatchInfoFileUtil.checksfen(sfen)).to be nil
     sfen = 'lnsgkgsnl/1r5+B/ppppppppp/5p3/9/3P5/PP1PPPPPP/7R1/LNSGKGSNL/'
-    expect(mi.checksfen(sfen)).to be nil
+    expect(MatchInfoFileUtil.checksfen(sfen)).to be nil
   end
 end
