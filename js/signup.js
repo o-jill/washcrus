@@ -90,7 +90,7 @@ function check_password()
   if (!check_identical('password')) {
     alertmsg += 'passwords are not same!\n';
   }
-  if (!check_password()) {
+  if (!check_password_format()) {
     alertmsg += 'password is too short!\n';
   }
   return alertmsg;
@@ -112,7 +112,8 @@ function check_form()
     ++nmismatch;
   }
 
-  if (!check_password()) {
+  ret = check_password();
+  if (ret !== '') {
     alertmsg += ret;
     ++nmismatch;
   }
