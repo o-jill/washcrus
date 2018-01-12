@@ -85,7 +85,8 @@ Style/PercentLiteralDelimiters:
 # AutoCorrectEncodingComment must match the regex
 # /#.*coding\s?[:=]\s?(?:UTF|utf)-8/
 Style/Encoding:
-  EnforcedStyle: when_needed
+  Enabled: false
+#  EnforcedStyle: when_needed
   # SupportedStyles:
   #   - when_needed
   #   - always
