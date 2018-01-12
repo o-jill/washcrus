@@ -92,16 +92,16 @@ class TaikyokuFile
   # ファイルのヘッダのコメント文の生成
   #
   # @param file Fileオブジェクト
-  def put_header(file)
-    file.puts '# taikyoku information' + Time.now.to_s
-    file.puts '# id, idb, idw, nameb, namew, turn, time, comment'
+  def self.put_header(file)
+    file.puts "# taikyoku information#{Time.now}\n" \
+              "# id, idb, idw, nameb, namew, turn, time, comment\n"
   end
 
   # ファイルへの書き出し
   def write
     File.open(@fname, 'w') do |file|
       file.flock File::LOCK_EX
-      put_header(file)
+      TaikyokuFile.put_header(file)
       @content.put(file, nil)
     end
   # 例外は小さい単位で捕捉する
@@ -115,17 +115,26 @@ class TaikyokuFile
   #
   # @param id 対局ID
   def append(id)
-    lock do
-      File.open(@fname, 'a') do |file|
-        file.flock File::LOCK_EX
-        @content.put(file, [id])
-      end
+    File.open(@fname, 'a') do |file|
+      file.flock File::LOCK_EX
+      @content.put(file, [id])
     end
   # 例外は小さい単位で捕捉する
   rescue SystemCallError => er
     puts "class=[#{er.class}] message=[#{er.message}] in write"
   rescue IOError => er
     puts "class=[#{er.class}] message=[#{er.message}] in write"
+  end
+
+  # 対局の追加、ファイルへの追加書き出し
+  #
+  # @param data 対局情報
+  def newgame(data)
+    lock do
+      read
+      @content.add_array(data)
+      append(data[0])
+    end
   end
 
   # duplication check
@@ -192,20 +201,19 @@ class TaikyokuFile
     @content.remove(nid)
   end
 
-  # 着手日時の更新
+  # 着手日時と手番の更新
   #
-  # @param dt_str 時刻文字列
-  # @param nid    対局ID
-  def updatedatetime(nid, dt_str)
-    @content.updatedatetime(nid, dt_str)
-  end
-
-  # 手番の更新
-  #
-  # @param nid 対局ID
+  # @param gid 対局ID
+  # @param now 現在の時刻オブジェクト
   # @param trn 手番
-  def updateturn(nid, trn)
-    @content.updateturn(nid, trn)
+  def update_dt_turn(gid, now, trn)
+    nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
+    lock do
+      read
+      @content.updatedatetime(gid, nowstr)
+      @content.updateturn(gid, trn)
+      write
+    end
   end
 
   # HTML形式(TABLE)に変換して出力

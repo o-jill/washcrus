@@ -90,6 +90,13 @@ class TaikyokuFileContent
     @comments[nid] = arr[7]
   end
 
+  # 対局IDを返す
+  #
+  # @return 対局IDのリスト
+  def gameids
+    @idbs.keys
+  end
+
   # get taikyoku information by id
   #
   # @param id 対局ID

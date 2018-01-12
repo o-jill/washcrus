@@ -5,6 +5,7 @@ module PathList
   ADMINCONFIGFILE = './db/adminconfig.txt'.freeze
   CHATFILE = 'chat.txt'.freeze
   GAMELOG = './log/gamelog.txt'.freeze
+  GAMELOCK = 'game.lock'.freeze
   GENNEWGAMELOG = './log/newgamegenlog.txt'.freeze
   KIFUFILE = 'kifu.jkf'.freeze
   MAILSETTINGFILE = './config/mail.yaml'.freeze

@@ -4,54 +4,19 @@ require 'yaml'
 require 'logger'
 
 require './file/userinfofile.rb'
+require './game/player.rb'
 require './game/taikyokudata.rb'
-
-# 対局者情報
-class Player
-  # 初期化
-  #
-  # @param id_ ID
-  # @param nm 名前
-  # @param em メールアドレス
-  def initialize(id_, nm, em)
-    @id = id_
-    @name = nm
-    @email = em
-  end
-
-  # ID
-  attr_reader :id
-
-  # 名前
-  attr_reader :name
-
-  # メールアドレス
-  attr_reader :email
-
-  # ハッシュの生成
-  #
-  # @return { id: @id, name: @name, mail: @email }
-  def genhash
-    { id: @id, name: @name, mail: @email }
-  end
-
-  # 自分のIDと同じかどうか
-  #
-  # @return 同じIDの時true
-  def myid?(i)
-    @id == i
-  end
-end
+require './game/timekeeper.rb'
 
 #
 # 対局情報ファイル管理クラス他クラスから必要ない奴ら
 #
-module MatchInfoFilePrivate
+module MatchInfoFileUtil
   # count # of pieces on a line.
   #
   # @param sfenstr sfen文字列
   # @return # of pieces
-  def checksfen_line(line)
+  def self.checksfen_line(line)
     nkoma = 0
     line.each_char do |chr|
       case chr
@@ -67,7 +32,7 @@ module MatchInfoFilePrivate
   #
   # @param sfenstr sfen文字列
   # @return nil if invalid, otherwise successful.
-  def checksfen(sfenstr)
+  def self.checksfen(sfenstr)
     dan = sfenstr.split('/')
     return nil if dan.length != 9
     dan.each do |line|
@@ -80,7 +45,7 @@ module MatchInfoFilePrivate
   #
   # @param item sfenを空白でsplitしたArray
   # @return true if invalid
-  def invalid_sfenitem?(item, tbn, nth)
+  def self.invalid_sfenitem?(item, tbn, nth)
     # @log.debug('return unless @teban =~ /[bw]/')
     # @log.debug('return if @teban == item[1]')
     # @log.debug("return if #{@nth.to_i}+1 != #{item[3]}")
@@ -93,7 +58,7 @@ module MatchInfoFilePrivate
   #
   # @param fname 対象文字列
   # @return 変換結果文字列
-  def escape_fn(fname)
+  def self.escape_fn(fname)
     path = fname.gsub(%r{[\\\/*:<>?|]}, '_')
     URI.encode_www_form_component(path)
   end
@@ -103,7 +68,7 @@ module MatchInfoFilePrivate
   #
   # @param fname 対象文字列
   # @return 変換結果文字列
-  def escape_fnu8(fname)
+  def self.escape_fnu8(fname)
     path = fname.gsub(%r{[\\/*:<>?|]},
                       '\\' => '￥', '/' => '／', '*' => '＊', ':' => '：',
                       '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
@@ -115,7 +80,7 @@ end
 # 対局情報ファイル管理クラス
 #
 class MatchInfoFile
-  include MatchInfoFilePrivate
+  include MatchInfoFileUtil
   # 初期化
   #
   # @param gameid 対局ID
@@ -130,11 +95,18 @@ class MatchInfoFile
     @dt_lastmove = 'yyyy/mm/dd hh:mm:ss'
     @finished = false
     @turn = 'b'
+
+    @dt_lasttick = Time.now
+    @maxbyouyomi = 259_200 # 3days
+    @extratime = 86_400 # 考慮時間１回の時間 1day
+    @byouyomi = 259_200 # 秒読み残り時間 3days
+
     @log = nil
   end
 
   attr_reader :gid, :playerb, :playerw, :creator, :dt_created,
-              :teban, :tegoma, :nth, :sfen, :lastmove, :dt_lastmove, :finished
+              :teban, :tegoma, :nth, :sfen, :lastmove, :dt_lastmove, :finished,
+              :byouyomi, :dt_lasttick
   attr_accessor :log, :turn
 
   # 対局者のセット
@@ -228,11 +200,41 @@ class MatchInfoFile
 
     return if item.length != 4
 
-    return unless checksfen(item[0])
+    return unless MatchInfoFileUtil.checksfen(item[0])
 
-    return if strict && invalid_sfenitem?(item, @teban, @nth)
+    return if strict && MatchInfoFileUtil.invalid_sfenitem?(item, @teban, @nth)
 
     setsfen(sfenstr, item)
+  end
+
+  def initmochijikan(tt, byou, ex, ext)
+    @playerb.setmochijikan(thinktime: tt, extracount: ex)
+    @playerw.setmochijikan(thinktime: tt, extracount: ex)
+    @maxbyouyomi = byou
+    @byouyomi = byou
+    @extratime = ext
+  end
+
+  def setmochijikanb(tt, ex)
+    @playerb.setmochijikan(thinktime: tt, extracount: ex)
+  end
+
+  def setmochijikanw(tt, ex)
+    @playerw.setmochijikan(thinktime: tt, extracount: ex)
+  end
+
+  def setmochijikans(data)
+    @dt_lasttick = data[:dt_lasttick] # 持ち時間最終確認時刻
+    @maxbyouyomi = data[:maxbyouyomi] # 秒読み設定
+    @extratime = data[:extratime] # 考慮時間１回の時間
+    @byouyomi = data[:byouyomi]
+    @playerb.setmochijikan(data[:thinktimeb])
+    @playerw.setmochijikan(data[:thinktimew])
+  end
+
+  def setlasttick(byou, dt_lt)
+    @byouyomi = byou
+    @dt_lasttick = dt_lt
   end
 
   # 対局終了フラグのセットと勝ち負けの記入
@@ -283,8 +285,11 @@ class MatchInfoFile
 
   # ハッシュを読み取る
   #
-  # @param data ハッシュオブジェクト{gid:, creator:, dt_created:,
-  #  idb:, playerb:, idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished: }
+  # @param data ハッシュオブジェクト { gid:, creator:, dt_created:, idb:, playerb:,
+  #         idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished:, turn:,
+  #         byouyomi: { dt_lasttick:, maxbyouyomi: , extratime:, byouyomi:,
+  #         thinktimeb: { thinktime:, extracount: }, thinktimew:{ thinktime:,
+  #         extracount: } } }
   def read_data(data)
     setcreator(data[:creator], data[:dt_created])
     setplayers(data[:idb], data[:idw])
@@ -293,6 +298,11 @@ class MatchInfoFile
     @finished = data[:finished] || false
     # @teban = 'f' if @finished
     # @turn = data[:turn] || @teban
+    byou = data[:byouyomi]
+    setmochijikans(byou) if byou
+
+    # @log.debug(data) if @log
+    # @log.debug(genhash) if @log
   end
 
   # ファイルからデータの読み込み
@@ -315,14 +325,25 @@ class MatchInfoFile
   # ハッシュにして返す
   #
   # @return ハッシュオブジェクト { gid:, creator:, dt_created:, idb:, playerb:,
-  #         idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished:, turn: }
+  #         idw:, playerw:, sfen:, lastmove:, dt_lastmove:, finished:, turn:,
+  #         byouyomi: { dt_lasttick:, maxbyouyomi: , extratime:, byouyomi:,
+  #         thinktimeb: { thinktime:, extracount: }, thinktimew:{ thinktime:,
+  #         extracount: } } }
   def genhash
     {
       gid: @gid, creator: @creator, dt_created: @dt_created,
       idb: @playerb.id, playerb: @playerb.name,
       idw: @playerw.id, playerw: @playerw.name, sfen: @sfen,
       lastmove: @lastmove, dt_lastmove: @dt_lastmove, finished: @finished,
-      turn: @turn
+      turn: @turn,
+      byouyomi: {
+        dt_lasttick: @dt_lasttick, # 持ち時間最終確認時刻
+        maxbyouyomi: @maxbyouyomi, # 秒読みの設定時間
+        extratime: @extratime, # 考慮時間１回の設定時間
+        byouyomi: @byouyomi, # カウント中の秒読み
+        thinktimeb: @playerb.gentimehash,
+        thinktimew: @playerw.gentimehash
+      }
     }
   end
 
@@ -339,6 +360,23 @@ class MatchInfoFile
     puts "class=[#{er.class}] message=[#{er.message}] in yaml write"
   rescue IOError => er
     puts "class=[#{er.class}] message=[#{er.message}] in yaml write"
+  end
+
+  # 持ち時間の更新
+  #
+  # @param tmkp TimeKeeperオブジェクト
+  # @param path 保存ファイルパス
+  def update_time(tmkp, path)
+    setlasttick(tmkp.byouyomi, tmkp.dt_lasttick)
+    puts "@mi.setlasttick(#{tmkp.byouyomi}, #{tmkp.dt_lasttick})"
+    case @turn
+    when 'b' then setmochijikanb(tmkp.thinktime, tmkp.extracount)
+    when 'w' then setmochijikanw(tmkp.thinktime, tmkp.extracount)
+    else return
+    end
+
+    write(path)
+    puts "@mi.write(@matchinfopath)"
   end
 
   # vs形式の文字列の生成
@@ -358,7 +396,8 @@ class MatchInfoFile
     fn = "#{@playerb.name}_#{@playerw.name}_#{dt}.#{ext}"
 
     "Content-type: application/octet-stream\n" \
-    "Content-Disposition: attachment; filename='#{escape_fn(fn)}'; " \
-    "filename*=UTF-8''#{escape_fnu8(fn)}\n\n"
+    "Content-Disposition: attachment; filename='" \
+    "#{MatchInfoFileUtil.escape_fn(fn)}'; " \
+    "filename*=UTF-8''#{MatchInfoFileUtil.escape_fnu8(fn)}\n\n"
   end
 end

@@ -14,6 +14,8 @@ require './file/sfenstore.rb'
 require './file/taikyokufile.rb'
 require './file/userinfofile.rb'
 require './game/gentaikyoku.rb'
+require './game/timekeeper.rb'
+require './util/myerror.rb'
 
 # 対局情報クラス
 class TaikyokuData
@@ -33,7 +35,7 @@ class TaikyokuData
 
   attr_reader :idb, :playerb, :emailb, :idw, :playerw, :emailw, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :sfenpath,
-              :mi, :jkf
+              :lockpath, :mi, :jkf
   attr_accessor :creator, :log
 
   # 先手のセット
@@ -77,6 +79,7 @@ class TaikyokuData
     @chatpath = @taikyokupath + PathList::CHATFILE
     @kifupath = @taikyokupath + PathList::KIFUFILE
     @sfenpath = @taikyokupath + PathList::SFENFILE
+    @lockpath = @taikyokupath + PathList::GAMELOCK
   end
 
   # 対局情報のDBへの登録
@@ -84,21 +87,13 @@ class TaikyokuData
   # @param teban 手番
   # @param cmt コメント
   def register_taikyoku(teban = 'b', cmt = 'blank')
+    newdt = [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
+
     # @log.debug('TaikyokuFile.new')
-    tdb = TaikyokuFile.new
-    tdb.read
-    tdb.content.add_array(
-      [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
-    )
-    tdb.append(@gid)
+    TaikyokuFile.new.newgame(newdt)
 
     # @log.debug('TaikyokuChuFile.new')
-    tcdb = TaikyokuChuFile.new
-    tcdb.read
-    tcdb.content.add_array(
-      [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
-    )
-    tcdb.append(@gid)
+    TaikyokuChuFile.new.newgame(newdt)
   end
 
   # 対局情報ファイルの初期情報の書き込み
@@ -111,10 +106,13 @@ class TaikyokuData
     @mi = MatchInfoFile.new(@gid)
     @mi.setplayers(@idb, @idw)
     @mi.setcreator(@creator, @datetime)
+    @mi.initmochijikan(0, 259_200, 20, 86_400) # 持ち時間なし、1手3日、考慮日数20日
     @mi.write(@matchinfopath)
 
     # kifu file
     @jkf = JsonKifu.new(@gid)
+    @jkf.setheader('持ち時間', '持ち時間0秒、1手3日、考慮日数20日')
+    @jkf.setbothsengo('考慮日数', '20日')
     @jkf.initial_write(@playerb, @playerw, @datetime, @kifupath)
 
     # chat file
@@ -189,12 +187,32 @@ class TaikyokuData
     id[0, 10]
   end
 
+  # usage:
+  # lock do
+  #   do_something
+  # end
+  def lock(*)
+    Timeout.timeout(10) do
+      File.open(@lockpath, 'w') do |file|
+        begin
+          file.flock(File::LOCK_EX)
+          yield
+        ensure
+          file.flock(File::LOCK_UN)
+        end
+      end
+    end
+  rescue Timeout::Error
+    raise AccessDenied.new('timeout')
+  end
+
   # 対局情報の読み込み
   #
   # @return self
   def read
     # データを読み込んで
     @mi = MatchInfoFile.new(@gid)
+    @mi.log = @log
     return nil unless @mi.read(matchinfopath)
     @idb = @mi.playerb.id
     @idw = @mi.playerw.id
@@ -331,6 +349,45 @@ class TaikyokuData
       # @log.debug('userdb.write')
       userdb.write
     end
+  end
+
+  # 持ち時間の更新
+  #
+  # @param tmkp TimeKeeperオブジェクト
+  def update_time(tmkp)
+    @mi.update_time(tmkp, @matchinfopath)
+
+    if tmkp.houchi.nonzero?
+      case @mi.turn
+      when 'b' then
+        @jkf.setheader('先手考慮日数', "#{tmkp.extracount}日")
+      when 'w' then
+        @jkf.setheader('後手考慮日数', "#{tmkp.extracount}日")
+      else return
+      end
+    end
+
+    @jkf.write(@kifupath)
+  end
+
+  # 時間の確認
+  #
+  # @param tmkp TimeKeeperオブジェクト
+  def tick(tmkp)
+    case @mi.turn
+    when 'b' then ply = mi.playerb
+    when 'w' then ply = mi.playerw
+    else return
+    end
+
+    puts "tmkp.read(#{ply.thinktime}, #{@mi.byouyomi}," \
+                    "#{ply.extracount}, #{@mi.dt_lasttick})"
+    tmkp.read(ply.thinktime, @mi.byouyomi, ply.extracount, @mi.dt_lasttick)
+
+    puts "tmkp.tick(Time.now #{Time.now})"
+    tmkp.tick(Time.now)
+
+    update_time(tmkp)
   end
 
   # 内容のダンプ

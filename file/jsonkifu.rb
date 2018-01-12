@@ -71,6 +71,15 @@ class JsonKifu
     @header['終了日時'] = finish
   end
 
+  # 戦後に同じものを設定する
+  #
+  # @param type 先手後手に続ける文字
+  # @param val 設定する値
+  def setbothsengo(type, val)
+    @header['先手' + type] = val
+    @header['後手' + type] = val
+  end
+
   # 終了日時のセット
   #
   # @param finish 終了日時
@@ -98,10 +107,10 @@ class JsonKifu
   #
   # @param a 着手
   # @return 同xxのときtrue
-  def checkdou(a)
+  def checkdou(mv)
     lt = @moves[-1]['move']
     return false unless lt
-    lt['to'] == a['to']
+    lt['to'] == mv['to']
   end
 
   # 駒の移動の反映
