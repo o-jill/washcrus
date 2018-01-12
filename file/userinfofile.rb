@@ -223,7 +223,7 @@ class UserInfoFile
         File.open(@fname, 'a') do |file|
           file.flock File::LOCK_EX
 
-          mailaddr = encode_mail(enc, id)
+          mailaddr = encode_mail(id)
 
           file.puts build_line(id, mailaddr)
         end

@@ -13,10 +13,10 @@ end
 # メールアドレスの確認
 def velify_email
   print 'e-mail address:'
-  email = line_std
+  email = line_stdin
 
   print 'e-mail address(again):'
-  emaila = line_std
+  emaila = line_stdin
 
   if email != emaila
     puts 'e-mail addresses are not same!'
@@ -28,10 +28,10 @@ end
 # パスワードの確認
 def velify_pw
   print 'password:'
-  pw = line_std
+  pw = line_stdin
 
   print 'password(again):'
-  pwa = line_std
+  pwa = line_stdin
 
   if pw != pwa
     puts 'passwords are not same!'
@@ -45,7 +45,7 @@ end
 # @return nil:succeeded. otherwise error.
 def genadmin
   print 'username:'
-  name = line_std
+  name = line_stdin
 
   email = velify_email
   return 100 unless email
