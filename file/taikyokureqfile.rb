@@ -101,11 +101,9 @@ class TaikyokuReqFile
   #
   # @param id 対局ID
   def append(id)
-    lock do
-      File.open(@fname, 'a') do |file|
-        file.flock File::LOCK_EX
-        file.puts "#{id},#{@names[id]},#{@comments[id]}"
-      end
+    File.open(@fname, 'a') do |file|
+      file.flock File::LOCK_EX
+      file.puts "#{id},#{@names[id]},#{@comments[id]}"
     end
   # 例外は小さい単位で捕捉する
   rescue SystemCallError => er

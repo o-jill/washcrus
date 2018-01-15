@@ -45,7 +45,7 @@ class File2Lounge
     reqdb = TaikyokuReqFile.new
 
     return puts TEXTPLAIN_HEAD + 'successflly canceled.' \
-        if reqdb.cancel(userinfo.user_id)
+        if reqdb.cancelauser(userinfo.user_id)
 
     puts TEXTPLAIN_HEAD + 'you are not in the list.' \
   end
