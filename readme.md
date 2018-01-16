@@ -26,6 +26,34 @@ How to set up:
 ruby path:
 please adjust ruby path to fit your actual ruby path.
 
+Simple backup:
+"rake backup" stores all the data into a tarball in backup directory.
+you can use "backup.sh" after adjusting a path in the script and run it periodically, e.g. once a day.
+
+Enable Time control:
+"periodic_tasks.sh" controls byo-yomi.
+you have to adjust a path in the script and period in minutes.
+you also have to fix "byouyomichan.rb" as below because sending a mail is disabled by default.
+```ruby
+>>>>> repo
+mmgr = MailManager.new
+# mmgr.send_mail(nply[:mail], subject, msg)
+print <<-FAKE_MAIL.unindent
+  to:#{nply[:name]}
+  subject:#{subject}
+  msg:#{msg}
+  FAKE_MAIL
+=====
+mmgr = MailManager.new
+mmgr.send_mail(nply[:mail], subject, msg) # enable this line!
+# print <<-FAKE_MAIL.unindent
+#   to:#{nply[:name]}
+#   subject:#{subject}
+#   msg:#{msg}
+#   FAKE_MAIL
+<<<<< enabled
+```
+
 required "gem"s
 * bundler
   * jkf(o-jill/jkf, kif_robust_time)
