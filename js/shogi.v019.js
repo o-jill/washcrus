@@ -90,41 +90,32 @@ function clear_ban()
 }
 
 function populate_koma() {
+  var komabako = [
+    new Kin(Koma.GOTEBAN, 3, 0), new Kin(Koma.GOTEBAN, 5, 0),
+    new Kin(Koma.SENTEBAN, 3, 8), new Kin(Koma.SENTEBAN, 5, 8),
+    new Gin(Koma.GOTEBAN, 2, 0), new Gin(Koma.GOTEBAN, 6, 0),
+    new Gin(Koma.SENTEBAN, 2, 8), new Gin(Koma.SENTEBAN, 6, 8),
+    new Keima(Koma.GOTEBAN, 1, 0), new Keima(Koma.GOTEBAN, 7, 0),
+    new Keima(Koma.SENTEBAN, 1, 8), new Keima(Koma.SENTEBAN, 7, 8),
+    new Kyosha(Koma.GOTEBAN, 0, 0), new Kyosha(Koma.GOTEBAN, 8, 0),
+    new Kyosha(Koma.SENTEBAN, 0, 8), new Kyosha(Koma.SENTEBAN, 8, 8),
+    new Kaku(Koma.GOTEBAN, 1, 1), new Kaku(Koma.SENTEBAN, 7, 7),
+    new Hisha(Koma.GOTEBAN, 7, 1), new Hisha(Koma.SENTEBAN, 1, 7),
+  ];
+  for (var k in komabako) {
+    ban[k.x][k.y] = k;
+  }
+
   // FU
   for (var i = 0; i < 9; ++i) {
     ban[i][2].koma = new Fu(Koma.GOTEBAN, i, 2);
     ban[i][6].koma = new Fu(Koma. SENTEBAN, i, 6);
   }
-  ban[1][1].koma = new Kaku(Koma.GOTEBAN, 1, 1);
-  ban[7][7].koma = new Kaku(Koma.SENTEBAN, 7, 7);
-
-  ban[7][1].koma = new Hisha(Koma.GOTEBAN, 7, 1);
-  ban[1][7].koma = new Hisha(Koma.SENTEBAN, 1, 7);
 
   gotegyoku = new Gyoku(Koma.GOTEBAN, 4, 0);
   sentegyoku = new Gyoku(Koma.SENTEBAN, 4, 8);
   ban[4][0].koma = gotegyoku;
   ban[4][8].koma = sentegyoku;
-
-  ban[3][0].koma = new Kin(Koma.GOTEBAN, 3, 0);
-  ban[5][0].koma = new Kin(Koma.GOTEBAN, 5, 0);
-  ban[3][8].koma = new Kin(Koma.SENTEBAN, 3, 8);
-  ban[5][8].koma = new Kin(Koma.SENTEBAN, 5, 8);
-
-  ban[2][0].koma = new Gin(Koma.GOTEBAN, 2, 0);
-  ban[6][0].koma = new Gin(Koma.GOTEBAN, 6, 0);
-  ban[2][8].koma = new Gin(Koma.SENTEBAN, 2, 8);
-  ban[6][8].koma = new Gin(Koma.SENTEBAN, 6, 8);
-
-  ban[1][0].koma = new Keima(Koma.GOTEBAN, 1, 0);
-  ban[7][0].koma = new Keima(Koma.GOTEBAN, 7, 0);
-  ban[1][8].koma = new Keima(Koma.SENTEBAN, 1, 8);
-  ban[7][8].koma = new Keima(Koma.SENTEBAN, 7, 8);
-
-  ban[0][0].koma = new Kyosha(Koma.GOTEBAN, 0, 0);
-  ban[8][0].koma = new Kyosha(Koma.GOTEBAN, 8, 0);
-  ban[0][8].koma = new Kyosha(Koma.SENTEBAN, 0, 8);
-  ban[8][8].koma = new Kyosha(Koma.SENTEBAN, 8, 8);
 }
 
 /**

@@ -59,8 +59,8 @@ class LoungeScreen
       FILING_BUTTON
   end
 
-  # 対局待ちユーザーの表示
-  def put_userinlounge(reqdb, uid)
+  # 対局待ちフォームの出力
+  def put_userinlounge_head
     scriptname = File.basename($PROGRAM_NAME)
 
     puts <<-TAIKYOKU_LOUNGE.unindent
@@ -69,9 +69,10 @@ class LoungeScreen
        <div class='btn_filing_lounge'>
         <form action='#{scriptname}?gennewgame3' method='post' name='gennewgame'>
       TAIKYOKU_LOUNGE
+  end
 
-    reqdb.to_html('対局待ちユーザー', uid)
-
+  # 対局開始UIの表示
+  def put_userinlounge_bottom
     puts <<-TAIKYOKU_BTN.unindent
       対戦相手は「<span id='opponentname'>(対戦相手を選んでください)</span>」です。<BR>
       <select class='inpform' name='sengo' id='sengo'>
@@ -83,11 +84,22 @@ class LoungeScreen
       <button id='btn_gen' class='inpform' onclick='return onstart()' disabled>Start!</button>
       </form>
       TAIKYOKU_BTN
+  end
+
+  # 対局待ちユーザーの表示
+  def put_userinlounge(reqdb, uid)
+    put_userinlounge_head
+
+    reqdb.to_html('対局待ちユーザー', uid)
+
+    put_userinlounge_bottom
+
+    sz_and_style = "style='display:none' width='32' height='32'"
     (1..5).each do |i|
       puts <<-KOMAIMG.unindent
-        <img id='furikomanim#{i}' src='image/komanim.gif' style='display:none' width='32' height='32'>
-        <img id='furikomafu#{i}' src='image/komafu.png' style='display:none' width='32' height='32'>
-        <img id='furikomato#{i}' src='image/komato.png' style='display:none' width='32' height='32'>
+        <img id='furikomanim#{i}' src='image/komanim.gif' #{sz_and_style}>
+        <img id='furikomafu#{i}' src='image/komafu.png' #{sz_and_style}>
+        <img id='furikomato#{i}' src='image/komato.png' #{sz_and_style}>
         KOMAIMG
     end
     puts '</div>'
