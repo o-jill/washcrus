@@ -7,14 +7,12 @@ require 'digest/sha2'
 
 require './game/userinfo.rb'
 require './file/taikyokureqfile.rb'
+require './util/myhtml.rb'
 
 #
 # 対局作成確認
 #
 class File2Lounge
-  # ヘッダ情報
-  TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n".freeze
-
   # 初期化
   def initialize; end
 
@@ -32,10 +30,10 @@ class File2Lounge
   def filing(userinfo)
     reqdb = TaikyokuReqFile.new
 
-    return puts TEXTPLAIN_HEAD + 'successflly filed.' \
+    return MyHtml.puts_textplain('successflly filed.') \
         if reqdb.fileauser(userinfo.user_id, userinfo.user_name, @cmt)
 
-    puts TEXTPLAIN_HEAD + 'already exists.'
+    MyHtml.puts_textplain('already exists.')
   end
 
   # データの確認と応答(対局待ち解除)
@@ -44,15 +42,10 @@ class File2Lounge
   def canceling(userinfo)
     reqdb = TaikyokuReqFile.new
 
-    return puts TEXTPLAIN_HEAD + 'successflly canceled.' \
+    return MyHtml.puts_textplain('successflly canceled.') \
         if reqdb.cancelauser(userinfo.user_id)
 
-    puts TEXTPLAIN_HEAD + 'you are not in the list.' \
-  end
-
-  # データの確認と応答(不正)
-  def invalid
-    puts TEXTPLAIN_HEAD + 'invalid action...'
+    MyHtml.puts_textplain('you are not in the list.')
   end
 
   # データの確認と応答
@@ -60,14 +53,14 @@ class File2Lounge
   # @param userinfo ユーザー情報
   # @param params パラメータハッシュオブジェクト
   def perform(userinfo, params)
-    return puts TEXTPLAIN_HEAD + 'please log-in ...' if userinfo.invalid?
+    return MyHtml.puts_textplain_pleaselogin if userinfo.invalid?
 
     read(params)
 
     case @act
     when 'file' then filing(userinfo)
     when 'cancel' then canceling(userinfo)
-    else invalid
+    else MyHtml.puts_textplain('invalid action...')
     end
   end
 end

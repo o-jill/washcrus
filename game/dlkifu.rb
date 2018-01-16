@@ -5,6 +5,7 @@ require 'cgi'
 require './file/taikyokufile.rb'
 require './game/taikyokudata.rb'
 require './game/userinfo.rb'
+require './util/myhtml.rb'
 
 #
 # 棋譜のダウンロード
@@ -22,18 +23,15 @@ class DownloadKifu
   #
   def perform
     # gameid が無いよ
-    return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
-        unless @gameid
+    return MyHtml.puts_textplain_illegalaccess unless @gameid
 
     # userinfoが変だよ
-    return print "Content-Type: text/plain; charset=UTF-8\n\nplease log in." \
-        unless @userinfo.exist_indb
+    return MyHtml.puts_textplain_pleaselogin unless @userinfo.exist_indb
 
     tdb = TaikyokuFile.new
     tdb.read
     # 存在しないはずのIDだよ
-    return print "Content-Type: text/plain; charset=UTF-8\n\nillegal access." \
-        unless tdb.exist_id(@gameid)
+    return MyHtml.puts_textplain_illegalaccess unless tdb.exist_id(@gameid)
 
     tkd = TaikyokuData.new
     tkd.setid(@gameid)

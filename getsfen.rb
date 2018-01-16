@@ -8,13 +8,12 @@ require 'logger'
 require './file/matchinfofile.rb'
 require './file/taikyokufile.rb'
 require './game/userinfo.rb'
+require './util/myhtml.rb'
 
 #
 # CGI本体
 #
 class GetSfen
-  TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n".freeze
-
   # 初期化
   #
   # @param cgi CGIオブジェクト
@@ -42,12 +41,11 @@ class GetSfen
   # 情報のチェック
   def check_param
     # gameid が無いよ
-    return print TEXTPLAIN_HEAD + 'ERROR:illegal access.' \
+    return MyHtml.puts_textplain_illegalaccess \
         unless @gameid && !@gameid.empty?
 
     # userinfoが変だよ
-    return print TEXTPLAIN_HEAD + 'ERROR:please log in.' \
-        unless @userinfo.exist_indb
+    return MyHtml.puts_textplain_pleaselogin unless @userinfo.exist_indb
 
     self
   end
@@ -63,14 +61,14 @@ class GetSfen
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
-    return print TEXTPLAIN_HEAD + 'ERROR:illegal access.' \
-      unless tcdb.exist_id(@gameid)
+    return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(@gameid)
 
     tkd = TaikyokuData.new
     tkd.setid(@gameid)
     tkd.read
 
-    print TEXTPLAIN_HEAD + tkd.mi.sfen
+    MyHtml.puts_textplain(tkd.mi.sfen)
+    # print TEXTPLAIN_HEAD + tkd.mi.sfen
   end
 end
 

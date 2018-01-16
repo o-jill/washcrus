@@ -10,6 +10,7 @@ require './file/matchinfofile.rb'
 require './file/pathlist.rb'
 require './file/taikyokufile.rb'
 require './game/userinfo.rb'
+require './util/myhtml.rb'
 require './util/settings.rb'
 require './views/gamehtml.rb'
 require './views/login.rb'
@@ -47,11 +48,6 @@ class Game
 
   # class methods
 
-  # アクセス違反画面の出力
-  def put_illegal_access
-    print "Content-Type: text/plain; charset=UTF-8\n\nillegal access."
-  end
-
   # gameid が無いよ
   # userinfoが変だよ
   # 存在しないはずのIDだよ
@@ -64,7 +60,7 @@ class Game
     tdb = TaikyokuFile.new
     tdb.read
     # 存在しないはずのIDだよ
-    return put_illegal_access unless tdb.exist_id(@gameid)
+    return MyHtml.puts_textplain_illegalaccess unless tdb.exist_id(@gameid)
 
     self
   end
@@ -75,7 +71,7 @@ class Game
   def perform
     # @log.debug('Game.check gameid')
     # gameid が無いよ
-    return put_illegal_access unless @gameid
+    return MyHtml.puts_textplain_illegalaccess unless @gameid
 
     return unless check_params
 

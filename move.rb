@@ -14,14 +14,13 @@ require './file/taikyokufile.rb'
 require './game/taikyokudata.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
+require './util/myhtml.rb'
 require './util/settings.rb'
 
 #
 # CGI本体
 #
 class Move
-  TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n".freeze
-
   # 初期化
   #
   # @param cgi CGIオブジェクト
@@ -73,41 +72,21 @@ class Move
     @header = @header.gsub("\r\n", "\n")
   end
 
-  # 不正アクセスの表示
-  def put_illegal_access
-    puts TEXTPLAIN_HEAD + 'illegal access.'
-  end
-
-  # 移動完了の表示
-  def put_moved
-    puts TEXTPLAIN_HEAD + 'Moved.'
-  end
-
-  # 違反移動の表示
-  def put_invalid_move
-    puts TEXTPLAIN_HEAD + 'invalid move.'
-  end
-
-  # ログインしてないエラーの表示
-  def put_please_login
-    puts TEXTPLAIN_HEAD + 'please log in.'
-  end
-
   # 情報のチェック
   def check_param
     # gameid が無いよ
-    return put_illegal_access unless @gameid
+    return MyHtml.puts_textplain_illegalaccess unless @gameid
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
-    return put_illegal_access unless tcdb.exist_id(@gameid)
+    return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(@gameid)
 
     # userinfoが変だよ
-    return put_please_login unless @userinfo.exist_indb
+    return MyHtml.puts_textplain_pleaselogin unless @userinfo.exist_indb
 
     # moveが変だよ
-    return put_invalid_move unless @jmv
+    return MyHtml.puts_textplain('invalid move.') unless @jmv
 
     self
   end
@@ -271,17 +250,15 @@ class Move
 
     send_mail(finished, now)
 
-    put_moved
+    # 移動完了の表示
+    MyHtml.puts_textplain('Moved.')
   end
 
   #
   # 実行本体。
   #
   def perform
-    # # gameid が無いよ
-    # return put_illegal_access unless @gameid
-
-    # userinfoが変だよ, moveが変だよ, 存在しないはずのIDだよ
+    # gameid が無いよ, userinfoが変だよ, moveが変だよ, 存在しないはずのIDだよ
     return unless check_param
 
     @log.debug('Move.read data')
@@ -300,7 +277,8 @@ class Move
       ret = @tkd.move(@sfen, @jmv, now)
       @log.debug("@tkd.move() = #{ret}")
 
-      return put_invalid_move unless ret
+      # 違反移動の表示
+      return MyHtml.puts_textplain('invalid move.') unless ret
 
       register_move(ret != 0, now)
     end

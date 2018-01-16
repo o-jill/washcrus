@@ -7,6 +7,7 @@ require 'digest/sha2'
 
 require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
+require './util/myhtml.rb'
 
 #
 # 対局作成確認
@@ -73,9 +74,9 @@ class CheckNewGame
   def perform
     check
 
-    return puts "Content-type: text/plain;\n\n#{@errmsg}" unless @errmsg.empty?
+    return MyHtml.puts_textplain(@errmsg) unless @errmsg.empty?
 
-    puts "Content-type: text/plain;\n\nnew game check passed!\n"
+    MyHtml.puts_textplain('new game check passed!')
 
     # td = TaikyokuData.new
     # td.player1 = name1

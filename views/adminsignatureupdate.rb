@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'unindent'
 # require './game/userinfo.rb'
+require './util/myhtml.rb'
 require './views/common_ui.rb'
 
 #
@@ -66,8 +67,7 @@ class AdminSignatureUpdateScreen
   # @param userinfo ユーザ情報
   # @param params パラメータハッシュオブジェクト
   def show(userinfo, params)
-    return puts "Content-Type: text/plain;\n\nERR_NOT_ADMIN" \
-        unless userinfo.admin
+    return MyHtml.puts_textplain_errnotadmin unless userinfo.admin
 
     update_param(params['signature'])
 

@@ -4,6 +4,7 @@ require 'rubygems'
 require 'unindent'
 require './file/pathlist.rb'
 require './game/userinfo.rb'
+require './util/myhtml.rb'
 require './views/common_ui.rb'
 
 #
@@ -53,8 +54,7 @@ class AdminSignatureScreen
   #
   # @param userinfo ユーザ情報
   def show(userinfo)
-    return puts "Content-Type: text/plain;\n\nERR_NOT_ADMIN" \
-        unless userinfo.admin
+    return MyHtml.puts_textplain_errnotadmin unless userinfo.admin
 
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
