@@ -86,11 +86,7 @@ class GameHtml
   # @return 部品の文字列
   def banelement
     @log.debug('banelement')
-    ret = <<-BOARD_TEXT.unindent
-      #{shogibanelement}
-      <script type='text/javascript' src='./js/shogi.v019.js'></script>
-      <script type='text/javascript' src='./js/ui.v024.js'></script>
-      BOARD_TEXT
+    ret = shogibanelement
 
     erbtxt = File.read('./ui/gamehtml_123neye.erb', encoding: 'utf-8')
     ret += ERB.new(erbtxt).result(binding)
