@@ -11,6 +11,13 @@ module MyHtml
   # Content-Type: text/plainで出力
   #
   # @param msg 出力メッセージ
+  def self.print_textplain(msg)
+    print TEXTPLAIN_HEAD + msg
+  end
+
+  # Content-Type: text/plainで出力
+  #
+  # @param msg 出力メッセージ
   def self.puts_textplain(msg)
     puts TEXTPLAIN_HEAD + msg
   end

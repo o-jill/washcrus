@@ -67,8 +67,7 @@ class GetSfen
     tkd.setid(@gameid)
     tkd.read
 
-    MyHtml.puts_textplain(tkd.mi.sfen)
-    # print TEXTPLAIN_HEAD + tkd.mi.sfen
+    MyHtml.print_textplain(tkd.mi.sfen)
   end
 end
 
