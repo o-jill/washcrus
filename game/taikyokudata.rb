@@ -86,7 +86,7 @@ class TaikyokuData
   #
   # @param teban 手番
   # @param cmt コメント
-  def register_taikyoku(teban = 'b', cmt = 'blank')
+  def register_taikyoku(teban, cmt)
     newdt = [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
 
     # @log.debug('TaikyokuFile.new')
@@ -126,7 +126,9 @@ class TaikyokuData
 
   # 対局情報の生成
   # ファイルなどの準備もします。
-  def generate
+  #
+  # @param cmt コメント
+  def generate(cmt)
     # @log.debug('Time.now.strftime')
     # 生成日時
     @datetime = Time.now.strftime('%Y/%m/%d %H:%M:%S')
@@ -144,7 +146,7 @@ class TaikyokuData
     gentd.generate
 
     # 対局情報のDBへの登録
-    register_taikyoku
+    register_taikyoku('b', cmt)
 
     init_files
   end

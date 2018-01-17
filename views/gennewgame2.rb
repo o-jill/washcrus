@@ -25,7 +25,7 @@ class GenNewGame2Screen < GenNewGameScreen
   def initialize(header)
     @header = header
     @stg = Settings.instance
-
+    @cmt = 'blank'
     @errmsg = ''
 
     @log = Logger.new(PathList::GENNEWGAMELOG)
@@ -36,7 +36,8 @@ class GenNewGame2Screen < GenNewGameScreen
   # @param params パラメータハッシュオブジェクト
   # @return データが１つでも欠けてたらfalse
   def check_datalost_gengame(params)
-    params['rid'] && params['rid2'] && params['furigoma'] && params['teai']
+    params['rid'] && params['rid2'] && params['furigoma'] \
+      && params['teai'] && params['cmt2']
   end
 
   # プレイヤー情報の取得
@@ -74,6 +75,7 @@ class GenNewGame2Screen < GenNewGameScreen
 
     id1 = params['rid'][0]
     id2 = params['rid2'][0]
+    @cmt = params['cmt2'][0] unless params['cmt2'][0].empty?
 
     check_players(id1, id2)
   end

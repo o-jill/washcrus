@@ -24,7 +24,7 @@ class GenNewGameScreen
   def initialize(header)
     @header = header
     @stg = Settings.instance
-
+    @cmt = 'blank'
     @errmsg = ''
 
     @log = Logger.new(PathList::GENNEWGAMELOG)
@@ -35,7 +35,8 @@ class GenNewGameScreen
   # @param params パラメータハッシュオブジェクト
   # @return データが１つでも欠けてたらfalse
   def check_datalost_gengame(params)
-    params['rname'] && params['remail'] && params['rname2'] && params['remail2']
+    params['rname'] && params['remail'] \
+      && params['rname2'] && params['remail2'] && params['cmt']
   end
 
   # 歩とと金のどっちが多いかを返す
@@ -81,6 +82,7 @@ class GenNewGameScreen
     email1 = params['remail'][0]
     name2 = params['rname2'][0]
     email2 = params['remail2'][0]
+    @cmt = params['cmt'][0] unless params['cmt'][0].empty?
 
     check_players(name1, email1, name2, email2)
   end
@@ -144,8 +146,8 @@ class GenNewGameScreen
     # @log.debug('td.creator')
     @td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
 
-    # @log.debug('td.generate')
-    @td.generate
+    # @log.debug('td.generate(@cmt)')
+    @td.generate(@cmt)
   end
 
   # 対局生成

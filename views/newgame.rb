@@ -20,21 +20,22 @@ class NewGameScreen
   # フォームの出力
   def show_newgameform
     scriptname = File.basename($PROGRAM_NAME)
-    print <<-FORM_NEW_GAME.unindent
+    print <<-FORM_NEW_GAME_HEAD.unindent
       <FORM action='#{scriptname}?gennewgame' method=post name='gennewgame'>
       <TABLE align='center' class='inpform'>
        <TR id='player1'>
-        <TD rowspan=2>Player 1</TD><TD>name</TD><TD><INPUT name='rname' id='rname' type=text size=25 class='inpform' required onKeyup="furifusen()"></TD>
+        <TD rowspan=2>Player 1</TD><TD>name</TD><TD><INPUT name='rname' id='rname' type=text size=20 class='inpform' required onKeyup="furifusen()"></TD>
        </TR>
        <TR id='tremail'>
-        <TD>e-mail</TD><TD><INPUT name='remail' id='remail' type=email size=25 class='inpform' required></TD>
+        <TD>e-mail</TD><TD><INPUT name='remail' id='remail' type=email size=20 class='inpform' required></TD>
        </TR>
        <TR id='player2'>
-        <TD rowspan=2>Player 2</TD><TD>name</TD><TD><INPUT name='rname2' id='rname2' type=text size=25 class='inpform' required></TD>
+        <TD rowspan=2>Player 2</TD><TD>name</TD><TD><INPUT name='rname2' id='rname2' type=text size=20 class='inpform' required></TD>
        </TR>
        <TR id='tremail2'>
-        <TD>e-mail</TD><TD><INPUT name='remail2' id='remail2' type=email size=25 class='inpform' required></TD>
+        <TD>e-mail</TD><TD><INPUT name='remail2' id='remail2' type=email size=20 class='inpform' required></TD>
        </TR>
+       <tr id='comment2'><td>comment</td><td colspan='2'><input name='cmt' id='cmt' type=text style='width:100%'></td></tr>
        <TR>
         <TD colspan=3>
         <input type='button' value='submit' class='inpform' onClick='check_form();'>&nbsp;
@@ -42,31 +43,19 @@ class NewGameScreen
         <input type='button' id='precheck' class='inpform' value='pre-check' onClick='pre_check();'>
         <img id='komanim' src='image/komanim.gif' style='display:none'></TD>
        </TR>
-       <TR>
-        <TD colspan=3>
-         <input type="button" id='btnfurigoma' class='inpform' onClick='lets_furigoma();' value='Player1の振り歩先で振り駒'>
-         <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
-         <img id='furikomanim1' src='image/komanim.gif' style='display:none' width='32' height='32'>
-         <img id='furikomafu1' src='image/komafu.png' style='display:none' width='32' height='32'>
-         <img id='furikomato1' src='image/komato.png' style='display:none' width='32' height='32'>
-         <img id='furikomanim2' src='image/komanim.gif' style='display:none' width='32' height='32'>
-         <img id='furikomafu2' src='image/komafu.png' style='display:none' width='32' height='32'>
-         <img id='furikomato2' src='image/komato.png' style='display:none' width='32' height='32'>
-         <img id='furikomanim3' src='image/komanim.gif' style='display:none' width='32' height='32'>
-         <img id='furikomafu3' src='image/komafu.png' style='display:none' width='32' height='32'>
-         <img id='furikomato3' src='image/komato.png' style='display:none' width='32' height='32'>
-         <img id='furikomanim4' src='image/komanim.gif' style='display:none' width='32' height='32'>
-         <img id='furikomafu4' src='image/komafu.png' style='display:none' width='32' height='32'>
-         <img id='furikomato4' src='image/komato.png' style='display:none' width='32' height='32'>
-         <img id='furikomanim5' src='image/komanim.gif' style='display:none' width='32' height='32'>
-         <img id='furikomafu5' src='image/komafu.png' style='display:none' width='32' height='32'>
-         <img id='furikomato5' src='image/komato.png' style='display:none' width='32' height='32'>
-        </TD>
-       </TR>
+       <TR><TD colspan=3>
+        <input type="button" id='btnfurigoma' class='inpform' onClick='lets_furigoma();' value='Player1の振り歩先で振り駒'>
+        <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
+      FORM_NEW_GAME_HEAD
+
+    put_furigomaimg('', "style='display:none' width='32' height='32'")
+    puts ' </TD></TR>'
+
+    print <<-FORM_NEW_GAME_TAIL.unindent
        <TR><TD colspan='3' id='errmsg'></TD></TR>
       </TABLE>
       </FORM>
-      FORM_NEW_GAME
+      FORM_NEW_GAME_TAIL
   end
 
   # フォームの出力2
@@ -77,15 +66,11 @@ class NewGameScreen
                                         "onchange='furifusen2();'")
     userselect2 = udb.to_select_id_name('rid2', 'rid2', 'inpform', '')
     scriptname = File.basename($PROGRAM_NAME)
-    print <<-FORM_NEW_GAME.unindent
+    print <<-FORM_NEW_GAME_HEAD.unindent
       <form action='#{scriptname}?gennewgame2' method=post name='gennewgame2'>
       <table align='center' class='inpform'>
-       <tr id='player21'>
-        <td>player 1</td><td>#{userselect1}</td>
-       </tr>
-       <tr id='player22'>
-        <td>player 2</td><td>#{userselect2}</td>
-       </tr>
+       <tr id='player21'><td>player 1</td><td>#{userselect1}</td></tr>
+       <tr id='player22'><td>player 2</td><td>#{userselect2}</td></tr>
        <tr id='teai'>
         <td>手合</td>
         <td>
@@ -94,31 +79,21 @@ class NewGameScreen
          </select>
         </td>
        </tr>
+       <tr id='comment2'><td>comment</td><td><input name='cmt2' id='cmt2' type=text style='width:100%'></td></tr>
        <tr>
         <td colspan=2>
          <input type="button" id='btnfurigoma2' class='inpform' onclick='lets_furigoma2();' value='player1の振り歩先で振り駒'>
          <input type="hidden" id="furigoma2" name="furigoma" value="FTFTF" class='inpform'>
         </td>
        </tr>
-       <tr height='32px'>
-        <td colspan=2>
-         <img id='furikomanim21' src='image/komanim.gif' style='display:none' width='32' height='32'>
-         <img id='furikomafu21' src='image/komafu.png' style='display:none' width='32' height='32'>
-         <img id='furikomato21' src='image/komato.png' style='display:none' width='32' height='32'>
-         <img id='furikomanim22' src='image/komanim.gif' style='display:none' width='32' height='32'>
-         <img id='furikomafu22' src='image/komafu.png' style='display:none' width='32' height='32'>
-         <img id='furikomato22' src='image/komato.png' style='display:none' width='32' height='32'>
-         <img id='furikomanim23' src='image/komanim.gif' style='display:none' width='32' height='32'>
-         <img id='furikomafu23' src='image/komafu.png' style='display:none' width='32' height='32'>
-         <img id='furikomato23' src='image/komato.png' style='display:none' width='32' height='32'>
-         <img id='furikomanim24' src='image/komanim.gif' style='display:none' width='32' height='32'>
-         <img id='furikomafu24' src='image/komafu.png' style='display:none' width='32' height='32'>
-         <img id='furikomato24' src='image/komato.png' style='display:none' width='32' height='32'>
-         <img id='furikomanim25' src='image/komanim.gif' style='display:none' width='32' height='32'>
-         <img id='furikomafu25' src='image/komafu.png' style='display:none' width='32' height='32'>
-         <img id='furikomato25' src='image/komato.png' style='display:none' width='32' height='32'>
-        </td>
-       </tr>
+      FORM_NEW_GAME_HEAD
+
+    puts " <tr height='32px'><td colspan=2>"
+    sz_and_style = "style='display:none' width='32' height='32'"
+    put_furigomaimg('2', sz_and_style)
+    puts ' </td></tr>'
+
+    print <<-FORM_NEW_GAME_TAIL.unindent
        <tr>
         <td><input type='reset' class='inpform'></td>
         <td align=center>
@@ -128,7 +103,17 @@ class NewGameScreen
        <tr><td colspan='3' id='errmsg2'></td></tr>
       </table>
       </form>
-      FORM_NEW_GAME
+      FORM_NEW_GAME_TAIL
+  end
+
+  def put_furigomaimg(prefix, style)
+    (1..5).each do |i|
+      puts <<-KOMAIMG.unindent
+        <img id='furikomanim#{prefix}#{i}' src='image/komanim.gif' #{style}>
+        <img id='furikomafu#{prefix}#{i}' src='image/komafu.png' #{style}>
+        <img id='furikomato#{prefix}#{i}' src='image/komato.png' #{style}>
+        KOMAIMG
+    end
   end
 
   # 画面の表示
