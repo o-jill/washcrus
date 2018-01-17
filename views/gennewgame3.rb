@@ -11,7 +11,7 @@ require './views/gennewgame.rb'
 require './views/gennewgame2.rb'
 
 #
-# 対局作成確認
+# loungeから対局作成確認
 #
 class GenNewGame3Screen < GenNewGame2Screen
   # 初期化

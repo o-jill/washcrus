@@ -205,7 +205,7 @@ class GenNewGameScreen
     # @log.debug('CommonUI.html_head(header)')
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
-    CommonUI.html_adminmenu
+    CommonUI.html_adminmenu if userinfo.admin
 
     put_msg
 
