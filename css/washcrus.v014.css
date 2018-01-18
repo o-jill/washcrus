@@ -230,6 +230,49 @@ textarea.kifu {
   padding: 3px 10px;
 }
 
+.menu_signup {
+  background-Color: blue;
+  color: white;
+  font-weight: bold;
+  text-decoration:none;
+}
+
+.popup {
+  background-Color: lightgray;
+  border:1px solid gray;
+  display: none;
+  padding: 0;
+  position: absolute;
+  visibility: hidden;
+}
+
+.popup ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.popup ul li {
+  padding: 5px 0;
+}
+
+.popup ul li:hover {
+  background-Color: gray;
+  color: white;
+}
+
+/*.popup ul li a {
+  text-decoration:none;
+}*/
+
+.popup ul hr {
+  margin: 0;
+  padding: 0;
+}
+
+.popup ul li a:hover {
+  color: white;
+}
+
 /* version information */
 .githash {
   border: solid 5px #f44d27;

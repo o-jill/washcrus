@@ -79,12 +79,36 @@ module CommonUI
       <div align='center' class='menubase'>
       <a class='menu' href='#{index}'> Top </a>
       <a class='menu' href='#{index}?news'> News </a>
-      <a class='menu' href='#{index}?signup'> Sign Up </a>
+      <a class='menu menu_signup' href='#{index}?signup'> Sign Up </a>
       <a class='menu' href='#{index}?login'> Log In </a>
       <a class='menu' href='#{sup}' target='_blank'> Support </a>
       </div><hr>
       <div align='center'>#{title}</div><hr>
       MENU
+  end
+
+  def self.put_popupscript
+    puts <<-POPUPSCRIPT.unindent
+      <script>
+      var show = false;
+      function pntyou(e) {
+        var elem = document.getElementById('menu_popup');
+        var elemy = document.getElementById('menu_parent_popup');
+        if (show) {
+          elem.style.visibility = 'hidden';
+          elem.style.display = 'none';
+        } else {
+          elem.style.visibility = 'visible';
+          elem.style.display = 'block';
+          var rect = elemy.getBoundingClientRect();
+          elem.style.left = rect.left;
+          elem.style.top = rect.top + elemy.clientHeight;
+        }
+        show = !show;
+      }
+      document.getElementById('menu_parent_popup').onpointerdown = pntyou;
+      </script>
+      POPUPSCRIPT
   end
 
   # メニュー部分の出力
@@ -95,17 +119,23 @@ module CommonUI
   def self.html_menu_login(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
       <div class='menubase'>
-      <a class='menu' href='#{index}'> Top </a>
-      <a class='menu' href='#{index}?news'> News </a>
-      <a class='menu' href='#{index}?mypage'> My Page </a>
-      <a class='menu' href='#{index}?lounge'> Lounge </a>
-      <a class='menu' href='#{index}?matchlist'> Watch </a>
-      <a class='menu' href='#{index}?searchform'> Search </a>
-      <a class='menu' href='#{sup}' target='_blank'> Support </a>
-      <a class='menu' href='#{index}?logout'> Log Out </a>
-      </div><hr>
-      <div align='center'>#{title}</div><hr>
+       <a class='menu' href='#{index}'> Top </a>
+       <a class='menu' href='#{index}?news'> News </a>
+       <a class='menu' href='#{index}?mypage'> My Page </a>
+       <a class='menu' href='#{index}?lounge'> Lounge </a>
+       <a class='menu' href='#{index}?matchlist'> Watch </a>
+       <span class='menu' id='menu_parent_popup'>▼▼</span>
+      </div>
+      <div class='popup'id='menu_popup'>
+       <ul>
+        <li><a class='menu' href='#{index}?searchform'> Search </a></li><hr>
+        <li><a class='menu' href='#{sup}' target='_blank'> Support </a></li><hr>
+        <li><a class='menu' href='#{index}?logout'> Log Out </a></li>
+       </ul>
+      </div>
+      <hr><div align='center'>#{title}</div><hr>
       MENU_LOGGEDIN
+    put_popupscript
   end
 
   # メニュー部分の出力
@@ -116,18 +146,24 @@ module CommonUI
   def self.html_menu_admin(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
       <div class='menubase'>
-      <a class='menu' href='#{index}'> Top </a>
-      <a class='menu' href='#{index}?news'> News </a>
-      <a class='menu' href='#{index}?mypage'> My Page </a>
-      <a class='menu' href='#{index}?lounge'> Lounge </a>
-      <a class='menu' href='#{index}?matchlist'> Watch </a>
-      <a class='menu' href='#{index}?searchform'> Search </a>
-      <a class='menu' href='#{sup}' target='_blank'> Support </a>
-      <a class='menu' href='#{index}?adminmenu'> Administration </a>
-      <a class='menu' href='#{index}?logout'> Log Out </a>
-      </div><hr>
-      <div align='center'>#{title}</div><hr>
+       <a class='menu' href='#{index}'> Top </a>
+       <a class='menu' href='#{index}?news'> News </a>
+       <a class='menu' href='#{index}?mypage'> My Page </a>
+       <a class='menu' href='#{index}?lounge'> Lounge </a>
+       <a class='menu' href='#{index}?matchlist'> Watch </a>
+       <span class='menu' id='menu_parent_popup'>▼▼</span>
+      </div>
+      <div class='popup'id='menu_popup'>
+       <ul>
+        <li><a class='menu' href='#{index}?adminmenu'> Administration </a></li><hr>
+        <li><a class='menu' href='#{index}?searchform'> Search </a></li><hr>
+        <li><a class='menu' href='#{sup}' target='_blank'> Support </a></li><hr>
+        <li><a class='menu' href='#{index}?logout'> Log Out </a></li>
+       </ul>
+      </div>
+      <hr><div align='center'>#{title}</div><hr>
       MENU_LOGGEDIN
+    put_popupscript
   end
 
   # Administrationメニュー
