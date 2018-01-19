@@ -30,7 +30,7 @@ module JsonMove
     { special: tx[1, tx.length - 1] }
   end
 
-  Koma = %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY].freeze
+  KOMA = %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY].freeze
 
   # 駒が有効かどうかの確認
   #
@@ -38,7 +38,7 @@ module JsonMove
   # @return 駒が有効ならcc, 無効ならnil
   def self.checkpiece(cc)
     return if cc == '__'
-    return unless Koma.find_index(cc)
+    return unless KOMA.find_index(cc)
     cc
   end
 
