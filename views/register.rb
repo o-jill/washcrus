@@ -75,7 +75,7 @@ class RegisterScreen
 
   # 登録情報の確認
   #
-  # @param userdb ユーザーデータベース
+  # @param userdb UserInfoFileContentオブジェクト
   # @param params パラメータハッシュオブジェクト
   # @return nil or 登録情報{:username, :password1, :password2, :email1, :email2}
   def check_register(userdb, params)
@@ -131,8 +131,7 @@ class RegisterScreen
   def add(userdb, uname, pswd, email)
     dgpw = Digest::SHA256.hexdigest pswd
 
-    uid = userdb.add(uname, dgpw, email)
-    userdb.append(uid)
+    userdb.add(uname, dgpw, email)
 
     # send mail
     send_mail_register(email, uname, pswd)
@@ -147,7 +146,7 @@ class RegisterScreen
     userdb = UserInfoFile.new
     userdb.read
 
-    user = check_register(userdb, params)
+    user = check_register(userdb.content, params)
 
     # エラー
     "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>" \

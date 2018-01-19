@@ -60,12 +60,13 @@ class CheckNewGame
 
     userdb = UserInfoFile.new
     userdb.read
+    udb = userdb.content
 
-    userdata1 = userdb.findemail(@email1)  # [id, @names[id], @passwords[id]]
+    userdata1 = udb.findemail(@email1)  # [id, @names[id], @passwords[id]]
     @errmsg = "name or e-mail address in player 1 is wrong ...\n" \
         unless check_ply(userdata1, @name1)
 
-    userdata2 = userdb.findemail(@email2)  # [id, @names[id], @passwords[id]]
+    userdata2 = udb.findemail(@email2)  # [id, @names[id], @passwords[id]]
     @errmsg += "name or e-mail address in player 2 is wrong ...\n" \
         unless check_ply(userdata2, @name2)
   end

@@ -56,12 +56,9 @@ def genadmin
   dgpw = Digest::SHA256.hexdigest pw
 
   db = UserInfoFile.new
-  db.read
-
-  # return 300 if name or e-mail is already registered
-
   id = db.add(name, dgpw, email)
-  db.append(id)
+
+  return 300 unless id # name or e-mail is already registered
 
   puts 'a user was added as a user.'
 

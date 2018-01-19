@@ -49,7 +49,9 @@ class LoginCheckScreen
   def correct_pswd?(email, pswd)
     userdb = UserInfoFile.new
     userdb.read
-    @userdata = userdb.findemail(email) # [id, @names[id], @passwords[id]]
+
+    # [id, @names[id], @passwords[id]]
+    @userdata = userdb.content.findemail(email)
 
     return false unless @userdata
 

@@ -346,12 +346,7 @@ class TaikyokuData
     # userdb読み込み
     @log.debug('userdb = UserInfoFile.new')
     userdb = UserInfoFile.new
-    userdb.lock do
-      userdb.read
-      userdb.give_win_lose(gwin, @idb, @idw)
-      # @log.debug('userdb.write')
-      userdb.write
-    end
+    userdb.give_win_lose(gwin, @idb, @idw)
   end
 
   # 持ち時間の更新

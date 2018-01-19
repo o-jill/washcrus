@@ -71,7 +71,7 @@ class UserInfo
   def exist_indb
     db = UserInfoFile.new
     db.read
-    db.exist_id(@user_id)
+    db.content.exist_id(@user_id)
   end
 
   # check and set if administrator.

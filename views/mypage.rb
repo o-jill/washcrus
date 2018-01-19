@@ -176,7 +176,7 @@ class MyPageScreen
   def get_mystats(uid)
     udb = UserInfoFile.new
     udb.read
-    udb.stats[uid]
+    udb.content.stats[uid]
   end
 
   # 画面の表示

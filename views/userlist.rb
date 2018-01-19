@@ -20,7 +20,7 @@ def userlist_screen(header, userinfo)
 
   CommonUI.html_adminmenu
 
-  userdb.dumphtml
+  userdb.content.dumphtml
 
   CommonUI.html_foot
 end

@@ -57,13 +57,14 @@ class GenNewGameScreen
   def check_players(name1, email1, name2, email2)
     userdb = UserInfoFile.new
     userdb.read
+    udb = userdb.content
 
-    userdata1 = userdb.findname(name1) # [id, name, pw, email]
+    userdata1 = udb.findname(name1) # [id, name, pw, email]
     unless userdata1 && email1 == userdata1[3]
       @errmsg += "name or e-mail address in player 1 is wrong ...<BR>\n"
     end
 
-    userdata2 = userdb.findname(name2) # [id, name, pw, email]
+    userdata2 = udb.findname(name2) # [id, name, pw, email]
     unless userdata2 && email2 == userdata2[3]
       @errmsg += "name or e-mail address in player 2 is wrong ...<BR>\n"
     end

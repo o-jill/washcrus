@@ -3,8 +3,6 @@
 require 'rubygems'
 require 'unindent'
 
-require './file/taikyokufile.rb'
-require './file/userinfofile.rb'
 require './views/common_ui.rb'
 
 #

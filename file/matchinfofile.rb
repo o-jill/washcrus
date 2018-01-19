@@ -132,9 +132,9 @@ class MatchInfoFile
   def setplayers(id_b, id_w)
     db = UserInfoFile.new
     db.read
-
-    setplayerb(id_b, db.findid(id_b)) if id_b
-    setplayerw(id_w, db.findid(id_w)) if id_w
+    cnt = db.content
+    setplayerb(id_b, cnt.findid(id_b)) if id_b
+    setplayerw(id_w, cnt.findid(id_w)) if id_w
   end
 
   # 対戦相手の情報を得る

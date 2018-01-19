@@ -60,7 +60,7 @@ class NewGameScreen
 
   # フォームの出力2
   #
-  # @param udb UserInfoFileオブジェクト
+  # @param udb UserInfoFileContentオブジェクト
   def show_newgameform2(udb)
     userselect1 = udb.to_select_id_name('rid', 'rid', 'inpform',
                                         "onchange='furifusen2();'")
@@ -127,7 +127,7 @@ class NewGameScreen
 
     udb = UserInfoFile.new
     udb.read
-    show_newgameform2(udb)
+    show_newgameform2(udb.content)
 
     puts "<HR>\n"
 

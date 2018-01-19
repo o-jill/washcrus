@@ -48,15 +48,16 @@ class GenNewGame2Screen < GenNewGameScreen
   def check_players(id1, id2)
     userdb = UserInfoFile.new
     userdb.read
+    udb = userdb.content
 
-    userdata1 = userdb.findid(id1) # [name, pw, email]
+    userdata1 = udb.findid(id1) # [name, pw, email]
     if userdata1
       userdata1.unshift(id1) # [id, name, pw, email]
     else
       @errmsg += "player1's id is wrong ...<BR>\n"
     end
 
-    userdata2 = userdb.findid(id2) # [name, pw, email]
+    userdata2 = udb.findid(id2) # [name, pw, email]
     if userdata2
       userdata2.unshift(id2) # [id, name, pw, email]
     else
