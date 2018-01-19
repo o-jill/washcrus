@@ -237,8 +237,8 @@ class Move
 
     finish_game(tcdb, now) if finished
 
-    # @log.debug('Move.setlastmove')
-    @tkd.setlastmove(@move, now)
+    # @log.debug('Move.updatelastmove')
+    @tkd.updatelastmove(@move, now)
 
     # @log.debug('Move.mi.write')
     # @log.debug('Move.jkf.write')

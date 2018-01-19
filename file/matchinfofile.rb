@@ -237,6 +237,10 @@ class MatchInfoFile
     @dt_lasttick = dt_lt
   end
 
+  def fill_byouyomi(dt_lt)
+    setlasttick(@maxbyouyomi, dt_lt)
+  end
+
   # 対局終了フラグのセットと勝ち負けの記入
   #
   # @param per100_text %から始まる文字列。%TORYOなど。

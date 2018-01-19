@@ -278,8 +278,9 @@ class TaikyokuData
   # 最新着手の更新
   # @param movestr 着手内容文字列
   # @param now 着手日時オブジェクト
-  def setlastmove(movestr, now)
+  def updatelastmove(movestr, now)
     @mi.setlastmove(movestr[0, 7], now.strftime('%Y/%m/%d %H:%M:%S'))
+    @mi.fill_byouyomi(now)
   end
 
   # 消費時間の計算
