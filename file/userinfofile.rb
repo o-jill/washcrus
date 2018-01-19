@@ -75,7 +75,7 @@ class UserInfoFile
     File.open(@fname, 'w') do |file|
       file.flock File::LOCK_EX
 
-      put_header(file)
+      UserInfoFile.put_header(file)
 
       @content.names.each_key do |id|
         file.puts @content.build_line(id)
@@ -113,9 +113,8 @@ class UserInfoFile
   def add(name, password, email)
     id = nil
 
-    return if exist_name(name)
-
-    return if exist_email(email)
+    return if @content.exist_name(name)
+    return if @content.exist_email(email)
 
     lock do
       read

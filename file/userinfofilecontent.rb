@@ -31,7 +31,7 @@ class UserInfoFileContent
   # [data] data to be decoded.
   #
   # returns decoded mail address
-  def decode_mail(dec, data)
+  def self.decode_mail(dec, data)
     dec.pkcs5_keyivgen(KEY)
     em = ''
     em << dec.update([data].pack('H*'))
@@ -44,7 +44,7 @@ class UserInfoFileContent
   # [elem] user data got by spliting a line
   #
   # returns {swin:, slose:, gwin:, glose:}
-  def hash_stats(elem)
+  def self.hash_stats(elem)
     e = elem[4, 4].map(&:to_i)
     { swin: e[0], slose: e[1], gwin: e[2], glose: e[3] }
   end
@@ -66,8 +66,8 @@ class UserInfoFileContent
     id = elements[0]
     @names[id]     = elements[1]
     @passwords[id] = elements[2]
-    @emails[id] = decode_mail(dec, elements[3])
-    @stats[id] = hash_stats(elements)
+    @emails[id] = UserInfoFileContent.decode_mail(dec, elements[3])
+    @stats[id] = UserInfoFileContent.hash_stats(elements)
   end
 
   # encode mail address

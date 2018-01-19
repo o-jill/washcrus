@@ -76,16 +76,15 @@ class TaikyokuReqFile
   # ファイルのヘッダのコメント文の生成
   #
   # @param file Fileオブジェクト
-  def put_header(file)
-    file.puts '# taikyoku request' + Time.now.to_s
-    file.puts '# id, name, comment'
+  def self.put_header(file)
+    file.puts "# taikyoku request #{Time.now}\n# id, name, comment"
   end
 
   # ファイルへの書き出し
   def write
     File.open(@fname, 'w') do |file|
       file.flock File::LOCK_EX
-      put_header(file)
+      TaikyokuReqFile.put_header(file)
       @names.each do |id, name|
         file.puts "#{id},#{name},#{@comments[id]}"
       end
