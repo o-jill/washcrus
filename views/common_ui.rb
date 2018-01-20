@@ -106,7 +106,12 @@ module CommonUI
         }
         show = !show;
       }
-      document.getElementById('menu_parent_popup').onpointerdown = pntyou;
+      var el = document.getElementById('menu_parent_popup');
+      if (el.onpointerdown) {
+        el.onpointerdown = pntyou;
+      } else {
+        el.onclick = pntyou;
+      }
       </script>
       POPUPSCRIPT
   end
