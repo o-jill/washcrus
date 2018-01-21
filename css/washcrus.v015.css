@@ -260,17 +260,66 @@ textarea.kifu {
   color: white;
 }
 
-/*.popup ul li a {
-  text-decoration:none;
-}*/
-
 .popup ul hr {
   margin: 0;
   padding: 0;
 }
 
+/*.popup ul li a {
+text-decoration:none;
+}*/
+
 .popup ul li a:hover {
   color: white;
+}
+
+.mypage_main {
+        display: -webkit-flex;
+        display:         flex;
+-webkit-flex-flow: row;
+        flex-flow: row;
+        margin: 0;
+        min-height: 400px;
+        padding: 0;
+}
+
+.mypage_main .mynav {
+-webkit-flex: 1 6 6em;
+        flex: 1 6 6em;
+-webkit-order: 1;
+        order: 1;
+}
+
+.mypage_main .mynav hr {
+  margin: 0;
+  padding: 0;
+}
+
+.mypage_main .mynav ul{
+  list-style-type: none;
+  /* margin: 0; */
+  padding-left: 0;
+}
+
+.mypage_main .mynav ul li {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.mypage_main .mynav span {
+  padding: 0 2em;
+}
+
+.mypage_main .mynav ul li:hover {
+  background-Color: gray;
+  color: white;
+}
+
+.mypage_main .myarticle {
+-webkit-flex: 3 1 auto;
+        flex: 3 1 auto;
+-webkit-order: 2;
+        order: 2;
 }
 
 /* version information */

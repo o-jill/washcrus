@@ -28,6 +28,20 @@ class MyPageScreen
     CommonUI.html_foot
   end
 
+  def put_navi
+    puts <<-NAVI_AREA
+      <div id=mypagenav class=mynav>
+        <ul>
+          <li><span onclick='clicknav("mypage_stat")'>Stats</span></li>
+          <hr>
+          <li><span onclick='clicknav("mypage_rireki")'>History</span></li>
+          <hr>
+          <li><span onclick='clicknav("mypage_account")'>Account</span></li>
+        </ul>
+      </div>
+      NAVI_AREA
+  end
+
   # 合計勝ち負けの計算
   #
   # @param wl {swin:先手勝数, slose:先手負数, gwin:後手勝数, glose:後手負数}
@@ -162,11 +176,13 @@ class MyPageScreen
       bb[:time] <=> aa[:time]
     end
 
+    puts '<div class=myarticle id=mypage_rireki style="display:none;">'
+
     put_taikyokurireki_tblhead('対局履歴')
 
     put_taikyokulist_tbl(rireki)
 
-    print '</table>'
+    puts '</table></div>'
   end
 
   # 対局成績を引っ張ってくる
@@ -177,6 +193,33 @@ class MyPageScreen
     udb = UserInfoFile.new
     udb.read
     udb.content.stats[uid]
+  end
+
+  def put_accountsettings
+    puts <<-ACCOUNTSETTINGS.unindent
+      <div class=myarticle id=mypage_account style="display:none;">
+        アカウント設定<BR>
+        パスワード再設定<BR>
+        メールアドレス変更<BR>
+        の予定
+      </div>
+      ACCOUNTSETTINGS
+  end
+
+  def put_script
+    puts <<-SCRIPT.unindent
+      <script>
+      var target = false;
+      target = document.getElementById('mypage_stat');
+      function clicknav(strid) {
+        if (target) {
+          target.style.display = 'none';
+        }
+        target = document.getElementById(strid);
+        target.style.display = 'block';
+      }
+      </script>
+      SCRIPT
   end
 
   # 画面の表示
@@ -192,11 +235,23 @@ class MyPageScreen
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
+    puts '<div class=mypage_main>'
+
+    put_navi
+
+    puts '<div class=myarticle id=mypage_stat>'
     put_stats(wl)
-    print '<HR>'
+    puts '<HR>'
     put_taikyokuchu(uid)
-    print '<HR>'
+    puts '</div>'
+
     put_taikyokurireki(uid)
+
+    put_accountsettings
+
+    puts '</div>'
+
+    put_script
 
     CommonUI.html_foot
   end
