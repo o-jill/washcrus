@@ -35,6 +35,26 @@ class LoginScreen
        <TD><input style='width:100%' type='submit' class='inpform'></TD>
       </TR>
       </TABLE></FORM>
+      <style>
+      .pwreset {
+        width: 40vw;
+        height: 1em;
+        overflow: hidden;
+        border: solid 1px black;
+      }
+      .pwreset:hover {
+        height: 6em;
+      }
+      </style>
+      <div align='center'>
+      <div align='center' class=pwreset>
+      パスワードを忘れた？<br><br>パスワードのリセット<br>
+      <form action='washcrus.rb?resetpw' method=post name='pwreset'>
+      <input name='premail' id='premail' type='email' size='20' required placeholder='登録済みメールアドレス'>
+      <input type='submit'>
+      </form>
+      </div>
+      </div>
       TABLE_FORM
   end
 
