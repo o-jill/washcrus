@@ -165,6 +165,14 @@ class UserInfoFileContent
     @emails.value?(addr)
   end
 
+  def update_password(id, dgpw)
+    @passwords[id] = dgpw if @passwords[id]
+  end
+
+  def update_email(id, email)
+    @emails[id] = email if @emails[id]
+  end
+
   # 勝敗の記入(勝った方と負けた方に１加算)
   #
   # @param gwin 後手勝ちの時true

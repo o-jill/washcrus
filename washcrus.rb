@@ -61,7 +61,7 @@ class WashCrus
   WORDS_GAMESTG_GEN = %w[checknewgame gennewgame gennewgame2 gennewgame3].freeze
   WORDS_GAMESTG = WORDS_GAMESTG_SHOW + WORDS_GAMESTG_GEN
 
-  WORDS_LOGINOUT_SU = %w[signup register].freeze
+  WORDS_LOGINOUT_SU = %w[signup register resetpw].freeze
   WORDS_LOGINOUT_LIO = %w[login logincheck logout].freeze
   WORDS_LOGINOUT = WORDS_LOGINOUT_SU + WORDS_LOGINOUT_LIO
 
@@ -76,6 +76,9 @@ class WashCrus
     when 'register' then
       require './views/register.rb'
       RegisterScreen.new(@header).show(@params)
+    when 'resetpw'
+      require './views/resetpw.rb'
+      ResetPasswordScreen.new(@header).show(@params)
     end
   end
 

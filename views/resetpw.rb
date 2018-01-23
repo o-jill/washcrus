@@ -1,0 +1,123 @@
+# -*- encoding: utf-8 -*-
+
+require 'rubygems'
+require 'digest/sha2'
+require 'mail'
+require 'securerandom'
+require 'unindent'
+require 'yaml'
+
+require './file/userinfofile.rb'
+require './util/mailmgr.rb'
+require './util/settings.rb'
+require './views/common_ui.rb'
+
+#
+# パスワードリセット画面
+#
+class ResetPasswordScreen
+  # 初期化
+  #
+  # @param header htmlヘッダ
+  def initialize(header)
+    @header = header
+  end
+
+
+  # 登録情報の確認
+  #
+  # @param userdb UserInfoFileContentオブジェクト
+  # @return nil or 登録情報{:username, :password1, :password2, :email1, :email2}
+  def check_register(userdb, params)
+
+    user = read_params(params)
+
+    check_username(user[:username])
+
+    check_passwords(user[:password1], user[:password2])
+
+    check_emails(user[:email1], user[:email2])
+
+    # if userdb.exist_name_or_email(user[:username], user[:email1])
+    if userdb.exist_name(user[:username]) || userdb.exist_email(user[:email1])
+      @errmsg = 'user name or e-mail address is already exists...'
+    end
+
+    user
+  end
+
+  # 登録完了メールの送信
+  #
+  # @param addr メールアドレス
+  # @param username ユーザー名
+  # @param pw パスワード
+  def send_mail_register(addr, username, pw)
+    msg = <<-MAIL_MSG.unindent
+      Dear #{username}
+
+      Your password was reset as below.
+
+      User name: #{username}
+      Password: #{pw}
+      E-mail address: #{addr}
+
+      MAIL_MSG
+    msg += MailManager.footer
+
+    stg = Settings.instance
+    subject = "Resetting password for #{stg.value['title']}!"
+
+    mailmgr = MailManager.new
+    mailmgr.send_mail(addr, subject, msg)
+  end
+
+  # パラメータのチェックと表示メッセージ作成
+  #
+  # @param params パラメータハッシュオブジェクト
+  #
+  # @return 表示用メッセージ
+  def check_and_mkmsg(params)
+    # emailアドレスの読み取り
+    @email = params['premail'] || ['wrong_email']
+    @email = @email[0]
+
+    # パスワードの生成
+    @newpw = SecureRandom.base64(6)
+
+    # userdbにあるかどうかの確認
+    userdb = UserInfoFile.new
+    userdb.lock do
+      userdb.read
+
+      @userdata = userdb.content.findemail(@email) # [id, name, pw]
+      return unless @userdata
+
+      # パスワードの再設定
+      dgpw = Digest::SHA256.hexdigest @newpw
+      userdb.content.update_password(@userdata[0], dgpw)
+      userdb.write
+
+      # メールの送信
+      send_mail_register(@email, @userdata[1], @newpw)
+    end
+  end
+
+  # 画面の表示
+  #
+  # @param params パラメータハッシュオブジェクト
+  def show(params)
+    check_and_mkmsg(params)
+
+    CommonUI.html_head(@header)
+    CommonUI.html_menu
+
+    puts <<-RESET_PW_MSG.unindent
+      password for "#{@email}" was reset.<br>
+      a new password has been sent to #{@email}.
+      (we don't check if the address is correct or not.)
+      @newpw:#{@newpw}<br>
+      RESET_PW_MSG
+
+    CommonUI.html_foot
+  end
+end
