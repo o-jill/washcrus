@@ -139,4 +139,24 @@ class UserInfoFile
       write
     end
   end
+
+  # userdbにあるかどうかの確認, パスワードの再設定
+  # [email] e-mail address.
+  # [newpw] password.
+  def update_password(email, newpw)
+    lock do
+      read
+
+      # userdbにあるかどうかの確認
+      userdata = @content.findemail(email) # [id, name, pw]
+      return unless userdata
+
+      # パスワードの再設定
+      dgpw = Digest::SHA256.hexdigest newpw
+      @content.update_password(userdata[0], dgpw)
+
+      write
+      return userdata
+    end
+  end
 end

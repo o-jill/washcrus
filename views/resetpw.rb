@@ -1,11 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 require 'rubygems'
-require 'digest/sha2'
 require 'mail'
 require 'securerandom'
 require 'unindent'
-require 'yaml'
 
 require './file/userinfofile.rb'
 require './util/mailmgr.rb'
@@ -23,13 +21,11 @@ class ResetPasswordScreen
     @header = header
   end
 
-
   # 登録情報の確認
   #
   # @param userdb UserInfoFileContentオブジェクト
   # @return nil or 登録情報{:username, :password1, :password2, :email1, :email2}
   def check_register(userdb, params)
-
     user = read_params(params)
 
     check_username(user[:username])
@@ -51,7 +47,7 @@ class ResetPasswordScreen
   # @param addr メールアドレス
   # @param username ユーザー名
   # @param pw パスワード
-  def send_mail_register(addr, username, pw)
+  def send_mail_resetpw(addr, username, pw)
     msg = <<-MAIL_MSG.unindent
       Dear #{username}
 
@@ -85,21 +81,12 @@ class ResetPasswordScreen
     @newpw = SecureRandom.base64(6)
 
     # userdbにあるかどうかの確認
+    # パスワードの再設定
     userdb = UserInfoFile.new
-    userdb.lock do
-      userdb.read
+    userdata = userdb.update_password(@email, @newpw)
 
-      @userdata = userdb.content.findemail(@email) # [id, name, pw]
-      return unless @userdata
-
-      # パスワードの再設定
-      dgpw = Digest::SHA256.hexdigest @newpw
-      userdb.content.update_password(@userdata[0], dgpw)
-      userdb.write
-
-      # メールの送信
-      send_mail_register(@email, @userdata[1], @newpw)
-    end
+    # メールの送信
+    send_mail_resetpw(@email, userdata[1], @newpw) if userdata
   end
 
   # 画面の表示
@@ -113,10 +100,10 @@ class ResetPasswordScreen
 
     puts <<-RESET_PW_MSG.unindent
       password for "#{@email}" was reset.<br>
-      a new password has been sent to #{@email}.
+      a new password has been sent to #{@email}.<br>
       (we don't check if the address is correct or not.)
-      @newpw:#{@newpw}<br>
       RESET_PW_MSG
+      # @newpw:#{@newpw}<br>
 
     CommonUI.html_foot
   end
