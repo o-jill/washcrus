@@ -103,7 +103,7 @@ class ResetPasswordScreen
       a new password has been sent to #{@email}.<br>
       (we don't check if the address is correct or not.)
       RESET_PW_MSG
-      # @newpw:#{@newpw}<br>
+    # @newpw:#{@newpw}<br>
 
     CommonUI.html_foot
   end
