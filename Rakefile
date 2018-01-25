@@ -49,7 +49,7 @@ desc 'init task'
 task init: [:check_mailcfg, :gen_info, :give_permissions, :revision]
 
 task gen_info: [:gen_news, :gen_settings, :gen_userinfo, :gen_taikyokuinfo,
-                :gen_taikyokuchuinfo, :gen_taikyokureqinfo]
+                :gen_taikyokuchuinfo, :gen_taikyokureqinfo, :gen_loungechat]
 
 task gen_news: ['./config/news.txt']
 task gen_settings: ['./config/settings.yaml']
@@ -57,6 +57,13 @@ task gen_userinfo: ['./db/userinfo.csv']
 task gen_taikyokuinfo: ['./db/taikyoku.csv']
 task gen_taikyokuchuinfo: ['./db/taikyokuchu.csv']
 task gen_taikyokureqinfo: ['./db/taikyokureq.csv']
+require './file/pathlist.rb'
+task gen_loungechat: [PathList::LOUNGECHATFILE]
+
+file PathList::LOUNGECHATFILE do |f|
+  cp './taikyoku/lounge/chat.txt.tmpl', f.name
+  chmod 0o666, f.name
+end
 
 file './config/news.txt' do |f|
   cp './init/news.txt.tmpl', f.name
@@ -95,7 +102,7 @@ task :add_w2d do
   chmod 0o777, './log'
   chmod 0o777, './backup'
 
-  puts 'please arrange permissions ',
+  puts 'please arrange permissions ' \
        'according to your server\'s rule before you start this service.'
 end
 

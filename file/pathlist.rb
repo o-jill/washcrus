@@ -8,6 +8,7 @@ module PathList
   GAMELOCK = 'game.lock'.freeze
   GENNEWGAMELOG = './log/newgamegenlog.txt'.freeze
   KIFUFILE = 'kifu.jkf'.freeze
+  LOUNGECHATFILE = './taikyoku/lounge/chat.txt'.freeze
   MAILSETTINGFILE = './config/mail.yaml'.freeze
   MOVELOG = './log/movelog.txt'.freeze
   MATCHFILE = 'matchinfo.txt'.freeze

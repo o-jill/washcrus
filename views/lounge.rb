@@ -102,7 +102,25 @@ class LoungeScreen
         <img id='furikomato#{i}' src='image/komato.png' #{sz_and_style}>
         KOMAIMG
     end
-    puts '</div>'
+    puts '</div></div>'
+  end
+
+  def put_chatarea(uname)
+    puts <<-CHAT_AREA
+      <hr><div id='chatlog' class='chat'>チャットえりあ</div>
+      <input id='chatname' type='text' value='#{uname}' class='chatnm' readonly/>
+      : <input id='chatmsg' list='chatmsg_tmpl' type='text' class='chatmsg' placeholder='チャットメッセージ欄'/>
+      <datalist id='chatmsg_tmpl'>
+       <option value='よろしくお願いします。'>
+       <option value='おはようございます。'>
+       <option value='こんにちは。'>
+       <option value='こんばんわ。'>
+       <option value='ありがとうございました。'>
+      </datalist>
+      <input type='button' class='chatbtn' id='chatbtn' onClick='onChatSay();' value='&gt;&gt;'/>
+      <input type='hidden' id='gameid' value='lounge'/>
+      <script type='text/javascript' src='./js/chat.v013.js' defer></script>
+      CHAT_AREA
   end
 
   # 画面の表示
@@ -122,6 +140,8 @@ class LoungeScreen
     else
       put_filing_button
     end
+
+    put_chatarea(userinfo.user_name)
 
     CommonUI.html_foot
   end
