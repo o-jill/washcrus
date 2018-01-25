@@ -6,9 +6,9 @@ require 'cgi'
 require 'digest/sha2'
 
 require './game/userinfo.rb'
+require './file/chatfile.rb'
 require './file/taikyokureqfile.rb'
 require './util/myhtml.rb'
-
 #
 # 対局作成確認
 #
@@ -30,8 +30,12 @@ class File2Lounge
   def filing(userinfo)
     reqdb = TaikyokuReqFile.new
 
-    return MyHtml.puts_textplain('successflly filed.') \
-        if reqdb.fileauser(userinfo.user_id, userinfo.user_name, @cmt)
+    if reqdb.fileauser(userinfo.user_id, userinfo.user_name, @cmt)
+      chatlog = ChatFile.new('lounge')
+      chatlog.sayex('System', "#{userinfo.user_name}さんが対局待ちになりました。")
+
+      return MyHtml.puts_textplain('successflly filed.')
+    end
 
     MyHtml.puts_textplain('already exists.')
   end
@@ -42,8 +46,12 @@ class File2Lounge
   def canceling(userinfo)
     reqdb = TaikyokuReqFile.new
 
-    return MyHtml.puts_textplain('successflly canceled.') \
-        if reqdb.cancelauser(userinfo.user_id)
+    if reqdb.cancelauser(userinfo.user_id)
+      chatlog = ChatFile.new('lounge')
+      chatlog.sayex('System', "#{userinfo.user_name}さんが対局待ちを解除しました。")
+
+      return MyHtml.puts_textplain('successflly canceled.') \
+    end
 
     MyHtml.puts_textplain('you are not in the list.')
   end
