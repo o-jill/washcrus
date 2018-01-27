@@ -32,11 +32,13 @@ class MyPageScreen
     puts <<-NAVI_AREA
       <div id=mypagenav class=mynav>
         <ul>
-          <li><span onclick='clicknav("mypage_stat")'>Stats</span></li>
+          <li onclick='clicknav("mypage_stat")'>Stats</li>
           <hr>
-          <li><span onclick='clicknav("mypage_rireki")'>History</span></li>
+          <li onclick='clicknav("mypage_rireki")'>History</li>
           <hr>
-          <li><span onclick='clicknav("mypage_account")'>Account</span></li>
+          <li onclick='clicknav("mypage_password")'>Password</li>
+          <hr>
+          <li onclick='clicknav("mypage_email")'>Email</li>
         </ul>
       </div>
       NAVI_AREA
@@ -197,11 +199,28 @@ class MyPageScreen
 
   def put_accountsettings
     puts <<-ACCOUNTSETTINGS.unindent
-      <div class=myarticle id=mypage_account style="display:none;">
+      <div class=myarticle id=mypage_password style="display:none;">
         アカウント設定<BR>
-        パスワード再設定<BR>
-        メールアドレス変更<BR>
-        の予定
+        <hr>
+        パスワードの再設定
+        <FORM action='washcrus.rb?update_password' method=post name='update_password'>
+        <table>
+        <tr><td>今の</td><td><input name='sipassword' id='sipassword' type='password' class='inpform' required></td></tr>
+        <tr><td>新しいの</td><td><input name='newpassword' id='newpassword' type='password' class='inpform' required></td></tr>
+        <tr><td>(再)新しいの</td><td><input name='newpassword2' id='newpassword2' type='password' class='inpform' required></td></tr>
+        <tr><td></td><td><input type='submit' class='inpform'></td></tr>
+        </table>
+        </form>
+      </div>
+      <div class=myarticle id=mypage_email style="display:none;">
+        メールアドレスの変更
+        <form action='washcrus.rb?update_email' method=post name='update_email'>
+        <table>
+        <tr><td>新しいの</td><td><input name='newemail' id='newemail' type='email' class='inpform' required></td></tr>
+        <tr><td>(再)新しいの</td><td><input name='newemail2' id='newemail2' type='email' class='inpform' required></td></tr>
+        <tr><td></td><td><input type='submit' class='inpform'></td></tr>
+        </table>
+        </form>
       </div>
       ACCOUNTSETTINGS
   end
