@@ -22,6 +22,8 @@ class TaikyokuReqFile
     @lockfn = lockfn
     @names = {}
     @comments = {}
+    @daretodemo = {}
+    @requests = {}
   end
 
   # usage:
@@ -55,6 +57,8 @@ class TaikyokuReqFile
     id = elem[0]
     @names[id] = elem[1]
     @comments[id] = elem[2]
+    @daretodemo[id] = elem[3] || '0'
+    @requests[id] = elem[4]
   end
 
   # ファイルの読み込み
@@ -80,13 +84,17 @@ class TaikyokuReqFile
     file.puts "# taikyoku request #{Time.now}\n# id, name, comment"
   end
 
+  def build_line(id)
+    "#{id},#{@names[id]},#{@comments[id]},#{@daretodemo[id]},#{@requests[id]}"
+  end
+
   # ファイルへの書き出し
   def write
     File.open(@fname, 'w') do |file|
       file.flock File::LOCK_EX
       TaikyokuReqFile.put_header(file)
       @names.each do |id, name|
-        file.puts "#{id},#{name},#{@comments[id]}"
+        file.puts build_line(id)
       end
     end
   # 例外は小さい単位で捕捉する
@@ -102,7 +110,7 @@ class TaikyokuReqFile
   def append(id)
     File.open(@fname, 'a') do |file|
       file.flock File::LOCK_EX
-      file.puts "#{id},#{@names[id]},#{@comments[id]}"
+      file.puts build_line(id)
     end
   # 例外は小さい単位で捕捉する
   rescue SystemCallError => er
@@ -116,9 +124,11 @@ class TaikyokuReqFile
   # @param id ユーザーID
   # @param nm ユーザー名
   # @param cmt コメント
-  def add(id, nm, cmt)
+  def add(id, nm, cmt, daredemo)
     @names[id] = nm
     @comments[id] = cmt
+    @daretodemo[id] = daredemo
+    @requests[id] = ''
   end
 
   # remove request information
@@ -127,6 +137,8 @@ class TaikyokuReqFile
   def remove(id)
     @names.delete(id)
     @comments.delete(id)
+    @daretodemo.delete(id)
+    @requests.delete(id)
   end
 
   # remove 2 users and update a file.
@@ -155,12 +167,12 @@ class TaikyokuReqFile
   # @param uname ユーザー名
   # @param cmt コメント
   # @return 成功すればtrue
-  def fileauser(uid, uname, cmt)
+  def fileauser(uid, uname, cmt, daredemo)
     lock do
       read
       return false if exist_id(uid)
 
-      add(uid, uname, cmt)
+      add(uid, uname, cmt, daredemo)
       append(uid)
     end
 
@@ -200,9 +212,12 @@ class TaikyokuReqFile
   # get request information about a user
   #
   # @param id ユーザーID
-  # @return { id:, name:, comments: }
+  # @return { id:, name:, comments:, daretodemo:, request: }
   def probe(id)
-    { id: id, name: @names[id], comments: @comments[id] }
+    {
+      id: id, name: @names[id], comments: @comments[id],
+      daretodemo: @daretodemo[id], request: @requests[id]
+    }
   end
 
   # get request information by id
@@ -228,20 +243,21 @@ class TaikyokuReqFile
   def to_html(title, myid = nil)
     print <<-TABLE_HEAD.unindent
       <table border=1 align=center> <caption>#{title}</caption>
-      <tr><th>名前</th><th>コメント</th></tr>
+      <tr><th>名前</th><th>誰でも</th><th>コメント</th></tr>
       TABLE_HEAD
     @names.each do |id, name|
-      print '<tr><td>'
       if id == myid
-        print name
-      else
+        print "<tr><td>#{name}</td>"
+      elsif @requests[id].nil?
         puts <<-CONTENT.unindent
-          <label>
+          <tr><td><label>
            <input type="radio" name="opponent" value="#{id}" onclick='onclick_radiobtn(event)'>#{name}
-          </label>
+          </label></td>
           CONTENT
+      else
+          print "<tr><td>(確認待ち)#{name}</td>"
       end
-      puts "</td><td>#{@comments[id]}</td></tr>"
+      puts "<td>#{@daretodemo[id] == '0' ? 'NO' : 'YES'}</td><td>#{@comments[id]}</td></tr>"
     end
     puts '</table>'
   end

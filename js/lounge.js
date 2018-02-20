@@ -6,7 +6,8 @@ function reloadlater()
 function buildF2LMsg()
 {
   return 'action=file&f2lcmt='
-    + encodeURIComponent(document.getElementById('cmt').value);
+    + encodeURIComponent(document.getElementById('cmt').value) + '&chk_anyone='
+    + encodeURIComponent(document.getElementById('chk_anyone').checked - 0);
 }
 
 function file2lounge_resp(status, resp)
@@ -31,6 +32,7 @@ function file2lounge()
 {
   document.getElementById('btn_f2l').disabled = true;
   document.getElementById('cmt').disabled = true;
+  document.getElementById('chk_anyone').disabled = true;
 
   var ajax = new XMLHttpRequest();
   if (ajax === null)

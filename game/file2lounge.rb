@@ -22,6 +22,8 @@ class File2Lounge
 
     @cmt = params['f2lcmt']
     @cmt = "#{@cmt[0]} (#{Time.now})" if @cmt
+
+    @anyone = (params['chk_anyone'] || [0])[0]
   end
 
   # データの確認と応答(対局待ち登録)
@@ -30,7 +32,7 @@ class File2Lounge
   def filing(userinfo)
     reqdb = TaikyokuReqFile.new
 
-    if reqdb.fileauser(userinfo.user_id, userinfo.user_name, @cmt)
+    if reqdb.fileauser(userinfo.user_id, userinfo.user_name, @cmt, @anyone)
       chatlog = ChatFile.new('lounge')
       chatlog.sayex('System', "#{userinfo.user_name}さんが対局待ちになりました。")
 

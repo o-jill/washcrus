@@ -39,6 +39,7 @@ class LoungeScreen
     end
     puts <<-FILING_BUTTON_BTN.unindent
         </datalist>
+        <label><input type='checkbox' id='chk_anyone'>誰でも</label>
         <button id='btn_f2l' class='inpform' onclick='file2lounge();'>対局待ちに登録</button>
         <br><span id='msg_l2f'></span>
        </div>
