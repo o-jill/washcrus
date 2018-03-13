@@ -53,7 +53,7 @@ class WashCrus
     adminmenu adminnews adminsettings adminsignature userlist
   ].freeze
   WORDS_ADMIN_UPDATE = %w[
-    adminnewsupdate adminsavesettings adminsignature userlist
+    adminnewsupdate adminsavesettings adminsignatureupdate
   ].freeze
   WORDS_ADMIN = WORDS_ADMIN_SHOW + WORDS_ADMIN_UPDATE
 
