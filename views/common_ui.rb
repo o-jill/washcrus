@@ -56,7 +56,7 @@ module CommonUI
   #
   # @param userinfo ユーザ情報
   def self.html_menu(userinfo = nil)
-    index = 'index.rb'  # File.basename($PROGRAM_NAME)
+    index = 'index.rb' # File.basename($PROGRAM_NAME)
     stg = Settings.instance
     sup = stg.value['support_url']
     title = stg.value['title']
@@ -173,7 +173,7 @@ module CommonUI
 
   # Administrationメニュー
   def self.html_adminmenu
-    index = 'index.rb'  # File.basename($PROGRAM_NAME)
+    index = 'index.rb' # File.basename($PROGRAM_NAME)
     puts <<-ADMINMENU.unindent
       <div class='menubase'>
       <a class='menu' href='#{index}?adminsettings'> Settings </a>
