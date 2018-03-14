@@ -76,13 +76,13 @@ module CommonUI
   # @param sup   サポートページのURL
   def self.html_menu_signup(title, index, sup)
     print <<-MENU.unindent
-      <div align='center' class='menubase'>
+      <header><div align='center' class='menubase'>
       <a class='menu' href='#{index}'> Top </a>
       <a class='menu' href='#{index}?news'> News </a>
       <a class='menu menu_signup' href='#{index}?signup'> Sign Up </a>
       <a class='menu' href='#{index}?login'> Log In </a>
       <a class='menu' href='#{sup}' target='_blank'> Support </a>
-      </div><hr>
+      </div></header><hr>
       <div align='center'>#{title}</div><hr>
       MENU
   end
@@ -123,7 +123,7 @@ module CommonUI
   # @param sup   サポートページのURL
   def self.html_menu_login(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
-      <div class='menubase'>
+      <header><div class='menubase'>
        <a class='menu' href='#{index}'> Top </a>
        <a class='menu' href='#{index}?news'> News </a>
        <a class='menu' href='#{index}?mypage'> My Page </a>
@@ -137,7 +137,7 @@ module CommonUI
         <li><a class='menu' href='#{sup}' target='_blank'> Support </a></li><hr>
         <li><a class='menu' href='#{index}?logout'> Log Out </a></li>
        </ul>
-      </div>
+      </div></header>
       <hr><div align='center'>#{title}</div><hr>
       MENU_LOGGEDIN
     put_popupscript
@@ -150,7 +150,7 @@ module CommonUI
   # @param sup   サポートページのURL
   def self.html_menu_admin(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
-      <div class='menubase'>
+      <header><div class='menubase'>
        <a class='menu' href='#{index}'> Top </a>
        <a class='menu' href='#{index}?news'> News </a>
        <a class='menu' href='#{index}?mypage'> My Page </a>
@@ -165,7 +165,7 @@ module CommonUI
         <li><a class='menu' href='#{sup}' target='_blank'> Support </a></li><hr>
         <li><a class='menu' href='#{index}?logout'> Log Out </a></li>
        </ul>
-      </div>
+      </div></header>
       <hr><div align='center'>#{title}</div><hr>
       MENU_LOGGEDIN
     put_popupscript
@@ -188,8 +188,9 @@ module CommonUI
 
   # フッターの出力
   def self.html_foot
-    print "<HR><div align=right>&copy;ぢるっち 2017 with Ruby v#{RUBY_VERSION}" \
-          '</div></BODY></HTML>'
+    puts '<HR><footer><div align=right>' \
+         "&copy;ぢるっち 2017 with Ruby v#{RUBY_VERSION}" \
+         '</div></footer></BODY></HTML>'
   end
 
   # 手番文字をわかりやすい言葉に変換

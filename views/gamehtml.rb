@@ -54,7 +54,7 @@ class GameHtml
        </div>
        #{chatelement}
       </div>
-      <HR><div style='text-align:right;'>ぢるっち(c)2017</div>
+      <HR><footer><div style='text-align:right;'>ぢるっち(c)2017</div></footer>
       #{hiddenelement}
       </body></html>
       HTMLELEMENTS_BODY
