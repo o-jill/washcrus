@@ -80,7 +80,7 @@ class ByouyomiChan
     ret =
       "#{nply[:name]}さん\n\n#{msg}\n\n" \
       "#{opp}さんは#{mi.dt_lastmove}に１手指されました。\n\n" \
-      "#{@baseurl}washcrus.rb?game/#{mi.gid}\n\n"
+      "#{@baseurl}index.rb?game/#{mi.gid}\n\n"
 
     ret
   end

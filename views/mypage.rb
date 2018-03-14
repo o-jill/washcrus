@@ -132,13 +132,13 @@ class MyPageScreen
       turnstr = CommonUI.turn2str(game[:turn])
       print <<-TKLIST_DAN.unindent
         <tr>
-         <td><a href='./washcrus.rb?game/#{gid}'>
+         <td><a href='./index.rb?game/#{gid}'>
           <img src='image/right_fu.png' alt='#{gid}' title='move to this game!'>
           <small>#{gid}</small>
          </a></td>
          <td>#{game[:nameb]}</td><td>#{game[:namew]}</td>
          <td>#{turnstr}</td><td>#{game[:time]}</td>
-         <td><a href='./washcrus.rb?dlkifu/#{gid}' target='_blank'>
+         <td><a href='./index.rb?dlkifu/#{gid}' target='_blank'>
           <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
          </a></td>
         </tr>

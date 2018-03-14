@@ -35,7 +35,7 @@ function file2lounge()
   var ajax = new XMLHttpRequest();
   if (ajax === null)
     return;
-  ajax.open('POST', 'washcrus.rb?file2lounge', true);
+  ajax.open('POST', 'index.rb?file2lounge', true);
   ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   ajax.send(buildF2LMsg());
   ajax.onreadystatechange = function() {
@@ -72,7 +72,7 @@ function cancelfromlounge()
   var ajax = new XMLHttpRequest();
   if (ajax === null)
     return;
-  ajax.open('POST', 'washcrus.rb?file2lounge', true);
+  ajax.open('POST', 'index.rb?file2lounge', true);
   ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   ajax.send('action=cancel&f2lcmt=');
   ajax.onreadystatechange = function() {

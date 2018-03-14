@@ -121,7 +121,7 @@ class GameHtml
   # @return 部品の文字列
   def kifuelement
     @log.debug('kifuelement')
-    "<button onclick='openurlin_blank(\"washcrus.rb?dlkifu/#{@gameid}\")'>" \
+    "<button onclick='openurlin_blank(\"index.rb?dlkifu/#{@gameid}\")'>" \
     'Download KIF</button><BR>' \
     "<textarea id='kifulog' class='kifu' cols=40 readonly>" \
     "#{@jkf.to_kifu}</textarea>"

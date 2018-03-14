@@ -21,7 +21,7 @@ How to set up:
 6. Run "rake gen_token" to generate KEY to encrypt data.
 7. Run "rake add_admin" to add first administrator.
 8. Run "rake init" to generate db file and change some files/directories's permissions.
-9. Visit washcrus.rb by your browser.
+9. Visit index.rb by your browser.
 
 ruby path:
 please adjust ruby path to fit your actual ruby path.

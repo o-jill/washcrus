@@ -27,7 +27,7 @@ class MatchListScreen
   def print_res(game)
     print <<-GAMEINFO.unindent
       <tr>
-       <td><a href='washcrus.rb?game/#{game[:id]}'>
+       <td><a href='index.rb?game/#{game[:id]}'>
         <img src='image/right_fu.png' alt='#{game[:id]}' title='move to this game!'>
         <small>#{game[:id]}</small>
        </a></td>

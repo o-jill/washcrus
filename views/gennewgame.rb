@@ -101,7 +101,7 @@ class GenNewGameScreen
 
       a new game is ready for you.
       please visit a URL bellow to play.
-      #{baseurl}washcrus.rb?game/#{gameid}
+      #{baseurl}index.rb?game/#{gameid}
 
       MAIL_MSG
     msg += MailManager.footer
@@ -185,7 +185,7 @@ class GenNewGameScreen
 
     puts <<-GENMSG.unindent
       a new game was generated!<BR>
-      <a href='washcrus.rb?game/#{@td.gid}'><big>start playing &gt;&gt;</big></a><BR>
+      <a href='index.rb?game/#{@td.gid}'><big>start playing &gt;&gt;</big></a><BR>
 
       mails were sent to both players.
       GENMSG

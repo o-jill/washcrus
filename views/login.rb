@@ -18,7 +18,7 @@ class LoginScreen
   # ログインフォームの表示
   def put_login_form
     print <<-TABLE_FORM.unindent
-      <FORM action='washcrus.rb?logincheck' method=post name='signin'>
+      <FORM action='index.rb?logincheck' method=post name='signin'>
       <TABLE align='center' class='inpform'>
       <CAPTION>Log in</CAPTIOIN>
       <TR id='siemail'>
@@ -49,7 +49,7 @@ class LoginScreen
       <div align='center'>
       <div align='center' class=pwreset>
       パスワードを忘れた？<br><br>パスワードのリセット<br>
-      <form action='washcrus.rb?resetpw' method=post name='pwreset'>
+      <form action='index.rb?resetpw' method=post name='pwreset'>
       <input name='premail' id='premail' type='email' size='20' required placeholder='登録済みメールアドレス'>
       <input type='submit'>
       </form>

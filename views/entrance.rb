@@ -65,7 +65,7 @@ class EntranceScreen
       <span id=matchs><A href='#{scriptname}?matchlist'>matchs</a></span><BR>
       <span id=signout><A href='#{scriptname}?logout'>signout</a></span><BR>
       <span id=create><A href='#{scriptname}?newgame'>newgame</a></span><BR>
-      <A href='washcrus.rb?anywhere'>anywhere</a>
+      <A href='index.rb?anywhere'>anywhere</a>
       TEST_AREA
   end
 
