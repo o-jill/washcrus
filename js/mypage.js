@@ -69,8 +69,9 @@ function check_form_mypagepswd()
   }
 
   if (nmismatch === 0) {
-    document.forms['update_password'].submit();
+    return true;
   } else {
     // document.getElementById('errmsg').innerText = alertmsg;
+    return false;
   }
 }

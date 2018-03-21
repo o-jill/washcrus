@@ -208,7 +208,7 @@ class MyPageScreen
         <tr><td>今の</td><td><input name='sipassword' id='sipassword' type='password' class='inpform' required></td></tr>
         <tr id='trnewpassword'><td>新しいの</td><td><input name='rnewpassword' id='rnewpassword' type='password' class='inpform' required></td></tr>
         <tr id='trnewpassword2'><td>(再)新しいの</td><td><input name='rnewpassword2' id='rnewpassword2' type='password' class='inpform' required></td></tr>
-        <tr><td></td><td><input type='button' class='inpform' onClick='check_form_mypagepswd();'></td></tr>
+        <tr><td></td><td><input type='submit' class='inpform' onClick='return check_form_mypagepswd();'></td></tr>
         </table>
         </form>
       </div>
