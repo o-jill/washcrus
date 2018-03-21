@@ -83,8 +83,8 @@ function check_password_format(a)
 
     return false;
   }
-  b1 = 'transparent';
-  b2 = 'transparent';
+  /*b1 = 'transparent';
+  b2 = 'transparent';*/
 
   return true;
 }
