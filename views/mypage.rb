@@ -203,7 +203,7 @@ class MyPageScreen
         アカウント設定<BR>
         <hr>
         パスワードの再設定
-        <FORM action='washcrus.rb?update_password' method=post name='update_password'>
+        <FORM action='index.rb?update_password' method=post name='update_password'>
         <table>
         <tr><td>今の</td><td><input name='sipassword' id='sipassword' type='password' class='inpform' required></td></tr>
         <tr id='trnewpassword'><td>新しいの</td><td><input name='rnewpassword' id='rnewpassword' type='password' class='inpform' required></td></tr>
@@ -214,7 +214,7 @@ class MyPageScreen
       </div>
       <div class=myarticle id=mypage_email style="display:none;">
         メールアドレスの変更
-        <form action='washcrus.rb?update_email' method=post name='update_email'>
+        <form action='index.rb?update_email' method=post name='update_email'>
         <table>
         <tr id='trnewemail'><td>新しいの</td><td><input name='rnewemail' id='rnewemail' type='email' class='inpform' required></td></tr>
         <tr id='trnewemail2'><td>(再)新しいの</td><td><input name='rnewemail2' id='rnewemail2' type='email' class='inpform' required></td></tr>
