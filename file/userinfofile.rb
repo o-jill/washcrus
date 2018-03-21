@@ -159,4 +159,19 @@ class UserInfoFile
       return userdata
     end
   end
+
+  # パスワードの再設定
+  # [uid] user id.
+  # [newpw] password.
+  def update_password_byid(uid, newpw)
+    lock do
+      read
+
+      # パスワードの再設定
+      dgpw = Digest::SHA256.hexdigest newpw
+      @content.update_password(uid, dgpw)
+
+      write
+    end
+  end
 end
