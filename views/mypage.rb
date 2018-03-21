@@ -206,9 +206,9 @@ class MyPageScreen
         <FORM action='washcrus.rb?update_password' method=post name='update_password'>
         <table>
         <tr><td>今の</td><td><input name='sipassword' id='sipassword' type='password' class='inpform' required></td></tr>
-        <tr><td>新しいの</td><td><input name='newpassword' id='newpassword' type='password' class='inpform' required></td></tr>
-        <tr><td>(再)新しいの</td><td><input name='newpassword2' id='newpassword2' type='password' class='inpform' required></td></tr>
-        <tr><td></td><td><input type='submit' class='inpform'></td></tr>
+        <tr id='trnewpassword'><td>新しいの</td><td><input name='rnewpassword' id='rnewpassword' type='password' class='inpform' required></td></tr>
+        <tr id='trnewpassword2'><td>(再)新しいの</td><td><input name='rnewpassword2' id='rnewpassword2' type='password' class='inpform' required></td></tr>
+        <tr><td></td><td><input type='button' class='inpform' onClick='check_form_mypagepswd();'></td></tr>
         </table>
         </form>
       </div>
@@ -254,6 +254,8 @@ class MyPageScreen
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
+    puts '<script src="js/signup.js"></script>'
+    puts '<script src="js/mypage.js"></script>'
     puts '<div class=mypage_main>'
 
     put_navi

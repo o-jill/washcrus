@@ -61,14 +61,25 @@ function check_email_format()
   }
 }
 
-function check_password_format()
+function check_password_format(a)
 {
-  var password1 = document.getElementById('rpassword');
+  var a1 = 'r' + a;
+  / * var a2 = a1 + '2'; * /
+  var u1 = 't' + a1;
+  var u2 = u1 + '2';
+  var b1 = document.getElementById(u1).style.backgroundColor;
+  var b1 = document.getElementById(u2).style.backgroundColor;
+
+  var password1 = document.getElementById(a1);
   if (password1.value.length < 4) {
-    document.getElementById('trpassword').style.backgroundColor = 'tomato';
-    document.getElementById('trpassword2').style.backgroundColor = 'tomato';
+    b1 = 'tomato';
+    b2 = 'tomato';
+
     return false;
   }
+  b1 = 'transparent';
+  b2 = 'transparent';
+
   return true;
 }
 
@@ -90,7 +101,7 @@ function check_password()
   if (!check_identical('password')) {
     alertmsg += 'passwords are not same!\n';
   }
-  if (!check_password_format()) {
+  if (!check_password_format('password')) {
     alertmsg += 'password is too short!\n';
   }
   return alertmsg;
