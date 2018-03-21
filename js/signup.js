@@ -47,12 +47,19 @@ function check_identical(a)
   }
 }
 
-function check_email_format()
+function check_email_format(a)
 {
-  var email1 = document.getElementById('remail').value;
-  var email1ui = document.getElementById('tremail').style;
-  var email2ui = document.getElementById('tremail2').style;
+  var a1 = 'r' + a;
+  var u1 = 't' + a1;
+  var u2 = u1 + '2';
+
+  var email1 = document.getElementById(a1).value;
+  var email1ui = document.getElementById(u1).style;
+  var email2ui = document.getElementById(u2).style;
+
   if (/^[\w.!#$%&'*+/=?^`{|}~-]+@\w+(?:\.\w+)*$/.test(email1)) {
+    /*email1ui.backgroundColor = 'transparent';
+    email2ui.backgroundColor = 'transparent';*/
     return true;
   } else {
     email1ui.backgroundColor = 'tomato';
@@ -88,7 +95,7 @@ function check_email()
   if (!check_identical('email')) {
     alertmsg += 'e-mail addresses are not same!\n';
   }
-  if (!check_email_format()) {
+  if (!check_email_format('email')) {
     alertmsg += 'e-mail addresses is strange!\n';
   }
   return alertmsg;

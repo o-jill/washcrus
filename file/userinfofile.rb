@@ -174,4 +174,18 @@ class UserInfoFile
       write
     end
   end
+
+  # メールアドレスの再設定
+  # [uid] user id.
+  # [newem] メールアドレス.
+  def update_email(uid, newem)
+    lock do
+      read
+
+      # パスワードの再設定
+      @content.update_email(uid, newem)
+
+      write
+    end
+  end
 end

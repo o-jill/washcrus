@@ -216,9 +216,9 @@ class MyPageScreen
         メールアドレスの変更
         <form action='washcrus.rb?update_email' method=post name='update_email'>
         <table>
-        <tr><td>新しいの</td><td><input name='newemail' id='newemail' type='email' class='inpform' required></td></tr>
-        <tr><td>(再)新しいの</td><td><input name='newemail2' id='newemail2' type='email' class='inpform' required></td></tr>
-        <tr><td></td><td><input type='submit' class='inpform'></td></tr>
+        <tr id='trnewemail'><td>新しいの</td><td><input name='rnewemail' id='rnewemail' type='email' class='inpform' required></td></tr>
+        <tr id='trnewemail2'><td>(再)新しいの</td><td><input name='rnewemail2' id='rnewemail2' type='email' class='inpform' required></td></tr>
+        <tr><td></td><td><input type='submit' class='inpform' onClick='return check_form_mypageemail();'></td></tr>
         </table>
         </form>
       </div>

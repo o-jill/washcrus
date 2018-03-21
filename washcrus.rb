@@ -61,7 +61,7 @@ class WashCrus
   WORDS_GAMESTG_GEN = %w[checknewgame gennewgame gennewgame2 gennewgame3].freeze
   WORDS_GAMESTG = WORDS_GAMESTG_SHOW + WORDS_GAMESTG_GEN
 
-  WORDS_LOGINOUT_SU = %w[signup register resetpw update_password].freeze
+  WORDS_LOGINOUT_SU = %w[signup register resetpw update_password update_email].freeze
   WORDS_LOGINOUT_LIO = %w[login logincheck logout].freeze
   WORDS_LOGINOUT = WORDS_LOGINOUT_SU + WORDS_LOGINOUT_LIO
 
@@ -82,6 +82,9 @@ class WashCrus
     when 'update_password'
       require './views/update_password.rb'
       UpdatePasswordScreen.new(@header).show(@userinfo, @params)
+    when 'update_email'
+      require './views/update_email.rb'
+      UpdateEmailScreen.new(@header).show(@cgi, @session, @userinfo, @params)
     end
   end
 
