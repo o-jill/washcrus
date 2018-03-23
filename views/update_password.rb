@@ -34,7 +34,7 @@ class UpdatePasswordScreen
   #
   # @param userinfo ユーザー情報
   # @param pw パスワード
-  def send_mail_resetpw(userinfo, pw)
+  def send_mail(userinfo, pw)
     addr = userinfo.user_email
     username = userinfo.user_name
 
