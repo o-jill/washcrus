@@ -57,7 +57,7 @@ function check_email_format(a)
   var email1ui = document.getElementById(u1).style;
   var email2ui = document.getElementById(u2).style;
 
-  if (/^[\w.!#$%&'*+/=?^`{|}~-]+@\w+(?:\.\w+)*$/.test(email1)) {
+  if (/^[\w.!#$%&'*+/=?^`{|}~-]+@\w+(?:\.[\w-]+)*$/.test(email1)) {
     /*email1ui.backgroundColor = 'transparent';
     email2ui.backgroundColor = 'transparent';*/
     return true;
