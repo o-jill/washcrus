@@ -1,6 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 require './file/taikyokufile.rb'
+require './file/matchinfofile.rb'
+require './game/taikyokudata.rb'
+require './game/webapi_sfenreader.rb'
 require './views/common_ui.rb'
 
 #
@@ -21,19 +24,44 @@ class MatchListScreen
     tkcdb.to_html('<a name="chu">対局中</a> <a href="#recent">30日以内へ</a>')
   end
 
+  # 局面画像生成サイトへのリンクの生成
+  #
+  # @return 局面画像へのリンク
+  def kyokumen_img(gid)
+    tkd = TaikyokuData.new
+    tkd.log = nil#@log
+    tkd.setid(gid)
+    tkd.lock do
+      tkd.read
+    end
+    mi = tkd.mi
+
+    sr = WebApiSfenReader.new
+    sr.setplayers(mi.playerb.name, mi.playerw.name)
+    sr.sfen = mi.sfen
+    sr.setlastmovecsa(mi.lastmove)
+
+    "<img src='#{sr.genuri}' alt='局面図画像#{gid}' title='move to #{gid}!'>"
+  end
+
   # 対局情報の出力
   #
   # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, turn:, time:, comment:}
   def print_res(game)
     print <<-GAMEINFO.unindent
       <tr>
-       <td><a href='index.rb?game/#{game[:id]}'>
-        <img src='image/right_fu.png' alt='#{game[:id]}' title='move to this game!'>
-        <small>#{game[:id]}</small>
+       <td rowspan='5'><a href='index.rb?game/#{game[:id]}'>
+        #{kyokumen_img(game[:id])}
+        <!-- img src='image/right_fu.png' alt='#{game[:id]}' title='move to this game!'>
+        <small>#{game[:id]}</small -->
        </a></td>
-       <td>#{game[:nameb]}</td><td>#{game[:namew]}</td>
-       <td>#{CommonUI.turn2str(game[:turn])}</td>
-       <td>#{game[:time]}</td><td>#{game[:comment]}</td>
+       <!-- th>ID</th -->
+       <th>先手</th>
+       <td>#{game[:nameb]}</td></tr>
+      <tr><th>後手</th><td>#{game[:namew]}</td></tr>
+      <tr><th>手番</th><td>#{CommonUI.turn2str(game[:turn])}</td></tr>
+      <tr><th>着手日時</th><td>#{game[:time]}</td></tr>
+      <tr><th>コメント</th><td>#{game[:comment]}</td></tr>
       </tr>
       GAMEINFO
   end
@@ -61,8 +89,6 @@ class MatchListScreen
     print <<-RESULT_TABLE.unindent
       <TABLE align='center' border='1'>
       <caption><a href='#chu'>対局中へ</a> <a name='recent'>30日以内</a></caption>
-      <tr><th>ID</th><th>先手</th><th>後手</th><th>手番</th>
-      <th>着手日時</th><th>コメント</th></tr>
       RESULT_TABLE
     games.each do |game|
       print_res(game)
