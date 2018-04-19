@@ -24,12 +24,30 @@ class MatchListScreen
     tkcdb.to_html('<a name="chu">対局中</a> <a href="#recent">30日以内へ</a>')
   end
 
+  # 最近の対局のリストの出力
+  #
+  # @param games 対局リスト
+  def put_taikyokuchu_img
+    tkcdb = TaikyokuChuFile.new
+    tkcdb.read
+    puts <<-RESULT_TABLE.unindent
+      <TABLE align='center' border='1'>
+      <caption><a name="chu">対局中</a> <a href="#recent">30日以内へ</a></caption>
+      RESULT_TABLE
+    tkcdb.content.idbs.keys.each do |gameid|
+      game = tkcdb.content.probe(gameid)
+
+      print_res(game)
+    end
+    puts '</TABLE>'
+  end
+
   # 局面画像生成サイトへのリンクの生成
   #
   # @return 局面画像へのリンク
   def kyokumen_img(gid)
     tkd = TaikyokuData.new
-    tkd.log = nil#@log
+    tkd.log = nil # @log
     tkd.setid(gid)
     tkd.lock do
       tkd.read
@@ -41,7 +59,8 @@ class MatchListScreen
     sr.sfen = mi.sfen
     sr.setlastmovecsa(mi.lastmove)
 
-    "<img src='#{sr.genuri}' alt='局面図画像#{gid}' title='move to #{gid}!'>"
+    "<img src='#{sr.genuri}' alt='局面図画像#{gid}'" \
+    " title='move to game[#{gid}]!' width='200px'>"
   end
 
   # 対局情報の出力
@@ -103,7 +122,8 @@ class MatchListScreen
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
-    put_taikyokuchu
+    # put_taikyokuchu
+    put_taikyokuchu_img
 
     puts '<HR>'
 
