@@ -132,15 +132,16 @@ class SearchResultScreen
   #
   # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, time: , comment:}
   def print_res(game)
+    gid = game[:id]
     print <<-GAMEINFO.unindent
       <tr>
-       <td><a href='index.rb?game/#{game[:id]}'>
-        <img src='image/right_fu.png' alt='#{game[:id]}' title='move to this game!'>
-        <small>#{game[:id]}</small>
+       <td><a href='index.rb?game/#{gid}'>
+        <img src='image/right_fu.png' alt='#{gid}' title='move to this game!'>
+        <small>#{gid}</small>
        </a></td>
        <td>#{game[:nameb]}</td><td>#{game[:namew]}</td><td>#{game[:time]}</td>
-       <td><a href='index.rb?dlkifu/#{game[:id]}' target=_blank>
-        <img src='image/dl_kif.png' alt='#{game[:id]}' title='download kif!'>
+       <td><a href='index.rb?dlkifu/#{gid}' target=_blank>
+        <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
        </a></td>
       </tr>
       GAMEINFO

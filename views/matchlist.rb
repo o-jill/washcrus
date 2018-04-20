@@ -67,14 +67,12 @@ class MatchListScreen
   #
   # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, turn:, time:, comment:}
   def print_res(game)
+    gid = game[:id]
     print <<-GAMEINFO.unindent
       <tr>
-       <td rowspan='5'><a href='index.rb?game/#{game[:id]}'>
-        #{kyokumen_img(game[:id])}
-        <!-- img src='image/right_fu.png' alt='#{game[:id]}' title='move to this game!'>
-        <small>#{game[:id]}</small -->
+       <td rowspan='5'><a href='index.rb?game/#{gid}'>
+        #{kyokumen_img(gid)}
        </a></td>
-       <!-- th>ID</th -->
        <th>先手</th>
        <td>#{game[:nameb]}</td></tr>
       <tr><th>後手</th><td>#{game[:namew]}</td></tr>
