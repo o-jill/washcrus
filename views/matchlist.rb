@@ -25,8 +25,6 @@ class MatchListScreen
   end
 
   # 最近の対局のリストの出力
-  #
-  # @param games 対局リスト
   def put_taikyokuchu_img
     tkcdb = TaikyokuChuFile.new
     tkcdb.read
@@ -44,6 +42,7 @@ class MatchListScreen
 
   # 局面画像生成サイトへのリンクの生成
   #
+  # @param gid game id
   # @return 局面画像へのリンク
   def kyokumen_img(gid)
     tkd = TaikyokuData.new
@@ -89,6 +88,7 @@ class MatchListScreen
   def select_recentgames
     tdb = TaikyokuFile.new
     tdb.read
+    # from = Time.now - 60_480_000 # for test
     from = Time.now - 6_480_000 # 30days
     res = tdb.findtime(from.to_s, '') # {gid, time}
 
