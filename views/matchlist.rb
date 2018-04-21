@@ -68,12 +68,10 @@ class MatchListScreen
   def print_res(game)
     gid = game[:id]
     print <<-GAMEINFO.unindent
-      <tr>
-       <td rowspan='5'><a href='index.rb?game/#{gid}'>
+      <tr><td rowspan='5'><a href='index.rb?game/#{gid}'>
         #{kyokumen_img(gid)}
        </a></td>
-       <th>先手</th>
-       <td>#{game[:nameb]}</td></tr>
+       <th>先手</th><td>#{game[:nameb]}</td></tr>
       <tr><th>後手</th><td>#{game[:namew]}</td></tr>
       <tr><th>手番</th><td>#{CommonUI.turn2str(game[:turn])}</td></tr>
       <tr><th>着手日時</th><td>#{game[:time]}</td></tr>

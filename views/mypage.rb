@@ -5,6 +5,8 @@ require 'unindent'
 
 require './file/taikyokufile.rb'
 require './file/userinfofile.rb'
+require './game/taikyokudata.rb'
+require './game/webapi_sfenreader.rb'
 require './views/common_ui.rb'
 
 #
@@ -148,6 +150,53 @@ class MyPageScreen
     end
   end
 
+  # 局面画像生成サイトへのリンクの生成
+  #
+  # @param gid game id
+  # @return 局面画像へのリンク
+  def kyokumen_img(gid)
+    tkd = TaikyokuData.new
+    tkd.log = nil # @log
+    tkd.setid(gid)
+    tkd.lock do
+      tkd.read
+    end
+    mi = tkd.mi
+
+    sr = WebApiSfenReader.new
+    sr.setplayers(mi.playerb.name, mi.playerw.name)
+    sr.sfen = mi.sfen
+    sr.setlastmovecsa(mi.lastmove)
+
+    "<img src='#{sr.genuri}' alt='局面図画像#{gid}'" \
+    " title='move to game[#{gid}]!' width='200px'>"
+  end
+
+  # 対局情報の出力
+  #
+  # @param tklist 対局情報array
+  #               [{id:, idb:, idw:, nameb:, namew:, turn:, time:, comment:}]
+  def put_taikyokulist_tbl_img(tklist)
+    puts "<TABLE align='center' border='1'><caption>対局中</caption>"
+
+    tklist.each do |game|
+      gid = game[:id]
+      print <<-GAMEINFO.unindent
+        <tr><td rowspan='5'><a href='index.rb?game/#{gid}'>
+          #{kyokumen_img(gid)}
+         </a></td>
+         <th>先手</th><td>#{game[:nameb]}</td></tr>
+        <tr><th>後手</th><td>#{game[:namew]}</td></tr>
+        <tr><th>手番</th><td>#{CommonUI.turn2str(game[:turn])}</td></tr>
+        <tr><th>着手日時</th><td>#{game[:time]}</td></tr>
+        <tr><th>コメント</th><td>#{game[:comment]}</td></tr>
+        </tr>
+        GAMEINFO
+    end
+
+    puts '</TABLE>'
+  end
+
   # 対局中の対局の表示
   #
   # @param uid ユーザー情報
@@ -159,9 +208,9 @@ class MyPageScreen
       bb[:time] <=> aa[:time]
     end
 
-    put_taikyokurireki_tblhead('対局中')
-
-    put_taikyokulist_tbl(chu)
+    put_taikyokulist_tbl_img(chu)
+    # put_taikyokurireki_tblhead('対局中')
+    # put_taikyokulist_tbl(chu)
 
     print '</table>'
   end
