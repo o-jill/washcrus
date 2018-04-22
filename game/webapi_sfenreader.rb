@@ -41,6 +41,14 @@ class WebApiSfenReader
     @lastmove = csa[3, 2] || ''
   end
 
+  def settitle(t)
+    @title = t
+  end
+
+  def setturn(t)
+    @turn = t
+  end
+
   # ハッシュに名前を追加
   #
   # @param h ハッシュ

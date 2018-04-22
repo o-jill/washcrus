@@ -57,9 +57,11 @@ class MatchListScreen
     sr.setplayers(mi.playerb.name, mi.playerw.name)
     sr.sfen = mi.sfen
     sr.setlastmovecsa(mi.lastmove)
+    sr.setturn(mi.turn)
+    sr.settitle(mi.dt_lastmove)
 
     "<img src='#{sr.genuri}' alt='局面図画像#{gid}'" \
-    " title='move to game[#{gid}]!' width='200px'>"
+    " title='move to game[#{gid}]!'>"
   end
 
   # 対局情報の出力
