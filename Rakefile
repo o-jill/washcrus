@@ -112,6 +112,7 @@ task :add_x2rb do
   chmod 0o755, 'move.rb'
   chmod 0o755, 'washcrus.rb'
   chmod 0o755, 'index.rb'
+  chmod 0o755, 'sfenimage.rb'
 end
 
 task :add_w2lock do
