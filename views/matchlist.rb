@@ -44,7 +44,7 @@ class MatchListScreen
   #
   # @param gid game id
   # @return 局面画像へのリンク
-  def kyokumen_img(gid)
+  def kyokumen_img(gid, turn)
     tkd = TaikyokuData.new
     tkd.log = nil # @log
     tkd.setid(gid)
@@ -57,7 +57,7 @@ class MatchListScreen
     sr.setplayers(mi.playerb.name, mi.playerw.name)
     sr.sfen = mi.sfen
     sr.setlastmovecsa(mi.lastmove)
-    sr.setturn(mi.turn)
+    sr.setturn(turn)
     sr.settitle(mi.dt_lastmove)
 
     "<img src='#{sr.genuri}' alt='局面図画像#{gid}'" \
@@ -71,7 +71,7 @@ class MatchListScreen
     gid = game[:id]
     print <<-GAMEINFO.unindent
       <tr><td rowspan='5'><a href='index.rb?game/#{gid}'>
-        #{kyokumen_img(gid)}
+        #{kyokumen_img(gid, game[:turn])}
        </a></td>
        <th>先手</th><td>#{game[:nameb]}</td></tr>
       <tr><th>後手</th><td>#{game[:namew]}</td></tr>
