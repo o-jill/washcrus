@@ -76,6 +76,7 @@ class WebApiSfenReader
   #
   # @return uri文字列
   def genuri
-    'http://sfenreader.appspot.com/sfen?' + URI.encode_www_form(params)
+    'sfenimage.rb?' + URI.encode_www_form(params)
+    # 'http://sfenreader.appspot.com/sfen?' + URI.encode_www_form(params)
   end
 end
