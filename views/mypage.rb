@@ -180,7 +180,6 @@ class MyPageScreen
   #               [{id:, idb:, idw:, nameb:, namew:, turn:, time:, comment:}]
   def put_taikyokulist_tbl_img(tklist)
     # puts "<TABLE align='center' border='1'><caption>対局中</caption>"
-    puts "<style>.taikyokuchu{display:flex; flex-wrap:wrap;}</style>"
     puts "<div align='center'>対局中</div>\n<div class='taikyokuchu'>"
     tklist.each do |game|
       gid = game[:id]

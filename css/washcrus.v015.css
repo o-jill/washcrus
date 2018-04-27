@@ -323,6 +323,11 @@ text-decoration:none;
         order: 2;
 }
 
+.taikyokuchu {
+  display:flex;
+  flex-wrap:wrap;
+}
+
 /* version information */
 .githash {
   border: solid 5px #f44d27;

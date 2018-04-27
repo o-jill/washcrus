@@ -29,15 +29,18 @@ class MatchListScreen
     tkcdb = TaikyokuChuFile.new
     tkcdb.read
     puts <<-RESULT_TABLE.unindent
-      <TABLE align='center' border='1'>
-      <caption><a name="chu">対局中</a> <a href="#recent">30日以内へ</a></caption>
+      <div align='center'>
+       <a name="chu">対局中</a> <a href="#recent">30日以内へ</a>
+      </div>
+      <div id="taikyokuchu" class="taikyokuchu">
       RESULT_TABLE
     tkcdb.content.idbs.keys.each do |gameid|
       game = tkcdb.content.probe(gameid)
 
       print_res(game)
     end
-    puts '</TABLE>'
+    # puts '</TABLE>'
+    puts '</div>'
   end
 
   # 局面画像生成サイトへのリンクの生成
@@ -70,15 +73,10 @@ class MatchListScreen
   def print_res(game)
     gid = game[:id]
     print <<-GAMEINFO.unindent
-      <tr><td rowspan='5'><a href='index.rb?game/#{gid}'>
+      <table border='1'><tr><td><a href='index.rb?game/#{gid}'>
         #{kyokumen_img(gid, game[:turn])}
-       </a></td>
-       <th>先手</th><td>#{game[:nameb]}</td></tr>
-      <tr><th>後手</th><td>#{game[:namew]}</td></tr>
-      <tr><th>手番</th><td>#{CommonUI.turn2str(game[:turn])}</td></tr>
-      <tr><th>着手日時</th><td>#{game[:time]}</td></tr>
-      <tr><th>コメント</th><td>#{game[:comment]}</td></tr>
-      </tr>
+       </a></td></tr>
+      <tr><td>#{game[:comment]}</td></tr></table>
       GAMEINFO
   end
 
