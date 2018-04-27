@@ -179,24 +179,21 @@ class MyPageScreen
   # @param tklist 対局情報array
   #               [{id:, idb:, idw:, nameb:, namew:, turn:, time:, comment:}]
   def put_taikyokulist_tbl_img(tklist)
-    puts "<TABLE align='center' border='1'><caption>対局中</caption>"
-
+    # puts "<TABLE align='center' border='1'><caption>対局中</caption>"
+    puts "<style>.taikyokuchu{display:flex; flex-wrap:wrap;}</style>"
+    puts "<div align='center'>対局中</div>\n<div class='taikyokuchu'>"
     tklist.each do |game|
       gid = game[:id]
       print <<-GAMEINFO.unindent
-        <tr><td rowspan='5'><a href='index.rb?game/#{gid}'>
+        <table border='1'><tr><td><a href='index.rb?game/#{gid}'>
           #{kyokumen_img(gid, game[:turn])}
-         </a></td>
-         <th>先手</th><td>#{game[:nameb]}</td></tr>
-        <tr><th>後手</th><td>#{game[:namew]}</td></tr>
-        <tr><th>手番</th><td>#{CommonUI.turn2str(game[:turn])}</td></tr>
-        <tr><th>着手日時</th><td>#{game[:time]}</td></tr>
-        <tr><th>コメント</th><td>#{game[:comment]}</td></tr>
-        </tr>
+         </a></td></tr>
+        <tr><td>#{game[:comment]}</td></tr></table>
         GAMEINFO
     end
-
-    puts '</TABLE>'
+    # puts '</TABLE>'
+    puts '</div>'
+    # taikyokuchu
   end
 
   # 対局中の対局の表示
@@ -213,8 +210,6 @@ class MyPageScreen
     put_taikyokulist_tbl_img(chu)
     # put_taikyokurireki_tblhead('対局中')
     # put_taikyokulist_tbl(chu)
-
-    print '</table>'
   end
 
   # 対局履歴の表示

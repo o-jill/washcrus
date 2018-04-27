@@ -66,7 +66,7 @@ class WebApiSfenReader
     ret = { sfen: @sfen }
     ret[:lm] = @lastmove unless @lastmove.empty?
     ret = params_plys(ret)
-    ret[:title] = @title unless @title.empty?
+    ret[:title] = "#{@title}" unless @title.nil?
 
     case @piecetype
     when PIECE_ALPHABET then ret[:piece] = 'alphabet'
