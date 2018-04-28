@@ -77,6 +77,7 @@ class GameHtml
     sr.setplayers(@mi.playerb.name, @mi.playerw.name)
     sr.sfen = @mi.sfen
     sr.setlastmovecsa(@mi.lastmove)
+    sr.setturn(@mi.turnex)
 
     "<a href='#{sr.genuri}' target='_blank'>局面図画像</a>"
   end

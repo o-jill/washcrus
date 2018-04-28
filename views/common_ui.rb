@@ -133,7 +133,7 @@ module CommonUI
        <a class='menu' href='#{index}?matchlist'> Watch </a>
        <span class='menu' id='menu_parent_popup'>▼▼</span>
       </div>
-      <div class='popup'id='menu_popup'>
+      <div class='popup' id='menu_popup'>
        <ul>
         <li><a class='menu' href='#{index}?searchform'> Search </a></li><hr>
         <li><a class='menu' href='#{sup}' target='_blank'> Support </a></li><hr>
@@ -160,7 +160,7 @@ module CommonUI
        <a class='menu' href='#{index}?matchlist'> Watch </a>
        <span class='menu' id='menu_parent_popup'>▼▼</span>
       </div>
-      <div class='popup'id='menu_popup'>
+      <div class='popup' id='menu_popup'>
        <ul>
         <li><a class='menu' href='#{index}?adminmenu'> Administration </a></li><hr>
         <li><a class='menu' href='#{index}?searchform'> Search </a></li><hr>

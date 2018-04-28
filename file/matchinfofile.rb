@@ -104,6 +104,10 @@ class MatchInfoFile
     @log = nil
   end
 
+  def turnex
+    (@finished ? 'f' : '') + @turn
+  end
+
   attr_reader :gid, :playerb, :playerw, :creator, :dt_created,
               :teban, :tegoma, :nth, :sfen, :lastmove, :dt_lastmove, :finished,
               :byouyomi, :dt_lasttick
@@ -175,7 +179,7 @@ class MatchInfoFile
   # @param mv 着手情報文字列
   # @param dt [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
   def setlastmove(mv, dt)
-    @lastmove = mv
+    @lastmove = mv unless /^[+-]/ =~ mv
     @dt_lastmove = dt
   end
 
