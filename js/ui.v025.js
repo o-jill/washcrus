@@ -1393,7 +1393,7 @@ function init_board() {
 
   activateteban();
 
-  if (!isfinished || !taikyokuchu) {
+  if (!isfinished && !taikyokuchu) {
     startUpdateTimer();
   }
 
