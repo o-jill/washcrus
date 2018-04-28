@@ -76,102 +76,106 @@ class SfenSVGImage
   end
 
   def tagteban
+    tagrect = "<rect x='0' y='0' width='30' height='30' class='teban'/>"
+    ptspoly = "points='15,0 22.5,5 30,0 30,30 0,30 0,0 7.5,5'"
     case @turn
     when 'w'
-      "<g id='teban' transform='translate(0,0)'>\n" \
-      " <rect x='0' y='20' width='30' height='30' class='teban'/>\n" \
-      "</g>\n"
+      "<g id='teban' transform='translate(0,20)'>\n #{tagrect}\n</g>\n"
     when 'b'
-      "<g id='teban' transform='translate(220,260)'>\n" \
-      " <rect x='0' y='0' width='30' height='30' class='teban'/>\n" \
-      "</g>\n"
+      "<g id='teban' transform='translate(220,260)'>\n #{tagrect}\n</g>\n"
     when 'fw'
       "<g id='teban' transform='translate(30,20)'>\n" \
-      " <polygon points='15,0 22.5,5 30,0 30,30 0,30 0,0 7.5,5' class='teban'/>\n" \
-      "</g>\n"
+      " <polygon #{ptspoly} class='teban'/>\n</g>\n"
     when 'fb'
       "<g id='teban' transform='translate(0,260)'>\n" \
-      " <polygon points='15,0 22.5,5 30,0 30,30 0,30 0,0 7.5,5' class='teban'/>\n" \
-      "</g>\n"
+      " <polygon #{ptspoly} class='teban'/>\n</g>\n"
     else
       ''
     end
   end
 
+  TAG_HEADER = <<-EO_TAG_HEADER.unindent
+    <?xml version="1.0"?>
+    <svg width="250" height="290" viewBox="0 0 250 290" version="1.1" xmlns="http://www.w3.org/2000/svg" >
+     <style>
+      /* <![CDATA[ */
+       polygon {
+        stroke: black;
+        stroke-width: 1px;
+       }
+       g#ban rect {
+        stroke:black;
+        stroke-width:2;
+        fill:none;
+       }
+       line {
+        stroke: black;
+        stroke-width: 1;
+       }
+       text {
+        font-size: 18px;
+       }
+       text.name {
+        font-size: 16px;
+        text-anchor: left;
+        dominant-baseline: middle;
+        alignment-baseline: middle;
+        width: 220px;
+        text-overflow: ellipsis;
+       }
+       text.title {
+        font-size: 16px;
+        text-anchor: middle;
+        dominant-baseline: middle;
+        alignment-baseline: middle;
+        width: 250px;
+        text-overflow: ellipsis;
+       }
+       text.koma {
+        font-size: 18px;
+        text-anchor: middle;
+        dominant-baseline: middle;
+        alignment-baseline: middle;
+       }
+       text.tegoma {
+        font-size: 16px;
+        text-anchor: middle;
+        dominant-baseline: top;
+        alignment-baseline: top;
+       }
+       text.ntegoma {
+        font-size: 12px;
+        text-anchor: middle;
+        dominant-baseline: top;
+        alignment-baseline: top;
+       }
+       text.suji {
+        font-size: 10px;
+        text-anchor: middle;
+        alignment-baseline: after-edge;
+        dominant-baseline: after-edge;
+       }
+       text.dan {
+        font-size: 10px;
+        text-anchor: left;
+        dominant-baseline: middle;
+        alignment-baseline: middle;
+       }
+       .teban {
+         stroke : none;
+         fill: #F3C;
+       }
+       .lastmv {
+         stroke : none;
+         fill: #FF4;
+       }
+      /* ]]> */
+     </style>
+     <g>
+    EO_TAG_HEADER
+
   def tag_header
-    ret = <<-TAG_HEADER.unindent
-      <?xml version="1.0"?>
-      <svg width="250" height="290" viewBox="0 0 250 290" version="1.1" xmlns="http://www.w3.org/2000/svg" >
-       <style>
-        /* <![CDATA[ */
-         polygon {
-          stroke: black;
-          stroke-width: 1px;
-         }
-         g#ban rect {
-          stroke:black;
-          stroke-width:2;
-          fill:none;
-         }
-         line {
-          stroke: black;
-          stroke-width: 1;
-         }
-         text {
-          font-size: 18px;
-         }
-         text.name {
-          font-size: 16px;
-          text-anchor: left;
-          dominant-baseline: middle;
-          alignment-baseline: middle;
-          width: 220px;
-          text-overflow: ellipsis;
-         }
-         text.title {
-          font-size: 16px;
-          text-anchor: middle;
-          dominant-baseline: middle;
-          alignment-baseline: middle;
-          width: 250px;
-          text-overflow: ellipsis;
-         }
-         text.koma {
-          font-size: 18px;
-          text-anchor: middle;
-          dominant-baseline: middle;
-          alignment-baseline: middle;
-         }
-         text.tegoma {
-          font-size: 16px;
-          text-anchor: left;
-          dominant-baseline: middle;
-          alignment-baseline: middle;
-          writing-mode: tb;
-          glyph-orientation-vertical: 90;
-          glyph-orientation-horizontal: 270;
-         }
-         text.suji {
-          font-size: 10px;
-          text-anchor: middle;
-          alignment-baseline: after-edge;
-          dominant-baseline: after-edge;
-         }
-         text.dan {
-          font-size: 10px;
-          text-anchor: left;
-          dominant-baseline: middle;
-          alignment-baseline: middle;
-         }
-         .teban {
-           stroke : none;
-           fill: #F3C;
-         }
-        /* ]]> */
-       </style>
-       <g>
-      TAG_HEADER
-    ret
+    TAG_HEADER
   end
 
   def tag_footer
@@ -186,70 +190,65 @@ class SfenSVGImage
     y = x % 10 - 1
     x = 9 - x / 10
 
-    return '' if y < 0 || 8 < y || x < 0 || 8 < x  #error
+    return '' if y < 0 || 8 < y || x < 0 || 8 < x # error
 
     y *= 20
     x *= 20
 
-    "<rect x='#{x}' y='#{y}' width='20' height='20' stroke='none' fill='#FF4'/>\n"
+    "<rect x='#{x}' y='#{y}' width='20' height='20' class='lastmv'/>\n"
   end
 
-  def tagboardframe
-    ret = <<-TAGFRAME
-      <g id="ban">
-       <rect x="0" y="0" width="180" height="180"/>
-       <line x1="0" y1="20" x2="180" y2="20"/>
-       <line x1="0" y1="40" x2="180" y2="40"/>
-       <line x1="0" y1="60" x2="180" y2="60"/>
-       <line x1="0" y1="80" x2="180" y2="80"/>
-       <line x1="0" y1="100" x2="180" y2="100"/>
-       <line x1="0" y1="120" x2="180" y2="120"/>
-       <line x1="0" y1="140" x2="180" y2="140"/>
-       <line x1="0" y1="160" x2="180" y2="160"/>
-       <line x1="20" y1="0" x2="20" y2="180"/>
-       <line x1="40" y1="0" x2="40" y2="180"/>
-       <line x1="60" y1="0" x2="60" y2="180"/>
-       <line x1="80" y1="0" x2="80" y2="180"/>
-       <line x1="100" y1="0" x2="100" y2="180"/>
-       <line x1="120" y1="0" x2="120" y2="180"/>
-       <line x1="140" y1="0" x2="140" y2="180"/>
-       <line x1="160" y1="0" x2="160" y2="180"/>
-       <text x="10" y="-5" class="suji">9</text>
-       <text x="30" y="-5" class="suji">8</text>
-       <text x="50" y="-5" class="suji">7</text>
-       <text x="70" y="-5" class="suji">6</text>
-       <text x="90" y="-5" class="suji">5</text>
-       <text x="110" y="-5" class="suji">4</text>
-       <text x="130" y="-5" class="suji">3</text>
-       <text x="150" y="-5" class="suji">2</text>
-       <text x="170" y="-5" class="suji">1</text>
-       <text x="185" y="10" class="dan">一</text>
-       <text x="185" y="30" class="dan">二</text>
-       <text x="185" y="50" class="dan">三</text>
-       <text x="185" y="70" class="dan">四</text>
-       <text x="185" y="90" class="dan">五</text>
-       <text x="185" y="110" class="dan">六</text>
-       <text x="185" y="130" class="dan">七</text>
-       <text x="185" y="150" class="dan">八</text>
-       <text x="185" y="170" class="dan">九</text>
-      </g>
-      TAGFRAME
-    ret
-  end
+  TAGFRAME = <<-EOTAGFRAME.unindent
+    <g id="ban">
+     <rect x="0" y="0" width="180" height="180"/>
+     <line x1="0" y1="20" x2="180" y2="20"/>
+     <line x1="0" y1="40" x2="180" y2="40"/>
+     <line x1="0" y1="60" x2="180" y2="60"/>
+     <line x1="0" y1="80" x2="180" y2="80"/>
+     <line x1="0" y1="100" x2="180" y2="100"/>
+     <line x1="0" y1="120" x2="180" y2="120"/>
+     <line x1="0" y1="140" x2="180" y2="140"/>
+     <line x1="0" y1="160" x2="180" y2="160"/>
+     <line x1="20" y1="0" x2="20" y2="180"/>
+     <line x1="40" y1="0" x2="40" y2="180"/>
+     <line x1="60" y1="0" x2="60" y2="180"/>
+     <line x1="80" y1="0" x2="80" y2="180"/>
+     <line x1="100" y1="0" x2="100" y2="180"/>
+     <line x1="120" y1="0" x2="120" y2="180"/>
+     <line x1="140" y1="0" x2="140" y2="180"/>
+     <line x1="160" y1="0" x2="160" y2="180"/>
+     <text x="10" y="-5" class="suji">9</text>
+     <text x="30" y="-5" class="suji">8</text>
+     <text x="50" y="-5" class="suji">7</text>
+     <text x="70" y="-5" class="suji">6</text>
+     <text x="90" y="-5" class="suji">5</text>
+     <text x="110" y="-5" class="suji">4</text>
+     <text x="130" y="-5" class="suji">3</text>
+     <text x="150" y="-5" class="suji">2</text>
+     <text x="170" y="-5" class="suji">1</text>
+     <text x="185" y="10" class="dan">一</text>
+     <text x="185" y="30" class="dan">二</text>
+     <text x="185" y="50" class="dan">三</text>
+     <text x="185" y="70" class="dan">四</text>
+     <text x="185" y="90" class="dan">五</text>
+     <text x="185" y="110" class="dan">六</text>
+     <text x="185" y="130" class="dan">七</text>
+     <text x="185" y="150" class="dan">八</text>
+     <text x="185" y="170" class="dan">九</text>
+    </g>
+    EOTAGFRAME
 
   def tagkoma(nm, sente, x, y)
     x *= 20
     y *= 20
     ret = "<g transform='translate(#{x},#{y})'>\n"
     if sente
-      ret += " <text x='10' y='12' class='koma'>#{nm}</text>\n"
+      ret + " <text x='10' y='12' class='koma'>#{nm}</text>\n</g>\n"
     else
-      ret += " <g transform='translate(10,9) rotate(180)'>\n" \
+      ret + " <g transform='translate(10,9) rotate(180)'>\n" \
              "  <text x='0' y='0' class='koma'>#{nm}</text>\n" \
-             " </g>\n"
+             " </g>\n</g>\n"
     end
-
-    ret + "</g>\n"
   end
 
   def tagkomas
@@ -262,68 +261,36 @@ class SfenSVGImage
 
       adan.each_char do |ch|
         case ch
-        when 'p'
-          banstr += tagkoma(promote ? 'と' : '歩', false, nsuji, ndan)
+        when 'p', 'P'
+          banstr += tagkoma(promote ? 'と' : '歩', ch == 'P', nsuji, ndan)
           nsuji += 1
           promote = false
-        when 'l'
-          banstr += tagkoma(promote ? '杏' : '香', false, nsuji, ndan)
+        when 'l', 'L'
+          banstr += tagkoma(promote ? '杏' : '香', ch == 'L', nsuji, ndan)
           nsuji += 1
           promote = false
-        when 'n'
-          banstr += tagkoma(promote ? '圭' : '桂', false, nsuji, ndan)
+        when 'n', 'N'
+          banstr += tagkoma(promote ? '圭' : '桂', ch == 'N', nsuji, ndan)
           nsuji += 1
           promote = false
-        when 's'
-          banstr += tagkoma(promote ? '全' : '銀', false, nsuji, ndan)
+        when 's', 'S'
+          banstr += tagkoma(promote ? '全' : '銀', ch == 'S', nsuji, ndan)
           nsuji += 1
           promote = false
-        when 'g'
-          banstr += tagkoma('金', false, nsuji, ndan)
+        when 'g', 'G'
+          banstr += tagkoma('金', ch == 'G', nsuji, ndan)
           nsuji += 1
           promote = false
-        when 'b'
-          banstr += tagkoma(promote ? '馬' : '角', false, nsuji, ndan)
+        when 'b', 'B'
+          banstr += tagkoma(promote ? '馬' : '角', ch == 'B', nsuji, ndan)
           nsuji += 1
           promote = false
-        when 'r'
-          banstr += tagkoma(promote ? '瑠' : '飛', false, nsuji, ndan)
+        when 'r', 'R'
+          banstr += tagkoma(promote ? '龍' : '飛', ch == 'R', nsuji, ndan)
           nsuji += 1
           promote = false
-        when 'k'
-          banstr += tagkoma('玉', false, nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'P'
-          banstr += tagkoma(promote ? 'と' : '歩', true, nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'L'
-          banstr += tagkoma(promote ? '杏' : '香', true, nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'N'
-          banstr += tagkoma(promote ? '圭' : '桂', true, nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'S'
-          banstr += tagkoma(promote ? '全' : '銀', true, nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'G'
-          banstr += tagkoma('金', true, nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'B'
-          banstr += tagkoma(promote ? '馬' : '角', true, nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'R'
-          banstr += tagkoma(promote ? '龍' : '飛', true, nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'K'
-          banstr += tagkoma('玉', true, nsuji, ndan)
+        when 'k', 'K'
+          banstr += tagkoma('玉', ch == 'K', nsuji, ndan)
           nsuji += 1
           promote = false
         when '1'..'9'
@@ -331,7 +298,6 @@ class SfenSVGImage
           promote = false
         when '+'
           promote = true
-        else
         end
       end
 
@@ -342,9 +308,15 @@ class SfenSVGImage
 
   def tagboardstatus
     board = "<g id='board' transform='translate(25,70)'>\n#{taglastmove}"
-    board += tagboardframe
+    board += TAGFRAME
     board += tagkomas
     board + "</g>\n"
+  end
+
+  def numtegoma(num, y)
+    return ['', 0] if num <= 0
+
+    ["<text x='0' y='#{y - 1}' class='ntegoma'>#{num}</text>", 16]
   end
 
   def readtegoma
@@ -353,90 +325,92 @@ class SfenSVGImage
     num = 0
     gstr = ''
     sstr = ''
+    needsuji = false
+    @ys = 0
+    @yg = 0
 
     @strtegoma.each_char do |ch|
       case ch
       when 'P'
-        sstr += '歩'
-        sstr += num.to_s if num > 1
-        num = 0
+        sstr += "<text x='0' y='#{@ys}' class='tegoma'>歩</text>"
+        needsuji = true
       when 'L'
-        sstr += '香'
-        sstr += num.to_s if num > 1
-        num = 0
+        sstr += "<text x='0' y='#{@ys}' class='tegoma'>香</text>"
+        needsuji = true
       when 'N'
-        sstr += '桂'
-        sstr += num.to_s if num > 1
-        num = 0
+        sstr += "<text x='0' y='#{@ys}' class='tegoma'>桂</text>"
+        needsuji = true
       when 'S'
-        sstr += '銀'
-        sstr += num.to_s if num > 1
-        num = 0
+        sstr += "<text x='0' y='#{@ys}' class='tegoma'>銀</text>"
+        needsuji = true
       when 'G'
-        sstr += '金'
-        sstr += num.to_s if num > 1
-        num = 0
+        sstr += "<text x='0' y='#{@ys}' class='tegoma'>金</text>"
+        needsuji = true
       when 'B'
-        sstr += '角'
-        sstr += num.to_s if num > 1
-        num = 0
+        sstr += "<text x='0' y='#{@ys}' class='tegoma'>角</text>"
+        needsuji = true
       when 'R'
-        sstr += '飛'
-        sstr += num.to_s if num > 1
-        num = 0
+        sstr += "<text x='0' y='#{@ys}' class='tegoma'>飛</text>"
+        needsuji = true
       when 'p'
-        gstr += '歩'
-        gstr += num.to_s if num > 1
-        num = 0
+        gstr += "<text x='0' y='#{@yg}' class='tegoma'>歩</text>"
+        needsuji = true
       when 'l'
-        gstr += '香'
-        gstr += num.to_s if num > 1
-        num = 0
+        gstr += "<text x='0' y='#{@yg}' class='tegoma'>香</text>"
+        needsuji = true
       when 'n'
-        gstr += '桂'
-        gstr += num.to_s if num > 1
-        num = 0
+        gstr += "<text x='0' y='#{@yg}' class='tegoma'>桂</text>"
+        needsuji = true
       when 's'
-        gstr += '銀'
-        gstr += num.to_s if num > 1
-        num = 0
+        gstr += "<text x='0' y='#{@yg}' class='tegoma'>銀</text>"
+        needsuji = true
       when 'g'
-        gstr += '金'
-        gstr += num.to_s if num > 1
-        num = 0
+        gstr += "<text x='0' y='#{@yg}' class='tegoma'>金</text>"
+        needsuji = true
       when 'b'
-        gstr += '角'
-        gstr += num.to_s if num > 1
-        num = 0
+        gstr += "<text x='0' y='#{@yg}' class='tegoma'>角</text>"
+        needsuji = true
       when 'r'
-        gstr += '飛'
-        gstr += num.to_s if num > 1
-        num = 0
+        gstr += "<text x='0' y='#{@yg}' class='tegoma'>飛</text>"
+        needsuji = true
       when '0'..'9'
         num = num * 10 + ch.to_i
       end
+      next unless needsuji
+      if /[A-Z]/ =~ ch
+        @ys += 16
+        ret = numtegoma(num, @ys)
+        sstr += ret[0]
+        @ys += ret[1]
+      else
+        @yg += 16
+        ret = numtegoma(num, @yg)
+        gstr += ret[0]
+        @yg += ret[1]
+      end
+      num = 0
+      needsuji = false
     end
 
     @stgm = sstr
     @gtgm = gstr
+    # @gtgm = "<text x='0' y='0' class='tegoma'>#{gstr}</text>"
+    # @stgm = "<text x='0' y='0' class='tegoma'>#{sstr}</text>"
   end
 
   def tagtegoma
-    gtgm = "<text x='0' y='0' class='tegoma'>#{@gtgm}</text>"
-    stgm = "<text x='0' y='0' class='tegoma'>#{@stgm}</text>"
-
     ret = <<-TAGTEGOMA.unindent
       <g id="gtegoma" transform="translate(7.5,65)">
        <g transform="translate(4,-7)">
         <polygon points="0,-5 4,-4 5,5 -5,5 -4,-4" fill="none"/>
        </g>
-       #{gtgm}
+       <g transform="translate(4,16)">#{@gtgm}</g>
       </g>
       <g id="stegoma" transform="translate(230,65)">
        <g transform="translate(4,-7)">
         <polygon points="0,-5 4,-4 5,5 -5,5 -4,-4" fill="black"/>
        </g>
-       #{stgm}
+       <g transform="translate(4,16)">#{@stgm}</g>
       </g>
       TAGTEGOMA
 
