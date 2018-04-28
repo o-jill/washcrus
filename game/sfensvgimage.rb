@@ -78,13 +78,21 @@ class SfenSVGImage
   def tagteban
     case @turn
     when 'w'
-      '<g id="teban" transform="translate(0,0)">\n' \
-      ' <rect x="0" y="20" width="30" height="30" stroke="none" fill="#F3C"/>\n' \
-      '</g>\n'
+      "<g id='teban' transform='translate(0,0)'>\n" \
+      " <rect x='0' y='20' width='30' height='30' class='teban'/>\n" \
+      "</g>\n"
     when 'b'
-      '<g id="teban" transform="translate(220,260)">\n' \
-      ' <rect x="0" y="0" width="30" height="30" stroke="none" fill="#F3C"/>\n' \
-      '</g>\n'
+      "<g id='teban' transform='translate(220,260)'>\n" \
+      " <rect x='0' y='0' width='30' height='30' class='teban'/>\n" \
+      "</g>\n"
+    when 'fw'
+      "<g id='teban' transform='translate(30,20)'>\n" \
+      " <polygon points='15,0 22.5,5 30,0 30,30 0,30 0,0 7.5,5' class='teban'/>\n" \
+      "</g>\n"
+    when 'fb'
+      "<g id='teban' transform='translate(0,260)'>\n" \
+      " <polygon points='15,0 22.5,5 30,0 30,30 0,30 0,0 7.5,5' class='teban'/>\n" \
+      "</g>\n"
     else
       ''
     end
@@ -154,6 +162,10 @@ class SfenSVGImage
           text-anchor: left;
           dominant-baseline: middle;
           alignment-baseline: middle;
+         }
+         .teban {
+           stroke : none;
+           fill: #F3C;
          }
         /* ]]> */
        </style>
