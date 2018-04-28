@@ -74,6 +74,9 @@ var last_mx = -1;
 /** 最終手 段 */
 var last_my = -1;
 
+/** 対局終了 */
+var isfinished = false;
+
 function update_banindex_row(strtbl) {
   for (var i = 0 ; i < 9 ; ++i) {
     var row = document.getElementById('banrow'+(i+1));
@@ -1240,7 +1243,7 @@ function turn_taikyoku_on()
 {
   // String('true') or String('false')
   var strfinished = document.getElementById('isfinished').value;
-  var isfinished = (strfinished !== 'false');  // convert to boolean
+  isfinished = (strfinished !== 'false');  // convert to boolean
 
   if (isfinished) {
     taikyokuchu = false;
@@ -1390,7 +1393,7 @@ function init_board() {
 
   activateteban();
 
-  if (!taikyokuchu) {
+  if (!isfinished || !taikyokuchu) {
     startUpdateTimer();
   }
 
