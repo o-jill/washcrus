@@ -102,13 +102,15 @@ class MatchListScreen
   # @param games 対局リスト
   def put_recentgames(games)
     print <<-RESULT_TABLE.unindent
-      <TABLE align='center' border='1'>
-      <caption><a href='#chu'>対局中へ</a> <a name='recent'>30日以内</a></caption>
+      <div align='center'>
+       <a href='#chu'>対局中へ</a> <a name='recent'>30日以内</a>
+      </div>
+      <div id="taikyokurecent" class="taikyokuchu">
       RESULT_TABLE
     games.each do |game|
       print_res(game)
     end
-    puts '</TABLE>'
+    puts '</div>'
   end
 
   # 画面の表示
