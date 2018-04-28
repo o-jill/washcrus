@@ -34,20 +34,19 @@ class GameHtml
   def put(header)
     @log.debug('print header')
     print header
-    print <<-HTMLELEMENTS_HEADER.unindent
-      <html>#{headerelement}
-      <body>
-      HTMLELEMENTS_HEADER
+    puts "<!DOCTYPE html>\n<html>#{headerelement}<body>"
 
     CommonUI.html_menu(@userinfo)
 
-    print <<-HTMLELEMENTS_BODY.unindent
+    print <<-HEAD_GAMEAREA.unindent
       <div class=gamearea>
        <div id='notify_area' class='notify'>
         <BR>指されました。ページを再読込してください。
         <input type='image' style='vertical-align:middle;' id='btn_reload' src='./image/reloadbtn.png' onclick='location.reload(true);' alt='再読込' title='再読込'/>
         <BR><BR>
        </div>
+      HEAD_GAMEAREA
+    puts <<-CONTENT_GAMEAREA.unindent
        <div class=block>
         <section class='block_elem_ban' id='block_elem_ban'> #{banelement} </section>
         <section class='block_elem_kifu'> #{kifuelement} </section>
@@ -55,9 +54,8 @@ class GameHtml
        #{chatelement}
       </div>
       <HR><footer><div style='text-align:right;'>ぢるっち(c)2017</div></footer>
-      #{hiddenelement}
-      </body></html>
-      HTMLELEMENTS_BODY
+      CONTENT_GAMEAREA
+    puts "#{hiddenelement}</body></html>"
   end
 
   # 将棋盤の部品
