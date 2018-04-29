@@ -179,7 +179,7 @@ class MatchInfoFile
   # @param mv 着手情報文字列
   # @param dt [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
   def setlastmove(mv, dt)
-    @lastmove = mv unless /^[+-]/ =~ mv
+    @lastmove = mv unless mv !~ /^[+-]/
     @dt_lastmove = dt
   end
 
