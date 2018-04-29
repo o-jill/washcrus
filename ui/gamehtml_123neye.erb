@@ -5,6 +5,15 @@
 <span style='display:none;' id='sfen_'><%= @mi.sfen %></span>
 <input type='hidden' id='lastmove' value='<%= @mi.lastmove %>'/>
 <input type='hidden' id='isfinished' value='<%= @mi.finished %>'/><BR>
+<% if @mi.finished %>
 <input type='hidden' id='myteban' value='<%= @mi.turnex %>'/>
+<% elsif @mi.playerb.id == @userinfo.user_id %>
+<input type='hidden' id='myteban' value='b'/>
+<% elsif @mi.playerw.id == @userinfo.user_id %>
+<input type='hidden' id='myteban' value='w'/>
+<% else %>
+<input type='hidden' id='myteban' value='0'/>
+<% end %>
+
 <span id='tebaninfo'>手番情報</span>
 <input type='image' src='./image/resignbtn.svg' alt='投了(resign)' title='投了(resign)' id='btn_resign' onclick="onresign()"/>
