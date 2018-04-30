@@ -106,6 +106,7 @@ class NewGameScreen
       FORM_NEW_GAME_TAIL
   end
 
+  # 振り駒用の画像タグの出力
   def put_furigomaimg(prefix, style)
     (1..5).each do |i|
       puts <<-KOMAIMG.unindent

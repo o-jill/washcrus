@@ -41,10 +41,16 @@ class WebApiSfenReader
     @lastmove = csa[3, 2] || ''
   end
 
+  # タイトル文字列の設定
+  #
+  # @param t タイトル文字列
   def settitle(t)
     @title = t
   end
 
+  # 手番の設定
+  #
+  # @param t 手番
   def setturn(t)
     @turn = t
   end

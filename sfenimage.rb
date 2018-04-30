@@ -52,7 +52,6 @@ class SfenImage
 
   #
   # cgi実行本体。
-  # QUERY_STRINGによる分岐
   #
   def perform
     ssi = SfenSVGImage.new(@sfen)

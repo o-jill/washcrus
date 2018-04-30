@@ -104,6 +104,9 @@ class MatchInfoFile
     @log = nil
   end
 
+  # 勝ち負けを含む手番文字列
+  #
+  # @return 手番文字列(b, w, fb, fw)
   def turnex
     (@finished ? 'f' : '') + @turn
   end
@@ -211,6 +214,12 @@ class MatchInfoFile
     setsfen(sfenstr, item)
   end
 
+  # 持ち時間の初期化
+  #
+  # @param tt 持ち時間
+  # @param byou 秒読み
+  # @param ex 考慮時間回数
+  # @param ext 考慮時間/回
   def initmochijikan(tt, byou, ex, ext)
     @playerb.setmochijikan(thinktime: tt, extracount: ex)
     @playerw.setmochijikan(thinktime: tt, extracount: ex)
@@ -219,10 +228,18 @@ class MatchInfoFile
     @extratime = ext
   end
 
+  # 先手の持ち時間の設定
+  #
+  # @param tt 持ち時間
+  # @param ex 考慮時間回数
   def setmochijikanb(tt, ex)
     @playerb.setmochijikan(thinktime: tt, extracount: ex)
   end
 
+  # 後手の持ち時間の設定
+  #
+  # @param tt 持ち時間
+  # @param ex 考慮時間回数
   def setmochijikanw(tt, ex)
     @playerw.setmochijikan(thinktime: tt, extracount: ex)
   end

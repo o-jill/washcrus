@@ -8,7 +8,13 @@ require 'unindent'
 # sname=aoki&
 # gname=aoki
 
+#
+# Sfenから局面図SVGを生成
+#
 class SfenSVGImage
+  # 初期化
+  #
+  # @param sfen sfen文字列
   def initialize(sfen)
     @sfen = sfen
     @sname = nil
@@ -21,20 +27,35 @@ class SfenSVGImage
     parse
   end
 
+  # 対局者名の設定
+  #
+  # @param sname 先手
+  # @param gname 後手
   def setnames(sname, gname)
     @sname = sname
     @gname = gname
   end
 
+  # タイトルの設定
+  #
+  # @param title タイトル
   def settitle(title)
     @title = title
   end
 
+  # 指し手情報の設定
+  #
+  # @param lm 最後に動かしたマス
+  # @param turn 手番(b/w)or勝利情報(fb/fw)
   def setmoveinfo(lm, turn)
     @lm = lm
     @turn = turn
   end
 
+  # コマの種類の設定
+  #
+  # @param piecetype コマの種類
+  # @note not supported yet.
   def setui(piecetype)
     @piecetye = piecetype
   end
@@ -55,6 +76,7 @@ class SfenSVGImage
     readtegoma
   end
 
+  # 名前タグの生成
   def tagname
     ret = <<-NAMETAG.unindent
       <g id="gname" transform="translate(5,25)">
@@ -71,10 +93,12 @@ class SfenSVGImage
     ret
   end
 
+  # タイトルタグの生成
   def tagtitle
     "<g id='title'><text class='title' x='125' y='10'>#{@title}</text></g>\n"
   end
 
+  # 手番タグの生成
   def tagteban
     tagrect = "<rect x='0' y='0' width='30' height='30' class='teban'/>"
     ptspoly = "points='15,0 22.5,5 30,0 30,30 0,30 0,0 7.5,5'"
@@ -94,6 +118,7 @@ class SfenSVGImage
     end
   end
 
+  # svgヘッダタグ
   TAG_HEADER = <<-EO_TAG_HEADER.unindent
     <?xml version="1.0"?>
     <svg width="250" height="290" viewBox="0 0 250 290" version="1.1" xmlns="http://www.w3.org/2000/svg" >
@@ -174,14 +199,17 @@ class SfenSVGImage
      <g>
     EO_TAG_HEADER
 
+  # svgヘッダタグ
   def tag_header
     TAG_HEADER
   end
 
+  # svgフッタタグの生成
   def tag_footer
     " </g>\n</svg>\n"
   end
 
+  # 最終手タグの生成
   def taglastmove
     return '' unless @lm
 
@@ -198,6 +226,7 @@ class SfenSVGImage
     "<rect x='#{x}' y='#{y}' width='20' height='20' class='lastmv'/>\n"
   end
 
+  # 将棋盤フレームタグ
   TAGFRAME = <<-EOTAGFRAME.unindent
     <g id="ban">
      <rect x="0" y="0" width="180" height="180"/>
@@ -238,6 +267,7 @@ class SfenSVGImage
     </g>
     EOTAGFRAME
 
+  # 駒のタグの生成
   def tagkoma(nm, sente, x, y)
     x *= 20
     y *= 20
@@ -251,6 +281,7 @@ class SfenSVGImage
     end
   end
 
+  # 駒達のタグの生成
   def tagkomas
     banstr = ''
     ban = @strban.split('/')
@@ -306,6 +337,7 @@ class SfenSVGImage
     banstr
   end
 
+  # 将棋盤のタグの生成
   def tagboardstatus
     board = "<g id='board' transform='translate(25,70)'>\n#{taglastmove}"
     board += TAGFRAME
@@ -313,12 +345,14 @@ class SfenSVGImage
     board + "</g>\n"
   end
 
+  # 手駒の数字タグの生成
   def numtegoma(num, y)
     return ['', 0] if num <= 0
 
     ["<text x='0' y='#{y - 1}' class='ntegoma'>#{num}</text>", 16]
   end
 
+  # 手駒の読み取り
   def readtegoma
     return unless @strtegoma
 
@@ -398,6 +432,7 @@ class SfenSVGImage
     # @stgm = "<text x='0' y='0' class='tegoma'>#{sstr}</text>"
   end
 
+  # 手駒のタグの生成
   def tagtegoma
     ret = <<-TAGTEGOMA.unindent
       <g id="gtegoma" transform="translate(7.5,65)">
@@ -417,6 +452,7 @@ class SfenSVGImage
     ret
   end
 
+  # 将棋内容タグの生成
   def gen_contents
     cnt = tagtitle
     cnt += tagteban
@@ -425,6 +461,8 @@ class SfenSVGImage
     cnt + tagboardstatus
   end
 
+  # svg画像の生成
+  #
   # @return svg文字列。エラーの場合はエラー情報画像。
   def gen
     svg = tag_header

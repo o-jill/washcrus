@@ -30,6 +30,7 @@ class MyPageScreen
     CommonUI.html_foot
   end
 
+  # ナビゲーションメニューの出力
   def put_navi
     puts <<-NAVI_AREA
       <div id=mypagenav class=mynav>
@@ -242,6 +243,7 @@ class MyPageScreen
     udb.content.stats[uid]
   end
 
+  # アカウント設定、メールアドレス設定の出力
   def put_accountsettings
     puts <<-ACCOUNTSETTINGS.unindent
       <div class=myarticle id=mypage_password style="display:none;">
@@ -270,6 +272,7 @@ class MyPageScreen
       ACCOUNTSETTINGS
   end
 
+  # スクリプトの出力
   def put_script
     puts <<-SCRIPT.unindent
       <script>

@@ -117,7 +117,7 @@ class JsonKifu
   #
   # @param mv  指し手
   # @param tm  消費時間
-  # @param cmt コメント
+  #
   # @return { 'move':, 'time': }
   def movehash(mv, tm)
     # @log.debug("mv.checkdou if $#{@moves[-1]['move'].to_s}$")
