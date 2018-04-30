@@ -199,15 +199,8 @@ class SfenSVGImage
      <g>
     EO_TAG_HEADER
 
-  # svgヘッダタグ
-  def tag_header
-    TAG_HEADER
-  end
-
-  # svgフッタタグの生成
-  def tag_footer
-    " </g>\n</svg>\n"
-  end
+  # svgフッタタグ
+  TAG_FOOTER = " </g>\n</svg>\n".freeze
 
   # 最終手タグの生成
   def taglastmove
@@ -268,10 +261,23 @@ class SfenSVGImage
     EOTAGFRAME
 
   # 駒のタグの生成
-  def tagkoma(nm, sente, x, y)
+  #
+  # @param ch sfen文字
+  # @param prmt 1:成った駒, 0:成ってない
+  # @param sente true:先手, false:後手
+  # @param x 筋
+  # @param y 段
+  #
+  # @return 駒タグ
+  def tagkoma(ch, prmt, sente, x, y)
     x *= 20
     y *= 20
     ret = "<g transform='translate(#{x},#{y})'>\n"
+
+    pos = 'PLNSGBRK'.index(ch)
+    return '' unless pos
+    nm = '歩と香杏桂圭銀全金金角馬飛龍玉玉'[2 * pos + prmt, 1]
+
     if sente
       ret + " <text x='10' y='12' class='koma'>#{nm}</text>\n</g>\n"
     else
@@ -281,59 +287,50 @@ class SfenSVGImage
     end
   end
 
+  # ある段の駒達のタグの生成
+  #
+  # @param adan sfen文字列
+  # @param ndan 段
+  #
+  # @return ある段の駒達のタグ
+  def tagkomas_dan(adan, ndan)
+    banstr = ''
+    promote = 0
+    nsuji = 0
+
+    adan.each_char do |ch|
+      case ch
+      when /[PLNSGBRK]/
+        banstr += tagkoma(ch, promote, true, nsuji, ndan)
+        nsuji += 1
+        promote = 0
+      when /[plnsgbrk]/
+        banstr += tagkoma(ch.upcase, promote, false, nsuji, ndan)
+        nsuji += 1
+        promote = 0
+      when '1'..'9'
+        nsuji += ch.to_i
+        promote = 0
+      when '+'
+        promote = 1
+      end
+    end
+
+    banstr
+  end
+
   # 駒達のタグの生成
   def tagkomas
     banstr = ''
     ban = @strban.split('/')
     ndan = 0
-    promote = false
-    ban.each do |adan|
-      nsuji = 0
 
-      adan.each_char do |ch|
-        case ch
-        when 'p', 'P'
-          banstr += tagkoma(promote ? 'と' : '歩', ch == 'P', nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'l', 'L'
-          banstr += tagkoma(promote ? '杏' : '香', ch == 'L', nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'n', 'N'
-          banstr += tagkoma(promote ? '圭' : '桂', ch == 'N', nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 's', 'S'
-          banstr += tagkoma(promote ? '全' : '銀', ch == 'S', nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'g', 'G'
-          banstr += tagkoma('金', ch == 'G', nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'b', 'B'
-          banstr += tagkoma(promote ? '馬' : '角', ch == 'B', nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'r', 'R'
-          banstr += tagkoma(promote ? '龍' : '飛', ch == 'R', nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when 'k', 'K'
-          banstr += tagkoma('玉', ch == 'K', nsuji, ndan)
-          nsuji += 1
-          promote = false
-        when '1'..'9'
-          nsuji += ch.to_i
-          promote = false
-        when '+'
-          promote = true
-        end
-      end
+    ban.each do |adan|
+      banstr += tagkomas_dan(adan, ndan)
 
       ndan += 1
     end
+
     banstr
   end
 
@@ -346,10 +343,26 @@ class SfenSVGImage
   end
 
   # 手駒の数字タグの生成
+  #
+  # @param num 数字
+  # @param y y座標
+  #
+  # @return 手駒数字タグ
   def numtegoma(num, y)
-    return ['', 0] if num <= 0
+    "<text x='0' y='#{y - 1}' class='ntegoma'>#{num}</text>"
+  end
 
-    ["<text x='0' y='#{y - 1}' class='ntegoma'>#{num}</text>", 16]
+  # sfen文字から手駒タグの生成
+  #
+  # @param ch sfen文字
+  # @param y y座標
+  #
+  # @return 手駒タグ
+  def str_sgtgm(ch, y)
+    pos = 'PLNSGBR'.index(ch)
+    return '' unless pos
+    koma = '歩香桂銀金角飛'[pos, 1]
+    "<text x='0' y='#{y}' class='tegoma'>#{koma}</text>"
   end
 
   # 手駒の読み取り
@@ -357,79 +370,29 @@ class SfenSVGImage
     return unless @strtegoma
 
     num = 0
-    gstr = ''
-    sstr = ''
-    needsuji = false
+    @stgm = ''
+    @gtgm = ''
     @ys = 0
     @yg = 0
 
     @strtegoma.each_char do |ch|
       case ch
-      when 'P'
-        sstr += "<text x='0' y='#{@ys}' class='tegoma'>歩</text>"
-        needsuji = true
-      when 'L'
-        sstr += "<text x='0' y='#{@ys}' class='tegoma'>香</text>"
-        needsuji = true
-      when 'N'
-        sstr += "<text x='0' y='#{@ys}' class='tegoma'>桂</text>"
-        needsuji = true
-      when 'S'
-        sstr += "<text x='0' y='#{@ys}' class='tegoma'>銀</text>"
-        needsuji = true
-      when 'G'
-        sstr += "<text x='0' y='#{@ys}' class='tegoma'>金</text>"
-        needsuji = true
-      when 'B'
-        sstr += "<text x='0' y='#{@ys}' class='tegoma'>角</text>"
-        needsuji = true
-      when 'R'
-        sstr += "<text x='0' y='#{@ys}' class='tegoma'>飛</text>"
-        needsuji = true
-      when 'p'
-        gstr += "<text x='0' y='#{@yg}' class='tegoma'>歩</text>"
-        needsuji = true
-      when 'l'
-        gstr += "<text x='0' y='#{@yg}' class='tegoma'>香</text>"
-        needsuji = true
-      when 'n'
-        gstr += "<text x='0' y='#{@yg}' class='tegoma'>桂</text>"
-        needsuji = true
-      when 's'
-        gstr += "<text x='0' y='#{@yg}' class='tegoma'>銀</text>"
-        needsuji = true
-      when 'g'
-        gstr += "<text x='0' y='#{@yg}' class='tegoma'>金</text>"
-        needsuji = true
-      when 'b'
-        gstr += "<text x='0' y='#{@yg}' class='tegoma'>角</text>"
-        needsuji = true
-      when 'r'
-        gstr += "<text x='0' y='#{@yg}' class='tegoma'>飛</text>"
-        needsuji = true
+      when %r{[PLNSGBR]}
+        @stgm += str_sgtgm(ch, @ys)
+        @ys += 16
+        @stgm += numtegoma(num, @ys) if num > 1
+        @ys += 16 if num > 1
+        num = 0
+      when %r{[plnsgbr]}
+        @gtgm += str_sgtgm(ch.upcase, @yg)
+        @yg += 16
+        @gtgm += numtegoma(num, @yg) if num > 1
+        @ys += 16 if num > 1
+        num = 0
       when '0'..'9'
         num = num * 10 + ch.to_i
       end
-      next unless needsuji
-      if /[A-Z]/ =~ ch
-        @ys += 16
-        ret = numtegoma(num, @ys)
-        sstr += ret[0]
-        @ys += ret[1]
-      else
-        @yg += 16
-        ret = numtegoma(num, @yg)
-        gstr += ret[0]
-        @yg += ret[1]
-      end
-      num = 0
-      needsuji = false
     end
-
-    @stgm = sstr
-    @gtgm = gstr
-    # @gtgm = "<text x='0' y='0' class='tegoma'>#{gstr}</text>"
-    # @stgm = "<text x='0' y='0' class='tegoma'>#{sstr}</text>"
   end
 
   # 手駒のタグの生成
@@ -454,19 +417,15 @@ class SfenSVGImage
 
   # 将棋内容タグの生成
   def gen_contents
-    cnt = tagtitle
-    cnt += tagteban
-    cnt += tagname
-    cnt += tagtegoma
-    cnt + tagboardstatus
+    tagtitle + tagteban + tagname + tagtegoma + tagboardstatus
   end
 
   # svg画像の生成
   #
   # @return svg文字列。エラーの場合はエラー情報画像。
   def gen
-    svg = tag_header
+    svg = TAG_HEADER
     svg += gen_contents
-    svg + tag_footer
+    svg + TAG_FOOTER
   end
 end
