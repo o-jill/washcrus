@@ -153,9 +153,9 @@ class UserInfoFileContent
 
   # duplication check?
   #
-  # [pw] user's PASSWORD to be checked
-  def exist_password(pw)
-    @passwords.value?(pw)
+  # [pwd] user's PASSWORD to be checked
+  def exist_password(pwd)
+    @passwords.value?(pwd)
   end
 
   # duplication check

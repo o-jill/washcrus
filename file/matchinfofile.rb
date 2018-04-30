@@ -216,13 +216,13 @@ class MatchInfoFile
 
   # 持ち時間の初期化
   #
-  # @param tt 持ち時間
+  # @param ttm 持ち時間
   # @param byou 秒読み
   # @param ex 考慮時間回数
   # @param ext 考慮時間/回
-  def initmochijikan(tt, byou, ex, ext)
-    @playerb.setmochijikan(thinktime: tt, extracount: ex)
-    @playerw.setmochijikan(thinktime: tt, extracount: ex)
+  def initmochijikan(ttm, byou, ex, ext)
+    @playerb.setmochijikan(thinktime: ttm, extracount: ex)
+    @playerw.setmochijikan(thinktime: ttm, extracount: ex)
     @maxbyouyomi = byou
     @byouyomi = byou
     @extratime = ext
@@ -230,18 +230,18 @@ class MatchInfoFile
 
   # 先手の持ち時間の設定
   #
-  # @param tt 持ち時間
+  # @param ttm 持ち時間
   # @param ex 考慮時間回数
-  def setmochijikanb(tt, ex)
-    @playerb.setmochijikan(thinktime: tt, extracount: ex)
+  def setmochijikanb(ttm, ex)
+    @playerb.setmochijikan(thinktime: ttm, extracount: ex)
   end
 
   # 後手の持ち時間の設定
   #
-  # @param tt 持ち時間
+  # @param ttm 持ち時間
   # @param ex 考慮時間回数
-  def setmochijikanw(tt, ex)
-    @playerw.setmochijikan(thinktime: tt, extracount: ex)
+  def setmochijikanw(ttm, ex)
+    @playerw.setmochijikan(thinktime: ttm, extracount: ex)
   end
 
   def setmochijikans(data)
@@ -344,7 +344,7 @@ class MatchInfoFile
 
     self
   rescue
-    return nil
+    nil
   end
 
   # ハッシュにして返す

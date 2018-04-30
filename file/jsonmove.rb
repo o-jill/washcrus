@@ -24,22 +24,22 @@ module JsonMove
 
   # 投了などの特別な手のハッシュ
   #
-  # @param tx 特別な手の文字列
+  # @param txt 特別な手の文字列
   # @return 特別な手のハッシュ
-  def self.fromtextspecial(tx)
-    { special: tx[1, tx.length - 1] }
+  def self.fromtextspecial(txt)
+    { special: txt[1, txt.length - 1] }
   end
 
   KOMA = %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY].freeze
 
   # 駒が有効かどうかの確認
   #
-  # @param cc CSA駒文字
-  # @return 駒が有効ならcc, 無効ならnil
-  def self.checkpiece(cc)
-    return if cc == '__'
-    return unless KOMA.find_index(cc)
-    cc
+  # @param cch CSA駒文字
+  # @return 駒が有効ならcch, 無効ならnil
+  def self.checkpiece(cch)
+    return if cch == '__'
+    return unless KOMA.find_index(cch)
+    cch
   end
 
   # 先手か後手の読み取り
@@ -105,12 +105,12 @@ module JsonMove
 
   # 指し手文字列の読み取り
   #
-  # @param tx 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
+  # @param txt 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
   # @return エラー:nil, 正常終了:指し手ハッシュ
-  def self.read_move(tx)
-    mycolor = read_sengo(tx)
-    txy = read_toxy(tx)
-    mypiece = checkpiece(tx[5, 2])
+  def self.read_move(txt)
+    mycolor = read_sengo(txt)
+    txy = read_toxy(txt)
+    mypiece = checkpiece(txt[5, 2])
 
     ret = {
       'to' => txy,
@@ -121,29 +121,29 @@ module JsonMove
       return nil unless vl
     end
 
-    fxy = read_fromxy(tx)
+    fxy = read_fromxy(txt)
     return unless fxy
     ret['from'] = fxy[:val]
 
-    ret = read_capture(tx, ret)
+    ret = read_capture(txt, ret)
 
-    ret = read_promote(tx, ret)
+    ret = read_promote(txt, ret)
 
     ret
   end
 
   # 指し手文字列から指し手ハッシュに変換
   #
-  # @param tx 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
+  # @param txt 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
   #          %TORYO, %SENNICHITEなど
   # @return エラー:nil, 正常終了:指し手ハッシュ
-  def self.fromtext(tx)
-    return unless tx
+  def self.fromtext(txt)
+    return unless txt
 
-    return fromtextspecial(tx) if tx[0] == '%'
+    return fromtextspecial(txt) if txt[0] == '%'
 
-    return unless (9..10).cover?(tx.length)
+    return unless (9..10).cover?(txt.length)
 
-    read_move(tx)
+    read_move(txt)
   end
 end

@@ -43,26 +43,26 @@ class WebApiSfenReader
 
   # タイトル文字列の設定
   #
-  # @param t タイトル文字列
-  def settitle(t)
-    @title = t
+  # @param ttl タイトル文字列
+  def settitle(ttl)
+    @title = ttl
   end
 
   # 手番の設定
   #
-  # @param t 手番
-  def setturn(t)
-    @turn = t
+  # @param trn 手番
+  def setturn(trn)
+    @turn = trn
   end
 
   # ハッシュに名前を追加
   #
-  # @param h ハッシュ
+  # @param hash ハッシュ
   # @return 名前が追加されたハッシュ
-  def params_plys(h)
-    h[:sname] = @playerb unless @playerw.empty?
-    h[:gname] = @playerw unless @playerb.empty?
-    h
+  def params_plys(hash)
+    hash[:sname] = @playerb unless @playerw.empty?
+    hash[:gname] = @playerw unless @playerb.empty?
+    hash
   end
 
   # パラメータをハッシュで返す
@@ -72,7 +72,7 @@ class WebApiSfenReader
     ret = { sfen: @sfen }
     ret[:lm] = @lastmove unless @lastmove.empty?
     ret = params_plys(ret)
-    ret[:title] = "#{@title}" unless @title.nil?
+    ret[:title] = @title.to_s unless @title.nil?
 
     case @piecetype
     when PIECE_ALPHABET then ret[:piece] = 'alphabet'

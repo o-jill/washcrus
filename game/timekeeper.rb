@@ -41,15 +41,15 @@ class TimeKeeper
 
   # 時間の設定(途中から用？)
   #
-  # @param tt 持ち時間
-  # @param by 秒読み
+  # @param ttm 持ち時間
+  # @param byou 秒読み
   # @param ex 考慮時間
   # @param lt 最終確認時刻
-  def read(tt, by, ex, lt)
-    @thinktime = tt
-    @byouyomi = by
+  def read(ttm, byou, ex, ltc)
+    @thinktime = ttm
+    @byouyomi = byou
     @extracount = ex
-    @dt_lasttick = lt
+    @dt_lasttick = ltc
   end
 
   # 何日分の秒
