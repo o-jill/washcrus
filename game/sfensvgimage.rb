@@ -387,7 +387,7 @@ class SfenSVGImage
         @gtgm += str_sgtgm(ch.upcase, @yg)
         @yg += 16
         @gtgm += numtegoma(num, @yg) if num > 1
-        @ys += 16 if num > 1
+        @yg += 16 if num > 1
         num = 0
       when '0'..'9'
         num = num * 10 + ch.to_i
