@@ -218,11 +218,11 @@ class MatchInfoFile
   #
   # @param ttm 持ち時間
   # @param byou 秒読み
-  # @param ex 考慮時間回数
+  # @param exc 考慮時間回数
   # @param ext 考慮時間/回
-  def initmochijikan(ttm, byou, ex, ext)
-    @playerb.setmochijikan(thinktime: ttm, extracount: ex)
-    @playerw.setmochijikan(thinktime: ttm, extracount: ex)
+  def initmochijikan(ttm, byou, exc, ext)
+    @playerb.setmochijikan(thinktime: ttm, extracount: exc)
+    @playerw.setmochijikan(thinktime: ttm, extracount: exc)
     @maxbyouyomi = byou
     @byouyomi = byou
     @extratime = ext
@@ -231,19 +231,22 @@ class MatchInfoFile
   # 先手の持ち時間の設定
   #
   # @param ttm 持ち時間
-  # @param ex 考慮時間回数
-  def setmochijikanb(ttm, ex)
+  # @param exc 考慮時間回数
+  def setmochijikanb(ttm, exc)
     @playerb.setmochijikan(thinktime: ttm, extracount: ex)
   end
 
   # 後手の持ち時間の設定
   #
   # @param ttm 持ち時間
-  # @param ex 考慮時間回数
-  def setmochijikanw(ttm, ex)
+  # @param exc 考慮時間回数
+  def setmochijikanw(ttm, exc)
     @playerw.setmochijikan(thinktime: ttm, extracount: ex)
   end
 
+  # 持ち時間の設定
+  #
+  # @param data 持ち時間情報
   def setmochijikans(data)
     @dt_lasttick = data[:dt_lasttick] # 持ち時間最終確認時刻
     @maxbyouyomi = data[:maxbyouyomi] # 秒読み設定
@@ -253,11 +256,18 @@ class MatchInfoFile
     @playerw.setmochijikan(data[:thinktimew])
   end
 
+  # 秒読みと最終確認時間の設定
+  #
+  # @param byou 秒読み
+  # @param dt_lt 最終確認時間
   def setlasttick(byou, dt_lt)
     @byouyomi = byou
     @dt_lasttick = dt_lt
   end
 
+  # 秒読みの充填と最終確認時間の設定
+  #
+  # @param dt_lt 最終確認時間
   def fill_byouyomi(dt_lt)
     setlasttick(@maxbyouyomi, dt_lt)
   end
@@ -333,6 +343,7 @@ class MatchInfoFile
   # ファイルからデータの読み込み
   #
   # @param path ファイルパス
+  #
   # @return nil if invalid, otherwise successful.
   def read(path)
     data = YAML.load_file(path)

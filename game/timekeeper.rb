@@ -43,18 +43,19 @@ class TimeKeeper
   #
   # @param ttm 持ち時間
   # @param byou 秒読み
-  # @param ex 考慮時間
-  # @param lt 最終確認時刻
-  def read(ttm, byou, ex, ltc)
+  # @param exc 考慮時間
+  # @param ltc 最終確認時刻
+  def read(ttm, byou, exc, ltc)
     @thinktime = ttm
     @byouyomi = byou
-    @extracount = ex
+    @extracount = exc
     @dt_lasttick = ltc
   end
 
   # 何日分の秒
   #
   # @param sec 秒数
+  #
   # @return 何日分
   def self.sec2day(sec)
     # (sec / 86_400).floor
@@ -67,6 +68,7 @@ class TimeKeeper
   # 報知が必要かどうかが@houchiに入る。
   #
   # @param elapsed 経過時間[sec]マイナス値
+  #
   # @return 持ち時間から引いた余り(秒読みから減らす分)
   def tick_thinktime(elapsed)
     @houchi = HOUCHI_NONE

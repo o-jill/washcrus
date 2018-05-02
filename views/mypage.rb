@@ -79,11 +79,11 @@ class MyPageScreen
   # 勝ち負け一段分の出力
   #
   # @param title 項目名
-  # @param wn 勝数
-  # @param ls 負数
-  # @param rt 勝率文字列
-  def put_seiseki(title, wn, ls, rt)
-    puts "<tr><th>#{title}</th><td>#{wn}勝#{ls}敗</td><td>#{rt}</td></tr>"
+  # @param win 勝数
+  # @param lose 負数
+  # @param rate 勝率文字列
+  def put_seiseki(title, win, lose, rate)
+    puts "<tr><th>#{title}</th><td>#{win}勝#{lose}敗</td><td>#{rate}</td></tr>"
   end
 
   # 成績表の出力

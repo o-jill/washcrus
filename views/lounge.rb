@@ -72,19 +72,17 @@ class LoungeScreen
   end
 
   # 対局開始UIの表示
-  def put_userinlounge_bottom
-    puts <<-TAIKYOKU_BTN.unindent
-      対戦相手は「<span id='opponentname'>(対戦相手を選んでください)</span>」です。<BR>
-      <select class='inpform' name='sengo' id='sengo'>
-       <option value='0'>振り駒で</option>
-       <option value='1'>自分が先手で</option>
-       <option value='2'>自分が後手で</option>
-      </select>
-      <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
-      <button id='btn_gen' class='inpform' onclick='return onstart()' disabled>Start!</button>
-      </form>
-      TAIKYOKU_BTN
-  end
+  USERINLOUNGE_BOTTOM = <<-EO_USERINLOUNGE_BTM.unindent
+    対戦相手は「<span id='opponentname'>(対戦相手を選んでください)</span>」です。<BR>
+    <select class='inpform' name='sengo' id='sengo'>
+     <option value='0'>振り駒で</option>
+     <option value='1'>自分が先手で</option>
+     <option value='2'>自分が後手で</option>
+    </select>
+    <input type='hidden' id='furigoma' name='furigoma' value='FTFTF' class='inpform'>
+    <button id='btn_gen' class='inpform' onclick='return onstart()' disabled>Start!</button>
+    </form>
+    EO_USERINLOUNGE_BTM
 
   # 対局待ちユーザーの表示
   def put_userinlounge(reqdb, uid)
@@ -92,7 +90,7 @@ class LoungeScreen
 
     reqdb.to_html('対局待ちユーザー', uid)
 
-    put_userinlounge_bottom
+    puts USERINLOUNGE_BOTTOM
 
     sz_and_style = "style='display:none' width='32' height='32'"
     (1..5).each do |i|
@@ -105,6 +103,9 @@ class LoungeScreen
     puts '</div></div>'
   end
 
+  # チャット領域の表示
+  #
+  # @param uname ユーザー名
   def put_chatarea(uname)
     puts <<-CHAT_AREA
       <hr><div id='chatlog' class='chat'>チャットえりあ</div>

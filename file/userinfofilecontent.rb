@@ -165,10 +165,18 @@ class UserInfoFileContent
     @emails.value?(addr)
   end
 
+  # updated password if id exists.
+  #
+  # [id] user id
+  # [dgpw] digested password
   def update_password(id, dgpw)
     @passwords[id] = dgpw if @passwords[id]
   end
 
+  # updated e-mail address if id exists.
+  #
+  # [id] user id
+  # [dgpw] email address
   def update_email(id, email)
     @emails[id] = email if @emails[id]
   end
