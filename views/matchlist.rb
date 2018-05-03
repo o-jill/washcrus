@@ -54,14 +54,14 @@ class MatchListScreen
     tkd.lock do
       tkd.read
     end
-    mi = tkd.mi
+    mif = tkd.mif
 
     sr = WebApiSfenReader.new
-    sr.setplayers(mi.playerb.name, mi.playerw.name)
-    sr.sfen = mi.sfen
-    sr.setlastmovecsa(mi.lastmove)
+    sr.setplayers(mif.playerb.name, mif.playerw.name)
+    sr.sfen = mif.sfen
+    sr.setlastmovecsa(mif.lastmove)
     sr.setturn(turn)
-    sr.settitle(mi.dt_lastmove)
+    sr.settitle(mif.dt_lastmove)
 
     "<img src='#{sr.genuri}' alt='局面図画像#{gid}'" \
     " title='move to game[#{gid}]!'>"

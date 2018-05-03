@@ -14,12 +14,12 @@ class GameHtml
   # 初期化
   #
   # @param gid Game ID
-  # @param mi  MatchInfoFile
+  # @param mif  MatchInfoFile
   # @param kif JsonKifu
   # @param ui  UserInfo
-  def initialize(gid, mi, kif, ui)
+  def initialize(gid, mif, kif, ui)
     @gameid = gid
-    @mi = mi
+    @mif = mif
     @jkf = kif
     @userinfo = ui
     @log = nil
@@ -72,10 +72,10 @@ class GameHtml
   # @return 局面画像へのリンク
   def kyokumen_link
     sr = WebApiSfenReader.new
-    sr.setplayers(@mi.playerb.name, @mi.playerw.name)
-    sr.sfen = @mi.sfen
-    sr.setlastmovecsa(@mi.lastmove)
-    sr.setturn(@mi.turnex)
+    sr.setplayers(@mif.playerb.name, @mif.playerw.name)
+    sr.sfen = @mif.sfen
+    sr.setlastmovecsa(@mif.lastmove)
+    sr.setturn(@mif.turnex)
 
     "<a href='#{sr.genuri}' target='_blank'>局面図画像</a>"
   end
@@ -101,7 +101,7 @@ class GameHtml
   def headerelement
     @log.debug('headerelement')
     stg = Settings.instance
-    title = "#{stg.value['wintitle']} #{@mi.to_vs}"
+    title = "#{stg.value['wintitle']} #{@mif.to_vs}"
     erbtxt = File.read('./ui/gamehtml_header.erb', encoding: 'utf-8')
     ERB.new(erbtxt).result(binding)
   end

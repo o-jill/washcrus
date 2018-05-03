@@ -116,13 +116,13 @@ class JsonKifu
 
   # 駒の移動の反映
   #
-  # @param mv  指し手
+  # @param mov  指し手
   # @param tim  消費時間
   #
   # @return { 'move':, 'time': }
   def movehash(mov, tim)
     # @log.debug("mov.checkdou if $#{@moves[-1]['move'].to_s}$")
-    mov['same'] = true if checkdou(mv)
+    mov['same'] = true if checkdou(mov)
 
     # @log.debug("data = { 'move' => mov }")
     data = { 'move' => mov }

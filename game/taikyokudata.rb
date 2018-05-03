@@ -35,7 +35,7 @@ class TaikyokuData
 
   attr_reader :idb, :playerb, :emailb, :idw, :playerw, :emailw, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :sfenpath,
-              :lockpath, :mi, :jkf
+              :lockpath, :mif, :jkf
   attr_accessor :creator, :log
 
   # 先手のセット
@@ -103,11 +103,11 @@ class TaikyokuData
   def init_files
     # @log.debug('MatchInfoFile.new(gid)')
     # match information file
-    @mi = MatchInfoFile.new(@gid)
-    @mi.setplayers(@idb, @idw)
-    @mi.setcreator(@creator, @datetime)
-    @mi.initmochijikan(0, 259_200, 20, 86_400) # 持ち時間なし、1手3日、考慮日数20日
-    @mi.write(@matchinfopath)
+    @mif = MatchInfoFile.new(@gid)
+    @mif.setplayers(@idb, @idw)
+    @mif.setcreator(@creator, @datetime)
+    @mif.initmochijikan(0, 259_200, 20, 86_400) # 持ち時間なし、1手3日、考慮日数20日
+    @mif.write(@matchinfopath)
 
     # kifu file
     @jkf = JsonKifu.new(@gid)
@@ -121,7 +121,7 @@ class TaikyokuData
 
     # sfen log
     sfs = SfenStore.new(@sfenpath)
-    sfs.add(@mi.sfen)
+    sfs.add(@mif.sfen)
   end
 
   # 対局情報の生成
@@ -213,11 +213,11 @@ class TaikyokuData
   # @return self
   def read
     # データを読み込んで
-    @mi = MatchInfoFile.new(@gid)
-    @mi.log = @log
-    return nil unless @mi.read(matchinfopath)
-    @idb = @mi.playerb.id
-    @idw = @mi.playerw.id
+    @mif = MatchInfoFile.new(@gid)
+    @mif.log = @log
+    return nil unless @mif.read(matchinfopath)
+    @idb = @mif.playerb.id
+    @idw = @mif.playerw.id
     @jkf = JsonKifu.new(@gid)
     return nil unless @jkf.read(kifupath)
     # @chat = ChatFile.new(@gameid)
@@ -227,8 +227,8 @@ class TaikyokuData
 
   # 対局情報の書き出し
   def write
-    # @log.debug('Move.mi.write')
-    @mi.write(@matchinfopath)
+    # @log.debug('Move.mif.write')
+    @mif.write(@matchinfopath)
 
     # @log.debug('Move.jkf.write')
     @jkf.write(@kifupath)
@@ -238,7 +238,7 @@ class TaikyokuData
   #
   # @param type 棋譜形式 'csa','kif','kifu'
   def download_kifu_file(type)
-    puts @mi.build_header2dl(type)
+    puts @mif.build_header2dl(type)
 
     case type
     when 'kif'  then puts @jkf.to_kif  # KIF形式の棋譜のダウンロードページの出力
@@ -262,8 +262,8 @@ class TaikyokuData
 
     return finish_special(jsmv) if jsmv[:special]
 
-    @mi.log = @log
-    return unless @mi.fromsfen(sfen, true)
+    @mif.log = @log
+    return unless @mif.fromsfen(sfen, true)
 
     jc = calc_consumption(datm)
 
@@ -279,8 +279,8 @@ class TaikyokuData
   # @param movestr 着手内容文字列
   # @param now 着手日時オブジェクト
   def updatelastmove(movestr, now)
-    @mi.setlastmove(movestr[0, 7], now.strftime('%Y/%m/%d %H:%M:%S'))
-    @mi.fill_byouyomi(now)
+    @mif.setlastmove(movestr[0, 7], now.strftime('%Y/%m/%d %H:%M:%S'))
+    @mif.fill_byouyomi(now)
   end
 
   # 消費時間の計算
@@ -294,8 +294,8 @@ class TaikyokuData
     # totalstr = total.nil? ? 'nil' : total.to_s
     # @log.debug("total:#{totalstr}")
     jc.settotal(total['total']) if total
-    # @log.debug("Time.parse(#{@mi.dt_lastmove})")
-    t_last = Time.parse(@mi.dt_lastmove)
+    # @log.debug("Time.parse(#{@mif.dt_lastmove})")
+    t_last = Time.parse(@mif.dt_lastmove)
     # @log.debug('jc.diff(datm, t_last)')
     jc.diff(datm, t_last)
     jc
@@ -308,7 +308,7 @@ class TaikyokuData
   def finish_special(jsmv)
     @log.debug('if jsmv[:special]')
     @jkf.move(jsmv)
-    @mi.done_game_sp(jsmv[:special])
+    @mif.done_game_sp(jsmv[:special])
     1
   end
 
@@ -318,7 +318,7 @@ class TaikyokuData
   # @return 0:まだまだ続ける, 1:玉を取って終局
   def finish_if_catch_gyoku(jsmv)
     if JsonMove.catch_gyoku?(jsmv)
-      @mi.done_game_gyoku
+      @mif.done_game_gyoku
       @jkf.resign
       1
     else
@@ -340,7 +340,7 @@ class TaikyokuData
     @log.debug('@jkf.setfinishdate()')
     @jkf.setfinishdate(datm.strftime('%Y/%m/%d %H:%M:%S'))
 
-    @mi.turn = turn
+    @mif.turn = turn
 
     # 勝敗の記入(買った方と負けた方に１加算)
     # userdb読み込み
@@ -353,10 +353,10 @@ class TaikyokuData
   #
   # @param tmkp TimeKeeperオブジェクト
   def update_time(tmkp)
-    @mi.update_time(tmkp, @matchinfopath)
+    @mif.update_time(tmkp, @matchinfopath)
 
     if tmkp.houchi.nonzero?
-      case @mi.turn
+      case @mif.turn
       when 'b' then
         @jkf.setheader('先手考慮日数', "#{tmkp.extracount}日")
       when 'w' then
@@ -372,15 +372,15 @@ class TaikyokuData
   #
   # @param tmkp TimeKeeperオブジェクト
   def tick(tmkp)
-    case @mi.turn
-    when 'b' then ply = mi.playerb
-    when 'w' then ply = mi.playerw
+    case @mif.turn
+    when 'b' then ply = @mif.playerb
+    when 'w' then ply = @mif.playerw
     else return
     end
 
-    puts "tmkp.read(#{ply.thinktime}, #{@mi.byouyomi}," \
-                    "#{ply.extracount}, #{@mi.dt_lasttick})"
-    tmkp.read(ply.thinktime, @mi.byouyomi, ply.extracount, @mi.dt_lasttick)
+    puts "tmkp.read(#{ply.thinktime}, #{@mif.byouyomi}," \
+                    "#{ply.extracount}, #{@mif.dt_lasttick})"
+    tmkp.read(ply.thinktime, @mif.byouyomi, ply.extracount, @mif.dt_lasttick)
 
     puts "tmkp.tick(Time.now #{Time.now})"
     tmkp.tick(Time.now)

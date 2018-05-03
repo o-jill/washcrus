@@ -34,9 +34,9 @@ class ByouyomiChan
   # メールの件名の生成
   #
   # @param type 種類
-  # @param mi MatchInfoFileオブジェクト
+  # @param mif MatchInfoFileオブジェクト
   # @return 件名用文字列
-  def self.build_subject(type, mi)
+  def self.build_subject(type, mif)
     tbl_subject = [
       nil, # 対局者に知らせる必要なし
       "[reminder] it's your turn!!", # 対局者に1日経過を知らせる
@@ -47,7 +47,7 @@ class ByouyomiChan
       'all thinking time was run out!' # 対局者に時間切れを知らせる
     ]
     subject = tbl_subject[type]
-    subject += " (#{mi.to_vs})" if subject
+    subject += " (#{mif.to_vs})" if subject
     subject
   end
 
@@ -69,8 +69,8 @@ class ByouyomiChan
     end
   end
 
-  def build_msg(mi, nply, tmkp)
-    pply = mi.getopponent(nply[:id])
+  def build_msg(mif, nply, tmkp)
+    pply = mif.getopponent(nply[:id])
     opp = pply[:name]
 
     msg = ByouyomiChan.build_msg_abs(tmkp)
@@ -79,8 +79,8 @@ class ByouyomiChan
 
     ret =
       "#{nply[:name]}さん\n\n#{msg}\n\n" \
-      "#{opp}さんは#{mi.dt_lastmove}に１手指されました。\n\n" \
-      "#{@baseurl}index.rb?game/#{mi.gid}\n\n"
+      "#{opp}さんは#{mif.dt_lastmove}に１手指されました。\n\n" \
+      "#{@baseurl}index.rb?game/#{mif.gid}\n\n"
 
     ret
   end
@@ -90,7 +90,7 @@ class ByouyomiChan
   # @param mif MatchInfoFileオブジェクト
   # @param tmkp TimeKeeperオブジェクト
   def send_mail(mif, tmkp)
-    nply = mi.getnextplayer
+    nply = mif.getnextplayer
 
     subject = ByouyomiChan.build_subject(tmkp.houchi, mif)
     msg = build_msg(mif, nply, tmkp)
@@ -130,14 +130,14 @@ class ByouyomiChan
       tkd.setid(id)
       tkd.lock do
         tkd.read
-        mi = tkd.mi
+        mif = tkd.mif
 
-        next if mi.finished
+        next if mif.finished
         puts "id:#{id}"
         tmkp = TimeKeeper.new
 
         tkd.tick(tmkp)
-        send_mail(mi, tmkp)
+        send_mail(mif, tmkp)
       end
     end
   end

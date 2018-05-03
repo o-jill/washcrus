@@ -1,15 +1,15 @@
 <%# -*- coding: utf-8 -*- %>
 <label>
- <input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'<%= ' checked' if @mi.playerw.id == @userinfo.user_id %> >ひふみんアイ</input>
+ <input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'<%= ' checked' if @mif.playerw.id == @userinfo.user_id %> >ひふみんアイ</input>
 </label>
-<span style='display:none;' id='sfen_'><%= @mi.sfen %></span>
-<input type='hidden' id='lastmove' value='<%= @mi.lastmove %>'/>
-<input type='hidden' id='isfinished' value='<%= @mi.finished %>'/><BR>
-<% if @mi.finished %>
-<input type='hidden' id='myteban' value='<%= @mi.turnex %>'/>
-<% elsif @mi.playerb.id == @userinfo.user_id %>
+<span style='display:none;' id='sfen_'><%= @mif.sfen %></span>
+<input type='hidden' id='lastmove' value='<%= @mif.lastmove %>'/>
+<input type='hidden' id='isfinished' value='<%= @mif.finished %>'/><BR>
+<% if @mif.finished %>
+<input type='hidden' id='myteban' value='<%= @mif.turnex %>'/>
+<% elsif @mif.playerb.id == @userinfo.user_id %>
 <input type='hidden' id='myteban' value='b'/>
-<% elsif @mi.playerw.id == @userinfo.user_id %>
+<% elsif @mif.playerw.id == @userinfo.user_id %>
 <input type='hidden' id='myteban' value='w'/>
 <% else %>
 <input type='hidden' id='myteban' value='0'/>

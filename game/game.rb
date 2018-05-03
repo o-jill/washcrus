@@ -85,7 +85,7 @@ class Game
 
     # @log.debug('Game. html rendering')
     # 表示する
-    gh = GameHtml.new(@gameid, tkd.mi, tkd.jkf, @userinfo)
+    gh = GameHtml.new(@gameid, tkd.mif, tkd.jkf, @userinfo)
     gh.log = @log
     # @log.debug('Game.put')
     gh.put(@header)

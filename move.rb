@@ -93,7 +93,7 @@ class Move
 
   # 対局終了メールのタイトルの生成
   def build_finishedtitle
-    "the game was over. (#{@tkd.mi.to_vs})"
+    "the game was over. (#{@tkd.mif.to_vs})"
   end
 
   # 対局終了メールの本文の生成
@@ -102,7 +102,7 @@ class Move
   # @param filename 添付ファイル名
   def build_finishedmsg(nowstr, filename)
     msg = <<-MSG_TEXT.unindent
-      #{@tkd.mi.playerb.name}さん、 #{@tkd.mi.playerw.name}さん
+      #{@tkd.mif.playerb.name}さん、 #{@tkd.mif.playerw.name}さん
 
       対局(#{@gameid})が#{nowstr}に終局しました。
 
@@ -120,9 +120,9 @@ class Move
   # @return 添付ファイル名
   def build_attachfilename
     # 数字だけの時刻の文字列の生成
-    dt = @tkd.mi.dt_lastmove.delete('/:').sub(' ', '_')
+    dt = @tkd.mif.dt_lastmove.delete('/:').sub(' ', '_')
 
-    fname = "#{@tkd.mi.playerb.name}_#{@tkd.mi.playerw.name}_#{dt}.kif"
+    fname = "#{@tkd.mif.playerb.name}_#{@tkd.mif.playerw.name}_#{dt}.kif"
 
     fname.gsub(%r{[\\/*:<>?|]},
                '\\' => '￥', '/' => '／', '*' => '＊', ':' => '：',
@@ -146,10 +146,10 @@ class Move
     }
 
     # @log.debug("msg:#{msg}")
-    mi = @tkd.mi
+    mif = @tkd.mif
     mmgr = MailManager.new
-    mmgr.send_mailex(mi.playerb.email, subject, msg, kifufile)
-    mmgr.send_mailex(mi.playerw.email, subject, msg, kifufile)
+    mmgr.send_mailex(mif.playerb.email, subject, msg, kifufile)
+    mmgr.send_mailex(mif.playerw.email, subject, msg, kifufile)
   end
 
   # 指されましたメールの本文の生成
@@ -173,9 +173,9 @@ class Move
   #
   # @param nowstr   現在の時刻の文字列
   def send_mail_next(nowstr)
-    subject = "it's your turn!! (#{@tkd.mi.to_vs})"
+    subject = "it's your turn!! (#{@tkd.mif.to_vs})"
     # @log.debug("subject:#{subject}")
-    opp = @tkd.mi.getopponent(@userinfo.user_id)
+    opp = @tkd.mif.getopponent(@userinfo.user_id)
     # @log.debug("opp:#{opp}")
 
     msg = build_nextturnmsg(opp[:name], nowstr)
@@ -207,8 +207,8 @@ class Move
   # @note draw非対応
   def finish_game(tcdb, now)
     # 終了日時の更新とか勝敗の記録とか
-    @log.debug("tkd.finished(now, #{@tkd.mi.teban} == 'b')")
-    gote_win = (@tkd.mi.teban == 'b')
+    @log.debug("tkd.finished(now, #{@tkd.mif.teban} == 'b')")
+    gote_win = (@tkd.mif.teban == 'b')
     @turn = gote_win ? 'fw' : 'fb'
     @tkd.finished(now, gote_win, @turn)
 
@@ -230,7 +230,7 @@ class Move
   # @param finished [boolean] 終局したかどうか
   # @param now      [Time]    着手日時オブジェクト
   def register_move(finished, now)
-    @turn = @tkd.mi.teban
+    @turn = @tkd.mif.teban
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
@@ -240,7 +240,7 @@ class Move
     # @log.debug('Move.updatelastmove')
     @tkd.updatelastmove(@move, now)
 
-    # @log.debug('Move.mi.write')
+    # @log.debug('Move.mif.write')
     # @log.debug('Move.jkf.write')
     @tkd.write
 
