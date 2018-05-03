@@ -170,20 +170,20 @@ class MatchInfoFile
   # 対局設定者の情報のセットと初期最終着手日時のセット
   #
   # @param name 対局設定者の名前
-  # @param dt   生成時刻
-  def setcreator(name, dt)
+  # @param datm 生成時刻
+  def setcreator(name, datm)
     @creator = name
-    @dt_created = dt
-    @dt_lastmove = dt
+    @dt_created = datm
+    @dt_lastmove = datm
   end
 
   # 着手情報のセット
   #
   # @param mv 着手情報文字列
-  # @param dt [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
-  def setlastmove(mv, dt)
+  # @param datm [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
+  def setlastmove(mv, datm)
     @lastmove = mv unless mv !~ /^[+-]/
-    @dt_lastmove = dt
+    @dt_lastmove = datm
   end
 
   # sfenから得られる情報のセット
@@ -233,7 +233,7 @@ class MatchInfoFile
   # @param ttm 持ち時間
   # @param exc 考慮時間回数
   def setmochijikanb(ttm, exc)
-    @playerb.setmochijikan(thinktime: ttm, extracount: ex)
+    @playerb.setmochijikan(thinktime: ttm, extracount: exc)
   end
 
   # 後手の持ち時間の設定
@@ -241,7 +241,7 @@ class MatchInfoFile
   # @param ttm 持ち時間
   # @param exc 考慮時間回数
   def setmochijikanw(ttm, exc)
-    @playerw.setmochijikan(thinktime: ttm, extracount: ex)
+    @playerw.setmochijikan(thinktime: ttm, extracount: exc)
   end
 
   # 持ち時間の設定

@@ -101,15 +101,15 @@ class RegisterScreen
   #
   # @param addr メールアドレス
   # @param username ユーザー名
-  # @param pw パスワード
-  def send_mail_register(addr, username, pw)
+  # @param pwd パスワード
+  def send_mail_register(addr, username, pwd)
     msg = <<-MAIL_MSG.unindent
       Dear #{username}
 
       Your information has been registered successfully as below.
 
       User name: #{username}
-      Password: #{pw}
+      Password: #{pwd}
       E-mail address: #{addr}
 
       MAIL_MSG

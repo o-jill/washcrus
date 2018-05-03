@@ -33,8 +33,8 @@ class UpdatePasswordScreen
   # 登録完了メールの送信
   #
   # @param userinfo ユーザー情報
-  # @param pw パスワード
-  def send_mail(userinfo, pw)
+  # @param pwd パスワード
+  def send_mail(userinfo, pwd)
     addr = userinfo.user_email
     username = userinfo.user_name
 

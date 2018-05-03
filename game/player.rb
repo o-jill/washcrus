@@ -5,12 +5,12 @@ class Player
   # 初期化
   #
   # @param id_ ID
-  # @param nm 名前
-  # @param em メールアドレス
-  def initialize(id_, nm, em)
+  # @param name 名前
+  # @param email メールアドレス
+  def initialize(id_, name, email)
     @id = id_
-    @name = nm
-    @email = em
+    @name = name
+    @email = email
     @thinktime = 0
     @extracount = 20
   end

@@ -55,11 +55,11 @@ class JsonKifu
 
   # 対局者の名前をセット
   #
-  # @param nb 先手
-  # @param nw 後手
-  def setplayers(nb, nw)
-    @header['先手'] = nb
-    @header['後手'] = nw
+  # @param nmb 先手
+  # @param nmw 後手
+  def setplayers(nmb, nmw)
+    @header['先手'] = nmb
+    @header['後手'] = nmw
   end
 
   # 開始日時と終了日時のセット
@@ -105,45 +105,46 @@ class JsonKifu
 
   # 同xxかどうかの確認
   #
-  # @param a 着手
+  # @param mov 着手
+  #
   # @return 同xxのときtrue
-  def checkdou(mv)
+  def checkdou(mov)
     lt = @moves[-1]['move']
     return false unless lt
-    lt['to'] == mv['to']
+    lt['to'] == mov['to']
   end
 
   # 駒の移動の反映
   #
   # @param mv  指し手
-  # @param tm  消費時間
+  # @param tim  消費時間
   #
   # @return { 'move':, 'time': }
-  def movehash(mv, tm)
-    # @log.debug("mv.checkdou if $#{@moves[-1]['move'].to_s}$")
-    mv['same'] = true if checkdou(mv)
+  def movehash(mov, tim)
+    # @log.debug("mov.checkdou if $#{@moves[-1]['move'].to_s}$")
+    mov['same'] = true if checkdou(mv)
 
-    # @log.debug("data = { 'move' => mv }")
-    data = { 'move' => mv }
+    # @log.debug("data = { 'move' => mov }")
+    data = { 'move' => mov }
 
-    # @log.debug("data['time'] = tm || zerotime")
-    data['time'] = tm || zerotime
+    # @log.debug("data['time'] = tim || zerotime")
+    data['time'] = tim || zerotime
 
     data
   end
 
   # 駒の移動の反映
   #
-  # @param mv  指し手
-  # @param tm  消費時間
+  # @param mov  指し手
+  # @param tim  消費時間
   # @param cmt コメント
-  def move(mv, tm = nil, cmt = nil)
-    # @log.debug("if mv[:special]")
+  def move(mov, tim = nil, cmt = nil)
+    # @log.debug("if mov[:special]")
     data =
-      if mv[:special] || mv['special']
-        mv
+      if mov[:special] || mov['special']
+        mov
       else
-        movehash(mv, tm)
+        movehash(mov, tim)
       end
     # @log.debug("data['comments'] = cmt unless cmt.nil?")
     data['comments'] = cmt if cmt
@@ -181,7 +182,7 @@ class JsonKifu
       @initial = data['initial']
     end
   rescue
-    return nil
+    nil
   end
 
   # 初期値の書き出し

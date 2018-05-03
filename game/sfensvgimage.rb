@@ -116,10 +116,10 @@ class SfenSVGImage
 
   # 指し手情報の設定
   #
-  # @param lm 最後に動かしたマス
+  # @param lmv 最後に動かしたマス
   # @param turn 手番(b/w)or勝利情報(fb/fw)
-  def setmoveinfo(lm, turn)
-    @lm = lm
+  def setmoveinfo(lmv, turn)
+    @lm = lmv
     @turn = turn
   end
 

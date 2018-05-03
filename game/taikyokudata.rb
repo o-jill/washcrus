@@ -41,23 +41,23 @@ class TaikyokuData
   # 先手のセット
   #
   # @param id ID
-  # @param nm 名前
-  # @param em メールアドレス
-  def setplayerb(id, nm, em)
+  # @param name 名前
+  # @param email メールアドレス
+  def setplayerb(id, name, email)
     @idb = id
-    @playerb = nm
-    @emailb = em
+    @playerb = name
+    @emailb = email
   end
 
   # 後手のセット
   #
   # @param id ID
-  # @param nm 名前
-  # @param em メールアドレス
-  def setplayerw(id, nm, em)
+  # @param name 名前
+  # @param email メールアドレス
+  def setplayerw(id, name, email)
     @idw = id
-    @playerw = nm
-    @emailw = em
+    @playerw = name
+    @emailw = email
   end
 
   # 先後手の交換
@@ -251,11 +251,11 @@ class TaikyokuData
   #
   # @param sfen sfen文字列
   # @param jsmv JsonMoveオブジェクト
-  # @param dt   着手時間オブジェクト
+  # @param datm 着手時間オブジェクト
   #
   # @return nil if invalid, 1 if done, otherwise 0.
-  def move(sfen, jsmv, dt)
-    @log.debug("Taikyokudata.move(jsmv, #{dt})")
+  def move(sfen, jsmv, datm)
+    @log.debug("Taikyokudata.move(jsmv, #{datm})")
 
     sfs = SfenStore.new(@sfenpath)
     sfs.add(sfen)
@@ -265,11 +265,11 @@ class TaikyokuData
     @mi.log = @log
     return unless @mi.fromsfen(sfen, true)
 
-    jc = calc_consumption(dt)
+    jc = calc_consumption(datm)
 
     # @log.debug("@jkf.move(jsmv, #{jc.genhash})")
     # @jkf.log = @log
-    @jkf.move(jsmv, jc.genhash, ["着手日時：#{dt}"])
+    @jkf.move(jsmv, jc.genhash, ["着手日時：#{datm}"])
     # @log.debug('@jkf.moved(jsmv, jc.genhash)')
 
     finish_if_catch_gyoku(jsmv)
@@ -285,9 +285,9 @@ class TaikyokuData
 
   # 消費時間の計算
   #
-  # @param dt 着手時間オブジェクト
+  # @param datm 着手時間オブジェクト
   # @return 計算済み消費時間計算オブジェクト
-  def calc_consumption(dt)
+  def calc_consumption(datm)
     jc = JsonConsumption.new
     # @log.debug('jc.settotal if @jkf.last_time')
     total = @jkf.last_time
@@ -296,8 +296,8 @@ class TaikyokuData
     jc.settotal(total['total']) if total
     # @log.debug("Time.parse(#{@mi.dt_lastmove})")
     t_last = Time.parse(@mi.dt_lastmove)
-    # @log.debug('jc.diff(dt, t_last)')
-    jc.diff(dt, t_last)
+    # @log.debug('jc.diff(datm, t_last)')
+    jc.diff(datm, t_last)
     jc
   end
 
@@ -330,15 +330,15 @@ class TaikyokuData
   # 対局終了日時のセット
   # 勝敗の記入(勝った方と負けた方に１加算)
   #
-  # @param dt [Time] 終局時刻
+  # @param datm [Time] 終局時刻
   # @param gwin [Boolean] 後手勝ちの時true
   # @param turn [String] 終局情報文字
   #
   # @note draw非対応
-  def finished(dt, gwin, turn)
+  def finished(datm, gwin, turn)
     # 対局終了日時のセット
     @log.debug('@jkf.setfinishdate()')
-    @jkf.setfinishdate(dt.strftime('%Y/%m/%d %H:%M:%S'))
+    @jkf.setfinishdate(datm.strftime('%Y/%m/%d %H:%M:%S'))
 
     @mi.turn = turn
 

@@ -31,24 +31,30 @@ class SfenImage
   def initialize(cgi)
     params = CGI.parse(cgi.query_string)
 
-    @sfen = params['sfen'] | []
-    @sname = params['sname'] | []
-    @gname = params['gname'] | []
-    @lm = params['lm'] | []
-    @title = params['title'] | []
-    @piecetype = params['piece'] | []
-    @turn = params['turn'] | []
-
-    @sfen = @sfen[0]
-    @sname = @sname[0]
-    @gname = @gname[0]
-    @lm = @lm[0]
-    @title = @title[0]
-    @piecetype = @piecetype[0]
-    @turn = @turn[0]
+    readparam(params)
+    extractparam
   end
 
   # class methods
+
+  # paramから読み取ったメンバの配列を外す。
+  def saferead(hash, key)
+    a = hash[key] | []
+    a[0]
+  end
+
+  # paramから読み取ってメンバにコピー。
+  #
+  # @param params [Hash] query_stringで受け取ったハッシュ
+  def readparam(params)
+    @sfen = saferead(params, 'sfen')
+    @sname = saferead(params, 'sname')
+    @gname = saferead(params, 'gname')
+    @lm = saferead(params, 'lm')
+    @title = saferead(params, 'title')
+    @piecetype = saferead(params, 'piece')
+    @turn = saferead(params, 'turn')
+  end
 
   #
   # cgi実行本体。

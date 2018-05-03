@@ -46,15 +46,15 @@ class ResetPasswordScreen
   #
   # @param addr メールアドレス
   # @param username ユーザー名
-  # @param pw パスワード
-  def send_mail_resetpw(addr, username, pw)
+  # @param pwd パスワード
+  def send_mail_resetpwd(addr, username, pwd)
     msg = <<-MAIL_MSG.unindent
       Dear #{username}
 
       Your password was reset as below.
 
       User name: #{username}
-      Password: #{pw}
+      Password: #{pwd}
       E-mail address: #{addr}
 
       MAIL_MSG
@@ -86,7 +86,7 @@ class ResetPasswordScreen
     userdata = userdb.update_password(@email, @newpw)
 
     # メールの送信
-    send_mail_resetpw(@email, userdata[1], @newpw) if userdata
+    send_mail_resetpwd(@email, userdata[1], @newpw) if userdata
   end
 
   # 画面の表示

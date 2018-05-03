@@ -114,10 +114,10 @@ class TaikyokuReqFile
   # ユーザの追加
   #
   # @param id ユーザーID
-  # @param nm ユーザー名
+  # @param name ユーザー名
   # @param cmt コメント
-  def add(id, nm, cmt)
-    @names[id] = nm
+  def add(id, name, cmt)
+    @names[id] = name
     @comments[id] = cmt
   end
 
@@ -191,10 +191,10 @@ class TaikyokuReqFile
 
   # duplication check
   #
-  # @param nm ユーザー名
+  # @param name ユーザー名
   # @return true if nm exists.
-  def exist_name(nm)
-    @names.value?(nm)
+  def exist_name(name)
+    @names.value?(name)
   end
 
   # get request information about a user
