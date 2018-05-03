@@ -16,10 +16,10 @@ require 'json'
 module JsonMove
   # 玉をとったかどうか
   #
-  # @param ha 取られた駒
+  # @param hash 取られた駒情報を含むハッシュ
   # @return 玉をとったらtrue
-  def self.catch_gyoku?(ha)
-    ha['capture'] == 'OU'
+  def self.catch_gyoku?(hash)
+    hash['capture'] == 'OU'
   end
 
   # 投了などの特別な手のハッシュ

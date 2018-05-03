@@ -87,13 +87,13 @@ class ByouyomiChan
 
   # メールの送信
   #
-  # @param mi MatchInfoFileオブジェクト
+  # @param mif MatchInfoFileオブジェクト
   # @param tmkp TimeKeeperオブジェクト
-  def send_mail(mi, tmkp)
+  def send_mail(mif, tmkp)
     nply = mi.getnextplayer
 
-    subject = ByouyomiChan.build_subject(tmkp.houchi, mi)
-    msg = build_msg(mi, nply, tmkp)
+    subject = ByouyomiChan.build_subject(tmkp.houchi, mif)
+    msg = build_msg(mif, nply, tmkp)
 
     return unless subject
     return unless msg
@@ -112,8 +112,8 @@ class ByouyomiChan
   # logのヘッダの出力
   #
   # @param t 時刻オブジェクト
-  def put_log_header(tm)
-    puts "# list 2 be checked (#{tm.strftime('%Y/%m/%d %H:%M:%S')})"
+  def put_log_header(tim)
+    puts "# list 2 be checked (#{tim.strftime('%Y/%m/%d %H:%M:%S')})"
     puts "# #{@min_period} minutes period."
   end
 

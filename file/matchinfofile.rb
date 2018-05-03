@@ -179,10 +179,10 @@ class MatchInfoFile
 
   # 着手情報のセット
   #
-  # @param mv 着手情報文字列
+  # @param mov 着手情報文字列
   # @param datm [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
-  def setlastmove(mv, datm)
-    @lastmove = mv unless mv !~ /^[+-]/
+  def setlastmove(mov, datm)
+    @lastmove = mov unless mov !~ /^[+-]/
     @dt_lastmove = datm
   end
 
