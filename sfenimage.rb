@@ -32,7 +32,6 @@ class SfenImage
     params = CGI.parse(cgi.query_string)
 
     readparam(params)
-    extractparam
   end
 
   # class methods
