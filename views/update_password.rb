@@ -57,14 +57,10 @@ class UpdatePasswordScreen
     mailmgr.send_mail(addr, subject, msg)
   end
 
-  # パラメータのチェックと表示メッセージ作成
+  # パスワードの読み取り
   #
-  # @param userinfo ユーザー情報
   # @param params パラメータハッシュオブジェクト
-  #
-  # @return 表示用メッセージ
-  def check_and_mkmsg(userinfo, params)
-    # パスワードの読み取り
+  def readpwd(params)
     @passwd = params['sipassword'] || ['']
     @passwd = @passwd[0]
 
@@ -72,7 +68,14 @@ class UpdatePasswordScreen
     @newpw1 = @newpw1[0]
     @newpw2 = params['rnewpassword2'] || ['2']
     @newpw2 = @newpw2[0]
+  end
 
+  # パラメータのチェックと表示メッセージ作成
+  #
+  # @param userinfo ユーザー情報
+  #
+  # @return 表示用メッセージ
+  def check_and_mkmsg(userinfo)
     # 新パスワードの確認
     return '<span class="err">new passwords are not same!</span>' \
       if @newpw1 != @newpw2
@@ -110,7 +113,8 @@ class UpdatePasswordScreen
     return put_err_sreen("your log-in information is wrong ...\n") \
       if userinfo.invalid?
 
-    msg = check_and_mkmsg(userinfo, params)
+    readpwd(params)
+    msg = check_and_mkmsg(userinfo)
 
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)

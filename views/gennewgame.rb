@@ -49,27 +49,44 @@ class GenNewGameScreen
 
   # プレイヤー情報の取得
   #
-  # @param name1  プレイヤー1の名前
-  # @param email1 プレイヤー1のアドレス
-  # @param name2  プレイヤー2の名前
-  # @param email2 プレイヤー2のアドレス
   # @return { userdata1:, userdata2: }
-  def check_players(name1, email1, name2, email2)
+  def check_players
     userdb = UserInfoFile.new
     userdb.read
     udb = userdb.content
 
-    userdata1 = udb.findname(name1) # [id, name, pw, email]
-    unless userdata1 && email1 == userdata1[3]
+    userdata1 = udb.findname(@name1) # [id, name, pw, email]
+    unless userdata1 && @email1 == userdata1[3]
       @errmsg += "name or e-mail address in player 1 is wrong ...<BR>\n"
     end
 
-    userdata2 = udb.findname(name2) # [id, name, pw, email]
-    unless userdata2 && email2 == userdata2[3]
+    userdata2 = udb.findname(@name2) # [id, name, pw, email]
+    unless userdata2 && @email2 == userdata2[3]
       @errmsg += "name or e-mail address in player 2 is wrong ...<BR>\n"
     end
 
     { userdata1: userdata1, userdata2: userdata2 }
+  end
+
+  # 名前とメールアドレスの読み取り
+  #
+  # @param params パラメータハッシュオブジェクト
+  def read_nameemail(params)
+    # プレイヤー1の名前
+    @name1 = params['rname'] || []
+    # プレイヤー1のアドレス
+    @email1 = params['remail'] || []
+    # プレイヤー2の名前
+    @name2 = params['rname2'] || []
+    # プレイヤー2のアドレス
+    @email2 = params['remail2'] || []
+    @cmt = params['cmt'] || ['blank']
+
+    @name1 = @name1[0]
+    @email1 = @email1[0]
+    @name2 = @name2[0]
+    @email2 = @email2[0]
+    @cmt = @cmt[0]
   end
 
   # プレイヤー情報の確認
@@ -79,13 +96,9 @@ class GenNewGameScreen
   def check_newgame(params)
     return @errmsg += 'data lost ...<BR>' unless check_datalost_gengame(params)
 
-    name1 = params['rname'][0]
-    email1 = params['remail'][0]
-    name2 = params['rname2'][0]
-    email2 = params['remail2'][0]
-    @cmt = params['cmt'][0] unless params['cmt'][0].empty?
+    read_nameemail(params)
 
-    check_players(name1, email1, name2, email2)
+    check_players
   end
 
   # 新規対局のメール文面の生成
@@ -194,8 +207,8 @@ class GenNewGameScreen
   # エラーをログに出力
   #
   # @param er エラー情報
-  def err2log(er)
-    @log.warn("class=[#{er.class}] message=[#{er.message}] in gennewgame")
+  def err2log(err)
+    @log.warn("class=[#{err.class}] message=[#{err.message}] in gennewgame")
   end
 
   # 画面の表示

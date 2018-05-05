@@ -17,45 +17,43 @@ class NewGameScreen
     @header = header
   end
 
+  TABLEFORM = <<-TAG_TABLEFORM.unindent
+    <TABLE align='center' class='inpform'>
+     <TR id='player1'>
+      <TD rowspan=2>Player 1</TD><TD>name</TD><TD><INPUT name='rname' id='rname' type=text size=20 class='inpform' required onKeyup="furifusen()"></TD>
+     </TR>
+     <TR id='tremail'>
+      <TD>e-mail</TD><TD><INPUT name='remail' id='remail' type=email size=20 class='inpform' required></TD>
+     </TR>
+     <TR id='player2'>
+      <TD rowspan=2>Player 2</TD><TD>name</TD><TD><INPUT name='rname2' id='rname2' type=text size=20 class='inpform' required></TD>
+     </TR>
+     <TR id='tremail2'>
+      <TD>e-mail</TD><TD><INPUT name='remail2' id='remail2' type=email size=20 class='inpform' required></TD>
+     </TR>
+     <tr id='comment2'><td>comment</td><td colspan='2'><input name='cmt' id='cmt' type=text style='width:100%'></td></tr>
+     <TR>
+      <TD colspan=3>
+      <input type='button' value='submit' class='inpform' onClick='check_form();'>&nbsp;
+      <input type='reset' class='inpform'>&nbsp;
+      <input type='button' id='precheck' class='inpform' value='pre-check' onClick='pre_check();'>
+      <img id='komanim' src='image/komanim.gif' style='display:none'></TD>
+     </TR>
+     <TR><TD colspan=3>
+      <input type="button" id='btnfurigoma' class='inpform' onClick='lets_furigoma();' value='Player1の振り歩先で振り駒'>
+      <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
+    TAG_TABLEFORM
+
   # フォームの出力
   def show_newgameform
-    scriptname = File.basename($PROGRAM_NAME)
-    print <<-FORM_NEW_GAME_HEAD.unindent
-      <FORM action='#{scriptname}?gennewgame' method=post name='gennewgame'>
-      <TABLE align='center' class='inpform'>
-       <TR id='player1'>
-        <TD rowspan=2>Player 1</TD><TD>name</TD><TD><INPUT name='rname' id='rname' type=text size=20 class='inpform' required onKeyup="furifusen()"></TD>
-       </TR>
-       <TR id='tremail'>
-        <TD>e-mail</TD><TD><INPUT name='remail' id='remail' type=email size=20 class='inpform' required></TD>
-       </TR>
-       <TR id='player2'>
-        <TD rowspan=2>Player 2</TD><TD>name</TD><TD><INPUT name='rname2' id='rname2' type=text size=20 class='inpform' required></TD>
-       </TR>
-       <TR id='tremail2'>
-        <TD>e-mail</TD><TD><INPUT name='remail2' id='remail2' type=email size=20 class='inpform' required></TD>
-       </TR>
-       <tr id='comment2'><td>comment</td><td colspan='2'><input name='cmt' id='cmt' type=text style='width:100%'></td></tr>
-       <TR>
-        <TD colspan=3>
-        <input type='button' value='submit' class='inpform' onClick='check_form();'>&nbsp;
-        <input type='reset' class='inpform'>&nbsp;
-        <input type='button' id='precheck' class='inpform' value='pre-check' onClick='pre_check();'>
-        <img id='komanim' src='image/komanim.gif' style='display:none'></TD>
-       </TR>
-       <TR><TD colspan=3>
-        <input type="button" id='btnfurigoma' class='inpform' onClick='lets_furigoma();' value='Player1の振り歩先で振り駒'>
-        <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
-      FORM_NEW_GAME_HEAD
+    script = File.basename($PROGRAM_NAME)
+    puts "<FORM action='#{script}?gennewgame' method=post name='gennewgame'>"
+    puts TAG_TABLEFORM
 
     put_furigomaimg('', "style='display:none' width='32' height='32'")
     puts ' </TD></TR>'
 
-    print <<-FORM_NEW_GAME_TAIL.unindent
-       <TR><TD colspan='3' id='errmsg'></TD></TR>
-      </TABLE>
-      </FORM>
-      FORM_NEW_GAME_TAIL
+    puts " <TR><TD colspan='3' id='errmsg'></TD></TR></TABLE></FORM>"
   end
 
   # フォームの出力2
@@ -93,16 +91,14 @@ class NewGameScreen
     put_furigomaimg('2', sz_and_style)
     puts ' </td></tr>'
 
-    print <<-FORM_NEW_GAME_TAIL.unindent
+    puts <<-FORM_NEW_GAME_TAIL.unindent
        <tr>
         <td><input type='reset' class='inpform'></td>
         <td align=center>
          <input type='button' value='作成' class='inpform' style='width:100%' onclick='check_form2();'>
         </td>
        </tr>
-       <tr><td colspan='3' id='errmsg2'></td></tr>
-      </table>
-      </form>
+       <tr><td colspan='3' id='errmsg2'></td></tr></table></form>
       FORM_NEW_GAME_TAIL
   end
 

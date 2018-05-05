@@ -55,23 +55,27 @@ class UpdateEmailScreen
     mailmgr.send_mail(addr, subject, msg)
   end
 
+  # メールアドレスの読み取り
+  #
+  # @param params パラメータハッシュオブジェクト
+  def reademail(params)
+    @newem1 = params['rnewemail'] || ['1']
+    @newem1 = @newem1[0].strip
+    @newem2 = params['rnewemail2'] || ['2']
+    @newem2 = @newem2[0].strip
+  end
+
   # パラメータのチェックと表示メッセージ作成
   #
   # @param userinfo ユーザー情報
-  # @param params パラメータハッシュオブジェクト
   #
   # @return 表示用メッセージ
-  def check_and_mkmsg(session, userinfo, params)
-    newem1 = params['rnewemail'] || ['1']
-    newem1 = newem1[0].strip
-    newem2 = params['rnewemail2'] || ['2']
-    newem2 = newem2[0].strip
-
+  def check_and_mkmsg(session, userinfo)
     # 新EmailAddressの確認
     return '<span class="err">e-mail addresses are not same!</span>' \
-      if newem1 != newem2
+      if @newem1 != @newem2
     return '<span class="err">the e-mail address is too short!</span>' \
-      if newem1.length < 4
+      if @newem1.length < 4
 
     uid = userinfo.user_id
 
@@ -84,13 +88,13 @@ class UpdateEmailScreen
     return '<span class="err">user information error...</span>' unless userdata
 
     return '<span class="err">e-mail address is already registered ...</span>' \
-      if userdb.content.exist_email(newem1)
+      if userdb.content.exist_email(@newem1)
 
     # EmailAddressの再設定
-    userdb.update_email(uid, newem1)
+    userdb.update_email(uid, @newem1)
 
     # sessioneml = userinfo.user_email
-    userinfo.user_email = newem1
+    userinfo.user_email = @newem1
     # sessionデータ更新
     userinfo.hashsession.each { |ky, vl| session[ky] = vl }
     session.update
@@ -111,7 +115,8 @@ class UpdateEmailScreen
     return put_err_sreen("your log-in information is wrong ...\n") \
       if userinfo.invalid?
 
-    msg = check_and_mkmsg(session, userinfo, params)
+    reademail(params)
+    msg = check_and_mkmsg(session, userinfo)
 
     header = cgi.header('charset' => 'UTF-8',
                         'Pragma' => 'no-cache',

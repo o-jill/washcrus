@@ -302,13 +302,13 @@ class MyPageScreen
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
-    puts '<script src="js/signup.js"></script>'
-    puts '<script src="js/mypage.js"></script>'
-    puts '<div class=mypage_main>'
+    puts "<script src='js/signup.js'></script>\n" \
+         "<script src='js/mypage.js'></script>\n" \
+         "<div class='mypage_main'>\n"
 
     put_navi
 
-    puts '<div class=myarticle id=mypage_stat>'
+    puts '<div class="myarticle" id="mypage_stat">'
     put_stats(wl)
     puts '<HR>'
     put_taikyokuchu(uid)
