@@ -144,6 +144,10 @@ class MatchInfoFile
     setplayerw(id_w, cnt.findid(id_w)) if id_w
   end
 
+  def setplayers_d(data)
+    setplayers(data[:idb], data[:idw])
+  end
+
   # 対戦相手の情報を得る
   #
   # @param id_ ユーザーID
@@ -167,6 +171,10 @@ class MatchInfoFile
     end
   end
 
+  def setcreator_d(data)
+    setcreator(data[:creator], data[:dt_created])
+  end
+
   # 対局設定者の情報のセットと初期最終着手日時のセット
   #
   # @param name 対局設定者の名前
@@ -175,6 +183,10 @@ class MatchInfoFile
     @creator = name
     @dt_created = datm
     @dt_lastmove = datm
+  end
+
+  def setlastmove_d(data)
+    setlastmove(data[:lastmove], data[:dt_lastmove])
   end
 
   # 着手情報のセット
@@ -326,10 +338,10 @@ class MatchInfoFile
   #         thinktimeb: { thinktime:, extracount: }, thinktimew:{ thinktime:,
   #         extracount: } } }
   def read_data(data)
-    setcreator(data[:creator], data[:dt_created])
-    setplayers(data[:idb], data[:idw])
+    setcreator_d(data)
+    setplayers_d(data)
     fromsfen(data[:sfen])
-    setlastmove(data[:lastmove], data[:dt_lastmove])
+    setlastmove_d(data)
     @finished = data[:finished] || false
     # @teban = 'f' if @finished
     # @turn = data[:turn] || @teban
