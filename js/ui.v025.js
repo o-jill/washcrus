@@ -1181,7 +1181,8 @@ var sfen_genbantext = function(shogiban) {
 function sfen_gentegomatext(komadai, komatbl) {
   var sfentegomatext = '';
 
-  for (var i = 0; i < 7; ++i) {
+  for (var i = 7; i ; ) {
+    --i;
     var num = komadai[i][0].length;
     if (num >= 2) {
       sfentegomatext += num;
