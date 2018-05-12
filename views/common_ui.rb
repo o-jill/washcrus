@@ -103,8 +103,8 @@ module CommonUI
           elem.style.visibility = 'visible';
           elem.style.display = 'block';
           var rect = elemy.getBoundingClientRect();
-          elem.style.left = rect.left;
-          elem.style.top = rect.top + elemy.clientHeight;
+          elem.style.left = rect.left + 'px';
+          elem.style.top = rect.top + elemy.clientHeight + 'px';
         }
         show = !show;
       }
