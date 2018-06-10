@@ -123,7 +123,8 @@ class GameHtml
     "<textarea id='kifulog' class='kifu' cols=40 readonly>" \
     "#{@jkf.to_kifu}</textarea>" \
     "<button onclick='openurlin_blank(\"index.rb?dlkifu/#{@gameid}\")'>" \
-    'Download KIF</button><BR>'
+    'Download KIF</button>' \
+    "<button onclick='window.open(\"dynamickifu.html?#{@gameid}\");'>棋譜再生</button>"
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kifu.gsub("\n", '<BR>')}</div>"
   end
 
