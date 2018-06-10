@@ -1507,6 +1507,20 @@ function openurlin_blank(url) {
   win.focus();
 }
 
+function dl_kifu_file() {
+  var url = window.location.search;
+  var elem = url.split('/');
+  var tgt = "index.rb?dlkifu/" + elem[1];
+  openurlin_blank(tgt);
+}
+
+function open_kifu_player() {
+  var url = window.location.search;
+  var elem = url.split('/');
+  var tgt = "dynamickifu.html?" + elem[1];
+  openurlin_blank(tgt);
+}
+
 function onresign() {
   myconfirm("負けを認めますか？", CFRM_RESIGN, -1, -1);
   /* if (!confirm()) return;
