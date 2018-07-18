@@ -2238,6 +2238,24 @@ Kifu.prototype.receive = function(path, type) {
   };
 };
 
+Kifu.prototype.evalKomazon_koma = function(komazon, kid, teban, nari)
+{
+  if (teban === Koma.SENTEBAN) {
+    if (nari !== Koma.NARI) {
+      komazon[kid]++;
+    } else {
+      komazon[kid + 8]++;
+    }
+  } else if (teban === Koma.GOTEBAN) {
+    if (nari !== Koma.NARI) {
+      komazon[kid]--;
+    } else {
+      komazon[kid + 8]--;
+    }
+  }
+  return komazon;
+}
+
 /**
  * 駒の損得を計算
  *
@@ -2255,7 +2273,8 @@ Kifu.prototype.evalKomazon = function(ban, sentegoma, gotegoma) {
   for (var i = 0; i < 9; ++i) {
     for (var j = 0; j < 9; ++j) {
       var koma = ban[i][j].koma;
-      if (koma.teban === Koma.SENTEBAN) {
+      komazon = this.evalKomazon_koma(komazon, this.id, this.teban, this.nari);
+      /*if (koma.teban === Koma.SENTEBAN) {
         if (koma.nari !== Koma.NARI) {
           komazon[koma.id]++;
         } else {
@@ -2267,7 +2286,7 @@ Kifu.prototype.evalKomazon = function(ban, sentegoma, gotegoma) {
         } else {
           komazon[koma.id + 8]--;
         }
-      }
+      }*/
     }
   }
   for (i = 0; i < 7; ++i) {
@@ -2280,6 +2299,44 @@ Kifu.prototype.evalKomazon = function(ban, sentegoma, gotegoma) {
   return komazon;
 };
 
+Kifu.prototype.komazon_text_naribetu = function(komazon) {
+  var str = '';
+  for (var i = 0; i < 15; ++i) {
+    if (komazon[i] > 0) {
+      // 得
+      str = Koma.KomaStrTbl[i] + komazon[i] + '枚得,';
+    }
+  }
+  for (i = 0; i < 15; ++i) {
+    if (komazon[i] < 0) {
+      // 損
+      str += Koma.KomaStrTbl[i] + (-komazon[i]) + '枚損,';
+    }
+  }
+  return str;
+}
+
+Kifu.prototype.komazon_text_narionaji = function(komazon) {
+  var str = '';
+  var kz = [0, 0, 0, 0, 0, 0, 0];
+  for (var i = 0; i < 7; ++i) {
+    kz[i] = komazon[i] + komazon[i + 8];
+  }
+  for (i = 0; i < 7; ++i) {
+    if (kz[i] > 0) {
+      // 得
+      str += Koma.KomaStrTbl[i] + kz[i] + '枚得,';
+    }
+  }
+  for (i = 0; i < 7; ++i) {
+    if (kz[i] < 0) {
+      // 損
+      str += Koma.KomaStrTbl[i] + (-kz[i]) + '枚損,';
+    }
+  }
+  return str;
+}
+
 /**
  * 駒損を人がわかる形式にする
  *
@@ -2291,7 +2348,8 @@ Kifu.prototype.evalKomazon = function(ban, sentegoma, gotegoma) {
 Kifu.prototype.komazon_text = function(komazon, nari) {
   var str = '';
   if (nari) {
-    for (var i = 0; i < 15; ++i) {
+    str = komazon_text_naribetu(komazon);
+    /*for (var i = 0; i < 15; ++i) {
       if (komazon[i] > 0) {
         // 得
         str = Koma.KomaStrTbl[i] + komazon[i] + '枚得,';
@@ -2302,9 +2360,10 @@ Kifu.prototype.komazon_text = function(komazon, nari) {
         // 損
         str += Koma.KomaStrTbl[i] + (-komazon[i]) + '枚損,';
       }
-    }
+    }*/
   } else {
-    var kz = [0, 0, 0, 0, 0, 0, 0];
+    str = komazon_text_narionaji(komazon);
+    /*var kz = [0, 0, 0, 0, 0, 0, 0];
     for (i = 0; i < 7; ++i) {
       kz[i] = komazon[i] + komazon[i + 8];
     }
@@ -2319,7 +2378,7 @@ Kifu.prototype.komazon_text = function(komazon, nari) {
         // 損
         str += Koma.KomaStrTbl[i] + (-kz[i]) + '枚損,';
       }
-    }
+    }*/
   }
   if (str === '') {
     str = '損得なし';
@@ -2341,6 +2400,60 @@ Kifu.prototype.prev_te = function() {
   this.seek_te(this.NTeme - 1);
 };
 
+Kifu.prototype.seek_te_foward = function(idx) {
+  var te, masu, tegoma;
+  while (this.NTeme < idx) {
+    te = this.Honp[this.NTeme];
+    // [teban, fromx, fromy, tox, toy, nari, totta_id];
+
+    if (te[1] === -1) {
+      // 駒を打つ
+      if (te[0] === Koma.SENTEBAN) {
+        tegoma = sentegoma;
+        uchi2(tegoma, te[6], te[3], te[4]);
+      } else {
+        tegoma = gotegoma;
+        uchi2(tegoma, te[6], te[3], te[4]);
+      }
+    } else {
+      if (te[6] > Koma.NoID) {
+        toru(te[3], te[4]);
+        this.totta_id = Koma.NoID;
+      }
+      masu = ban[te[1]][te[2]];
+      move2(masu, te[3], te[4], te[5]);  // 動かした駒を戻す
+    }
+    this.NTeme++;
+  }
+}
+
+Kifu.prototype.seek_te_backward = function(idx) {
+  var te, masu, tegoma;
+  while (this.NTeme > idx) {
+    this.NTeme--;
+    te = this.Honp[this.NTeme];
+    // [teban, fromx, fromy, tox, toy, nari, totta_id];
+
+    if (te[1] === -1) {
+      // 駒台に戻す
+      toru(te[3], te[4]);
+      this.totta_id = Koma.NoID;
+    } else {
+      masu = ban[te[3]][te[4]];
+      move2(masu, te[1], te[2], te[5]);  // 動かした駒を戻す
+
+      if (te[6] >= 0) {
+        if (te[0] === Koma.SENTEBAN) {
+          tegoma = sentegoma;
+        } else {
+          tegoma = gotegoma;
+        }
+        torimodosu(tegoma, te[6], te[3], te[4]);
+      }
+    }
+  }
+}
+
 /**
  * idx手目にする
  *
@@ -2356,55 +2469,11 @@ Kifu.prototype.seek_te = function(idx) {
     return false;
   }
 
-  var te, masu, tegoma;
+  // var te, masu, tegoma;
   if (this.NTeme < idx) {
-    while (this.NTeme < idx) {
-      te = this.Honp[this.NTeme];
-      // [teban, fromx, fromy, tox, toy, nari, totta_id];
-
-      if (te[1] === -1) {
-        // 駒を打つ
-        if (te[0] === Koma.SENTEBAN) {
-          tegoma = sentegoma;
-          uchi2(tegoma, te[6], te[3], te[4]);
-        } else {
-          tegoma = gotegoma;
-          uchi2(tegoma, te[6], te[3], te[4]);
-        }
-      } else {
-        if (te[6] > Koma.NoID) {
-          toru(te[3], te[4]);
-          this.totta_id = Koma.NoID;
-        }
-        masu = ban[te[1]][te[2]];
-        move2(masu, te[3], te[4], te[5]);  // 動かした駒を戻す
-      }
-      this.NTeme++;
-    }
+    this.seek_te_foward(idx);
   } else {
-    while (this.NTeme > idx) {
-      this.NTeme--;
-      te = this.Honp[this.NTeme];
-      // [teban, fromx, fromy, tox, toy, nari, totta_id];
-
-      if (te[1] === -1) {
-        // 駒台に戻す
-        toru(te[3], te[4]);
-        this.totta_id = Koma.NoID;
-      } else {
-        masu = ban[te[3]][te[4]];
-        move2(masu, te[1], te[2], te[5]);  // 動かした駒を戻す
-
-        if (te[6] >= 0) {
-          if (te[0] === Koma.SENTEBAN) {
-            tegoma = sentegoma;
-          } else {
-            tegoma = gotegoma;
-          }
-          torimodosu(tegoma, te[6], te[3], te[4]);
-        }
-      }
-    }
+    this.seek_te_backward(idx);
   }
   return true;
 };
