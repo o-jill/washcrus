@@ -11,6 +11,7 @@ require './file/jsonmove.rb'
 require './file/matchinfofile.rb'
 require './file/pathlist.rb'
 require './file/taikyokufile.rb'
+require './file/chatfile.rb'
 require './game/taikyokudata.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
@@ -111,6 +112,12 @@ class Move
       attached:#{filename}
 
       MSG_TEXT
+
+    chat = ChatFile.new(@gameid)
+    chat.read
+    msg += "---- messages in chat ----\n#{chat.stripped_msg}"
+    msg += "---- messages in chat ----\n\n"
+
     msg += MailManager.footer
     msg
   end
@@ -165,6 +172,12 @@ class Move
       #{@baseurl}index.rb?game/#{@gameid}
 
       MSG_TEXT
+
+    chat = ChatFile.new(@gameid)
+    chat.read
+    msg += "---- messages in chat ----\n#{chat.stripped_msg}"
+    msg += "---- messages in chat ----\n\n"
+
     msg += MailManager.footer
     msg
   end

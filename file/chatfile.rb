@@ -91,4 +91,19 @@ class ChatFile
   def put
     print "Content-type:text/html;\n\n#{msg}"
   end
+
+  # チャットのメッセージから立会人の発言と名前の<B>タグと<BR>タグを取り去る
+  #
+  # @return いろいろ取り去ったあとのチャットメッセージ
+  def stripped_msg
+    newmsg = ''
+    msg.each_line do |line|
+      unless line =~ /^<span id='chatadmin'>/
+        newmsg += line.gsub(%r{(<B>|<\/B>|<BR>)}, '')
+      end
+    end
+    newmsg.gsub(/&(#44|nbsp|lt|gt|amp);/,
+                '&#44;' => ',', '&nbsp;' => ' ',
+                '&lt;' => '<', '&gt;' => '>', '&amp;' => '&')
+  end
 end
