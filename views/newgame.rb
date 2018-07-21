@@ -48,7 +48,7 @@ class NewGameScreen
   def show_newgameform
     script = File.basename($PROGRAM_NAME)
     puts "<FORM action='#{script}?gennewgame' method=post name='gennewgame'>"
-    puts TAG_TABLEFORM
+    puts TABLEFORM
 
     put_furigomaimg('', "style='display:none' width='32' height='32'")
     puts ' </TD></TR>'
