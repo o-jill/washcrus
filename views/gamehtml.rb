@@ -53,7 +53,7 @@ class GameHtml
        </div>
        #{chatelement}
       </div>
-      <HR><footer><div style='text-align:right;'>ぢるっち(c)2017</div></footer>
+      <HR><footer><div align='right'>&copy;ぢるっち 2017-2018 with Ruby v#{RUBY_VERSION}</div></footer>
       CONTENT_GAMEAREA
     puts "#{hiddenelement}</body></html>"
   end
