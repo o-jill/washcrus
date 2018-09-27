@@ -21,7 +21,7 @@ class MatchListScreen
   def put_taikyokuchu
     tkcdb = TaikyokuChuFile.new
     tkcdb.read
-    tkcdb.to_html('<a name="chu">対局中</a> <a href="#recent">30日以内へ</a>')
+    tkcdb.to_html('<a name="chu">対局中</a> <a href="#recent">90日以内へ</a>')
   end
 
   # 最近の対局のリストの出力
@@ -30,7 +30,7 @@ class MatchListScreen
     tkcdb.read
     puts <<-RESULT_TABLE.unindent
       <div align='center'>
-       <a name="chu">対局中</a> <a href="#recent">30日以内へ</a>
+       <a name="chu">対局中</a> <a href="#recent">90日以内へ</a>
       </div>
       <div id="taikyokuchu" class="taikyokuchu">
       RESULT_TABLE
@@ -87,7 +87,7 @@ class MatchListScreen
     tdb = TaikyokuFile.new
     tdb.read
     # from = Time.now - 60_480_000 # for test
-    from = Time.now - 6_480_000 # 30days
+    from = Time.now - 7_776_000 # 90days
     res = tdb.findtime(from.to_s, '') # {gid, time}
 
     games = []
@@ -103,7 +103,7 @@ class MatchListScreen
   def put_recentgames(games)
     print <<-RESULT_TABLE.unindent
       <div align='center'>
-       <a href='#chu'>対局中へ</a> <a name='recent'>30日以内</a>
+       <a href='#chu'>対局中へ</a> <a name='recent'>90日以内</a>
       </div>
       <div id="taikyokurecent" class="taikyokuchu">
       RESULT_TABLE
