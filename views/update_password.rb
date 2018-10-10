@@ -44,7 +44,7 @@ class UpdatePasswordScreen
       Your password was updated as below.
 
       User name: #{username}
-      Password: #{pw}
+      Password: #{pwd}
       E-mail address: #{addr}
 
       MAIL_MSG
