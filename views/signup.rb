@@ -59,7 +59,7 @@ class SignupScreen
     print <<-INFOMSG.unindent
     <div class="signupinfo">
       注意：携帯キャリア(docomo, au, softbankなど)のメールを登録される方へ<BR>
-      受信拒否設定をしている方は#{mailaddr}からの受信が出来るようにしてから登録作業をしてください。
+      受信拒否設定をしている方は<address>#{mailaddr}</address>からの受信が出来るようにしてから登録作業をしてください。
     </div>
     INFOMSG
   end

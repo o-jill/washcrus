@@ -24,7 +24,7 @@ class AdminSaveSettingsScreen
   #
   # @param params パラメータハッシュオブジェクト
   def update_settings(params)
-    tags = %w[wintitle title domain base_url support_url]
+    tags = %w[wintitle title mailaddress domain base_url support_url]
     isng = 0
     tags.each do |tg|
       unless params[tg]
@@ -54,11 +54,12 @@ class AdminSaveSettingsScreen
   # 編集結果の表示
   def put_settings
     stg_elem = [
-      ['Window title', 'wintitle'],
-      ['Page title',   'title'],
-      ['Domain',       'domain'],
-      ['Base URL',     'base_url'],
-      ['Support URL',  'support_url']
+      ['Window title',   'wintitle'],
+      ['Page title',     'title'],
+      ['E-mail address', 'mailaddress'],
+      ['Domain',         'domain'],
+      ['Base URL',       'base_url'],
+      ['Support URL',    'support_url']
     ]
     puts "<table align='center' border=1>"
     stg_elem.each do |elem|

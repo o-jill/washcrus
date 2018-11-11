@@ -405,3 +405,8 @@ text-decoration:none;
   background-color: white;
   color: red;
 }
+
+.signupinfo address {
+  font-size: larger;
+  text-decoration: underline;
+}

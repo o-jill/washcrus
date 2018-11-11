@@ -22,11 +22,12 @@ class AdminSettingsScreen
     scriptname = File.basename($PROGRAM_NAME)
     stg = Settings.instance
     stg_elem = [
-      ['Window title', 'wintitle'],
-      ['Page title',   'title'],
-      ['Domain',       'domain'],
-      ['Base URL',     'base_url'],
-      ['Support URL',  'support_url']
+      ['Window title',   'wintitle'],
+      ['Page title',     'title'],
+      ['E-mail address', 'mailaddress'],
+      ['Domain',         'domain'],
+      ['Base URL',       'base_url'],
+      ['Support URL',    'support_url']
     ]
     print <<-FORM_SETTINGS_HEAD.unindent
       <form action='#{scriptname}?adminsavesettings' method=post name='adminsettings'>
