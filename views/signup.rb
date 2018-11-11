@@ -4,6 +4,7 @@ require 'rubygems'
 # require 'unindent'
 # require './game/userinfo.rb'
 require './views/common_ui.rb'
+require './util/settings.rb'
 
 #
 # 登録画面
@@ -42,7 +43,8 @@ class SignupScreen
      <TD><INPUT name='rpassword2' id='rpassword2' type='password' size='25' class='inpform' required></TD>
     </TR>
     <TR>
-     <TD colspan=2><input type='button' value='submit' onClick='check_form();' class='inpform'>&nbsp;<input type='reset' class='inpform'></TD>
+     <TD colspan=2><input type='button' value='Submit' onClick='check_form();' class='inpform'>
+       &nbsp;<input type='reset' class='inpform'></TD>
     </TR>
     <TR>
      <TD colspan=2 id='errmsg'></TD>
@@ -51,10 +53,23 @@ class SignupScreen
     TABLE_FORM
   end
 
+  def show_info
+    stg = Settings.instance
+    mailaddr = stg.value['mailaddress']
+    print <<-INFOMSG.unindent
+    <div class="signupinfo">
+      注意：携帯キャリア(docomo, au, softbankなど)のメールを登録される方へ<BR>
+      受信拒否設定をしている方は#{mailaddr}からの受信が出来るようにしてから登録作業をしてください。
+    </div>
+    INFOMSG
+  end
+
   # 画面の表示
   def show
     CommonUI.html_head(@header)
     CommonUI.html_menu
+
+    show_info
 
     puts "<script type='text/javascript' src='./js/signup.js' defer></script>"
 

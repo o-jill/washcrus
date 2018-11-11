@@ -398,3 +398,10 @@ text-decoration:none;
   text-align: center;
   width: 80vw;
 }
+
+/* signup */
+.signupinfo {
+  text-align: center;
+  background-color: white;
+  color: red;
+}
