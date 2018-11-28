@@ -61,7 +61,7 @@ class LoungeScreen
   end
 
   # 対局待ちフォームの出力
-  def put_userinlounge_head
+  def put_challengeduser_head
     scriptname = File.basename($PROGRAM_NAME)
 
     puts <<-TAIKYOKU_LOUNGE.unindent
@@ -73,7 +73,7 @@ class LoungeScreen
   end
 
   # 対局開始UIの表示
-  def put_userinlounge_bottom
+  def put_challengeduser_bottom
     puts <<-TAIKYOKU_BTN.unindent
       対戦相手は「<span id='opponentname'>(対戦相手を選んでください)</span>」です。<BR>
       <select class='inpform' name='sengo' id='sengo'>
@@ -87,13 +87,13 @@ class LoungeScreen
       TAIKYOKU_BTN
   end
 
-  # 対局待ちユーザーの表示
-  def put_userinlounge(reqdb, uid)
-    put_userinlounge_head
+  # 対局承認待ちユーザーの表示
+  def put_challengeduser(reqdb, uid)
+    put_challengeduser_head
 
-    reqdb.to_html('対局待ちユーザー', uid)
+    reqdb.to_html('挑戦OK待ちユーザー', uid, 'onclick_radiobtn')
 
-    put_userinlounge_bottom
+    put_challengeduser_bottom
 
     sz_and_style = "style='display:none' width='32' height='32'"
     (1..5).each do |i|
@@ -103,6 +103,39 @@ class LoungeScreen
         <img id='furikomato#{i}' src='image/komato.png' #{sz_and_style}>
         KOMAIMG
     end
+    puts '</div></div>'
+  end
+
+  # 対局待ちフォームの出力
+  def put_userinlounge_head
+    scriptname = File.basename($PROGRAM_NAME)
+
+    puts <<-TAIKYOKU_LOUNGE.unindent
+      <script type='text/javascript' src='./js/lounge.js'></script>
+      <div align='center'><hr>
+       <div class='btn_filing_lounge'>
+        <form action='#{scriptname}?challenge' method='post' name='gennewgame'>
+      TAIKYOKU_LOUNGE
+  end
+
+  # 対局開始UIの表示
+  def put_userinlounge_bottom
+    puts <<-TAIKYOKU_BTN.unindent
+      挑戦相手は「<span id='chlg_opponentname'>(対戦相手を選んでください)</span>」です。<BR>
+      <input type='text' list='cmt_tmpl' id='chlg_cmt' class='inpform' placeholder='コメント欄'></input>
+      <button id='btn_chlg' class='inpform' onclick='return onchallenge()' disabled>Challenge!</button>
+      </form>
+      TAIKYOKU_BTN
+  end
+
+  # 対局待ちユーザーの表示
+  def put_userinlounge(reqdb, uid)
+    put_userinlounge_head
+
+    reqdb.to_html('対局待ちユーザー', uid, 'onclick_chlg_radiobtn')
+
+    put_userinlounge_bottom
+
     puts '</div></div>'
   end
 
@@ -133,6 +166,8 @@ class LoungeScreen
 
     reqdb = TaikyokuReqFile.new
     reqdb.read
+
+    put_challengeduser(reqdb, userinfo.user_id)
 
     put_userinlounge(reqdb, userinfo.user_id)
 

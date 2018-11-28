@@ -239,11 +239,11 @@ class TaikyokuReqFile
   # HTML形式(TABLE)に変換して出力
   #
   # @param title テーブルのキャプション
-  # @param myid 出力したくないユーザーID
-  def to_html(title, myid = nil)
+  # @param myid 出力したくないユーザーID。
+  def to_html(title, myid, radiofunc)
     print <<-TABLE_HEAD.unindent
-      <table border=1 align=center> <caption>#{title}</caption>
-      <tr><th>名前</th><th>誰でも</th><th>コメント</th></tr>
+      <table border=1 align=center><caption>#{title}</caption>
+      <tr><th>名前</th><th>誰でも</th><th>コメント</th><th>挑戦</th></tr>
       TABLE_HEAD
     @names.each do |id, name|
       if id == myid
@@ -251,13 +251,16 @@ class TaikyokuReqFile
       elsif @requests[id].nil?
         puts <<-CONTENT.unindent
           <tr><td><label>
-           <input type="radio" name="opponent" value="#{id}" onclick='onclick_radiobtn(event)'>#{name}
+           <input type="radio" name="opponent" value="#{id}" onclick='#{radiofunc}(event)'>#{name}
           </label></td>
           CONTENT
       else
-          print "<tr><td>(確認待ち)#{name}</td>"
+        print "<tr><td>(確認待ち)#{name}</td>"
       end
-      puts "<td>#{@daretodemo[id] == '0' ? 'NO' : 'YES'}</td><td>#{@comments[id]}</td></tr>"
+      puts <<-DARE_COMME_CHOU
+        <td>#{@daretodemo[id] == '0' ? 'NO' : 'YES'}</td>
+        <td>#{@comments[id]}</td><td>#{@requests[id]}</td></tr>
+        DARE_COMME_CHOU
     end
     puts '</table>'
   end

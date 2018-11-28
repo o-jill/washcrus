@@ -165,3 +165,15 @@ function onstart()
     return false;
   }
 }
+
+function onclick_chlg_radiobtn(e)
+{
+  var name = e.target.parentElement.innerText.trim();
+  document.getElementById('chlg_opponentname').innerText = name;
+  document.getElementById('btn_chlg').disabled = false;
+}
+
+function onchallenge()
+{
+  return true;
+}
