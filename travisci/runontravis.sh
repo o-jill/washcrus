@@ -12,11 +12,11 @@ else
   cp config/signature.txt.sample config/signature.txt
   rake gen_token
   bundle exec rake add_admin << ADMININFO
-    admin1
-    admin1@example.com
-    admin1@example.com
-    admin
-    admin
-    ADMININFO
+admin1
+admin1@example.com
+admin1@example.com
+admin
+admin
+ADMININFO
   rake init
 fi
