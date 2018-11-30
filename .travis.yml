@@ -1,0 +1,48 @@
+env:
+  global:
+  matrix:
+    - TRAVIS_BUILD_TYPE=normal
+    - TRAVIS_BUILD_TYPE=test
+
+git:
+  depth: 3
+
+language: ruby
+rvm:
+  - 2.1
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+before_install:
+  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq ruby-dev
+bundler_args: --deployment
+cache: bundler
+script:
+  - cp config/settings.yaml.sample config/settings.yaml
+  - cp config/mail.yaml.sample config/mail.yaml
+  - cp config/signature.txt.sample config/signature.txt
+  - rake gen_token
+  - rake add_admin
+# - chmod ugo+x ./scripts/travisbuild.sh
+# - ./scripts/travisbuild.sh
+#  - qmake -qt=qt4 -v ./src/kouets.pro
+##  - qmake -qt=qt4 ./src/kouets.pro
+##  - pushd .
+##  - cd src
+#  - ./src/gen_git_hash.sh H kouetshash
+#  - ./src/gen_git_hash.sh CPP kouetshash
+#  - qmake -qt=qt4 ./src/kouets.pro
+#  - make
+#  - echo let us TEST !!
+#  - cd src/test
+#  - qmake -qt=qt4 ./test.pro
+#  - make clean
+#  - make mocclean
+#  - make
+#  - mkdir debug
+#  - cp test debug/test
+#  - ./debug/test
+#  - popd
