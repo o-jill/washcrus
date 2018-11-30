@@ -21,4 +21,5 @@ if [ "${TRAVIS_BUILD_TYPE}" = "test" ]; then
   bundle exec rspec
   bundle exec rubocop
 else
+  echo "normal . . ."
 fi
