@@ -18,9 +18,11 @@ before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
   - sudo apt-get update -qq
   - sudo apt-get install -qq ruby-dev
-bundler_args: --deployment
+#bundler_args: --deployment
 cache: bundler
 script:
+  - chmod ugo+x ./scripts/travisbuild.sh
+  - ./scripts/travisbuild.sh
   - cp config/settings.yaml.sample config/settings.yaml
   - cp config/mail.yaml.sample config/mail.yaml
   - cp config/signature.txt.sample config/signature.txt
