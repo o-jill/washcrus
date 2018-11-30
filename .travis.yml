@@ -21,13 +21,13 @@ before_install:
 #bundler_args: --deployment
 cache: bundler
 script:
-  - chmod ugo+x ./scripts/travisbuild.sh
-  - ./scripts/travisbuild.sh
-  - cp config/settings.yaml.sample config/settings.yaml
-  - cp config/mail.yaml.sample config/mail.yaml
-  - cp config/signature.txt.sample config/signature.txt
-  - rake gen_token
-  - rake add_admin
+  - chmod ugo+x ./travisci/runontravis.sh
+  - ./travisci/runontravis.sh
+  # - cp config/settings.yaml.sample config/settings.yaml
+  # - cp config/mail.yaml.sample config/mail.yaml
+  # - cp config/signature.txt.sample config/signature.txt
+  # - rake gen_token
+  # - rake add_admin
 # - chmod ugo+x ./scripts/travisbuild.sh
 # - ./scripts/travisbuild.sh
 #  - qmake -qt=qt4 -v ./src/kouets.pro
