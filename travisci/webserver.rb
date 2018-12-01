@@ -13,7 +13,8 @@ server = WEBrick::HTTPServer.new({
   Port:           '3000',
   DocumentRoot:   './',
   # CGIInterpreter: '/usr/bin/ruby' # Rubyのインストール先
-  CGIInterpreter: '/home/travis/.rvm/rubies/ruby-2.4.4/bin/ruby'
+  # CGIInterpreter: '/home/travis/.rvm/rubies/ruby-2.4.4/bin/ruby'
+  CGIInterpreter: "/home/travis/.rvm/rubies/ruby-#{RUBY_VERSION}/bin/ruby"
   # CGIInterpreter: '/usr/bin/env ruby'
   # CGIInterpreter: 'ruby'
 })
