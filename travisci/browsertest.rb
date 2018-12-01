@@ -1,11 +1,12 @@
-#
-require "selenium-webdriver"
+# for testing on a browser.
+
+require 'selenium-webdriver'
 
 # Firefox用のドライバを使う
 driver = Selenium::WebDriver.for :firefox
 
 # Googleにアクセス
-driver.navigate.to "http://google.com"
+# driver.navigate.to "http://google.com"
 # driver.navigate.to "http://localhost/"
 
 # `q`というnameを持つ要素を取得
@@ -18,11 +19,9 @@ driver.navigate.to "http://google.com"
 # element.submit
 
 # 表示されたページのタイトルをコンソールに出力
-puts driver.title
+# puts driver.title
 
-# Googleにアクセス
 driver.navigate.to 'http://localhost:3000/index.rb'
-# 表示されたページのタイトルをコンソールに出力
 puts driver.title
 
 driver.navigate.to 'http://localhost:3000/index.rb?news'
