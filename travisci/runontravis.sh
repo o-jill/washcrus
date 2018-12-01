@@ -22,5 +22,7 @@ if [ "${TRAVIS_BUILD_TYPE}" = "test" ]; then
   bundle exec rubocop
 else
   echo "normal . . ."
+  which ruby
+  ruby -v
   ruby travisci/browsertest.rb
 fi
