@@ -1,0 +1,69 @@
+env:
+  global:
+  matrix:
+    - TRAVIS_BUILD_TYPE=normal
+    - TRAVIS_BUILD_TYPE=test
+
+git:
+  depth: 3
+
+language: ruby
+rvm:
+  - 2.1
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+before_install:
+  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq ruby-dev
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver-v0.23.0-linux64.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
+  - # start your web application and listen on `localhost`
+  - # google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+#bundler_args: --deployment
+cache: bundler
+addons:
+  firefox: latest
+  # chrome: stable
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+  # - rackup  # start a Web server
+  # - sleep 3 # give Web server some time to bind to sockets, etc
+  - gem install selenium-webdriver
+  - gem install webrick -v1.3.1
+  - ruby ./travisci/webserver.rb&
+  - sleep 3
+script:
+  - chmod ugo+x ./travisci/runontravis.sh
+  - ./travisci/runontravis.sh
+  # - cp config/settings.yaml.sample config/settings.yaml
+  # - cp config/mail.yaml.sample config/mail.yaml
+  # - cp config/signature.txt.sample config/signature.txt
+  # - rake gen_token
+  # - rake add_admin
+# - chmod ugo+x ./scripts/travisbuild.sh
+# - ./scripts/travisbuild.sh
+#  - qmake -qt=qt4 -v ./src/kouets.pro
+##  - qmake -qt=qt4 ./src/kouets.pro
+##  - pushd .
+##  - cd src
+#  - ./src/gen_git_hash.sh H kouetshash
+#  - ./src/gen_git_hash.sh CPP kouetshash
+#  - qmake -qt=qt4 ./src/kouets.pro
+#  - make
+#  - echo let us TEST !!
+#  - cd src/test
+#  - qmake -qt=qt4 ./test.pro
+#  - make clean
+#  - make mocclean
+#  - make
+#  - mkdir debug
+#  - cp test debug/test
+#  - ./debug/test
+#  - popd
