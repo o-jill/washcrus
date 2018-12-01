@@ -5,8 +5,8 @@ require "selenium-webdriver"
 driver = Selenium::WebDriver.for :firefox
 
 # Googleにアクセス
-# driver.navigate.to "http://google.com"
-driver.navigate.to "http://localhost/"
+driver.navigate.to "http://google.com"
+# driver.navigate.to "http://localhost/"
 
 # `q`というnameを持つ要素を取得
 # element = driver.find_element(:name, 'q')
