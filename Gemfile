@@ -11,5 +11,5 @@ gem 'unindent'
 group :test do
   gem 'reek'
   gem 'rspec'
-  gem 'rubocop', '~> 0.58.0'
+  gem 'rubocop', '~> 0.57.0'
 end
