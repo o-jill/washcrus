@@ -13,7 +13,8 @@ server = WEBrick::HTTPServer.new({
   Port:           '3000',
   DocumentRoot:   './',
   # CGIInterpreter: '/usr/bin/ruby' # Rubyのインストール先
-  CGIInterpreter: '/usr/bin/env ruby'
+  # CGIInterpreter: '/usr/bin/env ruby'
+  CGIInterpreter: 'ruby'
 })
 
 Signal.trap(:INT){ server.shutdown }
