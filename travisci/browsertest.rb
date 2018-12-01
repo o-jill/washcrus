@@ -27,21 +27,25 @@ puts driver.title
 
 driver.navigate.to 'http://localhost:3000/index.rb?news'
 puts driver.title
+puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?signup'
 puts driver.title
+puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?login'
 puts driver.title
+puts driver.page_source
 
 element = driver.find_element(:name, 'siemail')
 element.send_keys 'admin1@example.com'
-element = driver.find_element(:name, 'admin')
+element = driver.find_element(:name, 'sipassword')
 element.send_keys 'admin'
 element.submit
 sleep 1
 
 puts driver.title
+puts driver.page_source
 
 # テストを終了する（ブラウザを終了させる）
 driver.quit
