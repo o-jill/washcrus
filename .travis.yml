@@ -36,7 +36,7 @@ before_script:
   # - rackup  # start a Web server
   # - sleep 3 # give Web server some time to bind to sockets, etc
   - gem install selenium-webdriver
-  - gem install webrick
+  - gem install webrick -v1.3.1
   - ruby ./travisci/webserver.rb&
   - sleep 3
 script:
