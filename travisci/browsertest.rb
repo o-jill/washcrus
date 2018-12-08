@@ -46,5 +46,101 @@ sleep 1
 puts driver.title
 puts driver.page_source
 
+driver.navigate.to 'http://localhost:3000/index.rb?lounge'
+puts driver.title
+puts driver.page_source
+sleep 3
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?mypage'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?matchlist'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?searchform'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminmenu'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminnews'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminsettings'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminsignature'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?userlist'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/chat.rb?lounge'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/move.rb'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/getsfen.rb'
+puts driver.title
+puts driver.page_source
+
+# -- -- -- -- --  -- -- -- -- --
+# -- -- -- -- LOGOUT -- -- -- --
+# -- -- -- -- --  -- -- -- -- --
+
+driver.navigate.to 'http://localhost:3000/index.rb?logout'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?lounge'
+puts driver.title
+puts driver.page_source
+sleep 3
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?mypage'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?matchlist'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?searchform'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminmenu'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminnews'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminsettings'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminsignature'
+puts driver.title
+puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?userlist'
+puts driver.title
+puts driver.page_source
+
 # テストを終了する（ブラウザを終了させる）
 driver.quit
