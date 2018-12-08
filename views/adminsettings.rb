@@ -61,6 +61,8 @@ class AdminSettingsScreen
   #
   # @param userinfo ユーザ情報
   def show(userinfo)
+    return MyHtml.puts_textplain_errnotadmin unless userinfo.admin
+
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
