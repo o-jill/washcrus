@@ -204,7 +204,7 @@ class MatchInfoFile
   # @param items   [teban, tegoma, nth]
   def setsfen(sfenstr, items)
     @sfen = sfenstr
-    @teban = items[1]
+    @turn = @teban = items[1]
     @tegoma = items[2]
     @nth = items[3]
   end
