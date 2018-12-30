@@ -106,12 +106,12 @@ res.checkmatch(%r[lounge chat])
 driver.navigate.to 'http://localhost:3000/move.rb'
 # puts driver.title
 # puts driver.page_source
-res.checkmatch(%r[illegal access])
+res.checkmatch(%r{illegal access})
 
 driver.navigate.to 'http://localhost:3000/getsfen.rb'
 # puts driver.title
 # res.checktitle('WashCrus')
-res.checkmatch(%r[illegal access])
+res.checkmatch(%r{illegal access})
 # puts driver.page_source
 
 # -- -- -- -- --  -- -- -- -- --
