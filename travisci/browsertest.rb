@@ -2,8 +2,13 @@
 
 require 'selenium-webdriver'
 
+require './travisci/testresult.rb'
+
+
 # Firefox用のドライバを使う
 driver = Selenium::WebDriver.for :firefox
+
+res = Result.new(driver)
 
 # Googleにアクセス
 # driver.navigate.to "http://google.com"
@@ -22,19 +27,20 @@ driver = Selenium::WebDriver.for :firefox
 # puts driver.title
 
 driver.navigate.to 'http://localhost:3000/index.rb'
-puts driver.title
+# puts driver.title
+res.checktitle('WashCrus')
 
 driver.navigate.to 'http://localhost:3000/index.rb?news'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?signup'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?login'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 element = driver.find_element(:name, 'siemail')
 element.send_keys 'admin1@example.com'
@@ -43,104 +49,126 @@ element.send_keys 'admin'
 element.submit
 sleep 1
 
-puts driver.title
-puts driver.page_source
+res.checkurl('http://localhost:3000/index.rb?logincheck')
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?lounge'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+
+# puts driver.page_source
 sleep 3
-puts driver.page_source
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?mypage'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?matchlist'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?searchform'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminmenu'
-puts driver.title
-puts driver.page_source
+# puts driver.title
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminnews'
-puts driver.title
-puts driver.page_source
+# puts driver.title
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminsettings'
-puts driver.title
-puts driver.page_source
+# puts driver.title
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminsignature'
-puts driver.title
-puts driver.page_source
+# puts driver.title
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?userlist'
-puts driver.title
-puts driver.page_source
+# puts driver.title
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/chat.rb?lounge'
-puts driver.title
-puts driver.page_source
+# puts driver.title
+# res.checktitle('WashCrus')
+# puts driver.page_source
+res.checkmatch(%r[lounge chat])
 
 driver.navigate.to 'http://localhost:3000/move.rb'
-puts driver.title
-puts driver.page_source
+# puts driver.title
+# puts driver.page_source
+res.checkmatch(%r[illegal access])
 
 driver.navigate.to 'http://localhost:3000/getsfen.rb'
-puts driver.title
-puts driver.page_source
+# puts driver.title
+# res.checktitle('WashCrus')
+res.checkmatch(%r[illegal access])
+# puts driver.page_source
 
 # -- -- -- -- --  -- -- -- -- --
 # -- -- -- -- LOGOUT -- -- -- --
 # -- -- -- -- --  -- -- -- -- --
 
 driver.navigate.to 'http://localhost:3000/index.rb?logout'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?lounge'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 sleep 3
-puts driver.page_source
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?mypage'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?matchlist'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?searchform'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminmenu'
-puts driver.title
-puts driver.page_source
+res.checktitle('WashCrus')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminnews'
-puts driver.title
-puts driver.page_source
+res.checktitlenot('WashCrus')
+res.checkplaintext('ERR_NOT_ADMIN')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminsettings'
-puts driver.title
-puts driver.page_source
+# puts driver.title
+res.checktitlenot('WashCrus')
+res.checkplaintext('ERR_NOT_ADMIN')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminsignature'
-puts driver.title
-puts driver.page_source
+res.checktitlenot('WashCrus')
+res.checkplaintext('ERR_NOT_ADMIN')
+# puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?userlist'
-puts driver.title
-puts driver.page_source
+res.checktitlenot('WashCrus')
+# e = driver.find_element(:tag_name, 'body')
+# puts "body:#{e.text}"
+res.checkplaintext('ERR_NOT_ADMIN')
+# puts driver.page_source
 
 # テストを終了する（ブラウザを終了させる）
 driver.quit
+
+puts "ok:#{res.ok}, ng:#{res.ng}"
+exit 1 if res.ng > 0
