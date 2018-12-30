@@ -63,6 +63,12 @@ class GameHtml
   # @return 部品の文字列
   def shogibanelement
     @log.debug('shogibanelement')
+    wname = @mif.playerw.name
+    bname = @mif.playerb.name
+
+    wname += "(#{@mif.dt_lastmove})" if @mif.turn == 'b'
+    bname += "(#{@mif.dt_lastmove})" if @mif.turn == 'w'
+
     erbtxt = File.read('./ui/gamehtml_shogiban.erb', encoding: 'utf-8')
     ERB.new(erbtxt).result(binding)
   end
