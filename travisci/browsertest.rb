@@ -29,18 +29,22 @@ res = Result.new(driver)
 driver.navigate.to 'http://localhost:3000/index.rb'
 # puts driver.title
 res.checktitle('WashCrus')
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?news'
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?signup'
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?login'
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 element = driver.find_element(:name, 'siemail')
 element.send_keys 'admin1@example.com'
@@ -52,9 +56,11 @@ sleep 1
 res.checkurl('http://localhost:3000/index.rb?logincheck')
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?lounge'
 res.checktitle('WashCrus')
+res.checkfooter
 
 # puts driver.page_source
 sleep 3
@@ -63,45 +69,54 @@ sleep 3
 driver.navigate.to 'http://localhost:3000/index.rb?mypage'
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?matchlist'
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?searchform'
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminmenu'
 # puts driver.title
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminnews'
 # puts driver.title
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminsettings'
 # puts driver.title
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminsignature'
 # puts driver.title
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?userlist'
 # puts driver.title
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/chat.rb?lounge'
 # puts driver.title
 # res.checktitle('WashCrus')
 # puts driver.page_source
 res.checkmatch(%r[lounge chat])
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/move.rb'
 # puts driver.title
@@ -121,27 +136,33 @@ res.checkmatch(%r{illegal access})
 driver.navigate.to 'http://localhost:3000/index.rb?logout'
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?lounge'
 res.checktitle('WashCrus')
 # puts driver.page_source
 sleep 3
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?mypage'
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?matchlist'
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?searchform'
 res.checktitle('WashCrus')
 # puts driver.page_source
+res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminmenu'
-res.checktitle('WashCrus')
+res.checktitlenot('WashCrus')
+res.checkplaintext('ERR_NOT_ADMIN')
 # puts driver.page_source
 
 driver.navigate.to 'http://localhost:3000/index.rb?adminnews'

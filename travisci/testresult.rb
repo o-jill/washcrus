@@ -70,7 +70,7 @@ class Result
   end
 
   # check footer
-  def checkfooter(regexp)
+  def checkfooter(regexp = %r{ぢるっち})
     ft = @driver.find_element(:tag_name, 'footer')
     unless ft
       puts <<-ERRMSG
