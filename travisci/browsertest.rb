@@ -116,7 +116,7 @@ driver.navigate.to 'http://localhost:3000/chat.rb?lounge'
 # res.checktitle('WashCrus')
 # puts driver.page_source
 res.checkmatch(%r[lounge chat])
-res.checkfooter
+# res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/move.rb'
 # puts driver.title
