@@ -42,7 +42,7 @@ class NewGameScreen
      <TR><TD colspan=3>
       <input type="button" id='btnfurigoma' class='inpform' onClick='lets_furigoma();' value='Player1の振り歩先で振り駒'>
       <input type="hidden" id="furigoma" name="furigoma" value="FTFTF" class='inpform'>
-    TAG_TABLEFORM
+  TAG_TABLEFORM
 
   # フォームの出力
   def show_newgameform
@@ -84,7 +84,7 @@ class NewGameScreen
          <input type="hidden" id="furigoma2" name="furigoma" value="FTFTF" class='inpform'>
         </td>
        </tr>
-      FORM_NEW_GAME_HEAD
+    FORM_NEW_GAME_HEAD
 
     puts " <tr height='32px'><td colspan=2>"
     sz_and_style = "style='display:none' width='32' height='32'"
@@ -99,7 +99,7 @@ class NewGameScreen
         </td>
        </tr>
        <tr><td colspan='3' id='errmsg2'></td></tr></table></form>
-      FORM_NEW_GAME_TAIL
+    FORM_NEW_GAME_TAIL
   end
 
   # 振り駒用の画像タグの出力
@@ -109,7 +109,7 @@ class NewGameScreen
         <img id='furikomanim#{prefix}#{i}' src='image/komanim.gif' #{style}>
         <img id='furikomafu#{prefix}#{i}' src='image/komafu.png' #{style}>
         <img id='furikomato#{prefix}#{i}' src='image/komato.png' #{style}>
-        KOMAIMG
+      KOMAIMG
     end
   end
 

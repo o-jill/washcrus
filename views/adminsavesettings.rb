@@ -70,12 +70,12 @@ class AdminSaveSettingsScreen
          <td>#{name}</td>
          <td><input name='#{id}' id='#{id}' type=text size=50 value='#{@stg.value[id]}'></td>
         </tr>
-        ROW_TEXT
+      ROW_TEXT
     end
     puts <<-SETTINGS_INFO.unindent
        <tr><td colspan='2' id='errmsg'>#{@errmsg}</td></tr>
       </table>
-      SETTINGS_INFO
+    SETTINGS_INFO
   end
 
   # 画面の表示

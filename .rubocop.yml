@@ -37,6 +37,21 @@ Metrics/ClassLength:
 Metrics/ModuleLength:
     Max: 150
 
+Naming/UncommunicativeMethodParamName:
+    AllowedNames:
+      - a
+      - b
+      - ch
+      - e
+      - er
+      - i
+      - id
+      - t
+      - to
+      - ui
+      - x
+      - y
+
 # Favor modifier if/unless usage when you have a single-line body.
 # IfUnlessModifier:
 #   Enabled: false

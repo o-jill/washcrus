@@ -33,7 +33,7 @@ class MatchListScreen
        <a name="chu">対局中</a> <a href="#recent">90日以内へ</a>
       </div>
       <div id="taikyokuchu" class="taikyokuchu">
-      RESULT_TABLE
+    RESULT_TABLE
     tkcdb.content.idbs.keys.each do |gameid|
       game = tkcdb.content.probe(gameid)
 
@@ -77,7 +77,7 @@ class MatchListScreen
         #{kyokumen_img(gid, game[:turn])}
        </a></td></tr>
       <tr><td>#{game[:comment]}</td></tr></table>
-      GAMEINFO
+    GAMEINFO
   end
 
   # 最近の対局のリストの出力
@@ -106,7 +106,7 @@ class MatchListScreen
        <a href='#chu'>対局中へ</a> <a name='recent'>90日以内</a>
       </div>
       <div id="taikyokurecent" class="taikyokuchu">
-      RESULT_TABLE
+    RESULT_TABLE
     games.each do |game|
       print_res(game)
     end

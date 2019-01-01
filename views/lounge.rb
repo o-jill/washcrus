@@ -33,7 +33,7 @@ class LoungeScreen
        <div id='filing_btn' class='btn_filing_lounge'>
         <input type='text' list='cmt_tmpl' id='cmt' class='inpform' placeholder='コメント欄'></input>
         <datalist id='cmt_tmpl'>
-      FILING_BUTTON_CMT
+    FILING_BUTTON_CMT
     msg_tmpl.each do |msg|
       puts "<option value='#{msg}'>"
     end
@@ -43,7 +43,7 @@ class LoungeScreen
         <br><span id='msg_l2f'></span>
        </div>
       </div>
-      FILING_BUTTON_BTN
+    FILING_BUTTON_BTN
   end
 
   # Cancelボタンの表示
@@ -56,7 +56,7 @@ class LoungeScreen
         <br><span id='msg_cfl'></span>
        </div>
       </div>
-      FILING_BUTTON
+    FILING_BUTTON
   end
 
   # 対局待ちフォームの出力
@@ -68,7 +68,7 @@ class LoungeScreen
       <div align='center'>
        <div class='btn_filing_lounge'>
         <form action='#{scriptname}?gennewgame3' method='post' name='gennewgame'>
-      TAIKYOKU_LOUNGE
+    TAIKYOKU_LOUNGE
   end
 
   # 対局開始UIの表示
@@ -82,7 +82,7 @@ class LoungeScreen
     <input type='hidden' id='furigoma' name='furigoma' value='FTFTF' class='inpform'>
     <button id='btn_gen' class='inpform' onclick='return onstart()' disabled>Start!</button>
     </form>
-    EO_USERINLOUNGE_BTM
+  EO_USERINLOUNGE_BTM
 
   # 対局待ちユーザーの表示
   def put_userinlounge(reqdb, uid)
@@ -98,7 +98,7 @@ class LoungeScreen
         <img id='furikomanim#{i}' src='image/komanim.gif' #{sz_and_style}>
         <img id='furikomafu#{i}' src='image/komafu.png' #{sz_and_style}>
         <img id='furikomato#{i}' src='image/komato.png' #{sz_and_style}>
-        KOMAIMG
+      KOMAIMG
     end
     puts '</div></div>'
   end
@@ -121,7 +121,7 @@ class LoungeScreen
       <input type='button' class='chatbtn' id='chatbtn' onClick='onChatSay();' value='&gt;&gt;'/>
       <input type='hidden' id='gameid' value='lounge'/>
       <script type='text/javascript' src='./js/chat.v013.js' defer></script>
-      CHAT_AREA
+    CHAT_AREA
   end
 
   # 画面の表示

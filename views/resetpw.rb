@@ -57,7 +57,7 @@ class ResetPasswordScreen
       Password: #{pwd}
       E-mail address: #{addr}
 
-      MAIL_MSG
+    MAIL_MSG
     msg += MailManager.footer
 
     stg = Settings.instance
@@ -102,7 +102,7 @@ class ResetPasswordScreen
       password for "#{@email}" was reset.<br>
       a new password has been sent to #{@email}.<br>
       (we don't check if the address is correct or not.)
-      RESET_PW_MSG
+    RESET_PW_MSG
     # @newpw:#{@newpw}<br>
 
     CommonUI.html_foot

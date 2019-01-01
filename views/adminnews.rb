@@ -40,7 +40,7 @@ class AdminNewsScreen
         <form action='#{scriptname}?adminnewsupdate' method=post name='adminnews'>
          <input type='submit' class='inpform' id='update'/><br>
       <textarea name='news' rows='10' style='width:100%'>
-      NEWS_EDIT1
+    NEWS_EDIT1
 
     print msg
 
@@ -49,7 +49,7 @@ class AdminNewsScreen
         </form>
        </div>
       </div>
-      NEWS_EDIT2
+    NEWS_EDIT2
   end
 
   # 画面の表示

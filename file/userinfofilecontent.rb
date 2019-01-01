@@ -236,7 +236,7 @@ class UserInfoFileContent
     puts <<-FNAME_AND_TABLE.unindent
       <table border=1> <caption>path:\#{fname}</caption>
       <tr><th>ID</th><TH>Name</TH><TH>Password</TH><TH>Mail</TH></TR>
-      FNAME_AND_TABLE
+    FNAME_AND_TABLE
     names.each do |id, name|
       puts "<tr><td>#{id}</td><td>#{name}</td>" \
            "<td>#{@passwords[id]}</td><td>#{@emails[id]}</td></tr>"

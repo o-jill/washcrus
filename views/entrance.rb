@@ -37,7 +37,7 @@ class EntranceScreen
         <TD class='logo_edge_ud'></TD>
         <TD></TD></TR>
       </TABLE>
-      LOGO_TEXT
+    LOGO_TEXT
   end
 
   LOGO_TEXT = [
@@ -66,7 +66,7 @@ class EntranceScreen
       <span id=signout><A href='#{scriptname}?logout'>signout</a></span><BR>
       <span id=create><A href='#{scriptname}?newgame'>newgame</a></span><BR>
       <A href='index.rb?anywhere'>anywhere</a>
-      TEST_AREA
+    TEST_AREA
   end
 
   # 訪問回数の表示

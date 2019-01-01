@@ -229,7 +229,7 @@ class TaikyokuReqFile
     print <<-TABLE_HEAD.unindent
       <table border=1 align=center> <caption>#{title}</caption>
       <tr><th>名前</th><th>コメント</th></tr>
-      TABLE_HEAD
+    TABLE_HEAD
     @names.each do |id, name|
       print '<tr><td>'
       if id == myid
@@ -239,7 +239,7 @@ class TaikyokuReqFile
           <label>
            <input type="radio" name="opponent" value="#{id}" onclick='onclick_radiobtn(event)'>#{name}
           </label>
-          CONTENT
+        CONTENT
       end
       puts "</td><td>#{@comments[id]}</td></tr>"
     end

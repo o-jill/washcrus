@@ -44,7 +44,7 @@ class MyPageScreen
           <li onclick='clicknav("mypage_email")'>Email</li>
         </ul>
       </div>
-      NAVI_AREA
+    NAVI_AREA
   end
 
   # 合計勝ち負けの計算
@@ -125,7 +125,7 @@ class MyPageScreen
       <tr>
        <th>ID</th><th>先手</th><th>後手</th><th>手番</th><th>最終着手日時</th><th>棋譜</th>
       </tr>
-      TAIKYOKURIREKI_TABLE
+    TAIKYOKURIREKI_TABLE
   end
 
   # 対局履歴の表の中身の出力
@@ -147,7 +147,7 @@ class MyPageScreen
           <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
          </a></td>
         </tr>
-        TKLIST_DAN
+      TKLIST_DAN
     end
   end
 
@@ -189,7 +189,7 @@ class MyPageScreen
           #{kyokumen_img(gid, game[:turn])}
          </a></td></tr>
         <tr><td>#{game[:comment]}</td></tr></table>
-        GAMEINFO
+      GAMEINFO
     end
     # puts '</TABLE>'
     puts '</div>'
@@ -269,7 +269,7 @@ class MyPageScreen
         </table>
         </form>
       </div>
-      ACCOUNTSETTINGS
+    ACCOUNTSETTINGS
   end
 
   # スクリプトの出力
@@ -286,7 +286,7 @@ class MyPageScreen
         target.style.display = 'block';
       }
       </script>
-      SCRIPT
+    SCRIPT
   end
 
   # 画面の表示

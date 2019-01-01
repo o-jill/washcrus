@@ -50,7 +50,7 @@ class SearchformScreen
        <TD colspan=2 id='errmsg'></TD>
       </TR>
       </TABLE></FORM>
-      TABLE_FORM
+    TABLE_FORM
   end
 
   # 画面の表示

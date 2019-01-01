@@ -144,7 +144,7 @@ class SearchResultScreen
         <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
        </a></td>
       </tr>
-      GAMEINFO
+    GAMEINFO
   end
 
   # 画面の表示
@@ -163,7 +163,7 @@ class SearchResultScreen
         <caption>検索結果</caption>
         <tr><th>ID</th><th>先手</th><th>後手</th>
         <th>着手日時</th><th>棋譜</th></tr>
-        RESULT_TABLE
+      RESULT_TABLE
       res.each do |game|
         print_res(game)
       end

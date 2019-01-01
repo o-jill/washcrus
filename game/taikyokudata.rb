@@ -394,7 +394,7 @@ class TaikyokuData
       taikyoku-id:#{@gid}\ncreator: #{@creator}\ndatetime: #{@datetime}
       idb:#{@idb}\nplayerb: #{@playerb}\nemailb: #{@emailb}
       idw:#{@idw}\nplayerw: #{@playerw}\nemailw: #{@emailw}
-      DUMP
+    DUMP
   end
 
   # table形式の内容のダンプ
@@ -409,6 +409,6 @@ class TaikyokuData
       <TR><TD>playerw</TD><TD>#{@playerw}</TD></TR>
       <TR><TD>emailw</TD><TD>#{@emailw}</TD></TR>
       </TABLE>
-      DUMP
+    DUMP
   end
 end

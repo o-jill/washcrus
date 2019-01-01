@@ -4,7 +4,6 @@ require 'selenium-webdriver'
 
 require './travisci/testresult.rb'
 
-
 # Firefox用のドライバを使う
 driver = Selenium::WebDriver.for :firefox
 
@@ -115,18 +114,18 @@ driver.navigate.to 'http://localhost:3000/chat.rb?lounge'
 # puts driver.title
 # res.checktitle('WashCrus')
 # puts driver.page_source
-res.checkmatch(%r[lounge chat])
+res.checkmatch(/lounge chat/)
 # res.checkfooter
 
 driver.navigate.to 'http://localhost:3000/move.rb'
 # puts driver.title
 # puts driver.page_source
-res.checkmatch(%r{illegal access})
+res.checkmatch(/illegal access/)
 
 driver.navigate.to 'http://localhost:3000/getsfen.rb'
 # puts driver.title
 # res.checktitle('WashCrus')
-res.checkmatch(%r{illegal access})
+res.checkmatch(/illegal access/)
 # puts driver.page_source
 
 # -- -- -- -- --  -- -- -- -- --

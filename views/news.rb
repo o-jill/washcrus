@@ -30,7 +30,7 @@ class NewsScreen
         #{msg}
        </div>
       </div>
-      NEWS_INFO
+    NEWS_INFO
   end
 
   # 画面の表示

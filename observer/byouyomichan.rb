@@ -106,7 +106,7 @@ class ByouyomiChan
       to:#{nply[:name]}
       subject:#{subject}
       msg:#{msg}
-      FAKE_MAIL
+    FAKE_MAIL
   end
 
   # logのヘッダの出力

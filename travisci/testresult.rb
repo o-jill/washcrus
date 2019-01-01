@@ -20,7 +20,7 @@ class Result
     puts <<-ERRMSG
       URL: #{@driver.current_url}
       "#{a}" is not #{b}.
-      ERRMSG
+    ERRMSG
   end
 
   # general function to check some property matches
@@ -32,7 +32,7 @@ class Result
     puts <<-ERRMSG
       URL: #{@driver.current_url}
       "#{b}" does not match #{rex}.
-      ERRMSG
+    ERRMSG
   end
 
   # check if title is t
@@ -49,7 +49,7 @@ class Result
     puts <<-ERRMSG
       URL: #{@driver.current_url}
       "#{@driver.title}" is not #{t}.
-      ERRMSG
+    ERRMSG
   end
 
   # check if current_url is url
@@ -70,13 +70,13 @@ class Result
   end
 
   # check footer
-  def checkfooter(regexp = %r{ぢるっち})
+  def checkfooter(regexp = /ぢるっち/)
     ft = @driver.find_element(:tag_name, 'footer')
     unless ft
       puts <<-ERRMSG
         URL: #{@driver.current_url}
         does not have any footer elements.
-        ERRMSG
+      ERRMSG
       return @ng += 1
     end
     matchproperty(regexp, ft.text)

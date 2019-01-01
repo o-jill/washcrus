@@ -148,7 +148,7 @@ class LoginCheckScreen
         password:****<BR>
         email address:#{@userinfo.user_email}<BR>
         </div>
-        LOGINMSG
+      LOGINMSG
     else
       # エラー
       puts "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>"

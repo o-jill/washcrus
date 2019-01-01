@@ -32,7 +32,7 @@ class AdminSettingsScreen
     print <<-FORM_SETTINGS_HEAD.unindent
       <form action='#{scriptname}?adminsavesettings' method=post name='adminsettings'>
       <table align='center' border=1>
-      FORM_SETTINGS_HEAD
+    FORM_SETTINGS_HEAD
     stg_elem.each do |elem|
       name = elem[0]
       id = elem[1]
@@ -41,7 +41,7 @@ class AdminSettingsScreen
          <td>#{name}</td>
          <td><input name='#{id}' id='#{id}' type=text size=50 value='#{stg.value[id]}'></td>
         </tr>
-       ROW_TEXT
+      ROW_TEXT
     end
     puts <<-FORM_SETTINGS_TAIL.unindent
       <tr>
@@ -54,7 +54,7 @@ class AdminSettingsScreen
       </table>
       </form>
       <script type="text/javascript" src="./js/adminsettings.js"></script>
-      FORM_SETTINGS_TAIL
+    FORM_SETTINGS_TAIL
   end
 
   # 画面の表示

@@ -113,7 +113,7 @@ class Move
 
       attached:#{filename}
 
-      MSG_TEXT
+    MSG_TEXT
 
     chat = ChatFile.new(@gameid)
     chat.read
@@ -173,7 +173,7 @@ class Move
 
       #{@baseurl}index.rb?game/#{@gameid}
 
-      MSG_TEXT
+    MSG_TEXT
 
     chat = ChatFile.new(@gameid)
     chat.read

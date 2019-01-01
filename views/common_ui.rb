@@ -27,7 +27,7 @@ module CommonUI
        <link rel='stylesheet' type='text/css' href='./css/washcrus.v017.css'>
       </HEAD>
       <BODY>
-      HEADER_TAG
+    HEADER_TAG
   end
 
   # HTMLヘッダ出力(no cookie)
@@ -51,7 +51,7 @@ module CommonUI
        <link rel='stylesheet' type='text/css' href='./css/washcrus.v017.css'>
       </HEAD>
       <BODY>
-      HEADER2_TAG
+    HEADER2_TAG
   end
 
   # メニュー部分の出力
@@ -86,7 +86,7 @@ module CommonUI
       <a class='menu' href='#{sup}' target='_blank'> Support </a>
       </div></header><hr>
       <div align='center'>#{title}</div><hr>
-      MENU
+    MENU
   end
 
   def self.put_popupscript
@@ -115,7 +115,7 @@ module CommonUI
         el.onclick = pntyou;
       }
       </script>
-      POPUPSCRIPT
+    POPUPSCRIPT
   end
 
   # メニュー部分の出力
@@ -141,7 +141,7 @@ module CommonUI
        </ul>
       </div></header>
       <hr><div align='center'>#{title}</div><hr>
-      MENU_LOGGEDIN
+    MENU_LOGGEDIN
     put_popupscript
   end
 
@@ -169,7 +169,7 @@ module CommonUI
        </ul>
       </div></header>
       <hr><div align='center'>#{title}</div><hr>
-      MENU_LOGGEDIN
+    MENU_LOGGEDIN
     put_popupscript
   end
 
@@ -185,7 +185,7 @@ module CommonUI
       <a class='menu' href='#{index}?newgame'> New Game </a>
       <a class='menu' href='#{index}?adminmenu'> Version </a>
       </div><hr>
-      ADMINMENU
+    ADMINMENU
   end
 
   # フッターの出力

@@ -59,7 +59,7 @@ class AdminSignatureUpdateScreen
         <pre>#{msg}</pre>
        </div>
       </div>
-      SIGNATURE_INFO
+    SIGNATURE_INFO
   end
 
   # 画面の表示

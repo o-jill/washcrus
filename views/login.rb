@@ -55,7 +55,7 @@ class LoginScreen
       </form>
       </div>
       </div>
-      TABLE_FORM
+    TABLE_FORM
   end
 
   # ログイン済みの表示

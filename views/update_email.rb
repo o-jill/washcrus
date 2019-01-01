@@ -45,7 +45,7 @@ class UpdateEmailScreen
       Password: ****
       E-mail address: #{addr}
 
-      MAIL_MSG
+    MAIL_MSG
     msg += MailManager.footer
 
     stg = Settings.instance

@@ -98,6 +98,6 @@ class UserInfo
        <tr><td>visitcount</td><td>#{@visitcount}</td></tr>
        <tr><td>admin</td><td>#{@admin}</td></tr>
       </table>
-      TABLEDATA
+    TABLEDATA
   end
 end

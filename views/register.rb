@@ -112,7 +112,7 @@ class RegisterScreen
       Password: #{pwd}
       E-mail address: #{addr}
 
-      MAIL_MSG
+    MAIL_MSG
     msg += MailManager.footer
 
     stg = Settings.instance
@@ -160,7 +160,7 @@ class RegisterScreen
       password:****<BR>email address:#{user[:email1]}<BR>
       <BR>
       Registration mail has been sent.<BR>
-      REG_SUC_MSG
+    REG_SUC_MSG
 
     msg
   end

@@ -40,7 +40,7 @@ module SfenSVGImageConst
        .lastmv { stroke : none; fill: #FF4; }
      /* ]]> */</style>
      <g>
-    EO_TAG_HEADER
+  EO_TAG_HEADER
 
   # svgフッタタグ
   TAG_FOOTER = " </g>\n</svg>\n".freeze
@@ -76,7 +76,7 @@ module SfenSVGImageConst
      <text x="185" y="150" class="dan">八</text>
      <text x="185" y="170" class="dan">九</text>
     </g>
-    EO_TAGFRAME
+  EO_TAGFRAME
 end
 
 #
@@ -160,7 +160,7 @@ class SfenSVGImage
        </g>
        <text class="name" x="0" y="10">#{@sname}</text>
       </g>
-      NAMETAG
+    NAMETAG
     ret
   end
 
@@ -376,7 +376,7 @@ class SfenSVGImage
        </g>
        <g transform="translate(4,16)">#{@stgm}</g>
       </g>
-      TAGTEGOMA
+    TAGTEGOMA
 
     ret
   end

@@ -38,7 +38,7 @@ class VersionsScreen
         DO NOT forget to update REVISION file in updating this system.
        </div>
       </div>
-      VERSIONINFO
+    VERSIONINFO
   rescue StandardError => _e
     puts <<-REVISION_FILE_ERR.unindent
       <div align='center'>
@@ -47,7 +47,7 @@ class VersionsScreen
         please make REVISION file by running ex.'git log -1 >REVISION'.
        </div>
       </div>
-      REVISION_FILE_ERR
+    REVISION_FILE_ERR
   end
 
   # './Gemfile.lock'の内容の表示
@@ -60,7 +60,7 @@ class VersionsScreen
         <pre>#{gemlog}</pre>
        </div>
       </div>
-      GEMINFO
+    GEMINFO
   rescue StandardError => _e
     puts <<-GEMLOCK_FILE_ERR.unindent
       <div align='center'>
@@ -69,7 +69,7 @@ class VersionsScreen
         please use 'bundle' to run this system.
        </div>
       </div>
-      GEMLOCK_FILE_ERR
+    GEMLOCK_FILE_ERR
   end
 
   # 画面の表示

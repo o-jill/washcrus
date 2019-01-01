@@ -255,7 +255,7 @@ class TaikyokuFileContent
     print <<-FNAME_AND_TABLE.unindent
       <table border=1 align=center> <Caption>#{title}</caption>
       <tr><th>ID</th><TH>先手</TH><TH>後手</TH><TH>手番</TH><TH>着手日時</TH><TH>コメント</TH></TR>
-      FNAME_AND_TABLE
+    FNAME_AND_TABLE
     @namebs.each do |id, name|
       puts <<-LINE.unindent
         <TR>
@@ -267,7 +267,7 @@ class TaikyokuFileContent
          <TD>#{CommonUI.turn2str(@turns[id])}</TD>
          <TD>#{@times[id]}</TD><TD>#{@comments[id]}</TD>
         </TR>
-        LINE
+      LINE
     end
     puts '</table>'
   end

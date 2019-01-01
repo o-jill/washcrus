@@ -38,7 +38,7 @@ class AdminSignatureScreen
         <form action='#{scriptname}?adminsignatureupdate' method=post name='adminsignature'>
          <input type='submit' class='inpform' id='update'/><br>
       <textarea name='signature' rows='10' style='width:100%'>
-      SIGNATURE_EDIT1
+    SIGNATURE_EDIT1
 
     print msg
 
@@ -47,7 +47,7 @@ class AdminSignatureScreen
         </form>
        </div>
       </div>
-      SIGNATURE_EDIT2
+    SIGNATURE_EDIT2
   end
 
   # 画面の表示

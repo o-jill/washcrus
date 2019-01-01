@@ -72,7 +72,7 @@ class MailManager
     msg = <<-FOOTER_MSG.unindent
       * Please delete this email if you believe you are not the intended recipient.
       * Please do not respond to this auto-generated email.
-      FOOTER_MSG
+    FOOTER_MSG
     msg += File.read(PathList::SIGNATUREFILE, encoding: 'utf-8')
     msg
   end

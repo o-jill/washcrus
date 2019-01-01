@@ -116,7 +116,7 @@ class GenNewGameScreen
       please visit a URL bellow to play.
       #{baseurl}index.rb?game/#{gameid}
 
-      MAIL_MSG
+    MAIL_MSG
     msg += MailManager.footer
     msg
   end
@@ -201,7 +201,7 @@ class GenNewGameScreen
       <a href='index.rb?game/#{@td.gid}'><big>start playing &gt;&gt;</big></a><BR>
 
       mails were sent to both players.
-      GENMSG
+    GENMSG
   end
 
   # エラーをログに出力

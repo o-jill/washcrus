@@ -45,7 +45,7 @@ class GameHtml
         <input type='image' style='vertical-align:middle;' id='btn_reload' src='./image/reloadbtn.png' onclick='location.reload(true);' alt='再読込' title='再読込'/>
         <BR><BR>
        </div>
-      HEAD_GAMEAREA
+    HEAD_GAMEAREA
     puts <<-CONTENT_GAMEAREA.unindent
        <div class=block>
         <section class='block_elem_ban' id='block_elem_ban'> #{banelement} </section>
@@ -54,7 +54,7 @@ class GameHtml
        #{chatelement}
       </div>
       <HR><footer><div align='right'>&copy;ぢるっち 2017-2018 with Ruby v#{RUBY_VERSION}</div></footer>
-      CONTENT_GAMEAREA
+    CONTENT_GAMEAREA
     puts "#{hiddenelement}</body></html>"
   end
 
