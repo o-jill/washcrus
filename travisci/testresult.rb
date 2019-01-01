@@ -60,7 +60,7 @@ class Result
   # check if body is t
   def checkplaintext(t)
     body = @driver.find_element(:tag_name, 'body')
-    checkproperty(body, t.text)
+    checkproperty(body.text, t)
   end
 
   # check if regexp matches content
