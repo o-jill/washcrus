@@ -191,7 +191,7 @@ module CommonUI
   # フッターの出力
   def self.html_foot
     puts '<HR><footer><div align=right>' \
-         "&copy;ぢるっち 2017-2018 with Ruby v#{RUBY_VERSION}" \
+         "&copy;ぢるっち 2017-2019 with Ruby v#{RUBY_VERSION}" \
          '</div></footer></BODY></HTML>'
   end
 
