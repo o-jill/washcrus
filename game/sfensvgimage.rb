@@ -308,6 +308,14 @@ class SfenSVGImage
     "<text x='0' y='#{y}' class='tegoma'>#{koma}</text>"
   end
 
+  def str_tekoma(ch, num, tgm, y)
+    tgm += str_sgtgm(ch, y)
+    y += 16
+    tgm += numtegoma(num, y) if num > 1
+    y += 16 if num > 1
+    [tgm, y]
+  end
+
   # sfen文字から先手手駒タグの生成
   #
   # @param ch sfen文字
@@ -316,12 +324,7 @@ class SfenSVGImage
   #
   # @return 手駒タグ
   def str_stgm(ch, num)
-    @stgm += str_sgtgm(ch, @ys)
-    @ys += 16
-    if num > 1
-      @stgm += numtegoma(num, @ys)
-      @ys += 16
-    end
+    @stgm, @ys = str_tekoma(ch, num, @stgm, @ys)
   end
 
   # sfen文字から後手手駒タグの生成
@@ -331,12 +334,7 @@ class SfenSVGImage
   #
   # @return 手駒タグ
   def str_gtgm(ch, num)
-    @gtgm += str_sgtgm(ch, @yg)
-    @yg += 16
-    if num > 1
-      @gtgm += numtegoma(num, @yg)
-      @yg += 16
-    end
+    @gtgm, @yg = str_tekoma(ch, num, @gtgm, @yg)
   end
 
   # 手駒の読み取り
