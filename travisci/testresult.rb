@@ -59,14 +59,14 @@ class Result
 
   # check if body is t
   def checkplaintext(t)
-    body = @driver.find_element(:tag_name, 'body').text
-    checkproperty(body, t)
+    body = @driver.find_element(:tag_name, 'body')
+    checkproperty(body, t.text)
   end
 
   # check if regexp matches content
   def checkmatch(regexp)
-    body = @driver.find_element(:tag_name, 'body').text
-    matchproperty(regexp, body)
+    body = @driver.find_element(:tag_name, 'body')
+    matchproperty(regexp, body.text)
   end
 
   # check footer
@@ -79,6 +79,6 @@ class Result
         ERRMSG
       return @ng += 1
     end
-    matchproperty(regexp, body)
+    matchproperty(regexp, ft.text)
   end
 end
