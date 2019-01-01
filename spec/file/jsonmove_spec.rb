@@ -5,7 +5,7 @@ require './file/jsonmove.rb'
 describe 'JsonMove' do
   context 'normal patterns' do
     it "has a constant 'Koma'" do
-      expect(JsonMove::Koma).to eq %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY]
+      expect(JsonMove.koma).to eq %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY]
     end
     it 'checks piece' do
       expect(JsonMove.checkpiece('__')).to be nil

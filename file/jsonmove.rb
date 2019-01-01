@@ -32,6 +32,11 @@ module JsonMove
 
   KOMA = %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY].freeze
 
+  # KOMAを返す。テスト用
+  def self.koma
+    KOMA
+  end
+
   # 駒が有効かどうかの確認
   #
   # @param cch CSA駒文字
