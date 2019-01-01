@@ -48,7 +48,7 @@ class Result
 
     puts <<-ERRMSG
       URL: #{@driver.current_url}
-      "#{@driver.title}" is not #{t}.
+      "#{@driver.title}" should not be #{t}.
     ERRMSG
   end
 
