@@ -50,6 +50,7 @@ Naming/UncommunicativeMethodParamName:
       - to
       - ui
       - x
+      - xy
       - y
 
 # Favor modifier if/unless usage when you have a single-line body.
