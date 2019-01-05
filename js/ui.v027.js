@@ -208,14 +208,14 @@ function update_screen() {
     update_banindex_rotate();
     Naraberu_rotate();
 
-    sname.innerText = mykifu.gotename;
-    gname.innerText = mykifu.sentename;
+    sname.innerHTML = mykifu.gotename;
+    gname.innerHTML = mykifu.sentename;
   } else {
     update_banindex();
     Naraberu();
 
-    sname.innerText = mykifu.sentename;
-    gname.innerText = mykifu.gotename;
+    sname.innerHTML = mykifu.sentename;
+    gname.innerHTML = mykifu.gotename;
   }
   // kifuArea.innerText = mykifu.kifuText;
 }
@@ -1376,6 +1376,70 @@ function read_lastmove()
 }
 
 /**
+ * 主にゼロパドした数字の文字列を返す。
+ */
+var padding = function(n, d, p) {
+    p = p || '0';
+    return (p.repeat(d) + n).slice(-d);
+};
+
+/**
+ * 時刻文字列を返す。
+ * ex. 9999/12/31 23:59:59
+ */
+function dateToFormatString(date) {
+  var pad = '0';
+  return padding(date.getFullYear(), 4, pad) + '/'
+    + padding(date.getMonth()+1, 2, pad) + '/'
+    + padding(date.getDate(), 2, pad) + ' '
+    + padding(date.getHours(), 2, pad) + ':'
+    + padding(date.getMinutes(), 2, pad) + ':'
+    + padding(date.getSeconds(), 2, pad);
+}
+
+/**
+ * ミリ秒をわかりやすい表記に直す。
+ * ex. 9d 23:59:59
+ */
+function msec2DHMS(ms) {
+  var days = Math.floor(ms / 3600000 / 24);
+  var hours = Math.floor(ms / 3600000) % 24;
+  var minutes = Math.floor(ms / 60000) % 60;
+  var seconds = Math.floor(ms / 1000) % 60;
+  return days + 'd '
+    + [padding(hours, 2), padding(minutes, 2), padding(seconds, 2)].join(':');
+}
+
+/**
+ * 相手が指してからの時間を表示する。
+ */
+function updatecurtime() {
+  var ellmtm = document.getElementById('lmtm');
+  var lmtm = new Date(ellmtm.innerText);
+  var now = new Date();
+  var diff = now - lmtm;
+  var nowstr = '(' + msec2DHMS(diff) + ')';
+  // var nowstr = '(' + dateToFormatString(new Date()) + ')';
+  var st = document.getElementById('sentetime');
+  if (st) st.innerHTML = nowstr;
+  var gt = document.getElementById('gotetime');
+  if (gt) gt.innerHTML = nowstr;
+}
+
+/**
+ * 相手が指してからの時間を表示するのを１秒おきに行う。
+ */
+function startCurTimer()
+{
+  setTimeout(
+    function() {
+      updatecurtime();
+      startCurTimer();
+    },
+    1000);
+}
+
+/**
  * sfenを読み込んで指せる状態にする。
  */
 function init_board() {
@@ -1384,8 +1448,8 @@ function init_board() {
 
   var sname = document.getElementById('sg_pname');
   var gname = document.getElementById('gg_pname');
-  mykifu.gotename = gname.innerText;
-  mykifu.sentename = sname.innerText;
+  mykifu.gotename = gname.innerHTML;
+  mykifu.sentename = sname.innerHTML;
 
   var sfentext = document.getElementById('sfen_').innerHTML;
   fromsfen(sfentext);
@@ -1394,8 +1458,9 @@ function init_board() {
 
   activateteban();
 
-  if (!isfinished && !taikyokuchu) {
+  if (!isfinished) {
     startUpdateTimer();
+    startCurTimer();
   }
 
   hifumin_eye = document.getElementById('hifumineye').checked;

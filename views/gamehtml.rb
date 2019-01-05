@@ -66,8 +66,11 @@ class GameHtml
     wname = @mif.playerw.name
     bname = @mif.playerb.name
 
-    wname += "(#{@mif.dt_lastmove})" if @mif.turn == 'b'
-    bname += "(#{@mif.dt_lastmove})" if @mif.turn == 'w'
+    bname += ' <span id="sentetime"></span>' if @mif.turn == 'b'
+    wname += " (<span id='lmtm'>#{@mif.dt_lastmove}</span>)" if @mif.turn == 'b'
+
+    bname += " (<span id='lmtm'>#{@mif.dt_lastmove}</span>)" if @mif.turn == 'w'
+    wname += ' <span id="gotetime"></span>' if @mif.turn == 'w'
 
     erbtxt = File.read('./ui/gamehtml_shogiban.erb', encoding: 'utf-8')
     ERB.new(erbtxt).result(binding)
