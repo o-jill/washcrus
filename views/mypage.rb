@@ -151,6 +151,22 @@ class MyPageScreen
     end
   end
 
+  # WebApiSfenReaderオブジェクトの生成と値のセット
+  #
+  # @param mif  対局情報
+  # @param turn 手番
+  #
+  # @return WebApiSfenReaderオブジェクト
+  def gen_sfen_reader(mif, turn)
+    sr = WebApiSfenReader.new
+    sr.setplayers(mif.playerb.name, mif.playerw.name)
+    sr.sfen = mif.sfen
+    sr.setlastmovecsa(mif.lastmove)
+    sr.setturn(turn)
+    sr.settitle(mif.dt_lastmove)
+    sr
+  end
+
   # 局面画像生成サイトへのリンクの生成
   #
   # @param gid game id
@@ -164,12 +180,7 @@ class MyPageScreen
     end
     mif = tkd.mif
 
-    sr = WebApiSfenReader.new
-    sr.setplayers(mif.playerb.name, mif.playerw.name)
-    sr.sfen = mif.sfen
-    sr.setlastmovecsa(mif.lastmove)
-    sr.setturn(turn)
-    sr.settitle(mif.dt_lastmove)
+    sr = gen_sfen_reader(mif, turn)
 
     "<img src='#{sr.genuri}' alt='局面図画像#{gid}'" \
     " title='move to game[#{gid}]!'>"

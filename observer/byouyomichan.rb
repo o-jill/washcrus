@@ -117,6 +117,26 @@ class ByouyomiChan
     puts "# #{@min_period} minutes period."
   end
 
+  # 秒読みの確認と必要があればメール送信
+  #
+  # @param gid gameid
+  def validate(gid)
+    tkd = TaikyokuData.new
+    tkd.setid(gid)
+    tkd.lock do
+      tkd.read
+
+      mif = tkd.mif
+      return if mif.finished
+
+      puts "id:#{id}"
+      tmkp = TimeKeeper.new
+
+      tkd.tick(tmkp)
+      send_mail(mif, tmkp)
+    end
+  end
+
   # 実行本体。
   def perform
     put_log_header(Time.now)
@@ -125,20 +145,8 @@ class ByouyomiChan
     tcdb.read
     list = tcdb.content.gameids
 
-    list.each do |id|
-      tkd = TaikyokuData.new
-      tkd.setid(id)
-      tkd.lock do
-        tkd.read
-        mif = tkd.mif
-
-        next if mif.finished
-        puts "id:#{id}"
-        tmkp = TimeKeeper.new
-
-        tkd.tick(tmkp)
-        send_mail(mif, tmkp)
-      end
+    list.each do |gid|
+      validate(gid)
     end
   end
 end

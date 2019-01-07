@@ -27,6 +27,7 @@ class GameHtml
 
   # logging
   attr_accessor :log
+  attr_reader :bname, :wname
 
   # 画面の表示
   #
@@ -58,19 +59,27 @@ class GameHtml
     puts "#{hiddenelement}</body></html>"
   end
 
+  # 最終着手時間と経過時間用のタグの生成
+  def prepare_time
+    ltlm = " (<span id='lmtm'>#{@mif.dt_lastmove}</span>)"
+
+    @bname += ' <span id="sentetime"></span>' if @mif.turn == 'b'
+    @wname += ltlm if @mif.turn == 'b'
+
+    @bname += ltlm if @mif.turn == 'w'
+    @wname += ' <span id="gotetime"></span>' if @mif.turn == 'w'
+  end
+
   # 将棋盤の部品
   #
   # @return 部品の文字列
   def shogibanelement
     @log.debug('shogibanelement')
-    wname = @mif.playerw.name
-    bname = @mif.playerb.name
 
-    bname += ' <span id="sentetime"></span>' if @mif.turn == 'b'
-    wname += " (<span id='lmtm'>#{@mif.dt_lastmove}</span>)" if @mif.turn == 'b'
+    @wname = @mif.playerw.name
+    @bname = @mif.playerb.name
 
-    bname += " (<span id='lmtm'>#{@mif.dt_lastmove}</span>)" if @mif.turn == 'w'
-    wname += ' <span id="gotetime"></span>' if @mif.turn == 'w'
+    prepare_time
 
     erbtxt = File.read('./ui/gamehtml_shogiban.erb', encoding: 'utf-8')
     ERB.new(erbtxt).result(binding)
