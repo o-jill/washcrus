@@ -223,6 +223,19 @@ class MyPageScreen
     # put_taikyokulist_tbl(chu)
   end
 
+  # 成績表の計算と出力
+  # 対局中の対局の表示
+  #
+  # @param winlose 対局成績
+  # @param uid ユーザー情報
+  def put_mypage_stat(winlose, uid)
+    puts '<div class="myarticle" id="mypage_stat">'
+    put_stats(winlose)
+    puts '<HR>'
+    put_taikyokuchu(uid)
+    puts '</div>'
+  end
+
   # 対局履歴の表示
   #
   # @param uid ユーザーID
@@ -319,11 +332,7 @@ class MyPageScreen
 
     put_navi
 
-    puts '<div class="myarticle" id="mypage_stat">'
-    put_stats(wl)
-    puts '<HR>'
-    put_taikyokuchu(uid)
-    puts '</div>'
+    put_mypage_stat(wl, uid)
 
     put_taikyokurireki(uid)
 
