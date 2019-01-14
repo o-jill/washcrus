@@ -11,6 +11,7 @@ AllCops:
     - './js/*'
     - './css/*'
     - './spec/**/*'
+    - 'Rakefile'
   TargetRubyVersion: 2.1
 
 
@@ -108,6 +109,18 @@ Style/Encoding:
   #   - always
   #   - never
 #  AutoCorrectEncodingComment: '# encoding: utf-8'
+
+Style/SymbolArray:
+  # Description: 'Use %i or %I for arrays of symbols.'
+  # StyleGuide: '#percent-i'
+  Enabled: true
+  # VersionAdded: '0.9'
+  # VersionChanged: '0.49'
+  EnforcedStyle: brackets
+  # MinSize: 2
+  # SupportedStyles:
+  #   - percent
+  #   - brackets
 
 # TODO: Change it to true when $redis and $mixpanel is removed
 #

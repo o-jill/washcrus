@@ -61,147 +61,153 @@ class WashCrus
   WORDS_GAMESTG_GEN = %w[checknewgame gennewgame gennewgame2 gennewgame3].freeze
   WORDS_GAMESTG = WORDS_GAMESTG_SHOW + WORDS_GAMESTG_GEN
 
-  WORDS_LOGINOUT_SU = %w[signup register resetpw update_password update_email].freeze
+  WORDS_LOGINOUT_SU =
+    %w[signup register resetpw update_password update_email].freeze
   WORDS_LOGINOUT_LIO = %w[login logincheck logout].freeze
   WORDS_LOGINOUT = WORDS_LOGINOUT_SU + WORDS_LOGINOUT_LIO
 
   WORDS_MISC = [nil, '', 'news', 'search', 'searchform'].freeze
 
-  # ログイン系の画面
-  def loginout_su
-    case @action
-    when 'signup' then
-      require './views/signup.rb'
-      SignupScreen.new(@header).show
-    when 'register' then
-      require './views/register.rb'
-      RegisterScreen.new(@header).show(@params)
-    when 'resetpw'
-      require './views/resetpw.rb'
-      ResetPasswordScreen.new(@header).show(@params)
-    when 'update_password'
-      require './views/update_password.rb'
-      UpdatePasswordScreen.new(@header).show(@userinfo, @params)
-    when 'update_email'
-      require './views/update_email.rb'
-      UpdateEmailScreen.new(@header).show(@cgi, @session, @userinfo, @params)
-    end
+  def signup
+    require './views/signup.rb'
+    SignupScreen.new(@header).show
   end
 
-  # ログイン系の画面
-  def loginout_lio
-    case @action
-    when 'login' then
-      require './views/login.rb'
-      LoginScreen.new(@header).show(@userinfo)
-    when 'logincheck' then
-      require './views/logincheck.rb'
-      LoginCheckScreen.new.show(@session, @cgi)
-    when 'logout' then
-      require './views/logout.rb'
-      LogoutScreen.new.show(@session)
-    end
+  def register
+    require './views/register.rb'
+    RegisterScreen.new(@header).show(@params)
+  end
+
+  def resetpw
+    require './views/resetpw.rb'
+    ResetPasswordScreen.new(@header).show(@params)
+  end
+
+  def update_password
+    require './views/update_password.rb'
+    UpdatePasswordScreen.new(@header).show(@userinfo, @params)
+  end
+
+  def update_email
+    require './views/update_email.rb'
+    UpdateEmailScreen.new(@header).show(@cgi, @session, @userinfo, @params)
+  end
+
+  def login
+    require './views/login.rb'
+    LoginScreen.new(@header).show(@userinfo)
+  end
+
+  def logincheck
+    require './views/logincheck.rb'
+    LoginCheckScreen.new.show(@session, @cgi)
+  end
+
+  def logout
+    require './views/logout.rb'
+    LogoutScreen.new.show(@session)
   end
 
   # ログイン系の画面
   def loginout
-    if WORDS_LOGINOUT_LIO.include?(@action)
-      loginout_lio
-    elsif WORDS_LOGINOUT_SU.include?(@action)
-      loginout_su
-    end
+    method(@action.to_sym).call
   end
 
-  # Admin系の画面
-  def admin_show
-    case @action
-    when 'adminnews' then
-      require './views/adminnews.rb'
-      AdminNewsScreen.new(@header).show(@userinfo)
-    when 'adminsettings' then
-      require './views/adminsettings.rb'
-      AdminSettingsScreen.new(@header).show(@userinfo)
-    when 'adminsignature' then
-      require './views/adminsignature.rb'
-      AdminSignatureScreen.new(@header).show(@userinfo)
-    when 'adminmenu' then # when 'versions' then
-      require './views/versions.rb'
-      VersionsScreen.new(@header).show(@userinfo)
-    when 'userlist' then
-      userlist_screen(@header, @userinfo)
-    end
+  def adminnews
+    require './views/adminnews.rb'
+    AdminNewsScreen.new(@header).show(@userinfo)
   end
 
-  # Admin系の画面
-  def admin_update
-    case @action
-    when 'adminnewsupdate' then
-      require './views/adminnewsupdate.rb'
-      AdminNewsUpdateScreen.new(@header).show(@userinfo, @params)
-    when 'adminsavesettings' then
-      require './views/adminsavesettings.rb'
-      AdminSaveSettingsScreen.new(@header).show(@userinfo, @params)
-    when 'adminsignatureupdate' then
-      require './views/adminsignatureupdate.rb'
-      AdminSignatureUpdateScreen.new(@header).show(@userinfo, @params)
-    end
+  def adminsettings
+    require './views/adminsettings.rb'
+    AdminSettingsScreen.new(@header).show(@userinfo)
+  end
+
+  def adminsignature
+    require './views/adminsignature.rb'
+    AdminSignatureScreen.new(@header).show(@userinfo)
+  end
+
+  def adminmenu
+    # when 'versions' then
+    require './views/versions.rb'
+    VersionsScreen.new(@header).show(@userinfo)
+  end
+
+  def userlist
+    userlist_screen(@header, @userinfo)
+  end
+
+  def adminnewsupdate
+    require './views/adminnewsupdate.rb'
+    AdminNewsUpdateScreen.new(@header).show(@userinfo, @params)
+  end
+
+  def adminsavesettings
+    require './views/adminsavesettings.rb'
+    AdminSaveSettingsScreen.new(@header).show(@userinfo, @params)
+  end
+
+  def adminsignatureupdate
+    require './views/adminsignatureupdate.rb'
+    AdminSignatureUpdateScreen.new(@header).show(@userinfo, @params)
   end
 
   # Admin系の画面
   def administration
-    if WORDS_ADMIN_SHOW.include?(@action)
-      admin_show
-    elsif WORDS_ADMIN_UPDATE.include?(@action)
-      admin_update
-    end
+    method(@action.to_sym).call
   end
 
   # ゲーム系の画面
-  def gamestg_show
-    case @action
-    when 'file2lounge'
-      require './game/file2lounge.rb'
-      File2Lounge.new.perform(@userinfo, @params)
-    when 'lounge'
-      require './views/lounge.rb'
-      LoungeScreen.new(@header).show(@userinfo)
-    when 'matchlist'
-      require './views/matchlist.rb'
-      MatchListScreen.new(@header).show(@userinfo)
-    when 'mypage'
-      require './views/mypage.rb'
-      MyPageScreen.new(@header).show(@userinfo)
-    when 'newgame'
-      require './views/newgame.rb'
-      NewGameScreen.new(@header).show(@userinfo)
-    end
+  def file2lounge
+    require './game/file2lounge.rb'
+    File2Lounge.new.perform(@userinfo, @params)
+  end
+
+  def lounge
+    require './views/lounge.rb'
+    LoungeScreen.new(@header).show(@userinfo)
+  end
+
+  def matchlist
+    require './views/matchlist.rb'
+    MatchListScreen.new(@header).show(@userinfo)
+  end
+
+  def mypage
+    require './views/mypage.rb'
+    MyPageScreen.new(@header).show(@userinfo)
+  end
+
+  def newgame
+    require './views/newgame.rb'
+    NewGameScreen.new(@header).show(@userinfo)
   end
 
   # ゲーム系の画面
-  def gamestg_gen
-    case @action
-    when 'checknewgame'
-      require './game/checknewgame.rb'
-      CheckNewGame.new(@cgi).perform
-    when 'gennewgame' then
-      require './views/gennewgame.rb'
-      GenNewGameScreen.new(@header).show(@userinfo, @params)
-    when 'gennewgame2' then
-      require './views/gennewgame2.rb'
-      GenNewGame2Screen.new(@header).show(@userinfo, @params)
-    when 'gennewgame3' then
-      require './views/gennewgame3.rb'
-      GenNewGame3Screen.new(@header).show(@userinfo, @params)
-    end
+  def checknewgame
+    require './game/checknewgame.rb'
+    CheckNewGame.new(@cgi).perform
+  end
+
+  def gennewgame
+    require './views/gennewgame.rb'
+    GenNewGameScreen.new(@header).show(@userinfo, @params)
+  end
+
+  def gennewgame2
+    require './views/gennewgame2.rb'
+    GenNewGame2Screen.new(@header).show(@userinfo, @params)
+  end
+
+  def gennewgame3
+    require './views/gennewgame3.rb'
+    GenNewGame3Screen.new(@header).show(@userinfo, @params)
   end
 
   # ゲーム系の画面
   def gamesettings
-    if WORDS_GAMESTG_SHOW.include?(@action)
-      gamestg_show
-    elsif WORDS_GAMESTG_GEN.include?(@action)
-      gamestg_gen
-    end
+    method(@action.to_sym).call
   end
 
   # その他いろいろな画面
@@ -251,10 +257,21 @@ end
 #   main
 #
 
-cgi = CGI.new
-washcrus = WashCrus.new(cgi)
-washcrus.perform
+begin
+  cgi = CGI.new
+  washcrus = WashCrus.new(cgi)
+  washcrus.perform
+rescue => err
+  puts <<-ERRMSG
+    Content-Type: text/html; charset=UTF-8
 
+    <html>
+    <title>ERROR Washcrus</title>
+    <body>
+      ERROR:#{err}
+    </body></html>
+  ERRMSG
+end
 # -----------------------------------
 #   testing
 #
