@@ -49,23 +49,6 @@ class WashCrus
 
   # class methods
 
-  WORDS_ADMIN_SHOW = %w[
-    adminmenu adminnews adminsettings adminsignature userlist
-  ].freeze
-  WORDS_ADMIN_UPDATE = %w[
-    adminnewsupdate adminsavesettings adminsignatureupdate
-  ].freeze
-  WORDS_ADMIN = WORDS_ADMIN_SHOW + WORDS_ADMIN_UPDATE
-
-  WORDS_GAMESTG_SHOW = %w[file2lounge lounge matchlist mypage newgame].freeze
-  WORDS_GAMESTG_GEN = %w[checknewgame gennewgame gennewgame2 gennewgame3].freeze
-  WORDS_GAMESTG = WORDS_GAMESTG_SHOW + WORDS_GAMESTG_GEN
-
-  WORDS_LOGINOUT_SU =
-    %w[signup register resetpw update_password update_email].freeze
-  WORDS_LOGINOUT_LIO = %w[login logincheck logout].freeze
-  WORDS_LOGINOUT = WORDS_LOGINOUT_SU + WORDS_LOGINOUT_LIO
-
   WORDS_MISC = [nil, '', 'news', 'search', 'searchform'].freeze
 
   def signup
@@ -108,11 +91,6 @@ class WashCrus
     LogoutScreen.new.show(@session)
   end
 
-  # ログイン系の画面
-  def loginout
-    method(@action.to_sym).call
-  end
-
   def adminnews
     require './views/adminnews.rb'
     AdminNewsScreen.new(@header).show(@userinfo)
@@ -151,11 +129,6 @@ class WashCrus
   def adminsignatureupdate
     require './views/adminsignatureupdate.rb'
     AdminSignatureUpdateScreen.new(@header).show(@userinfo, @params)
-  end
-
-  # Admin系の画面
-  def administration
-    method(@action.to_sym).call
   end
 
   # ゲーム系の画面
@@ -205,27 +178,29 @@ class WashCrus
     GenNewGame3Screen.new(@header).show(@userinfo, @params)
   end
 
-  # ゲーム系の画面
-  def gamesettings
-    method(@action.to_sym).call
+  def news
+    require './views/news.rb'
+    NewsScreen.new(@header).show(@userinfo)
   end
 
-  # その他いろいろな画面
-  def miscellaneous
-    case @action
-    when 'news'
-      require './views/news.rb'
-      NewsScreen.new(@header).show(@userinfo)
-    when 'search'
-      require './views/searchresult.rb'
-      SearchResultScreen.new(@header).show(@userinfo, @params)
-    when 'searchform'
-      require './views/searchform.rb'
-      SearchformScreen.new(@header).show(@userinfo)
-    else
-      require './views/entrance.rb'
-      EntranceScreen.new(@header).show(@userinfo)
-    end
+  def search
+    require './views/searchresult.rb'
+    SearchResultScreen.new(@header).show(@userinfo, @params)
+  end
+
+  def searchform
+    require './views/searchform.rb'
+    SearchformScreen.new(@header).show(@userinfo)
+  end
+
+  def cmdtofunc(cmd)
+    cmd ||= ''
+    func = method(cmd.to_sym) unless cmd.length
+    return func.call if func
+
+    require './views/entrance.rb'
+    EntranceScreen.new(@header).show(@userinfo)
+    # error_action_screen(@userinfo, @params, @action)
   end
 
   #
@@ -242,11 +217,7 @@ class WashCrus
     when %r{dlkifu\/(\h+)}
       require './game/dlkifu.rb'
       DownloadKifu.new($1, @userinfo).perform
-    when *WORDS_MISC then miscellaneous
-    when *WORDS_GAMESTG then gamesettings
-    when *WORDS_LOGINOUT then loginout
-    when *WORDS_ADMIN then administration
-    else error_action_screen(@userinfo, @params, @action)
+    else cmdtofunc(@action)
     end
   end
 
@@ -262,7 +233,7 @@ begin
   washcrus = WashCrus.new(cgi)
   washcrus.perform
 rescue StandardError => err
-  puts <<-ERRMSG
+  puts <<-ERRMSG.unindent
     Content-Type: text/html; charset=UTF-8
 
     <html>

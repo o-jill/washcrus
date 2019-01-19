@@ -2,8 +2,9 @@
 
 require 'webrick'
 
-# .rb ファイルもCGIスクリプトとして認識させたい
+# webrickを使いたい
 module WEBrick
+  # .rb ファイルもCGIスクリプトとして認識させたい
   module HTTPServlet
     FileHandler.add_handler('rb', CGIHandler)
   end

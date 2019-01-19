@@ -101,7 +101,7 @@ class ByouyomiChan
     msg += MailManager.footer
 
     mmgr = MailManager.new
-    # mmgr.send_mail(nply[:mail], subject, msg)
+    mmgr.send_mail(nply[:mail], subject, msg)
     print <<-FAKE_MAIL.unindent
       to:#{nply[:name]}
       subject:#{subject}

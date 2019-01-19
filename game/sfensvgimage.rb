@@ -197,7 +197,7 @@ class SfenSVGImage
     y = x % 10 - 1
     x = 9 - x / 10
 
-    return '' if y < 0 || 8 < y || x < 0 || 8 < x # error
+    return '' if y < 0 || y > 8 || x < 0 || x > 8 # error
 
     y *= 20
     x *= 20

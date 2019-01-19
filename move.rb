@@ -315,7 +315,7 @@ rescue ScriptError => er
   move.log.warn("class=[#{er.class}] message=[#{er.message}] in move")
 rescue SecurityError => er
   move.log.warn("class=[#{er.class}] message=[#{er.message}] in move")
-rescue => er
+rescue StandardError => er
   move.log.warn("class=[#{er.class}] message=[#{er.message}] in move")
 end
 # -----------------------------------
