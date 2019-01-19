@@ -261,7 +261,7 @@ begin
   cgi = CGI.new
   washcrus = WashCrus.new(cgi)
   washcrus.perform
-rescue => err
+rescue StandardError => err
   puts <<-ERRMSG
     Content-Type: text/html; charset=UTF-8
 

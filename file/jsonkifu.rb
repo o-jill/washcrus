@@ -181,7 +181,7 @@ class JsonKifu
       @moves = data['moves']
       @initial = data['initial']
     end
-  rescue
+  rescue StandardError => er
     nil
   end
 

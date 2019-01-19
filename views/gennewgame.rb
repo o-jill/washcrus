@@ -230,7 +230,7 @@ class GenNewGameScreen
     err2log(er)
   rescue SecurityError => er
     err2log(er)
-  rescue => er
+  rescue StandardError => er
     err2log(er)
   end
 end

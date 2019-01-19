@@ -90,7 +90,7 @@ class Game
     # @log.debug('Game.put')
     gh.put(@header)
     # @log.debug('Game.performed')
-  rescue => er
+  rescue StandardError => er
     @log.warn("class=[#{er.class}] message=[#{er.message}] in game")
   end
 

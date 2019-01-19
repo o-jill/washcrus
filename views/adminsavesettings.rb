@@ -45,7 +45,7 @@ class AdminSaveSettingsScreen
   # 設定ファイルへの書き込み
   def write_settings
     @stg.write
-  rescue => er
+  rescue StandardError => er
     @errmsg += 'failed to update...<pre>'
     @errmsg += er.to_s
     @errmsg += '</pre>'
