@@ -194,13 +194,14 @@ class WashCrus
   end
 
   def cmdtofunc(cmd)
-    cmd ||= ''
-    func = method(cmd.to_sym) unless cmd.length
-    return func.call if func
-
-    require './views/entrance.rb'
-    EntranceScreen.new(@header).show(@userinfo)
-    # error_action_screen(@userinfo, @params, @action)
+    begin
+      func = method(cmd.to_sym)
+      func.call
+    rescue StandardError => er
+      require './views/entrance.rb'
+      EntranceScreen.new(@header).show(@userinfo)
+      # error_action_screen(@userinfo, @params, @action)
+    end
   end
 
   #
