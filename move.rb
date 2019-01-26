@@ -312,11 +312,14 @@ begin
   move.readuserparam
   move.perform
 rescue ScriptError => er
-  move.log.warn("class=[#{er.class}] message=[#{er.message}] in move")
+  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
+                "stack=[#{er.backtrace.join("\n")}] in move")
 rescue SecurityError => er
-  move.log.warn("class=[#{er.class}] message=[#{er.message}] in move")
+  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
+                "stack=[#{er.backtrace.join("\n")}] in move")
 rescue StandardError => er
-  move.log.warn("class=[#{er.class}] message=[#{er.message}] in move")
+  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
+                "stack=[#{er.backtrace.join("\n")}] in move")
 end
 # -----------------------------------
 #   testing

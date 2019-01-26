@@ -194,13 +194,12 @@ class WashCrus
   end
 
   def cmdtofunc(cmd)
-    begin
+    if methods(true).include?(cmd.to_sym)
       func = method(cmd.to_sym)
       func.call
-    rescue StandardError => er
+    else
       require './views/entrance.rb'
       EntranceScreen.new(@header).show(@userinfo)
-      # error_action_screen(@userinfo, @params, @action)
     end
   end
 
@@ -240,7 +239,10 @@ rescue StandardError => err
     <html>
     <title>ERROR Washcrus</title>
     <body>
-      ERROR:#{err}
+    <pre>
+    ERROR:#{err}
+    STACK:#{err.backtrace.join("\n")}
+    </pre>
     </body></html>
   ERRMSG
 end

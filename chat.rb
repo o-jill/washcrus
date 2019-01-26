@@ -74,7 +74,18 @@ end
 # -----------------------------------
 #   main
 #
+begin
+  cgi = CGI.new
+  chat = Chat.new(cgi)
+  chat.perform
+rescue StandardError => er
+  print <<-EOERR.unindent
+    content-type:text/plain
 
-cgi = CGI.new
-chat = Chat.new(cgi)
-chat.perform
+    some error happend!
+    --
+    #{er}
+    #{er.backtrace.join("\n")}
+    --
+  EOERR
+end
