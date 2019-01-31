@@ -149,7 +149,7 @@ class RegisterScreen
     user = check_register(userdb.content, params)
 
     # エラー
-    "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>" \
+    return "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>" \
         unless @errmsg.empty?
 
     # 登録する
