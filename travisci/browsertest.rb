@@ -222,7 +222,7 @@ driver.navigate.to 'http://localhost:1080/messages'
 element = driver.find_element(:id, 'json')
 # puts "json:#{element.text}"
 json = JSON.parse(element.text)
-res.checkmail(json[0], 'Welcome to 洗足池!')
+res.checkmailsubject(json[0], 'Welcome to 洗足池!')
 
 # 二重登録できないことの確認
 driver.navigate.to 'http://localhost:3000/index.rb?signup'
