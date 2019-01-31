@@ -37,7 +37,9 @@ before_script:
   # - sleep 3 # give Web server some time to bind to sockets, etc
   - gem install selenium-webdriver
   - gem install webrick -v1.3.1
+  - gem install mailcatcher
   - ruby ./travisci/webserver.rb&
+  - mailcatcher
   - sleep 3
 script:
   - chmod ugo+x ./travisci/runontravis.sh

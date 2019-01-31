@@ -1,0 +1,9 @@
+# mail settings
+type:           :smtp  # :smtp or :sendmail
+address:        "localhost"
+port:           1025
+domain:         "example.com"
+# authentication: :login
+# user_name:      "your user name"
+# password:       "your password"
+mailaddress:    "your@mail.address.com"
