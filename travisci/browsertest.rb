@@ -187,6 +187,69 @@ res.checktitlenot('WashCrus')
 res.checkplaintext('ERR_NOT_ADMIN')
 # puts driver.page_source
 
+# -- -- -- -- --  -- -- -- -- --
+# -- -- -- -- SIGNUP -- -- -- --
+# -- -- -- -- --  -- -- -- -- --
+
+driver.navigate.to 'http://localhost:3000/index.rb?signup'
+# res.checktitle('WashCrus')
+# puts driver.page_source
+# res.checkfooter
+
+element = driver.find_element(:name, 'rname')
+element.send_keys 'john doe'
+element = driver.find_element(:name, 'remail')
+element.send_keys 'johndoe@example.com'
+element = driver.find_element(:name, 'remail2')
+element.send_keys 'johndoe@example.com'
+element = driver.find_element(:name, 'rpassword')
+element.send_keys 'john'
+element = driver.find_element(:name, 'rpassword2')
+element.send_keys 'john'
+element = driver.find_element(:xpath, "//input[@value='Submit']")
+element.click
+sleep 1
+
+res.checkurl('http://localhost:3000/index.rb?register')
+res.checktitle('WashCrus')
+# puts driver.page_source
+res.checkmatch(/Registered successfully/)
+res.checkfooter
+
+
+driver.navigate.to 'http://localhost:1080/messages'
+# puts driver.page_source
+element = driver.find_element(:id, 'json')
+# puts "json:#{element.text}"
+json = JSON.parse(element.text)
+res.checkmail(json[0], 'Welcome to 洗足池!')
+
+# 二重登録できないことの確認
+driver.navigate.to 'http://localhost:3000/index.rb?signup'
+# res.checktitle('WashCrus')
+# puts driver.page_source
+# res.checkfooter
+
+element = driver.find_element(:name, 'rname')
+element.send_keys 'john doe'
+element = driver.find_element(:name, 'remail')
+element.send_keys 'johndoe@example.com'
+element = driver.find_element(:name, 'remail2')
+element.send_keys 'johndoe@example.com'
+element = driver.find_element(:name, 'rpassword')
+element.send_keys 'john'
+element = driver.find_element(:name, 'rpassword2')
+element.send_keys 'john'
+element = driver.find_element(:xpath, "//input[@value='Submit']")
+element.click
+sleep 1
+
+res.checkurl('http://localhost:3000/index.rb?register')
+res.checktitle('WashCrus')
+# puts driver.page_source
+res.checkmatch(/Unfortunately failed/)
+res.checkfooter
+
 # テストを終了する（ブラウザを終了させる）
 driver.quit
 

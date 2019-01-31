@@ -81,4 +81,24 @@ class Result
     end
     matchproperty(regexp, ft.text)
   end
+
+  # check subject in a mail
+  def checkmailsubject(json, sbj)
+    unless json
+      puts <<-ERRMSG
+        URL: #{@driver.current_url}
+        JSON(mail?) is empty.
+      ERRMSG
+      return @ng += 1
+    end
+
+    return @ok += 1 if json['subject'] == sbj
+
+    @ng += 1
+
+    puts <<-ERRMSG
+      URL: #{@driver.current_url}
+      "#{json['subject']}" is not "#{sbj}".
+    ERRMSG
+  end
 end
