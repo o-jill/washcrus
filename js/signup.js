@@ -96,7 +96,7 @@ function check_email()
     alertmsg += 'e-mail addresses are not same!\n';
   }
   if (!check_email_format('email')) {
-    alertmsg += 'e-mail addresses is strange!\n';
+    alertmsg += 'e-mail address is strange!\n';
   }
   return alertmsg;
 }
