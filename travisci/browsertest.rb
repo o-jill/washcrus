@@ -250,6 +250,106 @@ res.checktitle('WashCrus')
 res.checkmatch(/Unfortunately failed/)
 res.checkfooter
 
+driver.navigate.to 'http://localhost:3000/index.rb?login'
+res.checktitle('WashCrus')
+# puts driver.page_source
+res.checkfooter
+
+element = driver.find_element(:name, 'siemail')
+element.send_keys 'johndoe@example.com'
+element = driver.find_element(:name, 'sipassword')
+element.send_keys 'john'
+element.submit
+sleep 1
+
+res.checkurl('http://localhost:3000/index.rb?logincheck')
+res.checktitle('WashCrus')
+# puts driver.page_source
+res.checkfooter
+
+driver.navigate.to 'http://localhost:3000/index.rb?lounge'
+res.checktitle('WashCrus')
+res.checkfooter
+
+# puts driver.page_source
+sleep 3
+# puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?mypage'
+res.checktitle('WashCrus')
+# puts driver.page_source
+res.checkfooter
+
+driver.navigate.to 'http://localhost:3000/index.rb?matchlist'
+res.checktitle('WashCrus')
+# puts driver.page_source
+res.checkfooter
+
+driver.navigate.to 'http://localhost:3000/index.rb?searchform'
+res.checktitle('WashCrus')
+# puts driver.page_source
+res.checkfooter
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminmenu'
+res.checktitlenot('WashCrus')
+res.checkplaintext('ERR_NOT_ADMIN')
+# puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminnews'
+res.checktitlenot('WashCrus')
+res.checkplaintext('ERR_NOT_ADMIN')
+# puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminsettings'
+# puts driver.title
+res.checktitlenot('WashCrus')
+res.checkplaintext('ERR_NOT_ADMIN')
+# puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?adminsignature'
+res.checktitlenot('WashCrus')
+res.checkplaintext('ERR_NOT_ADMIN')
+# puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?userlist'
+res.checktitlenot('WashCrus')
+# e = driver.find_element(:tag_name, 'body')
+# puts "body:#{e.text}"
+res.checkplaintext('ERR_NOT_ADMIN')
+# puts driver.page_source
+
+driver.navigate.to 'http://localhost:3000/index.rb?logout'
+res.checktitle('WashCrus')
+# puts driver.page_source
+res.checkfooter
+
+# 登録内容のチェックの確認
+driver.navigate.to 'http://localhost:3000/index.rb?signup'
+# res.checktitle('WashCrus')
+# puts driver.page_source
+# res.checkfooter
+
+element = driver.find_element(:name, 'rname')
+element.send_keys 'doe'
+element = driver.find_element(:name, 'remail')
+element.send_keys 'johndoe1_example.com'
+element = driver.find_element(:name, 'remail2')
+element.send_keys 'nanashi@example.com'
+element = driver.find_element(:name, 'rpassword')
+element.send_keys 'doe'
+element = driver.find_element(:name, 'rpassword2')
+element.send_keys 'john'
+element = driver.find_element(:xpath, "//input[@value='Submit']")
+element.click
+
+element = driver.find_element(:id, 'errmsg')
+res.matchproperty(/name is too short/, element.text)
+res.matchproperty(/e-mail addresses are not same/, element.text)
+res.matchproperty(/e-mail address is strange/, element.text)
+res.matchproperty(/passwords are not same/, element.text)
+res.matchproperty(/password is too short/, element.text)
+# puts "errmsg:#{element.text}"
+
 # テストを終了する（ブラウザを終了させる）
 driver.quit
 
