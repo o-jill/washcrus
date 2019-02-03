@@ -32,26 +32,14 @@ module CommonUI
 
   # HTMLヘッダ出力(no cookie)
   def self.html_head2
-    stg = Settings.instance
-    title = stg.value['wintitle']
-    print <<-HEADER2_TAG.unindent
+    print <<-HEADER.unindent
       Content-Type: text/html; charset=UTF-8
       Set-Cookie: _washcrus_session=; expires=Thu, 01 Jan 1970 00:00:00 GMT
       Pragma: no-cache
       Cache-Control: no-cache
-      Expires: Thu, 01 Jan 1970 00:00:00 GMT
-
-      <HTML lang=ja>
-      <HEAD>
-       <title>#{title}</title>
-       <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
-       <META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-       <meta name='theme-color' content='#cc9933'>
-       <link rel='shortcut icon' href='./image/favicon.ico' />
-       <link rel='stylesheet' type='text/css' href='./css/washcrus.v017.css'>
-      </HEAD>
-      <BODY>
-    HEADER2_TAG
+      Expires: Thu, 01 Jan 1970 00:00:00 GMT\n
+    HEADER
+    html_head('')
   end
 
   # メニュー部分の出力
@@ -118,6 +106,15 @@ module CommonUI
     POPUPSCRIPT
   end
 
+  def self.menubase_mypage(index)
+    "<a class='menu' href='#{index}'> Top </a>\n" \
+    "<a class='menu' href='#{index}?news'> News </a>\n" \
+    "<a class='menu' href='#{index}?mypage'> My Page </a>\n" \
+    "<a class='menu' href='#{index}?lounge'> Lounge </a>\n" \
+    "<a class='menu' href='#{index}?matchlist'> Watch </a>\n" \
+    "<span class='menu' id='menu_parent_popup'>▼▼</span>\n"
+  end
+
   # メニュー部分の出力
   #
   # @param title ページタイトル
@@ -126,12 +123,7 @@ module CommonUI
   def self.html_menu_login(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
       <header><div class='menubase'>
-       <a class='menu' href='#{index}'> Top </a>
-       <a class='menu' href='#{index}?news'> News </a>
-       <a class='menu' href='#{index}?mypage'> My Page </a>
-       <a class='menu' href='#{index}?lounge'> Lounge </a>
-       <a class='menu' href='#{index}?matchlist'> Watch </a>
-       <span class='menu' id='menu_parent_popup'>▼▼</span>
+        #{menubase_mypage(index)}
       </div>
       <div class='popup' id='menu_popup'>
        <ul>
@@ -153,12 +145,7 @@ module CommonUI
   def self.html_menu_admin(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
       <header><div class='menubase'>
-       <a class='menu' href='#{index}'> Top </a>
-       <a class='menu' href='#{index}?news'> News </a>
-       <a class='menu' href='#{index}?mypage'> My Page </a>
-       <a class='menu' href='#{index}?lounge'> Lounge </a>
-       <a class='menu' href='#{index}?matchlist'> Watch </a>
-       <span class='menu' id='menu_parent_popup'>▼▼</span>
+        #{menubase_mypage(index)}
       </div>
       <div class='popup' id='menu_popup'>
        <ul>
