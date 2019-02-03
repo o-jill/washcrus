@@ -54,17 +54,17 @@ class AdminSaveSettingsScreen
   # 編集結果の表示
   def put_settings
     stg_elem = [
-      ['Window title',   'wintitle'],
-      ['Page title',     'title'],
-      ['E-mail address', 'mailaddress'],
-      ['Domain',         'domain'],
-      ['Base URL',       'base_url'],
-      ['Support URL',    'support_url']
+      { title: 'Window title',   eid: 'wintitle' },
+      { title: 'Page title',     eid: 'title' },
+      { title: 'E-mail address', eid: 'mailaddress' },
+      { title: 'Domain',         eid: 'domain' },
+      { title: 'Base URL',       eid: 'base_url' },
+      { title: 'Support URL',    eid: 'support_url' }
     ]
     puts "<table align='center' border=1>"
     stg_elem.each do |elem|
-      name = elem[0]
-      id = elem[1]
+      name = elem[:title]
+      id = elem[:eid]
       puts <<-ROW_TEXT.unindent
         <tr>
          <td>#{name}</td>
