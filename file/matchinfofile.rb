@@ -424,7 +424,6 @@ class MatchInfoFile
     end
 
     write(path)
-    puts "@mif.write(@matchinfopath)"
   end
 
   # vs形式の文字列の生成

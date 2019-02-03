@@ -36,12 +36,12 @@ class Result
   end
 
   # check if title is t
-  def checktitle(t)
+  def checktitle(t = 'WashCrus')
     checkproperty(@driver.title, t)
   end
 
   # check if title is not t
-  def checktitlenot(t)
+  def checktitlenot(t = 'WashCrus')
     return @ok += 1 if @driver.title != t
 
     @ng += 1
