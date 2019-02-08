@@ -230,7 +230,7 @@ class BrowserTest
 
   def showresult
     puts "ok:#{res.ok}, ng:#{res.ng}"
-    res.ng > 0
+    res.ng.zero?
   end
 end
 
