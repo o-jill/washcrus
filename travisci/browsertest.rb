@@ -86,11 +86,6 @@ class BrowserTest
   end
 
   def simplecheckgroup
-    simplecheck 'index.rb?lounge'
-    # puts driver.page_source
-    sleep 3
-    # puts driver.page_source
-
     simplecheck 'index.rb?mypage'
     simplecheck 'index.rb?matchlist'
     simplecheck 'index.rb?searchform'
@@ -134,6 +129,23 @@ class BrowserTest
 
     simplecheckgroup
 
+    simplecheck 'index.rb?lounge'
+    element = driver.find_element(:id, 'cmt')
+    element.send_keys('hello world!!')
+    element = driver.find_element(:id, 'btn_f2l')
+    element.click
+    sleep 5
+    simpleurlcheck 'index.rb?lounge'
+    element = driver.find_element(:id, 'btn_cfl')
+    element.click
+    sleep 5
+    simpleurlcheck 'index.rb?lounge'
+
+    # puts driver.page_source
+    sleep 3
+    # puts driver.page_source
+
+
     simpleadmincheckgroup
 
     driver.navigate.to BASE_URL + 'chat.rb?lounge'
@@ -146,6 +158,12 @@ class BrowserTest
     simplecheck 'index.rb?logout'
 
     simplecheckgroup
+
+    simplecheck 'index.rb?lounge'
+    # puts driver.page_source
+    sleep 3
+    # puts driver.page_source
+
 
     adminerrorcheckgroup
   end
@@ -175,6 +193,11 @@ class BrowserTest
     checklogin('johndoe@example.com', 'john')
 
     simplecheckgroup
+
+    simplecheck 'index.rb?lounge'
+    # puts driver.page_source
+    sleep 3
+    # puts driver.page_source
 
     adminerrorcheckgroup
 
