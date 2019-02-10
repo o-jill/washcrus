@@ -136,14 +136,16 @@ class BrowserTest
     simplecheck 'index.rb?lounge'
     element = driver.find_element(:id, 'cmt')
     element.send_keys('hello world!!')
-    element = driver.find_element(:id, 'btn_f2l')
-    element.click
-    sleep 10
+    clickbtn(:id, 'btn_f2l')
+    sleep 8
     simpleurlcheck 'index.rb?lounge'
-    element = driver.find_element(:id, 'btn_cfl')
-    element.click
-    sleep 5
+    clickbtn(:id, 'btn_cfl')
+    sleep 8
     simpleurlcheck 'index.rb?lounge'
+    element = driver.find_element(:id, 'cmt')
+    element.send_keys('hello world!!')
+    clickbtn(:id, 'btn_f2l')
+    element.click
 
     # puts driver.page_source
     sleep 3
@@ -203,6 +205,11 @@ class BrowserTest
     # puts driver.page_source
     sleep 3
     # puts driver.page_source
+    simplecheck 'index.rb?lounge'
+    clickbtn(:name, 'opponent')
+    clickbtn(:id, 'btn_gen')
+    sleep 8
+    simpleurlcheck 'index.rb?gennewgame3'
 
     adminerrorcheckgroup
 
