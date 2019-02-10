@@ -7,9 +7,14 @@ class Result
     @ok = 0
     @ng = 0
     @driver = driver
+    @setction = 'null'
   end
 
   attr_reader :ok, :ng
+
+  def startsection(a)
+    @section = a
+  end
 
   def checkproperty(a, b)
     # general function to check some property
@@ -18,6 +23,7 @@ class Result
     @ng += 1
 
     puts <<-ERRMSG
+      section:#{@section}
       URL: #{@driver.current_url}
       "#{a}" is not #{b}.
     ERRMSG
@@ -30,6 +36,7 @@ class Result
     @ng += 1
 
     puts <<-ERRMSG
+      section:#{@section}
       URL: #{@driver.current_url}
       "#{b}" does not match #{rex}.
     ERRMSG
@@ -47,6 +54,7 @@ class Result
     @ng += 1
 
     puts <<-ERRMSG
+      section:#{@section}
       URL: #{@driver.current_url}
       "#{@driver.title}" should not be #{t}.
     ERRMSG
@@ -74,6 +82,7 @@ class Result
     ft = @driver.find_element(:tag_name, 'footer')
     unless ft
       puts <<-ERRMSG
+        section:#{@section}
         URL: #{@driver.current_url}
         does not have any footer elements.
       ERRMSG
@@ -86,6 +95,7 @@ class Result
   def checkmailsubject(json, sbj)
     unless json
       puts <<-ERRMSG
+        section:#{@section}
         URL: #{@driver.current_url}
         JSON(mail?) is empty.
       ERRMSG
@@ -97,6 +107,7 @@ class Result
     @ng += 1
 
     puts <<-ERRMSG
+      section:#{@section}
       URL: #{@driver.current_url}
       "#{json['subject']}" is not "#{sbj}".
     ERRMSG

@@ -92,6 +92,7 @@ class BrowserTest
   end
 
   def simpleaccess
+    res.startsection('simpleaccess')
     # Googleにアクセス
     # driver.navigate.to "http://google.com"
     # driver.navigate.to "http://localhost/"
@@ -125,8 +126,11 @@ class BrowserTest
   end
 
   def adminaccess
+    res.startsection('adminaccess')
+
     checklogin('admin1@example.com', 'admin')
 
+    res.startsection('adminaccess_simplecheck')
     simplecheckgroup
 
     simplecheck 'index.rb?lounge'
@@ -134,7 +138,7 @@ class BrowserTest
     element.send_keys('hello world!!')
     element = driver.find_element(:id, 'btn_f2l')
     element.click
-    sleep 5
+    sleep 10
     simpleurlcheck 'index.rb?lounge'
     element = driver.find_element(:id, 'btn_cfl')
     element.click
@@ -185,6 +189,7 @@ class BrowserTest
   end
 
   def newuserjohn
+    res.startsection('newuserjohn')
     signupauser(SIGNUPINFOJOHN)
     res.checkmatch(/Registered successfully/)
     json = getmailjson
@@ -206,12 +211,14 @@ class BrowserTest
 
   # 二重登録できないことの確認
   def newuserjohn2nd
+    res.startsection('newuserjohn2nd')
     signupauser(SIGNUPINFOJOHN)
     res.checkmatch(/Unfortunately failed/)
   end
 
   # 登録内容のチェックの確認
   def signuperrmsg
+    res.startsection('signuperrmsg')
     signupauser(
       {
         rname: 'doe',
