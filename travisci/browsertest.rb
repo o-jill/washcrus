@@ -266,7 +266,7 @@ class BrowserTest
   end
 
   def showresult
-    print (res.ng.zero? ? "\e[32m" : "\e[31m")
+    print res.ng.zero? ? "\e[32m" : "\e[31m"
     puts "ok:#{res.ok}, ng:#{res.ng}\e[0m"
     res.ng.zero?
   end

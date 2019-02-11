@@ -245,14 +245,10 @@ class SfenSVGImage
 
     adan.each_char do |ch|
       case ch
-      when /[PLNSGBRK]/
-        banstr += tagkoma(ch, promote, true, nsuji, ndan)
-        nsuji += 1
+      when /[PLNSGBRKplnsgbrk]/
+        banstr += tagkoma(ch.upcase, promote, /[A-Z]/.match(ch), nsuji, ndan)
         promote = 0
-      when /[plnsgbrk]/
-        banstr += tagkoma(ch.upcase, promote, false, nsuji, ndan)
         nsuji += 1
-        promote = 0
       when '1'..'9'
         nsuji += ch.to_i
         promote = 0
