@@ -112,4 +112,26 @@ class Result
       "#{json['subject']}" is not "#{sbj}".
     ERRMSG
   end
+
+  # check subject in a mail
+  def matchmailsubject(json, sbjptn)
+    unless json
+      puts <<-ERRMSG
+        section:#{@section}
+        URL: #{@driver.current_url}
+        JSON(mail?) is empty.
+      ERRMSG
+      return @ng += 1
+    end
+
+    return @ok += 1 if sbjptn =~ json['subject']
+
+    @ng += 1
+
+    puts <<-ERRMSG
+      section:#{@section}
+      URL: #{@driver.current_url}
+      "#{json['subject']}" does not match "#{sbjptn}".
+    ERRMSG
+  end
 end

@@ -211,6 +211,9 @@ class BrowserTest
     sleep 8
     simpleurlcheck 'index.rb?gennewgame3'
 
+    json = getmailjson
+    res.matchmailsubject(json.last, /a game is ready!! \(.+ vs .+\)/)
+
     adminerrorcheckgroup
 
     simplecheck 'index.rb?logout'
