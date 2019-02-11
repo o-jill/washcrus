@@ -146,11 +146,9 @@ class BrowserTest
     element.send_keys('hello world!!')
     clickbtn(:id, 'btn_f2l')
     element.click
-
     # puts driver.page_source
     sleep 3
     # puts driver.page_source
-
 
     simpleadmincheckgroup
 
@@ -169,7 +167,6 @@ class BrowserTest
     # puts driver.page_source
     sleep 3
     # puts driver.page_source
-
 
     adminerrorcheckgroup
   end
