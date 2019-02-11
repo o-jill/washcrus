@@ -79,13 +79,7 @@ begin
   chat = Chat.new(cgi)
   chat.perform
 rescue StandardError => er
-  print <<-EOERR.unindent
-    content-type:text/plain
-
-    some error happend!
-    --
-    #{er}
-    #{er.backtrace.join("\n")}
-    --
-  EOERR
+  puts "content-type:text/plain\n\n"
+  puts "some error happend!\n--\n#{er}"
+  puts "#{er.backtrace.join("\n")}\n--"
 end
