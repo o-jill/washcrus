@@ -378,11 +378,11 @@ class TaikyokuData
     else return
     end
 
-    puts "tmkp.read(#{ply.thinktime}, #{@mif.byouyomi}," \
-                    "#{ply.extracount}, #{@mif.dt_lasttick})"
+    # puts "tmkp.read(#{ply.thinktime}, #{@mif.byouyomi}," \
+    #                 "#{ply.extracount}, #{@mif.dt_lasttick})"
     tmkp.read(ply.thinktime, @mif.byouyomi, ply.extracount, @mif.dt_lasttick)
 
-    puts "tmkp.tick(Time.now #{Time.now})"
+    # puts "tmkp.tick(Time.now #{Time.now})"
     tmkp.tick(Time.now)
 
     update_time(tmkp)
