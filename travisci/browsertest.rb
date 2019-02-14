@@ -91,73 +91,70 @@ class BrowserTest
     simplecheck 'index.rb?searchform'
   end
 
-  def simpleaccess
-    res.startsection('simpleaccess')
-    # Googleにアクセス
-    # driver.navigate.to "http://google.com"
-    # driver.navigate.to "http://localhost/"
+  def startsection(a)
+    res.startsection(a)
+  end
 
-    # `q`というnameを持つ要素を取得
-    # element = driver.find_element(:name, 'q')
-
-    # `Hello WebDriver!`という文字を、上記で取得したinput要素に入力
-    # element.send_keys "Hello WebDriver!"
-
-    # submitを実行する（つまり検索する）
-    # element.submit
-
-    # 表示されたページのタイトルをコンソールに出力
+  def simplecheckmatch(url, rex)
+    driver.navigate.to BASE_URL + url
     # puts driver.title
+    # puts driver.page_source
+    res.checkmatch(rex)
+  end
+
+  def simpleaccess
+    startsection('simpleaccess')
 
     simplecheck 'index.rb'
     simplecheck 'index.rb?news'
     simplecheck 'index.rb?signup'
 
-    driver.navigate.to BASE_URL + 'move.rb'
-    # puts driver.title
-    # puts driver.page_source
-    res.checkmatch(/illegal access/)
+    simplecheckmatch('move.rb', /illegal access/)
 
-    driver.navigate.to BASE_URL + 'getsfen.rb'
-    # puts driver.title
-    # res.checktitle
-    res.checkmatch(/illegal access/)
-    # puts driver.page_source
+    simplecheckmatch('getsfen.rb', /illegal access/)
   end
 
-  def adminaccess
-    res.startsection('adminaccess')
-
-    checklogin('admin1@example.com', 'admin')
-
-    res.startsection('adminaccess_simplecheck')
-    simplecheckgroup
-
-    simplecheck 'index.rb?lounge'
+  def loung_file(msg)
     element = driver.find_element(:id, 'cmt')
-    element.send_keys('hello world!!')
+    element.send_keys(msg)
     clickbtn(:id, 'btn_f2l')
     sleep 8
     simpleurlcheck 'index.rb?lounge'
+  end
+
+  def lounge_cancel
     clickbtn(:id, 'btn_cfl')
     sleep 8
     simpleurlcheck 'index.rb?lounge'
-    element = driver.find_element(:id, 'cmt')
-    element.send_keys('hello world!!')
-    clickbtn(:id, 'btn_f2l')
-    element.click
-    # puts driver.page_source
-    sleep 3
-    # puts driver.page_source
+  end
+
+  def lounge_gengame
+    clickbtn(:name, 'opponent')
+    clickbtn(:id, 'btn_gen')
+    sleep 8
+    simpleurlcheck 'index.rb?gennewgame3'
+  end
+
+  def loungecheckfilecancel
+    simplecheck 'index.rb?lounge'
+    lounge_file('hello world!!')
+    lounge_cancel
+  end
+
+  def adminaccess
+    startsection('adminaccess')
+
+    checklogin('admin1@example.com', 'admin')
+
+    startsection('adminaccess_simplecheck')
+    simplecheckgroup
+
+    loungecheckfilecancel
+    lounge_file('hello john!!')
 
     simpleadmincheckgroup
 
-    driver.navigate.to BASE_URL + 'chat.rb?lounge'
-    # puts driver.title
-    # res.checktitle
-    # puts driver.page_source
-    res.checkmatch(/lounge chat/)
-    # res.checkfooter
+    simplecheckmatch('chat.rb?lounge', /lounge chat/)
 
     simplecheck 'index.rb?logout'
 
@@ -187,29 +184,26 @@ class BrowserTest
     JSON.parse(element.text)
   end
 
+  def matchmailsbjlast(rex)
+    json = getmailjson
+    res.matchmailsubject(json.last, rex)
+  end
+
   def newuserjohn
-    res.startsection('newuserjohn')
+    startsection('newuserjohn')
+
     signupauser(SIGNUPINFOJOHN)
     res.checkmatch(/Registered successfully/)
-    json = getmailjson
-    res.checkmailsubject(json.last, 'Welcome to 洗足池!')
+
+    matchmailsbjlast(/Welcome to 洗足池!/)
 
     checklogin('johndoe@example.com', 'john')
 
     simplecheckgroup
 
     simplecheck 'index.rb?lounge'
-    # puts driver.page_source
-    sleep 3
-    # puts driver.page_source
-    simplecheck 'index.rb?lounge'
-    clickbtn(:name, 'opponent')
-    clickbtn(:id, 'btn_gen')
-    sleep 8
-    simpleurlcheck 'index.rb?gennewgame3'
-
-    json = getmailjson
-    res.matchmailsubject(json.last, /a game is ready!! \(.+ vs .+\)/)
+    lounge_gengame
+    matchmailsbjlast(/a game is ready!! \(.+ vs .+\)/)
 
     adminerrorcheckgroup
 
@@ -218,14 +212,14 @@ class BrowserTest
 
   # 二重登録できないことの確認
   def newuserjohn2nd
-    res.startsection('newuserjohn2nd')
+    startsection('newuserjohn2nd')
     signupauser(SIGNUPINFOJOHN)
     res.checkmatch(/Unfortunately failed/)
   end
 
   # 登録内容のチェックの確認
   def signuperrmsg
-    res.startsection('signuperrmsg')
+    startsection('signuperrmsg')
     signupauser(
       {
         rname: 'doe',
@@ -275,3 +269,21 @@ end
 test = BrowserTest.new
 test.run
 exit 1 unless test.showresult
+
+# memo
+
+# Googleにアクセス
+# driver.navigate.to "http://google.com"
+# driver.navigate.to "http://localhost/"
+
+# `q`というnameを持つ要素を取得
+# element = driver.find_element(:name, 'q')
+
+# `Hello WebDriver!`という文字を、上記で取得したinput要素に入力
+# element.send_keys "Hello WebDriver!"
+
+# submitを実行する（つまり検索する）
+# element.submit
+
+# 表示されたページのタイトルをコンソールに出力
+# puts driver.title
