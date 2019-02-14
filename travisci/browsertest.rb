@@ -114,7 +114,7 @@ class BrowserTest
     simplecheckmatch('getsfen.rb', /illegal access/)
   end
 
-  def loung_file(msg)
+  def lounge_file(msg)
     element = driver.find_element(:id, 'cmt')
     element.send_keys(msg)
     clickbtn(:id, 'btn_f2l')
