@@ -190,12 +190,12 @@ class BrowserTest
   end
 
   def updatepwd_mypage(opwd, npwd1, npwd2)
-    simpleaccess 'index.rb?mypage'
+    simplecheck 'index.rb?mypage'
     elem = driver.find_element(:id, 'sipassword')
     elem.send_keys opwd
     elem = driver.find_element(:id, 'trpassword')
     elem.send_keys npwd1
-    elem = driver.find_element(:id, 'trpassword')
+    elem = driver.find_element(:id, 'trpassword2')
     elem.send_keys npwd2
     submit
   end
