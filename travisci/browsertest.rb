@@ -198,7 +198,7 @@ class BrowserTest
     elem.send_keys npwd1
     elem = driver.find_element(:id, 'rnewpassword2')
     elem.send_keys npwd2
-    submit
+    elem.submit
   end
 
   def checkupdatepwd
