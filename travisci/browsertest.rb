@@ -238,7 +238,7 @@ class BrowserTest
 
     simplecheckgroup
 
-    checkupdatepassword
+    checkupdatepwd
 
     simplecheck 'index.rb?lounge'
     lounge_gengame
