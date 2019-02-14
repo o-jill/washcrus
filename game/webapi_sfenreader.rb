@@ -65,6 +65,15 @@ class WebApiSfenReader
     hash
   end
 
+  def param_piecetype(ret)
+    case @piecetype
+    when PIECE_ALPHABET then ret[:piece] = 'alphabet'
+    when PIECE_INTL     then ret[:piece] = 'international'
+      # when PIECE_KANJI then ret[:piece] = 'kanji'
+      # else ret[:piece] = 'kanji'
+    end
+  end
+
   # パラメータをハッシュで返す
   #
   # @return {sfen:, lm:, sname:, gname:, title:, piece:, turn:}
@@ -74,12 +83,7 @@ class WebApiSfenReader
     ret = params_plys(ret)
     ret[:title] = @title.to_s unless @title.nil?
 
-    case @piecetype
-    when PIECE_ALPHABET then ret[:piece] = 'alphabet'
-    when PIECE_INTL     then ret[:piece] = 'international'
-      # when PIECE_KANJI then ret[:piece] = 'kanji'
-      # else ret[:piece] = 'kanji'
-    end
+    ret = param_piecetype(ret)
 
     ret[:turn] = @turn unless @turn.empty?
 
