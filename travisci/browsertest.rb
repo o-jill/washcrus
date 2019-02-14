@@ -214,7 +214,7 @@ class BrowserTest
   end
 
   def chkupdatepwd_fail
-    updatepwd_mypage('doeeee', 'b', 'c')
+    updatepwd_mypage('doeeee', 'bbbb', 'bbbb')
     res.checkmatch(/old password is not correct!/)
 
     updatepwd_mypage('doee', 'jones', 'john')
