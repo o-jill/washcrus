@@ -33,26 +33,6 @@ you can use "backup.sh" after adjusting a path in the script and run it periodic
 Enable Time control:
 "periodic_tasks.sh" controls byo-yomi.
 you have to adjust a path in the script and period in minutes.
-you also have to fix "byouyomichan.rb" as below because sending a mail is disabled by default.
-```ruby
->>>>> repo
-mmgr = MailManager.new
-# mmgr.send_mail(nply[:mail], subject, msg)
-print <<-FAKE_MAIL.unindent
-  to:#{nply[:name]}
-  subject:#{subject}
-  msg:#{msg}
-  FAKE_MAIL
-=====
-mmgr = MailManager.new
-mmgr.send_mail(nply[:mail], subject, msg) # enable this line!
-# print <<-FAKE_MAIL.unindent
-#   to:#{nply[:name]}
-#   subject:#{subject}
-#   msg:#{msg}
-#   FAKE_MAIL
-<<<<< enabled
-```
 
 required "gem"s
 * bundler
@@ -60,5 +40,7 @@ required "gem"s
   * mail
   * rake
   * redcarpet
-  * rspec
+  * reek (for test)
+  * rspec (for test)
+  * rubocop (for test)
   * unindent
