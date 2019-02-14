@@ -181,8 +181,6 @@ class JsonKifu
       @moves = data['moves']
       @initial = data['initial']
     end
-  rescue StandardError => er
-    nil
   end
 
   # 初期値の書き出し

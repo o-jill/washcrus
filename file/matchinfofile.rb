@@ -365,9 +365,9 @@ class MatchInfoFile
 
     read_data(data)
 
-    self
-  rescue
-    nil
+    # self
+    # rescue
+    # nil
   end
 
   # ハッシュにして返す

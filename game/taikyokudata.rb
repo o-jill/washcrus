@@ -215,14 +215,14 @@ class TaikyokuData
     # データを読み込んで
     @mif = MatchInfoFile.new(@gid)
     @mif.log = @log
-    return nil unless @mif.read(matchinfopath)
+    @mif.read(matchinfopath) # return nil unless @mif.read(matchinfopath)
     @idb = @mif.playerb.id
     @idw = @mif.playerw.id
     @jkf = JsonKifu.new(@gid)
-    return nil unless @jkf.read(kifupath)
+    @jkf.read(kifupath) # return nil unless @jkf.read(kifupath)
     # @chat = ChatFile.new(@gameid)
     # @chat.read()
-    self
+    # self
   end
 
   # 対局情報の書き出し
