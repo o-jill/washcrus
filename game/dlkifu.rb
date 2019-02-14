@@ -18,10 +18,7 @@ class DownloadKifu
 
   # class methods
 
-  #
-  # 実行本体。
-  #
-  def perform
+  def checkparam
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid
 
@@ -32,6 +29,15 @@ class DownloadKifu
     tdb.read
     # 存在しないはずのIDだよ
     return MyHtml.puts_textplain_illegalaccess unless tdb.exist_id(@gameid)
+
+    self
+  end
+
+  #
+  # 実行本体。
+  #
+  def perform
+    return unless checkparam
 
     tkd = TaikyokuData.new
     tkd.setid(@gameid)
