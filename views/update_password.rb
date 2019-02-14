@@ -77,7 +77,7 @@ class UpdatePasswordScreen
   # @return 表示用メッセージ
   def check_and_mkmsg(userinfo)
     # 新パスワードの確認
-    return '<span class="err">new passwords are not same!</span>' \
+    return "<span class='err'>new passwords are not same![#{@newpw1}] != [#{@newpw2}]</span>" \
       if @newpw1 != @newpw2
     return '<span class="err">the new password is too short!</span>' \
       if @newpw1.length < 4
