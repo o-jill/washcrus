@@ -205,19 +205,19 @@ class BrowserTest
   end
 
   def chkupdatepwd_succ
-    updatepwd_mypage(SIGNUPINFOJOHN[:rpassword], 'doe', 'doe')
+    updatepwd_mypage(SIGNUPINFOJOHN[:rpassword], 'doee', 'doee')
     res.checkmatch(/Your password was updated/)
     # check mail
     simplecheck 'index.rb?logout'
 
-    checklogin(SIGNUPINFOJOHN[:remail], 'doe')
+    checklogin(SIGNUPINFOJOHN[:remail], 'doee')
   end
 
   def chkupdatepwd_fail
-    updatepwd_mypage('doe', 'b', 'c')
+    updatepwd_mypage('doeeee', 'b', 'c')
     res.checkmatch(/old password is not correct!/)
 
-    updatepwd_mypage('doe', 'jones', 'john')
+    updatepwd_mypage('doee', 'jones', 'john')
     simpleurlcheck('index.rb?update_password')
     res.checkmatch(/new passwords are not same/)
   end
