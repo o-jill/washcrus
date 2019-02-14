@@ -35,13 +35,13 @@ class MyPageScreen
     puts <<-NAVI_AREA
       <div id=mypagenav class=mynav>
         <ul>
-          <li onclick='clicknav("mypage_stat")'>Stats</li>
+          <li id='navbtn_stats' onclick='clicknav("mypage_stat")'>Stats</li>
           <hr>
-          <li onclick='clicknav("mypage_rireki")'>History</li>
+          <li id='navbtn_hist' onclick='clicknav("mypage_rireki")'>History</li>
           <hr>
-          <li onclick='clicknav("mypage_password")'>Password</li>
+          <li id='navbtn_pwd' onclick='clicknav("mypage_password")'>Password</li>
           <hr>
-          <li onclick='clicknav("mypage_email")'>Email</li>
+          <li id='navbtn_email' onclick='clicknav("mypage_email")'>Email</li>
         </ul>
       </div>
     NAVI_AREA
