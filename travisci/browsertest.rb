@@ -189,6 +189,43 @@ class BrowserTest
     res.matchmailsubject(json.last, rex)
   end
 
+  def updatepwd_mypage(opwd, npwd1, npwd2)
+    simpleaccess 'index.rb?mypage'
+    elem = driver.find_element(:id, 'sipassword')
+    elem.send_keys opwd
+    elem = driver.find_element(:id, 'trpassword')
+    elem.send_keys npwd1
+    elem = driver.find_element(:id, 'trpassword')
+    elem.send_keys npwd2
+    submit
+  end
+
+  def checkupdatepwd
+    chkupdatepwd_succ
+    chkupdatepwd_fail
+  end
+
+  def chkupdatepwd_succ
+    updatepwd_mypage(SIGNUPINFOJOHN[:rpassword], 'doe', 'doe')
+    simpleurlcheck('index.rb?update_password')
+    res.checkmatch(/Your password was updated/)
+    # check mail
+    simpleaccess 'index.rb?logout'
+
+    simpleaccess 'index.rb?login'
+    checklogin(SIGNUPINFOJOHN[:remail], 'doe')
+  end
+
+  def chkupdatepwd_fail
+    updatepwd_mypage('doe', 'b', 'c')
+    simpleurlcheck('index.rb?update_password')
+    res.checkmatch(/old password is not correct!/)
+
+    updatepwd_mypage('doe', 'jones', 'john')
+    simpleurlcheck('index.rb?update_password')
+    res.checkmatch(/new passwords are not same/)
+  end
+
   def newuserjohn
     startsection('newuserjohn')
 
@@ -200,6 +237,8 @@ class BrowserTest
     checklogin('johndoe@example.com', 'john')
 
     simplecheckgroup
+
+    checkupdatepassword
 
     simplecheck 'index.rb?lounge'
     lounge_gengame
