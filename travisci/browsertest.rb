@@ -39,6 +39,7 @@ class BrowserTest
     elem.submit
     sleep 1
     simpleurlcheck('index.rb?logincheck')
+    res.checkmatch(/Logged in successfully/)
   end
 
   # ボタンをクリック
