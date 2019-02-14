@@ -65,7 +65,7 @@ class WebApiSfenReader
     hash
   end
 
-  def param_piecetype(ret)
+  def params_piecetype(ret)
     case @piecetype
     when PIECE_ALPHABET then ret[:piece] = 'alphabet'
     when PIECE_INTL     then ret[:piece] = 'international'
@@ -74,18 +74,29 @@ class WebApiSfenReader
     end
   end
 
+  def params_lastmove
+    @lastmove unless @lastmove.empty?
+  end
+
+  def params_title
+    @title.to_s unless @title.nil?
+  end
+
+  def params_turn
+    @turn unless @turn.empty?
+  end
+
   # パラメータをハッシュで返す
   #
   # @return {sfen:, lm:, sname:, gname:, title:, piece:, turn:}
   def params
     ret = { sfen: @sfen }
-    ret[:lm] = @lastmove unless @lastmove.empty?
+
+    ret[:lm] = params_lastmove
     ret = params_plys(ret)
-    ret[:title] = @title.to_s unless @title.nil?
-
-    ret = param_piecetype(ret)
-
-    ret[:turn] = @turn unless @turn.empty?
+    ret[:title] = params_title
+    ret = params_piecetype(ret)
+    ret[:turn] = params_turn
 
     ret
   end
