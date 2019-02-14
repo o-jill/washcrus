@@ -182,14 +182,21 @@ module CommonUI
          '</div></footer></BODY></HTML>'
   end
 
+  TEBANTEXT = [
+    { sign: 'b',  text: '先手番' },
+    { sign: 'w',  text: '後手番' },
+    { sign: 'fb', text: '先手勝ち' },
+    { sign: 'fw', text: '後手勝ち' },
+    { sign: 'd',  text: '引き分け' }
+  ].freeze
+
   # 手番文字をわかりやすい言葉に変換
   #
   # @param trn 手番文字
   # @return 手番情報文字列
   def self.turn2str(trn)
-    tbl = [%w[b 先手番], %w[w 後手番], %w[fb 先手勝ち], %w[fw 後手勝ち], %[d 引き分け]]
-    tbl.each do |elem|
-      return elem[1] if trn == elem[0]
+    TEBANTEXT.each do |elem|
+      return elem[:text] if trn == elem[:sign]
     end
     'エラー'
   end
