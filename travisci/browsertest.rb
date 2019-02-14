@@ -199,6 +199,8 @@ class BrowserTest
     elem = driver.find_element(:id, 'rnewpassword2')
     elem.send_keys npwd2
     elem.submit
+    sleep 1
+    simpleurlcheck('index.rb?update_password')
   end
 
   def checkupdatepwd
@@ -208,18 +210,15 @@ class BrowserTest
 
   def chkupdatepwd_succ
     updatepwd_mypage(SIGNUPINFOJOHN[:rpassword], 'doe', 'doe')
-    simpleurlcheck('index.rb?update_password')
     res.checkmatch(/Your password was updated/)
     # check mail
-    simpleaccess 'index.rb?logout'
+    simplecheck 'index.rb?logout'
 
-    simpleaccess 'index.rb?login'
     checklogin(SIGNUPINFOJOHN[:remail], 'doe')
   end
 
   def chkupdatepwd_fail
     updatepwd_mypage('doe', 'b', 'c')
-    simpleurlcheck('index.rb?update_password')
     res.checkmatch(/old password is not correct!/)
 
     updatepwd_mypage('doe', 'jones', 'john')
