@@ -59,6 +59,14 @@ module JsonMove
     end
   end
 
+  def self.chkxy(x, y)
+    ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
+  end
+
+  def self.uchi?(x, y)
+    x == '0' && y == '0'
+  end
+
   # 移動元座標をハッシュに変換
   #
   # @param xy 移動元
@@ -66,8 +74,8 @@ module JsonMove
   def self.read_fromxy(xy)
     x = xy[1]
     y = xy[2]
-    return nil unless ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
-    { val: x == '0' && y == '0' ? nil : { 'x' => x.to_i, 'y' => y.to_i } }
+    return nil unless chkxy(x, y)
+    { val: uchi(x, y) ? nil : { 'x' => x.to_i, 'y' => y.to_i } }
   end
 
   # 行き先座標をハッシュに変換
