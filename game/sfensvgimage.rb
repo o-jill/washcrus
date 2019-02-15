@@ -209,12 +209,13 @@ class SfenSVGImage
   #
   # @param ch sfen文字
   # @param prmt 1:成った駒, 0:成ってない
-  # @param sente true:先手, false:後手
   # @param x 筋
   # @param y 段
   #
   # @return 駒タグ
-  def tagkoma(ch, prmt, sente, x, y)
+  def tagkoma(ch, prmt, x, y)
+    ch = ch.upcase
+    sente = /[A-Z]/.match(ch) # true:先手, false:後手
     x *= 20
     y *= 20
     ret = "<g transform='translate(#{x},#{y})'>\n"
@@ -246,7 +247,7 @@ class SfenSVGImage
     adan.each_char do |ch|
       case ch
       when /[PLNSGBRKplnsgbrk]/
-        banstr += tagkoma(ch.upcase, promote, /[A-Z]/.match(ch), nsuji, ndan)
+        banstr += tagkoma(ch, promote, nsuji, ndan)
         promote = 0
         nsuji += 1
       when '1'..'9'
@@ -297,7 +298,7 @@ class SfenSVGImage
   # @param y y座標
   #
   # @return 手駒タグ
-  def str_sgtgm(ch, y)
+  def str_tagtgm(ch, y)
     pos = 'PLNSGBR'.index(ch)
     return '' unless pos
     koma = '歩香桂銀金角飛'[pos, 1]
@@ -305,32 +306,23 @@ class SfenSVGImage
   end
 
   def str_tekoma(ch, num, tgm, y)
-    tgm += str_sgtgm(ch, y)
+    tgm += str_tagtgm(ch, y)
     y += 16
     tgm += numtegoma(num, y) if num > 1
     y += 16 if num > 1
     [tgm, y]
   end
 
-  # sfen文字から先手手駒タグの生成
+  # sfen文字から手駒タグの生成
   #
   # @param ch sfen文字
   # @param num 数字
-  # @param y y座標
-  #
-  # @return 手駒タグ
-  def str_stgm(ch, num)
-    @stgm, @ys = str_tekoma(ch, num, @stgm, @ys)
-  end
-
-  # sfen文字から後手手駒タグの生成
-  #
-  # @param ch sfen文字
-  # @param num 数字
-  #
-  # @return 手駒タグ
-  def str_gtgm(ch, num)
-    @gtgm, @yg = str_tekoma(ch, num, @gtgm, @yg)
+  def str_tgm(ch, num)
+    if /[A-Z]/ =~ ch
+      @stgm, @ys = str_tekoma(ch, num, @stgm, @ys)
+    else
+      @gtgm, @yg = str_tekoma(ch.upper, num, @gtgm, @yg)
+    end
   end
 
   # 手駒の読み取り
@@ -345,11 +337,8 @@ class SfenSVGImage
 
     @strtegoma.each_char do |ch|
       case ch
-      when 'P', 'L', 'N', 'S', 'G', 'B', 'R' # %r{[PLNSGBR]}
-        str_stgm(ch, num)
-        num = 0
-      when 'p', 'l', 'n', 's', 'g', 'b', 'r' #  %r{[plnsgbr]}
-        str_gtgm(ch.upcase, num)
+      when /[PLNSGBRplnsgbr]/
+        str_tgm(ch, num)
         num = 0
       when '0'..'9'
         num = num * 10 + ch.to_i
