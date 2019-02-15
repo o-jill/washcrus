@@ -258,7 +258,7 @@ class BrowserTest < BrowserTestAbstract
 
   def checkupdateemail_succ
     updateemail_mypage(NEWJOHNINFO[:email], NEWJOHNINFO[:email])
-    res.checkmatch(/Your E-mail address was updated/)
+    res.checkmatch(/Your e-mail address was updated/)
 
     matchmailsbjlast(/Updating e-mail address for/)
 
