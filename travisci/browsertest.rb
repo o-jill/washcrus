@@ -142,10 +142,15 @@ class BrowserTest
     lounge_cancel
   end
 
+  ADMININFO = {
+    email: 'admin1@example.com',
+    pwd: 'admin'
+  }.freeze
+
   def adminaccess
     startsection('adminaccess')
 
-    checklogin('admin1@example.com', 'admin')
+    checklogin(ADMININFO[:email], ADMININFO[:pwd])
 
     startsection('adminaccess_simplecheck')
     simplecheckgroup
@@ -177,6 +182,11 @@ class BrowserTest
     rpassword2: 'john'
   }.freeze
 
+  NEWJOHNINFO = {
+    email: 'johndoe1_example.com',
+    pwd: 'doee'
+  }.freeze
+
   def getmailjson
     driver.navigate.to 'http://localhost:1080/messages'
     # puts driver.page_source
@@ -205,19 +215,20 @@ class BrowserTest
   end
 
   def chkupdatepwd_succ
-    updatepwd_mypage(SIGNUPINFOJOHN[:rpassword], 'doee', 'doee')
+    updatepwd_mypage(SIGNUPINFOJOHN[:rpassword],
+      NEWJOHNINFO[:pwd], NEWJOHNINFO[:pwd])
     res.checkmatch(/Your password was updated/)
     # check mail
     simplecheck 'index.rb?logout'
 
-    checklogin(SIGNUPINFOJOHN[:remail], 'doee')
+    checklogin(SIGNUPINFOJOHN[:remail], NEWJOHNINFO[:pwd])
   end
 
   def chkupdatepwd_fail
     updatepwd_mypage('doeeee', 'bbbb', 'bbbb')
     res.checkmatch(/old password is not correct!/)
 
-    updatepwd_mypage('doee', 'jones', 'john')
+    updatepwd_mypage(NEWJOHNINFO[:pwd], 'jones', 'john')
     simpleurlcheck('index.rb?update_password')
     res.checkmatch(/new passwords are not same/)
   end
@@ -225,6 +236,40 @@ class BrowserTest
   def checkupdatepwd
     chkupdatepwd_succ
     chkupdatepwd_fail
+  end
+
+  def updateemail_mypage(nemail1, nemail2)
+    simplecheck 'index.rb?mypage'
+    clickbtn(:id, 'navbtn_email')
+    elem = driver.find_element(:id, 'rnewemail')
+    elem.send_keys nemail1
+    elem = driver.find_element(:id, 'rnewemail2')
+    elem.send_keys nemail2
+    elem.submit
+    sleep 1
+    simpleurlcheck('index.rb?update_email')
+  end
+
+  def checkupdateemail_succ
+    updateemail_mypage(NEWJOHNINFO[:email], NEWJOHNINFO[:email])
+    res.checkmatch(/Your E-mail address was updated/)
+    # check mail
+    simplecheck 'index.rb?logout'
+
+    checklogin(NEWJOHNINFO[:email], NEWJOHNINFO[:pwd])
+  end
+
+  def checkupdateemail_fail
+    updateemail_mypage(SIGNUPINFOJOHN[:remail], 'joooooohn@example.com')
+    res.checkmatch(/e-mail addresses are not same/)
+
+    updateemail_mypage(ADMININFO[:email], ADMININFO[:email])
+    res.checkmatch(/e-mail address is already registered/)
+  end
+
+  def checkupdateemail
+    checkupdateemail_succ
+    checkupdateemail_fail
   end
 
   def newuserjohn
@@ -240,6 +285,8 @@ class BrowserTest
     simplecheckgroup
 
     checkupdatepwd
+
+    checkupdateemail
 
     simplecheck 'index.rb?lounge'
     lounge_gengame
