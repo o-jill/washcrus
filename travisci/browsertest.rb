@@ -4,8 +4,8 @@ require 'selenium-webdriver'
 
 require './travisci/testresult.rb'
 
-# test pages on a browser
-class BrowserTest
+# base for testing pages on a browser
+class BrowserTestAbstract
   def initialize
     # Firefox用のドライバを使う
     @driver = Selenium::WebDriver.for :firefox
@@ -30,6 +30,49 @@ class BrowserTest
     res.checkfooter
   end
 
+  def simplecheckmatch(url, rex)
+    driver.navigate.to BASE_URL + url
+    # puts driver.title
+    # puts driver.page_source
+    res.checkmatch(rex)
+  end
+
+  # ボタンをクリック
+  def clickbtn(key, val)
+    elem = driver.find_element(key, val)
+    elem.click
+  end
+
+  def startsection(a)
+    res.startsection(a)
+  end
+
+  def getmailjson
+    driver.navigate.to 'http://localhost:1080/messages'
+    # puts driver.page_source
+    element = driver.find_element(:id, 'json')
+    # puts "json:#{element.text}"
+    JSON.parse(element.text)
+  end
+
+  def matchmailsbjlast(rex)
+    json = getmailjson
+    res.matchmailsubject(json.last, rex)
+  end
+
+  def showresult
+    print res.ng.zero? ? "\e[32m" : "\e[31m"
+    puts "ok:#{res.ok}, ng:#{res.ng}\e[0m"
+    res.ng.zero?
+  end
+end
+
+# test pages on a browser
+class BrowserTest < BrowserTestAbstract
+  def initialize
+    super
+  end
+
   # loginできることの確認
   def checklogin(email, pwd)
     simplecheck 'index.rb?login'
@@ -40,12 +83,6 @@ class BrowserTest
     sleep 1
     simpleurlcheck('index.rb?logincheck')
     res.checkmatch(/Logged in successfully/)
-  end
-
-  # ボタンをクリック
-  def clickbtn(key, val)
-    elem = driver.find_element(key, val)
-    elem.click
   end
 
   def signupauser(signupinfo, this_will_fail = false)
@@ -90,17 +127,6 @@ class BrowserTest
     simplecheck 'index.rb?mypage'
     simplecheck 'index.rb?matchlist'
     simplecheck 'index.rb?searchform'
-  end
-
-  def startsection(a)
-    res.startsection(a)
-  end
-
-  def simplecheckmatch(url, rex)
-    driver.navigate.to BASE_URL + url
-    # puts driver.title
-    # puts driver.page_source
-    res.checkmatch(rex)
   end
 
   def simpleaccess
@@ -182,23 +208,7 @@ class BrowserTest
     rpassword2: 'john'
   }.freeze
 
-  NEWJOHNINFO = {
-    email: 'johndoe1_example.com',
-    pwd: 'doee'
-  }.freeze
-
-  def getmailjson
-    driver.navigate.to 'http://localhost:1080/messages'
-    # puts driver.page_source
-    element = driver.find_element(:id, 'json')
-    # puts "json:#{element.text}"
-    JSON.parse(element.text)
-  end
-
-  def matchmailsbjlast(rex)
-    json = getmailjson
-    res.matchmailsubject(json.last, rex)
-  end
+  NEWJOHNINFO = { email: 'johndoe1_example.com', pwd: 'doee' }.freeze
 
   def updatepwd_mypage(opwd, npwd1, npwd2)
     simplecheck 'index.rb?mypage'
@@ -215,8 +225,11 @@ class BrowserTest
   end
 
   def chkupdatepwd_succ
-    updatepwd_mypage(SIGNUPINFOJOHN[:rpassword],
-      NEWJOHNINFO[:pwd], NEWJOHNINFO[:pwd])
+    updatepwd_mypage(
+      SIGNUPINFOJOHN[:rpassword],
+      NEWJOHNINFO[:pwd],
+      NEWJOHNINFO[:pwd]
+    )
     res.checkmatch(/Your password was updated/)
     # check mail
     simplecheck 'index.rb?logout'
@@ -344,12 +357,6 @@ class BrowserTest
 
     # テストを終了する（ブラウザを終了させる）
     driver.quit
-  end
-
-  def showresult
-    print res.ng.zero? ? "\e[32m" : "\e[31m"
-    puts "ok:#{res.ok}, ng:#{res.ng}\e[0m"
-    res.ng.zero?
   end
 end
 
