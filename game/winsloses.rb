@@ -52,7 +52,7 @@ class WinsLoses
   # @param lose 負数
   # @param rate 勝率文字列
   def put_seiseki(title, win_sym, lose_sym)
-    win = seieki[win_sym]
+    win = seiseki[win_sym]
     lose = seiseki[lose_sym]
     rate = calcratestr(win + lose, win)
     puts "<tr><th>#{title}</th><td>#{win}勝#{lose}敗</td><td>#{rate}</td></tr>"
