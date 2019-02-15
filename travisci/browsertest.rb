@@ -18,7 +18,6 @@ class BrowserTestAbstract
 
   def simplecheck(pageurl)
     driver.navigate.to BASE_URL + pageurl
-    sleep 1
     res.checktitle
     # puts driver.page_source
     res.checkfooter
@@ -169,8 +168,7 @@ class BrowserTest < BrowserTestAbstract
   }.freeze
 
   def adminaccess
-    # checklogin(ADMININFO[:email], ADMININFO[:pwd])
-    checklogin('admin1@example.com', 'admin')
+    checklogin(ADMININFO[:email], ADMININFO[:pwd])
 
     simplecheckgroup
 
