@@ -50,11 +50,12 @@ class MyPageScreen
   # 合計勝ち負けの計算
   #
   # @param wnls {swin:先手勝数, slose:先手負数, gwin:後手勝数, glose:後手負数}
-  # @return 合計勝ち負け
+  # @return wnlsに合計勝ち負け
   def calctotal(wnls)
-    ttl = [wnls[:swin] + wnls[:gwin], wnls[:slose] + wnls[:glose], 0]
-    ttl[2] = ttl[0] + ttl[1]
-    ttl
+    wnls[:wins] = wnls[:swin] + wnls[:gwin]
+    wnls[:loses] = wnls[:slose] + wnls[:glose]
+    wnls[:total] = wnls[:wins] + wnls[:loses] # + wnls[:draws]
+    wnsl
   end
 
   # 先手と後手の総対局数を計算
@@ -88,14 +89,13 @@ class MyPageScreen
 
   # 成績表の出力
   #
-  # @param ttl   総合成績[勝数, 負数, 対局数]
   # @param wnls  先後成績{swin:, slose:, stotal, gwin:, glose:, gtotal:}
   # @param trate 総合勝率
   # @param srate 先手勝率
   # @param grate 後手勝率
-  def put_myseiseki(ttl, wnls, trate, srate, grate)
+  def put_myseiseki(wnls, trate, srate, grate)
     puts "<table align='center' border='3'><caption>戦績</caption>"
-    put_seiseki('総合成績', ttl[0], ttl[1], trate)
+    put_seiseki('総合成績', wnls[:wins], wnls[:loses], trate)
     put_seiseki('先手成績', wnls[:swin], wnls[:slose], srate)
     put_seiseki('後手成績', wnls[:gwin], wnls[:glose], grate)
     puts '</table>'
@@ -107,13 +107,13 @@ class MyPageScreen
   def put_stats(wnls)
     wnls = calc_sgtotal(wnls)
 
-    ttl = calctotal(wnls)
+    wnls = calctotal(wnls)
 
     srate = calcratestr(wnls[:stotal], wnls[:swin])
     grate = calcratestr(wnls[:gtotal], wnls[:gwin])
-    trate = calcratestr(ttl[2], ttl[0])
+    trate = calcratestr(wnls[:total], wnls[:wins])
 
-    put_myseiseki(ttl, wnls, trate, srate, grate)
+    put_myseiseki(wnls, trate, srate, grate)
   end
 
   # 対局履歴の表のヘッダの出力
