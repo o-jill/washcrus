@@ -20,7 +20,10 @@ rake init
 if [ "${TRAVIS_BUILD_TYPE}" = "test" ]; then
   echo "let us TEST !!"
   bundle exec rspec
+  ret=$?
   bundle exec rubocop
+  ret=$[ret+$?]
+  exit ${ret}
 else
   echo "normal . . ."
   which ruby
