@@ -77,6 +77,11 @@ module SfenSVGImageConst
      <text x="185" y="170" class="dan">九</text>
     </g>
   EO_TAGFRAME
+
+  TEBANRECT = " <rect x='0' y='0' width='30' height='30' class='teban'/>".freeze
+
+  TAGWINNER = " <polygon points='15,0 22.5,5 30,0 30,30 0,30 0,0 7.5,5'" \
+         " class='teban'/>".freeze
 end
 
 #
@@ -171,18 +176,16 @@ class SfenSVGImage
 
   # 手番タグの生成
   def tagteban
-    tagrect = " <rect x='0' y='0' width='30' height='30' class='teban'/>"
-    plgn = " <polygon points='15,0 22.5,5 30,0 30,30 0,30 0,0 7.5,5'" \
-           " class='teban'/>"
+    ret = "<g id='teban' transform='translate("
     case @turn
     when 'w'
-      "<g id='teban' transform='translate(0,20)'>\n#{tagrect}\n</g>\n"
+      ret + "0,20)'>\n#{SfenSVGImageConst::TEBANRECT}\n</g>\n"
     when 'b'
-      "<g id='teban' transform='translate(220,260)'>\n#{tagrect}\n</g>\n"
+      ret + "220,260)'>\n#{SfenSVGImageConst::TEBANRECT}\n</g>\n"
     when 'fw'
-      "<g id='teban' transform='translate(30,20)'>\n#{plgn}\n</g>\n"
+      ret + "30,20)'>\n#{SfenSVGImageConst::TAGWINNER}\n</g>\n"
     when 'fb'
-      "<g id='teban' transform='translate(0,260)'>\n#{plgn}\n</g>\n"
+      ret + "0,260)'>\n#{SfenSVGImageConst::TAGWINNER}\n</g>\n"
     else
       ''
     end
