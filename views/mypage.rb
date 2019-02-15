@@ -55,7 +55,7 @@ class MyPageScreen
     wnls[:wins] = wnls[:swin] + wnls[:gwin]
     wnls[:loses] = wnls[:slose] + wnls[:glose]
     wnls[:total] = wnls[:wins] + wnls[:loses] # + wnls[:draws]
-    wnsl
+    wnls
   end
 
   # 先手と後手の総対局数を計算
