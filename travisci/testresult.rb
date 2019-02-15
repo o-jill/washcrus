@@ -16,17 +16,21 @@ class Result
     @section = a
   end
 
+  def put_sec_url(msg)
+    puts "section:#{@section}\nURL: #{@driver.current_url}\n#{msg}"
+  end
+
+  def put_caller
+    puts caller.join("\n")
+  end
+
   def checkproperty(a, b)
     # general function to check some property
     return @ok += 1 if a == b
 
     @ng += 1
 
-    puts <<-ERRMSG
-      section:#{@section}
-      URL: #{@driver.current_url}
-      "#{a}" is not #{b}.
-    ERRMSG
+    put_sec_url("'#{a}' is not #{b}.")
   end
 
   # general function to check some property matches
@@ -35,11 +39,8 @@ class Result
 
     @ng += 1
 
-    puts <<-ERRMSG
-      section:#{@section}
-      URL: #{@driver.current_url}
-      "#{b}" does not match #{rex}.
-    ERRMSG
+    put_sec_url("'#{b}' does not match #{rex}.")
+    put_caller
   end
 
   # check if title is t
@@ -53,11 +54,8 @@ class Result
 
     @ng += 1
 
-    puts <<-ERRMSG
-      section:#{@section}
-      URL: #{@driver.current_url}
-      "#{@driver.title}" should not be #{t}.
-    ERRMSG
+    put_sec_url("'#{@driver.title}' should not be #{t}.")
+    put_caller
   end
 
   # check if current_url is url
@@ -81,11 +79,8 @@ class Result
   def checkfooter(regexp = /ぢるっち/)
     ft = @driver.find_element(:tag_name, 'footer')
     unless ft
-      puts <<-ERRMSG
-        section:#{@section}
-        URL: #{@driver.current_url}
-        does not have any footer elements.
-      ERRMSG
+      put_sec_url('does not have any footer elements.')
+      put_caller
       return @ng += 1
     end
     matchproperty(regexp, ft.text)
@@ -94,11 +89,8 @@ class Result
   # check subject in a mail
   def checkmailsubject(json, sbj)
     unless json
-      puts <<-ERRMSG
-        section:#{@section}
-        URL: #{@driver.current_url}
-        JSON(mail?) is empty.
-      ERRMSG
+      put_sec_url('JSON(mail?) is empty.')
+      put_caller
       return @ng += 1
     end
 
@@ -106,21 +98,15 @@ class Result
 
     @ng += 1
 
-    puts <<-ERRMSG
-      section:#{@section}
-      URL: #{@driver.current_url}
-      "#{json['subject']}" is not "#{sbj}".
-    ERRMSG
+    put_sec_url("'#{json['subject']}' is not '#{sbj}'.")
+    put_caller
   end
 
   # check subject in a mail
   def matchmailsubject(json, sbjptn)
     unless json
-      puts <<-ERRMSG
-        section:#{@section}
-        URL: #{@driver.current_url}
-        JSON(mail?) is empty.
-      ERRMSG
+      put_sec_url('JSON(mail?) is empty.')
+      put_caller
       return @ng += 1
     end
 
@@ -128,10 +114,7 @@ class Result
 
     @ng += 1
 
-    puts <<-ERRMSG
-      section:#{@section}
-      URL: #{@driver.current_url}
-      "#{json['subject']}" does not match "#{sbjptn}".
-    ERRMSG
+    put_sec_url("'#{json['subject']}' does not match '#{sbjptn}'.")
+    put_caller
   end
 end
