@@ -169,7 +169,8 @@ class BrowserTest < BrowserTestAbstract
   }.freeze
 
   def adminaccess
-    checklogin(ADMININFO[:email], ADMININFO[:pwd])
+    # checklogin(ADMININFO[:email], ADMININFO[:pwd])
+    checklogin('admin1@example.com', 'admin')
 
     simplecheckgroup
 
