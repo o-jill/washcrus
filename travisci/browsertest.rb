@@ -222,7 +222,9 @@ class BrowserTest < BrowserTestAbstract
       NEWJOHNINFO[:pwd]
     )
     res.checkmatch(/Your password was updated/)
-    # check mail
+
+    matchmailsbjlast(/Updating password for/)
+
     simplecheck 'index.rb?logout'
 
     checklogin(SIGNUPINFOJOHN[:remail], NEWJOHNINFO[:pwd])
@@ -257,7 +259,9 @@ class BrowserTest < BrowserTestAbstract
   def checkupdateemail_succ
     updateemail_mypage(NEWJOHNINFO[:email], NEWJOHNINFO[:email])
     res.checkmatch(/Your E-mail address was updated/)
-    # check mail
+
+    matchmailsbjlast(/Updating e-mail address for/)
+
     simplecheck 'index.rb?logout'
 
     checklogin(NEWJOHNINFO[:email], NEWJOHNINFO[:pwd])
