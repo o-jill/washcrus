@@ -18,6 +18,7 @@ class BrowserTestAbstract
 
   def simplecheck(pageurl)
     driver.navigate.to BASE_URL + pageurl
+    sleep 1
     res.checktitle
     # puts driver.page_source
     res.checkfooter
