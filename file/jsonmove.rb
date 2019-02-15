@@ -75,7 +75,7 @@ module JsonMove
     x = xy[1]
     y = xy[2]
     return nil unless chkxy(x, y)
-    { val: uchi(x, y) ? nil : { 'x' => x.to_i, 'y' => y.to_i } }
+    { val: uchi?(x, y) ? nil : { 'x' => x.to_i, 'y' => y.to_i } }
   end
 
   # 行き先座標をハッシュに変換
