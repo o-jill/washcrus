@@ -43,10 +43,6 @@ class BrowserTestAbstract
     elem.click
   end
 
-  def startsection(a)
-    res.startsection(a)
-  end
-
   def getmailjson
     driver.navigate.to 'http://localhost:1080/messages'
     # puts driver.page_source
@@ -130,8 +126,6 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def simpleaccess
-    startsection('simpleaccess')
-
     simplecheck 'index.rb'
     simplecheck 'index.rb?news'
     simplecheck 'index.rb?signup'
@@ -174,11 +168,8 @@ class BrowserTest < BrowserTestAbstract
   }.freeze
 
   def adminaccess
-    startsection('adminaccess')
-
     checklogin(ADMININFO[:email], ADMININFO[:pwd])
 
-    startsection('adminaccess_simplecheck')
     simplecheckgroup
 
     loungecheckfilecancel
@@ -286,8 +277,6 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def newuserjohn
-    startsection('newuserjohn')
-
     signupauser(SIGNUPINFOJOHN)
     res.checkmatch(/Registered successfully/)
 
@@ -312,14 +301,12 @@ class BrowserTest < BrowserTestAbstract
 
   # 二重登録できないことの確認
   def newuserjohn2nd
-    startsection('newuserjohn2nd')
     signupauser(SIGNUPINFOJOHN)
     res.checkmatch(/Unfortunately failed/)
   end
 
   # 登録内容のチェックの確認
   def signuperrmsg
-    startsection('signuperrmsg')
     signupauser(
       {
         rname: 'doe',

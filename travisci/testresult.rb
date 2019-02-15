@@ -7,21 +7,16 @@ class Result
     @ok = 0
     @ng = 0
     @driver = driver
-    @setction = 'null'
   end
 
   attr_reader :ok, :ng
 
-  def startsection(a)
-    @section = a
-  end
-
   def put_sec_url(msg)
-    puts "section:#{@section}\nURL: #{@driver.current_url}\n#{msg}"
+    puts "URL: #{@driver.current_url}\n#{msg}"
   end
 
   def put_caller
-    puts caller.join("\n")
+    puts "place:#{caller.join("\n")}"
   end
 
   def checkproperty(a, b)
