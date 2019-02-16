@@ -22,11 +22,11 @@ if [ "${TRAVIS_BUILD_TYPE}" = "test" ]; then
   bundle exec rspec
   ret=$?
   bundle exec rubocop
-  ret=$[$ret+$?]
-  exit ${ret}
+  let exitcode=$ret+$?
+  exit ${exitcode}
 else
   echo "normal . . ."
-  which ruby
-  ruby -v
+  # which ruby
+  # ruby -v
   ruby travisci/browsertest.rb
 fi
