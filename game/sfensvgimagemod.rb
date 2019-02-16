@@ -147,7 +147,6 @@ module SfenSVGImageMod
 
   def str_tekoma(ch, num, tgm, y)
     tgm += str_tagtgm(ch, y)
-    tgm += "a"
     y += 16
     tgm += numtegoma(num, y) if num > 1
     y += 16 if num > 1
