@@ -72,18 +72,21 @@ class WebApiSfenReader
       # when PIECE_KANJI then ret[:piece] = 'kanji'
       # else ret[:piece] = 'kanji'
     end
+    ret
   end
 
   def params_lastmove
     @lastmove unless @lastmove.empty?
   end
 
-  def params_title
-    @title.to_s unless @title.nil?
+  def params_title(ret)
+    ret[:title] = @title.to_s unless @title.nil?
+    ret
   end
 
-  def params_turn
-    @turn unless @turn.empty?
+  def params_turn(ret)
+    ret[:turn] = @turn unless @turn.empty?
+    ret
   end
 
   # パラメータをハッシュで返す
@@ -94,9 +97,9 @@ class WebApiSfenReader
 
     ret[:lm] = params_lastmove
     ret = params_plys(ret)
-    ret[:title] = params_title
+    ret = params_title(ret)
     ret = params_piecetype(ret)
-    ret[:turn] = params_turn
+    ret = params_turn(ret)
 
     ret
   end
