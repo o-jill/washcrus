@@ -22,7 +22,7 @@ if [ "${TRAVIS_BUILD_TYPE}" = "test" ]; then
   bundle exec rspec
   ret=$?
   bundle exec rubocop
-  let exitcode=$ret+$?
+  exitcode=$((ret+$?))
   exit ${exitcode}
 else
   echo "normal . . ."
