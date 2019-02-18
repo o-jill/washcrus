@@ -59,10 +59,22 @@ module JsonMove
     end
   end
 
+  # 座標のチェック
+  #
+  # @param x 筋
+  # @param y 段
+  #
+  # @return x,yが両方数字文字ならtrue
   def self.chkxy(x, y)
     ('0'..'9').cover?(x) && ('0'..'9').cover?(y)
   end
 
+  # 駒打ちのチェック
+  #
+  # @param x 筋
+  # @param y 段
+  #
+  # @return x,yが両方ゼロならtrue
   def self.uchi?(x, y)
     x == '0' && y == '0'
   end

@@ -206,7 +206,7 @@ class GenNewGameScreen
 
   # エラーをログに出力
   #
-  # @param er エラー情報
+  # @param err エラー情報
   def err2log(err)
     @log.warn("class=[#{err.class}] message=[#{err.message}] in gennewgame")
   end

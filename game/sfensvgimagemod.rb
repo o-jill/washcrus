@@ -84,6 +84,9 @@ module SfenSVGImageMod
          " class='teban'/>".freeze
 
   # 名前タグの生成
+  #
+  # @param snm 先手の名前
+  # @param gnm 後手の名前
   def tagname(snm, gnm)
     ret = <<-NAMETAG.unindent
       <g id="gname" transform="translate(5,25)">
@@ -101,11 +104,15 @@ module SfenSVGImageMod
   end
 
   # タイトルタグの生成
+  #
+  # @param titl タイトル
   def tagtitle(titl)
     "<g id='title'><text class='title' x='125' y='10'>#{titl}</text></g>\n"
   end
 
   # 手番タグの生成
+  #
+  # @param trn 手番。 b or w or gb or fw.
   def tagteban(trn)
     ret = "<g id='teban' transform='translate("
     case trn
@@ -145,6 +152,14 @@ module SfenSVGImageMod
     "<text x='0' y='#{y}' class='tegoma'>#{koma}</text>"
   end
 
+  # 手駒用のタグと座標の計算
+  #
+  # @param ch sfen文字
+  # @param num 枚数
+  # @param tgm 既に処理された手駒タグ
+  # @param y y座標
+  #
+  # @return 手駒タグ
   def str_tekoma(ch, num, tgm, y)
     tgm += str_tagtgm(ch, y)
     y += 16
@@ -154,6 +169,11 @@ module SfenSVGImageMod
   end
 
   # 手駒のタグの生成
+  #
+  # @param stegoma
+  # @param gtegoma
+  #
+  # @return 手駒のタグ
   def tagtegoma(stegoma, gtegoma)
     ret = <<-TAGTEGOMA.unindent
       <g id="gtegoma" transform="translate(7.5,65)">

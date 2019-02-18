@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-# user's stats
+# ユーザの戦績
 class WinsLoses
   # @param wnls { swin:先手勝数, slose:先手負数, gwin:後手勝数, glose:後手負数 }
   def initialize(wnls)
@@ -48,9 +48,8 @@ class WinsLoses
   # 勝ち負け一段分の出力
   #
   # @param title 項目名
-  # @param win 勝数
-  # @param lose 負数
-  # @param rate 勝率文字列
+  # @param win_sym 勝数
+  # @param lose_sym 負数
   def put_seiseki(title, win_sym, lose_sym)
     win = seiseki[win_sym]
     lose = seiseki[lose_sym]

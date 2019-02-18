@@ -65,6 +65,11 @@ class WebApiSfenReader
     hash
   end
 
+  # コマの表示形式をretに格納する
+  #
+  # @param ret コマの表示形式を格納するハッシュ
+  #
+  # @return コマの表示形式[:piece]が格納されたハッシュ
   def params_piecetype(ret)
     case @piecetype
     when PIECE_ALPHABET then ret[:piece] = 'alphabet'
@@ -75,15 +80,26 @@ class WebApiSfenReader
     ret
   end
 
+  # 最後に刺したマスの情報を返す
   def params_lastmove
     @lastmove unless @lastmove.empty?
   end
 
+  # タイトルをretに格納する
+  #
+  # @param ret タイトルを格納するハッシュ
+  #
+  # @return タイトル[:title]が格納されたハッシュ
   def params_title(ret)
     ret[:title] = @title.to_s unless @title.nil?
     ret
   end
 
+  # 手番をretに格納する
+  #
+  # @param ret 手番を格納するハッシュ
+  #
+  # @return 手番[:turn]が格納されたハッシュ
   def params_turn(ret)
     ret[:turn] = @turn unless @turn.empty?
     ret
