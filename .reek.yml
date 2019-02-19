@@ -1,0 +1,44 @@
+# reek5 config
+
+### Excluding directories
+# Directories below will not be scanned at all
+exclude_paths:
+  - vendor
+  - spec
+
+detectors:
+  DuplicateMethodCall:
+#  exclude: []
+    max_calls: 3
+#  allow_calls: []
+  LongParameterList:
+#  exclude: []
+    max_params: 5
+#  overrides:
+#    initialize:
+#      max_params: 5
+  TooManyConstants:
+#  exclude: []
+    max_constants: 7
+  TooManyInstanceVariables:
+#  exclude: []
+    max_instance_variables: 7
+  TooManyMethods:
+#  exclude: []
+    max_methods: 25
+  TooManyStatements:
+#  exclude:
+#  - initialize
+    max_statements: 10
+
+  UncommunicativeParameterName:
+    accept:
+      - "/^[abceijnmtxyz_]$/"
+
+  UncommunicativeVariableName:
+    accept:
+      - "/^[abceijnmtxyz_]$/"
+#  reject:
+#    - "/^.$/"
+#     - "/[0-9]$/"
+#    - "/[A-Z]/"
