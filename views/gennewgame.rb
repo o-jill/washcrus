@@ -224,6 +224,7 @@ class GenNewGameScreen
   # @param err エラー情報
   def err2log(err)
     @log.warn("class=[#{err.class}] message=[#{err.message}] in gennewgame")
+    @log.warn("callstack:#{err.backtrace}")
   end
 
   # 画面の表示
