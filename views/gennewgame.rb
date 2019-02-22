@@ -30,7 +30,7 @@ class GenNewGameScreen
     @log = Logger.new(PathList::GENNEWGAMELOG)
   end
 
-  attr_reader :email1, :email2, :name1, :name2, :cmt, :td
+  attr_reader :email1, :email2, :name1, :name2, :cmt, :td, :log
 
   # データの存在チェック
   #
@@ -196,7 +196,7 @@ class GenNewGameScreen
 
     # @log.debug('TaikyokuData.new')
     td = TaikyokuData.new
-    td.log = @log
+    td.log = log
 
     config_taikyoku(ret[:userdataa], ret[:userdatab], userinfo,
                     params['furigoma'][0])
