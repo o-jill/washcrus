@@ -21,6 +21,8 @@ class GenNewGame3Screen < GenNewGame2Screen
     super
   end
 
+  attr_reader :id1, :id2
+
   # データの存在チェック
   #
   # @param params パラメータハッシュオブジェクト
