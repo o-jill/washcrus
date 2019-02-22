@@ -44,33 +44,33 @@ class GenNewGame2Screen < GenNewGameScreen
   #
   # @param id1 プレイヤー1のID
   # @param id2 プレイヤー2のID
-  # @return { userdata1:, userdata2: }
+  # @return { userdataa:, userdatab: }
   def check_players(id1, id2)
     userdb = UserInfoFile.new
     userdb.read
     udb = userdb.content
 
-    userdata1 = udb.findid(id1) # [name, pw, email]
-    if userdata1
-      userdata1.unshift(id1) # [id, name, pw, email]
+    userdataa = udb.findid(id1) # [name, pw, email]
+    if userdataa
+      userdataa.unshift(id1) # [id, name, pw, email]
     else
       @errmsg += "player1's id is wrong ...<BR>\n"
     end
 
-    userdata2 = udb.findid(id2) # [name, pw, email]
-    if userdata2
-      userdata2.unshift(id2) # [id, name, pw, email]
+    userdatab = udb.findid(id2) # [name, pw, email]
+    if userdatab
+      userdatab.unshift(id2) # [id, name, pw, email]
     else
       @errmsg += "player2's id is wrong ...<BR>\n"
     end
 
-    { userdata1: userdata1, userdata2: userdata2 }
+    { userdataa: userdataa, userdatab: userdatab }
   end
 
   # プレイヤー情報の確認
   #
   # @param params パラメータハッシュオブジェクト
-  # @return { userdata1:, userdata2: }
+  # @return { userdataa:, userdatab: }
   def check_newgame(params)
     return @errmsg += 'data lost ...<BR>' unless check_datalost_gengame(params)
 

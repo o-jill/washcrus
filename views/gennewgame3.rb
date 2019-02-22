@@ -33,22 +33,22 @@ class GenNewGame3Screen < GenNewGame2Screen
   #
   # @param userinfo ユーザー情報
   # @param params パラメータハッシュオブジェクト
-  # @return { userdata1:, userdata2: }
+  # @return { userdataa:, userdatab: }
   def check_newgame(userinfo, params)
     return @errmsg += 'data lost ...<BR>' unless check_datalost_gengame(params)
 
     @id1 = userinfo.user_id
     @id2 = params['opponent'][0]
-    @log.debug("id1:#{@id1} id2:#{@id2}")
+    @log.debug("id1:#{id1} id2:#{id2}")
 
-    check_players(@id1, @id2)
+    check_players(id1, id2)
   end
 
   # 対局リクエスト情報の確認とリストからの破棄
   def checkrequest
     reqdb = TaikyokuReqFile.new
 
-    return if reqdb.bonvoyage(@id1, @id2)
+    return if reqdb.bonvoyage(id1, id2)
 
     @errmsg += 'you chose a wrong user or ' \
         "the user already started another game.\n"
@@ -71,9 +71,9 @@ class GenNewGame3Screen < GenNewGame2Screen
 
     # @log.debug('TaikyokuData.new')
     @td = TaikyokuData.new
-    @td.log = @log
+    @td.log = log
 
-    config_taikyoku(ret[:userdata1], ret[:userdata2], userinfo,
+    config_taikyoku(ret[:userdataa], ret[:userdatab], userinfo,
                     params['furigoma'][0])
 
     # send mail to the players

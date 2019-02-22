@@ -20,6 +20,8 @@ class UpdatePasswordScreen
     @header = header
   end
 
+  attr_reader :newpw1, :newpw2, :passwd
+
   # エラー画面の表示
   #
   # @param errmsg エラーメッセージ
@@ -57,17 +59,41 @@ class UpdatePasswordScreen
     mailmgr.send_mail(addr, subject, msg)
   end
 
+  # paramsから値を取り出す。
+  # keyが無いときはdefaultを使う。
+  def safer_params(params, key, default)
+    val = params[key] || default
+    val[0]
+  end
+
   # パスワードの読み取り
   #
   # @param params パラメータハッシュオブジェクト
   def readpwd(params)
-    @passwd = params['sipassword'] || ['']
-    @passwd = @passwd[0]
+    @passwd = safer_params(params, 'sipassword', [''])
 
-    @newpw1 = params['rnewpassword'] || ['1']
-    @newpw1 = @newpw1[0]
-    @newpw2 = params['rnewpassword2'] || ['2']
-    @newpw2 = @newpw2[0]
+    @newpw1 = safer_params(params, 'rnewpassword', ['1'])
+    @newpw2 = safer_params(params, 'rnewpassword2', ['2'])
+  end
+
+  # 新パスワードの確認
+  def check_newpw
+    # 新パスワードの確認
+    return '<span class="err">new passwords are not same!</span>' \
+      if newpw1 != newpw2
+    return '<span class="err">the new password is too short!</span>' \
+      if newpw1.length < 4
+  end
+
+  # 古いパスワードの確認
+  def check_curpw(userdb, uid)
+    # [@names[id], @passwords[id], @emails[id]]
+    userdata = userdb.content.findid(uid)
+    return '<span class="err">user information error...</span>' unless userdata
+
+    dgpw = Digest::SHA256.hexdigest passwd
+    return '<span class="err">old password is not correct!</span>' \
+      if dgpw != userdata[1]
   end
 
   # パラメータのチェックと表示メッセージ作成
@@ -77,10 +103,8 @@ class UpdatePasswordScreen
   # @return 表示用メッセージ
   def check_and_mkmsg(userinfo)
     # 新パスワードの確認
-    return '<span class="err">new passwords are not same!</span>' \
-      if @newpw1 != @newpw2
-    return '<span class="err">the new password is too short!</span>' \
-      if @newpw1.length < 4
+    ret = check_newpw
+    return ret if ret
 
     uid = userinfo.user_id
 
@@ -88,19 +112,14 @@ class UpdatePasswordScreen
     userdb = UserInfoFile.new
     userdb.read
 
-    # [@names[id], @passwords[id], @emails[id]]
-    userdata = userdb.content.findid(uid)
-    return '<span class="err">user information error...</span>' unless userdata
-
-    dgpw = Digest::SHA256.hexdigest @passwd
-    return '<span class="err">old password is not correct!</span>' \
-      if dgpw != userdata[1]
+    ret = check_curpw(userdb, uid)
+    return ret if ret
 
     # パスワードの再設定
-    userdb.update_password_byid(uid, @newpw1)
+    userdb.update_password_byid(uid, newpw1)
 
     # メールの送信
-    send_mail(userinfo, @newpw1)
+    send_mail(userinfo, newpw1)
 
     'Your password was updated.<br>The new password has been sent to you.'
   end

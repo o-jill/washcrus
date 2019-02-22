@@ -30,6 +30,8 @@ class GenNewGameScreen
     @log = Logger.new(PathList::GENNEWGAMELOG)
   end
 
+  attr_reader :email1, :email2, :name1, :name2, :cmt, :td
+
   # データの存在チェック
   #
   # @param params パラメータハッシュオブジェクト
@@ -47,25 +49,38 @@ class GenNewGameScreen
     furigoma.count('F') >= 3
   end
 
+  def check_playersdata(udb, name, email, errmsg)
+    userdata = udb.findname(name) # [id, name, pw, email]
+    @errmsg += errmsg unless userdata && email == userdata[3]
+    userdata
+  end
+
   # プレイヤー情報の取得
   #
-  # @return { userdata1:, userdata2: }
+  # @return { userdataa:, userdatab: }
   def check_players
     userdb = UserInfoFile.new
     userdb.read
     udb = userdb.content
 
-    userdata1 = udb.findname(@name1) # [id, name, pw, email]
-    unless userdata1 && @email1 == userdata1[3]
-      @errmsg += "name or e-mail address in player 1 is wrong ...<BR>\n"
-    end
+    userdataa = check_playersdata(
+      udb, name1, email1,
+      "name or e-mail address in player 1 is wrong ...<BR>\n"
+    )
 
-    userdata2 = udb.findname(@name2) # [id, name, pw, email]
-    unless userdata2 && @email2 == userdata2[3]
-      @errmsg += "name or e-mail address in player 2 is wrong ...<BR>\n"
-    end
+    userdatab = check_playersdata(
+      udb, name2, email2,
+      "name or e-mail address in player 2 is wrong ...<BR>\n"
+    )
 
-    { userdata1: userdata1, userdata2: userdata2 }
+    { userdataa: userdataa, userdatab: userdatab }
+  end
+
+  # paramsから値を取り出す。
+  # keyが無いときはdefaultを使う。
+  def safer_params(params, key, default)
+    val = params[key] || default
+    val[0]
   end
 
   # 名前とメールアドレスの読み取り
@@ -73,26 +88,20 @@ class GenNewGameScreen
   # @param params パラメータハッシュオブジェクト
   def read_nameemail(params)
     # プレイヤー1の名前
-    @name1 = params['rname'] || []
+    @name1 = safer_params(params, 'rname', [])
     # プレイヤー1のアドレス
-    @email1 = params['remail'] || []
+    @email1 = safer_params(params, 'remail', [])
     # プレイヤー2の名前
-    @name2 = params['rname2'] || []
+    @name2 = safer_params(params, 'rname2', [])
     # プレイヤー2のアドレス
-    @email2 = params['remail2'] || []
-    @cmt = params['cmt'] || ['blank']
-
-    @name1 = @name1[0]
-    @email1 = @email1[0]
-    @name2 = @name2[0]
-    @email2 = @email2[0]
-    @cmt = @cmt[0]
+    @email2 = safer_params(params, 'remail2', [])
+    @cmt = safer_params(params, 'cmt', ['blank'])
   end
 
   # プレイヤー情報の確認
   #
   # @param params パラメータハッシュオブジェクト
-  # @return { userdata1:, userdata2: }
+  # @return { userdataa:, userdatab: }
   def check_newgame(params)
     return @errmsg += 'data lost ...<BR>' unless check_datalost_gengame(params)
 
@@ -133,35 +142,41 @@ class GenNewGameScreen
 
   # 新規対局メールの送信
   def send_mail
-    subject = "a game is ready!! (#{@td.playerb} vs #{@td.playerw})"
-    msg = mail_msg_newgame(@td.playerb, @td.playerw, @td.gid)
+    plyb = td.playerb
+    plyw = td.playerw
+    subject = "a game is ready!! (#{plyb} vs #{plyw})"
+    msg = mail_msg_newgame(plyb, plyw, td.gid)
 
     mailmgr = MailManager.new
-    mailmgr.send_mail(@td.emailb, subject, msg)
-    mailmgr.send_mail(@td.emailw, subject, msg)
+    mailmgr.send_mail(td.emailb, subject, msg)
+    mailmgr.send_mail(td.emailw, subject, msg)
+  end
+
+  def config_players(userdta, userdtb, furigomastr)
+    # @log.debug('td.setplayerb')
+    td.setplayerb(userdta[0], userdta[1], userdta[3])
+
+    # @log.debug('td.setplayerw')
+    td.setplayerw(userdtb[0], userdtb[1], userdtb[3])
+
+    # @log.debug("furifusen(#{params['furigoma'][0].count('F')})")
+    td.switchplayers unless furifusen(furigomastr)
   end
 
   # 対局情報の設定
   #
-  # @param userdata1 対局者１情報
-  # @param userdata2 対局者2情報
+  # @param userdta 対局者１情報
+  # @param userdtb 対局者2情報
   # @param userinfo ユーザー情報
   # @param furigomastr 振りごま結果文字列。[FT]{5}
-  def config_taikyoku(userdata1, userdata2, userinfo, furigomastr)
-    # @log.debug('td.setplayerb')
-    @td.setplayerb(userdata1[0], userdata1[1], userdata1[3])
-
-    # @log.debug('td.setplayerw')
-    @td.setplayerw(userdata2[0], userdata2[1], userdata2[3])
-
-    # @log.debug("furifusen(#{params['furigoma'][0].count('F')})")
-    @td.switchplayers unless furifusen(furigomastr)
+  def config_taikyoku(userdta, userdtb, userinfo, furigomastr)
+    config_players(userdta, userdtb, furigomastr)
 
     # @log.debug('td.creator')
-    @td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
+    td.creator = "#{userinfo.user_name}(#{userinfo.user_id})"
 
     # @log.debug('td.generate(@cmt)')
-    @td.generate(@cmt)
+    td.generate(cmt)
   end
 
   # 対局生成
@@ -180,10 +195,10 @@ class GenNewGameScreen
     # @log.debug('put_err_sreen')
 
     # @log.debug('TaikyokuData.new')
-    @td = TaikyokuData.new
-    @td.log = @log
+    td = TaikyokuData.new
+    td.log = @log
 
-    config_taikyoku(ret[:userdata1], ret[:userdata2], userinfo,
+    config_taikyoku(ret[:userdataa], ret[:userdatab], userinfo,
                     params['furigoma'][0])
 
     # send mail to the players
@@ -194,11 +209,11 @@ class GenNewGameScreen
 
   # メッセージの出力
   def put_msg
-    @td.dumptable
+    td.dumptable
 
     puts <<-GENMSG.unindent
       a new game was generated!<BR>
-      <a href='index.rb?game/#{@td.gid}'><big>start playing &gt;&gt;</big></a><BR>
+      <a href='index.rb?game/#{td.gid}'><big>start playing &gt;&gt;</big></a><BR>
 
       mails were sent to both players.
     GENMSG
