@@ -29,4 +29,11 @@ else
   # which ruby
   # ruby -v
   ruby travisci/browsertest.rb
+  ret=$?
+  if [ ${ret} -ne 0]; then
+    cat ./log/newgamegenlog.txt
+    cat ./log/gamelog.txt
+    cat ./log/movelog.txt
+    exit ${ret}
+  fi
 fi
