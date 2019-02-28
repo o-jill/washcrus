@@ -126,7 +126,6 @@ class GenNewGameScreen
       #{baseurl}index.rb?game/#{gameid}
 
     MAIL_MSG
-    msg += MailManager.footer
     msg
   end
 
@@ -148,8 +147,8 @@ class GenNewGameScreen
     msg = mail_msg_newgame(plyb, plyw, td.gid)
 
     mailmgr = MailManager.new
-    mailmgr.send_mail(td.emailb, subject, msg)
-    mailmgr.send_mail(td.emailw, subject, msg)
+    mailmgr.send_mail_withfooter(td.emailb, subject, msg)
+    mailmgr.send_mail_withfooter(td.emailw, subject, msg)
   end
 
   def config_players(userdta, userdtb, furigomastr)

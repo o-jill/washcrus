@@ -113,13 +113,12 @@ class RegisterScreen
       E-mail address: #{addr}
 
     MAIL_MSG
-    msg += MailManager.footer
 
     stg = Settings.instance
     subject = "Welcome to #{stg.value['title']}!"
 
     mailmgr = MailManager.new
-    mailmgr.send_mail(addr, subject, msg)
+    mailmgr.send_mail_withfooter(addr, subject, msg)
   end
 
   # ユーザーの追加

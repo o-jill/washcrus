@@ -27,6 +27,16 @@ class MailManager
                           password: @dlvcfg['password'])
   end
 
+  # フッターを付けてメールの送信
+  #
+  # @param addr    メールアドレス
+  # @param subject 件名
+  # @param msg     本文
+  def send_mail_withfooter(addr, subject, msg)
+    msg += MailManager.footer
+    send_mail(addr, subject, msg)
+  end
+
   # メールの送信
   #
   # @param addr    メールアドレス
@@ -44,6 +54,16 @@ class MailManager
     setdeliverymethod
 
     @mail.deliver
+  end
+
+  # フッターを付けて添付ファイル付きメールの送信
+  #
+  # @param addr    メールアドレス
+  # @param subject 件名
+  # @param msg     本文
+  def send_mailex_withfooter(addr, subject, msg)
+    msg += MailManager.footer
+    send_mailex(addr, subject, msg)
   end
 
   # 添付ファイル付きメールの送信

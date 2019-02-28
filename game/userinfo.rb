@@ -88,6 +88,19 @@ class UserInfo
           "admin:#{@admin}"
   end
 
+  # 訪問回数の表示
+  def put_visitcount
+    if invalid?
+      print '<HR><div align=center>どなたか存じ上げませんが' \
+      "#{visitcount}回目の訪問ですね。</div><HR>\n" \
+      '<input type=hidden id=isloggedin value=0/>'
+    else
+      print "<HR><div align=center>#{user_name}さん" \
+      "#{visitcount}回目の訪問ですね。</div><HR>\n" \
+      '<input type=hidden id=isloggedin value=1/>'
+    end
+  end
+
   # put data in html table format.
   def dumptable
     print <<-TABLEDATA.unindent

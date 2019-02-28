@@ -120,7 +120,6 @@ class Move
     msg += "---- messages in chat ----\n#{chat.stripped_msg}"
     msg += "---- messages in chat ----\n\n"
 
-    msg += MailManager.footer
     msg
   end
 
@@ -157,8 +156,8 @@ class Move
     # @log.debug("msg:#{msg}")
     mif = @tkd.mif
     mmgr = MailManager.new
-    mmgr.send_mailex(mif.playerb.email, subject, msg, kifufile)
-    mmgr.send_mailex(mif.playerw.email, subject, msg, kifufile)
+    mmgr.send_mailex_withfooter(mif.playerb.email, subject, msg, kifufile)
+    mmgr.send_mailex_withfooter(mif.playerw.email, subject, msg, kifufile)
   end
 
   # 指されましたメールの本文の生成
@@ -180,7 +179,6 @@ class Move
     msg += "---- messages in chat ----\n#{chat.stripped_msg}"
     msg += "---- messages in chat ----\n\n"
 
-    msg += MailManager.footer
     msg
   end
 
@@ -196,7 +194,7 @@ class Move
     msg = build_nextturnmsg(opp[:name], nowstr)
 
     mmgr = MailManager.new
-    mmgr.send_mail(opp[:mail], subject, msg)
+    mmgr.send_mail_withfooter(opp[:mail], subject, msg)
   end
 
   # メールの送信

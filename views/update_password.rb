@@ -50,13 +50,12 @@ class UpdatePasswordScreen
       E-mail address: #{addr}
 
     MAIL_MSG
-    msg += MailManager.footer
 
     stg = Settings.instance
     subject = "Updating password for #{stg.value['title']}!"
 
     mailmgr = MailManager.new
-    mailmgr.send_mail(addr, subject, msg)
+    mailmgr.send_mail_withfooter(addr, subject, msg)
   end
 
   # paramsから値を取り出す。

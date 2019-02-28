@@ -69,21 +69,6 @@ class EntranceScreen
     TEST_AREA
   end
 
-  # 訪問回数の表示
-  #
-  # @param userinfo ユーザ情報
-  def show_visitcount(userinfo)
-    if userinfo.invalid?
-      print '<HR><div align=center>どなたか存じ上げませんが' \
-      "#{userinfo.visitcount}回目の訪問ですね。</div><HR>\n" \
-      '<input type=hidden id=isloggedin value=0/>'
-    else
-      print "<HR><div align=center>#{userinfo.user_name}さん" \
-      "#{userinfo.visitcount}回目の訪問ですね。</div><HR>\n" \
-      '<input type=hidden id=isloggedin value=1/>'
-    end
-  end
-
   #
   # 入り口画面の表示
   #
@@ -98,7 +83,7 @@ class EntranceScreen
     # LOGO
     show_logo
 
-    show_visitcount(userinfo)
+    userinfo.put_visitcount
 
     # test
     # test_area

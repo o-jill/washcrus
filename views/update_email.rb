@@ -46,13 +46,12 @@ class UpdateEmailScreen
       E-mail address: #{addr}
 
     MAIL_MSG
-    msg += MailManager.footer
 
     stg = Settings.instance
     subject = "Updating e-mail address for #{stg.value['title']}!"
 
     mailmgr = MailManager.new
-    mailmgr.send_mail(addr, subject, msg)
+    mailmgr.send_mail_withfooter(addr, subject, msg)
   end
 
   # メールアドレスの読み取り
