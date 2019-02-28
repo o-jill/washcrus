@@ -47,6 +47,15 @@ function check_email(id_email, id_ply, id_eml)
   return ret;
 }
 
+function puterr_or_submit(ng, form, eid, msg)
+{
+  if (ng === 0) {
+    document.forms[form].submit();
+  } else {
+    document.getElementById(eid).innerText = msg;
+  }
+}
+
 function check_form()
 {
   var nmismatch = 0;
@@ -70,11 +79,7 @@ function check_form()
     ++nmismatch;
   }
 
-  if (nmismatch === 0) {
-    document.forms['gennewgame'].submit();
-  } else {
-    document.getElementById('errmsg').innerText = alertmsg;
-  }
+  puterr_or_submit(nmismatch, 'gennewgame', 'errmsg', alertmsg);
 }
 
 function precheck_result(status, resp)
@@ -126,23 +131,28 @@ function pre_check() {
   };
 }
 
-function lets_furigoma() {
+function init_furigoma(sub)
+{
   var koma, id;
   for (var i = 1; i <= 5; ++i) {
-    id = 'furikomanim'+i;
+    id = 'furikomanim' + sub + i;
     koma = document.getElementById(id);
     koma.style.display = 'inline';
-    id = 'furikomafu'+i;
+    id = 'furikomafu' + sub + i;
     koma = document.getElementById(id);
     koma.style.display = 'none';
-    id = 'furikomato'+i;
+    id = 'furikomato' + sub + i;
     koma = document.getElementById(id);
     koma.style.display = 'none';
   }
+}
+
+function lets_furigoma() {
+  init_furigoma('')
 
   var btn = document.getElementById('btnfurigoma')
   btn.disabled = true;
-  koma = document.getElementById('furigoma');
+  var koma = document.getElementById('furigoma');
   koma.value = "";
   setTimeout(function() {
     ontimer_furigoma()
@@ -213,30 +223,15 @@ function check_form2()
     ++nmismatch;
   }
 
-  if (nmismatch === 0) {
-    document.forms['gennewgame2'].submit();
-  } else {
-    document.getElementById('errmsg2').innerText = alertmsg;
-  }
+  puterr_or_submit(nmismatch, 'gennewgame2', 'errmsg2', alertmsg);
 }
 
 function lets_furigoma2() {
-  var koma, id;
-  for (var i = 1; i <= 5; ++i) {
-    id = 'furikomanim2'+i;
-    koma = document.getElementById(id);
-    koma.style.display = 'inline';
-    id = 'furikomafu2'+i;
-    koma = document.getElementById(id);
-    koma.style.display = 'none';
-    id = 'furikomato2'+i;
-    koma = document.getElementById(id);
-    koma.style.display = 'none';
-  }
+  init_furigoma('2')
 
   var btn = document.getElementById('btnfurigoma2');
   btn.disabled = true;
-  koma = document.getElementById('furigoma2');
+  var koma = document.getElementById('furigoma2');
   koma.value = "";
   setTimeout(function() {
     ontimer_furigoma2()
