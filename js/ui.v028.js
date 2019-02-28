@@ -1020,13 +1020,10 @@ var sfenkoma = function(dan, ndan) {
   var nsuji = 8;
   for (var j = 0; j < len; ++j) {
     var ch = dan.charAt(j);
-    if (/[PLNSGBRK]/.test(ch)) {
-      result = sfenkoma_piece(ch, result, Koma.SENTEBAN, nsuji, ndan, nari);
-      nari = 0;
-      --nsuji;
-    } else if (/[plnsgbrk]/.test(ch)) {
-      ch = ch.toUpperCase();
-      result = sfenkoma_piece(ch, result, Koma.GOTEBAN, nsuji, ndan, nari);
+    if (/[PLNSGBRKplnsgbrk]/.test(ch)) {
+      kind = ch.toUpperCase();
+      teban = (kind == ch) ? Koma.SENTEBAN : Koma.GOTEBAN;
+      result = sfenkoma_piece(ch, result, teban, nsuji, ndan, nari);
       nari = 0;
       --nsuji;
     } else if (ch === '+') {
