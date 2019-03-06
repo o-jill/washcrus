@@ -226,7 +226,7 @@ class BrowserTest < BrowserTestAbstract
     updateemail_mypage(SIGNUPINFOJOHN[:remail], 'joooooohn@example.com')
     res.checkmatch(/e-mail addresses are not same/)
 
-    updateemail_mypage(SIGNUPINFOJOHN[:remail], 'johndoe1_example.com')
+    updateemail_mypage('johndoe1_example.com', 'johndoe1_example.com')
     res.checkmatch(/the e-mail address does not have "@"/)
 
     updateemail_mypage(ADMININFO[:email], ADMININFO[:email])
