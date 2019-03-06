@@ -154,7 +154,7 @@ class BrowserTest < BrowserTestAbstract
     rpassword2: 'john'
   }.freeze
 
-  NEWJOHNINFO = { email: 'johndoe1_example.com', pwd: 'doee' }.freeze
+  NEWJOHNINFO = { email: 'johndoe1@example.com', pwd: 'doee' }.freeze
 
   def updatepwd_mypage(opwd, npwd1, npwd2)
     simplecheck 'index.rb?mypage'
@@ -225,6 +225,9 @@ class BrowserTest < BrowserTestAbstract
   def checkupdateemail_fail
     updateemail_mypage(SIGNUPINFOJOHN[:remail], 'joooooohn@example.com')
     res.checkmatch(/e-mail addresses are not same/)
+
+    updateemail_mypage(SIGNUPINFOJOHN[:remail], 'johndoe1_example.com')
+    res.checkmatch(/the e-mail address does not have "@"/)
 
     updateemail_mypage(ADMININFO[:email], ADMININFO[:email])
     res.checkmatch(/e-mail address is already registered/)
