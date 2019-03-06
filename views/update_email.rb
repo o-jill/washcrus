@@ -97,6 +97,8 @@ class UpdateEmailScreen
       if @newem1 != @newem2
     return '<span class="err">the e-mail address is too short!</span>' \
       if @newem1.length < 4
+    return '<span class="err">the e-mail address does not have "@"!</span>' \
+      if /.@.+\../ !~ @newem1
 
     uid = userinfo.user_id
 
