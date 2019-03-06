@@ -104,6 +104,17 @@ class BrowserTest < BrowserTestAbstract
     lounge_cancel
   end
 
+  def lounge_say
+    simplecheck 'index.rb?lounge'
+
+    elem = driver.find_element(:id, 'chatmsg')
+    elem.send_keys 'hello on lounge chat!!'
+    elem = driver.find_element(:id, 'chatbtn')
+    elem.click
+    sleep 1
+    simplecheckmatch('chat.rb?lounge', /hello on lounge chat!!/)
+  end
+
   ADMININFO = {
     email: 'admin1@example.com',
     pwd: 'admin'
@@ -120,6 +131,8 @@ class BrowserTest < BrowserTestAbstract
     simpleadmincheckgroup
 
     simplecheckmatch('chat.rb?lounge', /lounge chat/)
+
+    lounge_say
 
     simplecheck 'index.rb?logout'
 
