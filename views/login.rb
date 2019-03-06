@@ -20,7 +20,7 @@ class LoginScreen
     print <<-TABLE_FORM.unindent
       <FORM action='index.rb?logincheck' method=post name='signin'>
       <TABLE align='center' class='inpform'>
-      <CAPTION>Log in</CAPTIOIN>
+      <CAPTION>Log in</CAPTION>
       <TR id='siemail'>
        <TD>e-mail</TD>
        <TD><INPUT name='siemail' id='siemail' type='email' size='20' class='inpform' required></TD>
