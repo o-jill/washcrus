@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
 
-require 'bundler/setup'
+require 'bundler/setup' if $PROGRAM_NAME == __FILE__
 
 require 'cgi'
 require 'cgi/session'
@@ -194,6 +194,7 @@ class WashCrus
   end
 
   def cmdtofunc(cmd)
+    cmd ||= 'entrance'
     if methods(true).include?(cmd.to_sym)
       func = method(cmd.to_sym)
       func.call
@@ -227,21 +228,20 @@ end
 # -----------------------------------
 #   main
 #
-
-begin
-  cgi = CGI.new
-  washcrus = WashCrus.new(cgi)
-  washcrus.perform
-rescue StandardError => err
-  puts <<-ERRMSG.unindent
-    Content-Type: text/html; charset=UTF-8
-
-    <html>
-    <title>ERROR Washcrus</title>
-    <body>
+if $PROGRAM_NAME == __FILE__
+  begin
+    cgi = CGI.new
+    washcrus = WashCrus.new(cgi)
+    washcrus.perform
+  rescue StandardError => err
+    puts "Content-Type: text/html; charset=UTF-8\n\n"
+    puts <<-ERRMSG.unindent
+      <html><title>ERROR Washcrus</title><body><pre>
       ERROR:#{err}
-    </body></html>
-  ERRMSG
+      STACK:#{err.backtrace.join("\n")}
+      </pre></body></html>
+    ERRMSG
+  end
 end
 # -----------------------------------
 #   testing
