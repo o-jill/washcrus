@@ -1021,9 +1021,9 @@ var sfenkoma = function(dan, ndan) {
   for (var j = 0; j < len; ++j) {
     var ch = dan.charAt(j);
     if (/[PLNSGBRKplnsgbrk]/.test(ch)) {
-      kind = ch.toUpperCase();
-      teban = (kind == ch) ? Koma.SENTEBAN : Koma.GOTEBAN;
-      result = sfenkoma_piece(ch, result, teban, nsuji, ndan, nari);
+      var kind = ch.toUpperCase();
+      var teban = (kind == ch) ? Koma.SENTEBAN : Koma.GOTEBAN;
+      result = sfenkoma_piece(kind, result, teban, nsuji, ndan, nari);
       nari = 0;
       --nsuji;
     } else if (ch === '+') {
