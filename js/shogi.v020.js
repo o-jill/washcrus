@@ -485,9 +485,11 @@ Koma.prototype.checkMovable = function(oy) {
   return true;
 };
 
-Koma.prototype.getStraightMovable = function (list, ax, ay, ox, oy) {
+Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
   var x = ox;
   var y = oy;
+  var ax = axy.x;
+  var ay = axy.y;
   if (this.teban === Koma.SENTEBAN) {
     ay = -ay;
   }
@@ -500,28 +502,19 @@ Koma.prototype.getStraightMovable = function (list, ax, ay, ox, oy) {
     list.push([x, y]);
     if (teban !== Koma.AKI) break;
   }
-  // for ( ; ; ) {
-  //   x += ax;
-  //   y += ay;
-  //   if (x < 0 || x > 8) break;
-  //   if (y < 0 || y > 8) break;
-  //   var teban = ban[x][y].koma.teban;
-  //   if (teban === this.teban) break;
-  //   list.push([x, y]);
-  //   if (teban !== Koma.AKI) break;
-  // }
+
   return list;
 };
 
-Koma.prototype.getCloseMovable = function (list, ax, ay, ox, oy) {
+Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
   var x, y;
-  x = ox + ax;
+  x = ox + axy.x;
   if (x < 0 || x > 8) return list;
 
   if (this.teban === Koma.SENTEBAN) {
-    y = oy - ay;
+    y = oy - axy.y;
   } else {
-    y = oy + ay;
+    y = oy + axy.y;
   }
   if (y < 0 || y > 8) return list;
 
@@ -545,13 +538,15 @@ Koma.prototype.getMovable = function(ox, oy) {
   var movablemasulist = this.movable();
   var sz = movablemasulist.length;
   for (var idx = 0; idx < sz; ++idx) {
-    var ax = movablemasulist[idx][0];
-    var ay = movablemasulist[idx][1];
+    var axy = {
+      x: movablemasulist[idx][0],
+      y: movablemasulist[idx][1]
+    };
     var straight = movablemasulist[idx][2];
     if (straight) {
-      list = this.getStraightMovable(list, ax, ay, ox, oy);
+      list = this.getStraightMovable(list, axy, ox, oy);
     } else {
-      list = this.getCloseMovable(list, ax, ay, ox, oy);
+      list = this.getCloseMovable(list, axy, ox, oy);
     }
   }
   return list;
