@@ -127,7 +127,7 @@ class ByouyomiChan
       mif = tkd.mif
       return if mif.finished
 
-      puts "id:#{id}"
+      puts "id:#{gid}"
       tmkp = TimeKeeper.new
 
       tkd.tick(tmkp)
@@ -157,6 +157,6 @@ if $PROGRAM_NAME == __FILE__
     bc = ByouyomiChan.new
     bc.perform
   rescue StandardError => e
-    puts e
+    puts "error:#{e}\nstack:#{e.backtrace.join("\n")}"
   end
 end
