@@ -903,14 +903,7 @@ Fu.prototype.getUchable = function() {
     if (this.check2FU(i, starty, endy)) {
       continue;
     }
-    /* push pos if aki. */
-    list = list.concat(
-      this.retpos(i, starty, endy));
-    // for (var j = starty; j < endy; ++j) {
-    //   if (ban[i][j].koma.teban === Koma.AKI) {
-    //     list.push([i, j]);
-    //   }
-    // }
+    list = list.concat(this.retpos(i, starty, endy));
   }
   return list;
 };
