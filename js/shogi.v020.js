@@ -492,16 +492,24 @@ Koma.prototype.getStraightMovable = function (list, ax, ay, ox, oy) {
     ay = -ay;
   }
 
-  for ( ; ; ) {
-    x += ax;
-    y += ay;
-    if (x < 0 || x > 8) break;
-    if (y < 0 || y > 8) break;
+  x += ax;
+  y += ay;
+  for ( ; 0 <= x && 8 >= x && 0 <= y && 8 >= y ; x += ax, y += ay) {
     var teban = ban[x][y].koma.teban;
     if (teban === this.teban) break;
     list.push([x, y]);
     if (teban !== Koma.AKI) break;
   }
+  // for ( ; ; ) {
+  //   x += ax;
+  //   y += ay;
+  //   if (x < 0 || x > 8) break;
+  //   if (y < 0 || y > 8) break;
+  //   var teban = ban[x][y].koma.teban;
+  //   if (teban === this.teban) break;
+  //   list.push([x, y]);
+  //   if (teban !== Koma.AKI) break;
+  // }
   return list;
 };
 
@@ -863,6 +871,16 @@ function Fu(teban, x, y) {
   this.id = Koma.FuID;
 }
 
+Fu.prototype.retpos = function (x, starty, endy) {
+  var list = [];
+  for (var y = starty; y < endy; ++y) {
+    if (ban[x][y].koma.teban === Koma.AKI) {
+      list.push([x, y]);
+    }
+  }
+  return list;
+};
+
 /**
  * 打てるマスのリストを返す。(二歩対策)
  *
@@ -871,23 +889,28 @@ function Fu(teban, x, y) {
  * @return {Array} 打てるマスのリスト
  */
 Fu.prototype.getUchable = function() {
-  var starty = 0;
-  var endy = 9;
-  if (this.teban === Koma.SENTEBAN) {
-    starty = 1;
-  } else {
-    endy = 8;
-  }
+  var ypostbl = [
+    {},
+    {start: 1, end: 9},
+    {start: 0, end: 8},
+  ];
+  var ypos = ypostbl[this.teban];
+  var starty = ypos.start;
+  var endy = ypos.end;
+
   var list = [];
   for (var i = 0; i < 9; ++i) {
     if (this.check2FU(i, starty, endy)) {
       continue;
     }
-    for (var j = starty; j < endy; ++j) {
-      if (ban[i][j].koma.teban === Koma.AKI) {
-        list.push([i, j]);
-      }
-    }
+    /* push pos if aki. */
+    list = list.concat(
+      this.retpos(i, starty, endy));
+    // for (var j = starty; j < endy; ++j) {
+    //   if (ban[i][j].koma.teban === Koma.AKI) {
+    //     list.push([i, j]);
+    //   }
+    // }
   }
   return list;
 };
