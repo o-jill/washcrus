@@ -1,6 +1,6 @@
 <%# -*- coding: utf-8 -*- %>
 <label>
- <input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'<%= ' checked' if @mif.playerw.id == @userinfo.user_id %> >ひふみんアイ</input>
+ <input type='checkbox' id='hifumineye' onclick='check_hifumin_eye();'<%= ' checked' if @mif.playerw.id == @userinfo.user_id %> />ひふみんアイ
 </label>
 <span style='display:none;' id='sfen_'><%= @mif.sfen %></span>
 <input type='hidden' id='lastmove' value='<%= @mif.lastmove %>'/>
