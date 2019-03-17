@@ -977,14 +977,15 @@ Kyosha.prototype.checkMovable = function(oy) {
  * @return {Array} 打てるマスのリスト
  */
 Kyosha.prototype.getUchable = function() {
-  var starty, endy;
-  if (this.teban === Koma.SENTEBAN) {
-    starty = 1;
-    endy = 9;
-  } else {
-    starty = 0;
-    endy = 8;
-  }
+  var ypostbl = [
+    {},
+    {start: 1, end: 9},
+    {start: 0, end: 8},
+  ];
+  var ypos = ypostbl[this.teban];
+  var starty = ypos.start;
+  var endy = ypos.end;
+
   return this.getUchableGeneral(starty, endy);
 };
 
@@ -1026,14 +1027,15 @@ Keima.prototype.checkMovable = function(oy) {
  * @return {Array} 打てるマスのリスト
  */
 Keima.prototype.getUchable = function() {
-  var starty, endy;
-  if (this.teban === Koma.SENTEBAN) {
-    starty = 2;
-    endy = 9;
-  } else {
-    starty = 0;
-    endy = 7;
-  }
+  var ypostbl = [
+    {},
+    {start: 2, end: 9},
+    {start: 0, end: 7},
+  ];
+  var ypos = ypostbl[this.teban];
+  var starty = ypos.start;
+  var endy = ypos.end;
+
   return this.getUchableGeneral(starty, endy);
 };
 
