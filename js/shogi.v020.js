@@ -272,67 +272,67 @@ Koma.NKakuStrLong = '竜馬';
 Koma.NHishaStrLong = '竜王';
 // Koma.NGyokuStrLong = '王';
 
-Koma.StrTable = {
+Koma.InitStrTable = {
   fu: {
     long: {narazu: Koma.FuStrLong, nari: Koma.NFuStrLong},
     kif: {narazu: Koma.FuStrKIF, nari: Koma.NFuStrKIF},
-
+    kifu: {narazu: Koma.FuStrKIF, nari: Koma.NFuStrKIF},
     csa: {narazu: Koma.FuStr, nari: Koma.NFuStr},
     img: {narazu: Koma.FuStrIMG, nari: Koma.NFuStrIMG}
   },
   kyosha: {
     long: {narazu: Koma.KyoshaStrLong, nari: Koma.NKyoshaStrLong},
     kif: {narazu: Koma.KyoshaStrKIF, nari: Koma.NKyoshaStrKIF},
-
+    kifu: {narazu: Koma.KyoshaStrKIF, nari: Koma.NKyoshaStrKIF},
     csa: {narazu: Koma.KyoshaStr, nari: Koma.NKyoshaStr},
     img: {narazu: Koma.KyoshaStrIMG, nari: Koma.NKyoshaStrIMG}
   },
   keima: {
     long: {narazu: Koma.KeimaStrLong, nari: Koma.NKeimaStrLong},
     kif: {narazu: Koma.KeimaStrKIF, nari: Koma.NKeimaStrKIF},
-
+    kifu: {narazu: Koma.KeimaStrKIF, nari: Koma.NKeimaStrKIF},
     csa: {narazu: Koma.KeimaStr, nari: Koma.NKeimaStr},
     img: {narazu: Koma.KeimaStrIMG, nari: Koma.NKeimaStrIMG}
   },
   gin: {
     long: {narazu: Koma.GinStrLong, nari: Koma.NGinStrLong},
     kif: {narazu: Koma.GinStrKIF, nari: Koma.NGinStrKIF},
-
+    kifu: {narazu: Koma.GinStrKIF, nari: Koma.NGinStrKIF},
     csa: {narazu: Koma.GinStr, nari: Koma.NGinStr},
     img: {narazu: Koma.GinStrIMG, nari: Koma.NGinStrIMG}
   },
   kin: {
     long: {narazu: Koma.KinStrLong, nari: Koma.KinStrLong},
     kif: {narazu: Koma.KinStrKIF, nari: Koma.KinStrKIF},
-
+    kifu: {narazu: Koma.KinStrKIF, nari: Koma.KinStrKIF},
     csa: {narazu: Koma.KinStr, nari: Koma.KinStr},
     img: {narazu: Koma.KinStrIMG, nari: Koma.KinStrIMG}
   },
   kaku: {
     long: {narazu: Koma.KakuStrLong, nari: Koma.NKakuStrLong},
     kif: {narazu: Koma.KakuStrKIF, nari: Koma.NKakuStrKIF},
-
+    kifu: {narazu: Koma.KakuStrKIF, nari: Koma.NKakuStrKIF},
     csa: {narazu: Koma.KakuStr, nari: Koma.NKakuStr},
     img: {narazu: Koma.KakuStrIMG, nari: Koma.NKakuStrIMG}
   },
   hisha: {
     long: {narazu: Koma.HishaStrLong, nari: Koma.NHishaStrLong},
     kif: {narazu: Koma.HishaStrKIF, nari: Koma.NHishaStrKIF},
-
+    kifu: {narazu: Koma.HishaStrKIF, nari: Koma.NHishaStrKIF},
     csa: {narazu: Koma.HishaStr, nari: Koma.NHishaStr},
     img: {narazu: Koma.HishaStrIMG, nari: Koma.NHishaStrIMG}
   },
   gyoku: {
     long: {narazu: Koma.GyokuStrLong, nari: Koma.GyokuStrLong},
     kif: {narazu: Koma.GyokuStrKIF, nari: Koma.GyokuStrKIF},
-
+    kifu: {narazu: Koma.GyokuStrKIF, nari: Koma.GyokuStrKIF},
     csa: {narazu: Koma.GyokuStr, nari: Koma.GyokuStr},
     img: {narazu: Koma.GyokuStrIMG, nari: Koma.GyokuStrIMG}
   },
   ou: {
     long: {narazu: Koma.OuStrLong, nari: Koma.OuStrLong},
     kif: {narazu: Koma.GyokuStrKIF, nari: Koma.GyokuStrKIF},
-
+    kifu: {narazu: Koma.GyokuStrKIF, nari: Koma.GyokuStrKIF},
     csa: {narazu: Koma.GyokuStr, nari: Koma.GyokuStr},
     img: {narazu: Koma.GyokuStrIMG, nari: Koma.GyokuStrIMG}
   }
@@ -886,17 +886,14 @@ Koma.prototype.movemsg = function(tox, toy)
   }
 }
 
-Koma.prototype.InitStr = function(abcd, e,f)
+Koma.prototype.InitStr = function(abcd)
 {
-  // this.InitStr(Koma.FuStrLong, Koma.NFuStrLong, Koma.FuStrKIF, Koma.NFuStrKIF,
-  //   Koma.FuStrKIF, Koma.NFuStrKIF, Koma.FuStr, Koma.NFuStr,
-  //   Koma.FuStrIMG, Koma.NFuStrIMG);
   this.strtype = abcd.long.narazu;
   this.strntype = abcd.long.nari;
   this.strtypeKIF = abcd.kif.narazu;
   this.strntypeKIF = abcd.kif.nari;
-  this.strtypeKIFU = e;
-  this.strntypeKIFU = f;
+  this.strtypeKIFU = abcd.kifu.narazu;
+  this.strntypeKIFU = abcd.kifu.nari;
   this.strtypeCSA = abcd.csa.narazu;
   this.strntypeCSA = abcd.csa.nari;
   this.strtypeIMG = abcd.img.narazu;
@@ -928,7 +925,7 @@ Fu.prototype = new Koma();
 function Fu(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.StrTable.fu, Koma.FuStrKIF, Koma.NFuStrKIF);
+  this.InitStr(Koma.InitStrTable.fu);
   this.InitMovable(Koma.FuMovable, Koma.KinMovable);
   this.id = Koma.FuID;
 }
@@ -1015,7 +1012,7 @@ Kyosha.prototype = new Koma();
 function Kyosha(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.StrTable.kyosha, Koma.KyoshaStrKIF, Koma.NKyoshaStrKIF);
+  this.InitStr(Koma.InitStrTable.kyosha);
   this.InitMovable(Koma.KyoshaMovable, Koma.KinMovable);
   this.id = Koma.KyoshaID;
 }
@@ -1063,7 +1060,7 @@ Keima.prototype = new Koma();
 function Keima(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.StrTable.keima, Koma.KeimaStrKIF, Koma.NKeimaStrKIF);
+  this.InitStr(Koma.InitStrTable.keima);
   this.InitMovable(Koma.KeimaMovable, Koma.KinMovable);
   this.id = Koma.KeimaID;
 }
@@ -1111,7 +1108,7 @@ Gin.prototype = new Koma();
 function Gin(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.StrTable.gin, Koma.GinStrKIF, Koma.NGinStrKIF);
+  this.InitStr(Koma.InitStrTable.gin);
   this.InitMovable(Koma.GinMovable, Koma.KinMovable);
   this.id = Koma.GinID;
 }
@@ -1130,7 +1127,7 @@ Kin.prototype = new Koma();
 function Kin(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.StrTable.kin, Koma.KinStrKIF, Koma.KinStrKIF);
+  this.InitStr(Koma.InitStrTable.kin);
   this.InitMovable(Koma.KinMovable, Koma.KinMovable);
   this.id = Koma.KinID;
 }
@@ -1161,7 +1158,7 @@ Kaku.prototype = new Koma();
 function Kaku(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.StrTable.kaku, Koma.KakuStrKIF, Koma.NKakuStrKIF);
+  this.InitStr(Koma.InitStrTable.kaku);
   this.InitMovable(Koma.KakuMovable, Koma.UmaMovable);
   this.id = Koma.KakuID;
 }
@@ -1180,7 +1177,7 @@ Hisha.prototype = new Koma();
 function Hisha(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.StrTable.hisha, Koma.HishaStrKIF, Koma.NHishaStrKIF);
+  this.InitStr(Koma.InitStrTable.hisha);
   this.InitMovable(Koma.HishaMovable, Koma.RyuMovable);
   this.id = Koma.HishaID;
 }
@@ -1201,8 +1198,7 @@ function Gyoku(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(
-    (teban === Koma.SENTEBAN) ? Koma.StrTable.gyoku : Koma.StrTable.ou,
-    Koma.GyokuStrKIF, Koma.GyokuStrKIF);
+    (teban === Koma.SENTEBAN) ? Koma.InitStrTable.gyoku : Koma.InitStrTable.ou);
   this.InitMovable(Koma.GyokuMovable, Koma.GyokuMovable);
   this.id = Koma.GyokuID;
 }
