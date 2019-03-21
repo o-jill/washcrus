@@ -194,6 +194,14 @@ class BrowserTest < BrowserTestAbstract
     res.checkmatch(/new passwords are not same/)
   end
 
+  def restorepwd
+    updatepwd_mypage(
+      NEWJOHNINFO[:pwd],
+      SIGNUPINFOJOHN[:rpassword],
+      SIGNUPINFOJOHN[:rpassword]
+    )
+  end
+
   def checkupdatepwd
     chkupdatepwd_succ
     chkupdatepwd_fail
@@ -254,9 +262,19 @@ class BrowserTest < BrowserTestAbstract
 
     simplecheck 'index.rb?lounge'
     lounge_gengame
+    elem = driver.find_element(:tag_name, 'big')
+    elem.click
+    sleep 5
     matchmailsbjlast(/a game is ready!! \(.+ vs .+\)/)
 
     adminerrorcheckgroup
+
+    updatepwd_mypage(
+      NEWJOHNINFO[:pwd],
+      SIGNUPINFOJOHN[:rpassword],
+      SIGNUPINFOJOHN[:rpassword]
+    )
+    updateemail_mypage(SIGNUPINFOJOHN[:remail], SIGNUPINFOJOHN[:remail])
 
     simplecheck 'index.rb?logout'
   end
