@@ -70,7 +70,7 @@ class BrowserTest < BrowserTestAbstract
   def simpleaccess
     simplecheck 'index.rb'
     simplecheck 'index.rb?news'
-    simplecheck 'index.rb?signup'
+    # simplecheck 'index.rb?signup'
 
     simplecheckmatch('move.rb', /illegal access/)
 
