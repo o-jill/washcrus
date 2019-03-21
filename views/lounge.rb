@@ -67,8 +67,10 @@ class LoungeScreen
       <script type='text/javascript' src='./js/lounge.js'></script>
       <style>
       input.bigradio {
-        width: 2em;
-        height: 2em;
+        transform: scale(2);
+        margin: 10px 10px;
+        /* width: 2em; */
+        /* height: 2em; */
       }
       </style>
       <div align='center'>
