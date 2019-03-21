@@ -237,7 +237,7 @@ class TaikyokuReqFile
       else
         puts <<-CONTENT.unindent
           <label>
-           <input type="radio" name="opponent" value="#{id}" onclick='onclick_radiobtn(event)'>#{name}
+           <input type="radio" name="opponent" value="#{id}" onclick='onclick_radiobtn(event)' class='bigradio'>#{name}
           </label>
         CONTENT
       end

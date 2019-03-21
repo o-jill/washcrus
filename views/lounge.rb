@@ -65,6 +65,12 @@ class LoungeScreen
 
     puts <<-TAIKYOKU_LOUNGE.unindent
       <script type='text/javascript' src='./js/lounge.js'></script>
+      <style>
+      input.bigradio {
+        width: 2em;
+        height: 2em;
+      }
+      </style>
       <div align='center'>
        <div class='btn_filing_lounge'>
         <form action='#{scriptname}?gennewgame3' method='post' name='gennewgame'>
