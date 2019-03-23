@@ -142,16 +142,16 @@ Kifu.prototype.genKifu = function(koma, from_x, from_y, to_x, to_y, nari) {
     this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
     this.lastTe.str += ' ';
     this.lastTe.strs =
-      koma.kifuKIF(from_x, from_y, to_x, to_y,
-        this.lastTe.x, this.lastTe.y, nari);
+      koma.kifuKIF({x: from_x, y: from_y}, {x: to_x, y: to_y},
+        {x: this.lastTe.x, y: this.lastTe.y}, nari);
     this.lastTe.str += this.lastTe.strs;
     this.lastTe.str += '   ( 0:00/00:00:00)';
   } else if (this.mode === Kifu.Org) {
     this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
     this.lastTe.str += ' ';
     this.lastTe.strs =
-      koma.kifuKIFU(from_x, from_y, to_x, to_y,
-        this.lastTe.x, this.lastTe.y, nari);
+      koma.kifuKIFU({x: from_x, y: from_y}, {x: to_x, y: to_y},
+        {x: this.lastTe.x, y: this.lastTe.y}, nari);
     this.lastTe.str += this.lastTe.strs;
   } else {
     /* console.log('invalid mode@Kifu class!!(' + this.mode + ')'); */

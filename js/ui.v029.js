@@ -1028,8 +1028,7 @@ var sfenkoma_analyzer = function(sfk, ch, ndan) {
     sfk.nsuji -= n_aki;
   }
   return sfk;
-}
-
+};
 
 var sfenkoma = function(dan, ndan) {
   // var result = [];
@@ -1135,42 +1134,53 @@ function fromsfen(sfentext) {
   mykifu.NTeme = sfenitem[3] | 0;
 }
 
+function SFENGenBanText() {
+  this.dantext = '';
+  this.aki = 0;
+}
+
+SFENGenBanText.prototype.flushaki = function() {
+  if (this.aki > 0) {
+    this.dantext += this.aki;
+    this.aki = 0;
+  }
+}
+
+SFENGenBanText.prototype.analyze = function(koma) {
+  var komach = '';
+
+  if (koma.id < Koma.FuID) {
+    this.aki += 1;
+    return;
+  }
+
+  if (koma.nari === Koma.NARI) {
+    komach = '+';
+  }
+
+  komach += komatblbk.charAt(koma.id);
+
+  if (koma.teban === Koma.GOTEBAN) {
+    komach = komach.toLowerCase();
+  }
+
+  this.flushaki();
+
+  this.dantext += komach;
+};
+
 var sfen_genbantext_dan = function(shogiban, ndan) {
-  var dantext = '';
-  var aki = 0;
+  var sgbt = new SFENGenBanText();
 
   for (var j = 0; j < 9; ++j) {
-    var komach = '';
     var koma = shogiban[8-j][ndan].koma;
-
-    if (koma.id < Koma.FuID) {
-      ++aki;
-      continue;
-    }
-
-    if (koma.nari === Koma.NARI) {
-      komach = '+';
-    }
-
-    komach += komatblbk.charAt(koma.id);
-
-    if (koma.teban === Koma.GOTEBAN) {
-      komach = komach.toLowerCase();
-    }
-
-    if (aki > 0) {
-      dantext += aki;
-      aki = 0;
-    }
-    dantext += komach;
+    sgbt.analyze(koma)
   }
 
-  if (aki > 0) {
-    dantext += aki;
-  }
+  sgbt.flushaki();
 
-  return dantext;
-}
+  return sgbt.dantext;
+};
 
 var sfen_genbantext = function(shogiban) {
   var shogibantext = [];

@@ -763,7 +763,7 @@ Koma.prototype.kifuKIFU = function(fromxy, toxy, lastxy, nari) {
 
   var str = this.getTebanStr(Koma.SenteStrOrg, Koma.GoteStrOrg);
 
-  str += this.kifuDouNumKIF(toxy.x, toxy.y, lastxy.x, lastxy.y);
+  str += this.kifuDouNumKIF(toxy, lastxy);
 
   var komastr = this.strtypeKIF;
   if (this.nari === Koma.NARI) {
