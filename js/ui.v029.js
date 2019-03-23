@@ -996,21 +996,19 @@ var komatblw = 'plnsgbr';
 
 function sfenkoma_piece(sfk, ch, teban, ndan) {
   var nid = komatblbk.indexOf(ch);
-  if (nid >= 0) {
-    var koma = sfenkomabako[nid].clone();
+  if (nid < 0) return null;
 
-    koma.teban = teban;
-    koma.x = sfk.nsuji;
-    koma.y = ndan;
+  var koma = sfenkomabako[nid].clone();
 
-    if (sfk.nari !== 0) {
-      koma.nari = Koma.NARI;
-    }
+  koma.teban = teban;
+  koma.x = sfk.nsuji;
+  koma.y = ndan;
 
-    return koma;
+  if (sfk.nari !== 0) {
+    koma.nari = Koma.NARI;
   }
 
-  return null;
+  return koma;
 }
 
 var sfenkoma_analyzer = function(sfk, ch, ndan) {
