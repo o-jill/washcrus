@@ -370,6 +370,37 @@ Kifu.prototype.fromJSON = function(jsontext) {
   this.Honp = JSON.parse(jsontext);
 };
 
+Kifu.prototype.readLineCSA_dollar = function(text) {
+  if (text.startsWith('$EVENT:')) {
+    this.eventname = text.slice(7);
+  } else if (text.startsWith('$SITE:')) {
+    // 場所
+    this.sitename = text.slice(6);
+  } else if (text.startsWith('$START_TIME:')) {
+    // 開始時間
+    this.starttime = text.slice(12);
+  } else if (text.startsWith('$END_TIME:')) {
+    // 終了時間
+    this.endtime = text.slice(10);
+  } else if (text.startsWith('$TIME_LIMIT:')) {
+    // 持ち時間
+    this.timelimit = text.slice(12);
+  } else if (text.startsWith('$OPENING:')) {
+    // 戦型
+    this.opening = text.slice(9);
+  }
+};
+
+Kifu.prototype.readLineCSA_name = function(text) {
+  if (text.startsWith('N+')) {
+    // alert('先手：'+text);
+    this.sentename = text.slice(2);
+  } else {  // if (text.startsWith('N-')) {
+    // alert('後手：'+text);
+    this.gotename = text.slice(2);
+  }
+};
+
 /**
  * CSA形式の１行読み込み
  *
@@ -387,29 +418,10 @@ Kifu.prototype.readLineCSA = function(text) {
     }
     // 一手分の棋譜 [手番, fromx, fromy, tox, toy, nari, totta_id];
     this.Honp.push([teban, fromx, fromy, tox, toy, nari, totta_id]);
-  } else if (text.startsWith('N+')) {
-    // alert('先手：'+text);
-    this.sentename = text.slice(2);
-  } else if (text.startsWith('N-')) {
-    // alert('後手：'+text);
-    this.gotename = text.slice(2);
-  } else if (text.startsWith('$EVENT:')) {
-    this.eventname = text.slice(7);
-  } else if (text.startsWith('$SITE:')) {
-    // 場所
-    this.sitename = text.slice(6);
-  } else if (text.startsWith('$START_TIME:')) {
-    // 開始時間
-    this.starttime = text.slice(12);
-  } else if (text.startsWith('$END_TIME:')) {
-    // 終了時間
-    this.endtime = text.slice(10);
-  } else if (text.startsWith('$TIME_LIMIT:')) {
-    // 持ち時間
-    this.timelimit = text.slice(12);
-  } else if (text.startsWith('$OPENING:')) {
-    // 戦型
-    this.opening = text.slice(9);
+  } else if (/^N[+-]/) {
+    this.readLineCSA_name(text)
+  } else if (text.startsWith('$')) {
+    this.readLineCSA_dollar(text);
   } else if (text.startsWith('%')) {
     /*
     %TORYO           投了
@@ -866,6 +878,26 @@ function torimodosu(tegoma, koma_id, to_x, to_y) {
   k.y = to_y;
 }
 
+function checkOHTe_koma(gyoku, koma, i, j) {
+  if (koma.teban === Koma.AKI) {
+    return false;
+  }
+  if (koma.teban === gyoku.teban) {
+    return false;
+  }
+
+  var masulist = koma.getMovable(i, j);
+  // var masulist = koma.getMovable(koma.x, koma.y);
+  // var masulist = koma.getMovable();
+  for (var idx = 0; idx < masulist.length; ++idx) {
+  // for (var idx in masulist) {
+    if (masulist[idx][0] === gyoku.x && masulist[idx][1] === gyoku.y) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /**
  * 王手かどうか確認する
  *
@@ -877,22 +909,8 @@ function checkOHTe(gyoku) {
   for (var i = 0; i < 9; ++i) {
     for (var j = 0; j < 9; ++j) {
       var koma = ban[i][j].koma;
-      if (koma.teban === Koma.AKI) {
-        continue;
-      }
-      if (koma.teban === gyoku.teban) {
-        continue;
-      }
-
-      var masulist = koma.getMovable(i, j);
-      // var masulist = koma.getMovable(koma.x, koma.y);
-      // var masulist = koma.getMovable();
-      for (var idx = 0; idx < masulist.length; ++idx) {
-      // for (var idx in masulist) {
-        if (masulist[idx][0] === gyoku.x && masulist[idx][1] === gyoku.y) {
-          return true;
-        }
-      }
+      var ret = checkOHTe_koma(gyoku, koma, i, j);
+      if (ret) return true;
     }
   }
   return false;
