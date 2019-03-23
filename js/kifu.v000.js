@@ -512,29 +512,32 @@ Kifu.prototype.prev_te = function() {
   this.seek_te(this.NTeme - 1);
 };
 
-Kifu.prototype.seek_te_foward = function(idx) {
-  var te, masu, tegoma;
-  while (this.NTeme < idx) {
-    te = this.Honp[this.NTeme];
-    // [teban, fromx, fromy, tox, toy, nari, totta_id];
-
-    if (te[1] === -1) {
-      // 駒を打つ
-      if (te[0] === Koma.SENTEBAN) {
-        tegoma = sentegoma;
-        uchi2(tegoma, te[6], te[3], te[4]);
-      } else {
-        tegoma = gotegoma;
-        uchi2(tegoma, te[6], te[3], te[4]);
-      }
+Kifu.prototype.seek_te_foward_move = function(te) {
+  var masu, tegoma;
+  if (te[1] === -1) {
+    // 駒を打つ
+    if (te[0] === Koma.SENTEBAN) {
+      tegoma = sentegoma;
+      uchi2(tegoma, te[6], te[3], te[4]);
     } else {
-      if (te[6] > Koma.NoID) {
-        toru(te[3], te[4]);
-        this.totta_id = Koma.NoID;
-      }
-      masu = ban[te[1]][te[2]];
-      move2(masu, te[3], te[4], te[5]);  // 動かした駒を戻す
+      tegoma = gotegoma;
+      uchi2(tegoma, te[6], te[3], te[4]);
     }
+  } else {
+    if (te[6] > Koma.NoID) {
+      toru(te[3], te[4]);
+      this.totta_id = Koma.NoID;
+    }
+    masu = ban[te[1]][te[2]];
+    move2(masu, te[3], te[4], te[5]);  // 動かした駒を戻す
+  }
+}
+
+Kifu.prototype.seek_te_foward = function(idx) {
+  while (this.NTeme < idx) {
+    var te = this.Honp[this.NTeme];
+    // [teban, fromx, fromy, tox, toy, nari, totta_id];
+    this.seek_te_foward_move(te);
     this.NTeme++;
   }
 }
