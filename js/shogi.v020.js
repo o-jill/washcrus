@@ -621,22 +621,20 @@ Koma.prototype.getMovable = function(ox, oy) {
 /**
  * 王手になる指し手を抽出
  * @param  {Array} ohtelist 王手になる指し手リスト
- * @param  {Number} x       現在地
- * @param  {Number} y       現在地
- * @param  {Number} gx      玉の現在地
- * @param  {Number} gy      玉の現在地
+ * @param  {Number} xy      現在地
+ * @param  {Number} gxy     玉の現在地
  * @param  {Number} nari    成った手かどうか
  * @return {Array} 王手になる指し手リスト
  */
-Koma.prototype.pickup_ohte = function(ohtelist, x, y, gx, gy, nari) {
-  var list = this.getMovable(x, y);
+Koma.prototype.pickup_ohte = function(ohtelist, xy, gxy, nari) {
+  var list = this.getMovable(xy.x, xy.y);
   var sz = list.length;
   for (var i = 0; i < sz; ++i) {
     var xx = list[i][0];
     var yy = list[i][1];
     // 相手方の玉の位置に移動できるなら王手になる手
-    if (xx === gx && yy === gy) {
-      ohtelist.push([x, y, nari]);
+    if (xx === gxy.x && yy === gxy.y) {
+      ohtelist.push([xy.x, xy.y, nari]);
       return ohtelist;
     }
   }
@@ -703,30 +701,27 @@ Koma.prototype.kifuCSA = function(fromx, fromy, tox, toy) {
   return str;
 };
 
-Koma.prototype.kifuDouNumKIF = function(tox, toy, lastx, lasty) {
-  if (tox === lastx && toy === lasty) {
+Koma.prototype.kifuDouNumKIF = function(toxy, lastxy) {
+  if (toxy.x === lastxy.x && toxy.y === lastxy.y) {
     return Koma.DouStrKIF;
   } else {
-    return Koma.ZenkakuNum[tox] + Koma.KanjiNum[toy];
+    return Koma.ZenkakuNum[toxy.x] + Koma.KanjiNum[toxy.y];
   }
 };
 
 /**
  * KIF形式で１手を出力
  *
- * @param {Number} fromx 移動元の座標
- * @param {Number} fromy 移動元の座標
- * @param {Number} tox 移動先の座標
- * @param {Number} toy 移動先の座標
- * @param {Number} lastx 直前の手の移動先の座標
- * @param {Number} lasty 直前の手の移動先の座標
+ * @param {Number} fromxy 移動元の座標
+ * @param {Number} toxy 移動先の座標
+ * @param {Number} lastxy 直前の手の移動先の座標
  * @param {Number} nari 成ったかどうか
  *
  * @return {String} １手分の棋譜
  */
-Koma.prototype.kifuKIF = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
-  fromx++;
-  fromy++;
+Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
+  fromxy.x++;
+  fromxy.y++;
 
   var str = '';
   /* if (this.teban === Koma.SENTEBAN) {
@@ -734,22 +729,20 @@ Koma.prototype.kifuKIF = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
   } else if (this.teban === Koma.GOTEBAN) {
    str = Koma.GoteStrKIF;
   } */
-  str += this.kifuDouNumKIF(tox, toy, lastx, lasty);
+  str += this.kifuDouNumKIF(toxy, lastxy);
+  var komastr = this.strtypeKIF;
   if (this.nari === Koma.NARI) {
     if (nari === Koma.NARI) {
-      str += this.strtypeKIF;
-      str += Koma.NariStrKIF;
+      komastr += Koma.NariStrKIF;
     } else {
-      str += this.strntypeKIF;
+      komastr = this.strntypeKIF;
     }
-  } else {
-    str += this.strtypeKIF;
-    if (fromx === 0) {
-      str += Koma.UchiStrKIF;
-    }
+  } else if (fromx === 0) {
+    komastr += Koma.UchiStrKIF;
   }
-  if (fromx !== 0) {
-    str += '(' + fromx + '' + fromy + ')';
+  str += komastr;
+  if (fromxy.x !== 0) {
+    str += '(' + fromxy.x + '' + fromxy.y + ')';
   }
   return str;
 };
@@ -757,41 +750,37 @@ Koma.prototype.kifuKIF = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
 /**
  * 独自形式で１手を出力
  *
- * @param {Number} fromx 移動元の座標
- * @param {Number} fromy 移動元の座標
- * @param {Number} tox   移動先の座標
- * @param {Number} toy   移動先の座標
- * @param {Number} lastx 直前の手の移動先の座標
- * @param {Number} lasty 直前の手の移動先の座標
- * @param {Number} nari  成ったかどうか
+ * @param {Number} fromxy 移動元の座標
+ * @param {Number} toxy   移動先の座標
+ * @param {Number} lastxy 直前の手の移動先の座標
+ * @param {Number} nari   成ったかどうか
  *
  * @return {String} １手分の棋譜
  */
-Koma.prototype.kifuKIFU = function(fromx, fromy, tox, toy, lastx, lasty, nari) {
-  fromx++;
-  fromy++;
+Koma.prototype.kifuKIFU = function(fromxy, toxy, lastxy, nari) {
+  fromxy.x++;
+  fromxy.y++;
 
   var str = this.getTebanStr(Koma.SenteStrOrg, Koma.GoteStrOrg);
 
-  str += this.kifuDouNumKIF(tox, toy, lastx, lasty);
+  str += this.kifuDouNumKIF(toxy.x, toxy.y, lastxy.x, lastxy.y);
+
+  var komastr = this.strtypeKIF;
   if (this.nari === Koma.NARI) {
     if (nari === Koma.NARI) {
-      str += this.strtypeKIF;
-      str += Koma.NariStrKIF;
+      komastr += Koma.NariStrKIF;
     } else {
-      str += this.strntypeKIF;
+      komastr = this.strntypeKIF;
     }
   } else if (nari === Koma.NARERU) {
-    str += this.strtypeKIF;
-    str += Koma.FunariStr;
-  } else {
-    str += this.strtypeKIF;
-    if (fromx === 0) {
-      str += Koma.UchiStrKIF;
-    }
+    komastr += Koma.FunariStr;
+  } else if (fromxy.x === 0) {
+    komastr += Koma.UchiStrKIF;
   }
-  if (fromx !== 0) {
-    str += ' (' + fromx + '' + fromy + ')';
+  str += komastr;
+
+  if (fromxy.x !== 0) {
+    str += ' (' + fromxy.x + '' + fromxy.y + ')';
   }
   return str;
 };
