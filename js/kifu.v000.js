@@ -126,32 +126,28 @@ Kifu.prototype.toStringPadding = function(number, length, ch) {
  * １手分の棋譜を生成
  *
  * @param {Koma}   koma   駒
- * @param {Number} from_x 移動元
- * @param {Number} from_y 移動元
- * @param {Number} to_x   移動先
- * @param {Number} to_y   移動先
+ * @param {Number} fromxy 移動元
+ * @param {Number} toxy   移動先
  * @param {Number} nari   成ったかどうか
  *
  * @return {String} １手分の棋譜
  */
-Kifu.prototype.genKifu = function(koma, from_x, from_y, to_x, to_y, nari) {
+Kifu.prototype.genKifu = function(koma, fromxy, toxy, nari) {
   this.NTeme++;
   if (this.mode === Kifu.CSA) {
-    this.lastTe.str = koma.kifuCSA(from_x, from_y, to_x, to_y);
+    this.lastTe.str = koma.kifuCSA(fromxy.x, fromxy.y, toxy.x, toxy.y);
   } else if (this.mode === Kifu.KIF) {
     this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
     this.lastTe.str += ' ';
     this.lastTe.strs =
-      koma.kifuKIF({x: from_x, y: from_y}, {x: to_x, y: to_y},
-        {x: this.lastTe.x, y: this.lastTe.y}, nari);
+      koma.kifuKIF(fromxy, toxy, {x: this.lastTe.x, y: this.lastTe.y}, nari);
     this.lastTe.str += this.lastTe.strs;
     this.lastTe.str += '   ( 0:00/00:00:00)';
   } else if (this.mode === Kifu.Org) {
     this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
     this.lastTe.str += ' ';
     this.lastTe.strs =
-      koma.kifuKIFU({x: from_x, y: from_y}, {x: to_x, y: to_y},
-        {x: this.lastTe.x, y: this.lastTe.y}, nari);
+      koma.kifuKIFU(fromxy, toxy, {x: this.lastTe.x, y: this.lastTe.y}, nari);
     this.lastTe.str += this.lastTe.strs;
   } else {
     /* console.log('invalid mode@Kifu class!!(' + this.mode + ')'); */
@@ -161,7 +157,8 @@ Kifu.prototype.genKifu = function(koma, from_x, from_y, to_x, to_y, nari) {
   this.lastTe.y = to_y;
 
   // 一手分の棋譜を記憶 [手番, fromx, fromy, tox, toy, nari, id];
-  this.Sashita(koma.teban, from_x, from_y, to_x, to_y, nari, this.totta_id);
+  this.Sashita(koma.teban, fromxy.x, fromxy.y,
+    toxy.x, toxy.y, nari, this.totta_id);
   // this.Honp.push(
   //  [koma.teban, from_x, from_y, to_x, to_y, nari, this.totta_id]);
   this.totta_id = Koma.NoID;
@@ -611,14 +608,14 @@ var mykifu = new Kifu(Kifu.Org);
 // var mykifu = new Kifu(Kifu.KIF);
 // var mykifu = new Kifu(Kifu.CSA);
 
-function build_movecsa(koma, from_x, from_y, to_x, to_y, tottaid, nari) {
+function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
   var str = (koma.teban === Koma.SENTEBAN) ? Koma.SenteStrCSA : Koma.GoteStrCSA;
 
-  str += from_x + 1;
-  str += from_y + 1;
+  str += fromxy.x + 1;
+  str += fromxy.y + 1;
 
-  str += to_x + 1;
-  str += to_y + 1;
+  str += toxy.x + 1;
+  str += toxy.y + 1;
 
   if (nari === Koma.NARI || koma.nari !== Koma.NARI) {
     str += koma.strtypeCSA;
@@ -658,7 +655,7 @@ function move(koma, to_x, to_y, nari) {
 
   var tottaid = mykifu.totta_id;
 
-  mykifu.genKifu(koma, from_x, from_y, to_x, to_y, nari);
+  mykifu.genKifu(koma, {x: from_x, y: from_y}, {x: to_x, y: to_y}, nari);
   // console.log(mykifu.genKifu(masu.koma, from_x, from_y, to_x, to_y, nari));
   // console.log(masu.koma.CSA(from_x, from_y, to_x, to_y));
   // console.log(masu.koma.KIF(from_x, from_y, to_x, to_y, nari));
@@ -676,7 +673,8 @@ function move(koma, to_x, to_y, nari) {
     activeteban = Koma.SENTEBAN;
   }
 
-  movecsa = build_movecsa(koma, from_x, from_y, to_x, to_y, tottaid, nari);
+  movecsa = build_movecsa(koma,
+    {x: from_x, y: from_y}, {x: to_x, y: to_y}, tottaid, nari);
 }
 
 /**
@@ -748,7 +746,8 @@ function uchi(tegoma, koma, to_x, to_y) {
   // console.log(koma.CSA(-1, -1, to_x, to_y));
   // console.log(koma.KIF(-1, -1, to_x, to_y, Koma.Narazu));
   // console.log(mykifu.genKifu(koma, -1, -1, to_x, to_y, Koma.Narazu));
-  mykifu.genKifu(koma, -1, -1, to_x, to_y, Koma.Narazu, koma.id);
+  mykifu.genKifu(koma, {x: -1, y: -1},
+    {x: to_x, y: to_y}, Koma.Narazu, koma.id);
 
   var k = komadai_del(tegoma, koma.id);
 
@@ -845,7 +844,8 @@ function move2(koma, to_x, to_y, nari) {
   }
 
   var tottaid = mykifu.totta_id;
-  movecsa = build_movecsa(koma, from_x, from_y, to_x, to_y, tottaid, nari);
+  movecsa = build_movecsa(koma,
+    {x: from_x, y: from_y}, {x: to_x, y: to_y}, tottaid, nari);
 }
 
 /**
