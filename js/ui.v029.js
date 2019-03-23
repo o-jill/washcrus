@@ -994,49 +994,56 @@ var komatblbk = 'PLNSGBRK';
 // KING無しのSFEN用駒文字 後手
 var komatblw = 'plnsgbr';
 
-function sfenkoma_piece(ch, result, teban, nsuji, ndan, nari) {
+function sfenkoma_piece(sfk, ch, teban, ndan) {
   var nid = komatblbk.indexOf(ch);
   if (nid >= 0) {
     var koma = sfenkomabako[nid].clone();
 
     koma.teban = teban;
-    koma.x = nsuji;
+    koma.x = sfk.nsuji;
     koma.y = ndan;
 
-    if (nari !== 0) {
+    if (sfk.nari !== 0) {
       koma.nari = Koma.NARI;
     }
 
-    result.push(koma);
+    return koma;
   }
 
-  return result;
+  return null;
 }
 
+var sfenkoma_analyzer = function(sfk, ch, ndan) {
+  if (/[PLNSGBRKplnsgbrk]/.test(ch)) {
+    var kind = ch.toUpperCase();
+    var teban = (kind == ch) ? Koma.SENTEBAN : Koma.GOTEBAN;
+    sfk.result.push(sfenkoma_piece(sfk, kind, teban, ndan));
+    sfk.nari = 0;
+    sfk.nsuji -= 1;
+  } else if (ch === '+') {
+    sfk.nari = 1;
+  } else if (/[1-9]/.test(ch)) {
+    var n_aki = +ch;
+    sfk.nari = 0;
+    for (var i = 0; i < n_aki; ++i)
+      sfk.result.push(new Koma());
+    sfk.nsuji -= n_aki;
+  }
+  return sfk;
+}
+
+
 var sfenkoma = function(dan, ndan) {
-  var result = [];
+  // var result = [];
   var len = dan.length;
-  var nari = 0;
-  var nsuji = 8;
+  // var nari = 0;
+  // var nsuji = 8;
+  var sfk = { nari: 0, nsuji: 8, result: [] };
   for (var j = 0; j < len; ++j) {
     var ch = dan.charAt(j);
-    if (/[PLNSGBRKplnsgbrk]/.test(ch)) {
-      var kind = ch.toUpperCase();
-      var teban = (kind == ch) ? Koma.SENTEBAN : Koma.GOTEBAN;
-      result = sfenkoma_piece(kind, result, teban, nsuji, ndan, nari);
-      nari = 0;
-      --nsuji;
-    } else if (ch === '+') {
-      nari = 1;
-    } else if (/[1-9]/.test(ch)) {
-      var naki = +ch;
-      nari = 0;
-      for (var i = 0; i < naki; ++i)
-        result.push(new Koma());
-      nsuji -= naki;
-    }
+    sfk = sfenkoma_analyzer(sfk, ch, ndan);
   }
-  return result;
+  return sfk.result;
 };
 
 var sfentegoma = function(tegomastr) {
