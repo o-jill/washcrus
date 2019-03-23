@@ -1292,45 +1292,6 @@ function activateteban()
   }
 }
 
-function checkLatestMoveTmout()
-{
-  var elem_id = document.getElementById('gameid');
-  var gid = elem_id.value;
-
-  var ajax = new XMLHttpRequest();
-  if (ajax === null)
-    return;
-  // tsushinchu = true;
-  // activatefogscreen();
-  ajax.open('POST', 'getsfen.rb?' + gid, true);
-  ajax.overrideMimeType('text/plain; charset=UTF-8');
-  ajax.send('');
-  ajax.onreadystatechange = function() {
-    // tsushinchu = false;
-    // var msg = document.getElementById('msg_fogscreen');
-    switch (ajax.readyState) {
-    case 4:
-      var status = ajax.status;
-      if (status === 0) {  // XHR 通信失敗
-        //  msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
-        //   location.reload(true);
-        startUpdateTimer();
-      } else if ((200 <= status && status < 300) || status === 304) {
-        // XHR 通信成功, リクエスト成功
-        var resp = ajax.responseText
-        checkSfenResponse(resp);
-        // msg.innerHTML = '通信完了。\n自動的にリロードします。';
-        // location.reload(true);
-      } else {    // XHR 通信成功, リクエスト失敗
-        // msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
-        // location.reload(true);
-        startUpdateTimer();
-      }
-      break;
-    }
-  };
-}
-
 function checkSfenResponse(sfenstr)
 {
   if (sfenstr.match(/^ERROR:/)) {
@@ -1363,10 +1324,51 @@ function checkSfenResponse(sfenstr)
   }
 }
 
-
 function startUpdateTimer()
 {
   setTimeout(function() {checkLatestMoveTmout();}, 60000);
+}
+
+function checkLatestMoveTmout_recv(ajax)
+{
+  if (ajax.readyState != 4) return;
+
+  var status = ajax.status;
+  if (status === 0) {  // XHR 通信失敗
+    //  msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
+    //   location.reload(true);
+    startUpdateTimer();
+  } else if ((200 <= status && status < 300) || status === 304) {
+    // XHR 通信成功, リクエスト成功
+    var resp = ajax.responseText
+    checkSfenResponse(resp);
+    // msg.innerHTML = '通信完了。\n自動的にリロードします。';
+    // location.reload(true);
+  } else {    // XHR 通信成功, リクエスト失敗
+    // msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
+    // location.reload(true);
+    startUpdateTimer();
+  }
+}
+
+function checkLatestMoveTmout()
+{
+  var elem_id = document.getElementById('gameid');
+  var gid = elem_id.value;
+
+  var ajax = new XMLHttpRequest();
+  if (ajax === null)
+    return;
+  // tsushinchu = true;
+  // activatefogscreen();
+  ajax.open('POST', 'getsfen.rb?' + gid, true);
+  ajax.overrideMimeType('text/plain; charset=UTF-8');
+  ajax.send('');
+  ajax.onreadystatechange = function() {
+    // tsushinchu = false;
+    // var msg = document.getElementById('msg_fogscreen');
+    checkLatestMoveTmout_recv(ajax);
+  };
 }
 
 /**
