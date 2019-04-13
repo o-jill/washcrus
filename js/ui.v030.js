@@ -158,18 +158,22 @@ function Naraberu_putkoma(el, koma, n123)
   }
 }
 
+function Naraberu_ban(i) {
+  for (var j = 0; j < 9; ++j) {
+    var koma = ban[i][j].koma;
+    if (koma === null)
+      continue;
+    var el = ban[i][j].el;
+    Naraberu_putkoma(el, koma, 0);
+  }
+}
+
 /**
  * コマを並べる。
  */
 function Naraberu() {
   for (var i = 0; i < 9; ++i) {
-    for (var j = 0; j < 9; ++j) {
-      var koma = ban[i][j].koma;
-      if (koma === null)
-        continue;
-      var el = ban[i][j].el;
-      Naraberu_putkoma(el, koma, 0);
-    }
+    Naraberu_ban(i);
   }
   // 最後に指したところに印をつける
   Naraberu_lastmove(last_mx, last_my);
@@ -178,18 +182,22 @@ function Naraberu() {
   Naraberu_tegoma(gotegoma, gotegoma);
 }
 
+function Naraberu_banr(i) {
+  for (var j = 0; j < 9; ++j) {
+    var koma = ban[8 - i][8 - j].koma;
+    if (koma === null)
+      continue;
+    var el = ban[i][j].el;
+    Naraberu_putkoma(el, koma, 1);
+  }
+}
+
 /**
  * 逆さまにコマを並べる。
  */
 function Naraberu_rotate() {
   for (var i = 0; i < 9; ++i) {
-    for (var j = 0; j < 9; ++j) {
-      var koma = ban[8 - i][8 - j].koma;
-      if (koma === null)
-        continue;
-      var el = ban[i][j].el;
-      Naraberu_putkoma(el, koma, 1);
-    }
+    Naraberu_banr(i);
   }
   // 最後に指したところに印をつける
   Naraberu_lastmove(8 - last_mx, 8 - last_my);
@@ -854,7 +862,6 @@ function taikyokuchu_tmout()
   nameSente.style.backgroundColor = 'rgb(255,' + c + ',255)';
   nameGote.style.backgroundColor = 'rgb(' + c + ',255,' + c + ')';
 }
-
 
 /**
  * 対局始め
