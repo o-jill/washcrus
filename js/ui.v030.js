@@ -399,11 +399,7 @@ function activatemovable(b) {
  * @param {Boolean} b true:選択状態にする,false:選択状態を解除する
  */
 function setactivecell(masui, b) {
-  if (b) {
-    masui.style.border = '2px solid ' + activeColor;
-  } else {
-    masui.style.border = '2px solid black';
-  }
+  setborderstyle(masui, b, '2px solid ' + activeColor, '2px solid black');
 }
 
 /**
@@ -576,6 +572,14 @@ function absclick_ban(hx, hy, koma, masu) {
   }
 }
 
+function setborderstyle(masui, b, stlt, stlf) {
+  if (b) {
+    masui.style.border = stlt;
+  } else {
+    masui.style.border = stlf;
+  }
+}
+
 /**
  * 手駒のマスを選択状態表示にする。
  *
@@ -583,11 +587,7 @@ function absclick_ban(hx, hy, koma, masu) {
  * @param {Boolean} b true:選択状態にする,false:選択状態を解除する
  */
 function setactivecelluchi(masui, b) {
-  if (b) {
-    masui.style.border = '2px solid ' + activeColor;
-  } else {
-    masui.style.border = '0px solid black';
-  }
+  setborderstyle(masui, b, '2px solid ' + activeColor, '0px solid black');
 }
 
 /**
