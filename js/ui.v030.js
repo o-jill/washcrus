@@ -1305,18 +1305,20 @@ function openurlin_blank(url) {
   win.focus();
 }
 
+function openurl_widthhash(url) {
+  var cururl = window.location.search;
+  var elem = cururl.split('/');
+  var tgt = url + elem[1];
+  var win = window.open(tgt, '_blank');
+  win.focus();
+}
+
 function dl_kifu_file() {
-  var url = window.location.search;
-  var elem = url.split('/');
-  var tgt = "index.rb?dlkifu/" + elem[1];
-  openurlin_blank(tgt);
+  openurl_widthhash("index.rb?dlkifu/");
 }
 
 function open_kifu_player() {
-  var url = window.location.search;
-  var elem = url.split('/');
-  var tgt = "dynamickifu.html?" + elem[1];
-  openurlin_blank(tgt);
+  openurl_widthhash("dynamickifu.html?");
 }
 
 function onresign() {
