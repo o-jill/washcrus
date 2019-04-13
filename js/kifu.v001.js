@@ -153,8 +153,8 @@ Kifu.prototype.genKifu = function(koma, fromxy, toxy, nari) {
     /* console.log('invalid mode@Kifu class!!(' + this.mode + ')'); */
   }
   this.kifuText += this.lastTe.str + '\n';
-  this.lastTe.x = to_x;
-  this.lastTe.y = to_y;
+  this.lastTe.x = toxy.x;
+  this.lastTe.y = toxy.y;
 
   // 一手分の棋譜を記憶 [手番, fromx, fromy, tox, toy, nari, id];
   this.Sashita(koma.teban, fromxy.x, fromxy.y,
