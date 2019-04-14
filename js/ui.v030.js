@@ -150,12 +150,8 @@ function Naraberu_lastmove(x, y)
 function Naraberu_putkoma(el, koma, n123)
 {
   var fn = koma.getImgStr(n123);
-  if (fn.length === 0) {
-    el.innerHTML = '&nbsp;';//'<img src="./image/dot16.png" width="100%" height="100%" />';
-  } else {
-    // el.innerHTML = '<img src="./image/' + fn + '.png">';
-    el.innerHTML = '<img src="./image/' + fn + '.svg">';
-  }
+  el.innerHTML
+    = (fn.length === 0) ? '&nbsp;' : '<img src="./image/' + fn + '.svg">';
 }
 
 function Naraberu_ban(i) {
@@ -573,11 +569,7 @@ function absclick_ban(hx, hy, koma, masu) {
 }
 
 function setborderstyle(masui, b, stlt, stlf) {
-  if (b) {
-    masui.style.border = stlt;
-  } else {
-    masui.style.border = stlf;
-  }
+  masui.style.border = b ? stlt : stlf;
 }
 
 /**
@@ -838,19 +830,19 @@ function clickcfrm_cancel() {
   cfrmdlg.style.visibility = 'hidden';
 }
 
-/**
+/* *
  * 新規対局
- */
+ *
 function new_kyoku() {
   mykifu.reset();
   initKoma();
   taikyokuchu = false;
   activeteban = Koma.SENTEBAN;
   update_screen();
-}
+}*/
 
 // タイマのID
-var taikyokuchu_timer;
+/*var taikyokuchu_timer;
 // タイマが使うデータ
 var taikyokuchu_param = 0;
 
@@ -861,11 +853,11 @@ function taikyokuchu_tmout()
   var c = 255 - taikyokuchu_param;
   nameSente.style.backgroundColor = 'rgb(255,' + c + ',255)';
   nameGote.style.backgroundColor = 'rgb(' + c + ',255,' + c + ')';
-}
+}*/
 
-/**
+/* *
  * 対局始め
- */
+ *
 function start_kyoku() {
   if (taikyokuchu === true) {
     return;
@@ -877,9 +869,9 @@ function start_kyoku() {
   taikyokuchu_timer = setInterval(function() {taikyokuchu_tmout();}, 500);
 }
 
-/**
+/* *
  * 対局中断
- */
+ *
 function stop_kyoku() {
   if (taikyokuchu === false) {
     return;
@@ -887,11 +879,11 @@ function stop_kyoku() {
   taikyokuchu = false;
   update_screen();
   clearInterval(taikyokuchu_timer);
-}
+}*/
 
-/**
+/* *
  * 投了
- */
+ *
 function giveup() {
   if (taikyokuchu === false) {
     return;
@@ -900,7 +892,7 @@ function giveup() {
   mykifu.putFooter(Koma.SENTEBAN);
   update_screen();
   clearInterval(taikyokuchu_timer);
-}
+}*/
 
 /**
  * 現局面の出力

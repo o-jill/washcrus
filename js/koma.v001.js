@@ -1013,5 +1013,3 @@ function Gyoku(teban, x, y) {
 Gyoku.prototype.checkNari = function(fromy, toy) {
   return Koma.NARENAI;
 };
-
-var testkoma = new Koma(Koma.SENTEBAN, -1, -1);
