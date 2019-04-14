@@ -245,6 +245,12 @@ Koma.prototype.getHtmlStr = function(hanten) {
   str += '</div>';
   return str;
 };
+
+
+Koma.prototype.chooseKomaExp = function(a, b) {
+  return (this.nari === Koma.NARI) ? a : b;
+}
+
 /**
  * HTML表示用の文字列の取得
  *
@@ -261,7 +267,7 @@ Koma.prototype.getImgStr = function(hanten) {
     return '';
   }
 
-  str += (this.nari === Koma.NARI) ? this.strntypeIMG : this.strtypeIMG;
+  str += this.chooseKomaExp(this.strntypeIMG, this.strtypeIMG);
 
   return str;
 };
@@ -276,11 +282,8 @@ Koma.prototype.getShortStrCSA = function() {
     return Koma.AkiStrCSA;
   }
 
-  if (this.nari === Koma.NARI) {
-    str += this.strntypeCSA;
-  } else {
-    str += this.strtypeCSA;
-  }
+  str += this.chooseKomaExp(this.strntypeCSA, this.strtypeCSA);
+
   return str;
 };
 /**
@@ -294,11 +297,8 @@ Koma.prototype.getShortStrKIF = function() {
     return Koma.AkiStrKIF;
   }
 
-  if (this.nari === Koma.NARI) {
-    str += Koma.strntypeKIF;
-  } else {
-    str += this.strtypeKIF;
-  }
+  str += this.chooseKomaExp(this.strntypeKIF, this.strtypeKIF);
+
   return str;
 };
 
@@ -495,6 +495,14 @@ Koma.prototype.kifuDouNumKIF = function(toxy, lastxy) {
   }
 };
 
+Koma.prototype.strFromPos = function(fromxy)
+{
+  if (fromxy.x !== 0) {
+    return '(' + fromxy.x + '' + fromxy.y + ')';
+  }
+  return '';
+}
+
 /**
  * KIF形式で１手を出力
  *
@@ -527,9 +535,9 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
     komastr += Koma.UchiStrKIF;
   }
   str += komastr;
-  if (fromxy.x !== 0) {
-    str += '(' + fromxy.x + '' + fromxy.y + ')';
-  }
+
+  str += this.strFromPos(from);
+
   return str;
 };
 
@@ -565,9 +573,8 @@ Koma.prototype.kifuKIFU = function(fromxy, toxy, lastxy, nari) {
   }
   str += komastr;
 
-  if (fromxy.x !== 0) {
-    str += ' (' + fromxy.x + '' + fromxy.y + ')';
-  }
+  str += this.strFromPos(from);
+
   return str;
 };
 
