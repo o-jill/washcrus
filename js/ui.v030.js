@@ -1224,10 +1224,10 @@ function send_csamove_resp(status)
   // XHR 通信成功
   if ((200 <= status && status < 300) || status === 304) {
     // リクエスト成功
-    msg.innerHTML = '通信完了。\n自動的にリロードします。';
+    msg.innerHTML = '通信完了。<br>自動的にリロードします。';
     location.reload(true);
   } else {  // リクエスト失敗
-    msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
+    msg.innerHTML += 'その他の応答:' + status + '<br>自動的にリロードします。';
     location.reload(true);
   }
 }
