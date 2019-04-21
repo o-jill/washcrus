@@ -131,6 +131,11 @@ class WashCrus
     AdminSignatureUpdateScreen.new(@header).show(@userinfo, @params)
   end
 
+  def adminuserstgupdate
+    require './views/adminuserstgupdate.rb'
+    AdminUserStgUpdateScreen.new(@header).show(@userinfo, @params)
+  end
+
   # ゲーム系の画面
   def file2lounge
     require './game/file2lounge.rb'
@@ -218,6 +223,13 @@ class WashCrus
     when %r{dlkifu\/(\h+)}
       require './game/dlkifu.rb'
       DownloadKifu.new($1, @userinfo).perform
+    when %r{adminuserstg\/?(\h*)}
+      if @action === 'adminuserstgupdate'
+        adminuserstgupdate
+      else
+        require './views/adminuserstg.rb'
+        AdminUserStgScreen.new(@header).show($1, @userinfo)
+      end
     else cmdtofunc(@action)
     end
   end

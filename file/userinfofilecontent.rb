@@ -165,6 +165,14 @@ class UserInfoFileContent
     @emails.value?(addr)
   end
 
+  # updated name if id exists.
+  #
+  # [id] user id
+  # [name] name
+  def update_name(id, name)
+    @names[id] = name if @names[id]
+  end
+
   # updated password if id exists.
   #
   # [id] user id

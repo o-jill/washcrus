@@ -182,8 +182,22 @@ class UserInfoFile
     lock do
       read
 
-      # パスワードの再設定
+      # メールアドレスの再設定
       @content.update_email(uid, newem)
+
+      write
+    end
+  end
+
+  # 名前の再設定
+  # [uid] user id.
+  # [newnm] 名前.
+  def update_name(uid, newnm)
+    lock do
+      read
+
+      # 名前の再設定
+      @content.update_name(uid, newnm)
 
       write
     end
