@@ -115,7 +115,7 @@ class UpdateEmailScreen
     send_mail(userinfo)
 
     'Your e-mail address was updated.<br>' \
-    'a e-mail has been sent to your new address.'
+    'an e-mail has been sent to your new address.'
     # "<BR>debug: sessioneml:#{sessioneml} -> #{userinfo.user_email}"
   end
 
