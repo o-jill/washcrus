@@ -34,7 +34,7 @@ class MatchListScreen
       </div>
       <div id="taikyokuchu" class="taikyokuchu">
     RESULT_TABLE
-    tkcdb.content.idbs.keys.each do |gameid|
+    tkcdb.content.idbs.each_key do |gameid|
       game = tkcdb.content.probe(gameid)
 
       print_res(game)

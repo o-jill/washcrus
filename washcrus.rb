@@ -224,7 +224,7 @@ class WashCrus
       require './game/dlkifu.rb'
       DownloadKifu.new($1, @userinfo).perform
     when %r{adminuserstg\/?(\h*)}
-      if @action === 'adminuserstgupdate'
+      if @action == 'adminuserstgupdate'
         adminuserstgupdate
       else
         require './views/adminuserstg.rb'

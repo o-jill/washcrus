@@ -27,19 +27,24 @@ class AdminUserStgScreen
   # 編集欄の出力
   def put_edit_user(userhash)
     usrdata = @udb.findid(userhash) # [name, pw, email]
-    unless usrdata
-      @errmsg = "user's id is wrong ...<BR>\n"
-      msg = @errmsg;
-    else
+    if usrdata
       # userdataa.unshift(userhash) # [id, name, pw, email]
-      msg = '<form action="index.rb?adminuserstgupdate" method="post"><table>' \
-      "<tr><th>userid</th><td><label><input type='checkbox' id='adminusr' name='adminusr'>[N/A]admin?</label>" \
-      "&nbsp;<input id='uid' name='uid' value='#{userhash}' readonly ></td></tr>" \
-      "<tr><th>name</th><td><input id='name' name='name' value='#{usrdata[0]}' size='20' class='inpform' required></label></td></tr>" \
-      "<tr><th>pw</th><td>#{usrdata[1]}</td></tr>" \
-      "<tr><th>e-mail</th><td><input id='email' name='email' value='#{usrdata[2]}' type='email' size='20' class='inpform' required></label></td></tr>" \
-      '<tr><td><input type="submit" class="inpform"></td>' \
-      '<td><label><input type="checkbox" id="ntfmail" name="notification">notification mail</label></td></tr></table></form>'
+      msg = <<-EDITFORM.unindent
+      <form action="index.rb?adminuserstgupdate" method="post"><table>
+      <tr><th>userid</th><td><label><input type='checkbox' id='adminusr' name='adminusr'>[N/A]admin?</label>
+      &nbsp;<input id='uid' name='uid' value='#{userhash}' readonly ></td></tr>
+      <tr><th>name</th>
+      <td><input id='name' name='name' value='#{usrdata[0]}' size='20' class='inpform' required></label></td></tr>
+      <tr><th>pw</th><td>#{usrdata[1]}</td></tr>
+      <tr><th>e-mail</th>
+      <td><input id='email' name='email' value='#{usrdata[2]}' type='email' size='20' class='inpform' required></label></td></tr>
+      <tr><td><input type="submit" class="inpform"></td>
+      <td><label><input type="checkbox" id="ntfmail" name="notification">notification mail</label></td></tr>
+      </table></form>
+      EDITFORM
+    else
+      @errmsg = "user's id is wrong ...<BR>\n"
+      msg = @errmsg
     end
 
     puts "<div align='center'>#{msg}</div>"
@@ -63,7 +68,7 @@ class AdminUserStgScreen
         window.location.href = url;
       }
       </script>
-      ADMIN_SEL_USR
+    ADMIN_SEL_USR
 
     puts "<div align='center'>Users(#{userhash}):"
     puts @udb.to_select_id_name('suserid', 'suserid', 'inpform', '')
@@ -76,9 +81,8 @@ class AdminUserStgScreen
   end
 end
 
-
 #
-# ハッシュ無しはゆーサーの選択
-#　ハッシュアリはデータの編集。
-#　更新は別の画面で。
+# ハッシュ無しはユーザの選択
+# ハッシュアリはデータの編集。
+# 更新は別の画面で。
 #
