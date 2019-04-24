@@ -74,8 +74,7 @@ class UpdateEmailScreen
     userdb = UserInfoFile.new
     userdb.read
 
-    # [@names[id], @passwords[id], @emails[id]]
-    userdata = userdb.content.findid(uid)
+    userdata = userdb.content.findid(uid) # [names:, pw:, email:]
     return '<span class="err">user information error...</span>' unless userdata
 
     return '<span class="err">e-mail address is already registered ...</span>' \

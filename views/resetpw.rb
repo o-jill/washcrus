@@ -85,7 +85,7 @@ class ResetPasswordScreen
     userdata = userdb.update_password(@email, @newpw)
 
     # メールの送信
-    send_mail_resetpwd(@email, userdata[1], @newpw) if userdata
+    send_mail_resetpwd(@email, userdata[:name], @newpw) if userdata
   end
 
   # 画面の表示

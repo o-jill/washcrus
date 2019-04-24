@@ -51,7 +51,7 @@ class GenNewGameScreen
 
   def check_playersdata(udb, name, email, errmsg)
     userdata = udb.findname(name) # [id, name, pw, email]
-    @errmsg += errmsg unless userdata && email == userdata[3]
+    @errmsg += errmsg unless userdata && email == userdata[:email]
     userdata
   end
 
@@ -153,10 +153,10 @@ class GenNewGameScreen
 
   def config_players(userdta, userdtb, furigomastr)
     # @log.debug('td.setplayerb')
-    td.setplayerb(userdta[0], userdta[1], userdta[3])
+    td.setplayerb(userdta[:id], userdta[:name], userdta[:email])
 
     # @log.debug('td.setplayerw')
-    td.setplayerw(userdtb[0], userdtb[1], userdtb[3])
+    td.setplayerw(userdtb[:id], userdtb[:name], userdtb[:email])
 
     # @log.debug("furifusen(#{params['furigoma'][0].count('F')})")
     td.switchplayers unless furifusen(furigomastr)

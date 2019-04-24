@@ -148,12 +148,12 @@ class UserInfoFile
       read
 
       # userdbにあるかどうかの確認
-      userdata = @content.findemail(email) # [id, name, pw]
+      userdata = @content.findemail(email)
       return unless userdata
 
       # パスワードの再設定
       dgpw = Digest::SHA256.hexdigest newpw
-      @content.update_password(userdata[0], dgpw)
+      @content.update_password(userdata[:id], dgpw)
 
       write
       return userdata

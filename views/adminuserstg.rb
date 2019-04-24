@@ -26,9 +26,8 @@ class AdminUserStgScreen
 
   # 編集欄の出力
   def put_edit_user(userhash)
-    usrdata = @udb.findid(userhash) # [name, pw, email]
+    usrdata = @udb.findid(userhash) # [name:, pw:, email:]
     if usrdata
-      # userdataa.unshift(userhash) # [id, name, pw, email]
       msg = <<-EDITFORM.unindent
       <form action="index.rb?adminuserstgupdate" method="post"><table>
       <tr><th>userid</th><td><label><input type='checkbox' id='adminusr' name='adminusr'>[N/A]admin?</label>

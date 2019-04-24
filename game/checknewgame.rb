@@ -49,7 +49,7 @@ class CheckNewGame
   # @param userdata ユーザ名
   # @return ユーザ情報とユーザ名が同じ時true
   def check_ply(userdata, name)
-    userdata && name == userdata[1]
+    userdata && name == userdata[:name]
   end
 
   # 登録情報の確認
@@ -62,11 +62,11 @@ class CheckNewGame
     userdb.read
     udb = userdb.content
 
-    userdta = udb.findemail(@email1)  # [id, @names[id], @passwords[id]]
+    userdta = udb.findemail(@email1)
     @errmsg = "name or e-mail address in player 1 is wrong ...\n" \
         unless check_ply(userdta, @name1)
 
-    userdtb = udb.findemail(@email2)  # [id, @names[id], @passwords[id]]
+    userdtb = udb.findemail(@email2)
     @errmsg += "name or e-mail address in player 2 is wrong ...\n" \
         unless check_ply(userdtb, @name2)
   end

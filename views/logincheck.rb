@@ -57,8 +57,8 @@ class LoginCheckScreen
 
     dgpw = Digest::SHA256.hexdigest pswd
 
-    if @errmsg.empty? && dgpw == @userdata[2]
-      @userinfo = UserInfo.new(1, @userdata[0], @userdata[1], email)
+    if @errmsg.empty? && dgpw == @userdata[:pw]
+      @userinfo = UserInfo.new(1, @userdata[:id], @userdata[:name], email)
       true
     else
       false

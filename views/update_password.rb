@@ -86,13 +86,12 @@ class UpdatePasswordScreen
 
   # 古いパスワードの確認
   def check_curpw(userdb, uid)
-    # [@names[id], @passwords[id], @emails[id]]
-    userdata = userdb.content.findid(uid)
+    userdata = userdb.content.findid(uid) # [names:, pw:, email:]
     return '<span class="err">user information error...</span>' unless userdata
 
     dgpw = Digest::SHA256.hexdigest passwd
     return '<span class="err">old password is not correct!</span>' \
-      if dgpw != userdata[1]
+      if dgpw != userdata[:pw]
   end
 
   # パラメータのチェックと表示メッセージ作成

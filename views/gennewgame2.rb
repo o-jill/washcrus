@@ -51,18 +51,12 @@ class GenNewGame2Screen < GenNewGameScreen
     udb = userdb.content
 
     userdataa = udb.findid(id1) # [name, pw, email]
-    if userdataa
-      userdataa.unshift(id1) # [id, name, pw, email]
-    else
-      @errmsg += "player1's id is wrong ...<BR>\n"
-    end
+
+    @errmsg += "player1's id is wrong ...<BR>\n" unless userdataa
 
     userdatab = udb.findid(id2) # [name, pw, email]
-    if userdatab
-      userdatab.unshift(id2) # [id, name, pw, email]
-    else
-      @errmsg += "player2's id is wrong ...<BR>\n"
-    end
+
+    @errmsg += "player2's id is wrong ...<BR>\n" unless userdatab
 
     { userdataa: userdataa, userdatab: userdatab }
   end

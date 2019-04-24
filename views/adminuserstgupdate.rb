@@ -81,10 +81,10 @@ class AdminUserStgUpdateScreen
     return '<span class="err">user information error...</span>' unless userdata
 
     return '<span class="err">name is already used ...</span>' \
-      if userdata[0] != newnm && userdb.content.exist_name(newnm)
+      if userdata[:name] != newnm && userdb.content.exist_name(newnm)
 
     return '<span class="err">e-mail address is already registered ...</span>' \
-      if userdata[2] != newem && userdb.content.exist_email(newem)
+      if userdata[:email] != newem && userdb.content.exist_email(newem)
   end
 
   # userdbの更新
