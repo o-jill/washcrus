@@ -32,7 +32,7 @@ addons:
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  - gem install selenium-webdriver
+  - gem install selenium-webdriver -v3.141.0 # for ruby 2.1, 2.2
   - gem install webrick -v1.3.1
   - gem install mailcatcher
   - ruby ./travisci/webserver.rb&
