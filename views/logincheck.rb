@@ -15,7 +15,7 @@ class LoginCheckScreen
   def initialize
     @errmsg = ''
     @userinfo = nil
-    @userdata = []
+    @userdata = {}
   end
 
   # パスワードのチェック

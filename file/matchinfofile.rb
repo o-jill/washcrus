@@ -121,7 +121,7 @@ class MatchInfoFile
   # id_b 対局者のID
   # userinfo 対局者の情報
   def setplayerb(id_b, userinfo)
-    @playerb = Player.new(id_b, userinfo[0], userinfo[2]) if userinfo
+    @playerb = Player.new(id_b, userinfo[:name], userinfo[:email]) if userinfo
   end
 
   # 対局者のセット
@@ -129,7 +129,7 @@ class MatchInfoFile
   # id_w 対局者のID
   # userinfo 対局者の情報
   def setplayerw(id_w, userinfo)
-    @playerw = Player.new(id_w, userinfo[0], userinfo[2]) if userinfo
+    @playerw = Player.new(id_w, userinfo[:name], userinfo[:email]) if userinfo
   end
 
   # 対局者のセット

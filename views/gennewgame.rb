@@ -51,7 +51,12 @@ class GenNewGameScreen
 
   def check_playersdata(udb, name, email, errmsg)
     userdata = udb.findname(name) # [id, name, pw, email]
-    @errmsg += errmsg unless userdata && email == userdata[:email]
+    # @errmsg += errmsg unless userdata && email == userdata[:email]
+    if userdata.nil?
+      @errmsg += errmsg
+    elsif email != userdata[:email]
+      @errmsg += errmsg
+    end
     userdata
   end
 
@@ -152,10 +157,10 @@ class GenNewGameScreen
   end
 
   def config_players(userdta, userdtb, furigomastr)
-    # @log.debug('td.setplayerb')
+    # @log.debug("td.setplayerb,#{userdta}")
     td.setplayerb(userdta[:id], userdta[:name], userdta[:email])
 
-    # @log.debug('td.setplayerw')
+    # @log.debug("td.setplayerw,#{userdtb}")
     td.setplayerw(userdtb[:id], userdtb[:name], userdtb[:email])
 
     # @log.debug("furifusen(#{params['furigoma'][0].count('F')})")
@@ -193,10 +198,12 @@ class GenNewGameScreen
 
     # @log.debug('put_err_sreen')
 
-    # @log.debug('TaikyokuData.new')
-    td = TaikyokuData.new
+    @td = TaikyokuData.new
+    # @log.debug("TaikyokuData.new:#{td}")
     td.log = log
-
+    # @log.debug(
+    # "config_taikyoku(#{ret[:userdataa]}, #{ret[:userdatab]}, #{userinfo}," \
+    #                 "#{params['furigoma'][0]})")
     config_taikyoku(ret[:userdataa], ret[:userdatab], userinfo,
                     params['furigoma'][0])
 
