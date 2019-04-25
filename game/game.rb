@@ -69,6 +69,15 @@ class Game
     self
   end
 
+  def prepare_tkd
+    tkd = TaikyokuData.new
+    tkd.log = @log
+    tkd.setid(@gameid)
+    tkd.lock do
+      tkd.read
+    end
+  end
+
   #
   # 実行本体。
   #
@@ -76,12 +85,7 @@ class Game
     return unless check_params
 
     # @log.debug('Game.read TaikyokuData')
-    tkd = TaikyokuData.new
-    tkd.log = @log
-    tkd.setid(@gameid)
-    tkd.lock do
-      tkd.read
-    end
+    prepare_tkd
 
     # @log.debug('Game. html rendering')
     # 表示する
@@ -91,8 +95,8 @@ class Game
     gh.put(@header)
     # @log.debug('Game.performed')
   rescue StandardError => err
-    @log.warn("#{err}")
-    @log.warn("#{err.backtrace.join("\n")}")
+    @log.warn(err.to_s)
+    @log.warn(err.backtrace.join("\n").to_s)
   end
 
   # class methods

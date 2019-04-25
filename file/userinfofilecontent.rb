@@ -109,7 +109,7 @@ class UserInfoFileContent
   def findname(name)
     found = @names.find { |_ky, vl| vl == name }
 
-    { id: (id = found[0]), name: name, pw: @passwords[id], email: @emails[id] } \
+    { id: (id = found[0]), name: name, pw: @passwords[id], email: @emails[id] }\
       if found
   end
 
@@ -118,7 +118,6 @@ class UserInfoFileContent
   # return nil if not found.
   def findemail(addr)
     found = @emails.find { |_ky, vl| vl == addr }
-
 
     { id: (id = found[0]), name: @names[id], pw: @passwords[id], email: addr } \
       if found
