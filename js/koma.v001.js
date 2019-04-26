@@ -531,12 +531,12 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
     } else {
       komastr = this.strntypeKIF;
     }
-  } else if (fromx === 0) {
+  } else if (fromxy.x === 0) {
     komastr += Koma.UchiStrKIF;
   }
   str += komastr;
 
-  str += this.strFromPos(from);
+  str += this.strFromPos(fromxy);
 
   return str;
 };
@@ -573,7 +573,7 @@ Koma.prototype.kifuKIFU = function(fromxy, toxy, lastxy, nari) {
   }
   str += komastr;
 
-  str += this.strFromPos(from);
+  str += this.strFromPos(fromxy);
 
   return str;
 };
