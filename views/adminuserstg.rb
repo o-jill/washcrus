@@ -33,10 +33,10 @@ class AdminUserStgScreen
       <tr><th>userid</th><td><label><input type='checkbox' id='adminusr' name='adminusr'>[N/A]admin?</label>
       &nbsp;<input id='uid' name='uid' value='#{userhash}' readonly ></td></tr>
       <tr><th>name</th>
-      <td><input id='name' name='name' value='#{usrdata[0]}' size='20' class='inpform' required></label></td></tr>
-      <tr><th>pw</th><td>#{usrdata[1]}</td></tr>
+      <td><input id='name' name='name' value='#{usrdata[:name]}' size='20' class='inpform' required></label></td></tr>
+      <tr><th>pw</th><td>#{usrdata[:pw]}</td></tr>
       <tr><th>e-mail</th>
-      <td><input id='email' name='email' value='#{usrdata[2]}' type='email' size='20' class='inpform' required></label></td></tr>
+      <td><input id='email' name='email' value='#{usrdata[:email]}' type='email' size='20' class='inpform' required></label></td></tr>
       <tr><td><input type="submit" class="inpform"></td>
       <td><label><input type="checkbox" id="ntfmail" name="notification">notification mail</label></td></tr>
       </table></form>
