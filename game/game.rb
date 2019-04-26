@@ -76,6 +76,7 @@ class Game
     tkd.lock do
       tkd.read
     end
+    tkd
   end
 
   #
@@ -85,7 +86,7 @@ class Game
     return unless check_params
 
     # @log.debug('Game.read TaikyokuData')
-    prepare_tkd
+    tkd = prepare_tkd
 
     # @log.debug('Game. html rendering')
     # 表示する
