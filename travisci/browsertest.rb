@@ -258,8 +258,7 @@ class BrowserTest < BrowserTestAbstract
     elem = driver.find_element(:id, 'myteban')
     @johnteban = (elem.attribute('value') == 'b')
 
-    puts "game URL: #{@gameurl}"
-    puts "john is first?: #{@johnteban}"
+    puts "game URL: #{@gameurl}\njohn is first?: #{@johnteban}"
     matchmailsbjlast(/a game is ready!! \(.+ vs .+\)/)
   end
 
