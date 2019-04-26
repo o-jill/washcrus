@@ -48,6 +48,7 @@ class BrowserTest < BrowserTestAbstract
     adminerrcheck 'index.rb?adminmenu'
     adminerrcheck 'index.rb?adminnews'
     adminerrcheck 'index.rb?adminsettings'
+    adminerrcheck 'index.rb?adminuserstg'
     adminerrcheck 'index.rb?adminsignature'
     adminerrcheck 'index.rb?userlist'
   end
