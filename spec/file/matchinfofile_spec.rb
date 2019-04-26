@@ -32,7 +32,7 @@ describe 'MatchInfoFile' do
     expect(mi.playerw.name).to eq('')
     expect(mi.playerw.email).to eq('')
 
-    mi.setplayerb('idid', ['name', 'pw', 'em@i.l'])
+    mi.setplayerb('idid', {name: 'name', pw: 'pw', email: 'em@i.l'})
     expect(mi.playerb.id).to eq('idid')
     expect(mi.playerb.name).to eq('name')
     expect(mi.playerb.email).to eq('em@i.l')
@@ -51,7 +51,7 @@ describe 'MatchInfoFile' do
     expect(mi.playerw.name).to eq('')
     expect(mi.playerw.email).to eq('')
 
-    mi.setplayerw('idid', ['name', 'pw', 'em@i.l'])
+    mi.setplayerw('idid', {name: 'name', pw: 'pw', email: 'em@i.l'})
     expect(mi.playerb.id).to eq('')
     expect(mi.playerb.name).to eq('')
     expect(mi.playerb.email).to eq('')
