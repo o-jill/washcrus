@@ -20,6 +20,13 @@ class AdminConfigFile
     @idlist.include?(id)
   end
 
+  # IDを削除
+  # 要write
+  # @param id ユーザーID
+  def remove(id)
+    @idlist.delete(id)
+  end
+
   # ファイルの読み込み
   #
   # @param fpath ファイルパス

@@ -55,6 +55,20 @@ class AdminUserStgUpdateScreen
     mailmgr.send_mail_withfooter(addr, subject, msg)
   end
 
+  # check and set if administrator.
+  def apply_admin
+    ac = AdminConfigFile.new
+    ac.read
+    if (!ac.exist?(uid))
+      ac.add(uid) if (admin == 'on')
+    else
+      if (admin != 'on')
+        ac.remove(uid)
+        ac.write
+      end
+    end
+  end
+
   def readparam(params, key, defval)
     tmp = params[key] || [defval]
     tmp[0]
@@ -95,14 +109,18 @@ class AdminUserStgUpdateScreen
     userdb = UserInfoFile.new
     userdb.read
 
-    # [@names[id], @passwords[id], @emails[id]]
+    # [:name, :pw, :email]
     userdata = userdb.content.findid(@uid)
     msg = checkindb(userdata)
     return msg if msg
 
+    # 名前
     userdb.update_name(uid, newnm)
     # EmailAddressの再設定
     userdb.update_email(uid, newem)
+    # 管理者権限
+    apply_admin
+
     nil
   end
 
@@ -153,7 +171,7 @@ class AdminUserStgUpdateScreen
     return MyHtml.puts_textplain_errnotadmin unless userinfo.admin
 
     read_name_email(params)
-    msg = check_and_mkmsg(userinfo)
+    msg = check_and_mkmsg
 
     CommonUI.html_head(header)
     CommonUI.html_menu(userinfo)

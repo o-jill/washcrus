@@ -24,13 +24,21 @@ class AdminUserStgScreen
     @udb = userdb.content
   end
 
+  # check and set if administrator.
+  def check_admin(uid)
+    ac = AdminConfigFile.new
+    ac.read
+    ac.exist?(uid)
+  end
+
   # 編集欄の出力
   def put_edit_user(userhash)
     usrdata = @udb.findid(userhash) # [name:, pw:, email:]
     if usrdata
       msg = <<-EDITFORM.unindent
       <form action="index.rb?adminuserstgupdate" method="post"><table>
-      <tr><th>userid</th><td><label><input type='checkbox' id='adminusr' name='adminusr'>[N/A]admin?</label>
+      <tr><th>userid</th>
+       <td><label><input type='checkbox' id='adminusr' name='adminusr' #{check_admin(userhash) ? 'checked' : ''}>admin?</label>
       &nbsp;<input id='uid' name='uid' value='#{userhash}' readonly ></td></tr>
       <tr><th>name</th>
       <td><input id='name' name='name' value='#{usrdata[:name]}' size='20' class='inpform' required></label></td></tr>
