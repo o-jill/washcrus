@@ -59,13 +59,11 @@ class AdminUserStgUpdateScreen
   def apply_admin
     ac = AdminConfigFile.new
     ac.read
-    if (!ac.exist?(uid))
-      ac.add(uid) if (admin == 'on')
-    else
-      if (admin != 'on')
-        ac.remove(uid)
-        ac.write
-      end
+    if !ac.exist?(uid)
+      ac.add(uid) if admin == 'on'
+    elsif admin != 'on'
+      ac.remove(uid)
+      ac.write
     end
   end
 
