@@ -514,22 +514,23 @@ Kifu.prototype.prev_te = function() {
 
 Kifu.prototype.seek_te_foward_move = function(te) {
   var masu, tegoma;
+  var xy = {x: te[3], y: te[4]};
   if (te[1] === -1) {
     // 駒を打つ
     if (te[0] === Koma.SENTEBAN) {
       tegoma = sentegoma;
-      uchi2(tegoma, te[6], te[3], te[4]);
+      uchi2(tegoma, te[6], xy);
     } else {
       tegoma = gotegoma;
-      uchi2(tegoma, te[6], te[3], te[4]);
+      uchi2(tegoma, te[6], xy);
     }
   } else {
     if (te[6] > Koma.NoID) {
-      toru(te[3], te[4]);
+      toru(xy);
       this.totta_id = Koma.NoID;
     }
     masu = ban[te[1]][te[2]];
-    move2(masu, te[3], te[4], te[5]);  // 動かした駒を戻す
+    move2(masu, xy, te[5]);  // 動かした駒を戻す
   }
 }
 
@@ -542,30 +543,39 @@ Kifu.prototype.seek_te_foward = function(idx) {
   }
 }
 
+Kifu.prototype.seek_te_backward_ = function(te) {
+  var teban = te[0];
+  var fromxy = { x: te[1], y: te[2] };
+  var toxy = { x: te[3], y: te[4] };
+  var nari = te[5];
+  var tid = te[6];
+
+  if (fromxy.x === -1) {
+    // 駒台に戻す
+    toru(toxy);
+    this.totta_id = Koma.NoID;
+  } else {
+    masu = ban[toxy.x][toxy.y];
+    move2(masu, fromxy, nari);  // 動かした駒を戻す
+
+    if (tid >= 0) {
+      if (teban === Koma.SENTEBAN) {
+        tegoma = sentegoma;
+      } else {
+        tegoma = gotegoma;
+      }
+      torimodosu(tegoma, tid, toxy.x, toxy.y);
+    }
+  }
+}
+
 Kifu.prototype.seek_te_backward = function(idx) {
   var te, masu, tegoma;
   while (this.NTeme > idx) {
     this.NTeme--;
     te = this.Honp[this.NTeme];
     // [teban, fromx, fromy, tox, toy, nari, totta_id];
-
-    if (te[1] === -1) {
-      // 駒台に戻す
-      toru(te[3], te[4]);
-      this.totta_id = Koma.NoID;
-    } else {
-      masu = ban[te[3]][te[4]];
-      move2(masu, te[1], te[2], te[5]);  // 動かした駒を戻す
-
-      if (te[6] >= 0) {
-        if (te[0] === Koma.SENTEBAN) {
-          tegoma = sentegoma;
-        } else {
-          tegoma = gotegoma;
-        }
-        torimodosu(tegoma, te[6], te[3], te[4]);
-      }
-    }
+    this.seek_te_backward_(te);
   }
 }
 
@@ -645,12 +655,11 @@ function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
  * コマの移動。
  *
  * @param {Object} koma 移動するコマ
- * @param {Number} to_x 移動先
- * @param {Number} to_y 移動先
+ * @param {Number} toxy 移動先
  * @param {Number} nari 成る(Koma.NARI)か成らない(Koma.Narazu)か
  *                      成る場合は駒を裏返す(=成った駒を元に戻せる)
  */
-function move(koma, to_x, to_y, nari) {
+function move(koma, toxy, nari) {
   var from_x = koma.x;
   var from_y = koma.y;
 
@@ -658,16 +667,16 @@ function move(koma, to_x, to_y, nari) {
 
   var tottaid = mykifu.totta_id;
 
-  mykifu.genKifu(koma, {x: from_x, y: from_y}, {x: to_x, y: to_y}, nari);
+  mykifu.genKifu(koma, {x: from_x, y: from_y}, toxy, nari);
   // console.log(mykifu.genKifu(masu.koma, from_x, from_y, to_x, to_y, nari));
   // console.log(masu.koma.CSA(from_x, from_y, to_x, to_y));
   // console.log(masu.koma.KIF(from_x, from_y, to_x, to_y, nari));
 
-  koma.x = to_x;
-  koma.y = to_y;
+  koma.x = toxy.x;
+  koma.y = toxy.y;
 
-  var temp = ban[to_x][to_y].koma;
-  ban[to_x][to_y].koma = koma;
+  var temp = ban[toxy.x][toxy.y].koma;
+  ban[toxy.x][toxy.y].koma = koma;
   ban[from_x][from_y].koma = temp;
 
   if (activeteban === Koma.SENTEBAN) {
@@ -676,18 +685,16 @@ function move(koma, to_x, to_y, nari) {
     activeteban = Koma.SENTEBAN;
   }
 
-  movecsa = build_movecsa(koma,
-    {x: from_x, y: from_y}, {x: to_x, y: to_y}, tottaid, nari);
+  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, tottaid, nari);
 }
 
 /**
  * ban[x][y]にある駒を取る。
  *
- * @param {Number} x 取る駒がある座標
- * @param {Number} y 取る駒がある座標
+ * @param {Number} xy 取る駒がある座標
  */
-function toru(x, y) {
-  var koma = ban[x][y].koma;
+function toru(xy) {
+  var koma = ban[xy.x][xy.y].koma;
   if (koma.nari === Koma.NARI) {
     // 成り駒を取った時は+1000してIDを覚えておく
     mykifu.totta_id = 1000;
@@ -705,7 +712,7 @@ function toru(x, y) {
     // console.log('toremasen!!');
     return;
   }
-  ban[x][y].koma = new Koma();
+  ban[xy.x][xy.y].koma = new Koma();
   tottakoma = koma;
   mykifu.totta_id += koma.id;
 }
@@ -742,22 +749,20 @@ function komadai_del(tegoma, id) {
  *
  * @param {Object} tegoma 手駒リスト
  * @param {Object} koma 打つ駒
- * @param {Number} to_x 移動先
- * @param {Number} to_y 移動先
+ * @param {Number} toxy 移動先
  */
-function uchi(tegoma, koma, to_x, to_y) {
+function uchi(tegoma, koma, toxy) {
   // console.log(koma.CSA(-1, -1, to_x, to_y));
   // console.log(koma.KIF(-1, -1, to_x, to_y, Koma.Narazu));
   // console.log(mykifu.genKifu(koma, -1, -1, to_x, to_y, Koma.Narazu));
-  mykifu.genKifu(koma, {x: -1, y: -1},
-    {x: to_x, y: to_y}, Koma.Narazu, koma.id);
+  mykifu.genKifu(koma, {x: -1, y: -1}, toxy, Koma.Narazu, koma.id);
 
   var k = komadai_del(tegoma, koma.id);
 
-  ban[to_x][to_y].koma = k;
+  ban[toxy.x][toxy.y].koma = k;
 
-  k.x = to_x;
-  k.y = to_y;
+  k.x = toxy.x;
+  k.y = toxy.y;
 
   if (activeteban === Koma.SENTEBAN) {
     activeteban = Koma.GOTEBAN;
@@ -772,8 +777,8 @@ function uchi(tegoma, koma, to_x, to_y) {
     movecsa += Koma.GoteStrCSA;
   }
   movecsa += '00';
-  movecsa += to_x + 1;
-  movecsa += to_y + 1;
+  movecsa += toxy.x + 1;
+  movecsa += toxy.y + 1;
   movecsa += k.strtypeCSA;
   movecsa += '__';
 }
@@ -783,16 +788,15 @@ function uchi(tegoma, koma, to_x, to_y) {
  *
  * @param {Object} tegoma 手駒リスト
  * @param {Number} koma_id 打つ駒のID
- * @param {Number} to_x 移動先
- * @param {Number} to_y 移動先
+ * @param {Number} toxy 移動先
  */
-function uchi2(tegoma, koma_id, to_x, to_y) {
+function uchi2(tegoma, koma_id, toxy) {
   var k = komadai_del(tegoma, koma_id);
 
-  ban[to_x][to_y].koma = k;
+  ban[toxy.x][toxy.y].koma = k;
 
-  k.x = to_x;
-  k.y = to_y;
+  k.x = toxy.x;
+  k.y = toxy.y;
 
   if (activeteban === Koma.SENTEBAN) {
     activeteban = Koma.GOTEBAN;
@@ -807,8 +811,8 @@ function uchi2(tegoma, koma_id, to_x, to_y) {
     movecsa += k.GoteStrCSA;
   }
   movecsa += '00';
-  movecsa += to_x + 1;
-  movecsa += to_y + 1;
+  movecsa += toxy.x + 1;
+  movecsa += toxy.y + 1;
   movecsa += k.strtypeCSA;
   movecsa += '__';
 }
@@ -817,12 +821,11 @@ function uchi2(tegoma, koma_id, to_x, to_y) {
  * コマの移動。(感想戦用)
  *
  * @param {Object} koma 移動するコマ
- * @param {Number} to_x 移動先
- * @param {Number} to_y 移動先
+ * @param {Number} toxy 移動先
  * @param {Number} nari 成る(Koma.NARI)か成らない(Koma.Narazu)か
  *                      成る場合は駒を裏返す(=成った駒を元に戻せる)
  */
-function move2(koma, to_x, to_y, nari) {
+function move2(koma, toxy, nari) {
   var from_x = koma.x;
   var from_y = koma.y;
 
@@ -833,11 +836,11 @@ function move2(koma, to_x, to_y, nari) {
   // console.log(masu.koma.CSA(from_x, from_y, to_x, to_y));
   // console.log(masu.koma.KIF(from_x, from_y, to_x, to_y, nari));
 
-  koma.x = to_x;
-  koma.y = to_y;
+  koma.x = toxy.x;
+  koma.y = toxy.y;
 
-  var temp = ban[to_x][to_y].koma;
-  ban[to_x][to_y].koma = koma;
+  var temp = ban[toxy.x][toxy.y].koma;
+  ban[toxy.x][toxy.y].koma = koma;
   ban[from_x][from_y].koma = temp;
 
   if (activeteban === Koma.SENTEBAN) {
@@ -848,7 +851,7 @@ function move2(koma, to_x, to_y, nari) {
 
   var tottaid = mykifu.totta_id;
   movecsa = build_movecsa(koma,
-    {x: from_x, y: from_y}, {x: to_x, y: to_y}, tottaid, nari);
+    {x: from_x, y: from_y}, toxy, tottaid, nari);
 }
 
 /**
@@ -856,10 +859,9 @@ function move2(koma, to_x, to_y, nari) {
  *
  * @param {Object} tegoma 手駒リスト
  * @param {Object} koma_id 戻す駒のID
- * @param {Number} to_x 移動先
- * @param {Number} to_y 移動先
+ * @param {Number} toxy 移動先
  */
-function torimodosu(tegoma, koma_id, to_x, to_y) {
+function torimodosu(tegoma, koma_id, toxy) {
   var nari = false;
   // 成り駒を取った時は+1000してIDを覚えてある
   if (koma_id >= 1000) {
@@ -875,10 +877,10 @@ function torimodosu(tegoma, koma_id, to_x, to_y) {
   if (nari) {
     k.nari = Koma.NARI;
   }
-  ban[to_x][to_y].koma = k;
+  ban[toxy.x][toxy.y].koma = k;
 
-  k.x = to_x;
-  k.y = to_y;
+  k.x = toxy.x;
+  k.y = toxy.y;
 }
 
 function checkOHTe_koma(gyoku, koma, i, j) {

@@ -701,7 +701,7 @@ function popupnari(x, y) {
 
 function move_byclick_narinarazu(nari)
 {
-  move(activekoma, narimenu_tox, narimenu_toy, nari);
+  move(activekoma, {x: narimenu_tox, y: narimenu_toy, nari});
   activecell(null, null);
 
   wait_narimenu = false;
@@ -740,18 +740,19 @@ function myconfirm(msg, type, hx, hy) {
 
 function clickcfrm_ok_move(hx, hy)
 {
+  hxy = {x: hx, y: hy};
   // toru(取らないけど)
-  toru(hx, hy);
+  toru(hxy);
 
   // move
   var nareru = activekoma.checkNari(activekoma.y, hy);
   if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
-    move(activekoma, hx, hy, Koma.NARAZU);
+    move(activekoma, hxy, Koma.NARAZU);
     activecell(null, null, null);
     update_screen();
     record_your_move();
   } else if (nareru === Koma.NARU) {
-    move(activekoma, hx, hy, Koma.NARI);
+    move(activekoma, hxy, Koma.NARI);
     activecell(null, null);
     update_screen();
     record_your_move();
@@ -765,19 +766,20 @@ function clickcfrm_ok_move(hx, hy)
 
 function clickcfrm_ok_capmove(hx, hy)
 {
+  hxy = {x: hx, y: hy};
   // toru and move
   // toru
-  toru(hx, hy);
+  toru(hxy);
 
   // move
   var nareru = activekoma.checkNari(activekoma.y, hy);
   if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
-    move(activekoma, hx, hy, Koma.NARAZU);
+    move(activekoma, hxy, Koma.NARAZU);
     activecell(null, null, null);
     update_screen();
     record_your_move();
   } else if (nareru === Koma.NARU) {
-    move(activekoma, hx, hy, Koma.NARI);
+    move(activekoma, hxy, Koma.NARI);
     activecell(null, null, null);
     update_screen();
     record_your_move();
@@ -799,7 +801,7 @@ function clickcfrm_ok() {
   cfrmdlg.style.visibility = 'hidden';
 
   if (cfrmdlg.md === CFRM_UTSU) {
-    uchi(activetegoma, activekoma, hx, hy);
+    uchi(activetegoma, activekoma, {x: hx, y: hy});
     activeuchi(null, null, -1);
     update_screen();
     record_your_move();
