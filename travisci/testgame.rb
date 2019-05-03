@@ -193,6 +193,9 @@ class TestGame < BrowserTestAbstract
 
     resign(1 - @moves.last['color'])
 
+    # ブラウザを終了させる
+    driver.quit
+
     checklastsfen
   end
 end
