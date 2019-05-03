@@ -151,7 +151,7 @@ class TestGame < BrowserTestAbstract
     data = YAML.load_file(path)
 
     sfen = data[:sfen]
-    puts "exit -838861 if #{sfen} != #{@resultsfen}"
+    puts "#{sfen != @resultsfen}? #{sfen} != #{@resultsfen}"
     exit -838861 if sfen != @resultsfen
   end
 
