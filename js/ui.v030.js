@@ -701,7 +701,7 @@ function popupnari(x, y) {
 
 function move_byclick_narinarazu(nari)
 {
-  move(activekoma, {x: narimenu_tox, y: narimenu_toy, nari});
+  move(activekoma, {x: narimenu_tox, y: narimenu_toy}, nari);
   activecell(null, null);
 
   wait_narimenu = false;
