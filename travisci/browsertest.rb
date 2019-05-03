@@ -12,6 +12,8 @@ class BrowserTest < BrowserTestAbstract
     super
   end
 
+  attr_reader :gameurl
+
   def signupauser(signupinfo, this_will_fail = false)
     simplecheck 'index.rb?signup'
     signupinfo.each do |key, val|
@@ -156,7 +158,7 @@ class BrowserTest < BrowserTestAbstract
     elem = driver.find_element(:id, 'rnewpassword2')
     elem.send_keys npwd2
     elem.submit
-    sleep 1
+    sleep 2
     simpleurlcheck('index.rb?update_password')
   end
 
@@ -197,7 +199,7 @@ class BrowserTest < BrowserTestAbstract
     elem = driver.find_element(:id, 'rnewemail2')
     elem.send_keys nemail2
     elem.submit
-    sleep 1
+    sleep 2
     simpleurlcheck('index.rb?update_email')
   end
 
@@ -245,10 +247,12 @@ class BrowserTest < BrowserTestAbstract
     sleep 2
 
     @gameurl = driver.current_url
-    elem = driver.find_element(:id, 'myteban')
-    @johnteban = (elem.attribute('value') == 'b')
+    idx = @gameurl.rindex('/') + 1
+    @gameurl = @gameurl[idx..-1]
+    # elem = driver.find_element(:id, 'myteban')
+    # @johnteban = (elem.attribute('value') == 'b')
 
-    puts "game URL: #{@gameurl}\njohn is first?: #{@johnteban}"
+    # puts "game URL: #{@gameurl}\njohn is first?: #{@johnteban}"
     matchmailsbjlast(/a game is ready!! \(.+ vs .+\)/)
   end
 
@@ -323,8 +327,8 @@ class BrowserTest < BrowserTestAbstract
   end
 end
 
-# test = BrowserTest.new
-# test.run
+test = BrowserTest.new
+test.run
 tg = TestGame.new
 tg.setplayer1(
   BrowserTest::SIGNUPINFOJOHN[:rname],
@@ -334,7 +338,7 @@ tg.setplayer2(
   'admin',
   BrowserTest::ADMININFO[:email],
   BrowserTest::ADMININFO[:pwd])
-tg.setgame('32d0a06a8d')
+tg.setgame(test.gameurl)
 tg.read('travisci/testmove.jkf')
 tg.run
 exit 1 unless test.showresult

@@ -134,13 +134,9 @@ class TestGame < BrowserTestAbstract
   end
 
   def resign(clr)
-    if te['color'].zero?
+    if clr.zero?
       becomesente
     else
-      from['x'] = 10 - from['x']
-      from['y'] = 10 - from['y']
-      to['x'] = 10 - to['x']
-      to['y'] = 10 - to['y']
       becomegote
     end
 
