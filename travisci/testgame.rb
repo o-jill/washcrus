@@ -187,7 +187,7 @@ class TestGame < BrowserTestAbstract
         confirmmove
       end
 
-      sleep 4
+      sleep 3.5
       logout
     end
 

@@ -69,7 +69,7 @@ class BrowserTestAbstract
     elem = driver.find_element(:name, 'sipassword')
     elem.send_keys pwd
     elem.submit
-    sleep 2
+    sleep 1.8
     simpleurlcheck('index.rb?logincheck')
     res.checkmatch(/Logged in successfully/)
   end
