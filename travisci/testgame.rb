@@ -192,5 +192,7 @@ class TestGame < BrowserTestAbstract
     end
 
     resign(1 - @moves.last['color'])
+
+    checklastsfen
   end
 end
