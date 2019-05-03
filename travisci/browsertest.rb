@@ -4,23 +4,12 @@ require 'selenium-webdriver'
 
 require './travisci/browsertestabs.rb'
 require './travisci/testresult.rb'
+require './travisci/testgame.rb'
 
 # test pages on a browser
 class BrowserTest < BrowserTestAbstract
   def initialize
     super
-  end
-
-  # loginできることの確認
-  def checklogin(email, pwd)
-    simplecheck 'index.rb?login'
-    driver.find_element(:name, 'siemail').send_keys(email)
-    elem = driver.find_element(:name, 'sipassword')
-    elem.send_keys pwd
-    elem.submit
-    sleep 1
-    simpleurlcheck('index.rb?logincheck')
-    res.checkmatch(/Logged in successfully/)
   end
 
   def signupauser(signupinfo, this_will_fail = false)
@@ -334,8 +323,20 @@ class BrowserTest < BrowserTestAbstract
   end
 end
 
-test = BrowserTest.new
-test.run
+# test = BrowserTest.new
+# test.run
+tg = TestGame.new
+tg.setplayer1(
+  BrowserTest::SIGNUPINFOJOHN[:rname],
+  BrowserTest::SIGNUPINFOJOHN[:remail],
+  BrowserTest::SIGNUPINFOJOHN[:rpassword])
+tg.setplayer2(
+  'admin',
+  BrowserTest::ADMININFO[:email],
+  BrowserTest::ADMININFO[:pwd])
+tg.setgame('32d0a06a8d')
+tg.read('travisci/testmove.jkf')
+tg.run
 exit 1 unless test.showresult
 
 # memo

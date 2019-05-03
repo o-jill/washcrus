@@ -61,6 +61,18 @@ class BrowserTestAbstract
     puts "ok:#{res.ok}, ng:#{res.ng}\e[0m"
     res.ng.zero?
   end
+
+  # loginできることの確認
+  def checklogin(email, pwd)
+    simplecheck 'index.rb?login'
+    driver.find_element(:name, 'siemail').send_keys(email)
+    elem = driver.find_element(:name, 'sipassword')
+    elem.send_keys pwd
+    elem.submit
+    sleep 2
+    simpleurlcheck('index.rb?logincheck')
+    res.checkmatch(/Logged in successfully/)
+  end
 end
 
 # memo
