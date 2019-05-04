@@ -2,6 +2,16 @@
 
 # a script for travis ci
 
+fold_begin() {
+  echo -e "travis_fold:start:$1\033[33;1m$2\033[0m"
+}
+
+fold_end() {
+  echo -e "\ntravis_fold:end:$1\r"
+}
+
+fold_begin prepare.1 "application configurations"
+
 cp config/settings.yaml.sample config/settings.yaml
 # cp config/mail.yaml.sample config/mail.yaml
 cp config/mail.yaml.mailcatcher config/mail.yaml
@@ -17,14 +27,22 @@ ADMININFO
 cat ./db/userinfo.csv
 rake init
 
+fold_end prepare.1
+
 if [ "${TRAVIS_BUILD_TYPE}" = "test" ]; then
+  fold_begin test.1 "unit test"
   echo "let us TEST !!"
   bundle exec rspec
   ret=$?
+  fold_end test.1
+
+  fold_begin test.2 "rubocop"
   bundle exec rubocop
   exitcode=$((ret+$?))
   exit ${exitcode}
+  fold_end test.2
 else
+  fold_begin brtst.1 "browser tests"
   echo "normal . . ."
   # which ruby
   # ruby -v
@@ -36,4 +54,5 @@ else
     cat ./log/movelog.txt
     exit ${ret}
   fi
+  fold_end brtst.1
 fi
