@@ -333,11 +333,13 @@ tg = TestGame.new
 tg.setplayer1(
   BrowserTest::SIGNUPINFOJOHN[:rname],
   BrowserTest::SIGNUPINFOJOHN[:remail],
-  BrowserTest::SIGNUPINFOJOHN[:rpassword])
+  BrowserTest::SIGNUPINFOJOHN[:rpassword]
+)
 tg.setplayer2(
   'admin',
   BrowserTest::ADMININFO[:email],
-  BrowserTest::ADMININFO[:pwd])
+  BrowserTest::ADMININFO[:pwd]
+)
 tg.setgame(test.gameurl)
 tg.read('travisci/testmove.jkf')
 tg.run

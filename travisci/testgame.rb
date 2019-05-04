@@ -3,6 +3,9 @@ require 'yaml'
 
 require './travisci/browsertestabs.rb'
 
+#
+# play a game automatically with a kifu.
+#
 class TestGame < BrowserTestAbstract
   def initialize
     super
@@ -38,16 +41,16 @@ class TestGame < BrowserTestAbstract
     @pw2 = t
   end
 
-  def setplayer1(nm, eml, pw)
-    @nm1 = nm
+  def setplayer1(name, eml, pwd)
+    @nm1 = name
     @eml1 = eml
-    @pw1 = pw
+    @pw1 = pwd
   end
 
-  def setplayer2(nm, eml, pw)
-    @nm2 = nm
+  def setplayer2(name, eml, pwd)
+    @nm2 = name
     @eml2 = eml
-    @pw2 = pw
+    @pw2 = pwd
   end
 
   def read(path)
@@ -74,59 +77,52 @@ class TestGame < BrowserTestAbstract
   end
 
   def logout
-    @driver.navigate.to BASE_URL + "index.rb?logout"
+    @driver.navigate.to BASE_URL + 'index.rb?logout'
   end
 
   def gogame
     @driver.navigate.to BASE_URL + "index.rb?game/#{@gid}"
   end
 
-  def touch(suji, dan)
-    @driver.find_element(:id, "b#{suji}#{dan}").click
+  def touch(sujidan)
+    @driver.find_element(:id, "b#{sujidan['x']}#{sujidan['y']}").click
   end
 
-  def move(suji, dan)
-    @driver.find_element(:id, "b#{suji}#{dan}").click
+  def move(sujidan)
+    @driver.find_element(:id, "b#{sujidan['x']}#{sujidan['y']}").click
   end
 
   def naru(bnaru)
     eid = bnaru ? 'naru' : 'narazu'
-    elem = @driver.find_element(:id, eid).click
+    @driver.find_element(:id, eid).click
   end
 
   # 打つ（持つだけ）
   def utu_motu(str)
     @driver.find_element(:id, {
-        FU: 'sg_fu_img',
-        KY: 'sg_kyo_img',
-        KE: 'sg_kei_img',
-        GI: 'sg_gin_img',
-        KI: 'sg_kin_img',
-        KA: 'sg_kaku_img',
-        HI: 'sg_hisha_img',
-      }[str.to_sym]).click
+      FU: 'sg_fu_img',
+      KY: 'sg_kyo_img',
+      KE: 'sg_kei_img',
+      GI: 'sg_gin_img',
+      KI: 'sg_kin_img',
+      KA: 'sg_kaku_img',
+      HI: 'sg_hisha_img'
+    }[str.to_sym]).click
   end
 
   def confirmmove
     driver.find_element(:id, 'mvcfm_ok').click
   end
 
-  def promotedlg?(te, fy)
-    prmt = te['promote']
-    if prmt
-      case te['piece']
-      when 'FU'
-        return false if fy == 2
-      when 'KY'
-        return false if fy == 2
-      when 'KE'
-        return false if fy <= 4
-      end
+  def mustpromote?(piece, yfrm)
+    yfrm == 2 && piece == 'FU' || yfrm == 2 && piece == 'KY' \
+      || yfrm <= 4 && piece == 'KE'
+  end
 
-      true
-    else
-      false
-    end
+  def promotedlg?(prmt, piece, yfrm)
+    return false unless prmt
+
+    !mustpromote?(piece, yfrm)
   end
 
   def resignbtn
@@ -152,45 +148,63 @@ class TestGame < BrowserTestAbstract
 
     sfen = data[:sfen]
     puts "#{sfen != @resultsfen}? #{sfen} != #{@resultsfen}"
-    exit -838861 if sfen != @resultsfen
+    exit(-838_861) if sfen != @resultsfen
+  end
+
+  def move_a_piece(from, to, piece, prmt)
+    if from
+      touch(from)
+      move(to)
+      confirmmove
+      naru(prmt) if promotedlg?(prmt, piece, from['y'])
+    else
+      utu_motu(piece)
+      move(to)
+      confirmmove
+    end
+  end
+
+  def prcs_sengo(from, to, color)
+    if color.zero?
+      becomesente
+    else
+      from['x'] = 10 - from['x'] if from
+      from['y'] = 10 - from['y'] if from
+      to['x'] = 10 - to['x']
+      to['y'] = 10 - to['y']
+
+      becomegote
+    end
+
+    { from: from, to: to }
+  end
+
+  def li_move_a_piece(from, to, piece, color, prmt)
+    ret = prcs_sengo(from, to, color)
+
+    gogame
+
+    move_a_piece(ret[:from], ret[:to], piece, prmt)
+
+    sleep 3.5
+    logout
+  end
+
+  def move_with_kifu
+    @moves.each do |tee|
+      puts "tee:#{tee}"
+
+      from = tee['from']
+      to = tee['to']
+      prmt = tee['promote']
+      piece = tee['piece']
+
+      li_move_a_piece(from, to, piece, tee['color'], prmt)
+    end
   end
 
   def run
-    @moves.each do |te|
-      puts "te:#{te}"
-
-      from = te['from']
-      to = te['to']
-      prmt = te['promote']
-
-      if te['color'].zero?
-        becomesente
-      else
-        from['x'] = 10 - from['x'] if from
-        from['y'] = 10 - from['y'] if from
-        to['x'] = 10 - to['x']
-        to['y'] = 10 - to['y']
-
-        becomegote
-      end
-
-      gogame
-
-      if from
-        touch(from['x'], from['y'])
-        move(to['x'], to['y'])
-        confirmmove
-        naru(prmt) if promotedlg?(te, from['y'])
-      else
-        utu_motu(te['piece'])
-        move(to['x'], to['y'])
-        confirmmove
-      end
-
-      sleep 3.5
-      logout
-    end
-
+    move_with_kifu
     resign(1 - @moves.last['color'])
 
     # ブラウザを終了させる
