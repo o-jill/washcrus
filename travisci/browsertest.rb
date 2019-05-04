@@ -349,7 +349,7 @@ tg.setgame(test.gameurl)
 tg.read('travisci/testmove.jkf')
 tg.run
 tg.fold_end('games.1')
-succ |= tg.showresult
+succ &= tg.showresult
 exit 1 unless succ
 
 # memo
