@@ -89,7 +89,7 @@ class AdminUserStgUpdateScreen
   # @param userdata ユーザー情報
   #
   # @return nil:success, otherwise:some message
-  def checkindb(userdata)
+  def checkindb(userdata, userdb)
     return '<span class="err">user information error...</span>' unless userdata
 
     return '<span class="err">name is already used ...</span>' \
@@ -109,7 +109,7 @@ class AdminUserStgUpdateScreen
 
     # [:name, :pw, :email]
     userdata = userdb.content.findid(@uid)
-    msg = checkindb(userdata)
+    msg = checkindb(userdata, userdb)
     return msg if msg
 
     # 名前
