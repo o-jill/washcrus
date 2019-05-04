@@ -330,11 +330,11 @@ end
 test = BrowserTest.new
 test.fold_begin('pages.1', 'pages tests')
 test.run
-succ = test.showresult
 test.fold_end('pages.1')
+succ = test.showresult
 
 tg = TestGame.new
-test.fold_begin('game.1', 'game test')
+tg.fold_begin('game.1', 'game test')
 tg.setplayer1(
   BrowserTest::SIGNUPINFOJOHN[:rname],
   BrowserTest::SIGNUPINFOJOHN[:remail],
@@ -348,8 +348,8 @@ tg.setplayer2(
 tg.setgame(test.gameurl)
 tg.read('travisci/testmove.jkf')
 tg.run
+tg.fold_end('games.1')
 succ |= tg.showresult
-test.fold_end('games.1')
 exit 1 unless succ
 
 # memo
