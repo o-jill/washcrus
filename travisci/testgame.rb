@@ -186,7 +186,7 @@ class TestGame < BrowserTestAbstract
 
     move_a_piece(ret[:from], ret[:to], piece, prmt)
 
-    sleep 3.5
+    sleep 3
     logout
   end
 
