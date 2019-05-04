@@ -19,20 +19,32 @@ class Result
     puts "place:#{caller.join("\n")}"
   end
 
+  def succe
+    @ok += 1
+  end
+
+  def failu
+    @ng += 1
+  end
+
+  def succfail(b)
+    b ? succe : failu
+  end
+
   def checkproperty(a, b)
     # general function to check some property
-    return @ok += 1 if a == b
+    return succe if a == b
 
-    @ng += 1
+    failu
 
     put_sec_url("'#{a}' is not #{b}.")
   end
 
   # general function to check some property matches
   def matchproperty(rex, b)
-    return @ok += 1 if rex =~ b
+    return succe if rex =~ b
 
-    @ng += 1
+    failu
 
     put_sec_url("'#{b}' does not match #{rex}.")
     put_caller
@@ -45,9 +57,9 @@ class Result
 
   # check if title is not t
   def checktitlenot(t = 'WashCrus')
-    return @ok += 1 if @driver.title != t
+    return succe if @driver.title != t
 
-    @ng += 1
+    failu
 
     put_sec_url("'#{@driver.title}' should not be #{t}.")
     put_caller
@@ -76,7 +88,7 @@ class Result
     unless ft
       put_sec_url('does not have any footer elements.')
       put_caller
-      return @ng += 1
+      return failu
     end
     matchproperty(regexp, ft.text)
   end
@@ -86,12 +98,12 @@ class Result
     unless json
       put_sec_url('JSON(mail?) is empty.')
       put_caller
-      return @ng += 1
+      return failu
     end
 
-    return @ok += 1 if json['subject'] == sbj
+    return succe if json['subject'] == sbj
 
-    @ng += 1
+    failu
 
     put_sec_url("'#{json['subject']}' is not '#{sbj}'.")
     put_caller
@@ -102,12 +114,12 @@ class Result
     unless json
       put_sec_url('JSON(mail?) is empty.')
       put_caller
-      return @ng += 1
+      return failu
     end
 
-    return @ok += 1 if sbjptn =~ json['subject']
+    return succe if sbjptn =~ json['subject']
 
-    @ng += 1
+    failu
 
     put_sec_url("'#{json['subject']}' does not match '#{sbjptn}'.")
     put_caller
