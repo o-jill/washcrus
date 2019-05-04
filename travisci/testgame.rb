@@ -147,8 +147,8 @@ class TestGame < BrowserTestAbstract
     data = YAML.load_file(path)
 
     sfen = data[:sfen]
-    puts "#{sfen != @resultsfen}? #{sfen} != #{@resultsfen}"
-    res.succfail(sfen != @resultsfen)
+    puts "#{sfen == @resultsfen} := #{sfen} == #{@resultsfen}"
+    res.succfail(sfen == @resultsfen)
   end
 
   def move_a_piece(from, to, piece, prmt)
