@@ -348,7 +348,7 @@ tg.setplayer2(
 tg.setgame(test.gameurl)
 tg.read('travisci/testmove.jkf')
 tg.run
-tg.fold_end('games.1')
+tg.fold_end('game.1')
 succ &= tg.showresult
 exit 1 unless succ
 
