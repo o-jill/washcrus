@@ -151,14 +151,14 @@ class TestGame < BrowserTestAbstract
     res.succfail(sfen == @resultsfen)
   end
 
-  def move_a_piece(from, to, piece, prmt)
+  def move_a_piece(from, to)
     if from
       touch(from)
       move(to)
       confirmmove
-      naru(prmt) if promotedlg?(prmt, piece, from['y'])
+      naru(@prmt) if promotedlg?(@prmt, @piece, from['y'])
     else
-      utu_motu(piece)
+      utu_motu(@piece)
       move(to)
       confirmmove
     end
@@ -167,39 +167,50 @@ class TestGame < BrowserTestAbstract
   def prcs_sengo(from, to, color)
     if color.zero?
       becomesente
+      { from: from, to: to }
     else
-      from['x'] = 10 - from['x'] if from
-      from['y'] = 10 - from['y'] if from
-      to['x'] = 10 - to['x']
-      to['y'] = 10 - to['y']
+      frm = {}
+      frm['x'] = 10 - from['x'] if from
+      frm['y'] = 10 - from['y'] if from
+      frm = from unless from
+      too = {}
+      too['x'] = 10 - to['x']
+      too['y'] = 10 - to['y']
 
       becomegote
+      { from: frm, to: too }
     end
 
-    { from: from, to: to }
   end
 
-  def li_move_a_piece(from, to, piece, color, prmt)
-    ret = prcs_sengo(from, to, color)
+  def li_move_a_piece
+    ret = prcs_sengo(@from, @to, @color)
 
     gogame
 
-    move_a_piece(ret[:from], ret[:to], piece, prmt)
+    move_a_piece(ret[:from], ret[:to])
 
     sleep 3
     logout
+  end
+
+  def readmove(tee)
+    @from = tee['from']
+    @to = tee['to'] if tee['to']
+    @prmt = tee['promote']
+    @piece = tee['piece']
+    @color = tee['color']
+
+    puts "#{@color}#{@piece}:#{@from}->#{@to},#{@prmt}" if tee['same']
   end
 
   def move_with_kifu
     @moves.each do |tee|
       puts "tee:#{tee}"
 
-      from = tee['from']
-      to = tee['to']
-      prmt = tee['promote']
-      piece = tee['piece']
+      readmove(tee)
 
-      li_move_a_piece(from, to, piece, tee['color'], prmt)
+      li_move_a_piece
     end
   end
 
