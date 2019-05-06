@@ -346,7 +346,13 @@ tg.setplayer2(
   BrowserTest::ADMININFO[:pwd]
 )
 tg.setgame(test.gameurl)
-tg.read('travisci/testmove.jkf')
+KIFULIST = [
+  'travisci/testmove.jkf',
+  'travisci/fuji_system.jkf',
+  'travisci/fuji_debut.jkf',
+  'travisci/koyan_tadao.jkf'
+].freeze
+tg.read(KIFULIST.sample)
 tg.run
 tg.fold_end('game.1')
 succ &= tg.showresult
