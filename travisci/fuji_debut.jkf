@@ -81,5 +81,5 @@
 {"move":{"color":1,"piece":"KA","to":{"x":9,"y":4}},"time":{"now":{"m":0,"s":0},"total":{"h":0,"m":0,"s":0}}},
 {"special":"TORYO","time":{"now":{"m":0,"s":0},"total":{"h":0,"m":0,"s":0}}}],
 "initial":{"preset":"HIRATE"},
-"result":"aa"
+"result":"l5kn1/5l2p/7p1/b1pbPpp1l/pKNp3N1/2P3PP1/P2g1P3/2R6/LN1S5 b RG2S2P2gs3p 111"
 }
