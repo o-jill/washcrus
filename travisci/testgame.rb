@@ -180,7 +180,6 @@ class TestGame < BrowserTestAbstract
       becomegote
       { from: frm, to: too }
     end
-
   end
 
   def li_move_a_piece
