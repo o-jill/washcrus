@@ -174,23 +174,32 @@ function randomchoose(anim, fu, to) {
   return value;
 }
 
-function ontimer_furigoma() {
-  var furikoma = document.getElementById('furigoma');
+function ontimer_furigoma_abs(sub) {
+  var furikoma = document.getElementById('furigoma' + sub);
   var komame = furikoma.value.length+1;
   if (komame <= 5) {
-    var idanim = 'furikomanim' + komame;
-    var idfu = 'furikomafu' + komame;
-    var idto = 'furikomato' + komame;
+    var idanim = 'furikomanim' + sub + komame;
+    var idfu = 'furikomafu' + sub + komame;
+    var idto = 'furikomato' + sub + komame;
     furikoma.value += randomchoose(idanim, idfu, idto);
   }
   if (komame <= 4) {
+    /*setTimeout(function() {
+      func();
+    }, 1000);*/
+    return true
+  } else {
+    var btn = document.getElementById('btnfurigoma' + sub);
+    btn.disabled = false;
+    return false
+  }
+}
+
+function ontimer_furigoma() {
+  if (ontimer_furigoma_abs(''))
     setTimeout(function() {
       ontimer_furigoma();
     }, 1000);
-  } else {
-    var btn = document.getElementById('btnfurigoma');
-    btn.disabled = false;
-  }
 }
 
 /* - - - - - - - - */
@@ -239,22 +248,10 @@ function lets_furigoma2() {
 }
 
 function ontimer_furigoma2() {
-  var furikoma = document.getElementById('furigoma2');
-  var komame = furikoma.value.length+1;
-  if (komame <= 5) {
-    var idanim = 'furikomanim2' + komame;
-    var idfu = 'furikomafu2' + komame;
-    var idto = 'furikomato2' + komame;
-    furikoma.value += randomchoose(idanim, idfu, idto);
-  }
-  if (komame <= 4) {
+  if (ontimer_furigoma_abs('2'))
     setTimeout(function() {
       ontimer_furigoma2();
     }, 1000);
-  } else {
-    var btn = document.getElementById('btnfurigoma2');
-    btn.disabled = false;
-  }
 }
 
 function furifusen() {
