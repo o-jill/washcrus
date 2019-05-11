@@ -200,7 +200,7 @@ class TestGame < BrowserTestAbstract
     @piece = tee['piece']
     @color = tee['color']
 
-    puts "#{@color}#{@piece}:#{@from}->#{@to},#{@prmt}" if tee['same']
+    # puts "#{@color}#{@piece}:#{@from}->#{@to},#{@prmt}" if tee['same']
   end
 
   def move_with_kifu
