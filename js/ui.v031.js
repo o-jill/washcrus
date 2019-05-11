@@ -746,7 +746,7 @@ function clickcfrm_ok_move(hx, hy)
 
   // move
   var nareru = activekoma.checkNari(activekoma.y, hy);
-  if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
+  if (nareru === Koma.NARENAI /*|| nareru === Koma.NATTA*/) {
     move(activekoma, hxy, Koma.NARAZU);
     activecell(null, null, null);
     update_screen();
@@ -773,7 +773,7 @@ function clickcfrm_ok_capmove(hx, hy)
 
   // move
   var nareru = activekoma.checkNari(activekoma.y, hy);
-  if (nareru === Koma.NARENAI || nareru === Koma.NATTA) {
+  if (nareru === Koma.NARENAI /*|| nareru === Koma.NATTA*/) {
     move(activekoma, hxy, Koma.NARAZU);
     activecell(null, null, null);
     update_screen();

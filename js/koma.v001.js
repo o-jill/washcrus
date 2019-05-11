@@ -38,7 +38,7 @@ Koma.NARI = 2;
 Koma.NARENAI = 1;
 Koma.NARU = 2;
 Koma.NARERU = 3;
-Koma.NATTA = 4;
+/* Koma.NATTA = 4; */
 
 // koma ID
 Koma.NoID = -1;
@@ -603,17 +603,9 @@ Koma.prototype.kifuShortCSA = function(x, y) {
 };
 
 Koma.prototype.checkNariFromPos = function(ugokeru, fromy, toy) {
-  if (ugokeru) {
-    // 動ければNARERU
-    if (fromy < 3 || toy < 3) {
-      return Koma.NARERU;
-    }
-  } else {
-    // 動けなければNARU
-    if (fromy < 3 || toy < 3) {
-      return Koma.NARU;
-    }
-  }
+  if (fromy < 3 || toy < 3)
+    return ugokeru ? Koma.NARERU : Koma.NARU;
+
   return Koma.NARENAI;
 };
 
@@ -643,9 +635,9 @@ Koma.prototype.checkNariGote = function(fromy, toy) {
  *                  Koma.NATTA   成った後
  */
 Koma.prototype.checkNari = function(fromy, toy) {
-  if (this.nari === Koma.NARI) {
-    return Koma.NATTA;
-  }
+  if (this.nari === Koma.NARI)
+    return Koma.NARENAI;  /* return Koma.NATTA; */
+
   if (this.teban === Koma.SENTEBAN) {
     return this.checkNariSente(fromy, toy);
   } else if (this.teban === Koma.GOTEBAN) {
@@ -659,13 +651,14 @@ Koma.prototype.movemsg = function(tox, toy)
   var x = this.x;
   var toxy = Koma.ZenkakuNum[tox] + Koma.KanjiNum[toy];
   var str = this.getTypeStr();
+
   if (x < 0) {
     return str + 'を' + toxy + 'に打ちます。';
-  } else {
-    var y = this.y;
-    var fromxy = Koma.ZenkakuNum[x] + Koma.KanjiNum[y];
-    return str + 'を' + fromxy + 'から' + toxy + 'に移動します。';
   }
+
+  var y = this.y;
+  var fromxy = Koma.ZenkakuNum[x] + Koma.KanjiNum[y];
+  return str + 'を' + fromxy + 'から' + toxy + 'に移動します。';
 }
 
 /**
@@ -674,13 +667,9 @@ Koma.prototype.movemsg = function(tox, toy)
  * @param  {[type]} nari Koma.NARI or not
  */
 Koma.prototype.kaesu = function (nari) {
-  if (nari === Koma.NARI) {
-    if (this.nari === Koma.NARI) {
-      this.nari = Koma.NARAZU;
-    } else {
-      this.nari = Koma.NARI;
-    }
-  }
+  if (nari === Koma.NARI)
+    this.nari = (this.nari === Koma.NARI) ?
+      this.nari = Koma.NARAZU : this.nari = Koma.NARI;
 };
 
 Koma.prototype.InitStr = function(abcd)
@@ -732,9 +721,8 @@ function Fu(teban, x, y) {
 Fu.prototype.retpos = function (x, starty, endy) {
   var list = [];
   for (var y = starty; y < endy; ++y) {
-    if (ban[x][y].koma.teban === Koma.AKI) {
+    if (ban[x][y].koma.teban === Koma.AKI)
       list.push([x, y]);
-    }
   }
   return list;
 };
@@ -758,9 +746,8 @@ Fu.prototype.getUchable = function() {
 
   var list = [];
   for (var i = 0; i < 9; ++i) {
-    if (this.check2FU(i, starty, endy)) {
+    if (this.check2FU(i, starty, endy))
       continue;
-    }
     list = list.concat(this.retpos(i, starty, endy));
   }
   return list;
