@@ -164,21 +164,25 @@ class TestGame < BrowserTestAbstract
     end
   end
 
+  def cvtxy(frm, too)
+    from = {}
+    from['x'] = 10 - frm['x'] if frm
+    from['y'] = 10 - frm['y'] if frm
+    from = frm unless frm
+    to = {}
+    to['x'] = 10 - too['x']
+    to['y'] = 10 - too['y']
+
+    { from: from, to: to }
+  end
+
   def prcs_sengo(from, to, color)
     if color.zero?
       becomesente
       { from: from, to: to }
     else
-      frm = {}
-      frm['x'] = 10 - from['x'] if from
-      frm['y'] = 10 - from['y'] if from
-      frm = from unless from
-      too = {}
-      too['x'] = 10 - to['x']
-      too['y'] = 10 - to['y']
-
       becomegote
-      { from: frm, to: too }
+      cvtxy(frm, too)
     end
   end
 
