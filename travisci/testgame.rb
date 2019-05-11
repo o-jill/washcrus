@@ -182,7 +182,7 @@ class TestGame < BrowserTestAbstract
       { from: from, to: to }
     else
       becomegote
-      cvtxy(frm, too)
+      cvtxy(from, to)
     end
   end
 
