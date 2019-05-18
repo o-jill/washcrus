@@ -75,9 +75,19 @@ end
 #   main
 #
 
+begin
 cgi = CGI.new
 sfenimg = SfenImage.new(cgi)
 sfenimg.perform
+rescue StandardError => err
+  puts "Content-Type: text/html; charset=UTF-8\n\n"
+  puts <<-ERRMSG.unindent
+    <html><title>ERROR SfenImage</title><body><pre>
+    ERROR:#{err}
+    STACK:#{err.backtrace.join("\n")}
+    </pre></body></html>
+  ERRMSG
+end
 
 # -----------------------------------
 #   testing
