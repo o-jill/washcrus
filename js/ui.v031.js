@@ -257,19 +257,18 @@ function gethtmlelement_tegoma() {
   }
 }
 
+function ontegomaclick(event) {
+  if (taikyokuchu === false) return;
+  if (wait_narimenu) return;
+
+  absclick_tegoma_ui(event.currentTarget.id);
+}
+
 function gethtmlelement_tegomaclick() {
   for (var i = 0 ; i < 7 ; ++i) {
     sentegoma[i][1].el.onclick = sentegoma[i][1].el2.onclick
       = gotegoma[i][1].el.onclick = gotegoma[i][1].el2.onclick
-       = function(event) {
-          if (taikyokuchu === false) {
-            return;
-          }
-          if (wait_narimenu) {
-            return;
-          }
-          absclick_tegoma_ui(event.currentTarget.id);
-        };
+       = ontegomaclick;
   }
 }
 

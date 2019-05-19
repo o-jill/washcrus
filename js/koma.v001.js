@@ -485,12 +485,13 @@ Koma.prototype.kifuCSA = function(fromx, fromy, tox, toy) {
   str += fromy;
   str += tox;
   str += toy;
-  if (this.nari === Koma.NARI) {
-    str += this.strntypeCSA;
-  } else {
-    str += this.strtypeCSA;
-  }
+  str += this. pieceStr(this.strtypeCSA, this.strntypeCSA)
+
   return str;
+};
+
+Koma.prototype.pieceStr = function(hunaristr, naristr) {
+  return (this.nari === Koma.NARI) ? naristr : hunaristr;
 };
 
 Koma.prototype.kifuDouNumKIF = function(toxy, lastxy) {
@@ -530,21 +531,24 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
    str = Koma.GoteStrKIF;
   } */
   str += this.kifuDouNumKIF(toxy, lastxy);
-  var komastr = this.strtypeKIF;
-  if (this.nari === Koma.NARI) {
-    if (nari === Koma.NARI) {
-      komastr += Koma.NariStrKIF;
-    } else {
-      komastr = this.strntypeKIF;
-    }
-  } else if (fromxy.x === 0) {
-    komastr += Koma.UchiStrKIF;
-  }
-  str += komastr;
-
+  str += this.narifunariuchiStrKIF(nari, fromxy.x);
   str += this.strFromPos(fromxy);
 
   return str;
+};
+
+Koma.prototype.narifunariuchiStrKIF = function(nari, x) {
+  var komastr = this.strtypeKIF;
+  if (this.nari === Koma.NARI) {
+    if (nari === Koma.NARI) {
+      return komastr + Koma.NariStrKIF;
+    } else {
+      return this.strntypeKIF;
+    }
+  } else if (x === 0) {
+    return komastr + Koma.UchiStrKIF;
+  }
+  return komastr;
 };
 
 /**
@@ -564,21 +568,7 @@ Koma.prototype.kifuKIFU = function(fromxy, toxy, lastxy, nari) {
   var str = this.getTebanStr(Koma.SenteStrOrg, Koma.GoteStrOrg);
 
   str += this.kifuDouNumKIF(toxy, lastxy);
-
-  var komastr = this.strtypeKIF;
-  if (this.nari === Koma.NARI) {
-    if (nari === Koma.NARI) {
-      komastr += Koma.NariStrKIF;
-    } else {
-      komastr = this.strntypeKIF;
-    }
-  } else if (nari === Koma.NARERU) {
-    komastr += Koma.FunariStr;
-  } else if (fromxy.x === 0) {
-    komastr += Koma.UchiStrKIF;
-  }
-  str += komastr;
-
+  str += this.narifunariuchiStrKIF(nari, fromxy.x);
   str += this.strFromPos(fromxy);
 
   return str;
@@ -600,11 +590,8 @@ Koma.prototype.kifuShortCSA = function(x, y) {
 
   str += x;
   str += y;
-  if (this.nari === Koma.NARI) {
-    str += this.strntypeCSA;
-  } else {
-    str += this.strtypeCSA;
-  }
+  str += this.pieceStr(this.strtypeCSA, this.strntypeCSA)
+
   return str;
 };
 
