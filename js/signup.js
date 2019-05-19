@@ -74,7 +74,7 @@ function check_password_format(a)
   var u1 = 't' + a1;
   var u2 = u1 + '2';
   var b1 = document.getElementById(u1).style.backgroundColor;
-  var b1 = document.getElementById(u2).style.backgroundColor;
+  var b2 = document.getElementById(u2).style.backgroundColor;
 
   var password1 = document.getElementById(a1);
   if (password1.value.length < 4) {

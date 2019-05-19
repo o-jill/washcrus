@@ -415,7 +415,7 @@ Kifu.prototype.readLineCSA = function(text) {
     }
     // 一手分の棋譜 [手番, fromx, fromy, tox, toy, nari, totta_id];
     this.Honp.push([teban, fromx, fromy, tox, toy, nari, totta_id]);
-  } else if (/^N[+-]/) {
+  } else if (/^N[+-]/.test(text)) {
     this.readLineCSA_name(text)
   } else if (text.startsWith('$')) {
     this.readLineCSA_dollar(text);
@@ -555,12 +555,12 @@ Kifu.prototype.seek_te_backward_ = function(te) {
     toru(toxy);
     this.totta_id = Koma.NoID;
   } else {
-    masu = ban[toxy.x][toxy.y];
+    var masu = ban[toxy.x][toxy.y];
     move2(masu, fromxy, nari);  // 動かした駒を戻す
 
     if (tid >= 0) {
       if (teban === Koma.SENTEBAN) {
-        tegoma = sentegoma;
+        var tegoma = sentegoma;
       } else {
         tegoma = gotegoma;
       }
@@ -570,10 +570,9 @@ Kifu.prototype.seek_te_backward_ = function(te) {
 }
 
 Kifu.prototype.seek_te_backward = function(idx) {
-  var te, masu, tegoma;
   while (this.NTeme > idx) {
     this.NTeme--;
-    te = this.Honp[this.NTeme];
+    var te = this.Honp[this.NTeme];
     // [teban, fromx, fromy, tox, toy, nari, totta_id];
     this.seek_te_backward_(te);
   }
