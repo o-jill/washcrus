@@ -436,6 +436,16 @@ Koma.prototype.getUchable = function() {
   return this.getUchableGeneral(0, 9);
 };
 
+Koma.prototype.getUchableGeneralY = function(i, starty, endy) {
+  var list = [];
+  for (var j = starty; j < endy; ++j) {
+    if (ban[i][j].koma.teban === Koma.AKI) {
+      list.push([i, j]);
+    }
+  }
+  return list;
+};
+
 /**
  * 打てるマスのリストを返す。
  *
@@ -447,11 +457,7 @@ Koma.prototype.getUchable = function() {
 Koma.prototype.getUchableGeneral = function(starty, endy) {
   var list = [];
   for (var i = 0; i < 9; ++i) {
-    for (var j = starty; j < endy; ++j) {
-      if (ban[i][j].koma.teban === Koma.AKI) {
-        list.push([i, j]);
-      }
-    }
+    list = list.concat(this.getUchableGeneralY(i, starty, endy));
   }
   return list;
 };
@@ -694,7 +700,7 @@ Koma.prototype.InitStr = function(abcd)
 Koma.prototype.InitMovable = function(funari, nari)
 {
   this.funariMovable = funari;
-  this.nariMovable = nari;
+  this.nariMovable = nari || Koma.KinMovable;
 }
 
 /* 駒汎用ここまで */
@@ -714,7 +720,7 @@ function Fu(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.InitStrTable.fu);
-  this.InitMovable(Koma.FuMovable, Koma.KinMovable);
+  this.InitMovable(Koma.FuMovable);
   this.id = Koma.FuID;
 }
 
@@ -799,7 +805,7 @@ function Kyosha(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.InitStrTable.kyosha);
-  this.InitMovable(Koma.KyoshaMovable, Koma.KinMovable);
+  this.InitMovable(Koma.KyoshaMovable);
   this.id = Koma.KyoshaID;
 }
 
@@ -847,7 +853,7 @@ function Keima(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.InitStrTable.keima);
-  this.InitMovable(Koma.KeimaMovable, Koma.KinMovable);
+  this.InitMovable(Koma.KeimaMovable);
   this.id = Koma.KeimaID;
 }
 
@@ -895,7 +901,7 @@ function Gin(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.InitStrTable.gin);
-  this.InitMovable(Koma.GinMovable, Koma.KinMovable);
+  this.InitMovable(Koma.GinMovable);
   this.id = Koma.GinID;
 }
 
@@ -914,7 +920,7 @@ function Kin(teban, x, y) {
   Koma.call(this, teban, x, y);
 
   this.InitStr(Koma.InitStrTable.kin);
-  this.InitMovable(Koma.KinMovable, Koma.KinMovable);
+  this.InitMovable(Koma.KinMovable);
   this.id = Koma.KinID;
 }
 
