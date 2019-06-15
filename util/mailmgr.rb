@@ -61,9 +61,9 @@ class MailManager
   # @param addr    メールアドレス
   # @param subject 件名
   # @param msg     本文
-  def send_mailex_withfooter(addr, subject, msg)
+  def send_mailex_withfooter(addr, subject, msg, attached)
     msg += MailManager.footer
-    send_mailex(addr, subject, msg)
+    send_mailex(addr, subject, msg, attached)
   end
 
   # 添付ファイル付きメールの送信
