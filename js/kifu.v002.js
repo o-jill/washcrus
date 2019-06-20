@@ -82,8 +82,8 @@ Kifu.JSON = 4;
  * @param {Number} toy   移動先の座標
  * @param {Number} nari  成ったかどうか
  */
-Kifu.prototype.Sashita = function(teban, fromx, fromy, tox, toy, nari) {
-  this.Honp.push([teban, fromx, fromy, tox, toy, nari]);
+Kifu.prototype.Sashita = function(teban, fromxy, toxy, nari) {
+  this.Honp.push([teban, fromxy.x, fromxy.y, toxy.x, toxy.y, nari]);
 };
 
 /**
@@ -156,9 +156,8 @@ Kifu.prototype.genKifu = function(koma, fromxy, toxy, nari) {
   this.lastTe.x = toxy.x;
   this.lastTe.y = toxy.y;
 
-  // 一手分の棋譜を記憶 [手番, fromx, fromy, tox, toy, nari, id];
-  this.Sashita(koma.teban, fromxy.x, fromxy.y,
-    toxy.x, toxy.y, nari, this.totta_id);
+  // 一手分の棋譜を記憶 [手番, fromxy, toxy, nari, id];
+  this.Sashita(koma.teban, fromxy, toxy, nari, this.totta_id);
   // this.Honp.push(
   //  [koma.teban, from_x, from_y, to_x, to_y, nari, this.totta_id]);
   this.totta_id = Koma.NoID;
