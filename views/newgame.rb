@@ -56,19 +56,13 @@ class NewGameScreen
     puts " <TR><TD colspan='3' id='errmsg'></TD></TR></TABLE></FORM>"
   end
 
-  # フォームの出力2
-  #
-  # @param udb UserInfoFileContentオブジェクト
-  def show_newgameform2(udb)
-    userselect1 = udb.to_select_id_name('rid', 'rid', 'inpform',
-                                        "onchange='furifusen2();'")
-    userselect2 = udb.to_select_id_name('rid2', 'rid2', 'inpform', '')
+  def print_form_head(user1, user2)
     scriptname = File.basename($PROGRAM_NAME)
     print <<-FORM_NEW_GAME_HEAD.unindent
       <form action='#{scriptname}?gennewgame2' method=post name='gennewgame2'>
       <table align='center' class='inpform'>
-       <tr id='player21'><td>player 1</td><td>#{userselect1}</td></tr>
-       <tr id='player22'><td>player 2</td><td>#{userselect2}</td></tr>
+       <tr id='player21'><td>player 1</td><td>#{user1}</td></tr>
+       <tr id='player22'><td>player 2</td><td>#{user2}</td></tr>
        <tr id='teai'>
         <td>手合</td>
         <td>
@@ -85,12 +79,9 @@ class NewGameScreen
         </td>
        </tr>
     FORM_NEW_GAME_HEAD
+  end
 
-    puts " <tr height='32px'><td colspan=2>"
-    sz_and_style = "style='display:none' width='32' height='32'"
-    put_furigomaimg('2', sz_and_style)
-    puts ' </td></tr>'
-
+  def print_form_tail
     puts <<-FORM_NEW_GAME_TAIL.unindent
        <tr>
         <td><input type='reset' class='inpform'></td>
@@ -100,6 +91,23 @@ class NewGameScreen
        </tr>
        <tr><td colspan='3' id='errmsg2'></td></tr></table></form>
     FORM_NEW_GAME_TAIL
+  end
+
+  # フォームの出力2
+  #
+  # @param udb UserInfoFileContentオブジェクト
+  def show_newgameform2(udb)
+    userselect1 = udb.to_select_id_name('rid', 'rid', 'inpform',
+                                        "onchange='furifusen2();'")
+    userselect2 = udb.to_select_id_name('rid2', 'rid2', 'inpform', '')
+    print_form_head(userselect1, userselect2)
+
+    puts " <tr height='32px'><td colspan=2>"
+    sz_and_style = "style='display:none' width='32' height='32'"
+    put_furigomaimg('2', sz_and_style)
+    puts ' </td></tr>'
+
+    print_form_tail
   end
 
   # 振り駒用の画像タグの出力
