@@ -182,6 +182,29 @@ class Move
     msg
   end
 
+  # 指されましたメールの本文の生成
+  #
+  # @param name   手番の人の名前
+  # @param nowstr   現在の時刻の文字列
+  def build_nextturnhtmlmsg(name, nowstr)
+    msg = <<-MSG_TEXT.unindent
+      <p>#{name}さん
+
+      <p>#{@userinfo.user_name}さんが#{nowstr}に１手指されました。
+
+      <p>#{@baseurl}index.rb?game/#{@gameid}
+      <p><img src="#{@baseurl}sfenimage.rb?sfen=%2BB2gkg3%2F2s1rs3%2Fp1p4pp%2F6p2%2F1p5P1%2F9%2FPP2PPP1P%2F2G4R1%2FLNS2KSNL+w+B2N2L3Pg2p+22">
+    MSG_TEXT
+    # sfenimage.rb?sfen=%2BB2gkg3%2F2s1rs3%2Fp1p4pp%2F6p2%2F1p5P1%2F9%2FPP2PPP1P%2F2G4R1%2FLNS2KSNL+w+B2N2L3Pg2p+22&lm=91&sname=aoki2&gname=nobu&title=&turn=w
+
+    chat = ChatFile.new(@gameid)
+    chat.read
+    msg += "<pre>---- messages in chat ----\n#{chat.stripped_msg}"
+    msg += "---- messages in chat ----\n</pre>\n"
+
+    msg
+  end
+
   # 指されましたメールの生成と送信
   #
   # @param nowstr   現在の時刻の文字列
@@ -192,9 +215,10 @@ class Move
     # @log.debug("opp:#{opp}")
 
     msg = build_nextturnmsg(opp[:name], nowstr)
+    html = build_nextturnhtmlmsg(opp[:name], nowstr)
 
     mmgr = MailManager.new
-    mmgr.send_mail_withfooter(opp[:mail], subject, msg)
+    mmgr.send_htmlmail_withfooter(opp[:mail], subject, msg, html)
   end
 
   # メールの送信
