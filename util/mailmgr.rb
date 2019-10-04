@@ -44,7 +44,7 @@ class MailManager
   # @param msg     本文
   def send_htmlmail_withfooter(addr, subject, msg, html)
     msg += MailManager.footer
-    html += MailManager.footer
+    html += "<pre>#{MailManager.footer}</pre>"
     send_htmlmail(addr, subject, msg, html)
   end
 
@@ -132,7 +132,7 @@ class MailManager
   # @param msg     本文
   def send_htmlmailex_withfooter(addr, subject, msg, html, attached)
     msg += MailManager.footer
-    html += MailManager.footer
+    html += "<pre>#{MailManager.footer}</pre>"
     send_htmlmailex(addr, subject, msg, html, attached)
   end
 

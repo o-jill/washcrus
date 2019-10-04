@@ -128,12 +128,13 @@ class Move
   # @param nowstr   現在の時刻の文字列
   # @param filename 添付ファイル名
   def build_finishedhtmlmsg(nowstr, filename)
+    url = "#{@baseurl}index.rb?game/#{@gameid}"
     msg = <<-MSG_TEXT.unindent
       <p>#{@tkd.mif.playerb.name}さん、 #{@tkd.mif.playerw.name}さん
 
       <p>対局(#{@gameid})が#{nowstr}に終局しました。
 
-      <p>#{@baseurl}index.rb?game/#{@gameid}
+      <p><a href=#{url}>#{url}</a>
 
       <p><img src="#{@baseurl}sfenimage.rb?sfen=%2BB2gkg3%2F2s1rs3%2Fp1p4pp%2F6p2%2F1p5P1%2F9%2FPP2PPP1P%2F2G4R1%2FLNS2KSNL+w+B2N2L3Pg2p+22">
 
@@ -215,12 +216,14 @@ class Move
   # @param name   手番の人の名前
   # @param nowstr   現在の時刻の文字列
   def build_nextturnhtmlmsg(name, nowstr)
+    url = "#{@baseurl}index.rb?game/#{@gameid}"
     msg = <<-MSG_TEXT.unindent
       <p>#{name}さん
 
       <p>#{@userinfo.user_name}さんが#{nowstr}に１手指されました。
 
-      <p>#{@baseurl}index.rb?game/#{@gameid}
+      <p><a href=#{url}>#{url}</a>
+
       <p><img src="#{@baseurl}sfenimage.rb?sfen=%2BB2gkg3%2F2s1rs3%2Fp1p4pp%2F6p2%2F1p5P1%2F9%2FPP2PPP1P%2F2G4R1%2FLNS2KSNL+w+B2N2L3Pg2p+22">
     MSG_TEXT
     # sfenimage.rb?sfen=%2BB2gkg3%2F2s1rs3%2Fp1p4pp%2F6p2%2F1p5P1%2F9%2FPP2PPP1P%2F2G4R1%2FLNS2KSNL+w+B2N2L3Pg2p+22&lm=91&sname=aoki2&gname=nobu&title=&turn=w
