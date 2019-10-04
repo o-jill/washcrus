@@ -98,12 +98,12 @@ class MailManager
     @mail.deliver
   end
 
-  # 添付ファイル付きメールの送信
+  # HTMLメールの送信
   #
   # @param addr    メールアドレス
   # @param subject 件名
   # @param msg     本文
-  # @param attach  添付ファイル {filename: name, content: content}
+  # @param html    HTML本文
   def send_htmlmail(addr, subject, msg, html)
     @mail = Mail.new do
       # from    @dlvcfg['mailaddress']
@@ -117,6 +117,45 @@ class MailManager
         body html
       end
       # add_file filename: attach[:filename], content: attach[:content]
+    end
+    @mail['from'] = @dlvcfg['mailaddress']
+
+    setdeliverymethod
+
+    @mail.deliver
+  end
+
+  # フッターを付けて添付ファイル付きメールの送信
+  #
+  # @param addr    メールアドレス
+  # @param subject 件名
+  # @param msg     本文
+  def send_htmlmailex_withfooter(addr, subject, msg, html, attached)
+    msg += MailManager.footer
+    send_htmlmailex(addr, subject, msg, html, attached)
+  end
+
+  # 添付ファイル付きメールの送信
+  #
+  # @param addr    メールアドレス
+  # @param subject 件名
+  # @param msg     本文
+  # @param html    HTML本文
+  # @param attach  添付ファイル {filename: name, content: content}
+  def send_htmlmailex(addr, subject, msg, html, attach)
+    @mail = Mail.new do
+      # from    @dlvcfg['mailaddress']
+      to      addr
+      subject subject
+      body    msg
+      text_part do
+        body msg
+      end
+      html_part do
+        content_type 'text/html; charset=utf-8'
+        body html
+      end
+      add_file filename: attach[:filename], content: attach[:content]
     end
     @mail['from'] = @dlvcfg['mailaddress']
 
