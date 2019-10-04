@@ -132,6 +132,7 @@ class MailManager
   # @param msg     本文
   def send_htmlmailex_withfooter(addr, subject, msg, html, attached)
     msg += MailManager.footer
+    html += MailManager.footer
     send_htmlmailex(addr, subject, msg, html, attached)
   end
 

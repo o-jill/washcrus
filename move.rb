@@ -123,6 +123,33 @@ class Move
     msg
   end
 
+  # 対局終了メールの本文の生成
+  #
+  # @param nowstr   現在の時刻の文字列
+  # @param filename 添付ファイル名
+  def build_finishedhtmlmsg(nowstr, filename)
+    msg = <<-MSG_TEXT.unindent
+      <p>#{@tkd.mif.playerb.name}さん、 #{@tkd.mif.playerw.name}さん
+
+      <p>対局(#{@gameid})が#{nowstr}に終局しました。
+
+      <p>#{@baseurl}index.rb?game/#{@gameid}
+
+      <p><img src="#{@baseurl}sfenimage.rb?sfen=%2BB2gkg3%2F2s1rs3%2Fp1p4pp%2F6p2%2F1p5P1%2F9%2FPP2PPP1P%2F2G4R1%2FLNS2KSNL+w+B2N2L3Pg2p+22">
+
+      <p>attached:#{filename}
+
+    MSG_TEXT
+
+    chat = ChatFile.new(@gameid)
+    chat.read
+    msg += "<p>---- messages in chat ----"
+    msg += "#{chat.msg}"
+    msg += "<p>---- messages in chat ----<p>"
+
+    msg
+  end
+
   # 添付ファイル名の生成
   #
   # @return 添付ファイル名
@@ -146,6 +173,7 @@ class Move
     filename = build_attachfilename
 
     msg = build_finishedmsg(nowstr, filename)
+    html = build_finishedhtmlmsg(nowstr, filename)
 
     kifufile = {
       filename: filename,
@@ -156,8 +184,8 @@ class Move
     # @log.debug("msg:#{msg}")
     mif = @tkd.mif
     mmgr = MailManager.new
-    mmgr.send_mailex_withfooter(mif.playerb.email, subject, msg, kifufile)
-    mmgr.send_mailex_withfooter(mif.playerw.email, subject, msg, kifufile)
+    mmgr.send_htmlmailex_withfooter(mif.playerb.email, subject, msg, html, kifufile)
+    mmgr.send_htmlmailex_withfooter(mif.playerw.email, subject, msg, html, kifufile)
   end
 
   # 指されましたメールの本文の生成
