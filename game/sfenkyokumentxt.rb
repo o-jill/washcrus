@@ -111,8 +111,8 @@ class SfenKyokumenTxt
     return '' unless pos
     nm = '歩と香杏桂圭銀全金金角馬飛龍玉玉'[2 * pos + prmt, 1]
 
-    return " #{nm}|" if sente
-    "v#{nm}|"  # gote
+    return " #{nm}" if sente
+    "v#{nm}"  # gote
   end
 
   # ある段の駒達のタグの生成
@@ -131,19 +131,19 @@ class SfenKyokumenTxt
         banstr += tagkoma(ch, promote)
         promote = 0
       when '1'..'9'
-        banstr += Array.new(ch.to_i, '   |').join('')
+        banstr += Array.new(ch.to_i, ' ・').join('')
         promote = 0
       when '+'
         promote = 1
       end
     end
 
-    banstr + "\n"
+    banstr + "|\n"
   end
 
   # 駒達のタグの生成
   def tagkomas
-    banstr = ''
+    banstr = "+---------------------------+\n"
     ban = @strban.split('/')
     ndan = 0
 
@@ -153,7 +153,7 @@ class SfenKyokumenTxt
       ndan += 1
     end
 
-    banstr
+    banstr + "+---------------------------+\n"
   end
 
   # 将棋盤のタグの生成
@@ -213,12 +213,16 @@ class SfenKyokumenTxt
 
   # 後手の名前と手駒
   def taggote
-    "後手:#{@gname}\n手駒:#{@gtgm}\n"
+    koma = @gtgm
+    koma = 'なし' if @gtgm.length.zero?
+    "後手:#{@gname}\n後手の持駒:#{koma}\n"
   end
 
   #　先手の名前と手駒
   def tagsente
-    "手駒:#{@stgm}\n先手:#{@sname}\n"
+    koma = @stgm
+    koma = 'なし' if @stgm.length.zero?
+    "先手の持駒:#{koma}\n先手:#{@sname}\n"
   end
 
   # 将棋内容タグの生成
