@@ -71,7 +71,7 @@ class SfenKyokumenTxt
     return if sfenitem.length < 4 # error
 
     @strban = sfenitem[0]
-    @strteban = sfenitem[0]
+    @strteban = sfenitem[1]
     @strtegoma = sfenitem[2]
     @tesuu = sfenitem[3]
 
@@ -91,7 +91,7 @@ class SfenKyokumenTxt
 
     strx = '０１２３４５６７８９'[x, 1]
     stry = '零一二三四五六七八九'[y, 1]
-    "#{@tesuu}手目 #{strx}#{stry}？？まで\n"
+    "#{@tesuu.to_i - 1}手目 #{strx}#{stry}？？まで\n"
   end
 
   # 駒のタグの生成

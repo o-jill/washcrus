@@ -15,6 +15,7 @@ require './file/pathlist.rb'
 require './file/taikyokufile.rb'
 require './file/chatfile.rb'
 require './game/taikyokudata.rb'
+require './game/sfenkyokumentxt.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
 require './util/myhtml.rb'
@@ -189,6 +190,14 @@ class Move
     mmgr.send_htmlmailex_withfooter(mif.playerw.email, subject, msg, html, kifufile)
   end
 
+  def build_kyokumenzu
+    skt = SfenKyokumenTxt.new(@tkd.mif.sfen)
+    skt.settitle('タイトル')
+    skt.setmoveinfo(@tkd.mif.lastmove[3, 2], 'b')
+    skt.setnames(@tkd.mif.playerb.name, @tkd.mif.playerw.name)
+    skt.gen
+  end
+
   # 指されましたメールの本文の生成
   #
   # @param name   手番の人の名前
@@ -202,6 +211,8 @@ class Move
       #{@baseurl}index.rb?game/#{@gameid}
 
     MSG_TEXT
+
+    msg += build_kyokumenzu
 
     chat = ChatFile.new(@gameid)
     chat.read
