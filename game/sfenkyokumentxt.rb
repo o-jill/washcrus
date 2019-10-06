@@ -85,7 +85,7 @@ class SfenKyokumenTxt
     x = @lm.to_i
 
     y = x % 10
-    x = 10 - x / 10
+    x = x / 10
 
     return '' if y < 1 || y > 9 || x < 1 || x > 9 # error
 

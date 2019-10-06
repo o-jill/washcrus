@@ -116,6 +116,8 @@ class Move
 
     MSG_TEXT
 
+    msg += build_kyokumenzu
+
     chat = ChatFile.new(@gameid)
     chat.read
     msg += "---- messages in chat ----\n#{chat.stripped_msg}"
@@ -137,7 +139,7 @@ class Move
 
       <p><a href=#{url}>#{url}</a>
 
-      <p><img src="#{@baseurl}sfenimage.rb?sfen=%2BB2gkg3%2F2s1rs3%2Fp1p4pp%2F6p2%2F1p5P1%2F9%2FPP2PPP1P%2F2G4R1%2FLNS2KSNL+w+B2N2L3Pg2p+22">
+      <p><img src="#{bulid_svgurl}">
 
       <p>attached:#{filename}
 
@@ -198,6 +200,12 @@ class Move
     skt.gen
   end
 
+  def bulid_svgurl
+    "#{@baseurl}sfenimage.rb?" \
+    "sfen=#{@tkd.mif.sfen}&lm=#{@tkd.mif.lastmove[3, 2]}&" \
+    "sname=#{@tkd.mif.playerb.name}&gname=#{@tkd.mif.playerw.name}"
+  end
+
   # 指されましたメールの本文の生成
   #
   # @param name   手番の人の名前
@@ -235,7 +243,7 @@ class Move
 
       <p><a href=#{url}>#{url}</a>
 
-      <p><img src="#{@baseurl}sfenimage.rb?sfen=%2BB2gkg3%2F2s1rs3%2Fp1p4pp%2F6p2%2F1p5P1%2F9%2FPP2PPP1P%2F2G4R1%2FLNS2KSNL+w+B2N2L3Pg2p+22">
+      <p><img src="#{bulid_svgurl}">
     MSG_TEXT
     # sfenimage.rb?sfen=%2BB2gkg3%2F2s1rs3%2Fp1p4pp%2F6p2%2F1p5P1%2F9%2FPP2PPP1P%2F2G4R1%2FLNS2KSNL+w+B2N2L3Pg2p+22&lm=91&sname=aoki2&gname=nobu&title=&turn=w
 
