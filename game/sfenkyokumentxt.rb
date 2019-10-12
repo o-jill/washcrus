@@ -99,11 +99,11 @@ class SfenKyokumenTxt
 
   def sengo
     if @strteban == 'w'
-      return '下手' if @tesuu.to_i % 2 != 0
-      return '先手'
+      return '下手' unless (@tesuu.to_i % 2).zero?
+      '先手'
     else
-      return '上手' if @tesuu.to_i % 2 == 0
-      return '後手'
+      return '上手' if (@tesuu.to_i % 2).zero?
+      '後手'
     end
   end
 
@@ -114,7 +114,7 @@ class SfenKyokumenTxt
     x = @lm[3, 2].to_i
 
     y = x % 10
-    x = x / 10
+    x /= 10
 
     return '' if y < 1 || y > 9 || x < 1 || x > 9 # error
 
@@ -140,7 +140,7 @@ class SfenKyokumenTxt
     nm = '歩と香杏桂圭銀全金金角馬飛龍玉玉'[2 * pos + prmt, 1]
 
     return " #{nm}" if sente
-    "v#{nm}"  # gote
+    "v#{nm}" # gote
   end
 
   # ある段の駒達のタグの生成
@@ -149,7 +149,7 @@ class SfenKyokumenTxt
   # @param ndan 段
   #
   # @return ある段の駒達のタグ
-  def tagkomas_dan(adan, ndan, i)
+  def tagkomas_dan(adan, ndan)
     banstr = '|'
     promote = 0
 
@@ -166,19 +166,16 @@ class SfenKyokumenTxt
       end
     end
 
-    banstr + '|' + NUMKANJI[i + 1] + "\n"
+    banstr + '|' + NUMKANJI[ndan] + "\n"
   end
 
   # 駒達のタグの生成
   def tagkomas
     banstr = "  ９ ８ ７ ６ ５ ４ ３ ２ １\n+---------------------------+\n"
     ban = @strban.split('/')
-    ndan = 0
 
     ban.each_with_index do |adan, i|
-      banstr += tagkomas_dan(adan, ndan, i)
-
-      ndan += 1
+      banstr += tagkomas_dan(adan, i + 1)
     end
 
     banstr + "+---------------------------+\n"
@@ -250,7 +247,7 @@ class SfenKyokumenTxt
     "後手：#{@gname}\n後手の持駒：#{koma}\n"
   end
 
-  #　先手の名前と手駒
+  # 先手の名前と手駒
   def tagsente
     koma = @stgm
     koma = 'なし' if @stgm.length.zero?
@@ -266,14 +263,16 @@ class SfenKyokumenTxt
 end
 
 # test
-if __FILE__ == $0
-# sfn = 'lnsgkgsnl/1r5b1/p1ppppp1p/9/9/9/P1PPPPP1P/1B2K2R1/LNSG1GSNL w 2P2p 2'
-# sfn = '1n4gn1/4r2sk/5Snll/2p2ppBp/1p2pP3/2P3PS1/1P1+p3GL/2S2+b1KL/8R b GNPg6p 105'
-sfn = 'l6nl/1r4gk1/4bs1p1/2pp+Spp1s/pp1n5/2PS2PP1/PP1G1P3/1KGB3R1/LN6L w GPn4p 64'
-skt = SfenKyokumenTxt.new(sfn)
-skt.settitle('タイトル')
-skt.setnames('先手太郎', '後手花子')
-# skt.setmoveinfo('+5958OU___')
-skt.setmoveinfo('+6354GIKIP')
-print skt.gen
+if $PROGRAM_NAME == __FILE__
+  # sfn = 'lnsgkgsnl/1r5b1/p1ppppp1p/9/9/9/P1PPPPP1P/1B2K2R1/LNSG1GSNL w 2P2p 2'
+  # sfn = '1n4gn1/4r2sk/5Snll/2p2ppBp/1p2pP3/2P3PS1/1P1+p3GL/2S2+b1KL/8R' \
+  #       ' b GNPg6p 105'
+  sfn = 'l6nl/1r4gk1/4bs1p1/2pp+Spp1s/pp1n5/2PS2PP1/PP1G1P3/1KGB3R1/LN6L' \
+        ' w GPn4p 64'
+  skt = SfenKyokumenTxt.new(sfn)
+  skt.settitle('タイトル')
+  skt.setnames('先手太郎', '後手花子')
+  # skt.setmoveinfo('+5958OU___')
+  skt.setmoveinfo('+6354GIKIP')
+  print skt.gen
 end

@@ -147,9 +147,8 @@ class Move
 
     chat = ChatFile.new(@gameid)
     chat.read
-    msg += "<p>---- messages in chat ----"
-    msg += "#{chat.msg}"
-    msg += "<p>---- messages in chat ----<p>"
+    msg += "<p>---- messages in chat ----\n#{chat.msg}"
+    msg += '<p>---- messages in chat ----\n<p>'
 
     msg
   end
@@ -188,8 +187,12 @@ class Move
     # @log.debug("msg:#{msg}")
     mif = @tkd.mif
     mmgr = MailManager.new
-    mmgr.send_htmlmailex_withfooter(mif.playerb.email, subject, msg, html, kifufile)
-    mmgr.send_htmlmailex_withfooter(mif.playerw.email, subject, msg, html, kifufile)
+    mmgr.send_htmlmailex_withfooter(
+      mif.playerb.email, subject, msg, html, kifufile
+    )
+    mmgr.send_htmlmailex_withfooter(
+      mif.playerw.email, subject, msg, html, kifufile
+    )
   end
 
   def build_kyokumenzu
@@ -245,7 +248,6 @@ class Move
 
       <p><img src="#{bulid_svgurl}">
     MSG_TEXT
-    # sfenimage.rb?sfen=%2BB2gkg3%2F2s1rs3%2Fp1p4pp%2F6p2%2F1p5P1%2F9%2FPP2PPP1P%2F2G4R1%2FLNS2KSNL+w+B2N2L3Pg2p+22&lm=91&sname=aoki2&gname=nobu&title=&turn=w
 
     chat = ChatFile.new(@gameid)
     chat.read
