@@ -97,6 +97,16 @@ class SfenKyokumenTxt
     ret
   end
 
+  def sengo
+    if @strteban == 'w'
+      return '下手' if @tesuu.to_i % 2 != 0
+      return '先手'
+    else
+      return '上手' if @tesuu.to_i % 2 == 0
+      return '後手'
+    end
+  end
+
   # 最終手タグの生成
   def taglastmove
     return '' unless @lm
@@ -110,7 +120,7 @@ class SfenKyokumenTxt
 
     strx = '０１２３４５６７８９'[x, 1]
     stry = NUMKANJI[y]
-    "手数＝#{@tesuu.to_i - 1}  #{strx}#{stry}#{komatype}  まで\n"
+    "手数＝#{@tesuu.to_i - 1}  #{sengo}#{strx}#{stry}#{komatype}  まで\n"
   end
 
   # 駒のタグの生成
