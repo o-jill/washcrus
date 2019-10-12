@@ -2,12 +2,6 @@
 
 require 'unindent'
 
-# http://sfenreader.appspot.com/sfen?
-# sfen=lnsgkgsnl/1r5b1/p1ppppp1p/9/9/9/P1PPPPP1P/1B2K2R1/LNSG1GSNL w 2P2p 2&
-# lm=58&
-# sname=aoki&
-# gname=aoki
-
 #
 # Sfenから局面図textを生成
 #
@@ -100,7 +94,7 @@ class SfenKyokumenTxt
     promote = @lm[9, 1]
     ret = KOMACSA2KANJI[komastr.to_sym]
     return ret + '成' if promote == 'P'
-    ret + "(#{promote}, #{@lm})"
+    ret
   end
 
   # 最終手タグの生成
@@ -115,7 +109,7 @@ class SfenKyokumenTxt
     return '' if y < 1 || y > 9 || x < 1 || x > 9 # error
 
     strx = '０１２３４５６７８９'[x, 1]
-    stry = '零一二三四五六七八九'[y, 1]
+    stry = NUMKANJI[y]
     "手数＝#{@tesuu.to_i - 1}  #{strx}#{stry}#{komatype}  まで\n"
   end
 
@@ -162,7 +156,7 @@ class SfenKyokumenTxt
       end
     end
 
-    banstr + '|' + '一二三四五六七八九'[i, 1] + "\n"
+    banstr + '|' + NUMKANJI[i] + "\n"
   end
 
   # 駒達のタグの生成
