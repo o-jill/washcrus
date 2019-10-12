@@ -156,7 +156,7 @@ class SfenKyokumenTxt
       end
     end
 
-    banstr + '|' + NUMKANJI[i] + "\n"
+    banstr + '|' + NUMKANJI[i + 1] + "\n"
   end
 
   # 駒達のタグの生成
