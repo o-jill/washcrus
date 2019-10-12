@@ -19,7 +19,7 @@ class SfenKyokumenTxt
     @sfen = sfen
     @sname = nil
     @gname = nil
-    @lm = nil # xy [1-9][1-9]
+    @lm = nil # '+0000OU__P'
     @title = nil
     @piecetype = nil # not upported yet
     @turn = nil
@@ -47,9 +47,8 @@ class SfenKyokumenTxt
   #
   # @param lmv 最後に動かしたマス
   # @param turn 手番(b/w)or勝利情報(fb/fw)
-  def setmoveinfo(lmv, turn)
+  def setmoveinfo(lmv)
     @lm = lmv
-    @turn = turn
   end
 
   # コマの種類の設定
@@ -78,11 +77,37 @@ class SfenKyokumenTxt
     readtegoma
   end
 
+  KOMACSA2KANJI = {
+    FU: '歩',
+    TO: 'と',
+    KY: '香',
+    NY: '杏',
+    KE: '桂',
+    NK: '圭',
+    GI: '銀',
+    NG: '全',
+    KI: '金',
+    KA: '角',
+    UM: '馬',
+    HI: '飛',
+    RY: '龍',
+    OU: '玉'
+  }.freeze
+
+  def komatype
+    # var movecsa = '%0000OU__P';
+    komastr = @lm[5, 2]
+    promote = @lm[9, 1]
+    ret = KOMACSA2KANJI[komastr.to_sym]
+    return ret + '成' if promote == 'P'
+    ret + "(#{promote}, #{@lm})"
+  end
+
   # 最終手タグの生成
   def taglastmove
     return '' unless @lm
 
-    x = @lm.to_i
+    x = @lm[3, 2].to_i
 
     y = x % 10
     x = x / 10
@@ -91,7 +116,7 @@ class SfenKyokumenTxt
 
     strx = '０１２３４５６７８９'[x, 1]
     stry = '零一二三四五六七八九'[y, 1]
-    "#{@tesuu.to_i - 1}手目 #{strx}#{stry}？？まで\n"
+    "手数＝#{@tesuu.to_i - 1}  #{strx}#{stry}#{komatype}  まで\n"
   end
 
   # 駒のタグの生成
@@ -105,7 +130,6 @@ class SfenKyokumenTxt
   def tagkoma(ch, prmt)
     sente = /[A-Z]/.match(ch) # true:先手, false:後手
     ch = ch.upcase
-    ret =
 
     pos = 'PLNSGBRK'.index(ch)
     return '' unless pos
@@ -121,7 +145,7 @@ class SfenKyokumenTxt
   # @param ndan 段
   #
   # @return ある段の駒達のタグ
-  def tagkomas_dan(adan, ndan)
+  def tagkomas_dan(adan, ndan, i)
     banstr = '|'
     promote = 0
 
@@ -138,17 +162,17 @@ class SfenKyokumenTxt
       end
     end
 
-    banstr + "|\n"
+    banstr + '|' + '一二三四五六七八九'[i, 1] + "\n"
   end
 
   # 駒達のタグの生成
   def tagkomas
-    banstr = "+---------------------------+\n"
+    banstr = "  ９ ８ ７ ６ ５ ４ ３ ２ １\n+---------------------------+\n"
     ban = @strban.split('/')
     ndan = 0
 
-    ban.each do |adan|
-      banstr += tagkomas_dan(adan, ndan)
+    ban.each_with_index do |adan, i|
+      banstr += tagkomas_dan(adan, ndan, i)
 
       ndan += 1
     end
@@ -163,6 +187,10 @@ class SfenKyokumenTxt
     tagkomas
   end
 
+  NUMKANJI = [
+    '零', '一', '二', '三', '四', '五', '六', '七', '八', '九',
+    '十', '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九'
+  ].freeze
   # sfen文字から手駒タグの生成
   #
   # @param ch sfen文字
@@ -173,9 +201,9 @@ class SfenKyokumenTxt
     pos = 'PLNSGBR'.index(ch)
     return '' unless pos
     ch = '歩香桂銀金角飛'[pos, 1]
-    return ch unless num
-    Array.new(num, ch).join("")
-    # ch + num.to_s
+    # Array.new(num, ch).join("")
+    ch += NUMKANJI[num] unless num.zero?
+    ch + '　'
   end
 
   # sfen文字から手駒タグの生成
@@ -215,27 +243,33 @@ class SfenKyokumenTxt
   def taggote
     koma = @gtgm
     koma = 'なし' if @gtgm.length.zero?
-    "後手:#{@gname}\n後手の持駒:#{koma}\n"
+    "後手：#{@gname}\n後手の持駒：#{koma}\n"
   end
 
   #　先手の名前と手駒
   def tagsente
     koma = @stgm
     koma = 'なし' if @stgm.length.zero?
-    "先手の持駒:#{koma}\n先手:#{@sname}\n"
+    "先手の持駒：#{koma}\n先手：#{@sname}\n"
   end
 
   # 将棋内容タグの生成
   def gen
-    "「#{@title}」\n" + taggote + tagboardstatus \
-      + tagsente + taglastmove
+    ret = taggote + tagboardstatus + tagsente + taglastmove + "* #{@title}\n"
+    return ret + "後手番\n" if @strteban == 'w'
+    ret
   end
 end
 
 # test
-# skt = SfenKyokumenTxt.new(
-#     'lnsgkgsnl/1r5b1/p1ppppp1p/9/9/9/P1PPPPP1P/1B2K2R1/LNSG1GSNL w 2P2p 2')
-# skt.settitle('タイトル')
-# skt.setnames('先手太郎', '後手花子')
-# skt.setmoveinfo('58', 'b')
-# print skt.gen
+if __FILE__ == $0
+# sfn = 'lnsgkgsnl/1r5b1/p1ppppp1p/9/9/9/P1PPPPP1P/1B2K2R1/LNSG1GSNL w 2P2p 2'
+# sfn = '1n4gn1/4r2sk/5Snll/2p2ppBp/1p2pP3/2P3PS1/1P1+p3GL/2S2+b1KL/8R b GNPg6p 105'
+sfn = 'l6nl/1r4gk1/4bs1p1/2pp+Spp1s/pp1n5/2PS2PP1/PP1G1P3/1KGB3R1/LN6L w GPn4p 64'
+skt = SfenKyokumenTxt.new(sfn)
+skt.settitle('タイトル')
+skt.setnames('先手太郎', '後手花子')
+# skt.setmoveinfo('+5958OU___')
+skt.setmoveinfo('+6354GIKIP')
+print skt.gen
+end

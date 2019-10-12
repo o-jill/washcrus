@@ -195,14 +195,14 @@ class Move
   def build_kyokumenzu
     skt = SfenKyokumenTxt.new(@tkd.mif.sfen)
     skt.settitle('タイトル')
-    skt.setmoveinfo(@tkd.mif.lastmove[3, 2], 'b')
+    skt.setmoveinfo(@move)
     skt.setnames(@tkd.mif.playerb.name, @tkd.mif.playerw.name)
     skt.gen
   end
 
   def bulid_svgurl
     "#{@baseurl}sfenimage.rb?" \
-    "sfen=#{@tkd.mif.sfen}&lm=#{@tkd.mif.lastmove[3, 2]}&" \
+    "sfen=#{@tkd.mif.sfen.gsub('+', '%2B')}&lm=#{@tkd.mif.lastmove[3, 2]}&" \
     "sname=#{@tkd.mif.playerb.name}&gname=#{@tkd.mif.playerw.name}"
   end
 
