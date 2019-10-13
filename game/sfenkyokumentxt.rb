@@ -107,6 +107,10 @@ class SfenKyokumenTxt
     end
   end
 
+  def checksujidan(x, y)
+    !(y > 0 || y < 9 || x < 1 || x > 9)
+  end
+
   # 最終手タグの生成
   def taglastmove
     return '' unless @lm
@@ -116,7 +120,7 @@ class SfenKyokumenTxt
     y = x % 10
     x /= 10
 
-    return '' if y < 1 || y > 9 || x < 1 || x > 9 # error
+    return '' unless checksujidan(x, y) # error
 
     strx = '０１２３４５６７８９'[x, 1]
     stry = NUMKANJI[y]
