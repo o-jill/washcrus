@@ -108,7 +108,7 @@ class SfenKyokumenTxt
   end
 
   def checksujidan(x, y)
-    !(y < 1 || y < 9 || x < 1 || x > 9)
+    !(y < 1 || y > 9 || x < 1 || x > 9)
   end
 
   # 最終手タグの生成
