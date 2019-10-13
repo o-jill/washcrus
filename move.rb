@@ -176,7 +176,7 @@ class Move
     filename = build_attachfilename
 
     msg = build_finishedmsg(nowstr, filename)
-    html = build_finishedhtmlmsg(nowstr, filename)
+    html = build_finishedhtmlmsg(nowstr, filename) if @usehtml
 
     kifufile = {
       filename: filename,
@@ -186,13 +186,16 @@ class Move
 
     # @log.debug("msg:#{msg}")
     mif = @tkd.mif
+    bemail = mif.playerb.email
+    wemail = mif.playerw.email
     mmgr = MailManager.new
-    mmgr.send_htmlmailex_withfooter(
-      mif.playerb.email, subject, msg, html, kifufile
-    )
-    mmgr.send_htmlmailex_withfooter(
-      mif.playerw.email, subject, msg, html, kifufile
-    )
+    if @usehtml
+      mmgr.send_htmlmailex_withfooter(bemail, subject, msg, html, kifufile)
+      mmgr.send_htmlmailex_withfooter(wemail, subject, msg, html, kifufile)
+    else
+      mmgr.send_mailex_withfooter(bemail, subject, msg, kifufile)
+      mmgr.send_mailex_withfooter(wemail, subject, msg, kifufile)
+    end
   end
 
   def build_kyokumenzu
@@ -267,10 +270,14 @@ class Move
     # @log.debug("opp:#{opp}")
 
     msg = build_nextturnmsg(opp[:name], nowstr)
-    html = build_nextturnhtmlmsg(opp[:name], nowstr)
 
     mmgr = MailManager.new
-    mmgr.send_htmlmail_withfooter(opp[:mail], subject, msg, html)
+    if @usehtml
+      html = build_nextturnhtmlmsg(opp[:name], nowstr)
+      mmgr.send_htmlmail_withfooter(opp[:mail], subject, msg, html)
+    else
+      mmgr.send_mail_withfooter(opp[:mail], subject, msg)
+    end
   end
 
   # メールの送信
