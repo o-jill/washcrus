@@ -37,6 +37,7 @@ class Move
     read_cgiparam
     # @stg = stg
     @baseurl = stg.value['base_url']
+    @usehtml = stg.value['mailformat'] == 'html'
     @turn = '?'
     @log.info("gameid:#{@gameid}")
     @log.info("sfen:#{@sfen}")
