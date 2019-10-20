@@ -148,8 +148,8 @@ class Move
 
     chat = ChatFile.new(@gameid)
     chat.read
-    msg += "<p>---- messages in chat ----\n#{chat.msg}"
-    msg += '<p>---- messages in chat ----\n<p>'
+    msg += "<p>---- messages in chat ----<p>#{chat.msg}"
+    msg += '<p>---- messages in chat ----<p>'
 
     msg
   end
