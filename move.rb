@@ -168,6 +168,24 @@ class Move
                '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
   end
 
+  def send_htmlmailex_withfooter(mif, subject, msg, html, kifufile)
+    bemail = mif.playerb.email
+    wemail = mif.playerw.email
+
+    mmgr = MailManager.new
+    mmgr.send_htmlmailex_withfooter(bemail, subject, msg, html, kifufile)
+    mmgr.send_htmlmailex_withfooter(wemail, subject, msg, html, kifufile)
+  end
+
+  def send_mailex_withfooter(mif, subject, msg, kifufile)
+    bemail = mif.playerb.email
+    wemail = mif.playerw.email
+
+    mmgr = MailManager.new
+    mmgr.send_mailex_withfooter(bemail, subject, msg, kifufile)
+    mmgr.send_mailex_withfooter(wemail, subject, msg, kifufile)
+  end
+
   # 終局メールの生成と送信
   def send_mail_finished(nowstr)
     subject = build_finishedtitle
@@ -187,16 +205,10 @@ class Move
 
     # @log.debug("msg:#{msg}")
     mif = @tkd.mif
-    bemail = mif.playerb.email
-    wemail = mif.playerw.email
-    mmgr = MailManager.new
-    if @usehtml
-      mmgr.send_htmlmailex_withfooter(bemail, subject, msg, html, kifufile)
-      mmgr.send_htmlmailex_withfooter(wemail, subject, msg, html, kifufile)
-    else
-      mmgr.send_mailex_withfooter(bemail, subject, msg, kifufile)
-      mmgr.send_mailex_withfooter(wemail, subject, msg, kifufile)
-    end
+    return send_htmlmailex_withfooter(mif, subject, msg, html, kifufile) \
+      if @usehtml
+
+    send_mailex_withfooter(mif, subject, msg, kifufile)
   end
 
   def build_kyokumenzu

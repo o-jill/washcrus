@@ -35,29 +35,30 @@ class AdminSettingsScreen
     puts msg + " </td>\n</tr>\n"
   end
 
+  STG_ELEM = [
+    { title: 'Window title',   eid: 'wintitle', type: 'input' },
+    { title: 'Page title',     eid: 'title', type: 'input' },
+    { title: 'E-mail address', eid: 'mailaddress', type: 'input' },
+    { title: 'E-mail format',  eid: 'mailformat',
+      type: 'radio', options: %w[plaintext html] },
+    { title: 'Domain',         eid: 'domain', type: 'input' },
+    { title: 'Base URL',       eid: 'base_url', type: 'input' },
+    { title: 'Support URL',    eid: 'support_url', type: 'input' }
+  ].freeze
+
   # フォームの出力
   def show_settingsform
     scriptname = File.basename($PROGRAM_NAME)
     stg = Settings.instance
-    stg_elem = [
-      { title: 'Window title',   eid: 'wintitle', type: 'input'},
-      { title: 'Page title',     eid: 'title', type: 'input'},
-      { title: 'E-mail address', eid: 'mailaddress', type: 'input'},
-      { title: 'E-mail format',  eid: 'mailformat',
-        type: 'radio', options: ['plaintext', 'html']},
-      { title: 'Domain',         eid: 'domain', type: 'input'},
-      { title: 'Base URL',       eid: 'base_url', type: 'input'},
-      { title: 'Support URL',    eid: 'support_url', type: 'input'}
-    ]
     print <<-FORM_SETTINGS_HEAD.unindent
       <form action='#{scriptname}?adminsavesettings' method=post name='adminsettings'>
       <table align='center' border=1>
     FORM_SETTINGS_HEAD
-    stg_elem.each do |elem|
+    STG_ELEM.each do |elem|
       name = elem[:title]
       id = elem[:eid]
       type = elem[:type]
-      if (type == 'radio')
+      if type == 'radio'
         show_elem_radio(name, id, elem[:options], stg)
       else
         show_elem_input(name, id, stg)
