@@ -15,6 +15,7 @@ require './file/pathlist.rb'
 require './file/taikyokufile.rb'
 require './file/chatfile.rb'
 require './game/taikyokudata.rb'
+require './game/sfenkyokumentxt.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
 require './util/myhtml.rb'
@@ -36,6 +37,7 @@ class Move
     read_cgiparam
     # @stg = stg
     @baseurl = stg.value['base_url']
+    @usehtml = stg.value['mailformat'] == 'html'
     @turn = '?'
     @log.info("gameid:#{@gameid}")
     @log.info("sfen:#{@sfen}")
@@ -115,10 +117,39 @@ class Move
 
     MSG_TEXT
 
+    msg += build_kyokumenzu
+
     chat = ChatFile.new(@gameid)
     chat.read
     msg += "---- messages in chat ----\n#{chat.stripped_msg}"
     msg += "---- messages in chat ----\n\n"
+
+    msg
+  end
+
+  # 対局終了メールの本文の生成
+  #
+  # @param nowstr   現在の時刻の文字列
+  # @param filename 添付ファイル名
+  def build_finishedhtmlmsg(nowstr, filename)
+    url = "#{@baseurl}index.rb?game/#{@gameid}"
+    msg = <<-MSG_TEXT.unindent
+      <p>#{@tkd.mif.playerb.name}さん、 #{@tkd.mif.playerw.name}さん
+
+      <p>対局(#{@gameid})が#{nowstr}に終局しました。
+
+      <p><a href=#{url}>#{url}</a>
+
+      <p><img src="#{bulid_svgurl}">
+
+      <p>attached:#{filename}
+
+    MSG_TEXT
+
+    chat = ChatFile.new(@gameid)
+    chat.read
+    msg += "<p>---- messages in chat ----<p>#{chat.msg}"
+    msg += '<p>---- messages in chat ----<p>'
 
     msg
   end
@@ -137,6 +168,24 @@ class Move
                '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
   end
 
+  def send_htmlmailex_withfooter(mif, subject, msg, html, kifufile)
+    bemail = mif.playerb.email
+    wemail = mif.playerw.email
+
+    mmgr = MailManager.new
+    mmgr.send_htmlmailex_withfooter(bemail, subject, msg, html, kifufile)
+    mmgr.send_htmlmailex_withfooter(wemail, subject, msg, html, kifufile)
+  end
+
+  def send_mailex_withfooter(mif, subject, msg, kifufile)
+    bemail = mif.playerb.email
+    wemail = mif.playerw.email
+
+    mmgr = MailManager.new
+    mmgr.send_mailex_withfooter(bemail, subject, msg, kifufile)
+    mmgr.send_mailex_withfooter(wemail, subject, msg, kifufile)
+  end
+
   # 終局メールの生成と送信
   def send_mail_finished(nowstr)
     subject = build_finishedtitle
@@ -146,6 +195,7 @@ class Move
     filename = build_attachfilename
 
     msg = build_finishedmsg(nowstr, filename)
+    html = build_finishedhtmlmsg(nowstr, filename) if @usehtml
 
     kifufile = {
       filename: filename,
@@ -155,9 +205,24 @@ class Move
 
     # @log.debug("msg:#{msg}")
     mif = @tkd.mif
-    mmgr = MailManager.new
-    mmgr.send_mailex_withfooter(mif.playerb.email, subject, msg, kifufile)
-    mmgr.send_mailex_withfooter(mif.playerw.email, subject, msg, kifufile)
+    return send_htmlmailex_withfooter(mif, subject, msg, html, kifufile) \
+      if @usehtml
+
+    send_mailex_withfooter(mif, subject, msg, kifufile)
+  end
+
+  def build_kyokumenzu
+    skt = SfenKyokumenTxt.new(@tkd.mif.sfen)
+    skt.settitle('タイトル')
+    skt.setmoveinfo(@move)
+    skt.setnames(@tkd.mif.playerb.name, @tkd.mif.playerw.name)
+    skt.gen
+  end
+
+  def bulid_svgurl
+    "#{@baseurl}sfenimage.rb?" \
+    "sfen=#{@tkd.mif.sfen.gsub('+', '%2B')}&lm=#{@tkd.mif.lastmove[3, 2]}&" \
+    "sname=#{@tkd.mif.playerb.name}&gname=#{@tkd.mif.playerw.name}"
   end
 
   # 指されましたメールの本文の生成
@@ -174,10 +239,36 @@ class Move
 
     MSG_TEXT
 
+    msg += build_kyokumenzu
+
     chat = ChatFile.new(@gameid)
     chat.read
     msg += "---- messages in chat ----\n#{chat.stripped_msg}"
     msg += "---- messages in chat ----\n\n"
+
+    msg
+  end
+
+  # 指されましたメールの本文の生成
+  #
+  # @param name   手番の人の名前
+  # @param nowstr   現在の時刻の文字列
+  def build_nextturnhtmlmsg(name, nowstr)
+    url = "#{@baseurl}index.rb?game/#{@gameid}"
+    msg = <<-MSG_TEXT.unindent
+      <p>#{name}さん
+
+      <p>#{@userinfo.user_name}さんが#{nowstr}に１手指されました。
+
+      <p><a href=#{url}>#{url}</a>
+
+      <p><img src="#{bulid_svgurl}">
+    MSG_TEXT
+
+    chat = ChatFile.new(@gameid)
+    chat.read
+    msg += "<pre>---- messages in chat ----\n#{chat.stripped_msg}"
+    msg += "---- messages in chat ----\n</pre>\n"
 
     msg
   end
@@ -194,7 +285,12 @@ class Move
     msg = build_nextturnmsg(opp[:name], nowstr)
 
     mmgr = MailManager.new
-    mmgr.send_mail_withfooter(opp[:mail], subject, msg)
+    if @usehtml
+      html = build_nextturnhtmlmsg(opp[:name], nowstr)
+      mmgr.send_htmlmail_withfooter(opp[:mail], subject, msg, html)
+    else
+      mmgr.send_mail_withfooter(opp[:mail], subject, msg)
+    end
   end
 
   # メールの送信
