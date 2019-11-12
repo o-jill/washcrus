@@ -216,7 +216,7 @@ class Move
     skt.settitle('タイトル')
     skt.setmoveinfo(@move)
     skt.setnames(@tkd.mif.playerb.name, @tkd.mif.playerw.name)
-    skt.gen
+    skt.gen + "\n"
   end
 
   def bulid_svgurl
