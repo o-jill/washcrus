@@ -55,7 +55,7 @@ class ByouyomiChan
   def build_kyokumenzu(mif)
     skt = SfenKyokumenTxt.new(mif.sfen)
     skt.settitle('タイトル')
-    # skt.setmoveinfo()
+    skt.setmoveinfo(mif.lastmove)
     skt.setnames(mif.playerb.name, mif.playerw.name)
     skt.gen + "\n"
   end
