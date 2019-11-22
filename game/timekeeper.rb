@@ -132,4 +132,23 @@ class TimeKeeper
     tick_byouyomi(elapsed) if elapsed.nonzero?
     puts "houch:#{@houchi}"
   end
+
+  def build_msg
+    case houchi
+    when HOUCHI_REMINDER # 対局者に1日経過を知らせる
+      tdays = (thinktime / 86_400).ceil
+      bdays = (byouyomi / 86_400).ceil
+      "残り時間は、持ち時間約#{tdays}日、秒読み約#{bdays}日です。"
+    when HOUCHI_NOTHINKINGTIME # 対局者に持ち時間がなくなったことを知らせる
+      '持ち時間がなくなりました。秒読みに入ります。'
+    when HOUCHI_USEEXTRA
+      # 対局者に秒読みが終わった/考慮時間を使ったことを知らせる
+      "秒読みが終わりました。考慮時間に入ります。\n残り考慮時間は#{extracount}日です。"
+    when HOUCHI_NOEXTRA # 対局者に最後の考慮時間を使ったことを知らせる
+      '最後の考慮時間に入りました。残りはありません。'
+    when HOUCHI_TMOUT # 対局者に時間切れを知らせる
+      "時間がなくなりました。\n投了するか、対局相手と相談してください。"
+    end
+  end
+
 end
