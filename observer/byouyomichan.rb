@@ -13,6 +13,7 @@ require 'unindent'
 require './file/matchinfofile.rb'
 require './file/taikyokufile.rb'
 require './game/timekeeper.rb'
+require './game/sfenkyokumentxt.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
 require './util/settings.rb'
@@ -51,6 +52,14 @@ class ByouyomiChan
     subject
   end
 
+  def build_kyokumenzu(mif)
+    skt = SfenKyokumenTxt.new(mif.sfen)
+    skt.settitle('タイトル')
+    # skt.setmoveinfo()
+    skt.setnames(mif.playerb.name, mif.playerw.name)
+    skt.gen + "\n"
+  end
+
   def build_msg(mif, nply, tmkp)
     pply = mif.getopponent(nply[:id])
     opp = pply[:name]
@@ -59,12 +68,10 @@ class ByouyomiChan
 
     return unless msg
 
-    ret =
-      "#{nply[:name]}さん\n\n#{msg}\n\n" \
-      "#{opp}さんは#{mif.dt_lastmove}に１手指されました。\n\n" \
-      "#{@baseurl}index.rb?game/#{mif.gid}\n\n"
-
-    ret
+    "#{nply[:name]}さん\n\n#{msg}\n\n" \
+    "#{opp}さんは#{mif.dt_lastmove}に１手指されました。\n\n" \
+    "#{@baseurl}index.rb?game/#{mif.gid}\n\n" \
+    "#{build_kyokumenzu(mif)}\n"
   end
 
   # メールの送信
