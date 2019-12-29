@@ -77,7 +77,7 @@ Koma.InitStrTable = {
     long: {narazu: '桂馬', nari: '成桂'},
     kif: {narazu: '桂', nari: '成桂'},
     kifu: {narazu: '桂', nari: '成桂'},
-    csa: {narazu: 'KE', nari: 'NE'},
+    csa: {narazu: 'KE', nari: 'NK'},
     img: {narazu: 'koma_kei', nari: 'koma_nkei'}
   },
   gin: {
