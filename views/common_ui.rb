@@ -171,6 +171,7 @@ module CommonUI
       <a class='menu' href='#{index}?userlist'> Users </a>
       <a class='menu' href='#{index}?adminuserstg'> User Management </a>
       <a class='menu' href='#{index}?newgame'> New Game </a>
+      <a class='menu' href='#{index}?admingamemanage'> Game Management </a>
       <a class='menu' href='#{index}?adminmenu'> Version </a>
       </div><hr>
     ADMINMENU
