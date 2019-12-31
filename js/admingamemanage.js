@@ -6,7 +6,7 @@ function receiveGame(st, txt)
 
 function retrieveGame()
 {
-  var gid = document.getElementById('gameid');
+  var gid = document.getElementById('gameid').value;
   var ajax = new XMLHttpRequest();
   if (ajax === null)
     return;
