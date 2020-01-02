@@ -42,7 +42,7 @@ class AdminGameManageScreen
        <td><input class='inpform' id='gameid' name='gameid'></td>
        <td rows='3' id='matchinfo'>match information will be here.</td></tr>
       <tr><td class='inpform'>Result</td><td class='inpform'>
-       <select class='inpform'><option value='d'>引き分け</option>
+       <select name='result' class='inpform'><option value='d'>引き分け</option>
         <option value='fb'>先手勝ち</option>
         <option value='fw'>後手勝ち</option></select>
        <button class='inpform' onclick='return retrieveGame();'>確認--&gt;</button>
