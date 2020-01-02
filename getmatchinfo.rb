@@ -47,7 +47,7 @@ class GetMatchInfo
         unless @gameid && !@gameid.empty?
 
     # adminじゃないよ
-    # return MyHtml.puts_textplain_errnotadmin unless @userinfo.admin
+    return MyHtml.puts_textplain_errnotadmin unless @userinfo.admin
 
     self
   end
