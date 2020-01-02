@@ -142,8 +142,8 @@ class WashCrus
   end
 
   def admingamemanageupdate
-    require './views/admingamectrlupdate.rb'
-    AdminGameCtrlManageScreen.new(@header).show(@userinfo)
+    require './views/admingamemanageupdate.rb'
+    AdminGameManageUpdateScreen.new(@header).show(@userinfo, @params)
   end
 
   # ゲーム系の画面
