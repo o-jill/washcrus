@@ -349,6 +349,29 @@ class TaikyokuData
     userdb.give_win_lose(gwin, @idb, @idw)
   end
 
+  # 対局の終了処理
+  # 対局終了日時のセット
+  # 勝敗の記入(勝った方と負けた方に１加算)
+  #
+  # @param datm [Time] 終局時刻
+  # @param turn [String] 終局情報文字 fb fw d
+  #
+  # @note draw非対応
+  def forcefinished(datm, turn)
+    # 対局終了日時のセット
+    # @log.debug('@jkf.setfinishdate()')
+    @jkf.setfinishdate(datm.strftime('%Y/%m/%d %H:%M:%S'))
+
+    @mif.turn = turn
+
+    # 勝敗の記入(買った方と負けた方に１加算)
+    # userdb読み込み
+    # @log.debug('userdb = UserInfoFile.new')
+    userdb = UserInfoFile.new
+    return userdb.give_draw(@idb, @idw) if turn == 'd'
+    userdb.give_win_lose(turn == 'fw', @idb, @idw)
+  end
+
   # 持ち時間の更新
   #
   # @param tmkp TimeKeeperオブジェクト

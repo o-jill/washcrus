@@ -140,6 +140,18 @@ class UserInfoFile
     end
   end
 
+  # 勝敗の記入(draw)
+  #
+  # @param idb  先手のID
+  # @param idw  後手のID
+  def give_draw(idb, idw)
+    lock do
+      read
+      @content.give_draw(idb, idw)
+      write
+    end
+  end
+
   # userdbにあるかどうかの確認, パスワードの再設定
   # [email] e-mail address.
   # [newpw] password.

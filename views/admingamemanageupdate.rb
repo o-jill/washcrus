@@ -1,10 +1,13 @@
 # -*- encoding: utf-8 -*-
 
 # require 'rubygems'
-require 'unindent'
+require 'logger'
 # require 'redcarpet'
+require 'unindent'
 
 require './file/pathlist.rb'
+require './file/taikyokufile.rb'
+require './game/taikyokudata.rb'
 require './game/userinfo.rb'
 require './util/myhtml.rb'
 require './views/common_ui.rb'
@@ -17,25 +20,53 @@ class AdminGameManageUpdateScreen
   #
   # @param header htmlヘッダ
   def initialize(header)
+    @log = Logger.new(PathList::GAMELOG)
     @header = header
-    @errmsg = ''
+    @errmsg = "AdminGameManageUpdateScreen\n"
+    @log.debug @errmsg
   end
 
-  def removefromlist()
+  def extractparams(params)
+    @gameid = params['gameid'][0] if params['gameid']
+    @result = params['result'][0] if params['result']
+
+    msg = "gameid:#{@gameid}, result:#{@result}\n"
+    @log.debug msg
+    @errmsg += msg
+  end
+
+  def removefromlist(gid, res)
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
-    return errmsg = "#{@gameid} does not exist..." unless tcdb.exist_id(@gameid)
+    unless tcdb.exist_id(gid)
+      msg = "#{gid} does not exist...\n"
+      @log.debug msg
+      return @errmsg += msg
+    end
     # 対局中から外す
-    tcdb.finished(@gameid)
+    tcdb.finished(gid)
+    @errmsg += "tcdb.finished(#{gid})\n"
 
+    @tkd = TaikyokuData.new
+    @tkd.log = @log
+    @tkd.setid(gid)
+    @tkd.read
     # 対局終了フラグをつける or 引き分けにする。
-    # gote_win = (@tkd.mif.teban == 'b')
-    @tkd.forcefinished(Time.now, @result)
+    @tkd.forcefinished(Time.now, res)
+    @errmsg += "@tkd.forcefinished(Time.now, #{res})\n"
 
     # %CHUDANとかを棋譜に追加
+    # とりあえず中断一択にします。
     @jmv = JsonMove.fromtext('%CHUDAN')
+    # ret = @tkd.move(@sfen, @jmv, now)
+    # @log.debug("@tkd.move() = #{ret}")
+    @tkd.finish_special(@jmv)
+    @tkd.write
 
+    msg = "DONE.\n"
+    @log.debug msg
+    @errmsg += msg
   end
 
   # 画面の表示
@@ -45,15 +76,15 @@ class AdminGameManageUpdateScreen
   def show(userinfo, params)
     return MyHtml.puts_textplain_errnotadmin unless userinfo.admin
 
-    @gameid = params['gameid'][0]
-    @result = params['result'][0]
-    removefromlist()
+    extractparams(params)
+
+    removefromlist(@gameid, @result)
 
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
     CommonUI.html_adminmenu
 
-    puts errmsg
+    puts "<pre>#{@errmsg}</pre>"
 
     CommonUI.html_foot
   end
