@@ -50,7 +50,7 @@ class AdminGameManageScreen
       <tr><td colspan='2'><input class='inpform' type=submit></td></tr>
       </table>
       </form>
-      EDITFORM
+    EDITFORM
   end
 
   # 画面の表示

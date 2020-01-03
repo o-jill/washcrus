@@ -35,26 +35,32 @@ class AdminGameManageUpdateScreen
     @errmsg += msg
   end
 
-  def removefromlist(gid, res)
-    tcdb = TaikyokuChuFile.new
-    tcdb.read
-    # 存在しないはずのIDだよ
-    unless tcdb.exist_id(gid)
-      msg = "#{gid} does not exist...\n"
-      @log.debug msg
-      return @errmsg += msg
-    end
-    # 対局中から外す
-    tcdb.finished(gid)
-    @errmsg += "tcdb.finished(#{gid})\n"
-
+  def preparetkd(gid)
     @tkd = TaikyokuData.new
     @tkd.log = @log
     @tkd.setid(gid)
     @tkd.read
+  end
+
+  def logg(msg)
+    @log.debug msg
+    @errmsg += msg
+  end
+
+  def removefromlist(gid, res)
+    tcdb = TaikyokuChuFile.new
+    tcdb.read
+    # 存在しないはずのIDだよ
+    return logg("#{gid} does not exist...\n") unless tcdb.exist_id(gid)
+
+    # 対局中から外す
+    tcdb.finished(gid)
+    logg("tcdb.finished(#{gid})\n")
+
+    preparetkd(gid)
     # 対局終了フラグをつける or 引き分けにする。
     @tkd.forcefinished(Time.now, res)
-    @errmsg += "@tkd.forcefinished(Time.now, #{res})\n"
+    logg("@tkd.forcefinished(Time.now, #{res})\n")
 
     # %CHUDANとかを棋譜に追加
     # とりあえず中断一択にします。
@@ -64,9 +70,7 @@ class AdminGameManageUpdateScreen
     @tkd.finish_special(@jmv)
     @tkd.write
 
-    msg = "DONE.\n"
-    @log.debug msg
-    @errmsg += msg
+    logg("DONE.\n")
   end
 
   # 画面の表示

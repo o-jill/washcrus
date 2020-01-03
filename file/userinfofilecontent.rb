@@ -46,7 +46,7 @@ class UserInfoFileContent
   # returns {swin:, slose:, gwin:, glose:, draw}
   def self.hash_stats(elem)
     e = elem[4, 4].map(&:to_i)
-    draw = elem[8] || '0';
+    draw = elem[8] || '0'
     { swin: e[0], slose: e[1], gwin: e[2], glose: e[3], draw: draw.to_i }
   end
 
@@ -59,7 +59,7 @@ class UserInfoFileContent
 
     # id, name, password, e-mail(encrypted), swn, sls, gwn, gls
     elements = line.chomp.split(',')
-    return if elements.length < 8 || elements.length > 9 # invalid line
+    return unless elements.length.between?(8, 9) # invalid line
 
     dec = OpenSSL::Cipher.new('AES-256-CBC')
     dec.decrypt
@@ -216,7 +216,6 @@ class UserInfoFileContent
   # @param idb  先手のID
   # @param idw  後手のID
   def give_draw(idb, idw)
-
     if @stats[idb][:draw].nil?
       @stats[idb][:draw] = 1
     else

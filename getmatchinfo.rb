@@ -80,20 +80,23 @@ end
 #   main
 #
 
+def errtrace(er)
+  puts "Content-Type: text/plain;\n\n" \
+       "class=[#{er.class}] message=[#{er.message}] " \
+       "stack=[#{er.backtrace.join("\n")}]"
+end
+
 cgi = CGI.new
 begin
   getsfen = GetMatchInfo.new(cgi)
   getsfen.readuserparam
   getsfen.perform
 rescue ScriptError => er
-  puts "Content-Type: text/plain;\n\nclass=[#{er.class}] message=[#{er.message}] " \
-       "stack=[#{er.backtrace.join("\n")}]"
+  errtrace(er)
 rescue SecurityError => er
-  puts "Content-Type: text/plain;\n\nclass=[#{er.class}] message=[#{er.message}] " \
-       "stack=[#{er.backtrace.join("\n")}]"
+  errtrace(er)
 rescue StandardError => er
-  puts "Content-Type: text/plain;\n\nclass=[#{er.class}] message=[#{er.message}] " \
-       "stack=[#{er.backtrace.join("\n")}]"
+  errtrace(er)
 end
 # -----------------------------------
 #   testing

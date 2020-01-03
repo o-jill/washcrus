@@ -150,5 +150,4 @@ class TimeKeeper
       "時間がなくなりました。\n投了するか、対局相手と相談してください。"
     end
   end
-
 end
