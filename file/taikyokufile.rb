@@ -137,6 +137,18 @@ class TaikyokuFile
     end
   end
 
+  # 手番情報の書き換え
+  #
+  # @param gid 対局ID
+  # @param trn 手番
+  def updateturn(gid, trn)
+    lock do
+      read
+      @content.updateturn(gid, trn)
+      write
+    end
+  end
+
   # duplication check
   #
   # @param nid 対局ID

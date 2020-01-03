@@ -47,7 +47,7 @@ class AdminGameManageUpdateScreen
     @errmsg += msg
   end
 
-  def removefromlist(gid, res)
+  def removefromtaikyokuchu(gid)
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
@@ -56,6 +56,16 @@ class AdminGameManageUpdateScreen
     # 対局中から外す
     tcdb.finished(gid)
     logg("tcdb.finished(#{gid})\n")
+    true
+  end
+
+  def removefromlist(gid, res)
+    return unless removefromtaikyokuchu(gid)
+
+    tdb = TaikyokuFile.new
+    tdb.read
+    return logg("#{gid} does not exist...\n") unless tdb.exist_id(gid)
+    tdb.updateturn(gid, res)
 
     preparetkd(gid)
     # 対局終了フラグをつける or 引き分けにする。
