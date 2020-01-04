@@ -615,7 +615,7 @@ function activeuchi(koma, tegoma, tegomasu, i) {
   activekoma = koma;
 
   setactivecelluchi(masui, true);
-  activemovable = koma.getUchable();
+  activemovable = koma.getUchable(ban);
   activatemovable(true);
 }
 

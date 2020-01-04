@@ -60,66 +60,48 @@ Koma.FunariStr = '不成';
 
 Koma.InitStrTable = {
   fu: {
-    long: ['歩兵', 'と金'],
-    kif: ['歩', 'と'],
-    kifu: ['歩', 'と'],
-    csa: ['FU', 'TO'],
+    long: ['歩兵', 'と金'], kif: ['歩', 'と'],
+    kifu: ['歩', 'と'], csa: ['FU', 'TO'],
     img: ['koma_fu', 'koma_to']
   },
   kyosha: {
-    long: ['香車', '成香'],
-    kif: ['香', '成香'],
-    kifu: ['香', '成香'],
-    csa: ['KY', 'NY'],
+    long: ['香車', '成香'], kif: ['香', '成香'],
+    kifu: ['香', '成香'], csa: ['KY', 'NY'],
     img: ['koma_kyo', 'koma_nkyo']
   },
   keima: {
-    long: ['桂馬', '成桂'],
-    kif: ['桂', '成桂'],
-    kifu: ['桂', '成桂'],
-    csa: ['KE', 'NK'],
+    long: ['桂馬', '成桂'], kif: ['桂', '成桂'],
+    kifu: ['桂', '成桂'], csa: ['KE', 'NK'],
     img: ['koma_kei', 'koma_nkei']
   },
   gin: {
-    long: ['銀将', '成銀'],
-    kif: ['銀', '成銀'],
-    kifu: ['銀', '成銀'],
-    csa: ['GI', 'NG'],
+    long: ['銀将', '成銀'], kif: ['銀', '成銀'],
+    kifu: ['銀', '成銀'], csa: ['GI', 'NG'],
     img: ['koma_gin', 'koma_ngin']
   },
   kin: {
-    long: ['金将', '金将'],
-    kif: ['金', '金'],
-    kifu: ['金', '金'],
-    csa: ['KI', 'KI'],
+    long: ['金将', '金将'], kif: ['金', '金'],
+    kifu: ['金', '金'], csa: ['KI', 'KI'],
     img: ['koma_kin', 'koma_kin']
   },
   kaku: {
-    long: ['角行', '竜馬'],
-    kif: ['角', '馬'],
-    kifu: ['角', '馬'],
-    csa: ['KA', 'UM'],
+    long: ['角行', '竜馬'], kif: ['角', '馬'],
+    kifu: ['角', '馬'], csa: ['KA', 'UM'],
     img: ['koma_kaku', 'koma_uma']
   },
   hisha: {
-    long: ['飛車', '竜王'],
-    kif: ['飛', '竜'],
-    kifu: ['飛', '竜'],
-    csa: ['HI', 'RY'],
+    long: ['飛車', '竜王'], kif: ['飛', '竜'],
+    kifu: ['飛', '竜'], csa: ['HI', 'RY'],
     img: ['koma_hisha', 'koma_ryu']
   },
   gyoku: {
-    long: ['玉将', '玉将'],
-    kif: ['玉', '玉'],
-    kifu: ['玉', '玉'],
-    csa: ['OU', 'OU'],
+    long: ['玉将', '玉将'], kif: ['玉', '玉'],
+    kifu: ['玉', '玉'], csa: ['OU', 'OU'],
     img: ['koma_ou', 'koma_ou']
   },
   ou: {
-    long: ['王将', '王将'],
-    kif: ['玉', '玉'],
-    kifu: ['玉', '玉'],
-    csa: ['OU', 'OU'],
+    long: ['王将', '王将'], kif: ['玉', '玉'],
+    kifu: ['玉', '玉'], csa: ['OU', 'OU'],
     img: ['koma_ou', 'koma_ou']
   }
 };
@@ -202,9 +184,8 @@ Koma.prototype.getTebanStr = function(strSente, strGote) {
     return strSente;
   } else if (this.teban === Koma.GOTEBAN) {
     return strGote;
-  } else {
-    return null;
   }
+  return null;
 }
 /**
  * 表示用の文字列の取得
@@ -213,9 +194,9 @@ Koma.prototype.getTebanStr = function(strSente, strGote) {
  */
 Koma.prototype.getStr = function() {
   var str = this.getTebanStr(Koma.SenteStr, Koma.GoteStr);
-  if (str == null) {
-    return Koma.AkiStr;
-  }
+
+  if (str == null) return Koma.AkiStr;
+
   str += this.strntypeKIFU;
   if (this.nari === Koma.NARI) {
     // no prefix
@@ -236,9 +217,8 @@ Koma.prototype.getHtmlStr = function(hanten) {
   } else {
     str = this.getTebanStr('<div class=sentemoji>', '<div class=gotemoji>');
   }
-  if (str == null) {
-    return Koma.AkiStr;
-  }
+
+  if (str == null) return Koma.AkiStr;
 
   str += (this.nari === Koma.NARI) ? this.strntypeKIFU : this.strtypeKIFU;
 
@@ -263,9 +243,8 @@ Koma.prototype.getImgStr = function(hanten) {
   } else {
     str = this.getTebanStr('', 'h');
   }
-  if (str == null) {
-    return '';
-  }
+
+  if (str == null) return '';
 
   str += this.chooseKomaExp(this.strntypeIMG, this.strtypeIMG);
 
@@ -278,9 +257,8 @@ Koma.prototype.getImgStr = function(hanten) {
  */
 Koma.prototype.getShortStrCSA = function() {
   var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
-  if (str == null) {
-    return Koma.AkiStrCSA;
-  }
+
+  if (str == null) return Koma.AkiStrCSA;
 
   str += this.chooseKomaExp(this.strntypeCSA, this.strtypeCSA);
 
@@ -293,9 +271,8 @@ Koma.prototype.getShortStrCSA = function() {
  */
 Koma.prototype.getShortStrKIF = function() {
   var str = this.getTebanStr(Koma.SenteStrKIF, Koma.GoteStrKIF);
-  if (str == null) {
-    return Koma.AkiStrKIF;
-  }
+
+  if (str == null) return Koma.AkiStrKIF;
 
   str += this.chooseKomaExp(this.strntypeKIF, this.strtypeKIF);
 
@@ -308,10 +285,7 @@ Koma.prototype.getShortStrKIF = function() {
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getTypeStr = function() {
-  if (this.nari === Koma.NARI)
-    return this.strntype;
-  else
-    return this.strtype;
+  return (this.nari === Koma.NARI) ? this.strntype : this.strtype;
 };
 
 /**
@@ -320,11 +294,7 @@ Koma.prototype.getTypeStr = function() {
  * @return {Array} 空のArray
  */
 Koma.prototype.movable = function() {
-  if (this.nari === Koma.NARI) {
-    return this.nariMovable;
-  } else {
-    return this.funariMovable;
-  }
+  return (this.nari === Koma.NARI) ? this.nariMovable : this.funariMovable;
 };
 /**
  * その他の駒がないとしてこれ以上動けるか
@@ -342,9 +312,7 @@ Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
   var y = oy;
   var ax = axy.x;
   var ay = axy.y;
-  if (this.teban === Koma.SENTEBAN) {
-    ay = -ay;
-  }
+  if (this.teban === Koma.SENTEBAN) ay = -ay;
 
   x += ax;
   y += ay;
@@ -395,11 +363,8 @@ Koma.prototype.getMovable = function(ox, oy) {
       y: movablemasulist[idx][1]
     };
     var straight = movablemasulist[idx][2];
-    if (straight) {
-      list = this.getStraightMovable(list, axy, ox, oy);
-    } else {
-      list = this.getCloseMovable(list, axy, ox, oy);
-    }
+    list = straight ? this.getStraightMovable(list, axy, ox, oy)
+          : this.getCloseMovable(list, axy, ox, oy);
   }
   return list;
 };
@@ -432,16 +397,22 @@ Koma.prototype.pickup_ohte = function(ohtelist, xy, gxy, nari) {
  *
  * @return {Array} 打てるマスのリスト
  */
-Koma.prototype.getUchable = function() {
-  return this.getUchableGeneral(0, 9);
+Koma.prototype.getUchable = function(bann) {
+  return this.getUchableGeneral(bann, 0, 9);
 };
 
-Koma.prototype.getUchableGeneralY = function(i, starty, endy) {
+Koma.prototype.getUchableKEKY = function(bann, voidarea) {
+  var starty = (this.teban === Koma.SENTEBAN) ? voidarea : 0;
+  var endy = 9 - voidarea + starty;
+
+  return this.getUchableGeneral(bann, starty, endy);
+};
+
+Koma.prototype.getUchableGeneralY = function(bann, i, starty, endy) {
   var list = [];
   for (var j = starty; j < endy; ++j) {
-    if (ban[i][j].koma.teban === Koma.AKI) {
+    if (bann[i][j].koma.teban === Koma.AKI)
       list.push([i, j]);
-    }
   }
   return list;
 };
@@ -454,11 +425,10 @@ Koma.prototype.getUchableGeneralY = function(i, starty, endy) {
  *
  * @return {Array} 打てるマスのリスト
  */
-Koma.prototype.getUchableGeneral = function(starty, endy) {
+Koma.prototype.getUchableGeneral = function(bann, starty, endy) {
   var list = [];
-  for (var i = 0; i < 9; ++i) {
-    list = list.concat(this.getUchableGeneralY(i, starty, endy));
-  }
+  for (var i = 0; i < 9; ++i)
+    list = list.concat(this.getUchableGeneralY(bann, i, starty, endy));
   return list;
 };
 
@@ -495,19 +465,15 @@ Koma.prototype.pieceStr = function(hunaristr, naristr) {
 };
 
 Koma.prototype.kifuDouNumKIF = function(toxy, lastxy) {
-  if (toxy.x === lastxy.x && toxy.y === lastxy.y) {
+  if (toxy.x === lastxy.x && toxy.y === lastxy.y)
     return Koma.DouStrKIF;
-  } else {
-    return Koma.ZenkakuNum[toxy.x] + Koma.KanjiNum[toxy.y];
-  }
+  return Koma.ZenkakuNum[toxy.x] + Koma.KanjiNum[toxy.y];
 };
 
 Koma.prototype.strFromPos = function(fromxy)
 {
-  if (fromxy.x !== 0) {
-    return '(' + fromxy.x + '' + fromxy.y + ')';
-  }
-  return '';
+  if (fromxy.x === 0) return '';
+  return '(' + fromxy.x + '' + fromxy.y + ')';
 }
 
 /**
@@ -540,11 +506,9 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
 Koma.prototype.narifunariuchiStrKIF = function(nari, x) {
   var komastr = this.strtypeKIF;
   if (this.nari === Koma.NARI) {
-    if (nari === Koma.NARI) {
+    if (nari === Koma.NARI)
       return komastr + Koma.NariStrKIF;
-    } else {
-      return this.strntypeKIF;
-    }
+    return this.strntypeKIF;
   } else if (x === 0) {
     return komastr + Koma.UchiStrKIF;
   }
@@ -610,8 +574,8 @@ Koma.prototype.checkNariSente = function(fromy, toy) {
 
 Koma.prototype.checkNariGote = function(fromy, toy) {
   // 動けるかのチェック
-  var _fromy = 9-1-fromy;
-  var _toy = 9-1-toy;
+  var _fromy = 9 - 1 - fromy;
+  var _toy = 9 - 1 - toy;
   var ugokeru = this.checkMovable(_toy);
   return this.checkNariFromPos(ugokeru, _fromy, _toy)
 };
@@ -645,9 +609,7 @@ Koma.prototype.movemsg = function(tox, toy)
   var toxy = Koma.ZenkakuNum[tox] + Koma.KanjiNum[toy];
   var str = this.getTypeStr();
 
-  if (x < 0) {
-    return str + 'を' + toxy + 'に打ちます。';
-  }
+  if (x < 0) return str + 'を' + toxy + 'に打ちます。';
 
   var y = this.y;
   var fromxy = Koma.ZenkakuNum[x] + Koma.KanjiNum[y];
@@ -711,10 +673,10 @@ function Fu(teban, x, y) {
   this.id = Koma.FuID;
 }
 
-Fu.prototype.retpos = function (x, starty, endy) {
+Fu.prototype.retpos = function (banx, x, starty, endy) {
   var list = [];
   for (var y = starty; y < endy; ++y) {
-    if (ban[x][y].koma.teban === Koma.AKI)
+    if (banx[y].koma.teban === Koma.AKI)
       list.push([x, y]);
   }
   return list;
@@ -727,21 +689,17 @@ Fu.prototype.retpos = function (x, starty, endy) {
  *
  * @return {Array} 打てるマスのリスト
  */
-Fu.prototype.getUchable = function() {
-  var ypostbl = [
-    {},
-    {start: 1, end: 9},
-    {start: 0, end: 8},
-  ];
+Fu.prototype.getUchable = function(ban) {
+  var ypostbl = [{}, {start: 1, end: 9}, {start: 0, end: 8}];
   var ypos = ypostbl[this.teban];
   var starty = ypos.start;
   var endy = ypos.end;
 
   var list = [];
   for (var i = 0; i < 9; ++i) {
-    if (this.check2FU(i, starty, endy))
-      continue;
-    list = list.concat(this.retpos(i, starty, endy));
+    if (this.check2FU(ban[i], starty, endy)) continue;
+
+    list = list.concat(this.retpos(ban[i], i, starty, endy));
   }
   return list;
 };
@@ -760,17 +718,17 @@ Fu.prototype.checkMovable = function(oy) {
 /**
  * 二歩になるかどうかチェックする。
  *
- * @param {Number} x      チェックする筋
+ * @param {Array} banx    チェックする筋
  * @param {Number} starty チェックする範囲
  * @param {Number} endy   チェックする範囲
  *
  * @return {Boolean} true:二歩になる, false:ならない
  */
-Fu.prototype.check2FU = function(x, starty, endy) {
+Fu.prototype.check2FU = function(banx, starty, endy) {
   for (var j = starty; j < endy; ++j) {
-    if (ban[x][j].koma.id === Koma.FuID &&
-        ban[x][j].koma.nari === Koma.NARAZU &&
-        ban[x][j].koma.teban === this.teban) {
+    if (banx[j].koma.id === Koma.FuID &&
+        banx[j].koma.nari === Koma.NARAZU &&
+        banx[j].koma.teban === this.teban) {
       return true;
     }
   }
@@ -812,11 +770,8 @@ Kyosha.prototype.checkMovable = function(oy) {
  *
  * @return {Array} 打てるマスのリスト
  */
-Kyosha.prototype.getUchable = function() {
-  var starty = (this.teban === Koma.SENTEBAN) ? 1 : 0;
-  var endy = 8 + starty;
-
-  return this.getUchableGeneral(starty, endy);
+Kyosha.prototype.getUchable = function(bann) {
+  return this.getUchableKEKY(bann, 1);
 };
 
 Keima.prototype = new Koma();
@@ -854,11 +809,8 @@ Keima.prototype.checkMovable = function(oy) {
  *
  * @return {Array} 打てるマスのリスト
  */
-Keima.prototype.getUchable = function() {
-  var starty = (this.teban === Koma.SENTEBAN) ? 2 : 0;
-  var endy = 7 + starty;
-
-  return this.getUchableGeneral(starty, endy);
+Keima.prototype.getUchable = function(bann) {
+  return this.getUchableKEKY(bann, 2);
 };
 
 Gin.prototype = new Koma();
