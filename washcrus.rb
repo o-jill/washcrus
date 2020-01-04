@@ -136,6 +136,16 @@ class WashCrus
     AdminUserStgUpdateScreen.new(@header).show(@userinfo, @params)
   end
 
+  def admingamemanage
+    require './views/admingamemanage.rb'
+    AdminGameManageScreen.new(@header).show(@userinfo)
+  end
+
+  def admingamemanageupdate
+    require './views/admingamemanageupdate.rb'
+    AdminGameManageUpdateScreen.new(@header).show(@userinfo, @params)
+  end
+
   # ゲーム系の画面
   def file2lounge
     require './game/file2lounge.rb'

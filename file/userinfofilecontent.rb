@@ -43,10 +43,11 @@ class UserInfoFileContent
   #
   # [elem] user data got by spliting a line
   #
-  # returns {swin:, slose:, gwin:, glose:}
+  # returns {swin:, slose:, gwin:, glose:, draw}
   def self.hash_stats(elem)
     e = elem[4, 4].map(&:to_i)
-    { swin: e[0], slose: e[1], gwin: e[2], glose: e[3] }
+    draw = elem[8] || '0'
+    { swin: e[0], slose: e[1], gwin: e[2], glose: e[3], draw: draw.to_i }
   end
 
   # read a user's data.
@@ -58,7 +59,7 @@ class UserInfoFileContent
 
     # id, name, password, e-mail(encrypted), swn, sls, gwn, gls
     elements = line.chomp.split(',')
-    return if elements.length != 8 # invalid line
+    return unless elements.length.between?(8, 9) # invalid line
 
     dec = OpenSSL::Cipher.new('AES-256-CBC')
     dec.decrypt
@@ -92,7 +93,8 @@ class UserInfoFileContent
     mailaddr = encode_mail(id)
     status = @stats[id]
     "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
-    "#{status[:swin]},#{status[:slose]},#{status[:gwin]},#{status[:glose]}"
+    "#{status[:swin]},#{status[:slose]},#{status[:gwin]},#{status[:glose]}," \
+    "#{status[:draw]}"
   end
 
   # get user information by id
@@ -135,7 +137,7 @@ class UserInfoFileContent
     @names[id]     = name
     @passwords[id] = password
     @emails[id]    = email
-    @stats[id]     = { swin: 0, slose: 0, gwin: 0, glose: 0 }
+    @stats[id]     = { swin: 0, slose: 0, gwin: 0, glose: 0, draw: 0 }
 
     id
   end
@@ -206,6 +208,23 @@ class UserInfoFileContent
     else
       @stats[idb][:swin] += 1
       @stats[idw][:glose] += 1
+    end
+  end
+
+  # 勝敗の記入(draw)
+  #
+  # @param idb  先手のID
+  # @param idw  後手のID
+  def give_draw(idb, idw)
+    if @stats[idb][:draw].nil?
+      @stats[idb][:draw] = 1
+    else
+      @stats[idb][:draw] += 1
+    end
+    if @stats[idw][:draw].nil?
+      @stats[idw][:draw] = 1
+    else
+      @stats[idw][:draw] += 1
     end
   end
 
