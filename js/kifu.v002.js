@@ -327,12 +327,8 @@ Kifu.prototype.footerCSA = function() {
  */
 Kifu.prototype.footerKIF = function(winte) {
   var str = 'まで' + this.NTeme + 'で';
-  if (winte === Koma.SENTEBAN) {
-    str += '先手の勝ち';
-  } else {
-    str += '後手の勝ち';
-  }
-  return str;
+  if (winte === Koma.SENTEBAN) return str + '先手の勝ち';
+  return str + '後手の勝ち';
 };
 
 /**
@@ -512,23 +508,17 @@ Kifu.prototype.prev_te = function() {
 };
 
 Kifu.prototype.seek_te_foward_move = function(te) {
-  var masu, tegoma;
   var xy = {x: te[3], y: te[4]};
   if (te[1] === -1) {
     // 駒を打つ
-    if (te[0] === Koma.SENTEBAN) {
-      tegoma = sentegoma;
-      uchi2(tegoma, te[6], xy);
-    } else {
-      tegoma = gotegoma;
-      uchi2(tegoma, te[6], xy);
-    }
+    var tegoma = (te[0] === Koma.SENTEBAN) ? sentegoma : gotegoma;
+    uchi2(tegoma, te[6], xy);
   } else {
     if (te[6] > Koma.NoID) {
       toru(xy);
       this.totta_id = Koma.NoID;
     }
-    masu = ban[te[1]][te[2]];
+    var masu = ban[te[1]][te[2]];
     move2(masu, xy, te[5]);  // 動かした駒を戻す
   }
 }
@@ -558,11 +548,7 @@ Kifu.prototype.seek_te_backward_ = function(te) {
     move2(masu, fromxy, nari);  // 動かした駒を戻す
 
     if (tid >= 0) {
-      if (teban === Koma.SENTEBAN) {
-        var tegoma = sentegoma;
-      } else {
-        tegoma = gotegoma;
-      }
+      var tegoma = (teban === Koma.SENTEBAN) ? sentegoma : gotegoma;
       torimodosu(tegoma, tid, toxy.x, toxy.y);
     }
   }
@@ -585,19 +571,13 @@ Kifu.prototype.seek_te_backward = function(idx) {
  * @return {Boolean} 本譜より大きい値を指定した時はfalse。
  */
 Kifu.prototype.seek_te = function(idx) {
-  if (idx < 0) {
-    return false;
-  }
-  if (idx > this.Honp.length) {
-    return false;
-  }
+  if (idx < 0) return false;
+  if (idx > this.Honp.length) return false;
 
   // var te, masu, tegoma;
-  if (this.NTeme < idx) {
-    this.seek_te_foward(idx);
-  } else {
-    this.seek_te_backward(idx);
-  }
+  if (this.NTeme < idx) this.seek_te_foward(idx);
+  else this.seek_te_backward(idx);
+
   return true;
 };
 
@@ -634,17 +614,11 @@ function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
     str += koma.strntypeCSA;
   }
 
-  if (tottaid === Koma.NoID) {
-    str += '__';
-  } else if (tottaid >= 1000) {
-    str += tottakoma.strntypeCSA;
-  } else {
-    str += tottakoma.strtypeCSA;
-  }
+  if (tottaid === Koma.NoID) str += '__';
+  else if (tottaid >= 1000) str += tottakoma.strntypeCSA;
+  else str += tottakoma.strtypeCSA;
 
-  if (nari === Koma.NARI) {
-    str += 'P';
-  }
+  if (nari === Koma.NARI) str += 'P';
 
   return str;
 }
@@ -677,11 +651,7 @@ function move(koma, toxy, nari) {
   ban[toxy.x][toxy.y].koma = koma;
   ban[from_x][from_y].koma = temp;
 
-  if (activeteban === Koma.SENTEBAN) {
-    activeteban = Koma.GOTEBAN;
-  } else {
-    activeteban = Koma.SENTEBAN;
-  }
+  activeteban = (activeteban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
 
   movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, tottaid, nari);
 }
@@ -722,8 +692,7 @@ function toru(xy) {
  * @param {Object} koma 駒
  */
 function komadai_add(tegoma, koma) {
-  if (koma.id < Koma.GyokuID)
-    tegoma[koma.id][0].push(koma);
+  if (koma.id < Koma.GyokuID) tegoma[koma.id][0].push(koma);
 }
 
 /**
@@ -762,18 +731,12 @@ function uchi(tegoma, koma, toxy) {
   k.x = toxy.x;
   k.y = toxy.y;
 
-  if (activeteban === Koma.SENTEBAN) {
-    activeteban = Koma.GOTEBAN;
-  } else {
-    activeteban = Koma.SENTEBAN;
-  }
+  activeteban = (activeteban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
 
   movecsa = '';
-  if (k.teban === Koma.SENTEBAN) {
-    movecsa += Koma.SenteStrCSA;
-  } else {
-    movecsa += Koma.GoteStrCSA;
-  }
+
+  movecsa += (k.teban === Koma.SENTEBAN) ? Koma.SenteStrCSA : Koma.GoteStrCSA;
+
   movecsa += '00';
   movecsa += toxy.x + 1;
   movecsa += toxy.y + 1;
@@ -796,18 +759,12 @@ function uchi2(tegoma, koma_id, toxy) {
   k.x = toxy.x;
   k.y = toxy.y;
 
-  if (activeteban === Koma.SENTEBAN) {
-    activeteban = Koma.GOTEBAN;
-  } else {
-    activeteban = Koma.SENTEBAN;
-  }
+  activeteban = (activeteban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
 
   movecsa = '';
-  if (k.teban === Koma.SENTEBAN) {
-    movecsa += k.SenteStrCSA;
-  } else {
-    movecsa += k.GoteStrCSA;
-  }
+
+  movecsa += (k.teban === Koma.SENTEBAN) ? k.SenteStrCSA : k.GoteStrCSA;
+
   movecsa += '00';
   movecsa += toxy.x + 1;
   movecsa += toxy.y + 1;
@@ -841,11 +798,7 @@ function move2(koma, toxy, nari) {
   ban[toxy.x][toxy.y].koma = koma;
   ban[from_x][from_y].koma = temp;
 
-  if (activeteban === Koma.SENTEBAN) {
-    activeteban = Koma.GOTEBAN;
-  } else {
-    activeteban = Koma.SENTEBAN;
-  }
+  activeteban = (activeteban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
 
   var tottaid = mykifu.totta_id;
   movecsa = build_movecsa(koma,
@@ -867,14 +820,11 @@ function torimodosu(tegoma, koma_id, toxy) {
     nari = true;
   }
   var k = komadai_del(tegoma, koma_id);
-  if (k.teban === Koma.SENTEBAN) {
-    k.teban = Koma.GOTEBAN;
-  } else {
-    k.teban = Koma.SENTEBAN;
-  }
-  if (nari) {
-    k.nari = Koma.NARI;
-  }
+
+  k.teban = (k.teban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
+
+  if (nari) k.nari = Koma.NARI;
+
   ban[toxy.x][toxy.y].koma = k;
 
   k.x = toxy.x;
@@ -882,21 +832,17 @@ function torimodosu(tegoma, koma_id, toxy) {
 }
 
 function checkOHTe_koma(gyoku, koma, i, j) {
-  if (koma.teban === Koma.AKI) {
-    return false;
-  }
-  if (koma.teban === gyoku.teban) {
-    return false;
-  }
+  if (koma.teban === Koma.AKI) return false;
+
+  if (koma.teban === gyoku.teban) return false;
 
   var masulist = koma.getMovable(i, j);
   // var masulist = koma.getMovable(koma.x, koma.y);
   // var masulist = koma.getMovable();
   for (var idx = 0; idx < masulist.length; ++idx) {
   // for (var idx in masulist) {
-    if (masulist[idx][0] === gyoku.x && masulist[idx][1] === gyoku.y) {
+    if (masulist[idx][0] === gyoku.x && masulist[idx][1] === gyoku.y)
       return true;
-    }
   }
   return false;
 }
@@ -948,11 +894,9 @@ function KyokumenCSA() {
   kyokumen += KyokumenCSATegoma(sentegoma);
   kyokumen += KyokumenCSATegoma(gotegoma);
   // kyokumen += '\nP-00AL\n';  // 残りは全部後手の駒台の上
-  if (activeteban === Koma.SENTEBAN) {
-    kyokumen += '+';
-  } else {
-    kyokumen += '-';
-  }
+
+  kyokumen += (activeteban === Koma.SENTEBAN) ? '+' : '-';
+
   return kyokumen;
 }
 
@@ -965,9 +909,8 @@ function KyokumenKIFTegoma(tegoma) {
           + Koma.KanjiNum[tegoma[idx][0].length - 1] + '　';
     }
   }
-  if (komadai === '') {
-    komadai = 'なし';
-  }
+  if (komadai === '') komadai = 'なし';
+
   return komadai;
 }
 
