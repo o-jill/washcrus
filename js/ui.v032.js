@@ -139,12 +139,11 @@ function Naraberu_lastmove(x, y)
     return;
 
   var el = ban[x][y].el;
-  if (el !== null) {
-    var text = '<div style="position:relative;">' + el.innerHTML;
-    text += '<div style="position:absolute;left:0;top:0;">';
-    text += '<img src="./image/dot16.png" class="lmmark"></div></div>';
-    el.innerHTML = text;
-  }
+  if (el === null) return;
+  var text = '<div style="position:relative;">' + el.innerHTML;
+  text += '<div style="position:absolute;left:0;top:0;">';
+  text += '<img src="./image/dot16.png" class="lmmark"></div></div>';
+  el.innerHTML = text;
 }
 
 function Naraberu_putkoma(el, koma, n123)
@@ -157,8 +156,7 @@ function Naraberu_putkoma(el, koma, n123)
 function Naraberu_ban(i) {
   for (var j = 0; j < 9; ++j) {
     var koma = ban[i][j].koma;
-    if (koma === null)
-      continue;
+    if (koma === null) continue;
     var el = ban[i][j].el;
     Naraberu_putkoma(el, koma, 0);
   }
@@ -168,9 +166,8 @@ function Naraberu_ban(i) {
  * コマを並べる。
  */
 function Naraberu() {
-  for (var i = 0; i < 9; ++i) {
-    Naraberu_ban(i);
-  }
+  for (var i = 0; i < 9; ++i) Naraberu_ban(i);
+
   // 最後に指したところに印をつける
   Naraberu_lastmove(last_mx, last_my);
 
@@ -181,8 +178,7 @@ function Naraberu() {
 function Naraberu_banr(i) {
   for (var j = 0; j < 9; ++j) {
     var koma = ban[8 - i][8 - j].koma;
-    if (koma === null)
-      continue;
+    if (koma === null) continue;
     var el = ban[i][j].el;
     Naraberu_putkoma(el, koma, 1);
   }
@@ -192,9 +188,8 @@ function Naraberu_banr(i) {
  * 逆さまにコマを並べる。
  */
 function Naraberu_rotate() {
-  for (var i = 0; i < 9; ++i) {
-    Naraberu_banr(i);
-  }
+  for (var i = 0; i < 9; ++i) Naraberu_banr(i);
+
   // 最後に指したところに印をつける
   Naraberu_lastmove(8 - last_mx, 8 - last_my);
 
@@ -358,9 +353,7 @@ function abshoverin(event) {
 function fillactivemasu(x, y, c)
 {
   var masui = ban[x][y].el;
-  if (masui !== null) {
-    masui.style.backgroundColor = c;
-  }
+  if (masui !== null) masui.style.backgroundColor = c;
 }
 
 /**
@@ -370,11 +363,9 @@ function fillactivemasu(x, y, c)
  */
 function activatemovable(b) {
   var c, sz, idx, x, y;
-  if (b) {
-    c = movableColor;
-  } else {
-    c = banColor;
-  }
+
+  c = b ? movableColor : banColor;
+
   sz = activemovable.length;
   for (idx = 0; idx < sz; ++idx) {
     x = activemovable[idx][0];
@@ -408,9 +399,7 @@ function setactivecell(masui, b) {
 function activecell(koma, masu, masui) {
   if (activemasu !== null) {
     setactivecell(activemasui, false);
-    if (activemasu !== masu) {
-      activatemovable(false);
-    }
+    if (activemasu !== masu) activatemovable(false);
   }
   if (masu === null) {
     activetegoma = null;
@@ -445,24 +434,20 @@ function absclick_wo_active(koma, masu, masui) {
 
 function absclick_on_mypiece(koma, masu, masui) {
   // 自分の駒をクリックしたので非アクティブにする。
-  if (activetegoma !== null)
-    activeuchi(null, null, null);
+  if (activetegoma !== null) activeuchi(null, null, null);
   activecell(koma, masu, masui);
 }
 
 function deactivate_activecell() {
-  if (activetegoma !== null)
-    activeuchi(null, null, null);
-  else
-    activecell(null, null, null);
+  if (activetegoma !== null) activeuchi(null, null, null);
+  else activecell(null, null, null);
 }
 
 function check_activemovablemasu(hx, hy) {
   var sz = activemovable.length;
   for (var idx = 0; idx < sz; ++idx) {
-    if (activemovable[idx][0] === hx && activemovable[idx][1] === hy) {
+    if (activemovable[idx][0] === hx && activemovable[idx][1] === hy)
       return true;
-    }
   }
   return false;
 }
@@ -481,12 +466,8 @@ function absclick_aki(hx, hy)
     deactivate_activecell();
   } else {
     var msg = activekoma.movemsg(hx, hy);
-    if (activemasu.x === -1) {
-      // uchi
-      myconfirm(msg, CFRM_UTSU, hx, hy);
-    } else {
-      myconfirm(msg, CFRM_MOVE, hx, hy);
-    }
+    var md = (activemasu.x === -1) ? CFRM_UTSU : CFRM_MOVE;
+    myconfirm(msg, md, hx, hy);
   }
 }
 
@@ -514,12 +495,8 @@ function absclick_opponent(hx, hy)
  * @param {Event} event クリックイベント
  */
 function absclick(event) {
-  if (taikyokuchu === false) {
-    return;
-  }
-  if (wait_narimenu) {
-    return;
-  }
+  if (taikyokuchu === false) return;
+  if (wait_narimenu) return;
 
   var clickid = event.currentTarget.id;
   var x = +clickid.substring(1, 2)-1;
@@ -592,9 +569,7 @@ function setactivecelluchi(masui, b) {
  */
 function activeuchi(koma, tegoma, tegomasu, i) {
   if (activetegoma !== null) {
-    if (activemasu !== null) {
-      setactivecelluchi(activemasui, false);
-    }
+    if (activemasu !== null) setactivecelluchi(activemasui, false);
     activatemovable(false);
   }
   if (tegoma === null || (activekoma !== null && activekoma.id === i)) {
@@ -628,14 +603,11 @@ function activeuchi(koma, tegoma, tegomasu, i) {
  */
 function absclick_tegoma(i, tegoma, tegomaui) {
   if (activemasu !== null) {
-    if (activetegoma === null) {
-      activecell(null, null, null);
-    }
+    if (activetegoma === null) activecell(null, null, null);
   }
   var koma = tegoma[i][0][tegoma[i][0].length - 1];
-  if (koma === undefined) {
-    return;
-  }
+  if (koma === undefined) return;
+
   activeuchi(koma, tegoma, tegomaui, i);
 }
 
@@ -657,9 +629,7 @@ function absclick_tegoma_sg(i, bgote, ui) {
     mytegoma = sentegoma;
   }
 
-  if (activeteban !== myteban) {
-    return;
-  }
+  if (activeteban !== myteban) return;
 
   absclick_tegoma(i, mytegoma, ui);
 }
@@ -1018,19 +988,14 @@ function activateteban()
   document.getElementById('tebaninfo').innerHTML = strinfo;
 
   /* resign button */
-  if (taikyokuchu) {
-    document.getElementById('btn_resign').style.display = 'inline';
-  } else {
-    document.getElementById('btn_resign').style.display = 'none';
-  }
+  document.getElementById('btn_resign').style.display
+      = (taikyokuchu) ? 'inline' : 'none';
 }
 
 function checkSfenResponse(sfenstr)
 {
-  if (sfenstr.match(/^ERROR:/)) {
-    // ERROR
-    return;
-  }
+  // ERROR
+  if (sfenstr.match(/^ERROR:/)) return;
 
   var oldsfen = document.getElementById('sfen_').innerHTML;
   if (sfenstr !== oldsfen) {
@@ -1073,8 +1038,7 @@ function checkLatestMoveTmout()
   var gid = elem_id.value;
 
   var ajax = new XMLHttpRequest();
-  if (ajax === null)
-    return;
+  if (ajax === null) return;
   // tsushinchu = true;
   // activatefogscreen();
   ajax.open('POST', 'getsfen.rb?' + gid, true);
@@ -1120,7 +1084,7 @@ var padding = function(n, d, p) {
 function dateToFormatString(date) {
   var pad = '0';
   return padding(date.getFullYear(), 4, pad) + '/'
-    + padding(date.getMonth()+1, 2, pad) + '/'
+    + padding(date.getMonth() + 1, 2, pad) + '/'
     + padding(date.getDate(), 2, pad) + ' '
     + padding(date.getHours(), 2, pad) + ':'
     + padding(date.getMinutes(), 2, pad) + ':'
@@ -1239,21 +1203,21 @@ function send_csamove()
   var gid = elem_id.value;
 
   var ajax = new XMLHttpRequest();
-  if (ajax !== null) {
-    tsushinchu = true;
-    activatefogscreen();
-    ajax.open('POST', 'move.rb?' + gid, true);
-    ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    ajax.send(buildMoveMsg());
-    ajax.onreadystatechange = function() {
-      tsushinchu = false;
-      switch (ajax.readyState) {
-      case 4:
-        send_csamove_resp(ajax.status);
-        break;
-      }
-    };
-  }
+  if (ajax === null) return;
+
+  tsushinchu = true;
+  activatefogscreen();
+  ajax.open('POST', 'move.rb?' + gid, true);
+  ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  ajax.send(buildMoveMsg());
+  ajax.onreadystatechange = function() {
+    tsushinchu = false;
+    switch (ajax.readyState) {
+    case 4:
+      send_csamove_resp(ajax.status);
+      break;
+    }
+  };
 }
 
 function record_your_move()
@@ -1294,9 +1258,7 @@ function activatefogscreen()
  * @return {String} ページから抜ける時に表示する文字
  */
 window.onbeforeunload = function(e) {
-  if (tsushinchu === false) {
-    return;
-  }
+  if (tsushinchu === false) return;
   return '通信中に終了すると指し手が登録されない恐れがあります。\n終了しますか？';
 };
 
