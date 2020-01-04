@@ -60,67 +60,67 @@ Koma.FunariStr = '不成';
 
 Koma.InitStrTable = {
   fu: {
-    long: {narazu: '歩兵', nari: 'と金'},
-    kif: {narazu: '歩', nari: 'と'},
-    kifu: {narazu: '歩', nari: 'と'},
-    csa: {narazu: 'FU', nari: 'TO'},
-    img: {narazu: 'koma_fu', nari: 'koma_to'}
+    long: ['歩兵', 'と金'],
+    kif: ['歩', 'と'],
+    kifu: ['歩', 'と'],
+    csa: ['FU', 'TO'],
+    img: ['koma_fu', 'koma_to']
   },
   kyosha: {
-    long: {narazu: '香車', nari: '成香'},
-    kif: {narazu: '香', nari: '成香'},
-    kifu: {narazu: '香', nari: '成香'},
-    csa: {narazu: 'KY', nari: 'NY'},
-    img: {narazu: 'koma_kyo', nari: 'koma_nkyo'}
+    long: ['香車', '成香'],
+    kif: ['香', '成香'],
+    kifu: ['香', '成香'],
+    csa: ['KY', 'NY'],
+    img: ['koma_kyo', 'koma_nkyo']
   },
   keima: {
-    long: {narazu: '桂馬', nari: '成桂'},
-    kif: {narazu: '桂', nari: '成桂'},
-    kifu: {narazu: '桂', nari: '成桂'},
-    csa: {narazu: 'KE', nari: 'NK'},
-    img: {narazu: 'koma_kei', nari: 'koma_nkei'}
+    long: ['桂馬', '成桂'],
+    kif: ['桂', '成桂'],
+    kifu: ['桂', '成桂'],
+    csa: ['KE', 'NK'],
+    img: ['koma_kei', 'koma_nkei']
   },
   gin: {
-    long: {narazu: '銀将', nari: '成銀'},
-    kif: {narazu: '銀', nari: '成銀'},
-    kifu: {narazu: '銀', nari: '成銀'},
-    csa: {narazu: 'GI', nari: 'NG'},
-    img: {narazu: 'koma_gin', nari: 'koma_ngin'}
+    long: ['銀将', '成銀'],
+    kif: ['銀', '成銀'],
+    kifu: ['銀', '成銀'],
+    csa: ['GI', 'NG'],
+    img: ['koma_gin', 'koma_ngin']
   },
   kin: {
-    long: {narazu: '金将', nari: '金将'},
-    kif: {narazu: '金', nari: '金'},
-    kifu: {narazu: '金', nari: '金'},
-    csa: {narazu: 'KI', nari: 'KI'},
-    img: {narazu: 'koma_kin', nari: 'koma_kin'}
+    long: ['金将', '金将'],
+    kif: ['金', '金'],
+    kifu: ['金', '金'],
+    csa: ['KI', 'KI'],
+    img: ['koma_kin', 'koma_kin']
   },
   kaku: {
-    long: {narazu: '角行', nari: '竜馬'},
-    kif: {narazu: '角', nari: '馬'},
-    kifu: {narazu: '角', nari: '馬'},
-    csa: {narazu: 'KA', nari: 'UM'},
-    img: {narazu: 'koma_kaku', nari: 'koma_uma'}
+    long: ['角行', '竜馬'],
+    kif: ['角', '馬'],
+    kifu: ['角', '馬'],
+    csa: ['KA', 'UM'],
+    img: ['koma_kaku', 'koma_uma']
   },
   hisha: {
-    long: {narazu: '飛車', nari: '竜王'},
-    kif: {narazu: '飛', nari: '竜'},
-    kifu: {narazu: '飛', nari: '竜'},
-    csa: {narazu: 'HI', nari: 'RY'},
-    img: {narazu: 'koma_hisha', nari: 'koma_ryu'}
+    long: ['飛車', '竜王'],
+    kif: ['飛', '竜'],
+    kifu: ['飛', '竜'],
+    csa: ['HI', 'RY'],
+    img: ['koma_hisha', 'koma_ryu']
   },
   gyoku: {
-    long: {narazu: '玉将', nari: '玉将'},
-    kif: {narazu: '玉', nari: '玉'},
-    kifu: {narazu: '玉', nari: '玉'},
-    csa: {narazu: 'OU', nari: 'OU'},
-    img: {narazu: 'koma_ou', nari: 'koma_ou'}
+    long: ['玉将', '玉将'],
+    kif: ['玉', '玉'],
+    kifu: ['玉', '玉'],
+    csa: ['OU', 'OU'],
+    img: ['koma_ou', 'koma_ou']
   },
   ou: {
-    long: {narazu: '王将', nari: '王将'},
-    kif: {narazu: '玉', nari: '玉'},
-    kifu: {narazu: '玉', nari: '玉'},
-    csa: {narazu: 'OU', nari: 'OU'},
-    img: {narazu: 'koma_ou', nari: 'koma_ou'}
+    long: ['王将', '王将'],
+    kif: ['玉', '玉'],
+    kifu: ['玉', '玉'],
+    csa: ['OU', 'OU'],
+    img: ['koma_ou', 'koma_ou']
   }
 };
 
@@ -667,16 +667,16 @@ Koma.prototype.kaesu = function (nari) {
 
 Koma.prototype.InitStr = function(abcd)
 {
-  this.strtype = abcd.long.narazu;
-  this.strntype = abcd.long.nari;
-  this.strtypeKIF = abcd.kif.narazu;
-  this.strntypeKIF = abcd.kif.nari;
-  this.strtypeKIFU = abcd.kifu.narazu;
-  this.strntypeKIFU = abcd.kifu.nari;
-  this.strtypeCSA = abcd.csa.narazu;
-  this.strntypeCSA = abcd.csa.nari;
-  this.strtypeIMG = abcd.img.narazu;
-  this.strntypeIMG = abcd.img.nari;
+  this.strtype = abcd.long[0];
+  this.strntype = abcd.long[1];
+  this.strtypeKIF = abcd.kif[0];
+  this.strntypeKIF = abcd.kif[1];
+  this.strtypeKIFU = abcd.kifu[0];
+  this.strntypeKIFU = abcd.kifu[1];
+  this.strtypeCSA = abcd.csa[0];
+  this.strntypeCSA = abcd.csa[1];
+  this.strtypeIMG = abcd.img[0];
+  this.strntypeIMG = abcd.img[1];
 }
 
 /**
