@@ -309,7 +309,7 @@ Koma.prototype.checkMovable = function(oy) {
   return true;
 };
 
-Koma.prototype.onTheBan = function (xory) {
+Koma.onTheBan = function (xory) {
   return 0 <= xory && xory < 9;
 }
 
@@ -322,7 +322,7 @@ Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
 
   x += ax;
   y += ay;
-  for ( ; this.onTheBan(x) && this.onTheBan(y) ; x += ax, y += ay) {
+  for ( ; Koma.onTheBan(x) && Koma.onTheBan(y) ; x += ax, y += ay) {
     var teban = ban[x][y].koma.teban;
     if (teban === this.teban) break;
     list.push([x, y]);
@@ -335,14 +335,14 @@ Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
 Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
   var x, y;
   x = ox + axy.x;
-  if (!this.onTheBan(x)) return list;
+  if (!Koma.onTheBan(x)) return list;
 
   if (this.teban === Koma.SENTEBAN) {
     y = oy - axy.y;
   } else {
     y = oy + axy.y;
   }
-  if (!this.onTheBan(y)) return list;
+  if (!Koma.onTheBan(y)) return list;
 
   var teban = ban[x][y].koma.teban;
   if (teban !== this.teban) {
