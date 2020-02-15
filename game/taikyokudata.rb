@@ -234,17 +234,20 @@ class TaikyokuData
     @jkf.write(@kifupath)
   end
 
-  # 棋譜のダウンロードページの出力
-  #
-  # @param type 棋譜形式 'csa','kif','kifu'
-  def download_kifu_file(type)
-    puts @mif.build_header2dl(type)
-
+  def show_converted_kifu(type)
     case type
     when 'kif'  then puts @jkf.to_kif  # KIF形式の棋譜のダウンロードページの出力
     when 'kifu' then puts @jkf.to_kifu # KIFU形式の棋譜のダウンロードページの出力
     when 'csa'  then puts @jkf.to_csa  # CSA形式の棋譜のダウンロードページの出力
     end
+  end
+
+  # 棋譜のダウンロードページの出力
+  #
+  # @param type 棋譜形式 'csa','kif','kifu'
+  def download_kifu_file(type)
+    puts @mif.build_header2dl(type)
+    show_converted_kifu(type)
   end
 
   # １手指す

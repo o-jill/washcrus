@@ -8,6 +8,7 @@ require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
 require './game/webapi_sfenreader.rb'
 require './game/winsloses.rb'
+require './util/settings.rb'
 require './views/common_ui.rb'
 
 #
@@ -55,9 +56,17 @@ class MyPageScreen
     print <<-TAIKYOKURIREKI_TABLE.unindent
       <table align='center' border='3'><caption>#{cap}</caption>
       <tr>
-       <th>ID</th><th>先手</th><th>後手</th><th>手番</th><th>最終着手日時</th><th>棋譜</th>
+       <th>ID</th><th>先手</th><th>後手</th><th>手番</th><th>最終着手日時</th><th>棋譜</th><th>検討</th>
       </tr>
     TAIKYOKURIREKI_TABLE
+  end
+
+  def put_kentourl(gid, status)
+    return 'ダメ' if %w[b w].include?(status)
+    stg = Settings.instance
+    baseurl = stg.value['base_url']
+    kentourl = stg.value['kento_url'] + baseurl
+    "<a href='#{kentourl}kifuapi.rb%3f#{gid}.kif' target='_blank'>検討</a>"
   end
 
   # 対局履歴の表の中身の出力
@@ -78,6 +87,7 @@ class MyPageScreen
          <td><a href='./index.rb?dlkifu/#{gid}' target='_blank'>
           <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
          </a></td>
+         <td>#{put_kentourl(gid, game[:turn])}</td>
         </tr>
       TKLIST_DAN
     end
