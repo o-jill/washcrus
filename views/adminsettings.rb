@@ -43,6 +43,7 @@ class AdminSettingsScreen
       type: 'radio', options: %w[plaintext html] },
     { title: 'Domain',         eid: 'domain', type: 'input' },
     { title: 'Base URL',       eid: 'base_url', type: 'input' },
+    { title: 'Kento URL',      eid: 'kento_url', type: 'input' },
     { title: 'Support URL',    eid: 'support_url', type: 'input' }
   ].freeze
 

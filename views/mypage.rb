@@ -65,7 +65,7 @@ class MyPageScreen
     return 'ダメ' if %w[b w].include?(status)
     stg = Settings.instance
     baseurl = stg.value['base_url']
-    kentourl = 'https://kento-shogi.com/?kifu=' + baseurl
+    kentourl = stg.value['kento_url'] + baseurl
     "<a href='#{kentourl}kifuapi.rb%3f#{gid}.kif' target='_blank'>検討</a>"
   end
 
