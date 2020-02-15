@@ -389,10 +389,9 @@ function setactivecell(masui, b) {
 }
 
 function release_activemasu(masu) {
-  if (activemasu !== null) {
-    setactivecell(activemasui, false);
-    if (activemasu !== masu) activatemovable(false);
-  }
+  if (activemasu === null) return;
+  setactivecell(activemasui, false);
+  if (activemasu !== masu) activatemovable(false);
 }
 
 /**
@@ -565,15 +564,14 @@ function setactivecelluchi(masui, b) {
 
 function release_uchi(tegoma, i)
 {
-  if (tegoma !== null) return false;
-  if (activekoma === null) return false;
-  if (activekoma.id !== i) return false;
-
-  activetegoma = null;
-  activemasu = null;
-  activemovable = [];
-  activekoma = null;
-  return true;
+  let result = tegoma === null || (activekoma !== null && activekoma.id === i);
+  if (result) {
+    activetegoma = null;
+    activemasu = null;
+    activemovable = [];
+    activekoma = null;
+  }
+  return result;
 }
 
 /**
