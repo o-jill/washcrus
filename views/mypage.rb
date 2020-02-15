@@ -82,7 +82,7 @@ class MyPageScreen
          <td><a href='./index.rb?dlkifu/#{gid}' target='_blank'>
           <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
          </a></td>
-         <td><a href='#{kentourl}kifuapi.rb%5f#{gid}.kif' target='_blank'>
+         <td><a href='#{kentourl}kifuapi.rb%3f#{gid}.kif' target='_blank'>
            検討
          </a></td>
         </tr>
