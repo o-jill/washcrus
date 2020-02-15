@@ -16,8 +16,8 @@ class KifuAPI
   def initialize(cgi)
     # @params = cgi.params
     return if cgi.query_string.empty?
-    @gameid = cgi.query_string[%r{(\h+)\.}, 1]
-    @type = cgi.query_string[%r{\.(.+)}, 1]
+    @gameid = cgi.query_string[/(\h+)\./, 1]
+    @type = cgi.query_string[/\.(.+)/, 1]
   end
 
   # class methods

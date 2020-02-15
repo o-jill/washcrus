@@ -25,7 +25,7 @@ class AdminSaveSettingsScreen
   # @param params パラメータハッシュオブジェクト
   def update_settings(params)
     tags = %w[wintitle title mailaddress mailformat \
-      domain base_url kento_url support_url]
+              domain base_url kento_url support_url]
     isng = 0
     tags.each do |tg|
       unless params[tg]
