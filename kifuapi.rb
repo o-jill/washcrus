@@ -15,6 +15,7 @@ require './util/myhtml.rb'
 class KifuAPI
   def initialize(cgi)
     # @params = cgi.params
+    return if cgi.query_string.empty?
     @gameid = cgi.query_string[%r{(\h+)\.}, 1]
     @type = cgi.query_string[%r{\.(.+)}, 1]
   end
