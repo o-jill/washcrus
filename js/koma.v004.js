@@ -180,13 +180,11 @@ Koma.prototype.clone = function(obj)  {
 };
 
 Koma.prototype.getTebanStr = function(strSente, strGote) {
-  if (this.teban === Koma.SENTEBAN) {
-    return strSente;
-  } else if (this.teban === Koma.GOTEBAN) {
-    return strGote;
-  }
+  if (this.teban === Koma.SENTEBAN) return strSente;
+  if (this.teban === Koma.GOTEBAN) return strGote;
   return null;
-}
+};
+
 /**
  * 表示用の文字列の取得
  *
@@ -205,6 +203,7 @@ Koma.prototype.getStr = function() {
   }
   return str;
 };
+
 /**
  * HTML表示用の文字列の取得
  *
@@ -229,7 +228,7 @@ Koma.prototype.getHtmlStr = function(hanten) {
 
 Koma.prototype.chooseKomaExp = function(a, b) {
   return (this.nari === Koma.NARI) ? a : b;
-}
+};
 
 /**
  * HTML表示用の文字列の取得
@@ -250,6 +249,7 @@ Koma.prototype.getImgStr = function(hanten) {
 
   return str;
 };
+
 /**
  * CSA表示用の文字列の取得
  *
@@ -264,6 +264,7 @@ Koma.prototype.getShortStrCSA = function() {
 
   return str;
 };
+
 /**
  * CSA表示用の文字列の取得
  *
@@ -296,6 +297,7 @@ Koma.prototype.getTypeStr = function() {
 Koma.prototype.movable = function() {
   return (this.nari === Koma.NARI) ? this.nariMovable : this.funariMovable;
 };
+
 /**
  * その他の駒がないとしてこれ以上動けるか
  *
@@ -307,6 +309,10 @@ Koma.prototype.checkMovable = function(oy) {
   return true;
 };
 
+Koma.prototype.onTheBan = function (xory) {
+  return 0 <= xory && xory < 9;
+}
+
 Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
   var x = ox;
   var y = oy;
@@ -316,7 +322,7 @@ Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
 
   x += ax;
   y += ay;
-  for ( ; 0 <= x && 8 >= x && 0 <= y && 8 >= y ; x += ax, y += ay) {
+  for ( ; this.onTheBan(x) && this.onTheBan(y) ; x += ax, y += ay) {
     var teban = ban[x][y].koma.teban;
     if (teban === this.teban) break;
     list.push([x, y]);
@@ -329,14 +335,14 @@ Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
 Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
   var x, y;
   x = ox + axy.x;
-  if (x < 0 || x > 8) return list;
+  if (!this.onTheBan(x)) return list;
 
   if (this.teban === Koma.SENTEBAN) {
     y = oy - axy.y;
   } else {
     y = oy + axy.y;
   }
-  if (y < 0 || y > 8) return list;
+  if (!this.onTheBan(y)) return list;
 
   var teban = ban[x][y].koma.teban;
   if (teban !== this.teban) {
@@ -390,7 +396,7 @@ Koma.prototype.pickup_ohte = function(ohtelist, xy, gxy, nari) {
     }
   }
   return ohtelist;
-}
+};
 
 /**
  * 打てるマスのリストを返す。
@@ -474,7 +480,7 @@ Koma.prototype.strFromPos = function(fromxy)
 {
   if (fromxy.x === 0) return '';
   return '(' + fromxy.x + '' + fromxy.y + ')';
-}
+};
 
 /**
  * KIF形式で１手を出力
@@ -614,7 +620,7 @@ Koma.prototype.movemsg = function(tox, toy)
   var y = this.y;
   var fromxy = Koma.ZenkakuNum[x] + Koma.KanjiNum[y];
   return str + 'を' + fromxy + 'から' + toxy + 'に移動します。';
-}
+};
 
 /**
  * nari==Koma.NARIなら駒をひっくり返す。
@@ -639,7 +645,7 @@ Koma.prototype.InitStr = function(abcd)
   this.strntypeCSA = abcd.csa[1];
   this.strtypeIMG = abcd.img[0];
   this.strntypeIMG = abcd.img[1];
-}
+};
 
 /**
  * 動けるマスの情報の初期化
@@ -650,7 +656,7 @@ Koma.prototype.InitMovable = function(funari, nari)
 {
   this.funariMovable = funari;
   this.nariMovable = nari || Koma.KinMovable;
-}
+};
 
 /* 駒汎用ここまで */
 

@@ -135,8 +135,8 @@ function Naraberu_tegoma(tegoma, tegomaui)
  */
 function Naraberu_lastmove(x, y)
 {
-  if (x < 0 || x > 8 || y < 0 || y > 9)
-    return;
+  /* if (x < 0 || x > 8 || y < 0 || y > 9) */
+  if (!Koma.onTheBan(x) || !Koma.onTheBan(y)) return;
 
   var el = ban[x][y].el;
   if (el === null) return;
@@ -388,6 +388,13 @@ function setactivecell(masui, b) {
   setborderstyle(masui, b, '2px solid ' + activeColor, '2px solid black');
 }
 
+function release_activemasu(masu) {
+  if (activemasu !== null) {
+    setactivecell(activemasui, false);
+    if (activemasu !== masu) activatemovable(false);
+  }
+}
+
 /**
  * マスを選択状態にする。
  * masuがnullなら選択解除。
@@ -397,10 +404,8 @@ function setactivecell(masui, b) {
  * @param {Object} masui 対象のマス目の見た目
  */
 function activecell(koma, masu, masui) {
-  if (activemasu !== null) {
-    setactivecell(activemasui, false);
-    if (activemasu !== masu) activatemovable(false);
-  }
+  release_activemasu(masu);
+
   if (masu === null) {
     activetegoma = null;
     activemasu = null;
@@ -558,6 +563,19 @@ function setactivecelluchi(masui, b) {
   setborderstyle(masui, b, '2px solid ' + activeColor, '0px solid black');
 }
 
+function release_uchi(tegoma, i)
+{
+  if (tegoma !== null) return false;
+  if (activekoma === null) return false;
+  if (activekoma.id !== i) return false;
+
+  activetegoma = null;
+  activemasu = null;
+  activemovable = [];
+  activekoma = null;
+  return true;
+}
+
 /**
  * 打ちたい手駒をアクティブ表現にする。
  * tegomaがnullの時はアクティブを消す。
@@ -572,13 +590,7 @@ function activeuchi(koma, tegoma, tegomasu, i) {
     if (activemasu !== null) setactivecelluchi(activemasui, false);
     activatemovable(false);
   }
-  if (tegoma === null || (activekoma !== null && activekoma.id === i)) {
-    activetegoma = null;
-    activemasu = null;
-    activemovable = [];
-    activekoma = null;
-    return;
-  }
+  if (release_uchi(tegoma, i)) return;
 
   var masu = tegomasu[i][1];
   var masui = tegomasu[i][1].el;
