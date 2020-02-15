@@ -61,6 +61,13 @@ class MyPageScreen
     TAIKYOKURIREKI_TABLE
   end
 
+  def put_kentourl(gid, status)
+    return 'ダメ' if %w[b w].include?(status)
+    baseurl = stg.value['base_url']
+    kentourl = 'https://kento-shogi.com/?kifu=' + baseurl
+    "<a href='#{kentourl}kifuapi.rb%3f#{gid}.kif' target='_blank'>検討</a>"
+  end
+
   # 対局履歴の表の中身の出力
   #
   # @param tklist 対局情報Array
@@ -69,8 +76,6 @@ class MyPageScreen
       gid = game[:id]
       turnstr = CommonUI.turn2str(game[:turn])
       stg = Settings.instance
-      baseurl = stg.value['base_url']
-      kentourl = 'https://kento-shogi.com/?kifu=' + baseurl
       print <<-TKLIST_DAN.unindent
         <tr>
          <td><a href='./index.rb?game/#{gid}'>
@@ -82,9 +87,7 @@ class MyPageScreen
          <td><a href='./index.rb?dlkifu/#{gid}' target='_blank'>
           <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
          </a></td>
-         <td><a href='#{kentourl}kifuapi.rb%3f#{gid}.kif' target='_blank'>
-           検討
-         </a></td>
+         <td>#{put_kentourl(gid, game[:turn])}</td>
         </tr>
       TKLIST_DAN
     end
