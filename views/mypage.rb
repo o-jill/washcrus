@@ -63,6 +63,7 @@ class MyPageScreen
 
   def put_kentourl(gid, status)
     return 'ダメ' if %w[b w].include?(status)
+    stg = Settings.instance
     baseurl = stg.value['base_url']
     kentourl = 'https://kento-shogi.com/?kifu=' + baseurl
     "<a href='#{kentourl}kifuapi.rb%3f#{gid}.kif' target='_blank'>検討</a>"
@@ -75,7 +76,6 @@ class MyPageScreen
     tklist.each do |game|
       gid = game[:id]
       turnstr = CommonUI.turn2str(game[:turn])
-      stg = Settings.instance
       print <<-TKLIST_DAN.unindent
         <tr>
          <td><a href='./index.rb?game/#{gid}'>
