@@ -52,6 +52,12 @@ class GetMatchInfo
     self
   end
 
+  def put_result(mif)
+    puts "Content-Type: text/plain;\n\n" \
+      "#{@gameid}\n先手:#{mif.playerb.name} 後手:#{mif.playerw.name}\n" \
+      "sfen:#{mif.sfen}"
+  end
+
   #
   # 実行本体。
   #
@@ -69,10 +75,11 @@ class GetMatchInfo
     tkd.setid(@gameid)
     tkd.read
 
-    mif = tkd.mif
-    puts "Content-Type: text/plain;\n\n" \
-      "#{@gameid}\n先手:#{mif.playerb.name} 後手:#{mif.playerw.name}\n" \
-      "sfen:#{mif.sfen}"
+    put_result(tkd.mif)
+    # mif = tkd.mif
+    # puts "Content-Type: text/plain;\n\n" \
+    #   "#{@gameid}\n先手:#{mif.playerb.name} 後手:#{mif.playerw.name}\n" \
+    #   "sfen:#{mif.sfen}"
   end
 end
 
