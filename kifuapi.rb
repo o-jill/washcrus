@@ -26,7 +26,7 @@ class KifuAPI
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid
     return MyHtml.puts_textplain_illegalaccess \
-      unless %w[kif csa].include?(@type)
+      unless @type == 'kif' # %w[kif csa].include?(@type)
 
     tdb = TaikyokuFile.new
     tdb.read
