@@ -8,6 +8,7 @@ require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
 require './game/webapi_sfenreader.rb'
 require './game/winsloses.rb'
+require './util/settings.rb'
 require './views/common_ui.rb'
 
 #
@@ -55,7 +56,7 @@ class MyPageScreen
     print <<-TAIKYOKURIREKI_TABLE.unindent
       <table align='center' border='3'><caption>#{cap}</caption>
       <tr>
-       <th>ID</th><th>先手</th><th>後手</th><th>手番</th><th>最終着手日時</th><th>棋譜</th>
+       <th>ID</th><th>先手</th><th>後手</th><th>手番</th><th>最終着手日時</th><th>棋譜</th><th>検討</th>
       </tr>
     TAIKYOKURIREKI_TABLE
   end
@@ -67,6 +68,9 @@ class MyPageScreen
     tklist.each do |game|
       gid = game[:id]
       turnstr = CommonUI.turn2str(game[:turn])
+      stg = Settings.instance
+      baseurl = stg.value['base_url']
+      kentourl = 'https://kento-shogi.com/?kifu=' + baseurl
       print <<-TKLIST_DAN.unindent
         <tr>
          <td><a href='./index.rb?game/#{gid}'>
@@ -77,6 +81,9 @@ class MyPageScreen
          <td>#{turnstr}</td><td>#{game[:time]}</td>
          <td><a href='./index.rb?dlkifu/#{gid}' target='_blank'>
           <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
+         </a></td>
+         <td><a href='#{kentourl}kifuapi.rb%5f#{gid}.kif' target='_blank'>
+           検討
          </a></td>
         </tr>
       TKLIST_DAN
