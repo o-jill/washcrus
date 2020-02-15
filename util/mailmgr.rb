@@ -156,7 +156,7 @@ class MailManager
         content_type 'text/html; charset=utf-8'
         body html
       end
-      add_file filename: attach[:filename], content: attach[:content]
+      add_file attach
     end
     @mail['from'] = @dlvcfg['mailaddress']
 
