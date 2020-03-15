@@ -126,9 +126,9 @@ class LoginCheckScreen
 
   # game画面からの遷移でログインだったらゲーム画面に案内
   def gotogamepage(params)
-    gid = params['gid']
+    gid = params['gameid']
     gid = gid[0]
-    return unless gid
+    return if gid.empty?
     "<a href='index.rb?game/#{gid}'>対局(#{gid})へ</a>"
   end
 
