@@ -78,7 +78,7 @@ class WashCrus
 
   def login
     require './views/login.rb'
-    LoginScreen.new(@header).show(@userinfo)
+    LoginScreen.new(@header).show(@userinfo, '')
   end
 
   def logincheck

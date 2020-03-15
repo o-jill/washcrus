@@ -16,7 +16,7 @@ class LoginScreen
   end
 
   # ログインフォームの表示
-  def put_login_form
+  def put_login_form(gid)
     print <<-TABLE_FORM.unindent
       <FORM action='index.rb?logincheck' method=post name='signin'>
       <TABLE align='center' class='inpform'>
@@ -32,7 +32,10 @@ class LoginScreen
       <TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
       <TR>
        <TD><input type='reset' class='inpform'></TD>
-       <TD><input style='width:100%' type='submit' class='inpform'></TD>
+       <TD>
+        <input type='hidden' name='gameid' value='#{gid}'>
+        <input style='width:100%' type='submit' class='inpform'>
+       </TD>
       </TR>
       </TABLE></FORM>
       <style>
@@ -67,12 +70,12 @@ class LoginScreen
   # ログイン画面
   #
   # @param userinfo ユーザ情報
-  def show(userinfo)
+  def show(userinfo, gid)
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
     if userinfo.invalid?
-      put_login_form
+      put_login_form(gid)
     else
       put_login_form_err
     end
