@@ -124,12 +124,23 @@ class LoginCheckScreen
     false
   end
 
+  def automove2agame(gid)
+    url = "./index.rb?game/#{gid}"
+    "3秒後に自動的に移動します。(移動しない場合は↑をクリック)" \
+    "<script type='text/javascript'>" \
+    "function automove() {"\
+    "setTimeout(function() {location.href = '#{url}';}, 3000);}" \
+    "automove();</script>"
+  end
+
   # game画面からの遷移でログインだったらゲーム画面に案内
   def gotogamepage(params)
     gid = params['gameid']
     gid = gid[0]
     return if gid.empty?
-    "<a href='index.rb?game/#{gid}'>対局(#{gid})へ</a>"
+    "<div align='center'>" \
+    "<a href='index.rb?game/#{gid}'>対局(#{gid})へ</a><br>" \
+    "#{automove2agame(gid)}</div>"
   end
 
   # 画面の表示
