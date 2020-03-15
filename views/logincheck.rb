@@ -124,6 +124,14 @@ class LoginCheckScreen
     false
   end
 
+  # game画面からの遷移でログインだったらゲーム画面に案内
+  def gotogamepage(params)
+    gid = params['gid']
+    gid = gid[0]
+    return unless gid
+    "<a href='index.rb?game/#{gid}'>対局(#{gid})へ</a>"
+  end
+
   # 画面の表示
   #
   # @param session セッション情報
@@ -153,6 +161,8 @@ class LoginCheckScreen
       # エラー
       puts "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>"
     end
+
+    puts gotogamepage(cgi.params)
 
     CommonUI.html_foot
   end
