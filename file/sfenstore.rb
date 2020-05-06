@@ -33,14 +33,14 @@ class SfenStore
   #
   # @param line 最新局面
   def sennichite?(line)
-    count = Hash.new
+    count = {}
     File.open(@path, 'r') do |file|
       file.flock File::LOCK_EX
       file.each_line do |ln|
         /([^ ]+ ){3}/ =~ ln
         kykm = $&
-        count[kykm] = count[kykm] || 0;
-        count[kykm] = count[kykm] + 1;
+        cnt = count[kykm] || 0
+        count[kykm] = cnt + 1
       end
     end
     # p count
