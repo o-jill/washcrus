@@ -292,14 +292,14 @@ class MatchInfoFile
   def done_game_sp(per100_text)
     @finished = true
     @turn =
-      if per100_text == '%TORYO'
+      if per100_text != '%TORYO'
+        'd' # 引き分け
+      else
         if @teban == 'b'
           'fw' # 後手勝ち
         else
           'fb' # 先手勝ち
         end
-      else
-        'd' # 引き分け
       end
     # @teban = 'f'
   end

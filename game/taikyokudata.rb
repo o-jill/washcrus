@@ -355,6 +355,7 @@ class TaikyokuData
     # userdb読み込み
     @log.debug('userdb = UserInfoFile.new')
     userdb = UserInfoFile.new
+    return userdb.give_draw(@idb, @idw) if turn == 'd'
     userdb.give_win_lose(gwin, @idb, @idw)
   end
 
