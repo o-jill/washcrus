@@ -156,6 +156,11 @@ class JsonKifu
     move(JsonMove.fromtext('%TORYO'))
   end
 
+  # 千日手
+  def sennichite
+    move(JsonMove.fromtext('%SENNICHITE'))
+  end
+
   # コメントの追加
   #
   # @param nth 何手目に追加するか

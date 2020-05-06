@@ -272,8 +272,7 @@ class TaikyokuData
     @jkf.move(jsmv, jc.genhash, ["着手日時：#{datm}"])
     # @log.debug('@jkf.moved(jsmv, jc.genhash)')
 
-    return finish_special([special: '%SENNICHITE']) \
-      if sfs.sennichite?
+    return finish_sennnichite if sfs.sennichite?(sfen)
 
     finish_if_catch_gyoku(jsmv)
   end
@@ -312,6 +311,13 @@ class TaikyokuData
     @log.debug('if jsmv[:special]')
     @jkf.move(jsmv)
     @mif.done_game_sp(jsmv[:special])
+    1
+  end
+
+  # 千日手で終了
+  def finish_sennnichite
+    @mif.done_game_sp('%SENNICHITE')
+    @jkf.sennichite
     1
   end
 
