@@ -272,6 +272,9 @@ class TaikyokuData
     @jkf.move(jsmv, jc.genhash, ["着手日時：#{datm}"])
     # @log.debug('@jkf.moved(jsmv, jc.genhash)')
 
+    return finish_special([special: '%SENNICHITE']) \
+      if sfs.sennichite?
+
     finish_if_catch_gyoku(jsmv)
   end
 
