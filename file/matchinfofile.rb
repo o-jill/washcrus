@@ -294,12 +294,10 @@ class MatchInfoFile
     @turn =
       if per100_text != '%TORYO'
         'd' # 引き分け
+      elsif @teban == 'b'
+        'fw' # 後手勝ち
       else
-        if @teban == 'b'
-          'fw' # 後手勝ち
-        else
-          'fb' # 先手勝ち
-        end
+        'fb' # 先手勝ち
       end
     # @teban = 'f'
   end
