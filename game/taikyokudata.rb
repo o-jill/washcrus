@@ -275,6 +275,8 @@ class TaikyokuData
     @jkf.move(jsmv, jc.genhash, ["着手日時：#{datm}"])
     # @log.debug('@jkf.moved(jsmv, jc.genhash)')
 
+    return finish_sennnichite if sfs.sennichite?(sfen)
+
     finish_if_catch_gyoku(jsmv)
   end
 
@@ -315,6 +317,13 @@ class TaikyokuData
     1
   end
 
+  # 千日手で終了
+  def finish_sennnichite
+    @mif.done_game_sp('%SENNICHITE')
+    @jkf.sennichite
+    1
+  end
+
   # 玉を取って終局の処理
   #
   # @param jsmv JsonMoveオブジェクト
@@ -349,6 +358,7 @@ class TaikyokuData
     # userdb読み込み
     @log.debug('userdb = UserInfoFile.new')
     userdb = UserInfoFile.new
+    return userdb.give_draw(@idb, @idw) if turn == 'd'
     userdb.give_win_lose(gwin, @idb, @idw)
   end
 

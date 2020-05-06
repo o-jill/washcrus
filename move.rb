@@ -317,9 +317,14 @@ class Move
   def finish_game(tcdb, now)
     # 終了日時の更新とか勝敗の記録とか
     @log.debug("tkd.finished(now, #{@tkd.mif.teban} == 'b')")
-    gote_win = (@tkd.mif.teban == 'b')
-    @turn = gote_win ? 'fw' : 'fb'
-    @tkd.finished(now, gote_win, @turn)
+    if @tkd.mif.turn == 'd'
+      @turn = 'd'
+      @tkd.finished(now, nil, @turn)
+    else
+      gote_win = (@tkd.mif.teban == 'b')
+      @turn = gote_win ? 'fw' : 'fb'
+      @tkd.finished(now, gote_win, @turn)
+    end
 
     # 対局中からはずす
     @log.debug('tcdb.finished(@gameid)')

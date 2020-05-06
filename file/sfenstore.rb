@@ -28,4 +28,28 @@ class SfenStore
   rescue IOError => er
     puts "class=[#{er.class}] message=[#{er.message}] in write"
   end
+
+  # 千日手かどうか
+  #
+  # @param line 最新局面
+  def sennichite?(line)
+    count = {}
+    File.open(@path, 'r') do |file|
+      file.flock File::LOCK_EX
+      file.each_line do |ln|
+        /([^ ]+ ){3}/ =~ ln
+        kykm = $&
+        cnt = count[kykm] || 0
+        count[kykm] = cnt + 1
+      end
+    end
+    # p count
+    /([^ ]+ ){3}/ =~ line
+    count[$&] >= 4
+  # 例外は小さい単位で捕捉する
+  rescue SystemCallError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue IOError => er
+    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  end
 end
