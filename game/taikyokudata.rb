@@ -319,7 +319,7 @@ class TaikyokuData
 
   # 千日手で終了
   def finish_sennnichite
-    @mif.done_game_sp('%SENNICHITE')
+    @mif.done_game_sp('SENNICHITE')
     @jkf.sennichite
     1
   end
