@@ -286,17 +286,22 @@ class MatchInfoFile
 
   # 対局終了フラグのセットと勝ち負けの記入
   #
-  # @param per100_text %から始まる文字列。%TORYOなど。
+  # @param per100_text %から始まる文字列。%は抜き。
+  #        %TORYOであれば'TORYO'など。
   #        %TORYOであれば@tebanにより勝敗を@turnに、
   #        それ以外であれば@turnに。引き分けを入れる。
   def done_game_sp(per100_text)
+    # @log.debug("done_game_sp(#{per100_text})")
     @finished = true
     @turn =
-      if per100_text != '%TORYO'
+      if per100_text != 'TORYO'
+        # @log.debug("if per100_text != 'TORYO' -> 'd'")
         'd' # 引き分け
       elsif @teban == 'b'
+        # @log.debug("if per100_text != 'TORYO' -> 'fw'")
         'fw' # 後手勝ち
       else
+        # @log.debug("if per100_text != 'TORYO' -> 'fb'")
         'fb' # 先手勝ち
       end
     # @teban = 'f'
