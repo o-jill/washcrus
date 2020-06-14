@@ -254,6 +254,13 @@ class TaikyokuData
     show_converted_kifu(type)
   end
 
+  # 引き分け提案などを処理する
+  def procsystem(jsmv, datm)
+    @mif.suggestdraw(jsmv[:system], datm)
+    RES_DRAW  # 引き分け提案了承
+    # RES_OVER  # 引き分け終局
+  end
+
   # １手指す
   #
   # @param sfen sfen文字列
@@ -263,13 +270,16 @@ class TaikyokuData
   # @return nil if invalid, RES_OVER if done, otherwise RES_NEXT.
   def move(sfen, jsmv, datm)
     @log.debug("Taikyokudata.move(jsmv, #{datm})")
+    @mif.log = @log
+
+    # 引き分け提案とか
+    return procsystem(jsmv, datm) if jsmv[:system]
 
     sfs = SfenStore.new(@sfenpath)
     sfs.add(sfen)
 
     return finish_special(jsmv) if jsmv[:special]
 
-    @mif.log = @log
     return unless @mif.fromsfen(sfen, true)
 
     jc = calc_consumption(datm)

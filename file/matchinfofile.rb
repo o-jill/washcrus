@@ -319,6 +319,19 @@ class MatchInfoFile
       end
   end
 
+  # 引き分けの提案の情報を処理する
+  #
+  # @param text DRAW(YES|NO)(b|w),
+  # @return true when both @drawb and draww are 'YES'
+  def suggestdraw(txt, datm)
+    @log.debug("suggestdraw(#{txt}, #{datm})");
+    res = txt[4]
+    @drawb = res if txt[-1] == 'b'
+    @draww = res if txt[-1] == 'w'
+    @log.debug("suggestdraw(#{@drawb}, #{@draww}), #{res}");
+    @drawb == 'YES' && @draww == 'YES'
+  end
+
   # 手番文字を返す
   #
   # @return 'b':先手の手番, 'w':後手の手番, 'f':対局終了
