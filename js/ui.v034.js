@@ -36,6 +36,7 @@ var CFRM_UTSU = 0;  // 打つ
 var CFRM_MOVE = 1;  // 動かす
 var CFRM_MVCAP = 2;  // 動かして取る
 var CFRM_RESIGN = 3;  // 投了
+var CFRM_SUGDRAW = 4;  // 引き分け提案
 
 /** 棋譜情報出力欄 */
 // var kifuArea;
@@ -1299,4 +1300,9 @@ function onresign() {
 
   movecsa = '%TORYO';
   send_csamove(); */
+}
+
+function onsuggestdraw() {
+  myconfirm("引き分けを提案する(OK), しない(Cancel)",
+            CFRM_SUGDRAW, -1, -1);
 }
