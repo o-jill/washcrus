@@ -38,6 +38,10 @@ class TaikyokuData
               :lockpath, :mif, :jkf
   attr_accessor :creator, :log
 
+  RES_NEXT = 0  # まだまだ続ける
+  RES_OVER = 1  # 玉を取って終局
+  RES_DRAW = -1  # 引き分け提案
+
   # 先手のセット
   #
   # @param id ID
