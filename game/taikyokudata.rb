@@ -260,7 +260,7 @@ class TaikyokuData
   # @param jsmv JsonMoveオブジェクト
   # @param datm 着手時間オブジェクト
   #
-  # @return nil if invalid, 1 if done, otherwise 0.
+  # @return nil if invalid, RES_OVER if done, otherwise RES_NEXT.
   def move(sfen, jsmv, datm)
     @log.debug("Taikyokudata.move(jsmv, #{datm})")
 
