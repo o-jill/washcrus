@@ -318,14 +318,14 @@ class TaikyokuData
     @log.debug('if jsmv[:special]')
     @jkf.move(jsmv)
     @mif.done_game_sp(jsmv[:special])
-    1
+    RES_OVER
   end
 
   # 千日手で終了
   def finish_sennnichite
     @mif.done_game_sp('SENNICHITE')
     @jkf.sennichite
-    1
+    RES_OVER
   end
 
   # 玉を取って終局の処理
@@ -336,9 +336,9 @@ class TaikyokuData
     if JsonMove.catch_gyoku?(jsmv)
       @mif.done_game_gyoku
       @jkf.resign
-      1
+      RES_OVER
     else
-      0
+      RES_NEXT
     end
   end
 

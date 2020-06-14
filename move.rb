@@ -341,7 +341,7 @@ class Move
 
   # 対局情報の登録更新
   #
-  # @param finished [boolean] 終局したかどうか
+  # @param finished [Integer] 終局したかどうか
   # @param now      [Time]    着手日時オブジェクト
   def register_move(finished, now)
     @turn = @tkd.mif.teban
@@ -349,7 +349,7 @@ class Move
     tcdb = TaikyokuChuFile.new
     tcdb.read
 
-    finish_game(tcdb, now) if finished
+    finish_game(tcdb, now) if finished == TaikyokuData::RES_OVER
 
     # @log.debug('Move.updatelastmove')
     @tkd.updatelastmove(@move, now)
@@ -394,7 +394,9 @@ class Move
       # 違反移動の表示
       return MyHtml.puts_textplain('invalid move.') unless ret
 
-      register_move(ret != 0, now)
+      MyHtml.puts_textplain('Draw suggestion.') if ret == TaikyokuData::RES_DRAW
+
+      register_move(ret, now)
     end
     @log.debug('Move.performed')
   end
