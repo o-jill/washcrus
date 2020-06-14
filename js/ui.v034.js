@@ -771,6 +771,12 @@ function clickcfrm_ok_capmove(hx, hy)
   }
 }
 
+function send_drawsuggestion(yesno) {
+  var teban = document.getElementById('myteban').value;
+  movecsa = '!DRAW' + yesno + teban;
+  send_csamove();
+}
+
 /**
  * 着手確認ダイアログのOKを押した
  */
@@ -793,6 +799,8 @@ function clickcfrm_ok() {
     // 投了
     movecsa = '%TORYO';
     send_csamove();
+  } else if (cfrmdlg.md === CFRM_SUGDRAW) {
+    send_drawsuggestion('YES');
   }
 }
 
@@ -807,6 +815,8 @@ function clickcfrm_cancel() {
     // 駒の移動をやめる
     activecell(null, null, null);
     /* } else if (cfrmdlg.md === CFRM_RESIGN) { */
+  } else if (cfrmdlg.md === CFRM_SUGDRAW) {
+    send_drawsuggestion('NO');
   }
 
   cfrmdlg.style.visibility = 'hidden';
