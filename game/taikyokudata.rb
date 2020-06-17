@@ -258,7 +258,11 @@ class TaikyokuData
   # @retval RES_DRAW 引き分け提案了承
   # @retval RES_OVER 引き分け終局
   def procsystem(jsmv, datm)
-    @mif.suggestdraw(jsmv[:system], datm) ? RES_OVER : RES_DRAW
+    ret = RES_DRAW
+    ret = RES_OVER if @mif.suggestdraw(jsmv[:system], datm)
+    # @log.debug('Move.mif.write')
+    @mif.write(@matchinfopath)
+    ret
   end
 
   # １手指す
