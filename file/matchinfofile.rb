@@ -329,7 +329,7 @@ class MatchInfoFile
     @drawb = res if txt[-1] == 'b'
     @draww = res if txt[-1] == 'w'
     @log.debug("suggestdraw(#{@drawb}, #{@draww}), #{res}");
-    @drawb == 'YES' && @draww == 'YES'
+    @drawb == 'Y' && @draww == 'Y'
   end
 
   # 手番文字を返す
@@ -361,6 +361,8 @@ class MatchInfoFile
     @finished = data[:finished] || false
     # @teban = 'f' if @finished
     # @turn = data[:turn] || @teban
+    @drawb = data[:drawb] || 'N'
+    @draww = data[:draww] || 'N'
     byou = data[:byouyomi]
     setmochijikans(byou) if byou
 
@@ -400,6 +402,7 @@ class MatchInfoFile
       idw: @playerw.id, playerw: @playerw.name, sfen: @sfen,
       lastmove: @lastmove, dt_lastmove: @dt_lastmove, finished: @finished,
       turn: @turn,
+      drawb: @drawb, draww: @draww,
       byouyomi: {
         dt_lasttick: @dt_lasttick, # 持ち時間最終確認時刻
         maxbyouyomi: @maxbyouyomi, # 秒読みの設定時間
