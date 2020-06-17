@@ -255,10 +255,10 @@ class TaikyokuData
   end
 
   # 引き分け提案などを処理する
+  # @retval RES_DRAW 引き分け提案了承
+  # @retval RES_OVER 引き分け終局
   def procsystem(jsmv, datm)
-    @mif.suggestdraw(jsmv[:system], datm)
-    RES_DRAW  # 引き分け提案了承
-    # RES_OVER  # 引き分け終局
+    @mif.suggestdraw(jsmv[:system], datm) ? RES_OVER : RES_DRAW
   end
 
   # １手指す
@@ -273,7 +273,9 @@ class TaikyokuData
     @mif.log = @log
 
     # 引き分け提案とか
-    return procsystem(jsmv, datm) if jsmv[:system]
+    ret = procsystem(jsmv, datm) if jsmv[:system]
+    return if ret == RES_DRAW
+    jsmv[:system] = 'HIKIWAKE' if RES_OVER
 
     sfs = SfenStore.new(@sfenpath)
     sfs.add(sfen)
