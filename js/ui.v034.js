@@ -1011,6 +1011,10 @@ function activateteban()
   /* resign button */
   document.getElementById('btn_resign').style.display
       = (taikyokuchu) ? 'inline' : 'none';
+
+  /* draw_suggest button */
+  document.getElementById('btn_draw_suggest').style.display
+      = (taikyokuchu) ? 'inline' : 'none';
 }
 
 function checkSfenResponse(sfenstr)
