@@ -278,7 +278,7 @@ class TaikyokuData
 
     # 引き分け提案とか
     ret = procsystem(jsmv, datm) if jsmv[:system]
-    return if ret == RES_DRAW
+    return ret if ret == RES_DRAW
     jsmv[:system] = 'HIKIWAKE' if RES_OVER
 
     sfs = SfenStore.new(@sfenpath)

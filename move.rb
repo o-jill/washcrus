@@ -394,7 +394,8 @@ class Move
       # 違反移動の表示
       return MyHtml.puts_textplain('invalid move.') unless ret
 
-      MyHtml.puts_textplain('Draw suggestion.') if ret == TaikyokuData::RES_DRAW
+      return MyHtml.puts_textplain('Draw suggestion.') \
+        if ret == TaikyokuData::RES_DRAW
 
       register_move(ret, now)
     end
