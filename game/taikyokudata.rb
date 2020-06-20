@@ -254,6 +254,21 @@ class TaikyokuData
     show_converted_kifu(type)
   end
 
+  def procsystem_draw(cmd, datm)
+    ret = RES_DRAW
+    ret = RES_OVER if @mif.suggestdraw(cmd, datm)
+    @mif.write(@matchinfopath)
+
+    # chat file
+    chat = ChatFile.new(@gid)
+    sente = cmd[-1] == 'b'
+    @log.debug("chat.say_sugdraw(sente = #{cmd[-1]} == 'b')")
+    chat.say_sugdraw(
+      cmd[-1] == 'b' ? @playerb : @playerw,
+      cmd[4] == 'Y')
+    ret
+  end
+
   # 引き分け提案などを処理する
   # @retval RES_DRAW 引き分け提案了承
   # @retval RES_OVER 引き分け終局

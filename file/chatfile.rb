@@ -87,6 +87,16 @@ class ChatFile
           "it's on time. please start your move as SENTE, #{name}-san.")
   end
 
+  # 引き分け提案
+  #
+  # @param name 名前
+  # @param yes true:, false:
+  def say_sugdraw(name, yes)
+    sayex("<span id='chatadmin'>Witness</span>",
+          yes ? "#{name}さんから引き分け提案がありました。."
+        : "#{name}さんから引き分け提案の取りやめがありました。.")
+  end
+
   # チャット内容の出力
   def put
     print "Content-type:text/html;\n\n#{msg}"
