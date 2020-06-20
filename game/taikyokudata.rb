@@ -41,6 +41,7 @@ class TaikyokuData
   RES_NEXT = 0  # まだまだ続ける
   RES_OVER = 1  # 玉を取って終局
   RES_DRAW = -1  # 引き分け提案
+  RES_ERR = -2  # エラー
 
   # 先手のセット
   #
@@ -273,11 +274,10 @@ class TaikyokuData
   # @retval RES_DRAW 引き分け提案了承
   # @retval RES_OVER 引き分け終局
   def procsystem(jsmv, datm)
-    ret = RES_DRAW
-    ret = RES_OVER if @mif.suggestdraw(jsmv[:system], datm)
-    # @log.debug('Move.mif.write')
-    @mif.write(@matchinfopath)
-    ret
+    @log.debug("procsystem(#{jsmv}, #{datm})")
+    cmd = jsmv[:system]
+    return procsystem_draw(cmd, datm) if /^DRAW/ =~ cmd
+    RES_ERR
   end
 
   # １手指す
@@ -294,7 +294,8 @@ class TaikyokuData
     # 引き分け提案とか
     ret = procsystem(jsmv, datm) if jsmv[:system]
     return ret if ret == RES_DRAW
-    jsmv[:system] = 'HIKIWAKE' if RES_OVER
+    return ret if ret == RES_ERR
+    jsmv[:special] = 'HIKIWAKE' if RES_OVER
 
     sfs = SfenStore.new(@sfenpath)
     sfs.add(sfen)
