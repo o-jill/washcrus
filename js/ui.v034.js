@@ -1009,12 +1009,12 @@ function activateteban()
   document.getElementById('tebaninfo').innerHTML = strinfo;
 
   /* resign button */
-  document.getElementById('btn_resign').style.display
-      = (taikyokuchu) ? 'inline' : 'none';
+  var btn = document.getElementById('btn_resign')
+  if (btn) btn.style.display = (taikyokuchu) ? 'inline' : 'none';
 
   /* draw_suggest button */
-  document.getElementById('btn_draw_suggest').style.display
-      = (taikyokuchu) ? 'inline' : 'none';
+  // btn = document.getElementById('btn_draw_suggest')
+  // if (btn) btn.style.display = (taikyokuchu) ? 'inline' : 'none';
 }
 
 function checkSfenResponse(sfenstr)

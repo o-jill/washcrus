@@ -7,14 +7,18 @@
 <input type='hidden' id='isfinished' value='<%= @mif.finished %>'/><BR>
 <% if @mif.finished %>
 <input type='hidden' id='myteban' value='<%= @mif.turnex %>'/>
+<span id='tebaninfo'>手番情報</span>
 <% elsif @mif.playerb.id == @userinfo.user_id %>
 <input type='hidden' id='myteban' value='b'/>
-<% elsif @mif.playerw.id == @userinfo.user_id %>
-<input type='hidden' id='myteban' value='w'/>
-<% else %>
-<input type='hidden' id='myteban' value='0'/>
-<% end %>
-
 <span id='tebaninfo'>手番情報</span>
 <input type='image' src='./image/resignbtn.svg' alt='投了(resign)' title='投了(resign)' id='btn_resign' onclick="onresign()"/>
 <input type='button' id='btn_draw_suggest' onclick='onsuggestdraw()' value='引き分け提案'/>
+<% elsif @mif.playerw.id == @userinfo.user_id %>
+<input type='hidden' id='myteban' value='w'/>
+<span id='tebaninfo'>手番情報</span>
+<input type='image' src='./image/resignbtn.svg' alt='投了(resign)' title='投了(resign)' id='btn_resign' onclick="onresign()"/>
+<input type='button' id='btn_draw_suggest' onclick='onsuggestdraw()' value='引き分け提案'/>
+<% else %>
+<input type='hidden' id='myteban' value='0'/>
+<span id='tebaninfo'>手番情報</span>
+<% end %>
