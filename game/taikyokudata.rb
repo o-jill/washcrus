@@ -263,10 +263,8 @@ class TaikyokuData
     # chat file
     chat = ChatFile.new(@gid)
     @log.debug("chat.say_sugdraw(sente = #{cmd[-1]} == 'b')")
-    chat.say_sugdraw(
-      cmd[-1] == 'b' ? @playerb : @playerw,
-      cmd[4] == 'Y'
-    )
+    chat.say_sugdraw(cmd[-1] == 'b' ? @playerb : @playerw, cmd[4] == 'Y')
+
     ret
   end
 
@@ -276,8 +274,27 @@ class TaikyokuData
   def procsystem(jsmv, datm)
     @log.debug("procsystem(#{jsmv}, #{datm})")
     cmd = jsmv[:system]
-    return procsystem_draw(cmd, datm) if /^DRAW/ =~ cmd
-    RES_ERR
+    ret = RES_ERR
+    ret = procsystem_draw(cmd, datm) if /^DRAW/ =~ cmd
+    [ret == RES_ERR || ret == RES_DRAW, ret]
+  end
+
+  def recordmove(sfen, jsmv, datm)
+    sfs = SfenStore.new(@sfenpath)
+    sfs.add(sfen)
+
+    return unless @mif.fromsfen(sfen, true)
+
+    jc = calc_consumption(datm)
+
+    # @log.debug("@jkf.move(jsmv, #{jc.genhash})")
+    # @jkf.log = @log
+    @jkf.move(jsmv, jc.genhash, ["着手日時：#{datm}"])
+    # @log.debug('@jkf.moved(jsmv, jc.genhash)')
+
+    return finish_sennnichite if sfs.sennichite?(sfen)
+
+    finish_if_catch_gyoku(jsmv)
   end
 
   # １手指す
@@ -292,28 +309,13 @@ class TaikyokuData
     @mif.log = @log
 
     # 引き分け提案とか
-    ret = procsystem(jsmv, datm) if jsmv[:system]
-    return ret if ret == RES_DRAW
-    return ret if ret == RES_ERR
-    jsmv[:special] = 'HIKIWAKE' if ret == RES_OVER
-
-    sfs = SfenStore.new(@sfenpath)
-    sfs.add(sfen)
+    ret, status = procsystem(jsmv, datm) if jsmv[:system]
+    return status if ret
+    jsmv[:special] = 'HIKIWAKE' if status == RES_OVER
 
     return finish_special(jsmv) if jsmv[:special]
 
-    return unless @mif.fromsfen(sfen, true)
-
-    jc = calc_consumption(datm)
-
-    # @log.debug("@jkf.move(jsmv, #{jc.genhash})")
-    # @jkf.log = @log
-    @jkf.move(jsmv, jc.genhash, ["着手日時：#{datm}"])
-    # @log.debug('@jkf.moved(jsmv, jc.genhash)')
-
-    return finish_sennnichite if sfs.sennichite?(sfen)
-
-    finish_if_catch_gyoku(jsmv)
+    recordmove(sfen, jsmv, datm)
   end
 
   # 最新着手の更新

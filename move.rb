@@ -341,15 +341,15 @@ class Move
 
   # 対局情報の登録更新
   #
-  # @param finished [Integer] 終局したかどうか
-  # @param now      [Time]    着手日時オブジェクト
-  def register_move(finished, now)
+  # @param status [Integer] 終局したかどうか
+  # @param now    [Time]    着手日時オブジェクト
+  def register_move(status, now)
     @turn = @tkd.mif.teban
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
 
-    finish_game(tcdb, now) if finished == TaikyokuData::RES_OVER
+    finish_game(tcdb, now) if status == TaikyokuData::RES_OVER
 
     # @log.debug('Move.updatelastmove')
     @tkd.updatelastmove(@move, now)
@@ -358,12 +358,12 @@ class Move
     # @log.debug('Move.jkf.write')
     @tkd.write
 
-    tcdb.update_dt_turn(@gameid, now, @turn) \
-        if finished == TaikyokuData::RES_NEXT
+    finished = status != TaikyokuData::RES_NEXT
+    tcdb.update_dt_turn(@gameid, now, @turn) unless finished
 
     TaikyokuFile.new.update_dt_turn(@gameid, now, @turn)
 
-    send_mail(finished != TaikyokuData::RES_NEXT, now)
+    send_mail(finished, now)
 
     # 移動完了の表示
     MyHtml.puts_textplain('Moved.')
@@ -400,7 +400,7 @@ class Move
 
       register_move(ret, now)
     end
-    @log.debug('Move.performed')
+    # @log.debug('Move.performed')
   end
 end
 

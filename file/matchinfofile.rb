@@ -324,11 +324,11 @@ class MatchInfoFile
   # @param text DRAW(YES|NO)(b|w),
   # @return true when both @drawb and draww are 'YES'
   def suggestdraw(txt, datm)
-    @log.debug("suggestdraw(#{txt}, #{datm})");
+    @log.debug("suggestdraw(#{txt}, #{datm})")
     res = txt[4]
     @drawb = res if txt[-1] == 'b'
     @draww = res if txt[-1] == 'w'
-    @log.debug("suggestdraw(#{@drawb}, #{@draww}), #{res}");
+    @log.debug("suggestdraw(#{@drawb}, #{@draww}), #{res}")
     @drawb == 'Y' && @draww == 'Y'
   end
 

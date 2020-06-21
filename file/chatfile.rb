@@ -92,9 +92,14 @@ class ChatFile
   # @param name 名前
   # @param yes true:, false:
   def say_sugdraw(name, yes)
-    sayex("<span id='chatadmin'>Witness</span>",
-          yes ? "#{name}さんから引き分け提案がありました。."
-        : "#{name}さんから引き分け提案の取りやめがありました。.")
+    msg =
+      if yes
+        "#{name}さんから引き分け提案がありました。."
+      else
+        "#{name}さんから引き分け提案の取りやめがありました。."
+      end
+
+    sayex("<span id='chatadmin'>Witness</span>", msg)
   end
 
   # チャット内容の出力
