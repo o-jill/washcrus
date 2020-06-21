@@ -362,7 +362,7 @@ class Move
 
     TaikyokuFile.new.update_dt_turn(@gameid, now, @turn)
 
-    send_mail(finished, now)
+    send_mail(finished != TaikyokuData::RES_NEXT, now)
 
     # 移動完了の表示
     MyHtml.puts_textplain('Moved.')
