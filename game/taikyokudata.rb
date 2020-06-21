@@ -40,7 +40,7 @@ class TaikyokuData
 
   RES_NEXT = 0  # まだまだ続ける
   RES_OVER = 1  # 玉を取って終局
-  RES_DRAW = -1  # 引き分け提案
+  RES_DRAW = -1 # 引き分け提案
   RES_ERR = -2  # エラー
 
   # 先手のセット
@@ -262,11 +262,11 @@ class TaikyokuData
 
     # chat file
     chat = ChatFile.new(@gid)
-    sente = cmd[-1] == 'b'
     @log.debug("chat.say_sugdraw(sente = #{cmd[-1]} == 'b')")
     chat.say_sugdraw(
       cmd[-1] == 'b' ? @playerb : @playerw,
-      cmd[4] == 'Y')
+      cmd[4] == 'Y'
+    )
     ret
   end
 

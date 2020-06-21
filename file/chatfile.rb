@@ -123,7 +123,9 @@ class ChatFile
     newmsg = ''
     msg.each_line do |line|
       newmsg += line.gsub(
-          %r{(<span id='chatadmin'>|<\/span>|<B>|<\/B>|<BR>)}, '')
+        %r{(<span id='chatadmin'>|<\/span>|<B>|<\/B>|<BR>)},
+        ''
+      )
     end
     newmsg.gsub(/&(#44|nbsp|lt|gt|amp);/,
                 '&#44;' => ',', '&nbsp;' => ' ',
