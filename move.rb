@@ -358,7 +358,7 @@ class Move
     # @log.debug('Move.jkf.write')
     @tkd.write
 
-    tcdb.update_dt_turn(@gameid, now, @turn) unless finished
+    tcdb.update_dt_turn(@gameid, now, @turn) if finished == TaikyokuData::RES_NEXT
 
     TaikyokuFile.new.update_dt_turn(@gameid, now, @turn)
 
