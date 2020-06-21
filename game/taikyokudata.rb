@@ -295,7 +295,7 @@ class TaikyokuData
     ret = procsystem(jsmv, datm) if jsmv[:system]
     return ret if ret == RES_DRAW
     return ret if ret == RES_ERR
-    jsmv[:special] = 'HIKIWAKE' if RES_OVER
+    jsmv[:special] = 'HIKIWAKE' if ret == RES_OVER
 
     sfs = SfenStore.new(@sfenpath)
     sfs.add(sfen)
