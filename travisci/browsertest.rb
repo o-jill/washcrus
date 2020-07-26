@@ -352,7 +352,9 @@ KIFULIST = [
   'travisci/fuji_debut.jkf',
   'travisci/koyan_tadao.jkf'
 ].freeze
-tg.read(KIFULIST.sample)
+jkfpath = ARGV[0] ? KIFULIST[ARGV[0].to_i] : KIFULIST.sample
+puts "#{jkfpath}, #{ARGV}"
+tg.read(jkfpath)
 tg.run
 tg.fold_end('game.1')
 succ &= tg.showresult
