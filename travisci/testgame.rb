@@ -147,8 +147,41 @@ class TestGame < BrowserTestAbstract
     data = YAML.load_file(path)
 
     sfen = data[:sfen]
+    @turn = data[:turn]
     puts "#{sfen == @resultsfen} := #{sfen} == #{@resultsfen}"
     res.succfail(sfen == @resultsfen)
+  end
+
+  def checktaikyokucsv
+    path = "db/taikyoku.csv"
+    File.open(path, 'r:utf-8') do |file|
+      # file.flock File::LOCK_EX
+      file.each_line do |line|
+        next if line =~ /^#/  # comment
+        # id, idv, idw, nameb, namew, turn, time, comment
+        elem = line.chomp.split(',')
+        if elem[0] == @gid
+          turn = elem[5]
+          return res.succfail(turn != 'b' && turn != 'w')
+        end
+      end
+    end
+    puts "could not find game:#{@gid}"
+    res.succfail(false)
+  end
+
+  def checktaikyokuchucsv
+    path = "db/taikyokuchu.csv"
+    File.open(path, 'r:utf-8') do |file|
+      # file.flock File::LOCK_EX
+      file.each_line do |line|
+        next if line =~ /^#/  # comment
+        # id, idv, idw, nameb, namew, turn, time, comment
+        elem = line.chomp.split(',')
+
+        res.succfail(elem[0] != @gid)
+      end
+    end
   end
 
   def move_a_piece(from, to)
@@ -225,5 +258,7 @@ class TestGame < BrowserTestAbstract
     driver.quit
 
     checklastsfen
+    checktaikyokuchucsv
+    checktaikyokucsv
   end
 end
