@@ -60,6 +60,7 @@ class TestGame < BrowserTestAbstract
       @moves = data['moves']
       @initial = data['initial']
       @resultsfen = data['result']
+      @special = @moves.last['special']
     end
     @moves = @moves.map.each do |te|
       te['move']
@@ -252,7 +253,7 @@ class TestGame < BrowserTestAbstract
 
   def run
     move_with_kifu
-    resign(1 - @moves.last['color'])
+    resign(1 - @moves.last['color']) if @special == 'TORYO'
 
     # ブラウザを終了させる
     driver.quit

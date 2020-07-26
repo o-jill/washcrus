@@ -350,7 +350,8 @@ KIFULIST = [
   'travisci/testmove.jkf',
   'travisci/fuji_system.jkf',
   'travisci/fuji_debut.jkf',
-  'travisci/koyan_tadao.jkf'
+  'travisci/koyan_tadao.jkf',
+  'travisci/sennichite.jkf'
 ].freeze
 jkfpath = ARGV[0] ? KIFULIST[ARGV[0].to_i] : KIFULIST.sample
 puts "#{jkfpath}, #{ARGV}"
