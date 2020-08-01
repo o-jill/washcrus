@@ -158,11 +158,11 @@ class TestGame < BrowserTestAbstract
     File.open(path, 'r:utf-8') do |file|
       # file.flock File::LOCK_EX
       file.each_line do |line|
-        next if line =~ /^#/ # comment
+        # next if line =~ /^#/ # comment
         # id, idv, idw, nameb, namew, turn, time, comment
+        next unless line.start_with?(@gid + ',')
         elem = line.chomp.split(',')
-        next if elem[0] != @gid
-        return res.succfail(%w[b w].include?(elem[5]))
+        return res.succfail(!%w[b w].include?(elem[5]))
       end
     end
     puts "could not find game:#{@gid}"
@@ -174,13 +174,12 @@ class TestGame < BrowserTestAbstract
     File.open(path, 'r:utf-8') do |file|
       # file.flock File::LOCK_EX
       file.each_line do |line|
-        next if line =~ /^#/ # comment
         # id, idv, idw, nameb, namew, turn, time, comment
-        elem = line.chomp.split(',')
-
-        res.succfail(elem[0] != @gid)
+        return res.succfail(false) if line.start_with?(@gid + ',')
       end
     end
+    puts 'removed from taikyokuchu successfully.'
+    res.succfail(true)
   end
 
   def move_a_piece(from, to)
