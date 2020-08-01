@@ -138,6 +138,19 @@ class BrowserTest < BrowserTestAbstract
     adminerrorcheckgroup
   end
 
+  def adminaccesslight
+    checklogin(ADMININFO[:email], ADMININFO[:pwd])
+
+    loungecheckfilecancel
+    lounge_file('hello john!!')
+
+    simplecheckmatch('chat.rb?lounge', /lounge chat/)
+
+    lounge_say
+
+    simplecheck 'index.rb?logout'
+  end
+
   SIGNUPINFOJOHN = {
     rname: 'john doe',
     remail: 'johndoe@example.com',
@@ -279,6 +292,19 @@ class BrowserTest < BrowserTestAbstract
     simplecheck 'index.rb?logout'
   end
 
+  def newuserjohnlight
+    signupauser(SIGNUPINFOJOHN)
+    res.checkmatch(/Registered successfully/)
+
+    matchmailsbjlast(/Welcome to 洗足池!/)
+
+    checklogin('johndoe@example.com', 'john')
+
+    newuserjohn_loungegame
+
+    simplecheck 'index.rb?logout'
+  end
+
   # 二重登録できないことの確認
   def newuserjohn2nd
     signupauser(SIGNUPINFOJOHN)
@@ -311,6 +337,21 @@ class BrowserTest < BrowserTestAbstract
     end
   end
 
+  def runlight
+    # simpleaccess
+
+    adminaccesslight
+
+    newuserjohnlight
+
+    # newuserjohn2nd
+
+    # signuperrmsg
+
+    # テストを終了する（ブラウザを終了させる）
+    driver.quit
+  end
+
   def run
     simpleaccess
 
@@ -329,7 +370,7 @@ end
 
 test = BrowserTest.new
 test.fold_begin('pages.1', 'pages tests')
-test.run
+ARGV.include?('--quick') ? test.runlight : test.run
 test.fold_end('pages.1')
 succ = test.showresult
 
