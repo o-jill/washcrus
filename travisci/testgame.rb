@@ -249,6 +249,8 @@ class TestGame < BrowserTestAbstract
 
       li_move_a_piece
     end
+  rescue StandardError => er
+    puts "ERROR in move_with_kifu: class=[#{er.class}] message=[#{er.message}]"
   end
 
   def run
