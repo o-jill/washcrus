@@ -154,17 +154,15 @@ class TestGame < BrowserTestAbstract
   end
 
   def checktaikyokucsv
-    path = "db/taikyoku.csv"
+    path = 'db/taikyoku.csv'
     File.open(path, 'r:utf-8') do |file|
       # file.flock File::LOCK_EX
       file.each_line do |line|
-        next if line =~ /^#/  # comment
+        next if line =~ /^#/ # comment
         # id, idv, idw, nameb, namew, turn, time, comment
         elem = line.chomp.split(',')
-        if elem[0] == @gid
-          turn = elem[5]
-          return res.succfail(turn != 'b' && turn != 'w')
-        end
+        next if elem[0] != @gid
+        return res.succfail(%w[b w].include?(elem[5]))
       end
     end
     puts "could not find game:#{@gid}"
@@ -172,11 +170,11 @@ class TestGame < BrowserTestAbstract
   end
 
   def checktaikyokuchucsv
-    path = "db/taikyokuchu.csv"
+    path = 'db/taikyokuchu.csv'
     File.open(path, 'r:utf-8') do |file|
       # file.flock File::LOCK_EX
       file.each_line do |line|
-        next if line =~ /^#/  # comment
+        next if line =~ /^#/ # comment
         # id, idv, idw, nameb, namew, turn, time, comment
         elem = line.chomp.split(',')
 
