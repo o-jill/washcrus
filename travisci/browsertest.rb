@@ -338,15 +338,9 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def runlight
-    # simpleaccess
-
     adminaccesslight
 
     newuserjohnlight
-
-    # newuserjohn2nd
-
-    # signuperrmsg
 
     # テストを終了する（ブラウザを終了させる）
     driver.quit
