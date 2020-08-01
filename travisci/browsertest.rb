@@ -388,8 +388,10 @@ KIFULIST = [
   'travisci/koyan_tadao.jkf',
   'travisci/sennichite.jkf'
 ].freeze
-jkfpath = ARGV[0] ? KIFULIST[ARGV[0].to_i] : KIFULIST.sample
-puts "#{jkfpath}, #{ARGV}"
+kifindexarr = ARGV.grep(/-N\d+/)
+kifindex = kifindexarr.size.zero? ? -1 : kifindexarr[0].slice(2, 10).to_i
+jkfpath = kifindex < 0 ? KIFULIST.sample : KIFULIST[kifindex]
+puts "#{jkfpath}, #{ARGV} #{kifindexarr} #{kifindex}"
 tg.read(jkfpath)
 tg.run
 tg.fold_end('game.1')
