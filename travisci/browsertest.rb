@@ -44,31 +44,6 @@ class BrowserTest < BrowserTestAbstract
     adminerrcheck 'index.rb?userlist'
   end
 
-  # adminerrorになることの確認
-  def simpleadmincheckgroup
-    simplecheck 'index.rb?adminmenu'
-    simplecheck 'index.rb?adminnews'
-    simplecheck 'index.rb?adminsettings'
-    simplecheck 'index.rb?adminsignature'
-    simplecheck 'index.rb?userlist'
-  end
-
-  def simplecheckgroup
-    simplecheck 'index.rb?mypage'
-    simplecheck 'index.rb?matchlist'
-    simplecheck 'index.rb?searchform'
-  end
-
-  def simpleaccess
-    simplecheck 'index.rb'
-    simplecheck 'index.rb?news'
-    # simplecheck 'index.rb?signup'
-
-    simplecheckmatch('move.rb', /illegal access/)
-
-    simplecheckmatch('getsfen.rb', /illegal access/)
-  end
-
   def lounge_file(msg)
     element = driver.find_element(:id, 'cmt')
     element.send_keys(msg)
