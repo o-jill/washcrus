@@ -121,7 +121,7 @@ class TestGame < BrowserTestAbstract
   end
 
   def promotedlg?(prmt, piece, yfrm)
-    return false unless prmt
+    return false if prmt.nil?
 
     !mustpromote?(piece, yfrm)
   end
