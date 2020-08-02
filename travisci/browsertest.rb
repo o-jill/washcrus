@@ -361,7 +361,8 @@ KIFULIST = [
   'travisci/fuji_system.jkf',
   'travisci/fuji_debut.jkf',
   'travisci/koyan_tadao.jkf',
-  'travisci/sennichite.jkf'
+  'travisci/sennichite.jkf',
+  'travisci/kingtaking.jkf'
 ].freeze
 kifindexarr = ARGV.grep(/-N\d+/)
 kifindex = kifindexarr.size.zero? ? -1 : kifindexarr[0].slice(2, 10).to_i
