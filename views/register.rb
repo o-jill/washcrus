@@ -52,7 +52,8 @@ class RegisterScreen
   # @param usernm ユーザー名
   def check_username(usernm)
     @errmsg += 'short username ...<BR>' if usernm.bytesize < 4
-    @errmsg += 'wrong username ...<BR>' if /^\s+/ =~ usernm || /\s+$/ =~ usernm
+    @errmsg += 'wrong username ...<BR>' \
+      if /^\s+/ =~ usernm || /\s+$/ =~ usernm || /https?:/ =~ usernm
   end
 
   # パスワードの確認。エラーメッセージ転記。
