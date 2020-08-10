@@ -111,8 +111,9 @@ class TestGame < BrowserTestAbstract
     }[str.to_sym]).click
   end
 
-  def confirmmove
-    driver.find_element(:id, 'mvcfm_ok').click
+  def confirmmove(ok = true)
+    driver.find_element(:id,
+      ok ? 'mvcfm_ok' : 'mvcfm_cancel').click
   end
 
   def mustpromote?(piece, yfrm)
@@ -253,7 +254,7 @@ class TestGame < BrowserTestAbstract
   def run
     move_with_kifu
     resign(1 - @moves.last['color']) if @special == 'TORYO'
-
+    logout
     # ブラウザを終了させる
     driver.quit
 

@@ -15,6 +15,7 @@ require 'selenium-webdriver'
 require './travisci/browsertestabs.rb'
 require './travisci/testresult.rb'
 require './travisci/testgame.rb'
+require './travisci/testdraw.rb'
 
 # test pages on a browser
 class BrowserTest < BrowserTestAbstract
@@ -367,12 +368,12 @@ tg.setplayer2(
 )
 tg.setgame(test.gameurl)
 KIFULIST = [
-  'travisci/testmove.jkf',
+  'travisci/testmove.jkf', # N0
   'travisci/fuji_system.jkf',
   'travisci/fuji_debut.jkf',
   'travisci/koyan_tadao.jkf',
   'travisci/sennichite.jkf',
-  'travisci/kingtaking.jkf'
+  'travisci/kingtaking.jkf' # N5
 ].freeze
 kifindexarr = ARGV.grep(/-N\d+/)
 kifindex = kifindexarr.size.zero? ? -1 : kifindexarr[0].slice(2, 10).to_i
@@ -381,6 +382,31 @@ puts "#{jkfpath}, #{ARGV} #{kifindexarr} #{kifindex}"
 tg.read(jkfpath)
 tg.run
 tg.fold_end('game.1')
+succ &= tg.showresult
+
+exit !succ if ARGV.include?('--quick')
+
+# test = BrowserTest.new
+test.fold_begin('draw.1', 'draw test')
+test.runlight
+test.fold_end('draw.1')
+succ &= test.showresult
+
+td = TestDraw.new
+td.fold_begin('draw.2', 'draw test')
+td.setplayer1(
+  BrowserTest::SIGNUPINFOJOHN[:rname],
+  BrowserTest::SIGNUPINFOJOHN[:remail],
+  BrowserTest::SIGNUPINFOJOHN[:rpassword]
+)
+td.setplayer2(
+  'admin',
+  BrowserTest::ADMININFO[:email],
+  BrowserTest::ADMININFO[:pwd]
+)
+td.setgame(test.gameurl)
+td.run
+td.fold_end('draw.2')
 succ &= tg.showresult
 exit 1 unless succ
 
