@@ -160,6 +160,13 @@ class MatchInfoFile
     end
   end
 
+  # 対局者の名前を得る
+  #
+  # @param sente true: 先手名, false: 後手名
+  def playername(sente)
+    sente ? @playerb.name : @playerw.name
+  end
+
   # 手番の対局者の情報を得る
   #
   # @return 対局者の情報 { id: id, name: nm, mail: em }

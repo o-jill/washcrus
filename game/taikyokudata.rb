@@ -263,7 +263,7 @@ class TaikyokuData
     # chat file
     chat = ChatFile.new(@gid)
     @log.debug("chat.say_sugdraw(sente = #{cmd[-1]} == 'b')")
-    chat.say_sugdraw(cmd[-1] == 'b' ? @playerb : @playerw, cmd[4] == 'Y')
+    chat.say_sugdraw(@mif.playername(cmd[-1] == 'b'), cmd[4] == 'Y')
 
     ret
   end
