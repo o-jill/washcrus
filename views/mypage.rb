@@ -69,20 +69,20 @@ class MyPageScreen
     "<a href='#{kentourl}kifuapi.rb%3f#{gid}.kif' target='_blank'>検討</a>"
   end
 
-  def print_gamedetail(nameb: 'b', namew: 'w', turn: 't', time: '0 0', **_other)
+  def print_gamedetail(turn, nameb: 'b', namew: 'w', time: '0 0', **_other)
     turnstr = CommonUI.turn2str(turn)
     "<td>#{nameb}</td><td>#{namew}</td>" \
     "<td>#{turnstr}</td><td>#{time}</td>"
   end
 
-  def print_game(id: 'gid', **others)
+  def print_game(id: 'gid', turn: 't', **others)
     print <<-TKLIST_DAN.unindent
       <tr>
        <td><a href='./index.rb?game/#{id}'>
         <img src='image/right_fu.png' alt='#{id}' title='move to this game!'>
         <small>#{id}</small>
        </a></td>
-       #{print_gamedetail(others)}
+       #{print_gamedetail(turn, others)}
        <td><a href='./index.rb?dlkifu/#{id}' target='_blank'>
         <img src='image/dl_kif.png' alt='#{id}' title='download kif!'>
        </a></td>
