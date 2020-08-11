@@ -51,10 +51,9 @@ class TaikyokuReqFile
     return if line =~ /^#/
 
     # id, name, comment
-    elem = line.chomp.split(',')
-    id = elem[0]
-    @names[id] = elem[1]
-    @comments[id] = elem[2]
+    (id, name, comment) = line.chomp.split(',')
+    @names[id] = name
+    @comments[id] = comment
   end
 
   # ファイルの読み込み
