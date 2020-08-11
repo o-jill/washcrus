@@ -27,7 +27,7 @@ class SearchResultScreen
     return [] if plyb.empty?
 
     res = tdb.findnameb(plyb)
-    res.empty? ? nil : res.keys
+    res.keys
   end
 
   # 後手を検索
@@ -39,7 +39,7 @@ class SearchResultScreen
     return [] if plyw.empty?
 
     res = tdb.findnamew(plyw)
-    res.empty? ? nil : res.keys
+    res.keys
   end
 
   # ２つの対局IDのリストをマージする。(重複削除)
@@ -69,7 +69,7 @@ class SearchResultScreen
     return [] if from.empty? && to.empty?
 
     res = tdb.findtime(from, to)
-    res.empty? ? nil : res.keys
+    res.keys
   end
 
   # 最終着手日から検索
@@ -82,13 +82,13 @@ class SearchResultScreen
   # @return 対局IDのリスト。検索結果がない時nil。
   def findgameid(tdb, plyb, plyw, from, to)
     idb = findplyb(tdb, plyb)
-    return nil unless idb
+    return nil if idb.empty?
 
     idw = findplyw(tdb, plyw)
-    return nil unless idw
+    return nil if idw.empty?
 
     idt = findtime(tdb, from, to)
-    return nil unless idt
+    return nil if idt.empty?
 
     idbw = merge2ids(idb, idw)
     ret = merge2ids(idbw, idt)
