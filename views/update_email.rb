@@ -72,17 +72,9 @@ class UpdateEmailScreen
   def update_userdb(uid)
     # UserIDの確認
     userdb = UserInfoFile.new
-    userdb.read
-
-    userdata = userdb.content.findid(uid) # [names:, pw:, email:]
-    return '<span class="err">user information error...</span>' unless userdata
-
-    return '<span class="err">e-mail address is already registered ...</span>' \
-      if userdb.content.exist_email(@newem1)
 
     # EmailAddressの再設定
     userdb.update_email(uid, @newem1)
-    nil
   end
 
   # パラメータのチェックと表示メッセージ作成

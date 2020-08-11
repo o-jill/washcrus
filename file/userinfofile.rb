@@ -191,6 +191,22 @@ class UserInfoFile
   # [uid] user id.
   # [newem] メールアドレス.
   def update_email(uid, newem)
+    read
+
+    userdata = content.findid(uid) # [names:, pw:, email:]
+    return '<span class="err">user information error...</span>' unless userdata
+
+    return '<span class="err">e-mail address is already registered ...</span>' \
+      if content.exist_email(newem)
+
+    update_email_indb(uid, newem)
+    nil
+  end
+
+  # メールアドレスのDBへの再設定
+  # [uid] user id.
+  # [newem] メールアドレス.
+  def update_email_indb(uid, newem)
     lock do
       read
 
