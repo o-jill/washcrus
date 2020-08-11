@@ -46,22 +46,26 @@ class TaikyokuFile
     raise AccessDenied.new('timeout')
   end
 
+  def adjustelem(elem)
+    elem[5] = elem[4]
+    elem[4] = '?'
+    elem
+  end
+
   # 要素の読み込み
   #
   # @param elem 1要素
   def read_element(elem)
-    if elem.length == 8
-      @content.add_array(elem)
-    elsif elem.length == 7
-      elem[7] = elem[6]
+    id = elem.shift
+    len = elem.length
+    if len == 8 - 1
+      @content.add_array(id, elem)
+    elsif len == 7 - 1
       elem[6] = elem[5]
-      elem[5] = '?'
-      @content.add_array(elem)
-    elsif elem.length == 6
-      elem[7] = '&lt;blank&gt;'
-      elem[6] = elem[5]
-      elem[5] = '?'
-      @content.add_array(elem)
+      @content.add_array(id, adjustelem(elem))
+    elsif len == 6 - 1
+      elem[6] = '&lt;blank&gt;'
+      @content.add_array(id, adjustelem(elem))
       # else
       #   skip
     end

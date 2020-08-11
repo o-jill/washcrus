@@ -36,7 +36,7 @@ class MatchListScreen
     RESULT_TABLE
     tkcdb.content.idbs.each_key do |gameid|
       game = tkcdb.content.probe(gameid)
-      print_res(game)
+      print_res(**game)
     end
     # puts '</TABLE>'
     puts '</div>'
@@ -115,7 +115,7 @@ class MatchListScreen
       <div id="taikyokurecent" class="taikyokuchu">
     RESULT_TABLE
     games.each do |game|
-      print_res(game)
+      print_res(**game)
     end
     puts '</div>'
   end
