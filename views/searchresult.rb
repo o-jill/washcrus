@@ -82,13 +82,10 @@ class SearchResultScreen
   # @return 対局IDのリスト。検索結果がない時nil。
   def findgameid(tdb, plyb, plyw, from, to)
     idb = findplyb(tdb, plyb)
-    return nil if idb.empty?
 
     idw = findplyw(tdb, plyw)
-    return nil if idw.empty?
 
     idt = findtime(tdb, from, to)
-    return nil if idt.empty?
 
     idbw = merge2ids(idb, idw)
     ret = merge2ids(idbw, idt)
@@ -101,9 +98,9 @@ class SearchResultScreen
   #
   # @param params 検索条件
   # @return 対局IDのリスト
-  def searchgames(params)
-    searchgames_(params['player1'][0], params['player2'][0],
-                 params['time_frame_from'][0], params['time_frame_to'][0])
+  def searchgames(ply1, ply2, tffrom, tfto)
+
+    searchgames_(ply1[0], ply2[0], tffrom[0], tfto[0])
   end
 
   # 対局を検索
@@ -118,30 +115,26 @@ class SearchResultScreen
     tdb.read
 
     foundid = findgameid(tdb, plyb, plyw, from, to)
-
     return nil unless foundid
 
-    res = []
-    foundid.each do |i|
-      res << tdb.content.probe(i)
+    foundid.map do |i|
+      tdb.content.probe(i)
     end
-    res
   end
 
   # 対局情報の出力
   #
   # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, time: , comment:}
-  def print_res(game)
-    gid = game[:id]
+  def print_res(id: 'gid', nameb: 'b', namew: 'w', time: '0/0/0 0:0:0', **other)
     print <<-GAMEINFO.unindent
       <tr>
-       <td><a href='index.rb?game/#{gid}'>
-        <img src='image/right_fu.png' alt='#{gid}' title='move to this game!'>
-        <small>#{gid}</small>
+       <td><a href='index.rb?game/#{id}'>
+        <img src='image/right_fu.png' alt='#{id}' title='move to this game!'>
+        <small>#{id}</small>
        </a></td>
-       <td>#{game[:nameb]}</td><td>#{game[:namew]}</td><td>#{game[:time]}</td>
-       <td><a href='index.rb?dlkifu/#{gid}' target=_blank>
-        <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
+       <td>#{nameb}</td><td>#{namew}</td><td>#{time}</td>
+       <td><a href='index.rb?dlkifu/#{id}' target=_blank>
+        <img src='image/dl_kif.png' alt='#{id}' title='download kif!'>
        </a></td>
       </tr>
     GAMEINFO
@@ -152,7 +145,10 @@ class SearchResultScreen
   # @param userinfo ユーザ情報
   # @param params パラメータハッシュオブジェクト
   def show(userinfo, params)
-    res = searchgames(params)
+    res = searchgames(
+      params['player1'], params['player2'],
+      params['time_frame_from'], params['time_frame_to']
+    )
 
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
@@ -165,7 +161,7 @@ class SearchResultScreen
         <th>着手日時</th><th>棋譜</th></tr>
       RESULT_TABLE
       res.each do |game|
-        print_res(game)
+        print_res(**game)
       end
       print '</TABLE>'
     else
