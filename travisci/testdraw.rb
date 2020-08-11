@@ -2,8 +2,6 @@ require 'selenium-webdriver'
 
 require 'yaml'
 
-# require './travisci/browsertestabs.rb'
-# require './travisci/testresult.rb'
 require './travisci/testgame.rb'
 
 #
@@ -14,10 +12,12 @@ class TestDraw < TestGame
     super
   end
 
+  # 引き分け提案ボタンを押す
   def drawbtn
     driver.find_element(:id, 'btn_draw_suggest').click
   end
 
+  # 引き分けの提案行為
   def drawsuggest(clr, sug = true)
     clr.zero? ? becomesente : becomegote
 
@@ -38,8 +38,9 @@ class TestDraw < TestGame
     fatr: [false, true],
     fafa: [false, false],
     trtr: [true, true]
-  }
+  }.freeze
 
+  # 実行
   def run
     swap_ply if [true, false].sample
     SEQ.each do |key, val|

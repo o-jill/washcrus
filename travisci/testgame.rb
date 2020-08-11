@@ -111,9 +111,8 @@ class TestGame < BrowserTestAbstract
     }[str.to_sym]).click
   end
 
-  def confirmmove(ok = true)
-    driver.find_element(:id,
-      ok ? 'mvcfm_ok' : 'mvcfm_cancel').click
+  def confirmmove(okay = true)
+    driver.find_element(:id, okay ? 'mvcfm_ok' : 'mvcfm_cancel').click
   end
 
   def mustpromote?(piece, yfrm)
