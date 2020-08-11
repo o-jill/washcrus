@@ -63,11 +63,11 @@ class UserInfoFileContent
 
     dec = OpenSSL::Cipher.new('AES-256-CBC')
     dec.decrypt
-
-    id = elements[0]
-    @names[id]     = elements[1]
-    @passwords[id] = elements[2]
-    @emails[id] = UserInfoFileContent.decode_mail(dec, elements[3])
+    (id, name, passwd, encemail) = elements
+    # id = elements[0]
+    @names[id] = name # elements[1]
+    @passwords[id] = passwd # elements[2]
+    @emails[id] = UserInfoFileContent.decode_mail(dec, encemail)
     @stats[id] = UserInfoFileContent.hash_stats(elements)
   end
 
@@ -97,7 +97,7 @@ class UserInfoFileContent
     mailaddr = encode_mail(id)
     status = @stats[id]
     "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
-    "#{build_winloose(*status)}"
+    "#{build_winloose(status)}"
   end
 
   # get user information by id

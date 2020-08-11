@@ -269,9 +269,6 @@ class MyPageScreen
     return put_err_sreen("your log-in information is wrong ...\n") \
       if userinfo.invalid?
 
-    uid = userinfo.user_id
-    wl = get_mystats(uid)
-
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
@@ -280,6 +277,9 @@ class MyPageScreen
          "<div class='mypage_main'>\n"
 
     put_navi
+
+    uid = userinfo.user_id
+    wl = get_mystats(uid)
 
     put_mypage_stat(wl, uid)
 

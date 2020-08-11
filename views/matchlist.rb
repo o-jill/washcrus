@@ -81,13 +81,12 @@ class MatchListScreen
   # 対局情報の出力
   #
   # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, turn:, time:, comment:}
-  def print_res(game)
-    gid = game[:id]
+  def print_res(id, turn, comment, **_other)
     print <<-GAMEINFO.unindent
-      <table border='1'><tr><td><a href='index.rb?game/#{gid}'>
-        #{kyokumen_img(gid, game[:turn])}
+      <table border='1'><tr><td><a href='index.rb?game/#{id}'>
+        #{kyokumen_img(id, turn)}
        </a></td></tr>
-      <tr><td>#{game[:comment]}</td></tr></table>
+      <tr><td>#{comment}</td></tr></table>
     GAMEINFO
   end
 
@@ -119,7 +118,7 @@ class MatchListScreen
       <div id="taikyokurecent" class="taikyokuchu">
     RESULT_TABLE
     games.each do |game|
-      print_res(game)
+      print_res(*game)
     end
     puts '</div>'
   end
