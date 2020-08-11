@@ -99,7 +99,6 @@ class SearchResultScreen
   # @param params 検索条件
   # @return 対局IDのリスト
   def searchgames(ply1, ply2, tffrom, tfto)
-
     searchgames_(ply1[0], ply2[0], tffrom[0], tfto[0])
   end
 
@@ -125,7 +124,7 @@ class SearchResultScreen
   # 対局情報の出力
   #
   # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, time: , comment:}
-  def print_res(id: 'gid', nameb: 'b', namew: 'w', time: '0/0/0 0:0:0', **other)
+  def print_res(id: 'gid', nameb: 'b', namew: 'w', time: '0 0', **_other)
     print <<-GAMEINFO.unindent
       <tr>
        <td><a href='index.rb?game/#{id}'>
@@ -138,6 +137,22 @@ class SearchResultScreen
        </a></td>
       </tr>
     GAMEINFO
+  end
+
+  # 検索結果の出力
+  def print_result(res)
+    return print '<p>not found ...</p>' if res.nil? || res.empty?
+
+    print <<-RESULT_TABLE.unindent
+      <TABLE align='center' border='1'>
+      <caption>検索結果</caption>
+      <tr><th>ID</th><th>先手</th><th>後手</th>
+      <th>着手日時</th><th>棋譜</th></tr>
+    RESULT_TABLE
+    res.each do |game|
+      print_res(**game)
+    end
+    print '</TABLE>'
   end
 
   # 画面の表示
@@ -153,20 +168,7 @@ class SearchResultScreen
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
-    if res && !res.empty?
-      print <<-RESULT_TABLE.unindent
-        <TABLE align='center' border='1'>
-        <caption>検索結果</caption>
-        <tr><th>ID</th><th>先手</th><th>後手</th>
-        <th>着手日時</th><th>棋譜</th></tr>
-      RESULT_TABLE
-      res.each do |game|
-        print_res(**game)
-      end
-      print '</TABLE>'
-    else
-      print '<p>not found ...</p>'
-    end
+    print_result(res)
 
     CommonUI.html_foot
   end

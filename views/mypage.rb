@@ -69,30 +69,34 @@ class MyPageScreen
     "<a href='#{kentourl}kifuapi.rb%3f#{gid}.kif' target='_blank'>検討</a>"
   end
 
+  def print_gamedetail(nameb: 'b', namew: 'w', turn: 't', time: '0 0', **_other)
+    turnstr = CommonUI.turn2str(turn)
+    "<td>#{nameb}</td><td>#{namew}</td>" \
+    "<td>#{turnstr}</td><td>#{time}</td>"
+  end
+
+  def print_game(id: 'gid', **others)
+    print <<-TKLIST_DAN.unindent
+      <tr>
+       <td><a href='./index.rb?game/#{id}'>
+        <img src='image/right_fu.png' alt='#{id}' title='move to this game!'>
+        <small>#{id}</small>
+       </a></td>
+       #{print_gamedetail(others)}
+       <td><a href='./index.rb?dlkifu/#{id}' target='_blank'>
+        <img src='image/dl_kif.png' alt='#{id}' title='download kif!'>
+       </a></td>
+       <td>#{put_kentourl(id, turn)}</td>
+      </tr>
+    TKLIST_DAN
+  end
+
   # 対局履歴の表の中身の出力
   #
   # @param tklist 対局情報Array
   def put_taikyokulist_tbl(tklist)
     tklist.each do |game|
-      gid = game[:id]
-      nameb = game[:nameb]
-      namew = game[:namew]
-      turn = game[:turn]
-      turnstr = CommonUI.turn2str(turn)
-      print <<-TKLIST_DAN.unindent
-        <tr>
-         <td><a href='./index.rb?game/#{gid}'>
-          <img src='image/right_fu.png' alt='#{gid}' title='move to this game!'>
-          <small>#{gid}</small>
-         </a></td>
-         <td>#{nameb}</td><td>#{namew}</td>
-         <td>#{turnstr}</td><td>#{game[:time]}</td>
-         <td><a href='./index.rb?dlkifu/#{gid}' target='_blank'>
-          <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
-         </a></td>
-         <td>#{put_kentourl(gid, turn)}</td>
-        </tr>
-      TKLIST_DAN
+      print_game(**game)
     end
   end
 
