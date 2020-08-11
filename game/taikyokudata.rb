@@ -95,7 +95,7 @@ class TaikyokuData
     newdt = [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
 
     # @log.debug('TaikyokuFile.new')
-    TaikyokuFile.new.newgame(newdt)
+    TaikyokuFile.new.newgame(newdt.dup)
 
     # @log.debug('TaikyokuChuFile.new')
     TaikyokuChuFile.new.newgame(newdt)
