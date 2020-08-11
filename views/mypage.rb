@@ -78,7 +78,7 @@ class MyPageScreen
       nameb = game[:nameb]
       namew = game[:namew]
       turn = game[:turn]
-      turnstr = CommonUI.turn2str()
+      turnstr = CommonUI.turn2str(turn)
       print <<-TKLIST_DAN.unindent
         <tr>
          <td><a href='./index.rb?game/#{gid}'>
