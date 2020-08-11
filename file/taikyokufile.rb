@@ -136,8 +136,9 @@ class TaikyokuFile
   def newgame(data)
     lock do
       read
-      @content.add_array(data)
-      append(data[0])
+      id = data.shift
+      @content.add_array(id, data)
+      append(id)
     end
   end
 
