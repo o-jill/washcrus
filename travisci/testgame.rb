@@ -256,7 +256,7 @@ class TestGame < BrowserTestAbstract
     resign(1 - @moves.last['color']) if @special == 'TORYO'
     logout
     # ブラウザを終了させる
-    driver.quit
+    # driver.quit
 
     checklastsfen
     checktaikyokuchucsv

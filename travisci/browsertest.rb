@@ -329,7 +329,7 @@ class BrowserTest < BrowserTestAbstract
     newuserjohnlight
 
     # テストを終了する（ブラウザを終了させる）
-    driver.quit
+    # driver.quit
   end
 
   def run
@@ -343,6 +343,11 @@ class BrowserTest < BrowserTestAbstract
 
     signuperrmsg
 
+    # テストを終了する（ブラウザを終了させる）
+    # driver.quit
+  end
+
+  def finalize
     # テストを終了する（ブラウザを終了させる）
     driver.quit
   end
@@ -408,6 +413,9 @@ td.setgame(test.gameurl)
 td.run
 td.fold_end('draw.2')
 succ &= tg.showresult
+
+test.finalize
+
 exit 1 unless succ
 
 # memo

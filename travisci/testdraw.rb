@@ -48,10 +48,9 @@ class TestDraw < TestGame
       drawsuggest(GOTE, val[1])
     end
     # ブラウザを終了させる
-    driver.quit
+    # driver.quit
 
     checktaikyokuchucsv
     checktaikyokucsv
   end
-
 end
