@@ -86,7 +86,7 @@ class UserInfoFileContent
     crypted.unpack('H*')[0]
   end
 
-  def build_winloose(swin, slose, gwin, glose, draw)
+  def build_winloose(swin:, slose:, gwin:, glose:, draw:)
     "#{swin},#{slose},#{gwin},#{glose},#{draw}"
   end
 
