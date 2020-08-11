@@ -86,6 +86,10 @@ class UserInfoFileContent
     crypted.unpack('H*')[0]
   end
 
+  def build_winloose(swin, slose, gwin, glose, draw)
+    "#{swin},#{slose},#{gwin},#{glose},#{draw}"
+  end
+
   # build a line which contains a user's information.
   #
   # [id]       a user's ID
@@ -93,8 +97,7 @@ class UserInfoFileContent
     mailaddr = encode_mail(id)
     status = @stats[id]
     "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
-    "#{status[:swin]},#{status[:slose]},#{status[:gwin]},#{status[:glose]}," \
-    "#{status[:draw]}"
+    "#{build_winloose(*status)}"
   end
 
   # get user information by id
