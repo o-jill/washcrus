@@ -27,12 +27,11 @@ class AdminSettingsScreen
   end
 
   def show_elem_radio(name, id, options, stg)
-    msg = "<tr>\n <td>#{name}</td>\n <td>\n"
-    options.each do |opt|
-      msg += "  <label><input name='#{id}' type='radio' value='#{opt}' " \
+    msg = options.map do |opt|
+      "  <label><input name='#{id}' type='radio' value='#{opt}' " \
              "#{stg.value[id] == opt ? 'checked' : ''}>#{opt}</label>\n"
     end
-    puts msg + " </td>\n</tr>\n"
+    puts "<tr>\n <td>#{name}</td>\n <td>\n#{msg.join('')} </td>\n</tr>\n"
   end
 
   STG_ELEM = [
