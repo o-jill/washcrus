@@ -79,6 +79,10 @@ class SfenSVGImage
     readtegoma
   end
 
+  def invalidxy?(x, y)
+    y < 0 || y > 8 || x < 0 || x > 8
+  end
+
   # 最終手タグの生成
   def taglastmove
     return '' unless @lm
@@ -88,7 +92,7 @@ class SfenSVGImage
     y = x % 10 - 1
     x = 9 - x / 10
 
-    return '' if y < 0 || y > 8 || x < 0 || x > 8 # error
+    return '' if invalidxy?(x, y) # error
 
     y *= 20
     x *= 20
@@ -216,9 +220,9 @@ class SfenSVGImage
   #
   # @return svg文字列。エラーの場合はエラー情報画像。
   def gen
-    svg = SfenSVGImageMod::TAG_HEADER
-    svg += gen_contents
-    svg + SfenSVGImageMod::TAG_FOOTER
+    SfenSVGImageMod::TAG_HEADER \
+      + gen_contents \
+      + SfenSVGImageMod::TAG_FOOTER
   end
 end
 
