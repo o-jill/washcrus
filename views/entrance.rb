@@ -17,7 +17,7 @@ class EntranceScreen
   end
 
   # LOGO
-  def show_logo_tmpl(arr)
+  def show_logo_tmpl(leto, rito, lebo, ribo)
     print <<-LOGO_TEXT.unindent
       <TABLE bgcolor='#cc9933' align='center' bordercolor='black' border='0' frame='void' rules='all'>
        <TR><TD></TD>
@@ -25,12 +25,12 @@ class EntranceScreen
         <TD class='logo_edge_ud'></TD>
         <TD></TD></TR>
        <TR><TD class='logo_edge_lr'></TD>
-        <TD class='logo_center'>#{arr[0]}</TD>
-        <TD class='logo_center'>#{arr[1]}</TD>
+        <TD class='logo_center'>#{leto}</TD>
+        <TD class='logo_center'>#{rito}</TD>
         <TD class='logo_edge_lr'></TD></TR>
        <TR><TD class='logo_edge_lr'></TD>
-        <TD class='logo_center'>#{arr[2]}</TD>
-        <TD class='logo_center'>#{arr[3]}</TD>
+        <TD class='logo_center'>#{lebo}</TD>
+        <TD class='logo_center'>#{ribo}</TD>
         <TD class='logo_edge_lr'></TD></TR>
        <TR><TD></TD>
         <TD class='logo_edge_ud'></TD>
@@ -52,7 +52,8 @@ class EntranceScreen
 
   # ロゴの表示
   def show_logo
-    show_logo_tmpl(LOGO_TEXT[rand(LOGO_TEXT.size)])
+    koma = LOGO_TEXT.sample
+    show_logo_tmpl(*koma)
   end
 
   # 開発用テスト表示
