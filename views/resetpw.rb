@@ -27,15 +27,15 @@ class ResetPasswordScreen
   # @return nil or 登録情報{:username, :password1, :password2, :email1, :email2}
   def check_register(userdb, params)
     user = read_params(params)
-
-    check_username(user[:username])
+    name = user[:username]
+    check_username(name)
 
     check_passwords(user[:password1], user[:password2])
+    email = user[:email1]
+    check_emails(email, user[:email2])
 
-    check_emails(user[:email1], user[:email2])
-
-    # if userdb.exist_name_or_email(user[:username], user[:email1])
-    if userdb.exist_name(user[:username]) || userdb.exist_email(user[:email1])
+    # if userdb.exist_name_or_email(name, email)
+    if userdb.exist_name(name) || userdb.exist_email(email)
       @errmsg = 'user name or e-mail address is already exists...'
     end
 

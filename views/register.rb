@@ -147,17 +147,18 @@ class RegisterScreen
     userdb.read
 
     user = check_register(userdb.content, params)
-
+    name = user[:username]
+    email = user[:email1]
     # エラー
     return "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>" \
         unless @errmsg.empty?
 
     # 登録する
-    add(userdb, user[:username], user[:password1], user[:email1])
+    add(userdb, name, user[:password1], email)
 
     msg = <<-REG_SUC_MSG.unindent
-      Registered successfully.<BR>username:#{user[:username]}<BR>
-      password:****<BR>email address:#{user[:email1]}<BR>
+      Registered successfully.<BR>username:#{name}<BR>
+      password:****<BR>email address:#{email}<BR>
       <BR>
       Registration mail has been sent.<BR>
     REG_SUC_MSG
