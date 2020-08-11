@@ -347,17 +347,22 @@ class BrowserTest < BrowserTestAbstract
     # driver.quit
   end
 
-  def finalize
+  def finalize(ret)
     # テストを終了する（ブラウザを終了させる）
     driver.quit
+    exit(ret)
   end
 end
+
+# main
 
 test = BrowserTest.new
 test.fold_begin('pages.1', 'pages tests')
 ARGV.include?('--quick') ? test.runlight : test.run
 test.fold_end('pages.1')
 succ = test.showresult
+
+test.finalize(succ) if ARGV.include?('--nogame')
 
 tg = TestGame.new
 tg.fold_begin('game.1', 'game test')
@@ -389,7 +394,7 @@ tg.run
 tg.fold_end('game.1')
 succ += tg.showresult
 
-exit !succ if ARGV.include?('--quick')
+test.finalize(succ) if ARGV.include?('--quick')
 
 # test = BrowserTest.new
 test.fold_begin('draw.1', 'draw test')
@@ -414,9 +419,7 @@ td.run
 td.fold_end('draw.2')
 succ += tg.showresult
 
-test.finalize
-
-exit succ
+test.finalize(succ)
 
 # memo
 
