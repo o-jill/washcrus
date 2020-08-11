@@ -387,7 +387,7 @@ puts "#{jkfpath}, #{ARGV} #{kifindexarr} #{kifindex}"
 tg.read(jkfpath)
 tg.run
 tg.fold_end('game.1')
-succ &= tg.showresult
+succ += tg.showresult
 
 exit !succ if ARGV.include?('--quick')
 
@@ -395,7 +395,7 @@ exit !succ if ARGV.include?('--quick')
 test.fold_begin('draw.1', 'draw test')
 test.runlight
 test.fold_end('draw.1')
-succ &= test.showresult
+succ += test.showresult
 
 td = TestDraw.new
 td.fold_begin('draw.2', 'draw test')
@@ -412,11 +412,11 @@ td.setplayer2(
 td.setgame(test.gameurl)
 td.run
 td.fold_end('draw.2')
-succ &= tg.showresult
+succ += tg.showresult
 
 test.finalize
 
-exit 1 unless succ
+exit succ
 
 # memo
 

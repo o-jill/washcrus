@@ -81,10 +81,13 @@ class BrowserTestAbstract
     res.matchmailsubject(json.last, rex)
   end
 
+  # テスト結果の表示
+  #
+  # @return ng数
   def showresult
     print res.ng.zero? ? "\e[32m" : "\e[31m"
     puts "ok:#{res.ok}, ng:#{res.ng}\e[0m"
-    res.ng.zero?
+    res.ng
   end
 
   def fold_begin(grp, msg)
