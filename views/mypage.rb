@@ -75,19 +75,22 @@ class MyPageScreen
   def put_taikyokulist_tbl(tklist)
     tklist.each do |game|
       gid = game[:id]
-      turnstr = CommonUI.turn2str(game[:turn])
+      nameb = game[:nameb]
+      namew = game[:namew]
+      turn = game[:turn]
+      turnstr = CommonUI.turn2str()
       print <<-TKLIST_DAN.unindent
         <tr>
          <td><a href='./index.rb?game/#{gid}'>
           <img src='image/right_fu.png' alt='#{gid}' title='move to this game!'>
           <small>#{gid}</small>
          </a></td>
-         <td>#{game[:nameb]}</td><td>#{game[:namew]}</td>
+         <td>#{nameb}</td><td>#{namew}</td>
          <td>#{turnstr}</td><td>#{game[:time]}</td>
          <td><a href='./index.rb?dlkifu/#{gid}' target='_blank'>
           <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
          </a></td>
-         <td>#{put_kentourl(gid, game[:turn])}</td>
+         <td>#{put_kentourl(gid, turn)}</td>
         </tr>
       TKLIST_DAN
     end
