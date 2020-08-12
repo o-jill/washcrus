@@ -18,14 +18,14 @@ class TestDraw < TestGame
   end
 
   # 引き分けの提案行為
-  def drawsuggest(clr, sug = true)
+  def drawsuggest(clr, okcancel)
     clr.zero? ? becomesente : becomegote
 
     gogame
 
     drawbtn
 
-    confirmmove(sug)
+    confirmmove(okcancel)
 
     sleep 3
     logout
@@ -34,10 +34,10 @@ class TestDraw < TestGame
   SENTE = 0
   GOTE = 1
   SEQ = {
-    trfa: [true, false],
-    fatr: [false, true],
-    fafa: [false, false],
-    trtr: [true, true]
+    okcan: %w[ok cancel],
+    canok: %w[cancel ok],
+    cancan: %w[cancel cancel],
+    okok: %w[ok ok]
   }.freeze
 
   # 実行
