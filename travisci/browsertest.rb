@@ -280,11 +280,6 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def newuserjohnlight
-    signupauser(SIGNUPINFOJOHN)
-    res.checkmatch(/Registered successfully/)
-
-    matchmailsbjlast(/Welcome to 洗足池!/)
-
     checklogin('johndoe@example.com', 'john')
 
     newuserjohn_loungegame
