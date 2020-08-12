@@ -92,7 +92,7 @@ class RegisterScreen
 
     # if userdb.exist_name_or_email(user[:username], user[:email1])
     if userdb.exist_name(user[:username]) || userdb.exist_email(user[:email1])
-      @errmsg = 'user name or e-mail address is already exists...'
+      @errmsg = 'user name or e-mail address already exists...'
     end
 
     user
