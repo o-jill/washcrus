@@ -184,9 +184,11 @@ class SfenSVGImage
   # @param ch sfen文字
   # @param num 数字
   def str_tgm(ch, num)
-    return @stgm, @ys = str_tekoma(ch, num, stgm, ys) if ch =~ /[A-Z]/
-
-    @gtgm, @yg = str_tekoma(ch.upcase, num, gtgm, yg)
+    if ch =~ /[A-Z]/
+      @stgm, @ys = str_tekoma(ch, num, @stgm, @ys)
+    else
+      @gtgm, @yg = str_tekoma(ch.upcase, num, @gtgm, @yg)
+    end
   end
 
   # 手駒の読み取り
