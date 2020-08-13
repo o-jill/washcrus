@@ -45,7 +45,7 @@ class Move
 
   # logging
   attr_reader :baseurl, :gameid, :jmv, :log, :mif, :move, :plysnm, :plygnm,
-              :sfen, :userinfo
+              :sfen, :tkd, :turn, :userinfo
 
   # paramsから値の読み出し
   def read_cgiparam
@@ -199,11 +199,11 @@ class Move
 
     kifufile = {
       filename: filename,
-      # filename: @tkd.escape_fnu8(filename),
-      content:  @tkd.jkf.to_kif
+      # filename: tkd.escape_fnu8(filename),
+      content:  tkd.jkf.to_kif
     }
 
-    # mif = @tkd.mif
+    # mif = tkd.mif
 
     msg = build_finishedmsg(nowstr, filename)
     # @log.debug("msg:#{msg}")
@@ -311,13 +311,24 @@ class Move
   # @param now      [Time]    着手日時オブジェクト
   def send_mail(finished, now)
     @log.debug('Move.sendmail')
-    @tkd.read # これいるの？
+    tkd.read # これいるの？
     nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
     if finished
       send_mail_finished(nowstr)
     else
       send_mail_next(nowstr)
     end
+  end
+
+  def finish_draw(now)
+    @turn = 'd'
+    tkd.finished(now, nil, turn)
+  end
+
+  def finish_normal(now)
+    gote_win = (mif.teban == 'b')
+    @turn = gote_win ? 'fw' : 'fb'
+    tkd.finished(now, gote_win, turn)
   end
 
   # 対局終了処理
@@ -330,12 +341,9 @@ class Move
     # 終了日時の更新とか勝敗の記録とか
     @log.debug("tkd.finished(now, #{mif.teban} == 'b')")
     if mif.turn == 'd'
-      @turn = 'd'
-      @tkd.finished(now, nil, @turn)
+      finish_draw(now)
     else
-      gote_win = (mif.teban == 'b')
-      @turn = gote_win ? 'fw' : 'fb'
-      @tkd.finished(now, gote_win, @turn)
+      finish_normal(now)
     end
 
     # 対局中からはずす
@@ -346,12 +354,12 @@ class Move
   # 対局情報の読み出しなどといった準備
   def prepare_taikyokudata
     @tkd = TaikyokuData.new
-    @tkd.log = @log
-    @tkd.setid(gameid)
+    tkd.log = @log
+    tkd.setid(gameid)
 
-    @mif = @tkd.mif
+    # @mif = tkd.mif
 
-    # @tkd.read
+    # tkd.read
 
     # @plysnm = mif.playerb.name
     # @plygnm = mif.playerw.name
@@ -364,6 +372,19 @@ class Move
     tcdb
   end
 
+  def update_taikyokudata(status, now)
+    tcdb = chkandupdtchu(status)
+
+    # @log.debug('Move.updatelastmove')
+    tkd.updatelastmove(move, now)
+    # @log.debug('Move.mif.write')
+    # @log.debug('Move.jkf.write')
+    tkd.write
+
+    finished = status != TaikyokuData::RES_NEXT
+    tcdb.update_dt_turn(gameid, now, turn) unless finished
+  end
+
   # 対局情報の登録更新
   #
   # @param status [Integer] 終局したかどうか
@@ -371,19 +392,9 @@ class Move
   def register_move(status, now)
     @turn = mif.teban
 
-    tcdb = chkandupdtchu(status)
+    update_taikyokudata(status)
 
-    # @log.debug('Move.updatelastmove')
-    @tkd.updatelastmove(move, now)
-
-    # @log.debug('Move.mif.write')
-    # @log.debug('Move.jkf.write')
-    @tkd.write
-
-    finished = status != TaikyokuData::RES_NEXT
-    tcdb.update_dt_turn(gameid, now, @turn) unless finished
-
-    TaikyokuFile.new.update_dt_turn(gameid, now, @turn)
+    TaikyokuFile.new.update_dt_turn(gameid, now, turn)
 
     send_mail(finished, now)
 
@@ -394,10 +405,16 @@ class Move
   # 指し手を適用する
   def applymove(now)
     @log.debug('Move.apply sfen, jmv')
-    # @tkd.move(@jmv, now)
-    ret = @tkd.move(sfen, jmv, now)
-    @log.debug("@tkd.move() = #{ret}")
+    # tkd.move(@jmv, now)
+    ret = tkd.move(sfen, jmv, now)
+    @log.debug("tkd.move() = #{ret}")
     ret
+  end
+
+  def read_mif
+    @mif = tkd.mif
+    @plysnm = mif.playerb.name
+    @plygnm = mif.playerw.name
   end
 
   #
@@ -411,11 +428,10 @@ class Move
 
     prepare_taikyokudata
 
-    @tkd.lock do
-      @tkd.read
+    tkd.lock do
+      tkd.read
 
-      @plysnm = mif.playerb.name
-      @plygnm = mif.playerw.name
+      read_mif
 
       now = Time.now
 
