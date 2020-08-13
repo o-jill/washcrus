@@ -23,23 +23,25 @@ class AdminGameManageUpdateScreen
     @log = Logger.new(PathList::GAMELOG)
     @header = header
     @errmsg = "AdminGameManageUpdateScreen\n"
-    @log.debug @errmsg
+    @log.debug errmsg
   end
 
+  attr_reader :errmsg, :gid, :jmv, :result, :tkd
+
   def extractparams(params)
-    @gameid = params['gameid'][0] if params['gameid']
+    @gid = params['gameid'][0] if params['gameid']
     @result = params['result'][0] if params['result']
 
-    msg = "gameid:#{@gameid}, result:#{@result}\n"
+    msg = "gameid:#{gid}, result:#{result}\n"
     @log.debug msg
     @errmsg += msg
   end
 
   def preparetkd(gid)
     @tkd = TaikyokuData.new
-    @tkd.log = @log
-    @tkd.setid(gid)
-    @tkd.read
+    tkd.log = @log
+    tkd.setid(gid)
+    tkd.read
   end
 
   def logg(msg)
@@ -47,7 +49,7 @@ class AdminGameManageUpdateScreen
     @errmsg += msg
   end
 
-  def removefromtaikyokuchu(gid)
+  def removefromtaikyokuchu
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
@@ -59,17 +61,10 @@ class AdminGameManageUpdateScreen
     true
   end
 
-  def removefromlist(gid, res)
-    return unless removefromtaikyokuchu(gid)
-
-    tdb = TaikyokuFile.new
-    tdb.read
-    return logg("#{gid} does not exist...\n") unless tdb.exist_id(gid)
-    tdb.updateturn(gid, res)
-
+  def updatetaikyoku
     preparetkd(gid)
     # 対局終了フラグをつける or 引き分けにする。
-    @tkd.forcefinished(Time.now, res)
+    tkd.forcefinished(Time.now, result)
     logg("@tkd.forcefinished(Time.now, #{res})\n")
 
     # %CHUDANとかを棋譜に追加
@@ -77,8 +72,19 @@ class AdminGameManageUpdateScreen
     @jmv = JsonMove.fromtext('%CHUDAN')
     # ret = @tkd.move(@sfen, @jmv, now)
     # @log.debug("@tkd.move() = #{ret}")
-    @tkd.finish_special(@jmv)
-    @tkd.write
+    tkd.finish_special(jmv)
+    tkd.write
+  end
+
+  def removefromlist
+    return unless removefromtaikyokuchu
+
+    tdb = TaikyokuFile.new
+    tdb.read
+    return logg("#{gid} does not exist...\n") unless tdb.exist_id(gid)
+    tdb.updateturn(gid, result)
+
+    updatetaikyoku
 
     logg("DONE.\n")
   end
@@ -92,13 +98,13 @@ class AdminGameManageUpdateScreen
 
     extractparams(params)
 
-    removefromlist(@gameid, @result)
+    removefromlist
 
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
     CommonUI.html_adminmenu
 
-    puts "<pre>#{@errmsg}</pre>"
+    puts "<pre>#{errmsg}</pre>"
 
     CommonUI.html_foot
   end

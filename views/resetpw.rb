@@ -21,6 +21,8 @@ class ResetPasswordScreen
     @header = header
   end
 
+  attr_reader :newpw, :email
+
   # 登録情報の確認
   #
   # @param userdb UserInfoFileContentオブジェクト
@@ -74,7 +76,7 @@ class ResetPasswordScreen
   def check_and_mkmsg(params)
     # emailアドレスの読み取り
     @email = params['premail'] || ['wrong_email']
-    @email = @email[0]
+    @email = email[0]
 
     # パスワードの生成
     @newpw = SecureRandom.base64(6)
@@ -82,10 +84,10 @@ class ResetPasswordScreen
     # userdbにあるかどうかの確認
     # パスワードの再設定
     userdb = UserInfoFile.new
-    userdata = userdb.update_password(@email, @newpw)
+    userdata = userdb.update_password(email, newpw)
 
     # メールの送信
-    send_mail_resetpwd(@email, userdata[:name], @newpw) if userdata
+    send_mail_resetpwd(email, userdata[:name], newpw) if userdata
   end
 
   # 画面の表示
@@ -98,8 +100,8 @@ class ResetPasswordScreen
     CommonUI.html_menu
 
     puts <<-RESET_PW_MSG.unindent
-      password for "#{@email}" was reset.<br>
-      a new password has been sent to #{@email}.<br>
+      password for "#{email}" was reset.<br>
+      a new password has been sent to #{email}.<br>
       (we don't check if the address is correct or not.)
     RESET_PW_MSG
     # @newpw:#{@newpw}<br>
