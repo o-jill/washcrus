@@ -52,7 +52,8 @@ class RegisterScreen
   # @param usernm ユーザー名
   def check_username(usernm)
     @errmsg += 'short username ...<BR>' if usernm.bytesize < 4
-    @errmsg += 'wrong username ...<BR>' if /^\s+/ =~ usernm || /\s+$/ =~ usernm
+    @errmsg += 'wrong username ...<BR>' \
+      if /^\s+/ =~ usernm || /\s+$/ =~ usernm || /https?:/ =~ usernm
   end
 
   # パスワードの確認。エラーメッセージ転記。
@@ -91,7 +92,7 @@ class RegisterScreen
 
     # if userdb.exist_name_or_email(user[:username], user[:email1])
     if userdb.exist_name(user[:username]) || userdb.exist_email(user[:email1])
-      @errmsg = 'user name or e-mail address is already exists...'
+      @errmsg = 'user name or e-mail address already exists...'
     end
 
     user
@@ -146,17 +147,18 @@ class RegisterScreen
     userdb.read
 
     user = check_register(userdb.content, params)
-
+    name = user[:username]
+    email = user[:email1]
     # エラー
     return "<div class='err'>Unfortunately failed ...<BR>#{@errmsg}</div>" \
         unless @errmsg.empty?
 
     # 登録する
-    add(userdb, user[:username], user[:password1], user[:email1])
+    add(userdb, name, user[:password1], email)
 
     msg = <<-REG_SUC_MSG.unindent
-      Registered successfully.<BR>username:#{user[:username]}<BR>
-      password:****<BR>email address:#{user[:email1]}<BR>
+      Registered successfully.<BR>username:#{name}<BR>
+      password:****<BR>email address:#{email}<BR>
       <BR>
       Registration mail has been sent.<BR>
     REG_SUC_MSG

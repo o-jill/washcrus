@@ -46,24 +46,41 @@ class TaikyokuFile
     raise AccessDenied.new('timeout')
   end
 
+  def adjustelem(elem)
+    elem[5] = elem[4] # time
+    elem[4] = '?' # turn
+    elem
+  end
+
   # 要素の読み込み
   #
   # @param elem 1要素
   def read_element(elem)
-    if elem.length == 8
-      @content.add_array(elem)
-    elsif elem.length == 7
-      elem[7] = elem[6]
-      elem[6] = elem[5]
-      elem[5] = '?'
-      @content.add_array(elem)
-    elsif elem.length == 6
-      elem[7] = '&lt;blank&gt;'
-      elem[6] = elem[5]
-      elem[5] = '?'
-      @content.add_array(elem)
+    len = elem.length
+    id = elem.shift
+    if len == 8
+      @content.add_array(id, elem)
+    elsif len == 7
+      elem[6] = elem[5] # comment
+      @content.add_array(id, adjustelem(elem))
+    elsif len == 6
+      elem[6] = '&lt;blank&gt;' # comment
+      @content.add_array(id, adjustelem(elem))
       # else
       #   skip
+    end
+  end
+
+  # ファイルから1行読み込み
+  def read_lines(file)
+    file.each_line do |line|
+      # comment
+      next if line =~ /^#/
+
+      # id, nameb, namew, time, comment
+      elem = line.chomp.split(',')
+
+      read_element(elem)
     end
   end
 
@@ -71,16 +88,7 @@ class TaikyokuFile
   def read
     File.open(@fname, 'r:utf-8') do |file|
       file.flock File::LOCK_EX
-
-      file.each_line do |line|
-        # comment
-        next if line =~ /^#/
-
-        # id, nameb, namew, time, comment
-        elem = line.chomp.split(',')
-
-        read_element(elem)
-      end
+      read_lines(file)
     end
   # 例外は小さい単位で捕捉する
   rescue SystemCallError => er
@@ -132,8 +140,9 @@ class TaikyokuFile
   def newgame(data)
     lock do
       read
-      @content.add_array(data)
-      append(data[0])
+      id = data.shift
+      @content.add_array(id, data)
+      append(id)
     end
   end
 

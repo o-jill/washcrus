@@ -1,10 +1,22 @@
 # for testing on a browser.
 
+# usage:
+#    ruby travisci/browsertest.rb <options>
+# --quick :  test only around playing.
+# --nogame : dont play at all.
+# -N0 :      testmove.jkf will be used.
+# -N1 :      fuji_system.jkf will be used.
+# -N2 :      fuji_debut.jkf will be used.
+# -N3 :      koyan_tadao.jkf will be used.
+# -N4 :      sennichite.jkf will be used.
+# -N5 :      kingtaking.jkf will be used.
+
 require 'selenium-webdriver'
 
 require './travisci/browsertestabs.rb'
 require './travisci/testresult.rb'
 require './travisci/testgame.rb'
+require './travisci/testdraw.rb'
 
 # test pages on a browser
 class BrowserTest < BrowserTestAbstract
@@ -42,31 +54,6 @@ class BrowserTest < BrowserTestAbstract
     adminerrcheck 'index.rb?adminuserstg'
     adminerrcheck 'index.rb?adminsignature'
     adminerrcheck 'index.rb?userlist'
-  end
-
-  # adminerrorになることの確認
-  def simpleadmincheckgroup
-    simplecheck 'index.rb?adminmenu'
-    simplecheck 'index.rb?adminnews'
-    simplecheck 'index.rb?adminsettings'
-    simplecheck 'index.rb?adminsignature'
-    simplecheck 'index.rb?userlist'
-  end
-
-  def simplecheckgroup
-    simplecheck 'index.rb?mypage'
-    simplecheck 'index.rb?matchlist'
-    simplecheck 'index.rb?searchform'
-  end
-
-  def simpleaccess
-    simplecheck 'index.rb'
-    simplecheck 'index.rb?news'
-    # simplecheck 'index.rb?signup'
-
-    simplecheckmatch('move.rb', /illegal access/)
-
-    simplecheckmatch('getsfen.rb', /illegal access/)
   end
 
   def lounge_file(msg)
@@ -136,6 +123,19 @@ class BrowserTest < BrowserTestAbstract
     # puts driver.page_source
 
     adminerrorcheckgroup
+  end
+
+  def adminaccesslight
+    checklogin(ADMININFO[:email], ADMININFO[:pwd])
+
+    loungecheckfilecancel
+    lounge_file('hello john!!')
+
+    simplecheckmatch('chat.rb?lounge', /lounge chat/)
+
+    lounge_say
+
+    simplecheck 'index.rb?logout'
   end
 
   SIGNUPINFOJOHN = {
@@ -279,6 +279,14 @@ class BrowserTest < BrowserTestAbstract
     simplecheck 'index.rb?logout'
   end
 
+  def newuserjohnlight
+    checklogin('johndoe@example.com', 'john')
+
+    newuserjohn_loungegame
+
+    simplecheck 'index.rb?logout'
+  end
+
   # 二重登録できないことの確認
   def newuserjohn2nd
     signupauser(SIGNUPINFOJOHN)
@@ -311,52 +319,110 @@ class BrowserTest < BrowserTestAbstract
     end
   end
 
+  def runlight
+    puts 'adminaccesslight'
+    adminaccesslight
+
+    puts 'newuserjohnlight'
+    newuserjohnlight
+
+    # テストを終了する（ブラウザを終了させる）
+    # driver.quit
+  end
+
   def run
+    puts 'simpleaccess'
     simpleaccess
 
+    puts 'adminaccess'
     adminaccess
 
+    puts 'newuserjohn'
     newuserjohn
 
+    puts 'newuserjohn2nd'
     newuserjohn2nd
 
+    puts 'signuperrmsg'
     signuperrmsg
 
     # テストを終了する（ブラウザを終了させる）
+    # driver.quit
+  end
+
+  def finalize(ret)
+    # テストを終了する（ブラウザを終了させる）
     driver.quit
+    exit(ret)
   end
 end
 
+# main
+
 test = BrowserTest.new
 test.fold_begin('pages.1', 'pages tests')
-test.run
+ARGV.include?('--quick') ? test.runlight : test.run
 test.fold_end('pages.1')
 succ = test.showresult
 
+test.finalize(succ) if ARGV.include?('--nogame')
+
 tg = TestGame.new
 tg.fold_begin('game.1', 'game test')
-tg.setplayer1(
+tg.setplayersen(
   BrowserTest::SIGNUPINFOJOHN[:rname],
   BrowserTest::SIGNUPINFOJOHN[:remail],
   BrowserTest::SIGNUPINFOJOHN[:rpassword]
 )
-tg.setplayer2(
+tg.setplayergo(
   'admin',
   BrowserTest::ADMININFO[:email],
   BrowserTest::ADMININFO[:pwd]
 )
 tg.setgame(test.gameurl)
 KIFULIST = [
-  'travisci/testmove.jkf',
+  'travisci/testmove.jkf', # N0
   'travisci/fuji_system.jkf',
   'travisci/fuji_debut.jkf',
-  'travisci/koyan_tadao.jkf'
+  'travisci/koyan_tadao.jkf',
+  'travisci/sennichite.jkf',
+  'travisci/kingtaking.jkf' # N5
 ].freeze
-tg.read(KIFULIST.sample)
+kifindexarr = ARGV.grep(/-N\d+/)
+kifindex = kifindexarr.size.zero? ? -1 : kifindexarr[0].slice(2, 10).to_i
+jkfpath = kifindex < 0 ? KIFULIST.sample : KIFULIST[kifindex]
+puts "#{jkfpath}, #{ARGV} #{kifindexarr} #{kifindex}"
+tg.read(jkfpath)
 tg.run
 tg.fold_end('game.1')
-succ &= tg.showresult
-exit 1 unless succ
+succ += tg.showresult
+
+test.finalize(succ) if ARGV.include?('--quick')
+
+# test = BrowserTest.new
+test.fold_begin('draw.1', 'draw test')
+test.runlight
+test.fold_end('draw.1')
+succ += test.showresult
+
+td = TestDraw.new
+td.fold_begin('draw.2', 'draw test')
+td.setplayersen(
+  BrowserTest::SIGNUPINFOJOHN[:rname],
+  BrowserTest::SIGNUPINFOJOHN[:remail],
+  BrowserTest::SIGNUPINFOJOHN[:rpassword]
+)
+td.setplayergo(
+  'admin',
+  BrowserTest::ADMININFO[:email],
+  BrowserTest::ADMININFO[:pwd]
+)
+td.setgame(test.gameurl)
+td.run
+td.fold_end('draw.2')
+succ += tg.showresult
+
+test.finalize(succ)
 
 # memo
 

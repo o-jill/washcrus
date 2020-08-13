@@ -78,16 +78,16 @@ class TaikyokuFileContent
   # add taikyoku information
   #
   # @param arr [nid, idb, idw, ply1, ply2, turn, dt, cmt]
-  def add_array(arr)
+  def add_array(nid, arr)
     # add(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6])
-    nid = arr[0]
-    @idbs[nid]     = arr[1]
-    @idws[nid]     = arr[2]
-    @namebs[nid]   = arr[3]
-    @namews[nid]   = arr[4]
-    @turns[nid]    = arr[5]
-    @times[nid]    = arr[6]
-    @comments[nid] = arr[7]
+    (idb, idw, nmb, nmw, turn, time, cmt) = arr
+    @idbs[nid]     = idb
+    @idws[nid]     = idw
+    @namebs[nid]   = nmb
+    @namews[nid]   = nmw
+    @turns[nid]    = turn
+    @times[nid]    = time
+    @comments[nid] = cmt
   end
 
   # 対局IDを返す

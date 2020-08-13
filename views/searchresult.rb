@@ -27,7 +27,7 @@ class SearchResultScreen
     return [] if plyb.empty?
 
     res = tdb.findnameb(plyb)
-    res.empty? ? nil : res.keys
+    res.keys
   end
 
   # 後手を検索
@@ -39,7 +39,7 @@ class SearchResultScreen
     return [] if plyw.empty?
 
     res = tdb.findnamew(plyw)
-    res.empty? ? nil : res.keys
+    res.keys
   end
 
   # ２つの対局IDのリストをマージする。(重複削除)
@@ -68,8 +68,7 @@ class SearchResultScreen
   def findtime(tdb, from, to)
     return [] if from.empty? && to.empty?
 
-    res = tdb.findtime(from, to)
-    res.empty? ? nil : res.keys
+    tdb.findtime(from, to).keys
   end
 
   # 最終着手日から検索
@@ -82,13 +81,10 @@ class SearchResultScreen
   # @return 対局IDのリスト。検索結果がない時nil。
   def findgameid(tdb, plyb, plyw, from, to)
     idb = findplyb(tdb, plyb)
-    return nil unless idb
 
     idw = findplyw(tdb, plyw)
-    return nil unless idw
 
     idt = findtime(tdb, from, to)
-    return nil unless idt
 
     idbw = merge2ids(idb, idw)
     ret = merge2ids(idbw, idt)
@@ -101,9 +97,8 @@ class SearchResultScreen
   #
   # @param params 検索条件
   # @return 対局IDのリスト
-  def searchgames(params)
-    searchgames_(params['player1'][0], params['player2'][0],
-                 params['time_frame_from'][0], params['time_frame_to'][0])
+  def searchgames(plys, plyg, tffrom, tfto)
+    searchgames_(plys[0], plyg[0], tffrom[0], tfto[0])
   end
 
   # 対局を検索
@@ -118,33 +113,49 @@ class SearchResultScreen
     tdb.read
 
     foundid = findgameid(tdb, plyb, plyw, from, to)
-
     return nil unless foundid
 
-    res = []
-    foundid.each do |i|
-      res << tdb.content.probe(i)
+    foundid.map do |i|
+      tdb.content.probe(i)
     end
-    res
   end
 
   # 対局情報の出力
   #
   # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, time: , comment:}
-  def print_res(game)
-    gid = game[:id]
-    print <<-GAMEINFO.unindent
+  def resultrow(id: 'gid', nameb: 'b', namew: 'w', time: '0 0', **_other)
+    arow = <<-GAMEINFO.unindent
       <tr>
-       <td><a href='index.rb?game/#{gid}'>
-        <img src='image/right_fu.png' alt='#{gid}' title='move to this game!'>
-        <small>#{gid}</small>
+       <td><a href='index.rb?game/#{id}'>
+        <img src='image/right_fu.png' alt='#{id}' title='move to this game!'>
+        <small>#{id}</small>
        </a></td>
-       <td>#{game[:nameb]}</td><td>#{game[:namew]}</td><td>#{game[:time]}</td>
-       <td><a href='index.rb?dlkifu/#{gid}' target=_blank>
-        <img src='image/dl_kif.png' alt='#{gid}' title='download kif!'>
+       <td>#{nameb}</td><td>#{namew}</td><td>#{time}</td>
+       <td><a href='index.rb?dlkifu/#{id}' target=_blank>
+        <img src='image/dl_kif.png' alt='#{id}' title='download kif!'>
        </a></td>
       </tr>
     GAMEINFO
+    arow
+  end
+
+  # 検索結果の出力
+  def print_result(res)
+    return '<p>not found ...</p>' unless res && res.size.nonzero?
+
+    rows = res.map do |game|
+      resultrow(**game)
+    end
+
+    str = <<-RESULT_TABLE.unindent
+      <TABLE align='center' border='1'>
+      <caption>検索結果</caption>
+      <tr><th>ID</th><th>先手</th><th>後手</th>
+      <th>着手日時</th><th>棋譜</th></tr>
+      #{rows.join}
+      </TABLE>
+    RESULT_TABLE
+    str
   end
 
   # 画面の表示
@@ -152,25 +163,15 @@ class SearchResultScreen
   # @param userinfo ユーザ情報
   # @param params パラメータハッシュオブジェクト
   def show(userinfo, params)
-    res = searchgames(params)
+    res = searchgames(
+      params['player1'], params['player2'],
+      params['time_frame_from'], params['time_frame_to']
+    )
 
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
-    if res && !res.empty?
-      print <<-RESULT_TABLE.unindent
-        <TABLE align='center' border='1'>
-        <caption>検索結果</caption>
-        <tr><th>ID</th><th>先手</th><th>後手</th>
-        <th>着手日時</th><th>棋譜</th></tr>
-      RESULT_TABLE
-      res.each do |game|
-        print_res(game)
-      end
-      print '</TABLE>'
-    else
-      print '<p>not found ...</p>'
-    end
+    print print_result(res)
 
     CommonUI.html_foot
   end

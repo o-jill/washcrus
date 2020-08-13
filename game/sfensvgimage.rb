@@ -22,13 +22,16 @@ class SfenSVGImage
     @sfen = sfen
     @sname = nil
     @gname = nil
-    @lm = nil # xy [1-9][1-9]
+    @lmv = nil # xy [1-9][1-9]
     @title = nil
     @piecetype = nil # not upported yet
     @turn = nil
 
     parse
   end
+
+  attr_reader :gname, :gtgm, :lmv, :sfen, :sname,
+              :strban, :stgm, :strtegoma, :yg, :ys
 
   # 対局者名の設定
   #
@@ -48,10 +51,10 @@ class SfenSVGImage
 
   # 指し手情報の設定
   #
-  # @param lmv 最後に動かしたマス
+  # @param lamv 最後に動かしたマス
   # @param turn 手番(b/w)or勝利情報(fb/fw)
-  def setmoveinfo(lmv, turn)
-    @lm = lmv
+  def setmoveinfo(lamv, turn)
+    @lmv = lamv
     @turn = turn
   end
 
@@ -68,9 +71,9 @@ class SfenSVGImage
     @strban = ''
     @strtegoma = ''
 
-    return unless @sfen # error
+    return unless sfen # error
 
-    sfenitem = @sfen.split(' ')
+    sfenitem = sfen.split(' ')
     return if sfenitem.length < 4 # error
 
     @strban = sfenitem[0]
@@ -79,16 +82,20 @@ class SfenSVGImage
     readtegoma
   end
 
+  def invalidxy?(x, y)
+    y < 0 || y > 8 || x < 0 || x > 8
+  end
+
   # 最終手タグの生成
   def taglastmove
-    return '' unless @lm
+    return '' unless lmv
 
-    x = @lm.to_i
+    x = lmv.to_i
 
     y = x % 10 - 1
     x = 9 - x / 10
 
-    return '' if y < 0 || y > 8 || x < 0 || x > 8 # error
+    return '' if invalidxy?(x, y) # error
 
     y *= 20
     x *= 20
@@ -115,13 +122,12 @@ class SfenSVGImage
     return '' unless pos
     nm = '歩と香杏桂圭銀全金金角馬飛龍玉玉'[2 * pos + prmt, 1]
 
-    if sente
-      ret + " <text x='10' y='12' class='koma'>#{nm}</text>\n</g>\n"
-    else
-      ret + " <g transform='translate(10,9) rotate(180)'>\n" \
-             "  <text x='0' y='0' class='koma'>#{nm}</text>\n" \
-             " </g>\n</g>\n"
-    end
+    return ret + " <text x='10' y='12' class='koma'>#{nm}</text>\n</g>\n" \
+      if sente
+
+    ret + " <g transform='translate(10,9) rotate(180)'>\n" \
+           "  <text x='0' y='0' class='koma'>#{nm}</text>\n" \
+           " </g>\n</g>\n"
   end
 
   # ある段の駒達のタグの生成
@@ -155,7 +161,7 @@ class SfenSVGImage
   # 駒達のタグの生成
   def tagkomas
     banstr = ''
-    ban = @strban.split('/')
+    ban = strban.split('/')
     ndan = 0
 
     ban.each do |adan|
@@ -187,7 +193,7 @@ class SfenSVGImage
 
   # 手駒の読み取り
   def readtegoma
-    return unless @strtegoma
+    return unless strtegoma
 
     num = 0
     @stgm = ''
@@ -195,7 +201,7 @@ class SfenSVGImage
     @ys = 0
     @yg = 0
 
-    @strtegoma.each_char do |ch|
+    strtegoma.each_char do |ch|
       case ch
       when /[PLNSGBRplnsgbr]/
         str_tgm(ch, num)
@@ -208,17 +214,17 @@ class SfenSVGImage
 
   # 将棋内容タグの生成
   def gen_contents
-    tagtitle(@title) + tagteban(@turn) + tagname(@sname, @gname) \
-      + tagtegoma(@stgm, @gtgm) + tagboardstatus
+    tagtitle(@title) + tagteban(@turn) + tagname(sname, gname) \
+      + tagtegoma(stgm, gtgm) + tagboardstatus
   end
 
   # svg画像の生成
   #
   # @return svg文字列。エラーの場合はエラー情報画像。
   def gen
-    svg = SfenSVGImageMod::TAG_HEADER
-    svg += gen_contents
-    svg + SfenSVGImageMod::TAG_FOOTER
+    SfenSVGImageMod::TAG_HEADER \
+      + gen_contents \
+      + SfenSVGImageMod::TAG_FOOTER
   end
 end
 

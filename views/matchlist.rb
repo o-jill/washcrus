@@ -36,8 +36,7 @@ class MatchListScreen
     RESULT_TABLE
     tkcdb.content.idbs.each_key do |gameid|
       game = tkcdb.content.probe(gameid)
-
-      print_res(game)
+      print_res(**game)
     end
     # puts '</TABLE>'
     puts '</div>'
@@ -81,13 +80,12 @@ class MatchListScreen
   # 対局情報の出力
   #
   # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, turn:, time:, comment:}
-  def print_res(game)
-    gid = game[:id]
+  def print_res(id:, turn:, comment:, **_others)
     print <<-GAMEINFO.unindent
-      <table border='1'><tr><td><a href='index.rb?game/#{gid}'>
-        #{kyokumen_img(gid, game[:turn])}
+      <table border='1'><tr><td><a href='index.rb?game/#{id}'>
+        #{kyokumen_img(id, turn)}
        </a></td></tr>
-      <tr><td>#{game[:comment]}</td></tr></table>
+      <tr><td>#{comment}</td></tr></table>
     GAMEINFO
   end
 
@@ -101,11 +99,9 @@ class MatchListScreen
     from = Time.now - 7_776_000 # 90days
     res = tdb.findtime(from.to_s, '') # {gid, time}
 
-    games = []
-    res.each_key do |id|
-      games << tdb.content.probe(id)
+    res.keys.map do |id|
+      tdb.content.probe(id)
     end
-    games
   end
 
   # 最近の対局のリストの出力
@@ -119,7 +115,7 @@ class MatchListScreen
       <div id="taikyokurecent" class="taikyokuchu">
     RESULT_TABLE
     games.each do |game|
-      print_res(game)
+      print_res(**game)
     end
     puts '</div>'
   end

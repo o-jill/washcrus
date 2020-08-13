@@ -108,7 +108,7 @@ class AdminUserStgUpdateScreen
     userdb.read
 
     # [:name, :pw, :email]
-    userdata = userdb.content.findid(@uid)
+    userdata = userdb.content.findid(uid)
     msg = checkindb(userdata, userdb)
     return msg if msg
 
@@ -138,11 +138,11 @@ class AdminUserStgUpdateScreen
   #
   # @return 表示用メッセージ
   def check_and_mkmsg
-    msg = checkparam
-    return msg if msg
+    chkmsg = checkparam
+    return chkmsg if chkmsg
 
-    msg = update_userdb
-    return msg if msg
+    updmsg = update_userdb
+    return updmsg if updmsg
 
     # メールの送信
     send_mail if ntfmail

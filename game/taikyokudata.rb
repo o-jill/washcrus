@@ -38,6 +38,11 @@ class TaikyokuData
               :lockpath, :mif, :jkf
   attr_accessor :creator, :log
 
+  RES_NEXT = 0  # まだまだ続ける
+  RES_OVER = 1  # 玉を取って終局
+  RES_DRAW = -1 # 引き分け提案
+  RES_ERR = -2  # エラー
+
   # 先手のセット
   #
   # @param id ID
@@ -90,7 +95,7 @@ class TaikyokuData
     newdt = [@gid, @idb, @idw, @playerb, @playerw, teban, @datetime, cmt]
 
     # @log.debug('TaikyokuFile.new')
-    TaikyokuFile.new.newgame(newdt)
+    TaikyokuFile.new.newgame(newdt.dup)
 
     # @log.debug('TaikyokuChuFile.new')
     TaikyokuChuFile.new.newgame(newdt)
@@ -250,22 +255,34 @@ class TaikyokuData
     show_converted_kifu(type)
   end
 
-  # １手指す
-  #
-  # @param sfen sfen文字列
-  # @param jsmv JsonMoveオブジェクト
-  # @param datm 着手時間オブジェクト
-  #
-  # @return nil if invalid, 1 if done, otherwise 0.
-  def move(sfen, jsmv, datm)
-    @log.debug("Taikyokudata.move(jsmv, #{datm})")
+  def procsystem_draw(cmd, datm)
+    ret = RES_DRAW
+    ret = RES_OVER if @mif.suggestdraw(cmd, datm)
+    @mif.write(@matchinfopath)
 
+    # chat file
+    chat = ChatFile.new(@gid)
+    @log.debug("chat.say_sugdraw(sente = #{cmd[-1]} == 'b')")
+    chat.say_sugdraw(@mif.playername(cmd[-1] == 'b'), cmd[4] == 'Y')
+
+    ret
+  end
+
+  # 引き分け提案などを処理する
+  # @retval RES_DRAW 引き分け提案了承
+  # @retval RES_OVER 引き分け終局
+  def procsystem(jsmv, datm)
+    @log.debug("procsystem(#{jsmv}, #{datm})")
+    cmd = jsmv[:system]
+    ret = RES_ERR
+    ret = procsystem_draw(cmd, datm) if /^DRAW/ =~ cmd
+    [ret == RES_ERR || ret == RES_DRAW, ret]
+  end
+
+  def recordmove(sfen, jsmv, datm)
     sfs = SfenStore.new(@sfenpath)
     sfs.add(sfen)
 
-    return finish_special(jsmv) if jsmv[:special]
-
-    @mif.log = @log
     return unless @mif.fromsfen(sfen, true)
 
     jc = calc_consumption(datm)
@@ -278,6 +295,27 @@ class TaikyokuData
     return finish_sennnichite if sfs.sennichite?(sfen)
 
     finish_if_catch_gyoku(jsmv)
+  end
+
+  # １手指す
+  #
+  # @param sfen sfen文字列
+  # @param jsmv JsonMoveオブジェクト
+  # @param datm 着手時間オブジェクト
+  #
+  # @return nil if invalid, RES_OVER if done, otherwise RES_NEXT.
+  def move(sfen, jsmv, datm)
+    @log.debug("Taikyokudata.move(jsmv, #{datm})")
+    @mif.log = @log
+
+    # 引き分け提案とか
+    ret, status = procsystem(jsmv, datm) if jsmv[:system]
+    return status if ret
+    jsmv[:special] = 'HIKIWAKE' if status == RES_OVER
+
+    return finish_special(jsmv) if jsmv[:special]
+
+    recordmove(sfen, jsmv, datm)
   end
 
   # 最新着手の更新
@@ -314,14 +352,14 @@ class TaikyokuData
     @log.debug('if jsmv[:special]')
     @jkf.move(jsmv)
     @mif.done_game_sp(jsmv[:special])
-    1
+    RES_OVER
   end
 
   # 千日手で終了
   def finish_sennnichite
-    @mif.done_game_sp('%SENNICHITE')
+    @mif.done_game_sp('SENNICHITE')
     @jkf.sennichite
-    1
+    RES_OVER
   end
 
   # 玉を取って終局の処理
@@ -332,9 +370,9 @@ class TaikyokuData
     if JsonMove.catch_gyoku?(jsmv)
       @mif.done_game_gyoku
       @jkf.resign
-      1
+      RES_OVER
     else
-      0
+      RES_NEXT
     end
   end
 

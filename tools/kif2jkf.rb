@@ -1,5 +1,8 @@
-#!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
+
+# 初期配置は変なやつ(角厨とか)以外はいらない。
+# 同のときはtoを追加。
+# 打つときは"from":nullを追加。
 
 require 'bundler/setup'
 

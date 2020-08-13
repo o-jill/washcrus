@@ -30,6 +30,14 @@ module JsonMove
     { special: txt[1, txt.length - 1] }
   end
 
+  # 引き分け提案などシステム的な手のハッシュ
+  #
+  # @param txt 特別な手の文字列
+  # @return システム的な手のハッシュ
+  def self.fromtextsystem(txt)
+    { system: txt[1, txt.length - 1] }
+  end
+
   KOMA = %w[FU KY KE GI KI KA HI OU TO NY NK NG UM RY].freeze
 
   # KOMAを返す。テスト用
@@ -161,10 +169,11 @@ module JsonMove
   #
   # @param txt 指し手文字列[+-][0-9]{4}(?:FU|KY|KE|...)(?:__|FU|KY|KE|...)P?
   #          %TORYO, %SENNICHITEなど
+  #          !DRAWYES !DRAWNOなど
   # @return エラー:nil, 正常終了:指し手ハッシュ
   def self.fromtext(txt)
     return unless txt
-
+    return fromtextsystem(txt) if txt[0] == '!'
     return fromtextspecial(txt) if txt[0] == '%'
 
     return unless (9..10).cover?(txt.length)

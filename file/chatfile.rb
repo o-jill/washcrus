@@ -87,6 +87,21 @@ class ChatFile
           "it's on time. please start your move as SENTE, #{name}-san.")
   end
 
+  # 引き分け提案
+  #
+  # @param name 名前
+  # @param yes true:, false:
+  def say_sugdraw(name, yes)
+    msg =
+      if yes
+        "#{name}さんから引き分け提案がありました。."
+      else
+        "#{name}さんから引き分け提案の取りやめがありました。."
+      end
+
+    sayex("<span id='chatadmin'>Witness</span>", msg)
+  end
+
   # チャット内容の出力
   def put
     print "Content-type:text/html;\n\n#{msg}"
@@ -95,12 +110,27 @@ class ChatFile
   # チャットのメッセージから立会人の発言と名前の<B>タグと<BR>タグを取り去る
   #
   # @return いろいろ取り去ったあとのチャットメッセージ
+  def stripped_msg_keepusers
+    newmsg = ''
+    msg.each_line do |line|
+      newmsg += line.gsub(%r{(<B>|<\/B>|<BR>)}, '') \
+        unless line =~ /^<span id='chatadmin'>/
+    end
+    newmsg.gsub(/&(#44|nbsp|lt|gt|amp);/,
+                '&#44;' => ',', '&nbsp;' => ' ',
+                '&lt;' => '<', '&gt;' => '>', '&amp;' => '&')
+  end
+
+  # チャットのメッセージから立会人の<span>と名前の<B>タグと<BR>タグを取り去る
+  #
+  # @return いろいろ取り去ったあとのチャットメッセージ
   def stripped_msg
     newmsg = ''
     msg.each_line do |line|
-      unless line =~ /^<span id='chatadmin'>/
-        newmsg += line.gsub(%r{(<B>|<\/B>|<BR>)}, '')
-      end
+      newmsg += line.gsub(
+        %r{(<span id='chatadmin'>|<\/span>|<B>|<\/B>|<BR>)},
+        ''
+      )
     end
     newmsg.gsub(/&(#44|nbsp|lt|gt|amp);/,
                 '&#44;' => ',', '&nbsp;' => ' ',

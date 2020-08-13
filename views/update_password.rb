@@ -20,7 +20,7 @@ class UpdatePasswordScreen
     @header = header
   end
 
-  attr_reader :newpw1, :newpw2, :passwd
+  attr_reader :newpw, :newpwagain, :passwd
 
   # エラー画面の表示
   #
@@ -71,17 +71,17 @@ class UpdatePasswordScreen
   def readpwd(params)
     @passwd = safer_params(params, 'sipassword', [''])
 
-    @newpw1 = safer_params(params, 'rnewpassword', ['1'])
-    @newpw2 = safer_params(params, 'rnewpassword2', ['2'])
+    @newpw = safer_params(params, 'rnewpassword', ['1'])
+    @newpwagain = safer_params(params, 'rnewpassword2', ['2'])
   end
 
   # 新パスワードの確認
   def check_newpw
     # 新パスワードの確認
     return '<span class="err">new passwords are not same!</span>' \
-      if newpw1 != newpw2
+      if newpw != newpwagain
     return '<span class="err">the new password is too short!</span>' \
-      if newpw1.length < 4
+      if newpw.length < 4
   end
 
   # 古いパスワードの確認
@@ -114,10 +114,10 @@ class UpdatePasswordScreen
     return ret if ret
 
     # パスワードの再設定
-    userdb.update_password_byid(uid, newpw1)
+    userdb.update_password_byid(uid, newpw)
 
     # メールの送信
-    send_mail(userinfo, newpw1)
+    send_mail(userinfo, newpw)
 
     'Your password was updated.<br>The new password has been sent to you.'
   end

@@ -40,13 +40,13 @@ class LoginScreen
       </TABLE></FORM>
       <style>
       .pwreset {
-        width: 40vw;
+        width: 60vw;
         height: 1em;
         overflow: hidden;
         border: solid 1px black;
       }
       .pwreset:hover {
-        height: 6em;
+        height: 8em;
       }
       </style>
       <div align='center'>

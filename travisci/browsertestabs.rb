@@ -37,6 +37,31 @@ class BrowserTestAbstract
     res.checkmatch(rex)
   end
 
+  # adminerrorになることの確認
+  def simpleadmincheckgroup
+    simplecheck 'index.rb?adminmenu'
+    simplecheck 'index.rb?adminnews'
+    simplecheck 'index.rb?adminsettings'
+    simplecheck 'index.rb?adminsignature'
+    simplecheck 'index.rb?userlist'
+  end
+
+  def simplecheckgroup
+    simplecheck 'index.rb?mypage'
+    simplecheck 'index.rb?matchlist'
+    simplecheck 'index.rb?searchform'
+  end
+
+  def simpleaccess
+    simplecheck 'index.rb'
+    simplecheck 'index.rb?news'
+    # simplecheck 'index.rb?signup'
+
+    simplecheckmatch('move.rb', /illegal access/)
+
+    simplecheckmatch('getsfen.rb', /illegal access/)
+  end
+
   # ボタンをクリック
   def clickbtn(key, val)
     elem = driver.find_element(key, val)
@@ -56,10 +81,13 @@ class BrowserTestAbstract
     res.matchmailsubject(json.last, rex)
   end
 
+  # テスト結果の表示
+  #
+  # @return ng数
   def showresult
     print res.ng.zero? ? "\e[32m" : "\e[31m"
     puts "ok:#{res.ok}, ng:#{res.ng}\e[0m"
-    res.ng.zero?
+    res.ng
   end
 
   def fold_begin(grp, msg)

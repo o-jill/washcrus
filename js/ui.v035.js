@@ -36,6 +36,7 @@ var CFRM_UTSU = 0;  // 打つ
 var CFRM_MOVE = 1;  // 動かす
 var CFRM_MVCAP = 2;  // 動かして取る
 var CFRM_RESIGN = 3;  // 投了
+var CFRM_SUGDRAW = 4;  // 引き分け提案
 
 /** 棋譜情報出力欄 */
 // var kifuArea;
@@ -770,6 +771,12 @@ function clickcfrm_ok_capmove(hx, hy)
   }
 }
 
+function send_drawsuggestion(yesno) {
+  var teban = document.getElementById('myteban').value;
+  movecsa = '!DRAW' + yesno + teban;
+  send_csamove();
+}
+
 /**
  * 着手確認ダイアログのOKを押した
  */
@@ -792,6 +799,8 @@ function clickcfrm_ok() {
     // 投了
     movecsa = '%TORYO';
     send_csamove();
+  } else if (cfrmdlg.md === CFRM_SUGDRAW) {
+    send_drawsuggestion('YES');
   }
 }
 
@@ -806,6 +815,8 @@ function clickcfrm_cancel() {
     // 駒の移動をやめる
     activecell(null, null, null);
     /* } else if (cfrmdlg.md === CFRM_RESIGN) { */
+  } else if (cfrmdlg.md === CFRM_SUGDRAW) {
+    send_drawsuggestion('NO');
   }
 
   cfrmdlg.style.visibility = 'hidden';
@@ -998,8 +1009,14 @@ function activateteban()
   document.getElementById('tebaninfo').innerHTML = strinfo;
 
   /* resign button */
-  document.getElementById('btn_resign').style.display
-      = (taikyokuchu) ? 'inline' : 'none';
+  var tarea = document.getElementById('resign_area')
+  if (tarea && !taikyokuchu) tarea.innerHTML = '手番時に投了出来ます。';
+  /* var btn = document.getElementById('btn_resign')
+  if (btn) btn.style.display = (taikyokuchu) ? 'inline' : 'none'; */
+
+  /* draw_suggest button */
+  // btn = document.getElementById('btn_draw_suggest')
+  // if (btn) btn.style.display = (taikyokuchu) ? 'inline' : 'none';
 }
 
 function checkSfenResponse(sfenstr)
@@ -1299,4 +1316,9 @@ function onresign() {
 
   movecsa = '%TORYO';
   send_csamove(); */
+}
+
+function onsuggestdraw() {
+  myconfirm("引き分けを提案する(OK), しない(Cancel)",
+            CFRM_SUGDRAW, -1, -1);
 }

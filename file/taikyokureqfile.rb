@@ -47,24 +47,26 @@ class TaikyokuReqFile
   #
   # @param line 1行分
   def read_element(line)
-    # comment
-    return if line =~ /^#/
-
     # id, name, comment
-    elem = line.chomp.split(',')
-    id = elem[0]
-    @names[id] = elem[1]
-    @comments[id] = elem[2]
+    (id, name, comment) = line.chomp.split(',')
+    @names[id] = name
+    @comments[id] = comment
+  end
+
+  def read_lines(file)
+    file.each_line do |line|
+      # comment
+      next if line =~ /^#/
+
+      read_element(line)
+    end
   end
 
   # ファイルの読み込み
   def read
     File.open(@fname, 'r:utf-8') do |file|
       file.flock File::LOCK_EX
-
-      file.each_line do |line|
-        read_element(line)
-      end
+      read_lines(file)
     end
   # 例外は小さい単位で捕捉する
   rescue SystemCallError => er

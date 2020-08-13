@@ -13,7 +13,7 @@ class SfenKyokumenTxt
     @sfen = sfen
     @sname = nil
     @gname = nil
-    @lm = nil # '+0000OU__P'
+    @lmv = nil # '+0000OU__P'
     @title = nil
     @piecetype = nil # not upported yet
     @turn = nil
@@ -21,13 +21,16 @@ class SfenKyokumenTxt
     parse
   end
 
+  attr_reader :gname, :gtgm, :lmv, :sfen, :sname,
+              :strban, :stgm, :strtegoma, :strteban, :tesuu, :yg, :ys
+
   # 対局者名の設定
   #
   # @param sname 先手
   # @param gname 後手
-  def setnames(sname, gname)
-    @sname = sname
-    @gname = gname
+  def setnames(names, nameg)
+    @sname = names
+    @gname = nameg
   end
 
   # タイトルの設定
@@ -39,10 +42,10 @@ class SfenKyokumenTxt
 
   # 指し手情報の設定
   #
-  # @param lmv 最後に動かしたマス
+  # @param lamv 最後に動かしたマス
   # @param turn 手番(b/w)or勝利情報(fb/fw)
-  def setmoveinfo(lmv)
-    @lm = lmv
+  def setmoveinfo(lamv)
+    @lmv = lamv
   end
 
   # コマの種類の設定
@@ -58,9 +61,9 @@ class SfenKyokumenTxt
     @strban = ''
     @strtegoma = ''
 
-    return unless @sfen # error
+    return unless sfen # error
 
-    sfenitem = @sfen.split(' ')
+    sfenitem = sfen.split(' ')
     return if sfenitem.length < 4 # error
 
     @strban = sfenitem[0]
@@ -90,19 +93,20 @@ class SfenKyokumenTxt
 
   def komatype
     # var movecsa = '%0000OU__P';
-    komastr = @lm[5, 2]
-    promote = @lm[9, 1]
+    komastr = lmv[5, 2]
+    promote = lmv[9, 1]
     ret = KOMACSA2KANJI[komastr.to_sym]
     return ret + '成' if promote == 'P'
     ret
   end
 
   def sengo
-    if @strteban == 'w'
-      return '下手' unless (@tesuu.to_i % 2).zero?
+    dropped = (tesuu.to_i % 2).zero?
+    if strteban == 'w'
+      return '下手' unless dropped
       '先手'
     else
-      return '上手' if (@tesuu.to_i % 2).zero?
+      return '上手' if dropped
       '後手'
     end
   end
@@ -113,9 +117,9 @@ class SfenKyokumenTxt
 
   # 最終手タグの生成
   def taglastmove
-    return '' unless @lm
+    return '' unless lmv
 
-    x = @lm[3, 2].to_i
+    x = lmv[3, 2].to_i
 
     y = x % 10
     x /= 10
@@ -124,7 +128,7 @@ class SfenKyokumenTxt
 
     strx = '０１２３４５６７８９'[x, 1]
     stry = NUMKANJI[y]
-    "手数＝#{@tesuu.to_i - 1}  #{sengo}#{strx}#{stry}#{komatype}  まで\n"
+    "手数＝#{tesuu.to_i - 1}  #{sengo}#{strx}#{stry}#{komatype}  まで\n"
   end
 
   # 駒のタグの生成
@@ -176,7 +180,7 @@ class SfenKyokumenTxt
   # 駒達のタグの生成
   def tagkomas
     banstr = "  ９ ８ ７ ６ ５ ４ ３ ２ １\n+---------------------------+\n"
-    ban = @strban.split('/')
+    ban = strban.split('/')
 
     ban.each_with_index do |adan, i|
       banstr += tagkomas_dan(adan, i + 1)
@@ -224,7 +228,7 @@ class SfenKyokumenTxt
 
   # 手駒の読み取り
   def readtegoma
-    return unless @strtegoma
+    return unless strtegoma
 
     num = 0
     @stgm = ''
@@ -232,7 +236,7 @@ class SfenKyokumenTxt
     @ys = 0
     @yg = 0
 
-    @strtegoma.each_char do |ch|
+    strtegoma.each_char do |ch|
       case ch
       when /[PLNSGBRplnsgbr]/
         str_tgm(ch, num)
@@ -245,22 +249,22 @@ class SfenKyokumenTxt
 
   # 後手の名前と手駒
   def taggote
-    koma = @gtgm
-    koma = 'なし' if @gtgm.length.zero?
-    "後手：#{@gname}\n後手の持駒：#{koma}\n"
+    koma = gtgm
+    koma = 'なし' if gtgm.length.zero?
+    "後手：#{gname}\n後手の持駒：#{koma}\n"
   end
 
   # 先手の名前と手駒
   def tagsente
-    koma = @stgm
-    koma = 'なし' if @stgm.length.zero?
-    "先手の持駒：#{koma}\n先手：#{@sname}\n"
+    koma = stgm
+    koma = 'なし' if stgm.length.zero?
+    "先手の持駒：#{koma}\n先手：#{sname}\n"
   end
 
   # 将棋内容タグの生成
   def gen
     ret = taggote + tagboardstatus + tagsente + taglastmove + "* #{@title}\n"
-    return ret + "後手番\n" if @strteban == 'w'
+    return ret + "後手番\n" if strteban == 'w'
     ret
   end
 end
