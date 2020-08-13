@@ -11,8 +11,8 @@ class TestGame < BrowserTestAbstract
     super
   end
 
-  attr_reader :driver, :gid, :nm1, :nm2, :eml1, :eml2, \
-              :moves, :special, :resultsfen
+  attr_reader :color, :driver, :gid, :nmsen, :nmgo, :emlsen, :emlgo, \
+              :pwsen, :pwgo, :moves, :special, :resultsfen
 
   def setgame(hash)
     @gid = hash
@@ -26,34 +26,34 @@ class TestGame < BrowserTestAbstract
     @gid = data[:gid]
     return puts "@gid:#{gid} is wrong." unless gid
 
-    # puts "swap?:#{data[:playerb]} != #{@nm1}"
-    data[:playerb] != nm1
+    # puts "swap?:#{data[:playerb]} != #{@nmsen}"
+    data[:playerb] != nmsen
   end
 
   def swap_ply
-    t = nm1
-    @nm1 = nm2
-    @nm2 = t
+    t = nmsen
+    @nmsen = nmgo
+    @nmgo = t
 
-    t = eml1
-    @eml1 = eml2
-    @eml2 = t
+    t = emlsen
+    @emlsen = emlgo
+    @emlgo = t
 
-    t = @pw1
-    @pw1 = @pw2
-    @pw2 = t
+    t = pwsen
+    @pwsen = pwgo
+    @pwgo = t
   end
 
-  def setplayer1(name, eml, pwd)
-    @nm1 = name
-    @eml1 = eml
-    @pw1 = pwd
+  def setplayersen(name, eml, pwd)
+    @nmsen = name
+    @emlsen = eml
+    @pwsen = pwd
   end
 
-  def setplayer2(name, eml, pwd)
-    @nm2 = name
-    @eml2 = eml
-    @pw2 = pwd
+  def setplayergo(name, eml, pwd)
+    @nmgo = name
+    @emlgo = eml
+    @pwgo = pwd
   end
 
   def reshapemoves
@@ -77,11 +77,11 @@ class TestGame < BrowserTestAbstract
   end
 
   def becomesente
-    checklogin(eml1, @pw1)
+    checklogin(emlsen, pwsen)
   end
 
   def becomegote
-    checklogin(eml2, @pw2)
+    checklogin(emlgo, pwgo)
   end
 
   def logout
@@ -128,6 +128,7 @@ class TestGame < BrowserTestAbstract
       || yfrm <= 4 && piece == 'KE'
   end
 
+  # @param prmt nil or true or false
   def promotedlg?(prmt, piece, yfrm)
     return false if prmt.nil?
 
@@ -223,7 +224,7 @@ class TestGame < BrowserTestAbstract
     { from: from, to: to }
   end
 
-  def prcs_sengo(from, to, color)
+  def prcs_sengo(from, to)
     if color.zero?
       becomesente
       { from: from, to: to }
@@ -234,7 +235,7 @@ class TestGame < BrowserTestAbstract
   end
 
   def li_move_a_piece
-    ret = prcs_sengo(@from, @to, @color)
+    ret = prcs_sengo(@from, @to)
 
     gogame
 

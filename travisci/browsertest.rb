@@ -362,12 +362,12 @@ test.finalize(succ) if ARGV.include?('--nogame')
 
 tg = TestGame.new
 tg.fold_begin('game.1', 'game test')
-tg.setplayer1(
+tg.setplayersen(
   BrowserTest::SIGNUPINFOJOHN[:rname],
   BrowserTest::SIGNUPINFOJOHN[:remail],
   BrowserTest::SIGNUPINFOJOHN[:rpassword]
 )
-tg.setplayer2(
+tg.setplayergo(
   'admin',
   BrowserTest::ADMININFO[:email],
   BrowserTest::ADMININFO[:pwd]
@@ -400,12 +400,12 @@ succ += test.showresult
 
 td = TestDraw.new
 td.fold_begin('draw.2', 'draw test')
-td.setplayer1(
+td.setplayersen(
   BrowserTest::SIGNUPINFOJOHN[:rname],
   BrowserTest::SIGNUPINFOJOHN[:remail],
   BrowserTest::SIGNUPINFOJOHN[:rpassword]
 )
-td.setplayer2(
+td.setplayergo(
   'admin',
   BrowserTest::ADMININFO[:email],
   BrowserTest::ADMININFO[:pwd]
