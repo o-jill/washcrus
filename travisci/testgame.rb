@@ -128,7 +128,7 @@ class TestGame < BrowserTestAbstract
       || yfrm <= 4 && piece == 'KE'
   end
 
-  # @param prmt nil or true or false
+  # @param prmt nil:don't care or true:promote or false:no-promote
   def promotedlg?(prmt, piece, yfrm)
     return false if prmt.nil?
 
