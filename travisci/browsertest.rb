@@ -320,8 +320,10 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def runlight
+    puts 'adminaccesslight'
     adminaccesslight
 
+    puts 'newuserjohnlight'
     newuserjohnlight
 
     # テストを終了する（ブラウザを終了させる）
@@ -329,14 +331,19 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def run
+    puts 'simpleaccess'
     simpleaccess
 
+    puts 'adminaccess'
     adminaccess
 
+    puts 'newuserjohn'
     newuserjohn
 
+    puts 'newuserjohn2nd'
     newuserjohn2nd
 
+    puts 'signuperrmsg'
     signuperrmsg
 
     # テストを終了する（ブラウザを終了させる）
