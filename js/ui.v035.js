@@ -1010,7 +1010,7 @@ function activateteban()
 
   /* resign button */
   var tarea = document.getElementById('resign_area')
-  if (tarea && taikyokuchu) tarea.innerHTML = '手番時に投了出来ます。';
+  if (tarea && !taikyokuchu) tarea.innerHTML = '手番時に投了出来ます。';
   /* var btn = document.getElementById('btn_resign')
   if (btn) btn.style.display = (taikyokuchu) ? 'inline' : 'none'; */
 
