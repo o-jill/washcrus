@@ -11,12 +11,12 @@
 <% elsif @mif.playerb.id == @userinfo.user_id %>
 <input type='hidden' id='myteban' value='b'/>
 <span id='tebaninfo'>手番情報</span>
-<input type='image' src='./image/resignbtn.svg' alt='投了(resign)' title='投了(resign)' id='btn_resign' onclick="onresign()"/>&nbsp;
+<span id="resign_area" title="手番時に投了します。"><input type='image' src='./image/resignbtn.svg' alt='投了(resign)' title='投了(resign)' id='btn_resign' onclick="onresign()"/></span>&nbsp;
 <input type='image' src='./image/drawsuggestbtn.svg' alt='引き分け提案(suggest draw)' value='引き分け提案(suggest draw)' id='btn_draw_suggest' onclick='onsuggestdraw()'/>
 <% elsif @mif.playerw.id == @userinfo.user_id %>
 <input type='hidden' id='myteban' value='w'/>
 <span id='tebaninfo'>手番情報</span>
-<input type='image' src='./image/resignbtn.svg' alt='投了(resign)' title='投了(resign)' id='btn_resign' onclick="onresign()"/>&nbsp;
+<span id="resign_area" title="手番時に投了します。"><input type='image' src='./image/resignbtn.svg' alt='投了(resign)' title='投了(resign)' id='btn_resign' onclick="onresign()"/></span>&nbsp;
 <input type='image' src='./image/drawsuggestbtn.svg' alt='引き分け提案(suggest draw)' value='引き分け提案(suggest draw)' id='btn_draw_suggest' onclick='onsuggestdraw()'/>
 <% else %>
 <input type='hidden' id='myteban' value='0'/>

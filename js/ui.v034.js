@@ -1009,8 +1009,10 @@ function activateteban()
   document.getElementById('tebaninfo').innerHTML = strinfo;
 
   /* resign button */
-  var btn = document.getElementById('btn_resign')
-  if (btn) btn.style.display = (taikyokuchu) ? 'inline' : 'none';
+  var tarea = document.getElementById('resign_area')
+  if (tarea) tarea.innerHTML = '手番時に投了出来ます。';
+  /* var btn = document.getElementById('btn_resign')
+  if (btn) btn.style.display = (taikyokuchu) ? 'inline' : 'none'; */
 
   /* draw_suggest button */
   // btn = document.getElementById('btn_draw_suggest')
