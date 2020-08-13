@@ -20,6 +20,8 @@ class UpdateEmailScreen
     @header = header
   end
 
+  attr_reader :newem, :newemagain
+
   # エラー画面の表示
   #
   # @param errmsg エラーメッセージ
@@ -58,10 +60,10 @@ class UpdateEmailScreen
   #
   # @param params パラメータハッシュオブジェクト
   def reademail(params)
-    @newem1 = params['rnewemail'] || ['1']
-    @newem1 = @newem1[0].strip
-    @newem2 = params['rnewemail2'] || ['2']
-    @newem2 = @newem2[0].strip
+    @newem = params['rnewemail'] || ['1']
+    @newem = newem[0].strip
+    @newemagain = params['rnewemail2'] || ['2']
+    @newemagain = newemagain[0].strip
   end
 
   # userdbの更新
@@ -74,7 +76,18 @@ class UpdateEmailScreen
     userdb = UserInfoFile.new
 
     # EmailAddressの再設定
-    userdb.update_email(uid, @newem1)
+    userdb.update_email(uid, newem)
+  end
+
+  def check
+    # 新EmailAddressの確認
+    return '<span class="err">e-mail addresses are not same!</span>' \
+      if newem != newemagain
+    return '<span class="err">the e-mail address is too short!</span>' \
+      if newem.length < 4
+    return '<span class="err">the e-mail address does not have "@"!</span>' \
+      if /.@.+\../ !~ newem
+    ''
   end
 
   # パラメータのチェックと表示メッセージ作成
@@ -83,13 +96,8 @@ class UpdateEmailScreen
   #
   # @return 表示用メッセージ
   def check_and_mkmsg(session, userinfo)
-    # 新EmailAddressの確認
-    return '<span class="err">e-mail addresses are not same!</span>' \
-      if @newem1 != @newem2
-    return '<span class="err">the e-mail address is too short!</span>' \
-      if @newem1.length < 4
-    return '<span class="err">the e-mail address does not have "@"!</span>' \
-      if /.@.+\../ !~ @newem1
+    msg = check
+    return msg unless msg.empty?
 
     uid = userinfo.user_id
 
@@ -97,7 +105,7 @@ class UpdateEmailScreen
     return msg if msg
 
     # sessioneml = userinfo.user_email
-    userinfo.user_email = @newem1
+    userinfo.user_email = newem
     # sessionデータ更新
     userinfo.hashsession.each { |ky, vl| session[ky] = vl }
     session.update

@@ -68,8 +68,7 @@ class SearchResultScreen
   def findtime(tdb, from, to)
     return [] if from.empty? && to.empty?
 
-    res = tdb.findtime(from, to)
-    res.keys
+    tdb.findtime(from, to).keys
   end
 
   # 最終着手日から検索
@@ -98,8 +97,8 @@ class SearchResultScreen
   #
   # @param params 検索条件
   # @return 対局IDのリスト
-  def searchgames(ply1, ply2, tffrom, tfto)
-    searchgames_(ply1[0], ply2[0], tffrom[0], tfto[0])
+  def searchgames(plys, plyg, tffrom, tfto)
+    searchgames_(plys[0], plyg[0], tffrom[0], tfto[0])
   end
 
   # 対局を検索
@@ -124,8 +123,8 @@ class SearchResultScreen
   # 対局情報の出力
   #
   # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, time: , comment:}
-  def print_res(id: 'gid', nameb: 'b', namew: 'w', time: '0 0', **_other)
-    print <<-GAMEINFO.unindent
+  def resultrow(id: 'gid', nameb: 'b', namew: 'w', time: '0 0', **_other)
+    arow = <<-GAMEINFO.unindent
       <tr>
        <td><a href='index.rb?game/#{id}'>
         <img src='image/right_fu.png' alt='#{id}' title='move to this game!'>
@@ -137,22 +136,26 @@ class SearchResultScreen
        </a></td>
       </tr>
     GAMEINFO
+    arow
   end
 
   # 検索結果の出力
   def print_result(res)
-    return print '<p>not found ...</p>' if res.nil? || res.empty?
+    return '<p>not found ...</p>' unless res && res.size.nonzero?
 
-    print <<-RESULT_TABLE.unindent
+    rows = res.map do |game|
+      resultrow(**game)
+    end
+
+    str = <<-RESULT_TABLE.unindent
       <TABLE align='center' border='1'>
       <caption>検索結果</caption>
       <tr><th>ID</th><th>先手</th><th>後手</th>
       <th>着手日時</th><th>棋譜</th></tr>
+      #{rows.join}
+      </TABLE>
     RESULT_TABLE
-    res.each do |game|
-      print_res(**game)
-    end
-    print '</TABLE>'
+    str
   end
 
   # 画面の表示
@@ -168,7 +171,7 @@ class SearchResultScreen
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
-    print_result(res)
+    print print_result(res)
 
     CommonUI.html_foot
   end
