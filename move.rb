@@ -45,7 +45,7 @@ class Move
 
   # logging
   attr_reader :baseurl, :gameid, :jmv, :log, :mif, :move, :plysnm, :plygnm,
-              :sfen
+              :sfen, :userinfo
 
   # paramsから値の読み出し
   def read_cgiparam
@@ -390,7 +390,7 @@ class Move
   end
 
   # 指し手を適用する
-  def applymove
+  def applymove(now)
     @log.debug('Move.apply sfen, jmv')
     # @tkd.move(@jmv, now)
     ret = @tkd.move(sfen, jmv, now)
@@ -416,7 +416,7 @@ class Move
       now = Time.now
 
       # 指し手を適用する
-      ret = applymove
+      ret = applymove(now)
 
       # 違反移動の表示
       return MyHtml.puts_textplain('invalid move.') unless ret
