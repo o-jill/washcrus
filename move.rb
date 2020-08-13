@@ -392,7 +392,7 @@ class Move
   def register_move(status, now)
     @turn = mif.teban
 
-    update_taikyokudata(status)
+    update_taikyokudata(status, now)
 
     TaikyokuFile.new.update_dt_turn(gameid, now, turn)
 
