@@ -365,7 +365,7 @@ class Move
     # @plygnm = mif.playerw.name
   end
 
-  def chkandupdtchu(status)
+  def chkandupdtchu(status, now)
     tcdb = TaikyokuChuFile.new
     tcdb.read
     finish_game(tcdb, now) if status == TaikyokuData::RES_OVER
@@ -373,7 +373,7 @@ class Move
   end
 
   def update_taikyokudata(status, now)
-    tcdb = chkandupdtchu(status)
+    tcdb = chkandupdtchu(status, now)
 
     # @log.debug('Move.updatelastmove')
     tkd.updatelastmove(move, now)
