@@ -346,13 +346,15 @@ class Move
   # 対局情報の読み出しなどといった準備
   def prepare_taikyokudata
     @tkd = TaikyokuData.new
-    @mif = @tkd.mif
     @tkd.log = @log
     @tkd.setid(gameid)
-    @tkd.read
 
-    @plysnm = mif.playerb.name
-    @plygnm = mif.playerw.name
+    @mif = @tkd.mif
+
+    # @tkd.read
+
+    # @plysnm = mif.playerb.name
+    # @plygnm = mif.playerw.name
   end
 
   def chkandupdtchu(status)
@@ -407,11 +409,13 @@ class Move
 
     @log.debug('Move.read data')
 
-    @tkd = TaikyokuData.new
-    @tkd.log = @log
-    @tkd.setid(gameid)
+    prepare_taikyokudata
+
     @tkd.lock do
       @tkd.read
+
+      @plysnm = mif.playerb.name
+      @plygnm = mif.playerw.name
 
       now = Time.now
 
