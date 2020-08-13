@@ -38,14 +38,15 @@ class Move
     # @stg = stg
     load_settings(stg)
     @turn = '?'
+    @finished = false
     @jmv = JsonMove.fromtext(move)
     @log.info("gameid:#{gameid}, sfen:#{sfen}, move:#{move}")
     # @log.debug('Move.initialized')
   end
 
   # logging
-  attr_reader :baseurl, :gameid, :jmv, :log, :mif, :move, :plysnm, :plygnm,
-              :sfen, :tkd, :turn, :userinfo
+  attr_reader :baseurl, :finished, :gameid, :jmv, :log, :mif, :move,
+              :plysnm, :plygnm, :sfen, :tkd, :turn, :userinfo, :usehtml
 
   # paramsから値の読み出し
   def read_cgiparam
@@ -381,7 +382,7 @@ class Move
     # @log.debug('Move.jkf.write')
     tkd.write
 
-    finished = status != TaikyokuData::RES_NEXT
+    @finished = status != TaikyokuData::RES_NEXT
     tcdb.update_dt_turn(gameid, now, turn) unless finished
   end
 
