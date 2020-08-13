@@ -36,18 +36,16 @@ class Move
     @cgi = cgi
     read_cgiparam
     # @stg = stg
-    @baseurl = stg.value['base_url']
-    @usehtml = stg.value['mailformat'] == 'html'
+    load_settings(stg)
     @turn = '?'
-    @log.info("gameid:#{@gameid}")
-    @log.info("sfen:#{@sfen}")
-    @log.info("move:#{@move}")
-    @jmv = JsonMove.fromtext(@move)
-    @log.debug('Move.initialized')
+    @jmv = JsonMove.fromtext(move)
+    @log.info("gameid:#{gameid}, sfen:#{sfen}, move:#{move}")
+    # @log.debug('Move.initialized')
   end
 
   # logging
-  attr_reader :log
+  attr_reader :baseurl, :gameid, :jmv, :log, :mif, :move, :plysnm, :plygnm,
+              :sfen
 
   # paramsから値の読み出し
   def read_cgiparam
@@ -55,6 +53,11 @@ class Move
     @gameid = @cgi.query_string
     @sfen = @params['sfen'][0] if @params['sfen']
     @move = @params['jsonmove'][0] if @params['jsonmove']
+  end
+
+  def load_settings(stg)
+    @baseurl = stg.value['base_url']
+    @usehtml = stg.value['mailformat'] == 'html'
   end
 
   # sessionの取得と情報の読み取り
@@ -71,7 +74,7 @@ class Move
     end
 
     @userinfo = UserInfo.new
-    @userinfo.readsession(@session) if @session
+    userinfo.readsession(@session) if @session
 
     @header = @cgi.header('charset' => 'UTF-8')
     @header = @header.gsub("\r\n", "\n")
@@ -80,25 +83,25 @@ class Move
   # 情報のチェック
   def check_param
     # gameid が無いよ
-    return MyHtml.puts_textplain_illegalaccess unless @gameid
+    return MyHtml.puts_textplain_illegalaccess unless gameid
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
-    return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(@gameid)
+    return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(gameid)
 
     # userinfoが変だよ
-    return MyHtml.puts_textplain_pleaselogin unless @userinfo.exist_indb
+    return MyHtml.puts_textplain_pleaselogin unless userinfo.exist_indb
 
     # moveが変だよ
-    return MyHtml.puts_textplain('invalid move.') unless @jmv
+    return MyHtml.puts_textplain('invalid move.') unless jmv
 
     self
   end
 
   # 対局終了メールのタイトルの生成
   def build_finishedtitle
-    "the game was over. (#{@tkd.mif.to_vs})"
+    "the game was over. (#{mif.to_vs})"
   end
 
   # 対局終了メールの本文の生成
@@ -107,11 +110,11 @@ class Move
   # @param filename 添付ファイル名
   def build_finishedmsg(nowstr, filename)
     msg = <<-MSG_TEXT.unindent
-      #{@tkd.mif.playerb.name}さん、 #{@tkd.mif.playerw.name}さん
+      #{plysnm}さん、 #{plygnm}さん
 
-      対局(#{@gameid})が#{nowstr}に終局しました。
+      対局(#{gameid})が#{nowstr}に終局しました。
 
-      #{@baseurl}index.rb?game/#{@gameid}
+      #{baseurl}index.rb?game/#{gameid}
 
       attached:#{filename}
 
@@ -119,7 +122,7 @@ class Move
 
     msg += build_kyokumenzu
 
-    chat = ChatFile.new(@gameid)
+    chat = ChatFile.new(gameid)
     chat.read
     msg += "---- messages in chat ----\n#{chat.stripped_msg}"
     msg += "---- messages in chat ----\n\n"
@@ -132,11 +135,11 @@ class Move
   # @param nowstr   現在の時刻の文字列
   # @param filename 添付ファイル名
   def build_finishedhtmlmsg(nowstr, filename)
-    url = "#{@baseurl}index.rb?game/#{@gameid}"
+    url = "#{baseurl}index.rb?game/#{gameid}"
     msg = <<-MSG_TEXT.unindent
-      <p>#{@tkd.mif.playerb.name}さん、 #{@tkd.mif.playerw.name}さん
+      <p>#{plysnm}さん、 #{plygnm}さん
 
-      <p>対局(#{@gameid})が#{nowstr}に終局しました。
+      <p>対局(#{gameid})が#{nowstr}に終局しました。
 
       <p><a href=#{url}>#{url}</a>
 
@@ -146,7 +149,7 @@ class Move
 
     MSG_TEXT
 
-    chat = ChatFile.new(@gameid)
+    chat = ChatFile.new(gameid)
     chat.read
     msg += "<p>---- messages in chat ----<p>#{chat.msg}"
     msg += '<p>---- messages in chat ----<p>'
@@ -159,16 +162,16 @@ class Move
   # @return 添付ファイル名
   def build_attachfilename
     # 数字だけの時刻の文字列の生成
-    dt = @tkd.mif.dt_lastmove.delete('/:').sub(' ', '_')
+    dt = mif.dt_lastmove.delete('/:').sub(' ', '_')
 
-    fname = "#{@tkd.mif.playerb.name}_#{@tkd.mif.playerw.name}_#{dt}.kif"
+    fname = "#{plysnm}_#{plygnm}_#{dt}.kif"
 
     fname.gsub(%r{[\\/*:<>?|]},
                '\\' => '￥', '/' => '／', '*' => '＊', ':' => '：',
                '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
   end
 
-  def send_htmlmailex_withfooter(mif, subject, msg, html, kifufile)
+  def send_htmlmailex_withfooter(subject, msg, html, kifufile)
     bemail = mif.playerb.email
     wemail = mif.playerw.email
 
@@ -177,7 +180,7 @@ class Move
     mmgr.send_htmlmailex_withfooter(wemail, subject, msg, html, kifufile)
   end
 
-  def send_mailex_withfooter(mif, subject, msg, kifufile)
+  def send_mailex_withfooter(subject, msg, kifufile)
     bemail = mif.playerb.email
     wemail = mif.playerw.email
 
@@ -194,35 +197,35 @@ class Move
     # dt = build_short_dt
     filename = build_attachfilename
 
-    msg = build_finishedmsg(nowstr, filename)
-    html = build_finishedhtmlmsg(nowstr, filename) if @usehtml
-
     kifufile = {
       filename: filename,
       # filename: @tkd.escape_fnu8(filename),
       content:  @tkd.jkf.to_kif
     }
 
-    # @log.debug("msg:#{msg}")
-    mif = @tkd.mif
-    return send_htmlmailex_withfooter(mif, subject, msg, html, kifufile) \
-      if @usehtml
+    # mif = @tkd.mif
 
-    send_mailex_withfooter(mif, subject, msg, kifufile)
+    msg = build_finishedmsg(nowstr, filename)
+    # @log.debug("msg:#{msg}")
+
+    return send_mailex_withfooter(subject, msg, kifufile) unless usehtml
+
+    html = build_finishedhtmlmsg(nowstr, filename)
+    send_htmlmailex_withfooter(subject, msg, html, kifufile)
   end
 
   def build_kyokumenzu
-    skt = SfenKyokumenTxt.new(@tkd.mif.sfen)
+    skt = SfenKyokumenTxt.new(mif.sfen)
     skt.settitle('タイトル')
-    skt.setmoveinfo(@move)
-    skt.setnames(@tkd.mif.playerb.name, @tkd.mif.playerw.name)
+    skt.setmoveinfo(move)
+    skt.setnames(plysnm, plygnm)
     skt.gen + "\n"
   end
 
   def bulid_svgurl
-    "#{@baseurl}sfenimage.rb?" \
-    "sfen=#{@tkd.mif.sfen.gsub('+', '%2B')}&lm=#{@tkd.mif.lastmove[3, 2]}&" \
-    "sname=#{@tkd.mif.playerb.name}&gname=#{@tkd.mif.playerw.name}"
+    "#{baseurl}sfenimage.rb?" \
+    "sfen=#{mif.sfen.gsub('+', '%2B')}&lm=#{mif.lastmove[3, 2]}&" \
+    "sname=#{mif.playerb.name}&gname=#{mif.playerw.name}"
   end
 
   # 指されましたメールの本文の生成
@@ -233,15 +236,15 @@ class Move
     msg = <<-MSG_TEXT.unindent
       #{name}さん
 
-      #{@userinfo.user_name}さんが#{nowstr}に１手指されました。
+      #{userinfo.user_name}さんが#{nowstr}に１手指されました。
 
-      #{@baseurl}index.rb?game/#{@gameid}
+      #{baseurl}index.rb?game/#{gameid}
 
     MSG_TEXT
 
     msg += build_kyokumenzu
 
-    chat = ChatFile.new(@gameid)
+    chat = ChatFile.new(gameid)
     chat.read
     msg += "---- messages in chat ----\n#{chat.stripped_msg}"
     msg += "---- messages in chat ----\n\n"
@@ -254,18 +257,18 @@ class Move
   # @param name   手番の人の名前
   # @param nowstr   現在の時刻の文字列
   def build_nextturnhtmlmsg(name, nowstr)
-    url = "#{@baseurl}index.rb?game/#{@gameid}"
+    url = "#{baseurl}index.rb?game/#{gameid}"
     msg = <<-MSG_TEXT.unindent
       <p>#{name}さん
 
-      <p>#{@userinfo.user_name}さんが#{nowstr}に１手指されました。
+      <p>#{userinfo.user_name}さんが#{nowstr}に１手指されました。
 
       <p><a href=#{url}>#{url}</a>
 
       <p><img src="#{bulid_svgurl}">
     MSG_TEXT
 
-    chat = ChatFile.new(@gameid)
+    chat = ChatFile.new(gameid)
     chat.read
     msg += "<pre>---- messages in chat ----\n#{chat.stripped_msg}"
     msg += "---- messages in chat ----\n</pre>\n"
@@ -273,24 +276,33 @@ class Move
     msg
   end
 
+  def getopponentinfo
+    opp = mif.getopponent(userinfo.user_id)
+    [opp[:name], opp[:mail]]
+    # opnm = opp[:name]
+    # opem = opp[:mail]
+    # @log.debug("opp:#{opp}")
+  end
+
   # 指されましたメールの生成と送信
   #
   # @param nowstr   現在の時刻の文字列
   def send_mail_next(nowstr)
-    subject = "it's your turn!! (#{@tkd.mif.to_vs})"
+    subject = "it's your turn!! (#{mif.to_vs})"
     # @log.debug("subject:#{subject}")
-    opp = @tkd.mif.getopponent(@userinfo.user_id)
-    # @log.debug("opp:#{opp}")
 
-    msg = build_nextturnmsg(opp[:name], nowstr)
+    (opnm, opem) = getopponentinfo
+
+    msg = build_nextturnmsg(opnm, nowstr)
 
     mmgr = MailManager.new
-    if @usehtml
-      html = build_nextturnhtmlmsg(opp[:name], nowstr)
-      mmgr.send_htmlmail_withfooter(opp[:mail], subject, msg, html)
-    else
-      mmgr.send_mail_withfooter(opp[:mail], subject, msg)
-    end
+
+    return mmgr.send_mail_withfooter(opem, subject, msg) unless usehtml
+
+    mmgr.send_htmlmail_withfooter(
+      opem, subject, msg,
+      build_nextturnhtmlmsg(opnm, nowstr)
+    )
   end
 
   # メールの送信
@@ -316,27 +328,38 @@ class Move
   # @note draw非対応
   def finish_game(tcdb, now)
     # 終了日時の更新とか勝敗の記録とか
-    @log.debug("tkd.finished(now, #{@tkd.mif.teban} == 'b')")
-    if @tkd.mif.turn == 'd'
+    @log.debug("tkd.finished(now, #{mif.teban} == 'b')")
+    if mif.turn == 'd'
       @turn = 'd'
       @tkd.finished(now, nil, @turn)
     else
-      gote_win = (@tkd.mif.teban == 'b')
+      gote_win = (mif.teban == 'b')
       @turn = gote_win ? 'fw' : 'fb'
       @tkd.finished(now, gote_win, @turn)
     end
 
     # 対局中からはずす
-    @log.debug('tcdb.finished(@gameid)')
-    tcdb.finished(@gameid)
+    @log.debug('tcdb.finished(gameid)')
+    tcdb.finished(gameid)
   end
 
   # 対局情報の読み出しなどといった準備
   def prepare_taikyokudata
     @tkd = TaikyokuData.new
+    @mif = @tkd.mif
     @tkd.log = @log
-    @tkd.setid(@gameid)
+    @tkd.setid(gameid)
     @tkd.read
+
+    @plysnm = mif.playerb.name
+    @plygnm = mif.playerw.name
+  end
+
+  def chkandupdtchu(status)
+    tcdb = TaikyokuChuFile.new
+    tcdb.read
+    finish_game(tcdb, now) if status == TaikyokuData::RES_OVER
+    tcdb
   end
 
   # 対局情報の登録更新
@@ -344,29 +367,35 @@ class Move
   # @param status [Integer] 終局したかどうか
   # @param now    [Time]    着手日時オブジェクト
   def register_move(status, now)
-    @turn = @tkd.mif.teban
+    @turn = mif.teban
 
-    tcdb = TaikyokuChuFile.new
-    tcdb.read
-
-    finish_game(tcdb, now) if status == TaikyokuData::RES_OVER
+    tcdb = chkandupdtchu(status)
 
     # @log.debug('Move.updatelastmove')
-    @tkd.updatelastmove(@move, now)
+    @tkd.updatelastmove(move, now)
 
     # @log.debug('Move.mif.write')
     # @log.debug('Move.jkf.write')
     @tkd.write
 
     finished = status != TaikyokuData::RES_NEXT
-    tcdb.update_dt_turn(@gameid, now, @turn) unless finished
+    tcdb.update_dt_turn(gameid, now, @turn) unless finished
 
-    TaikyokuFile.new.update_dt_turn(@gameid, now, @turn)
+    TaikyokuFile.new.update_dt_turn(gameid, now, @turn)
 
     send_mail(finished, now)
 
     # 移動完了の表示
     MyHtml.puts_textplain('Moved.')
+  end
+
+  # 指し手を適用する
+  def applymove
+    @log.debug('Move.apply sfen, jmv')
+    # @tkd.move(@jmv, now)
+    ret = @tkd.move(sfen, jmv, now)
+    @log.debug("@tkd.move() = #{ret}")
+    ret
   end
 
   #
@@ -380,17 +409,14 @@ class Move
 
     @tkd = TaikyokuData.new
     @tkd.log = @log
-    @tkd.setid(@gameid)
+    @tkd.setid(gameid)
     @tkd.lock do
       @tkd.read
 
       now = Time.now
 
       # 指し手を適用する
-      @log.debug('Move.apply sfen, jmv')
-      # @tkd.move(@jmv, now)
-      ret = @tkd.move(@sfen, @jmv, now)
-      @log.debug("@tkd.move() = #{ret}")
+      ret = applymove
 
       # 違反移動の表示
       return MyHtml.puts_textplain('invalid move.') unless ret
