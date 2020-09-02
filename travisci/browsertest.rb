@@ -15,6 +15,7 @@ require 'selenium-webdriver'
 
 require './travisci/browsertestabs.rb'
 require './travisci/testresult.rb'
+require './travisci/testusers.rb'
 require './travisci/testgame.rb'
 require './travisci/testdraw.rb'
 
@@ -94,13 +95,8 @@ class BrowserTest < BrowserTestAbstract
     simplecheckmatch('chat.rb?lounge', /hello on lounge chat!!/)
   end
 
-  ADMININFO = {
-    email: 'admin1@example.com',
-    pwd: 'admin'
-  }.freeze
-
   def adminaccess
-    checklogin(ADMININFO[:email], ADMININFO[:pwd])
+    checklogin(TestUsers::ADMININFO[:email], TestUsers::ADMININFO[:pwd])
 
     simplecheckgroup
 
@@ -126,7 +122,7 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def adminaccesslight
-    checklogin(ADMININFO[:email], ADMININFO[:pwd])
+    checklogin(TestUsers::ADMININFO[:email], TestUsers::ADMININFO[:pwd])
 
     loungecheckfilecancel
     lounge_file('hello john!!')
@@ -137,16 +133,6 @@ class BrowserTest < BrowserTestAbstract
 
     simplecheck 'index.rb?logout'
   end
-
-  SIGNUPINFOJOHN = {
-    rname: 'john doe',
-    remail: 'johndoe@example.com',
-    remail2: 'johndoe@example.com',
-    rpassword: 'john',
-    rpassword2: 'john'
-  }.freeze
-
-  NEWJOHNINFO = { email: 'johndoe1@example.com', pwd: 'doee' }.freeze
 
   def updatepwd_mypage(opwd, npwd1, npwd2)
     simplecheck 'index.rb?mypage'
@@ -164,9 +150,9 @@ class BrowserTest < BrowserTestAbstract
 
   def chkupdatepwd_succ
     updatepwd_mypage(
-      SIGNUPINFOJOHN[:rpassword],
-      NEWJOHNINFO[:pwd],
-      NEWJOHNINFO[:pwd]
+      TestUsers::JOHN[:rpassword],
+      TestUsers::NEWJOHNINFO[:pwd],
+      TestUsers::NEWJOHNINFO[:pwd]
     )
     res.checkmatch(/Your password was updated/)
 
@@ -174,14 +160,14 @@ class BrowserTest < BrowserTestAbstract
 
     simplecheck 'index.rb?logout'
 
-    checklogin(SIGNUPINFOJOHN[:remail], NEWJOHNINFO[:pwd])
+    checklogin(TestUsers::JOHN[:remail], TestUsers::NEWJOHNINFO[:pwd])
   end
 
   def chkupdatepwd_fail
     updatepwd_mypage('doeeee', 'bbbb', 'bbbb')
     res.checkmatch(/old password is not correct!/)
 
-    updatepwd_mypage(NEWJOHNINFO[:pwd], 'jones', 'john')
+    updatepwd_mypage(TestUsers::NEWJOHNINFO[:pwd], 'jones', 'john')
     simpleurlcheck('index.rb?update_password')
     res.checkmatch(/new passwords are not same/)
   end
@@ -204,24 +190,26 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def checkupdateemail_succ
-    updateemail_mypage(NEWJOHNINFO[:email], NEWJOHNINFO[:email])
+    updateemail_mypage(TestUsers::NEWJOHNINFO[:email],
+                       TestUsers::NEWJOHNINFO[:email])
     res.checkmatch(/Your e-mail address was updated/)
 
     matchmailsbjlast(/Updating e-mail address for/)
 
     simplecheck 'index.rb?logout'
 
-    checklogin(NEWJOHNINFO[:email], NEWJOHNINFO[:pwd])
+    checklogin(TestUsers::NEWJOHNINFO[:email], TestUsers::NEWJOHNINFO[:pwd])
   end
 
   def checkupdateemail_fail
-    updateemail_mypage(SIGNUPINFOJOHN[:remail], 'joooooohn@example.com')
+    updateemail_mypage(TestUsers::JOHN[:remail], 'joooooohn@example.com')
     res.checkmatch(/e-mail addresses are not same/)
 
     updateemail_mypage('johndoe1_example.com', 'johndoe1_example.com')
     res.checkmatch(/the e-mail address does not have "@"/)
 
-    updateemail_mypage(ADMININFO[:email], ADMININFO[:email])
+    updateemail_mypage(TestUsers::ADMININFO[:email],
+                       TestUsers::ADMININFO[:email])
     res.checkmatch(/e-mail address is already registered/)
   end
 
@@ -232,11 +220,11 @@ class BrowserTest < BrowserTestAbstract
 
   def restorepwdandmail
     updatepwd_mypage(
-      NEWJOHNINFO[:pwd],
-      SIGNUPINFOJOHN[:rpassword],
-      SIGNUPINFOJOHN[:rpassword]
+      TestUsers::NEWJOHNINFO[:pwd],
+      TestUsers::JOHN[:rpassword],
+      TestUsers::JOHN[:rpassword]
     )
-    updateemail_mypage(SIGNUPINFOJOHN[:remail], SIGNUPINFOJOHN[:remail])
+    updateemail_mypage(TestUsers::JOHN[:remail], TestUsers::JOHN[:remail])
   end
 
   def newuserjohn_loungegame
@@ -257,7 +245,7 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def newuserjohn
-    signupauser(SIGNUPINFOJOHN)
+    signupauser(TestUsers::JOHN)
     res.checkmatch(/Registered successfully/)
 
     matchmailsbjlast(/Welcome to 洗足池!/)
@@ -289,7 +277,7 @@ class BrowserTest < BrowserTestAbstract
 
   # 二重登録できないことの確認
   def newuserjohn2nd
-    signupauser(SIGNUPINFOJOHN)
+    signupauser(TestUsers::JOHN)
     res.checkmatch(/Unfortunately failed/)
   end
 
@@ -370,14 +358,14 @@ test.finalize(succ) if ARGV.include?('--nogame')
 tg = TestGame.new
 tg.fold_begin('game.1', 'game test')
 tg.setplayersen(
-  BrowserTest::SIGNUPINFOJOHN[:rname],
-  BrowserTest::SIGNUPINFOJOHN[:remail],
-  BrowserTest::SIGNUPINFOJOHN[:rpassword]
+  TestUsers::JOHN[:rname],
+  TestUsers::JOHN[:remail],
+  TestUsers::JOHN[:rpassword]
 )
 tg.setplayergo(
   'admin',
-  BrowserTest::ADMININFO[:email],
-  BrowserTest::ADMININFO[:pwd]
+  TestUsers::ADMININFO[:email],
+  TestUsers::ADMININFO[:pwd]
 )
 tg.setgame(test.gameurl)
 KIFULIST = [
@@ -408,14 +396,14 @@ succ += test.showresult
 td = TestDraw.new
 td.fold_begin('draw.2', 'draw test')
 td.setplayersen(
-  BrowserTest::SIGNUPINFOJOHN[:rname],
-  BrowserTest::SIGNUPINFOJOHN[:remail],
-  BrowserTest::SIGNUPINFOJOHN[:rpassword]
+  TestUsers::JOHN[:rname],
+  TestUsers::JOHN[:remail],
+  TestUsers::JOHN[:rpassword]
 )
 td.setplayergo(
   'admin',
-  BrowserTest::ADMININFO[:email],
-  BrowserTest::ADMININFO[:pwd]
+  TestUsers::ADMININFO[:email],
+  TestUsers::ADMININFO[:pwd]
 )
 td.setgame(test.gameurl)
 td.run
