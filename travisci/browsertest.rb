@@ -27,6 +27,8 @@ class BrowserTest < BrowserTestAbstract
 
   attr_reader :gameurl
 
+  # @param this_will_fail true:no submitting because of err.
+  #                       false:submit without error.
   def signupauser(signupinfo, this_will_fail = false)
     simplecheck 'index.rb?signup'
     signupinfo.each do |key, val|
@@ -281,30 +283,37 @@ class BrowserTest < BrowserTestAbstract
     res.checkmatch(/Unfortunately failed/)
   end
 
-  # 登録内容のチェックの確認
-  def signuperrmsg
-    signupauser(
-      {
-        rname: 'doe',
-        remail: 'johndoe1_example.com',
-        remail2: 'nanashi@example.com',
-        rpassword: 'doe',
-        rpassword2: 'john'
-      }, true
-    )
+  def signuperr(user, msgs)
+    signupauser(user, true)
 
     element = driver.find_element(:id, 'errmsg')
     # puts "errmsg:#{element.text}"
     etext = element.text
-    [
-      /name is too short/,
-      /e-mail addresses are not same/,
-      /e-mail address is strange/,
-      /passwords are not same/,
-      /password is too short/
-    ].each do |errmsg|
+    msgs.each do |errmsg|
       res.matchproperty(errmsg, etext)
     end
+    sleep 3
+  end
+
+  def strangeusers
+    signuperr(
+      TestUsers::STRANGEJOHN,
+      [/"name" cannot contain URL/]
+    )
+  end
+
+  # 登録内容のチェックの確認
+  def signuperrmsg
+    signuperr(
+      TestUsers::JOHNMANYMISS,
+      [
+        /name is too short/,
+        /e-mail addresses are not same/,
+        /e-mail address is strange/,
+        /passwords are not same/,
+        /password is too short/
+      ]
+    )
   end
 
   def runlight
@@ -333,6 +342,9 @@ class BrowserTest < BrowserTestAbstract
 
     puts 'signuperrmsg'
     signuperrmsg
+
+    puts 'strangeusers'
+    strangeusers
 
     # テストを終了する（ブラウザを終了させる）
     # driver.quit
