@@ -12,17 +12,25 @@ function countbyte(str)
   return sz;
 }
 
+var NAME_TOO_SHORT = 1;
+var NAME_URL = 2;
+
 function check_name()
 {
   var name = document.getElementById('rname');
   var nameui = document.getElementById('trname').style;
+  var ret = 0;
   if (countbyte(name.value) < 4) {
+    ret = NAME_TOO_SHORT;
+  } else if(/https?:/.test(name.value)) {
+    ret = NAME_URL;
+  }
+  if (ret > 0) {
     nameui.backgroundColor = 'tomato';
-    return false;
   } else {
     nameui.backgroundColor = 'transparent';
-    return true;
   }
+  return ret;
 }
 
 function check_identical(a)
@@ -40,11 +48,10 @@ function check_identical(a)
     em1ui.backgroundColor = 'tomato';
     em2ui.backgroundColor = 'tomato';
     return false;
-  } else {
-    em1ui.backgroundColor = 'transparent';
-    em2ui.backgroundColor = 'transparent';
-    return true;
   }
+  em1ui.backgroundColor = 'transparent';
+  em2ui.backgroundColor = 'transparent';
+  return true;
 }
 
 function check_email_format(a)
@@ -61,11 +68,10 @@ function check_email_format(a)
     /*email1ui.backgroundColor = 'transparent';
     email2ui.backgroundColor = 'transparent';*/
     return true;
-  } else {
-    email1ui.backgroundColor = 'tomato';
-    email2ui.backgroundColor = 'tomato';
-    return false;
   }
+  email1ui.backgroundColor = 'tomato';
+  email2ui.backgroundColor = 'tomato';
+  return false;
 }
 
 function check_password_format(a)
@@ -118,12 +124,16 @@ function check_form()
   var nmismatch = 0;
   var alertmsg = '';
 
-  if (!check_name()) {
+  var ret = check_name();
+  if (ret == NAME_TOO_SHORT) {
     alertmsg += 'name is too short!\n';
+    ++nmismatch;
+  } else if (ret == NAME_URL) {
+    alertmsg += '"name" cannot contain URL!\n';
     ++nmismatch;
   }
 
-  var ret = check_email();
+  ret = check_email();
   if (ret !== '') {
     alertmsg += ret;
     ++nmismatch;
