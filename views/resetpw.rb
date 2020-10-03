@@ -54,7 +54,7 @@ class ResetPasswordScreen
     erbtxt = File.read('./mail/resetpwd.erb', encoding: 'utf-8')
     msg = ERB.new(erbtxt).result(binding)
 
-    msg + "\n"
+    msg += "\n"
 
     stg = Settings.instance
     subject = "Resetting password for #{stg.value['title']}!"
