@@ -5,6 +5,7 @@ require 'bundler/setup'
 
 require 'cgi'
 require 'cgi/session'
+require 'erb'
 require 'logger'
 require 'unindent'
 
@@ -110,16 +111,10 @@ class Move
   # @param nowstr   現在の時刻の文字列
   # @param filename 添付ファイル名
   def build_finishedmsg(nowstr, filename)
-    msg = <<-MSG_TEXT.unindent
-      #{plysnm}さん、 #{plygnm}さん
+    erbtxt = File.read('./mail/finishedmsg.erb', encoding: 'utf-8')
+    msg = ERB.new(erbtxt).result(binding)
 
-      対局(#{gameid})が#{nowstr}に終局しました。
-
-      #{baseurl}index.rb?game/#{gameid}
-
-      attached:#{filename}
-
-    MSG_TEXT
+    msg += "\n"
 
     msg += build_kyokumenzu
 
@@ -137,18 +132,9 @@ class Move
   # @param filename 添付ファイル名
   def build_finishedhtmlmsg(nowstr, filename)
     url = "#{baseurl}index.rb?game/#{gameid}"
-    msg = <<-MSG_TEXT.unindent
-      <p>#{plysnm}さん、 #{plygnm}さん
 
-      <p>対局(#{gameid})が#{nowstr}に終局しました。
-
-      <p><a href=#{url}>#{url}</a>
-
-      <p><img src="#{bulid_svgurl}">
-
-      <p>attached:#{filename}
-
-    MSG_TEXT
+    erbtxt = File.read('./mail/finishedhtml.erb', encoding: 'utf-8')
+    msg = ERB.new(erbtxt).result(binding)
 
     chat = ChatFile.new(gameid)
     chat.read
@@ -234,14 +220,10 @@ class Move
   # @param name   手番の人の名前
   # @param nowstr   現在の時刻の文字列
   def build_nextturnmsg(name, nowstr)
-    msg = <<-MSG_TEXT.unindent
-      #{name}さん
+    erbtxt = File.read('./mail/nextturn.erb', encoding: 'utf-8')
+    msg = ERB.new(erbtxt).result(binding)
 
-      #{userinfo.user_name}さんが#{nowstr}に１手指されました。
-
-      #{baseurl}index.rb?game/#{gameid}
-
-    MSG_TEXT
+    msg += "\n"
 
     msg += build_kyokumenzu
 
@@ -259,15 +241,9 @@ class Move
   # @param nowstr   現在の時刻の文字列
   def build_nextturnhtmlmsg(name, nowstr)
     url = "#{baseurl}index.rb?game/#{gameid}"
-    msg = <<-MSG_TEXT.unindent
-      <p>#{name}さん
 
-      <p>#{userinfo.user_name}さんが#{nowstr}に１手指されました。
-
-      <p><a href=#{url}>#{url}</a>
-
-      <p><img src="#{bulid_svgurl}">
-    MSG_TEXT
+    erbtxt = File.read('./mail/nextturnhtml.erb', encoding: 'utf-8')
+    msg = ERB.new(erbtxt).result(binding)
 
     chat = ChatFile.new(gameid)
     chat.read
