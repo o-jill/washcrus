@@ -19,17 +19,14 @@ function check_name()
 {
   var name = document.getElementById('rname');
   var nameui = document.getElementById('trname').style;
-  var ret = 0;
+  var ret = '';
   if (countbyte(name.value) < 4) {
-    ret = NAME_TOO_SHORT;
+    ret = 'name is too short!\n';
   } else if(/https?:/.test(name.value)) {
-    ret = NAME_URL;
+    ret = '"name" cannot contain URL!\n';
   }
-  if (ret > 0) {
-    nameui.backgroundColor = 'tomato';
-  } else {
-    nameui.backgroundColor = 'transparent';
-  }
+  var color = (ret !== '') ? 'tomato' : 'transparent';
+  nameui.backgroundColor = color;
   return ret;
 }
 
@@ -125,11 +122,8 @@ function check_form()
   var alertmsg = '';
 
   var ret = check_name();
-  if (ret == NAME_TOO_SHORT) {
-    alertmsg += 'name is too short!\n';
-    ++nmismatch;
-  } else if (ret == NAME_URL) {
-    alertmsg += '"name" cannot contain URL!\n';
+  if (ret !== '') {
+    alertmsg += ret;
     ++nmismatch;
   }
 
