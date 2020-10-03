@@ -229,13 +229,7 @@ class GenNewGameScreen
     @log.warn("callstack:#{err.backtrace}")
   end
 
-  # 画面の表示
-  #
-  # @param userinfo ユーザー情報
-  # @param params パラメータハッシュオブジェクト
-  def show(userinfo, params)
-    return put_err_sreen(userinfo) unless generate(userinfo, params)
-
+  def put_html(userinfo)
     # @log.debug('CommonUI.html_head(header)')
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
@@ -244,6 +238,16 @@ class GenNewGameScreen
     put_msg
 
     CommonUI.html_foot
+  end
+
+  # 画面の表示
+  #
+  # @param userinfo ユーザー情報
+  # @param params パラメータハッシュオブジェクト
+  def show(userinfo, params)
+    return put_err_sreen(userinfo) unless generate(userinfo, params)
+
+    put_html(userinfo)
   rescue ScriptError => er
     err2log(er)
   rescue SecurityError => er
