@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'digest/sha2'
+require 'erb'
 require 'mail'
 require 'yaml'
 require 'unindent'
