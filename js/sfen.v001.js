@@ -25,22 +25,34 @@ function sfenkoma_piece(sfk, ch, teban, ndan) {
   return koma;
 }
 
+function sfenkoma_ana_piece(sfk, ch, ndan) {
+  var kind = ch.toUpperCase();
+  var teban = (kind == ch) ? Koma.SENTEBAN : Koma.GOTEBAN;
+  sfk.result.push(sfenkoma_piece(sfk, kind, teban, ndan));
+  sfk.nari = 0;
+  sfk.nsuji -= 1;
+
+  return sfk;
+}
+
+function sfenkoma_ana_blank(sfk, ch, ndan) {
+  var n_aki = +ch;
+  sfk.nari = 0;
+  for (var i = 0; i < n_aki; ++i)
+    sfk.result.push(new Koma());
+  sfk.nsuji -= n_aki;
+  return sfk;
+}
+
 var sfenkoma_analyzer = function(sfk, ch, ndan) {
-  if (/[PLNSGBRKplnsgbrk]/.test(ch)) {
-    var kind = ch.toUpperCase();
-    var teban = (kind == ch) ? Koma.SENTEBAN : Koma.GOTEBAN;
-    sfk.result.push(sfenkoma_piece(sfk, kind, teban, ndan));
-    sfk.nari = 0;
-    sfk.nsuji -= 1;
-  } else if (ch === '+') {
-    sfk.nari = 1;
-  } else if (/[1-9]/.test(ch)) {
-    var n_aki = +ch;
-    sfk.nari = 0;
-    for (var i = 0; i < n_aki; ++i)
-      sfk.result.push(new Koma());
-    sfk.nsuji -= n_aki;
-  }
+  if (/[PLNSGBRKplnsgbrk]/.test(ch))
+    return sfenkoma_ana_piece(sfk, ch, ndan);
+
+  if (/[1-9]/.test(ch))
+    return sfenkoma_ana_blank(sfk, ch);
+
+  if (ch === '+') sfk.nari = 1;
+
   return sfk;
 };
 
