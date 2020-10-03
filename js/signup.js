@@ -12,9 +12,6 @@ function countbyte(str)
   return sz;
 }
 
-var NAME_TOO_SHORT = 1;
-var NAME_URL = 2;
-
 function check_name()
 {
   var name = document.getElementById('rname');
