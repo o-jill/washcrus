@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 require 'rubygems'
+require 'erb'
 require 'mail'
 require 'securerandom'
 require 'unindent'
@@ -50,16 +51,10 @@ class ResetPasswordScreen
   # @param username ユーザー名
   # @param pwd パスワード
   def send_mail_resetpwd(addr, username, pwd)
-    msg = <<-MAIL_MSG.unindent
-      Dear #{username}
+    erbtxt = File.read('./mail/resetpwd.erb', encoding: 'utf-8')
+    msg = ERB.new(erbtxt).result(binding)
 
-      Your password was reset as below.
-
-      User name: #{username}
-      Password: #{pwd}
-      E-mail address: #{addr}
-
-    MAIL_MSG
+    msg + "\n"
 
     stg = Settings.instance
     subject = "Resetting password for #{stg.value['title']}!"

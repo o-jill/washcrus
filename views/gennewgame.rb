@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+require 'erb'
 require 'logger'
 require 'unindent'
 
@@ -123,15 +124,10 @@ class GenNewGameScreen
   # @return 文面
   def mail_msg_newgame(userb, userw, gameid)
     baseurl = @stg.value['base_url']
-    msg = <<-MAIL_MSG.unindent
-      Dear #{userb} and #{userw}
+    erbtxt = File.read('./mail/newgame.erb', encoding: 'utf-8')
+    msg = ERB.new(erbtxt).result(binding)
 
-      a new game is ready for you.
-      please visit a URL bellow to play.
-      #{baseurl}index.rb?game/#{gameid}
-
-    MAIL_MSG
-    msg
+    msg + "\n"
   end
 
   # エラー画面の出力
