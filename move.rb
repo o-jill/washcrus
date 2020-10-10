@@ -111,12 +111,11 @@ class Move
   # @param nowstr   現在の時刻の文字列
   # @param filename 添付ファイル名
   def build_finishedmsg(nowstr, filename)
-    erbtxt = File.read('./mail/finishedmsg.erb', encoding: 'utf-8')
-    msg = ERB.new(erbtxt).result(binding)
+    msg = ERB.new(
+      File.read('./mail/finishedmsg.erb', encoding: 'utf-8')
+    ).result(binding)
 
-    msg += "\n"
-
-    msg += build_kyokumenzu
+    msg += "\n" + build_kyokumenzu
 
     chat = ChatFile.new(gameid)
     chat.read
@@ -133,8 +132,9 @@ class Move
   def build_finishedhtmlmsg(nowstr, filename)
     url = "#{baseurl}index.rb?game/#{gameid}"
 
-    erbtxt = File.read('./mail/finishedhtml.erb', encoding: 'utf-8')
-    msg = ERB.new(erbtxt).result(binding)
+    msg = ERB.new(
+      File.read('./mail/finishedhtml.erb', encoding: 'utf-8')
+    ).result(binding)
 
     chat = ChatFile.new(gameid)
     chat.read
@@ -220,12 +220,11 @@ class Move
   # @param name   手番の人の名前
   # @param nowstr   現在の時刻の文字列
   def build_nextturnmsg(name, nowstr)
-    erbtxt = File.read('./mail/nextturn.erb', encoding: 'utf-8')
-    msg = ERB.new(erbtxt).result(binding)
+    msg = ERB.new(
+      File.read('./mail/nextturn.erb', encoding: 'utf-8')
+    ).result(binding)
 
-    msg += "\n"
-
-    msg += build_kyokumenzu
+    msg += "\n" + build_kyokumenzu
 
     chat = ChatFile.new(gameid)
     chat.read
@@ -242,8 +241,9 @@ class Move
   def build_nextturnhtmlmsg(name, nowstr)
     url = "#{baseurl}index.rb?game/#{gameid}"
 
-    erbtxt = File.read('./mail/nextturnhtml.erb', encoding: 'utf-8')
-    msg = ERB.new(erbtxt).result(binding)
+    msg = ERB.new(
+      File.read('./mail/nextturnhtml.erb', encoding: 'utf-8')
+    ).result(binding)
 
     chat = ChatFile.new(gameid)
     chat.read

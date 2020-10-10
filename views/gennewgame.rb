@@ -124,10 +124,10 @@ class GenNewGameScreen
   # @return 文面
   def mail_msg_newgame(userb, userw, gameid)
     baseurl = @stg.value['base_url']
-    erbtxt = File.read('./mail/newgame.erb', encoding: 'utf-8')
-    msg = ERB.new(erbtxt).result(binding)
 
-    msg + "\n"
+    ERB.new(
+      File.read('./mail/newgame.erb', encoding: 'utf-8')
+    ).result(binding) + "\n"
   end
 
   # エラー画面の出力

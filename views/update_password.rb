@@ -41,10 +41,9 @@ class UpdatePasswordScreen
     addr = userinfo.user_email
     username = userinfo.user_name
 
-    erbtxt = File.read('./mail/updatepassword.erb', encoding: 'utf-8')
-    msg = ERB.new(erbtxt).result(binding)
-
-    msg += "\n"
+    msg = ERB.new(
+      File.read('./mail/updatepassword.erb', encoding: 'utf-8')
+    ).result(binding) + "\n"
 
     stg = Settings.instance
     subject = "Updating password for #{stg.value['title']}!"
