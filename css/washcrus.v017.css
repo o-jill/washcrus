@@ -54,12 +54,24 @@ table.gotegoma tr td {
   height: 3em;
   width: 3em;
 }
-.tegoma_num { font-size: 1.5rem; }
-/*.ban_masu {
-  height: 3em;
-  width: 3em;
+.tegoma_koma img {
+  vertical-align: top;
+  mergin: 0;
+  padding: 1px;
 }
-.ban_dan_row {
+.tegoma_num { font-size: 1.5rem; }
+.ban_masu {
+  text-align: center;
+  vertical-align: middle;
+  /*height: 3em;
+  width: 3em;*/
+}
+.ban_masu img {
+  vertical-align: top;
+  mergin: 0;
+  padding: 1px;
+}
+/*.ban_dan_row {
   height: 3em;
 }*/
 .ban_dan_num {
