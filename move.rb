@@ -420,6 +420,11 @@ class Move
   end
 end
 
+def errtrace(err, move)
+  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
+                "stack=[#{er.backtrace.join("\n")}] in move")
+end
+
 # -----------------------------------
 #   main
 #
@@ -430,15 +435,12 @@ begin
   move = Move.new(cgi, stg)
   move.readuserparam
   move.perform
-rescue ScriptError => er
-  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
-                "stack=[#{er.backtrace.join("\n")}] in move")
-rescue SecurityError => er
-  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
-                "stack=[#{er.backtrace.join("\n")}] in move")
-rescue StandardError => er
-  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
-                "stack=[#{er.backtrace.join("\n")}] in move")
+rescue ScriptError => err
+  errtrace(err)
+rescue SecurityError => err
+  errtrace(err)
+rescue StandardError => err
+  errtrace(err)
 end
 # -----------------------------------
 #   testing
