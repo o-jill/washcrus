@@ -119,10 +119,12 @@ class Move
 
     chat = ChatFile.new(gameid)
     chat.read
-    msg += "---- messages in chat ----\n#{chat.stripped_msg}"
-    msg += "---- messages in chat ----\n\n"
+    msg + msginchat(chat.stripped_msg)
+  end
 
-    msg
+  def msginchat(msg, tag = '', taglast = '')
+    "#{tag}---- messages in chat ----\n#{tag}#{msg}" \
+    "#{tag}---- messages in chat ----\n#{taglast}\n"
   end
 
   # 対局終了メールの本文の生成
@@ -138,10 +140,7 @@ class Move
 
     chat = ChatFile.new(gameid)
     chat.read
-    msg += "<p>---- messages in chat ----<p>#{chat.msg}"
-    msg += '<p>---- messages in chat ----<p>'
-
-    msg
+    msg + msginchat(chat.msg, '<p>')
   end
 
   # 添付ファイル名の生成
@@ -228,10 +227,7 @@ class Move
 
     chat = ChatFile.new(gameid)
     chat.read
-    msg += "---- messages in chat ----\n#{chat.stripped_msg}"
-    msg += "---- messages in chat ----\n\n"
-
-    msg
+    msg + msginchat(chat.stripped_msg)
   end
 
   # 指されましたメールの本文の生成
@@ -247,10 +243,7 @@ class Move
 
     chat = ChatFile.new(gameid)
     chat.read
-    msg += "<pre>---- messages in chat ----\n#{chat.stripped_msg}"
-    msg += "---- messages in chat ----\n</pre>\n"
-
-    msg
+    msg + "<pre>\n" + msginchat(chat.stripped_msg, '', '</pre>')
   end
 
   def getopponentinfo
