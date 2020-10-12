@@ -11,16 +11,13 @@ function Kifu(md) {
   this.mode = md || Kifu.Org;
   /** 初手からの棋譜 */
   this.kifuText = '';
-  /** 直前の手の情報 */
-  this.lastTe = {};
-  /** 直前の手の棋譜 */
-  this.lastTe.str = '';
-  /** 直前の手の棋譜 短め */
-  this.lastTe.strs = '';
-  /** 直前の手の座標 */
-  this.lastTe.x = 10;
-  /** 直前の手の座標 */
-  this.lastTe.y = 10;
+  /**
+   * 直前の手の情報
+   * str: 直前の手の棋譜
+   * strs: 直前の手の棋譜 短め
+   * x:,y: 直前の手の座標
+   */
+  this.lastTe = { str: '', strs: '', x: 10, y: 10 };
   /** 今何手目か */
   this.NTeme = 0;
   /** 直前に取った駒のID */
@@ -917,10 +914,9 @@ function KyokumenKIF() {
 
   kyokumen += '\n  ９ ８ ７ ６ ５ ４ ３ ２ １\n+---------------------------+\n';
   for (var i = 0; i < 9; ++i) {
-    var koma;
     kyokumen += '|';
     for (var j = 8; j >= 0; --j) {
-      koma = ban[j][i].koma;
+      var koma = ban[j][i].koma;
       kyokumen += koma.getShortStrKIF();
     }
     kyokumen += '|' + Koma.KanjiNum[i] + '\n';
