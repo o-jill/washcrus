@@ -40,7 +40,7 @@ class AdminUserStgUpdateScreen
 
     msg = ERB.new(
       File.read('./mail/adminuserupdate.erb', encoding: 'utf-8')
-    ).result(binding) + "\n"
+    ).result(binding)
 
     stg = Settings.instance
     subject = "Updating account information for #{stg.value['title']}!"

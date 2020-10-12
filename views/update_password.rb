@@ -43,7 +43,7 @@ class UpdatePasswordScreen
 
     msg = ERB.new(
       File.read('./mail/updatepassword.erb', encoding: 'utf-8')
-    ).result(binding) + "\n"
+    ).result(binding)
 
     stg = Settings.instance
     subject = "Updating password for #{stg.value['title']}!"

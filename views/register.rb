@@ -107,7 +107,7 @@ class RegisterScreen
   def send_mail_register(addr, username, pwd)
     msg = ERB.new(
       File.read('./mail/register.erb', encoding: 'utf-8')
-    ).result(binding) + "\n"
+    ).result(binding)
 
     stg = Settings.instance
     subject = "Welcome to #{stg.value['title']}!"

@@ -127,7 +127,7 @@ class GenNewGameScreen
 
     ERB.new(
       File.read('./mail/newgame.erb', encoding: 'utf-8')
-    ).result(binding) + "\n"
+    ).result(binding)
   end
 
   # エラー画面の出力

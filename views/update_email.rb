@@ -41,7 +41,7 @@ class UpdateEmailScreen
 
     msg = ERB.new(
       File.read('./mail/updateemail.erb', encoding: 'utf-8')
-    ).result(binding) + "\n"
+    ).result(binding)
 
     stg = Settings.instance
     subject = "Updating e-mail address for #{stg.value['title']}!"

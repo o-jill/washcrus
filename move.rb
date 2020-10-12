@@ -115,7 +115,7 @@ class Move
       File.read('./mail/finishedmsg.erb', encoding: 'utf-8')
     ).result(binding)
 
-    msg += "\n" + build_kyokumenzu
+    msg += build_kyokumenzu
 
     chat = ChatFile.new(gameid)
     chat.read
@@ -224,7 +224,7 @@ class Move
       File.read('./mail/nextturn.erb', encoding: 'utf-8')
     ).result(binding)
 
-    msg += "\n" + build_kyokumenzu
+    msg += build_kyokumenzu
 
     chat = ChatFile.new(gameid)
     chat.read
