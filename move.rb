@@ -421,8 +421,8 @@ class Move
 end
 
 def errtrace(err, move)
-  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
-                "stack=[#{er.backtrace.join("\n")}] in move")
+  move.log.warn("class=[#{err.class}] message=[#{err.message}] " \
+                "stack=[#{err.backtrace.join("\n")}] in move")
 end
 
 # -----------------------------------
