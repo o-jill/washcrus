@@ -137,15 +137,13 @@ Kifu.prototype.genKifu = function(koma, fromxy, toxy, nari) {
   if (this.mode === Kifu.CSA) {
     this.lastTe.str = koma.kifuCSA(fromxy.x, fromxy.y, toxy.x, toxy.y);
   } else if (this.mode === Kifu.KIF) {
-    this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
-    this.lastTe.str += ' ';
+    this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ') + ' ';
     this.lastTe.strs =
       koma.kifuKIF(fromxy, toxy, {x: this.lastTe.x, y: this.lastTe.y}, nari);
     this.lastTe.str += this.lastTe.strs;
     this.lastTe.str += '   ( 0:00/00:00:00)';
   } else if (this.mode === Kifu.Org) {
-    this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ');
-    this.lastTe.str += ' ';
+    this.lastTe.str = this.toStringPadding(this.NTeme, 4, ' ') + ' ';
     this.lastTe.strs =
       koma.kifuKIFU(fromxy, toxy, {x: this.lastTe.x, y: this.lastTe.y}, nari);
     this.lastTe.str += this.lastTe.strs;
@@ -602,11 +600,9 @@ var mykifu = new Kifu(Kifu.Org);
 function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
   var str = (koma.teban === Koma.SENTEBAN) ? Koma.SenteStrCSA : Koma.GoteStrCSA;
 
-  str += fromxy.x + 1;
-  str += fromxy.y + 1;
+  str += ('' + (fromxy.x + 1)) + (fromxy.y + 1);
 
-  str += toxy.x + 1;
-  str += toxy.y + 1;
+  str += ('' + (toxy.x + 1)) + (toxy.y + 1);
 
   if (nari === Koma.NARI || koma.nari !== Koma.NARI) {
     str += koma.strtypeCSA;
@@ -737,11 +733,8 @@ function uchi(tegoma, koma, toxy) {
 
   movecsa += (k.teban === Koma.SENTEBAN) ? Koma.SenteStrCSA : Koma.GoteStrCSA;
 
-  movecsa += '00';
-  movecsa += toxy.x + 1;
-  movecsa += toxy.y + 1;
-  movecsa += k.strtypeCSA;
-  movecsa += '__';
+  movecsa += ('00' + (toxy.x + 1)) + (toxy.y + 1);
+  movecsa += k.strtypeCSA + '__';
 }
 
 /**
@@ -765,11 +758,8 @@ function uchi2(tegoma, koma_id, toxy) {
 
   movecsa += (k.teban === Koma.SENTEBAN) ? k.SenteStrCSA : k.GoteStrCSA;
 
-  movecsa += '00';
-  movecsa += toxy.x + 1;
-  movecsa += toxy.y + 1;
-  movecsa += k.strtypeCSA;
-  movecsa += '__';
+  movecsa += ('00' + (toxy.x + 1)) + (toxy.y + 1);
+  movecsa += k.strtypeCSA + '__';
 }
 
 /**
