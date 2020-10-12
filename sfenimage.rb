@@ -75,18 +75,50 @@ end
 #   main
 #
 
+def kaigyo(str, y, height)
+  str.split("\n").map.with_index do |elem, i|
+    "<text x='0' y='#{y + i * height}'>#{elem}</text>\n"
+  end
+end
+
+def errtrace(err)
+  errtype =  err.to_s.gsub(
+    /[<>&]/,
+    '&' => '&amp;', '<' => '&lt;', '>' => '&gt;'
+  )
+  errtype = kaigyo("ERROR:\n#{errtype}", 10, 11).join('')
+  bktrace = err.backtrace.join("\n").gsub(
+    /[<>&]/,
+    '&' => '&amp;', '<' => '&lt;', '>' => '&gt;'
+  )
+  bktrace = kaigyo("STACK:\n#{bktrace}", 40, 11).join('')
+  puts "Content-type:image/svg+xml\n\n" \
+    "<?xml version='1.0'?>\n" \
+    "<svg width='300' height='100' viewBox='0 0 300 100' version='1.1' " \
+    "xmlns='http://www.w3.org/2000/svg' >\n" \
+    "<style>\n/* <![CDATA[ */\ntext {font-size: 10px;}\n/* ]]> */\n</style>\n" \
+    "<g>\n#{errtype}#{bktrace}</g>\n" \
+    "</svg>\n"
+end
+
+# syntax errors are impossible to be catch.
 begin
   cgi = CGI.new
   sfenimg = SfenImage.new(cgi)
   sfenimg.perform
+rescue ScriptError => err
+  errtrace(err)
+rescue SecurityError => err
+  errtrace(err)
 rescue StandardError => err
-  puts "Content-Type: text/html; charset=UTF-8\n\n"
-  puts <<-ERRMSG.unindent
-    <html><title>ERROR SfenImage</title><body><pre>
-    ERROR:#{err}
-    STACK:#{err.backtrace.join("\n")}
-    </pre></body></html>
-  ERRMSG
+  # puts "Content-Type: text/html; charset=UTF-8\n\n"
+  # puts <<-ERRMSG.unindent
+  #   <html><title>ERROR SfenImage</title><body><pre>
+  #   ERROR:#{err}
+  #   STACK:#{err.backtrace.join("\n")}
+  #   </pre></body></html>
+  # ERRMSG
+  errtrace(err)
 end
 
 # -----------------------------------
