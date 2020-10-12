@@ -19,7 +19,8 @@ div.err{ border: 1px solid red; font-size: 2rem; }
   width:100%;
 }
 .block_elem_ban {
-  border: 1px solid red;
+  border: 1px solid #FC6;
+  /* background-color: #FFEFD5; */
   flex: 2;
   vertical-align: top;
 }
@@ -97,7 +98,8 @@ textarea.kifu {
   width:100%;
 }
 .block_elem_kifu {
-  border: 1px solid red;
+  border: 1px solid #FC6;
+  /* background-color: #FFEFD5; */
   flex: 1;
   vertical-align: top;
   word-wrap: break-word;
