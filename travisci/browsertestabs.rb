@@ -62,6 +62,28 @@ class BrowserTestAbstract
     simplecheckmatch('getsfen.rb', /illegal access/)
   end
 
+  # adminerrorになることの確認
+  def adminerrcheck(pageurl)
+    driver.navigate.to BASE_URL + pageurl
+    res.checktitlenot('WashCrus')
+    res.checkplaintext('ERR_NOT_ADMIN')
+  end
+
+  # @param this_will_fail true:no submitting because of err.
+  #                       false:submit without error.
+  def signupauser(signupinfo, this_will_fail = false)
+    simplecheck 'index.rb?signup'
+    signupinfo.each do |key, val|
+      # puts "#{key.to_s} => #{val}"
+      element = driver.find_element(:name, key.to_s)
+      element.send_keys(val)
+    end
+    clickbtn(:xpath, "//input[@value='Submit']")
+    return if this_will_fail
+    sleep 1
+    simpleurlcheck('index.rb?register')
+  end
+
   # ボタンをクリック
   def clickbtn(key, val)
     elem = driver.find_element(key, val)

@@ -16,8 +16,8 @@ require 'selenium-webdriver'
 require './travisci/browsertestabs.rb'
 require './travisci/testresult.rb'
 require './travisci/testusers.rb'
-require './travisci/testgame.rb'
-require './travisci/testdraw.rb'
+# require './travisci/testgame.rb'
+# require './travisci/testdraw.rb'
 
 # test pages on a browser
 class BrowserTest < BrowserTestAbstract
@@ -27,27 +27,20 @@ class BrowserTest < BrowserTestAbstract
 
   attr_reader :gameurl
 
-  # @param this_will_fail true:no submitting because of err.
-  #                       false:submit without error.
-  def signupauser(signupinfo, this_will_fail = false)
-    simplecheck 'index.rb?signup'
-    signupinfo.each do |key, val|
-      # puts "#{key.to_s} => #{val}"
-      element = driver.find_element(:name, key.to_s)
-      element.send_keys(val)
-    end
-    clickbtn(:xpath, "//input[@value='Submit']")
-    return if this_will_fail
-    sleep 1
-    simpleurlcheck('index.rb?register')
-  end
-
-  # adminerrorになることの確認
-  def adminerrcheck(pageurl)
-    driver.navigate.to BASE_URL + pageurl
-    res.checktitlenot('WashCrus')
-    res.checkplaintext('ERR_NOT_ADMIN')
-  end
+  # # @param this_will_fail true:no submitting because of err.
+  # #                       false:submit without error.
+  # def signupauser(signupinfo, this_will_fail = false)
+  #   simplecheck 'index.rb?signup'
+  #   signupinfo.each do |key, val|
+  #     # puts "#{key.to_s} => #{val}"
+  #     element = driver.find_element(:name, key.to_s)
+  #     element.send_keys(val)
+  #   end
+  #   clickbtn(:xpath, "//input[@value='Submit']")
+  #   return if this_will_fail
+  #   sleep 1
+  #   simpleurlcheck('index.rb?register')
+  # end
 
   # adminerrorになることの確認
   def adminerrorcheckgroup
@@ -356,88 +349,3 @@ class BrowserTest < BrowserTestAbstract
     exit(ret)
   end
 end
-
-# main
-
-test = BrowserTest.new
-test.fold_begin('pages.1', 'pages tests')
-ARGV.include?('--quick') ? test.runlight : test.run
-test.fold_end('pages.1')
-succ = test.showresult
-
-test.finalize(succ) if ARGV.include?('--nogame')
-
-tg = TestGame.new
-tg.fold_begin('game.1', 'game test')
-tg.setplayersen(
-  TestUsers::JOHN[:rname],
-  TestUsers::JOHN[:remail],
-  TestUsers::JOHN[:rpassword]
-)
-tg.setplayergo(
-  'admin',
-  TestUsers::ADMININFO[:email],
-  TestUsers::ADMININFO[:pwd]
-)
-tg.setgame(test.gameurl)
-KIFULIST = [
-  'travisci/testmove.jkf', # N0
-  'travisci/fuji_system.jkf',
-  'travisci/fuji_debut.jkf',
-  'travisci/koyan_tadao.jkf',
-  'travisci/sennichite.jkf',
-  'travisci/kingtaking.jkf' # N5
-].freeze
-kifindexarr = ARGV.grep(/-N\d+/)
-kifindex = kifindexarr.size.zero? ? -1 : kifindexarr[0].slice(2, 10).to_i
-jkfpath = kifindex < 0 ? KIFULIST.sample : KIFULIST[kifindex]
-puts "#{jkfpath}, #{ARGV} #{kifindexarr} #{kifindex}"
-tg.read(jkfpath)
-tg.run
-tg.fold_end('game.1')
-succ += tg.showresult
-
-test.finalize(succ) if ARGV.include?('--quick')
-
-# test = BrowserTest.new
-test.fold_begin('draw.1', 'draw test')
-test.runlight
-test.fold_end('draw.1')
-succ += test.showresult
-
-td = TestDraw.new
-td.fold_begin('draw.2', 'draw test')
-td.setplayersen(
-  TestUsers::JOHN[:rname],
-  TestUsers::JOHN[:remail],
-  TestUsers::JOHN[:rpassword]
-)
-td.setplayergo(
-  'admin',
-  TestUsers::ADMININFO[:email],
-  TestUsers::ADMININFO[:pwd]
-)
-td.setgame(test.gameurl)
-td.run
-td.fold_end('draw.2')
-succ += tg.showresult
-
-test.finalize(succ)
-
-# memo
-
-# Googleにアクセス
-# driver.navigate.to "http://google.com"
-# driver.navigate.to "http://localhost/"
-
-# `q`というnameを持つ要素を取得
-# element = driver.find_element(:name, 'q')
-
-# `Hello WebDriver!`という文字を、上記で取得したinput要素に入力
-# element.send_keys "Hello WebDriver!"
-
-# submitを実行する（つまり検索する）
-# element.submit
-
-# 表示されたページのタイトルをコンソールに出力
-# puts driver.title

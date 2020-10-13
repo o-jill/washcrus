@@ -46,7 +46,7 @@ else
   echo "normal . . ."
   # which ruby
   # ruby -v
-  ruby travisci/browsertest.rb
+  ruby travisci/browsertestmain.rb
   ret=$?
   if [ ${ret} -ne 0 ]; then
     cat ./log/newgamegenlog.txt
