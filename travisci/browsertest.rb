@@ -1,16 +1,5 @@
 # for testing on a browser.
 
-# usage:
-#    ruby travisci/browsertest.rb <options>
-# --quick :  test only around playing.
-# --nogame : dont play at all.
-# -N0 :      testmove.jkf will be used.
-# -N1 :      fuji_system.jkf will be used.
-# -N2 :      fuji_debut.jkf will be used.
-# -N3 :      koyan_tadao.jkf will be used.
-# -N4 :      sennichite.jkf will be used.
-# -N5 :      kingtaking.jkf will be used.
-
 require 'selenium-webdriver'
 
 require './travisci/browsertestabs.rb'
