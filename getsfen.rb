@@ -19,14 +19,23 @@ class GetSfen
   # 初期化
   #
   # @param cgi CGIオブジェクト
-  def initialize(cgi)
+  def initialize(cgi, logger)
+    @log = logger # @log = Logger.new('./log/getsfen.txt')
+    @log.debug('initialize(cgi)')
     @cgi = cgi
+    @log.debug('@cgi = cgi')
     @params = cgi.params
+    @log.debug("@params = cgi.params#{@params}")
     @gameid = cgi.query_string
+    @log.debug("@gameid = cgi.query_string#{@gameid}")
   end
+
+  attr_accessor :log
+  # attr_reader :log
 
   # sessionの取得と情報の読み取り
   def readuserparam
+    @log.debug('readuserparam')
     begin
       @session = CGI::Session.new(@cgi,
                                   'new_session' => false,
@@ -42,9 +51,12 @@ class GetSfen
 
   # 情報のチェック
   def check_param
+    @log.debug('check_param')
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess \
         unless @gameid && !@gameid.empty?
+
+    @log.debug('check_param userinfo')
 
     # userinfoが変だよ
     return MyHtml.puts_textplain_pleaselogin unless @userinfo.exist_indb
@@ -60,11 +72,14 @@ class GetSfen
     # userinfoが変だよ
     return unless check_param
 
+    @log.debug("tcdb.exist_id(#{@gameid})")
+
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
     return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(@gameid)
 
+    @log.debug("tkd.setid(#{@gameid})")
     tkd = TaikyokuData.new
     tkd.setid(@gameid)
     tkd.read
@@ -77,12 +92,17 @@ end
 #   main
 #
 
-cgi = CGI.new
+log = Logger.new('./log/getsfen.txt', Logger::Severity::INFO)
 begin
-  getsfen = GetSfen.new(cgi)
+  cgi = CGI.new
+  getsfen = GetSfen.new(cgi, log)
   getsfen.readuserparam
   getsfen.perform
+rescue StandardError => err
+  log.error("class=[#{err.class}] message=[#{err.message}] " \
+       "stack=[#{err.backtrace.join("\n")}] in move")
 end
+
 # -----------------------------------
 #   testing
 #
