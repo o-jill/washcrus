@@ -92,7 +92,7 @@ end
 #   main
 #
 
-log = Logger.new('./log/getsfen.txt', Logger::Severity::INFO)
+log = Logger.new(PathList::GETSFENLOG, Logger::Severity::INFO)
 begin
   cgi = CGI.new
   getsfen = GetSfen.new(cgi, log)
