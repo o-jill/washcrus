@@ -18,7 +18,7 @@ require './travisci/browsertest.rb'
 # require './travisci/testresult.rb'
 # require './travisci/testusers.rb'
 require './travisci/testgame.rb'
-# require './travisci/testdraw.rb'
+require './travisci/testdraw.rb'
 
 # main
 
