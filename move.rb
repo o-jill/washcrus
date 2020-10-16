@@ -183,11 +183,8 @@ class Move
     # dt = build_short_dt
     filename = build_attachfilename
 
-    kifufile = {
-      filename: filename,
-      # filename: tkd.escape_fnu8(filename),
-      content:  tkd.jkf.to_kif
-    }
+    # filename: tkd.escape_fnu8(filename),
+    kifufile = { filename: filename, content: tkd.jkf.to_kif }
 
     # mif = tkd.mif
 
@@ -283,11 +280,7 @@ class Move
     @log.debug('Move.sendmail')
     tkd.read # これいるの？
     nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
-    if finished
-      send_mail_finished(nowstr)
-    else
-      send_mail_next(nowstr)
-    end
+    finished ? send_mail_finished(nowstr) : send_mail_next(nowstr)
   end
 
   def finish_draw(now)
@@ -310,11 +303,7 @@ class Move
   def finish_game(tcdb, now)
     # 終了日時の更新とか勝敗の記録とか
     @log.debug("tkd.finished(now, #{mif.teban} == 'b')")
-    if mif.turn == 'd'
-      finish_draw(now)
-    else
-      finish_normal(now)
-    end
+    mif.turn == 'd' ? finish_draw(now) : finish_normal(now)
 
     # 対局中からはずす
     @log.debug('tcdb.finished(gameid)')
