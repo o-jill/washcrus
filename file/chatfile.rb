@@ -25,11 +25,7 @@ class ChatFile
       file.flock File::LOCK_EX
       @msg = file.read
     end
-  # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in read"
-  rescue IOError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in read"
+    self
   end
 
   # ファイルの書き出し

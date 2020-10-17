@@ -117,8 +117,7 @@ class Move
 
     msg += build_kyokumenzu
 
-    chat = ChatFile.new(gameid)
-    chat.read
+    chat = ChatFile.new(gameid).read
     msg + msginchat(chat.stripped_msg)
   end
 
@@ -138,8 +137,7 @@ class Move
       File.read('./mail/finishedhtml.erb', encoding: 'utf-8')
     ).result(binding)
 
-    chat = ChatFile.new(gameid)
-    chat.read
+    chat = ChatFile.new(gameid).read
     msg + msginchat(chat.msg, '<p>')
   end
 
@@ -222,8 +220,7 @@ class Move
 
     msg += build_kyokumenzu
 
-    chat = ChatFile.new(gameid)
-    chat.read
+    chat = ChatFile.new(gameid).read
     msg + msginchat(chat.stripped_msg)
   end
 
@@ -238,8 +235,7 @@ class Move
       File.read('./mail/nextturnhtml.erb', encoding: 'utf-8')
     ).result(binding)
 
-    chat = ChatFile.new(gameid)
-    chat.read
+    chat = ChatFile.new(gameid).read
     msg + "<pre>\n" + msginchat(chat.stripped_msg, '', '</pre>')
   end
 
@@ -418,9 +414,9 @@ end
 #   main
 #
 
-cgi = CGI.new
-stg = Settings.instance
 begin
+  cgi = CGI.new
+  stg = Settings.instance
   move = Move.new(cgi, stg)
   move.readuserparam
   move.perform
