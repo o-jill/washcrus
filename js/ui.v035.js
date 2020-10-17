@@ -1069,8 +1069,10 @@ function checkLatestMoveTmout()
   // tsushinchu = true;
   // activatefogscreen();
   ajax.open('POST', 'getsfen.rb?' + gid, true);
-  ajax.overrideMimeType('text/plain; charset=UTF-8');
-  ajax.send('');
+  ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  // ajax.send('');  // gets error with webrick
+  ajax.send('dum=my');
+
   ajax.onreadystatechange = function() {
     // tsushinchu = false;
     // var msg = document.getElementById('msg_fogscreen');
