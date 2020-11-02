@@ -177,9 +177,9 @@ class MyPageScreen
   #
   # @param winlose WinsLosesオブジェクト
   # @param uid ユーザー情報
-  def put_mypage_stat(winlose, uid)
+  def put_mypage_stat(winlose, uid, name)
     puts '<div class="myarticle" id="mypage_stat">'
-    winlose.put
+    winlose.put(name)
     puts '<HR>'
     put_taikyokuchu(uid)
     puts '</div>'
@@ -279,9 +279,10 @@ class MyPageScreen
     put_navi
 
     uid = userinfo.user_id
+    name = userinfo.user_name
     wl = get_mystats(uid)
 
-    put_mypage_stat(wl, uid)
+    put_mypage_stat(wl, uid, name)
 
     put_taikyokurireki(uid)
 
