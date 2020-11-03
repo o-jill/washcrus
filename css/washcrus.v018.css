@@ -19,7 +19,8 @@ div.err{ border: 1px solid red; font-size: 2rem; }
   width:100%;
 }
 .block_elem_ban {
-  border: 1px solid red;
+  border: 1px solid #FC6;
+  /* background-color: #FFEFD5; */
   flex: 2;
   vertical-align: top;
 }
@@ -54,12 +55,24 @@ table.gotegoma tr td {
   height: 3em;
   width: 3em;
 }
-.tegoma_num { font-size: 1.5rem; }
-/*.ban_masu {
-  height: 3em;
-  width: 3em;
+.tegoma_koma img {
+  vertical-align: top;
+  margin: 0;
+  padding: 1px;
 }
-.ban_dan_row {
+.tegoma_num { font-size: 1.5rem; }
+.ban_masu {
+  text-align: center;
+  vertical-align: middle;
+  /*height: 3em;
+  width: 3em;*/
+}
+.ban_masu img {
+  vertical-align: top;
+  margin: 0;
+  padding: 1px;
+}
+/*.ban_dan_row {
   height: 3em;
 }*/
 .ban_dan_num {
@@ -82,10 +95,11 @@ div.kifu {
 }
 textarea.kifu {
   height:calc(600px + 7em);
-  width:100%;
+  width: calc(100% - 4px);
 }
 .block_elem_kifu {
-  border: 1px solid red;
+  border: 1px solid #FC6;
+  /* background-color: #FFEFD5; */
   flex: 1;
   vertical-align: top;
   word-wrap: break-word;
@@ -100,7 +114,7 @@ textarea.kifu {
   }
   textarea.kifu {
     height: 10em;
-    width: 100%;
+    width: calc(100% - 2px);
   }
   table.ban tr td img {
     height: 9vw;
@@ -139,8 +153,8 @@ textarea.kifu {
 
 /* chat */
 .chatbtn { font-size: 2rem }
-.chatmsg { font-size: 2rem; width:70%; }
-.chatnm { font-size: 2rem; width:20%; }
+.chatmsg { font-size: 2rem; width: 68%; }
+.chatnm { font-size: 2rem; width: 20%; }
 .chat { min-height:200px; overflow:scroll; width:100%; }
 
 /* notification */

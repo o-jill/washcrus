@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'digest/sha2'
+require 'erb'
 require 'mail'
 require 'yaml'
 require 'unindent'
@@ -104,16 +105,9 @@ class RegisterScreen
   # @param username ユーザー名
   # @param pwd パスワード
   def send_mail_register(addr, username, pwd)
-    msg = <<-MAIL_MSG.unindent
-      Dear #{username}
-
-      Your information has been registered successfully as below.
-
-      User name: #{username}
-      Password: #{pwd}
-      E-mail address: #{addr}
-
-    MAIL_MSG
+    msg = ERB.new(
+      File.read('./mail/register.erb', encoding: 'utf-8')
+    ).result(binding)
 
     stg = Settings.instance
     subject = "Welcome to #{stg.value['title']}!"

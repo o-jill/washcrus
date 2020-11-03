@@ -5,6 +5,7 @@ require 'bundler/setup'
 
 require 'cgi'
 require 'cgi/session'
+require 'erb'
 require 'logger'
 require 'unindent'
 
@@ -110,25 +111,19 @@ class Move
   # @param nowstr   現在の時刻の文字列
   # @param filename 添付ファイル名
   def build_finishedmsg(nowstr, filename)
-    msg = <<-MSG_TEXT.unindent
-      #{plysnm}さん、 #{plygnm}さん
-
-      対局(#{gameid})が#{nowstr}に終局しました。
-
-      #{baseurl}index.rb?game/#{gameid}
-
-      attached:#{filename}
-
-    MSG_TEXT
+    msg = ERB.new(
+      File.read('./mail/finishedmsg.erb', encoding: 'utf-8')
+    ).result(binding)
 
     msg += build_kyokumenzu
 
-    chat = ChatFile.new(gameid)
-    chat.read
-    msg += "---- messages in chat ----\n#{chat.stripped_msg}"
-    msg += "---- messages in chat ----\n\n"
+    chat = ChatFile.new(gameid).read
+    msg + msginchat(chat.stripped_msg)
+  end
 
-    msg
+  def msginchat(msg, tag = '', taglast = '')
+    "#{tag}---- messages in chat ----\n#{tag}#{msg}" \
+    "#{tag}---- messages in chat ----\n#{taglast}\n"
   end
 
   # 対局終了メールの本文の生成
@@ -137,25 +132,13 @@ class Move
   # @param filename 添付ファイル名
   def build_finishedhtmlmsg(nowstr, filename)
     url = "#{baseurl}index.rb?game/#{gameid}"
-    msg = <<-MSG_TEXT.unindent
-      <p>#{plysnm}さん、 #{plygnm}さん
 
-      <p>対局(#{gameid})が#{nowstr}に終局しました。
+    msg = ERB.new(
+      File.read('./mail/finishedhtml.erb', encoding: 'utf-8')
+    ).result(binding)
 
-      <p><a href=#{url}>#{url}</a>
-
-      <p><img src="#{bulid_svgurl}">
-
-      <p>attached:#{filename}
-
-    MSG_TEXT
-
-    chat = ChatFile.new(gameid)
-    chat.read
-    msg += "<p>---- messages in chat ----<p>#{chat.msg}"
-    msg += '<p>---- messages in chat ----<p>'
-
-    msg
+    chat = ChatFile.new(gameid).read
+    msg + msginchat(chat.msg, '<p>')
   end
 
   # 添付ファイル名の生成
@@ -198,11 +181,8 @@ class Move
     # dt = build_short_dt
     filename = build_attachfilename
 
-    kifufile = {
-      filename: filename,
-      # filename: tkd.escape_fnu8(filename),
-      content:  tkd.jkf.to_kif
-    }
+    # filename: tkd.escape_fnu8(filename),
+    kifufile = { filename: filename, content: tkd.jkf.to_kif }
 
     # mif = tkd.mif
 
@@ -234,23 +214,14 @@ class Move
   # @param name   手番の人の名前
   # @param nowstr   現在の時刻の文字列
   def build_nextturnmsg(name, nowstr)
-    msg = <<-MSG_TEXT.unindent
-      #{name}さん
-
-      #{userinfo.user_name}さんが#{nowstr}に１手指されました。
-
-      #{baseurl}index.rb?game/#{gameid}
-
-    MSG_TEXT
+    msg = ERB.new(
+      File.read('./mail/nextturn.erb', encoding: 'utf-8')
+    ).result(binding)
 
     msg += build_kyokumenzu
 
-    chat = ChatFile.new(gameid)
-    chat.read
-    msg += "---- messages in chat ----\n#{chat.stripped_msg}"
-    msg += "---- messages in chat ----\n\n"
-
-    msg
+    chat = ChatFile.new(gameid).read
+    msg + msginchat(chat.stripped_msg)
   end
 
   # 指されましたメールの本文の生成
@@ -259,22 +230,13 @@ class Move
   # @param nowstr   現在の時刻の文字列
   def build_nextturnhtmlmsg(name, nowstr)
     url = "#{baseurl}index.rb?game/#{gameid}"
-    msg = <<-MSG_TEXT.unindent
-      <p>#{name}さん
 
-      <p>#{userinfo.user_name}さんが#{nowstr}に１手指されました。
+    msg = ERB.new(
+      File.read('./mail/nextturnhtml.erb', encoding: 'utf-8')
+    ).result(binding)
 
-      <p><a href=#{url}>#{url}</a>
-
-      <p><img src="#{bulid_svgurl}">
-    MSG_TEXT
-
-    chat = ChatFile.new(gameid)
-    chat.read
-    msg += "<pre>---- messages in chat ----\n#{chat.stripped_msg}"
-    msg += "---- messages in chat ----\n</pre>\n"
-
-    msg
+    chat = ChatFile.new(gameid).read
+    msg + "<pre>\n" + msginchat(chat.stripped_msg, '', '</pre>')
   end
 
   def getopponentinfo
@@ -314,11 +276,7 @@ class Move
     @log.debug('Move.sendmail')
     tkd.read # これいるの？
     nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
-    if finished
-      send_mail_finished(nowstr)
-    else
-      send_mail_next(nowstr)
-    end
+    finished ? send_mail_finished(nowstr) : send_mail_next(nowstr)
   end
 
   def finish_draw(now)
@@ -341,11 +299,7 @@ class Move
   def finish_game(tcdb, now)
     # 終了日時の更新とか勝敗の記録とか
     @log.debug("tkd.finished(now, #{mif.teban} == 'b')")
-    if mif.turn == 'd'
-      finish_draw(now)
-    else
-      finish_normal(now)
-    end
+    mif.turn == 'd' ? finish_draw(now) : finish_normal(now)
 
     # 対局中からはずす
     @log.debug('tcdb.finished(gameid)')
@@ -451,25 +405,27 @@ class Move
   end
 end
 
+def errtrace(err, move)
+  move.log.warn("class=[#{err.class}] message=[#{err.message}] " \
+                "stack=[#{err.backtrace.join("\n")}] in move")
+end
+
 # -----------------------------------
 #   main
 #
 
-cgi = CGI.new
-stg = Settings.instance
 begin
+  cgi = CGI.new
+  stg = Settings.instance
   move = Move.new(cgi, stg)
   move.readuserparam
   move.perform
-rescue ScriptError => er
-  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
-                "stack=[#{er.backtrace.join("\n")}] in move")
-rescue SecurityError => er
-  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
-                "stack=[#{er.backtrace.join("\n")}] in move")
-rescue StandardError => er
-  move.log.warn("class=[#{er.class}] message=[#{er.message}] " \
-                "stack=[#{er.backtrace.join("\n")}] in move")
+rescue ScriptError => err
+  errtrace(err)
+rescue SecurityError => err
+  errtrace(err)
+rescue StandardError => err
+  errtrace(err)
 end
 # -----------------------------------
 #   testing

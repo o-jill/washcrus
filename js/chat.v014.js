@@ -27,9 +27,10 @@ function onChatUpdate() {
   var ajax = new XMLHttpRequest();
   if (ajax === null)
     return;
-  ajax.open('POST', 'chat.rb?'+chat_id, true);
-  ajax.overrideMimeType('text/plain; charset=UTF-8');
-  ajax.send('');
+  ajax.open('POST', 'chat.rb?' + chat_id, true);
+  ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  // ajax.send('');  // gets error with webrick
+  ajax.send('dum=my');
 
   ajax.onreadystatechange = function () {
     switch (ajax.readyState) {

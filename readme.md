@@ -12,7 +12,7 @@
 
 Lisence: Public domain
 
-How to set up:
+How to set up:  
 1. Clone repo. or unzip WashCrus archive to certain path where is allowed to run CGI script.
 2. Edit ./config/mail.yaml.sample and save it as ./config/mail.yaml
 3. Edit ./config/signature.txt.sample and save it as ./config/signature.txt
@@ -23,18 +23,18 @@ How to set up:
 8. Run "rake init" to generate db file and change some files/directories's permissions.
 9. Visit index.rb by your browser.
 
-ruby path:
+ruby path:  
 please adjust ruby path to fit your actual ruby path.
 
-Simple backup:
-"rake backup" stores all the data into a tarball in backup directory.
+Simple backup:  
+"rake backup" stores all the data into a tarball in backup directory.  
 you can use "backup.sh" after adjusting a path in the script and run it periodically, e.g. once a day.
 
-Enable Time control:
-"periodic_tasks.sh" controls byo-yomi.
+Enable Time control:  
+"periodic_tasks.sh" controls byo-yomi.  
 you have to adjust a path in the script and period in minutes.
 
-required "gem"s
+required "gem"s  
 * bundler
   * jkf(o-jill/jkf, kif_robust_time)
   * mail

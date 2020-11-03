@@ -176,12 +176,12 @@ class MyPageScreen
   # 対局中の対局の表示
   #
   # @param winlose WinsLosesオブジェクト
-  # @param uid ユーザー情報
-  def put_mypage_stat(winlose, uid)
+  # @param user ユーザー情報
+  def put_mypage_stat(winlose, user)
     puts '<div class="myarticle" id="mypage_stat">'
-    winlose.put
+    winlose.put(user.user_name)
     puts '<HR>'
-    put_taikyokuchu(uid)
+    put_taikyokuchu(user.user_id)
     puts '</div>'
   end
 
@@ -281,7 +281,7 @@ class MyPageScreen
     uid = userinfo.user_id
     wl = get_mystats(uid)
 
-    put_mypage_stat(wl, uid)
+    put_mypage_stat(wl, userinfo)
 
     put_taikyokurireki(uid)
 

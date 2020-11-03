@@ -58,8 +58,8 @@ class WinsLoses
   end
 
   # 成績表の出力
-  def put
-    puts "<table align='center' border='3'><caption>戦績</caption>"
+  def put(name)
+    puts "<table align='center' border='3'><caption>#{name}の戦績</caption>"
     put_seiseki('総合成績', :wins, :loses)
     put_seiseki('先手成績', :swin, :slose)
     put_seiseki('後手成績', :gwin, :glose)

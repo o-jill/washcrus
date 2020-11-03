@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 require 'rubygems'
+require 'erb'
 require 'mail'
 require 'unindent'
 
@@ -38,16 +39,9 @@ class UpdateEmailScreen
     addr = userinfo.user_email
     username = userinfo.user_name
 
-    msg = <<-MAIL_MSG.unindent
-      Dear #{username}
-
-      Your E-mail address was updated.
-
-      User name: #{username}
-      Password: ****
-      E-mail address: #{addr}
-
-    MAIL_MSG
+    msg = ERB.new(
+      File.read('./mail/updateemail.erb', encoding: 'utf-8')
+    ).result(binding)
 
     stg = Settings.instance
     subject = "Updating e-mail address for #{stg.value['title']}!"

@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+require 'erb'
 require 'logger'
 require 'unindent'
 
@@ -123,15 +124,10 @@ class GenNewGameScreen
   # @return 文面
   def mail_msg_newgame(userb, userw, gameid)
     baseurl = @stg.value['base_url']
-    msg = <<-MAIL_MSG.unindent
-      Dear #{userb} and #{userw}
 
-      a new game is ready for you.
-      please visit a URL bellow to play.
-      #{baseurl}index.rb?game/#{gameid}
-
-    MAIL_MSG
-    msg
+    ERB.new(
+      File.read('./mail/newgame.erb', encoding: 'utf-8')
+    ).result(binding)
   end
 
   # エラー画面の出力
@@ -233,13 +229,7 @@ class GenNewGameScreen
     @log.warn("callstack:#{err.backtrace}")
   end
 
-  # 画面の表示
-  #
-  # @param userinfo ユーザー情報
-  # @param params パラメータハッシュオブジェクト
-  def show(userinfo, params)
-    return put_err_sreen(userinfo) unless generate(userinfo, params)
-
+  def put_html(userinfo)
     # @log.debug('CommonUI.html_head(header)')
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
@@ -248,6 +238,16 @@ class GenNewGameScreen
     put_msg
 
     CommonUI.html_foot
+  end
+
+  # 画面の表示
+  #
+  # @param userinfo ユーザー情報
+  # @param params パラメータハッシュオブジェクト
+  def show(userinfo, params)
+    return put_err_sreen(userinfo) unless generate(userinfo, params)
+
+    put_html(userinfo)
   rescue ScriptError => er
     err2log(er)
   rescue SecurityError => er

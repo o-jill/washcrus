@@ -25,6 +25,7 @@ class MailManager
                           authentication: @dlvcfg['authentication'],
                           user_name: @dlvcfg['user_name'],
                           password: @dlvcfg['password'])
+    @mail.charset = 'utf-8' # It's important!
   end
 
   # フッターを付けてメールの送信

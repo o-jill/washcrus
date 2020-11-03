@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 require 'rubygems'
+require 'erb'
 require 'mail'
 require 'unindent'
 
@@ -37,16 +38,9 @@ class AdminUserStgUpdateScreen
     addr = newem
     username = newnm
 
-    msg = <<-MAIL_MSG.unindent
-      Dear #{username}
-
-      Your account information was updated by an administrator.
-
-      User name: #{username}
-      Password: ****(no change)
-      E-mail address: #{addr}
-
-    MAIL_MSG
+    msg = ERB.new(
+      File.read('./mail/adminuserupdate.erb', encoding: 'utf-8')
+    ).result(binding)
 
     stg = Settings.instance
     subject = "Updating account information for #{stg.value['title']}!"

@@ -457,10 +457,7 @@ Koma.prototype.kifuCSA = function(fromx, fromy, tox, toy) {
 
   var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
 
-  str += fromx;
-  str += fromy;
-  str += tox;
-  str += toy;
+  str += ('' + fromx) + fromy + ('' + tox) + toy;
   str += this. pieceStr(this.strtypeCSA, this.strntypeCSA)
 
   return str;
@@ -558,8 +555,7 @@ Koma.prototype.kifuShortCSA = function(x, y) {
 
   var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
 
-  str += x;
-  str += y;
+  str += ('' + x) + y;
   str += this.pieceStr(this.strtypeCSA, this.strntypeCSA)
 
   return str;
