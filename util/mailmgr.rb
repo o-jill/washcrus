@@ -24,7 +24,8 @@ class MailManager
                           domain: @dlvcfg['domain'],
                           authentication: @dlvcfg['authentication'],
                           user_name: @dlvcfg['user_name'],
-                          password: @dlvcfg['password'])
+                          password: @dlvcfg['password'],
+                          ssl: @dlvcfg['ssl'])
     @mail.charset = 'utf-8' # It's important!
   end
 
