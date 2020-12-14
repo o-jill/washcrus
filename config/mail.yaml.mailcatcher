@@ -6,4 +6,4 @@ domain:         "example.com"
 # authentication: :login
 # user_name:      "your user name"
 # password:       "your password"
-mailaddress:    "your@mail.address.com"
+mailaddress:    "your name <your@mail.address.com>"
