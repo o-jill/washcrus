@@ -43,7 +43,6 @@ class SfenKyokumenTxt
   # 指し手情報の設定
   #
   # @param lamv 最後に動かしたマス
-  # @param turn 手番(b/w)or勝利情報(fb/fw)
   def setmoveinfo(lamv)
     @lmv = lamv
   end
