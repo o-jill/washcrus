@@ -25,6 +25,8 @@ class AdminGameManageScreen
   end
 
   # check and set if administrator.
+  #
+  # @param uid User ID
   def check_admin(uid)
     ac = AdminConfigFile.new
     ac.read
