@@ -328,7 +328,9 @@ class MatchInfoFile
 
   # 引き分けの提案の情報を処理する
   #
-  # @param text DRAW(YES|NO)(b|w),
+  # @param txt DRAW(YES|NO)(b|w),
+  # @param datm [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
+  #
   # @return true when both @drawb and draww are 'YES'
   def suggestdraw(txt, datm)
     @log.debug("suggestdraw(#{txt}, #{datm})")
