@@ -74,6 +74,7 @@ class SfenKyokumenTxt
     readtegoma
   end
 
+  # 駒表現変換テーブル
   KOMACSA2KANJI = {
     FU: '歩',
     TO: 'と',
@@ -91,6 +92,7 @@ class SfenKyokumenTxt
     OU: '玉'
   }.freeze
 
+  # ’歩’とか'歩成'とか
   def komatype
     # var movecsa = '%0000OU__P';
     komastr = lmv[5, 2]
@@ -100,6 +102,7 @@ class SfenKyokumenTxt
     ret
   end
 
+  # 先手後手または上手下手を返す
   def sengo
     dropped = (tesuu.to_i % 2).zero?
     if strteban == 'w'
@@ -111,6 +114,7 @@ class SfenKyokumenTxt
     end
   end
 
+  # 筋とか段の数字が正しいかチェック
   def checksujidan(x, y)
     !(y < 1 || y > 9 || x < 1 || x > 9)
   end
@@ -135,8 +139,6 @@ class SfenKyokumenTxt
   #
   # @param ch sfen文字
   # @param prmt 1:成った駒, 0:成ってない
-  # @param x 筋
-  # @param y 段
   #
   # @return 駒タグ
   def tagkoma(ch, prmt)
@@ -196,9 +198,11 @@ class SfenKyokumenTxt
     tagkomas
   end
 
+  # 漢数字テーブル
   NUMKANJI = %w[
     零 一 二 三 四 五 六 七 八 九 十 十一 十二 十三 十四 十五 十六 十七 十八 十九
   ].freeze
+
   # sfen文字から手駒タグの生成
   #
   # @param ch sfen文字
