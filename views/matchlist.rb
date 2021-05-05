@@ -61,6 +61,8 @@ class MatchListScreen
   # 局面画像生成サイトへのリンクの生成
   #
   # @param gid game id
+  # @param turn 手番
+  #
   # @return 局面画像へのリンク
   def kyokumen_img(gid, turn)
     tkd = TaikyokuData.new
@@ -79,7 +81,7 @@ class MatchListScreen
 
   # 対局情報の出力
   #
-  # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, turn:, time:, comment:}
+  # @param game 対局情報{id:, turn:, comment:}
   def print_res(id:, turn:, comment:, **_others)
     print <<-GAMEINFO.unindent
       <table border='1'><tr><td><a href='index.rb?game/#{id}'>
