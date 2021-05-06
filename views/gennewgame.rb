@@ -50,6 +50,14 @@ class GenNewGameScreen
     furigoma.count('F') >= 3
   end
 
+  # ユーザー名とメアドのチェック
+  #
+  # @param udb ユーザーDB
+  # @param name 名前
+  # @param email メールアドレス
+  # @param errmsg エラー時に付加するエラーメッセージ
+  #
+  # @return ユーザーデータ
   def check_playersdata(udb, name, email, errmsg)
     userdata = udb.findname(name) # [id, name, pw, email]
     # @errmsg += errmsg unless userdata && email == userdata[:email]
@@ -152,6 +160,11 @@ class GenNewGameScreen
     mailmgr.send_mail_withfooter(td.emailw, subject, msg)
   end
 
+  # 対局者のセット
+  #
+  # @param userdataa 対局者A
+  # @param userdatab 対局者B
+  # @param furigomastr 振り駒の結果
   def config_players(userdta, userdtb, furigomastr)
     # @log.debug("td.setplayerb,#{userdta}")
     td.setplayerb(userdta[:id], userdta[:name], userdta[:email])
@@ -165,8 +178,8 @@ class GenNewGameScreen
 
   # 対局情報の設定
   #
-  # @param userdta 対局者１情報
-  # @param userdtb 対局者2情報
+  # @param userdta 対局者A情報
+  # @param userdtb 対局者B情報
   # @param userinfo ユーザー情報
   # @param furigomastr 振りごま結果文字列。[FT]{5}
   def config_taikyoku(userdta, userdtb, userinfo, furigomastr)
@@ -229,6 +242,9 @@ class GenNewGameScreen
     @log.warn("callstack:#{err.backtrace}")
   end
 
+  # htmlの出力
+  #
+  # @param userinfo ユーザー情報
   def put_html(userinfo)
     # @log.debug('CommonUI.html_head(header)')
     CommonUI.html_head(@header)
