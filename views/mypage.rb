@@ -61,6 +61,12 @@ class MyPageScreen
     TAIKYOKURIREKI_TABLE
   end
 
+  # 検討用リンク生成
+  #
+  # @param gid 対局ID
+  # @param status 対局の手番
+  #
+  # return 終局後:検討用リンク, 対局中:'ダメ'
   def put_kentourl(gid, status)
     return 'ダメ' if %w[b w].include?(status)
     stg = Settings.instance
@@ -69,12 +75,18 @@ class MyPageScreen
     "<a href='#{kentourl}kifuapi.rb%3f#{gid}.kif' target='_blank'>検討</a>"
   end
 
+  # ある対局の対局者名と手番、最終着手日時のセルのタグ
+  #
+  # @param turn 手番
+  #
+  # @return 先手後手の名前と手番、最終着手日時のセルのタグ
   def print_gamedetail(turn, nameb: 'b', namew: 'w', time: '0 0', **_other)
     turnstr = CommonUI.turn2str(turn)
     "<td>#{nameb}</td><td>#{namew}</td>" \
     "<td>#{turnstr}</td><td>#{time}</td>"
   end
 
+  # 進行中の対局の局面付き対局へのリンクの出力
   def print_game(id: 'gid', turn: 't', **others)
     print <<-TKLIST_DAN.unindent
       <tr>
