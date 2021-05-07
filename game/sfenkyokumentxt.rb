@@ -26,8 +26,8 @@ class SfenKyokumenTxt
 
   # 対局者名の設定
   #
-  # @param sname 先手
-  # @param gname 後手
+  # @param names 先手
+  # @param nameg 後手
   def setnames(names, nameg)
     @sname = names
     @gname = nameg

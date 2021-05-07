@@ -162,8 +162,8 @@ class GenNewGameScreen
 
   # 対局者のセット
   #
-  # @param userdataa 対局者A
-  # @param userdatab 対局者B
+  # @param userdta 対局者A
+  # @param userdtb 対局者B
   # @param furigomastr 振り駒の結果
   def config_players(userdta, userdtb, furigomastr)
     # @log.debug("td.setplayerb,#{userdta}")
