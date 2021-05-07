@@ -315,7 +315,6 @@ class Move
     tkd.finished(now, nil, turn)
   end
 
-
   # どちらかが勝って終局
   #
   # @param now [Time] 着手日時オブジェクト
