@@ -239,11 +239,14 @@ class TaikyokuData
     @jkf.write(@kifupath)
   end
 
+  # 棋譜のの出力
+  #
+  # @param type 'kif', 'kifu', 'csa'
   def show_converted_kifu(type)
     case type
-    when 'kif'  then puts @jkf.to_kif  # KIF形式の棋譜のダウンロードページの出力
-    when 'kifu' then puts @jkf.to_kifu # KIFU形式の棋譜のダウンロードページの出力
-    when 'csa'  then puts @jkf.to_csa  # CSA形式の棋譜のダウンロードページの出力
+    when 'kif'  then puts @jkf.to_kif  # KIF形式の棋譜の出力
+    when 'kifu' then puts @jkf.to_kifu # KIFU形式の棋譜の出力
+    when 'csa'  then puts @jkf.to_csa  # CSA形式の棋譜の出力
     end
   end
 
@@ -255,6 +258,13 @@ class TaikyokuData
     show_converted_kifu(type)
   end
 
+  # 引き分け提案の処理
+  #
+  # @param cmd 'DRAWYb'とか
+  # @param datm 着手時間オブジェクト
+  #
+  # @retval RES_DRAW 引き分け提案了承
+  # @retval RES_OVER 引き分け終局
   def procsystem_draw(cmd, datm)
     ret = RES_DRAW
     ret = RES_OVER if @mif.suggestdraw(cmd, datm)
@@ -269,6 +279,10 @@ class TaikyokuData
   end
 
   # 引き分け提案などを処理する
+  #
+  # @param jsmv JsonMoveオブジェクト
+  # @param datm 着手時間オブジェクト
+  #
   # @retval RES_DRAW 引き分け提案了承
   # @retval RES_OVER 引き分け終局
   def procsystem(jsmv, datm)
@@ -279,6 +293,13 @@ class TaikyokuData
     [ret == RES_ERR || ret == RES_DRAW, ret]
   end
 
+  # 指し手の記録。千日手のチェックとかもやる。
+  #
+  # @param sfen sfen文字列
+  # @param jsmv JsonMoveオブジェクト
+  # @param datm 着手時間オブジェクト
+  #
+  # @return nil if invalid, RES_OVER if done, otherwise RES_NEXT.
   def recordmove(sfen, jsmv, datm)
     sfs = SfenStore.new(@sfenpath)
     sfs.add(sfen)
@@ -365,7 +386,7 @@ class TaikyokuData
   # 玉を取って終局の処理
   #
   # @param jsmv JsonMoveオブジェクト
-  # @return 0:まだまだ続ける, 1:玉を取って終局
+  # @return RES_NEXT:まだまだ続ける, RES_OVER:玉を取って終局
   def finish_if_catch_gyoku(jsmv)
     if JsonMove.catch_gyoku?(jsmv)
       @mif.done_game_gyoku
