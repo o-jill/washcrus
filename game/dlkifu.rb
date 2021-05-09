@@ -22,7 +22,9 @@ class DownloadKifu
 
   # class methods
 
-  # 棋譜のダウンロード
+  # パラメータのチェック
+  #
+  # @return おかしいときnil
   def checkparam
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid
