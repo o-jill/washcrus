@@ -203,36 +203,46 @@ class WashCrus
     CheckNewGame.new(@cgi).perform
   end
 
+  # 対局の生成
   def gennewgame
     require './views/gennewgame.rb'
     GenNewGameScreen.new(@header).show(@userinfo, @params)
   end
 
+  # 対局の生成
   def gennewgame2
     require './views/gennewgame2.rb'
     GenNewGame2Screen.new(@header).show(@userinfo, @params)
   end
 
+  # 対局の生成
   def gennewgame3
     require './views/gennewgame3.rb'
     GenNewGame3Screen.new(@header).show(@userinfo, @params)
   end
 
+  # news画面
   def news
     require './views/news.rb'
     NewsScreen.new(@header).show(@userinfo)
   end
 
+  # 検索結果画面
   def search
     require './views/searchresult.rb'
     SearchResultScreen.new(@header).show(@userinfo, @params)
   end
 
+  # 検索画面
   def searchform
     require './views/searchform.rb'
     SearchformScreen.new(@header).show(@userinfo)
   end
 
+  # コマンドから実行する関数を呼ぶ
+  # 無いときは入口画面
+  #
+  # @param cmd コマンド文字列
   def cmdtofunc(cmd)
     cmd ||= 'entrance'
     if methods(true).include?(cmd.to_sym)
