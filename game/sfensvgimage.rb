@@ -82,6 +82,12 @@ class SfenSVGImage
     readtegoma
   end
 
+  # xyが正しいかチェック
+  #
+  # @param x 筋-1
+  # @param y 段-1
+  #
+  # @return 変な数字のときtrue
   def invalidxy?(x, y)
     y < 0 || y > 8 || x < 0 || x > 8
   end
