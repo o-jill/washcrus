@@ -41,6 +41,8 @@ class GetMatchInfo
   end
 
   # 情報のチェック
+  #
+  # @return おかしいときnil
   def check_param
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess \
@@ -87,6 +89,9 @@ end
 #   main
 #
 
+# エラー情報の出力
+#
+# @param err エラーオブジェクト
 def errtrace(er)
   puts "Content-Type: text/plain;\n\n" \
        "class=[#{er.class}] message=[#{er.message}] " \
