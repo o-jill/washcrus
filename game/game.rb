@@ -70,6 +70,7 @@ class Game
     self
   end
 
+  # 対局データの読み込み
   def prepare_tkd
     tkd = TaikyokuData.new
     tkd.log = @log
