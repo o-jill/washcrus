@@ -46,6 +46,11 @@ class TaikyokuFile
     raise AccessDenied.new('timeout')
   end
 
+  # 要素の並びを古いものから新しいものに合わせる
+  #
+  # @param elem 1要素
+  #
+  # @return 並べ直した要素
   def adjustelem(elem)
     elem[5] = elem[4] # time
     elem[4] = '?' # turn
@@ -72,6 +77,8 @@ class TaikyokuFile
   end
 
   # ファイルから1行読み込み
+  #
+  # @param file ファイルオブジェクト
   def read_lines(file)
     file.each_line do |line|
       # comment
