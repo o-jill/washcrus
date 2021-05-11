@@ -126,7 +126,11 @@ class SearchResultScreen
 
   # 対局情報の出力
   #
-  # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, time: , comment:}
+  # @param {} 対局情報ハッシュ
+  # @option id 対局ID
+  # @option nameb 先手名
+  # @option namew 後手名
+  # @option time 最終着手時刻
   #
   # @return １行分のタグ
   def resultrow(id: 'gid', nameb: 'b', namew: 'w', time: '0 0', **_other)
