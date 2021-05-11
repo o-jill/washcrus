@@ -30,6 +30,8 @@ class Chat
     @action = @params['action'][0]
   end
 
+  # 発言をファイルに書き込む
+  # パラメータが不正なときは何もしない
   def say
     @name = @params['chatname'][0]
     @msg = @params['chatmsg'][0]
