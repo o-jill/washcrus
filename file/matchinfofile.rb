@@ -111,9 +111,25 @@ class MatchInfoFile
     (@finished ? 'f' : '') + @turn
   end
 
+
+  # @!attribute [r] gid
+  #   @return 対局ID
+  # @!attribute [r] playerb
+  #   @return 先手の対局者
+  # @!attribute [r] playerw
+  #   @return 後手の対局者
+  # @!attribute [r] creator
+  #   @return [String] 対局生成者情報 'name(email)'
+  # @!attribute [r] dt_created
+  #   @return 生成日時文字列
   attr_reader :gid, :playerb, :playerw, :creator, :dt_created,
-              :teban, :tegoma, :nth, :sfen, :lastmove, :dt_lastmove, :finished,
-              :byouyomi, :dt_lasttick
+    :teban, :tegoma, :nth, :sfen, :lastmove, :dt_lastmove, :finished,
+    :byouyomi, :dt_lasttick
+
+  # @!attribute [rw] log
+  #   @return ログオブジェクト
+  # @!attribute [rw] turn
+  #   @return 手番とか結果を表す文字列
   attr_accessor :log, :turn
 
   # 対局者のセット
