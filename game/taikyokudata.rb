@@ -36,6 +36,10 @@ class TaikyokuData
   attr_reader :idb, :playerb, :emailb, :idw, :playerw, :emailw, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :sfenpath,
               :lockpath, :mif, :jkf
+  # @!attribute [rw] log
+  #   @return ログオブジェクト
+  # @!attribute [rw] creator
+  #   @return 対局生成者情報　'name(email)'
   attr_accessor :creator, :log
 
   RES_NEXT = 0  # まだまだ続ける
