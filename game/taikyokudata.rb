@@ -33,12 +33,18 @@ class TaikyokuData
     @log = nil
   end
 
-  # @!attribute [r] idb 先手の対局者ID
-  # @!attribute [r] idw 後手の対局者ID
-  # @!attribute [r] playerb 先手の対局者名
-  # @!attribute [r] playerw 後手の対局者名
-  # @!attribute [r] emailb 先手の対局者メアド
-  # @!attribute [r] emailw 後手の対局者メアド
+  # @!attribute [r] idb
+  #   @return 先手の対局者ID
+  # @!attribute [r] idw
+  #   @return 後手の対局者ID
+  # @!attribute [r] playerb
+  #   @return 先手の対局者名
+  # @!attribute [r] playerw
+  #   @return 後手の対局者名
+  # @!attribute [r] emailb
+  #   @return 先手の対局者メアド
+  # @!attribute [r] emailw
+  #   @return 後手の対局者メアド
   attr_reader :idb, :playerb, :emailb, :idw, :playerw, :emailw, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :sfenpath,
               :lockpath, :mif, :jkf
