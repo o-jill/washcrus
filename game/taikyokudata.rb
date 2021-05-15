@@ -33,13 +33,20 @@ class TaikyokuData
     @log = nil
   end
 
+  # @!attribute [r] idb 先手の対局者ID
+  # @!attribute [r] idw 後手の対局者ID
+  # @!attribute [r] playerb 先手の対局者名
+  # @!attribute [r] playerw 後手の対局者名
+  # @!attribute [r] emailb 先手の対局者メアド
+  # @!attribute [r] emailw 後手の対局者メアド
   attr_reader :idb, :playerb, :emailb, :idw, :playerw, :emailw, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :sfenpath,
               :lockpath, :mif, :jkf
+
   # @!attribute [rw] log
   #   @return ログオブジェクト
   # @!attribute [rw] creator
-  #   @return 対局生成者情報　'name(email)'
+  #   @return [String] 対局生成者情報 'name(email)'
   attr_accessor :creator, :log
 
   RES_NEXT = 0  # まだまだ続ける
