@@ -55,7 +55,7 @@ class TaikyokuData
   #   @return 対局情報ファイルのパス
   # @!attribute [r] chatpath
   #   @return チャットデータファイルのパス
-  # @!attribute [r] :kifupath
+  # @!attribute [r] kifupath
   #   @return jkfファイルのパス
   # @!attribute [r] sfenpath
   #   @return sfenファイルのパス
