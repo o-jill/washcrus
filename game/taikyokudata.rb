@@ -45,6 +45,26 @@ class TaikyokuData
   #   @return 先手の対局者メアド
   # @!attribute [r] emailw
   #   @return 後手の対局者メアド
+  # @!attribute [r] gid
+  #   @return 対局ID
+  # @!attribute [r] datetime
+  #   @return 生成日時文字列
+  # @!attribute [r] taikyokupath
+  #   @return 対局情報ディレクトリのパス
+  # @!attribute [r] matchinfopath
+  #   @return 対局情報ファイルのパス
+  # @!attribute [r] chatpath
+  #   @return チャットデータファイルのパス
+  # @!attribute [r] :kifupath
+  #   @return jkfファイルのパス
+  # @!attribute [r] sfenpath
+  #   @return sfenファイルのパス
+  # @!attribute [r] lockpath
+  #   @return lockファイルのパス
+  # @!attribute [r] mif
+  #   @return　MatchInfoFileオブジェクト
+  # @!attribute [r] jkf
+  #   @return JsonKifuオブジェクト
   attr_reader :idb, :playerb, :emailb, :idw, :playerw, :emailw, :gid, :datetime,
               :taikyokupath, :matchinfopath, :chatpath, :kifupath, :sfenpath,
               :lockpath, :mif, :jkf
