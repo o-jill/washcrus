@@ -241,7 +241,7 @@ class TaikyokuData
 
   # 棋譜のの出力
   #
-  # @param type 'kif', 'kifu', 'csa'
+  # @param type 棋譜形式 'csa','kif','kifu'
   def show_converted_kifu(type)
     case type
     when 'kif'  then puts @jkf.to_kif  # KIF形式の棋譜の出力
@@ -263,8 +263,7 @@ class TaikyokuData
   # @param cmd 'DRAWYb'とか
   # @param datm 着手時間オブジェクト
   #
-  # @retval RES_DRAW 引き分け提案了承
-  # @retval RES_OVER 引き分け終局
+  # @return RES_DRAW:引き分け提案了承, RES_OVER:引き分け終局
   def procsystem_draw(cmd, datm)
     ret = RES_DRAW
     ret = RES_OVER if @mif.suggestdraw(cmd, datm)

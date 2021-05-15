@@ -82,6 +82,9 @@ class MatchListScreen
   # 対局情報の出力
   #
   # @param game 対局情報{id:, turn:, comment:}
+  # @option :id  対局ID
+  # @option :turn 手番
+  # @option :comment コメント
   def print_res(id:, turn:, comment:, **_others)
     print <<-GAMEINFO.unindent
       <table border='1'><tr><td><a href='index.rb?game/#{id}'>
