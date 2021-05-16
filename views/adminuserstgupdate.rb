@@ -21,6 +21,8 @@ class AdminUserStgUpdateScreen
     @header = header
   end
 
+  # @!attribute [r] uid
+  #   @return ユーザID
   attr_reader :uid, :newem, :newnm, :header, :admin, :ntfmail
 
   # エラー画面の表示
