@@ -21,6 +21,10 @@ class UpdateEmailScreen
     @header = header
   end
 
+  # @!attribute [r] newem
+  #   @return 新しいメールアドレス
+  # @!attribute [r] newemagain
+  #   @return 新しいメールアドレス再
   attr_reader :newem, :newemagain
 
   # エラー画面の表示
