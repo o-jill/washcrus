@@ -20,10 +20,12 @@ class UserInfoFile
     @content = UserInfoFileContent.new
   end
 
-  # ファイル名
+  # @!attribute fname
+  #   @return ファイル名
   attr_reader :fname
 
-  # 内容
+  # @!attribute content
+  #   @return 内容
   attr_reader :content
 
   # usage:
