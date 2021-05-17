@@ -23,6 +23,14 @@ class UserInfoFileContent
     @stats = {}
   end
 
+  # @!attribute [r] names
+  #   @return id:名前 のハッシュ
+  # @!attribute [r] passwords
+  #   @returnid:パスワードのダイジェスト のハッシュ
+  # @!attribute [r] emails
+  #   @return id:メールアドレス のハッシュ
+  # @!attribute [r] stats
+  #   @return id:勝敗 のハッシュ
   attr_reader :names, :passwords, :emails, :stats
 
   # decode enctypted mail address
