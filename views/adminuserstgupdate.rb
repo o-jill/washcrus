@@ -23,6 +23,16 @@ class AdminUserStgUpdateScreen
 
   # @!attribute [r] uid
   #   @return ユーザID
+  # @!attribute [r] newem
+  #   @return 新メールアドレス
+  # @!attribute [r] newnm
+  #   @return 新ユーザ名
+  # @!attribute [r] header
+  #   @return htmlヘッダ
+  # @!attribute [r] admin
+  #   @return 文字列on:adminにしたい, それ以外:adminにしたくない
+  # @!attribute [r] ntfmail
+  #   @return 通知メールを送るかどうか
   attr_reader :uid, :newem, :newnm, :header, :admin, :ntfmail
 
   # エラー画面の表示
