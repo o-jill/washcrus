@@ -26,6 +26,16 @@ class AdminGameManageUpdateScreen
     @log.debug errmsg
   end
 
+  # @!attribute [r] errmsg
+  #   @return エラーメッセージ
+  # @!attribute [r] gid
+  #   @return 対局ID
+  # @!attribute [r] jmv
+  #   @return JsonMoveオブジェクト
+  # @!attribute [r] result
+  #   @return fb:先手勝ち, fw:後手勝ち, d:引き分け
+  # @!attribute [r] tkd
+  #   @return 対局情報
   attr_reader :errmsg, :gid, :jmv, :result, :tkd
 
   # パラメータの認識
