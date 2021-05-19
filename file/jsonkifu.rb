@@ -31,9 +31,16 @@ class JsonKifu
     @log = nil
   end
 
+  # @!attribute [r] header
+  #   @return 対局者名などの情報
+  # @!attribute [r] moves
+  #   @return 棋譜
+  # @!attribute [r] initial
+  #   @return 初期配置
   attr_reader :header, :moves, :initial
 
-  # logging
+  # @!attribute [rw] log
+  #   @return logging
   attr_accessor :log
 
   # 対局IDと記録IDのセット
