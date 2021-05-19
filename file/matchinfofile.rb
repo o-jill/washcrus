@@ -177,7 +177,6 @@ class MatchInfoFile
     setplayerw(id_w, cnt.findid(id_w)) if id_w
   end
 
-
   # 対局者のセット
   #
   # @param data ハッシュオブジェクト
