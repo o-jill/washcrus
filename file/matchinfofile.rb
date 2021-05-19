@@ -217,6 +217,11 @@ class MatchInfoFile
     end
   end
 
+  # 対局生成者名と生成日時のセット
+  #
+  # @param data 対局設定者の情報
+  # @option creator 対局生成者名
+  # @option dt_created 生成日時
   def setcreator_d(data)
     setcreator(data[:creator], data[:dt_created])
   end
