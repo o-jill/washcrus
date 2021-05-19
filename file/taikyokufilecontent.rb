@@ -19,6 +19,20 @@ class TaikyokuFileContent
     @comments = {}
   end
 
+  # @!attribute [r] idbs
+  #   @return 対局ID->先手の対局者ID
+  # @!attribute [r] idws
+  #   @return 対局ID->後手の対局者ID
+  # @!attribute [r] namebs
+  #   @return 対局ID->先手の対局者名
+  # @!attribute [r] namews
+  #   @return 対局ID->後手の対局者名
+  # @!attribute [r] turns
+  #   @return 対局ID->手番
+  # @!attribute [r] times
+  #   @return 対局ID->最終着手日時
+  # @!attribute [r] comments
+  #   @return 対局ID->コメント
   attr_reader :idbs, :idws, :namebs, :namews, :turns, :times, :comments
 
   # ファイルに出力
