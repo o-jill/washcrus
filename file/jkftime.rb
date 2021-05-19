@@ -13,6 +13,12 @@ class JkfTime
     @sec = 0
   end
 
+  # @!attribute [r] hour
+  #   @return 時間
+  # @!attribute [r] min
+  #   @return 分
+  # @!attribute [r] sec
+  #   @return 秒
   attr_reader :hour, :min, :sec
 
   # ハッシュオブジェクトの生成
