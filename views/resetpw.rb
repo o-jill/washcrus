@@ -22,6 +22,10 @@ class ResetPasswordScreen
     @header = header
   end
 
+  # @!attribute newpw
+  #   @return 新パスワード
+  # @!attribute email
+  #   @return メールアドレス
   attr_reader :newpw, :email
 
   # 登録情報の確認
