@@ -235,6 +235,11 @@ class MatchInfoFile
     @dt_lastmove = datm
   end
 
+  # 着手情報のセット
+  #
+  # @param data ハッシュ
+  # @option lastmove 着手情報文字列
+  # @option dt_lastmove [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
   def setlastmove_d(data)
     setlastmove(data[:lastmove], data[:dt_lastmove])
   end
