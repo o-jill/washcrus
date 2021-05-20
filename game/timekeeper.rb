@@ -26,17 +26,23 @@ class TimeKeeper
     @houchi = HOUCHI_NONE
   end
 
-  # 最終確認時刻
+  # @!attribute [r] dt_lasttick
+  #   @return 最終確認時刻
   attr_reader :dt_lasttick
-  # 持ち時間
+  # @!attribute [r] thinktime
+  #   @return 持ち時間
   attr_reader :thinktime
-  # 秒読み
+  # @!attribute [r] byouyomi
+  #   @return 秒読み
   attr_reader :byouyomi
-  # 考慮時間回数
+  # @!attribute [r] extracount
+  #   @return 考慮時間回数
   attr_reader :extracount
-  # 考慮時間１回の時間[sec]
+  # @!attribute [r] sec_extracount
+  #   @return 考慮時間１回の時間[sec]
   attr_reader :sec_extracount
-  # 報知が必要かどうかの状態
+  # @!attribute [r] houchi
+  #   @return 報知が必要かどうかの状態
   attr_reader :houchi
 
   # 時間の設定(途中から用？)
@@ -133,6 +139,9 @@ class TimeKeeper
     puts "houch:#{@houchi}"
   end
 
+  # メッセージ文の生成
+  #
+  # @return メッセージ文
   def build_msg
     case houchi
     when HOUCHI_REMINDER # 対局者に1日経過を知らせる
