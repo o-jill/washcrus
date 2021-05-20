@@ -25,6 +25,11 @@ class TaikyokuFile
     @content = TaikyokuFileContent.new
   end
 
+
+  # @!attribute [rw] fname
+  #   @return ファイル名
+  # @!attribute [rw] content
+  #   @return 中身
   attr_accessor :fname, :content
 
   # usage:
