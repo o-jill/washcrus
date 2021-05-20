@@ -21,6 +21,10 @@ class GenNewGame3Screen < GenNewGame2Screen
     super
   end
 
+  # @!attribute [r] id1
+  #   @return 対局者ID1
+  # @!attribute [r] id2
+  #   @return 対局者ID2
   attr_reader :id1, :id2
 
   # データの存在チェック
