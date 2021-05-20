@@ -31,6 +31,20 @@ class GenNewGameScreen
     @log = Logger.new(PathList::GENNEWGAMELOG)
   end
 
+  # @!attribute [r] email1
+  #   @return 対局者1のメールアドレス
+  # @!attribute [r] email2
+  #   @return 対局者2のメールアドレス
+  # @!attribute [r] name1
+  #   @return 対局者名1
+  # @!attribute [r] name2
+  #   @return 対局者名2
+  # @!attribute [r] cmt
+  #   @return コメント
+  # @!attribute [r] td
+  #   @return 対局情報
+  # @!attribute [r] log
+  #   @return logging
   attr_reader :email1, :email2, :name1, :name2, :cmt, :td, :log
 
   # データの存在チェック
