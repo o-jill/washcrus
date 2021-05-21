@@ -25,7 +25,6 @@ class TaikyokuFile
     @content = TaikyokuFileContent.new
   end
 
-
   # @!attribute [rw] fname
   #   @return ファイル名
   # @!attribute [rw] content
