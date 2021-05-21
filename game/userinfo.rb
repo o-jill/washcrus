@@ -31,15 +31,15 @@ class UserInfo
     @admin = id.empty? ? false : check_admin
   end
 
-  #!attribute [r] visitcount
+  # @!attribute [r] visitcount
   #   @return 訪問回数
-  #!attribute [r] user_id
+  # @!attribute [r] user_id
   #   @return ユーザーID
-  #!attribute [r] user_name
+  # @!attribute [r] user_name
   #   @return ユーザー名
-  #!attribute [r] user_email
+  # @!attribute [r] user_email
   #   @return ユーザーメールアドレス
-  #!attribute [r] win_lose
+  # @!attribute [r] win_lose
   #   @return 戦績
   attr_accessor :visitcount, :user_id, :user_name, :user_email, :win_lose
 
