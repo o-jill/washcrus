@@ -43,7 +43,7 @@ class UserInfo
   #   @return 戦績
   attr_accessor :visitcount, :user_id, :user_name, :user_email, :win_lose
 
-  #!attribute [r] admin
+  # @!attribute [r] admin
   #   @return adminのときtrue
   attr_reader :admin
 
