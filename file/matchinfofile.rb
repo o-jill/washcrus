@@ -159,16 +159,16 @@ class MatchInfoFile
 
   # 対局者のセット
   #
-  # id_w 対局者のID
-  # userinfo 対局者の情報
+  # @param id_w 対局者のID
+  # @param userinfo 対局者の情報
   def setplayerw(id_w, userinfo)
     @playerw = Player.new(id_w, userinfo[:name], userinfo[:email]) if userinfo
   end
 
   # 対局者のセット
   #
-  # id_b 対局者のID
-  # id_w 対局者のID
+  # @param id_b 対局者のID
+  # @param id_w 対局者のID
   def setplayers(id_b, id_w)
     db = UserInfoFile.new
     db.read
