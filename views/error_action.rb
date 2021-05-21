@@ -7,6 +7,9 @@ require './views/common_ui.rb'
 #
 # ACTIONエラー画面
 #
+# @param userinfo ユーザー情報
+# @param params 入力パラメータ
+# @param action 試みた行動
 def error_action_screen(userinfo, params, action)
   CommonUI.html_head2
   CommonUI.html_menu
