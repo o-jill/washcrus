@@ -240,7 +240,7 @@ class SfenKyokumenTxt
   # sfen文字から手駒タグの生成
   #
   # @param ch sfen文字
-  # @param y y座標
+  # @param num 何枚同じ駒を持っているか
   #
   # @return 手駒タグ
   def str_tekoma(ch, num)
