@@ -9,6 +9,8 @@ require './views/common_ui.rb'
 #
 # userlist画面
 #
+# @param header htmlヘッダ
+# @param userinfo ユーザー情報
 def userlist_screen(header, userinfo)
   return MyHtml.puts_textplain_errnotadmin unless userinfo.admin
 
