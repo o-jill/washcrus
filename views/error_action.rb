@@ -17,9 +17,9 @@ def error_action_screen(userinfo, params, action)
   print 'cgi.params:'
   params.each { |key, val| print key, '=', val, '&' }
 
-  print '<HR>action=', action, "<BR>\n"
+  puts "<HR>action=#{action}<BR>"
 
-  print '<HR>HTTP_COOKIE:<BR>', ENV['HTTP_COOKIE'], "<HR>\n"
+  puts "<HR>HTTP_COOKIE:<BR>#{ENV['HTTP_COOKIE']}<HR>"
 
   userinfo.dumptable
 
