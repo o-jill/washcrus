@@ -26,8 +26,21 @@ class AdminGameManageUpdateScreen
     @log.debug errmsg
   end
 
+  # @!attribute [r] errmsg
+  #   @return エラーメッセージ
+  # @!attribute [r] gid
+  #   @return 対局ID
+  # @!attribute [r] jmv
+  #   @return JsonMoveオブジェクト
+  # @!attribute [r] result
+  #   @return fb:先手勝ち, fw:後手勝ち, d:引き分け
+  # @!attribute [r] tkd
+  #   @return 対局情報
   attr_reader :errmsg, :gid, :jmv, :result, :tkd
 
+  # パラメータの認識
+  #
+  # @param params パラメータ
   def extractparams(params)
     @gid = params['gameid'][0] if params['gameid']
     @result = params['result'][0] if params['result']
@@ -37,6 +50,9 @@ class AdminGameManageUpdateScreen
     @errmsg += msg
   end
 
+  # 対局データの読み込み
+  #
+  # @param gid 対局ID
   def preparetkd(gid)
     @tkd = TaikyokuData.new
     tkd.log = @log
@@ -44,11 +60,15 @@ class AdminGameManageUpdateScreen
     tkd.read
   end
 
+  # ロギング
+  #
+  # @param msg メッセージ
   def logg(msg)
     @log.debug msg
     @errmsg += msg
   end
 
+  # 対局中のリストから外す
   def removefromtaikyokuchu
     tcdb = TaikyokuChuFile.new
     tcdb.read
@@ -61,6 +81,7 @@ class AdminGameManageUpdateScreen
     true
   end
 
+  # 対局の状態を更新する(終わらせる)
   def updatetaikyoku
     preparetkd(gid)
     # 対局終了フラグをつける or 引き分けにする。
@@ -76,7 +97,8 @@ class AdminGameManageUpdateScreen
     tkd.write
   end
 
-  def removefromlist
+  # 対局DBを更新する
+  def updatetaikyokudb
     return unless removefromtaikyokuchu
 
     tdb = TaikyokuFile.new
@@ -98,7 +120,7 @@ class AdminGameManageUpdateScreen
 
     extractparams(params)
 
-    removefromlist
+    updatetaikyokudb
 
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)

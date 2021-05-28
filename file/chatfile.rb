@@ -15,6 +15,12 @@ class ChatFile
     @msg = ERRMSG
   end
 
+  # @!attribute [r] id
+  #   @return 対局ID
+  # @!attribute [r] path
+  #   @return ファイルパス
+  # @!attribute [r] msg
+  #   @return メッセージ
   attr_reader :id, :path, :msg
 
   # ファイルの読み込み

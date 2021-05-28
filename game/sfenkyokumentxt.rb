@@ -21,13 +21,37 @@ class SfenKyokumenTxt
     parse
   end
 
+  # @!attribute [r] sname
+  #   @return 先手の対局者名
+  # @!attribute [r] gname
+  #   @return 後手の対局者名
+  # @!attribute [r] stgm
+  #   @return 先手の手駒
+  # @!attribute [r] gtgm
+  #   @return 後手の手駒
+  # @!attribute [r] lmv
+  #   @return 最終着手
+  # @!attribute [r] sfen
+  #   @return sfen文字列
+  # @!attribute [r] strban
+  #   @return 盤面のSVG文字列
+  # @!attribute [r] strtegoma
+  #   @return 手駒部分のSVG文字列
+  # @!attribute [r] strteban
+  #   @return sfenの手番部分
+  # @!attribute [r] tesuu
+  #   @return sfenの手数部分
+  # @!attribute [r] ys
+  #   @return 先手の手駒の表示位置計算用
+  # @!attribute [r] yg
+  #   @return 後手の手駒の表示位置計算用
   attr_reader :gname, :gtgm, :lmv, :sfen, :sname,
               :strban, :stgm, :strtegoma, :strteban, :tesuu, :yg, :ys
 
   # 対局者名の設定
   #
-  # @param sname 先手
-  # @param gname 後手
+  # @param names 先手
+  # @param nameg 後手
   def setnames(names, nameg)
     @sname = names
     @gname = nameg
@@ -43,7 +67,6 @@ class SfenKyokumenTxt
   # 指し手情報の設定
   #
   # @param lamv 最後に動かしたマス
-  # @param turn 手番(b/w)or勝利情報(fb/fw)
   def setmoveinfo(lamv)
     @lmv = lamv
   end
@@ -74,6 +97,7 @@ class SfenKyokumenTxt
     readtegoma
   end
 
+  # 駒表現変換テーブル
   KOMACSA2KANJI = {
     FU: '歩',
     TO: 'と',
@@ -91,6 +115,7 @@ class SfenKyokumenTxt
     OU: '玉'
   }.freeze
 
+  # ’歩’とか'歩成'とか
   def komatype
     # var movecsa = '%0000OU__P';
     komastr = lmv[5, 2]
@@ -100,6 +125,7 @@ class SfenKyokumenTxt
     ret
   end
 
+  # 先手後手または上手下手を返す
   def sengo
     dropped = (tesuu.to_i % 2).zero?
     if strteban == 'w'
@@ -111,11 +137,19 @@ class SfenKyokumenTxt
     end
   end
 
+  # 筋とか段の数字が正しいかチェック
+  #
+  # @param x 筋
+  # @param y 段
+  #
+  # @return 正しいときtrue
   def checksujidan(x, y)
     !(y < 1 || y > 9 || x < 1 || x > 9)
   end
 
   # 最終手タグの生成
+  #
+  # @return 最終手文字列
   def taglastmove
     return '' unless lmv
 
@@ -135,8 +169,6 @@ class SfenKyokumenTxt
   #
   # @param ch sfen文字
   # @param prmt 1:成った駒, 0:成ってない
-  # @param x 筋
-  # @param y 段
   #
   # @return 駒タグ
   def tagkoma(ch, prmt)
@@ -178,6 +210,8 @@ class SfenKyokumenTxt
   end
 
   # 駒達のタグの生成
+  #
+  # @return 駒達のタグ
   def tagkomas
     banstr = "  ９ ８ ７ ６ ５ ４ ３ ２ １\n+---------------------------+\n"
     ban = strban.split('/')
@@ -190,19 +224,23 @@ class SfenKyokumenTxt
   end
 
   # 将棋盤のタグの生成
+  #
+  # @return 駒達のタグ
   def tagboardstatus
     # board = "<g id='board' transform='translate(25,70)'>\n#{taglastmove}"
     # board + SfenSVGImageMod::TAGFRAME + tagkomas + "</g>\n"
     tagkomas
   end
 
+  # 漢数字テーブル
   NUMKANJI = %w[
     零 一 二 三 四 五 六 七 八 九 十 十一 十二 十三 十四 十五 十六 十七 十八 十九
   ].freeze
+
   # sfen文字から手駒タグの生成
   #
   # @param ch sfen文字
-  # @param y y座標
+  # @param num 何枚同じ駒を持っているか
   #
   # @return 手駒タグ
   def str_tekoma(ch, num)

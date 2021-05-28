@@ -23,6 +23,14 @@ class UserInfoFileContent
     @stats = {}
   end
 
+  # @!attribute [r] names
+  #   @return id:名前 のハッシュ
+  # @!attribute [r] passwords
+  #   @returnid:パスワードのダイジェスト のハッシュ
+  # @!attribute [r] emails
+  #   @return id:メールアドレス のハッシュ
+  # @!attribute [r] stats
+  #   @return id:勝敗 のハッシュ
   attr_reader :names, :passwords, :emails, :stats
 
   # decode enctypted mail address
@@ -86,7 +94,8 @@ class UserInfoFileContent
     crypted.unpack('H*')[0]
   end
 
-  def build_winloose(swin:, slose:, gwin:, glose:, draw:)
+  # build a line which contains ins and loses.
+  def build_winlose(swin:, slose:, gwin:, glose:, draw:)
     "#{swin},#{slose},#{gwin},#{glose},#{draw}"
   end
 
@@ -97,7 +106,7 @@ class UserInfoFileContent
     mailaddr = encode_mail(id)
     status = @stats[id]
     "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
-    "#{build_winloose(status)}"
+    "#{build_winlose(status)}"
   end
 
   # get user information by id

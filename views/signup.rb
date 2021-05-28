@@ -53,6 +53,7 @@ class SignupScreen
     TABLE_FORM
   end
 
+  # 注意文の出力
   def show_info
     stg = Settings.instance
     mailaddr = stg.value['mailaddress']

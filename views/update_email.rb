@@ -21,6 +21,10 @@ class UpdateEmailScreen
     @header = header
   end
 
+  # @!attribute [r] newem
+  #   @return 新しいメールアドレス
+  # @!attribute [r] newemagain
+  #   @return 新しいメールアドレス再
   attr_reader :newem, :newemagain
 
   # エラー画面の表示
@@ -73,8 +77,10 @@ class UpdateEmailScreen
     userdb.update_email(uid, newem)
   end
 
+  # 新EmailAddressの確認
+  #
+  # @return '':正常, エラーメッセージ:エラーあり
   def check
-    # 新EmailAddressの確認
     return '<span class="err">e-mail addresses are not same!</span>' \
       if newem != newemagain
     return '<span class="err">the e-mail address is too short!</span>' \
@@ -86,6 +92,7 @@ class UpdateEmailScreen
 
   # パラメータのチェックと表示メッセージ作成
   #
+  # @param session セッション情報
   # @param userinfo ユーザー情報
   #
   # @return 表示用メッセージ
@@ -114,6 +121,8 @@ class UpdateEmailScreen
 
   # 画面の表示
   #
+  # @param cgi CGIオブジェクト
+  # @param session セッション情報
   # @param userinfo ユーザー情報
   # @param params パラメータハッシュオブジェクト
   def show(cgi, session, userinfo, params)

@@ -17,6 +17,11 @@ class AdminSettingsScreen
     @header = header
   end
 
+  # テキスト１行入力の設定用の１行分のタグの出力
+  #
+  # @param name 設定名
+  # @param id 設定ID
+  # @param stg 現在の設定値オブジェクト
   def show_elem_input(name, id, stg)
     puts <<-ROW_TEXT.unindent
       <tr>
@@ -26,6 +31,12 @@ class AdminSettingsScreen
     ROW_TEXT
   end
 
+  # ラジオボタン形式の設定用の１行分のタグの出力
+  #
+  # @param name 設定名
+  # @param id 設定ID
+  # @param options 選択肢
+  # @param stg 現在の設定値オブジェクト
   def show_elem_radio(name, id, options, stg)
     msg = options.map do |opt|
       "  <label><input name='#{id}' type='radio' value='#{opt}' " \
@@ -34,6 +45,7 @@ class AdminSettingsScreen
     puts "<tr>\n <td>#{name}</td>\n <td>\n#{msg.join('')} </td>\n</tr>\n"
   end
 
+  # 設定項目テーブル
   STG_ELEM = [
     { title: 'Window title',   eid: 'wintitle', type: 'input' },
     { title: 'Page title',     eid: 'title', type: 'input' },

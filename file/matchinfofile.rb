@@ -111,9 +111,42 @@ class MatchInfoFile
     (@finished ? 'f' : '') + @turn
   end
 
+  # @!attribute [r] gid
+  #   @return 対局ID
+  # @!attribute [r] playerb
+  #   @return 先手の対局者
+  # @!attribute [r] playerw
+  #   @return 後手の対局者
+  # @!attribute [r] creator
+  #   @return [String] 対局生成者情報 'name(email)'
+  # @!attribute [r] dt_created
+  #   @return 生成日時文字列
+  # @!attribute [r] teban
+  #   @return sfen文字列の手番部分
+  # @!attribute [r] tegoma
+  #   @return sfen文字列の手駒部分
+  # @!attribute [r] nth
+  #   @return sfen文字列の何手目かの部分
+  # @!attribute [r] sfen
+  #   @return sfen文字列
+  # @!attribute [r] lastmove
+  #   @return 最終着手
+  # @!attribute [r] dt_lastmove
+  #   @return 最終着手日時
+  # @!attribute [r] finished
+  #   @return 終局したらtrue
+  # @!attribute [r] byouyomi
+  #   @return カウント中の秒読み
+  # @!attribute [r] dt_lasttick
+  #   @return 持ち時間最終確認時刻
   attr_reader :gid, :playerb, :playerw, :creator, :dt_created,
               :teban, :tegoma, :nth, :sfen, :lastmove, :dt_lastmove, :finished,
               :byouyomi, :dt_lasttick
+
+  # @!attribute [rw] log
+  #   @return ログオブジェクト
+  # @!attribute [rw] turn
+  #   @return 手番とか結果を表す文字列
   attr_accessor :log, :turn
 
   # 対局者のセット
@@ -126,16 +159,16 @@ class MatchInfoFile
 
   # 対局者のセット
   #
-  # id_w 対局者のID
-  # userinfo 対局者の情報
+  # @param id_w 対局者のID
+  # @param userinfo 対局者の情報
   def setplayerw(id_w, userinfo)
     @playerw = Player.new(id_w, userinfo[:name], userinfo[:email]) if userinfo
   end
 
   # 対局者のセット
   #
-  # id_b 対局者のID
-  # id_w 対局者のID
+  # @param id_b 対局者のID
+  # @param id_w 対局者のID
   def setplayers(id_b, id_w)
     db = UserInfoFile.new
     db.read
@@ -144,6 +177,11 @@ class MatchInfoFile
     setplayerw(id_w, cnt.findid(id_w)) if id_w
   end
 
+  # 対局者のセット
+  #
+  # @param data ハッシュオブジェクト
+  # @option idb 先手対局者のID
+  # @option idw 後手対局者のID
   def setplayers_d(data)
     setplayers(data[:idb], data[:idw])
   end
@@ -178,6 +216,11 @@ class MatchInfoFile
     end
   end
 
+  # 対局生成者名と生成日時のセット
+  #
+  # @param data 対局設定者の情報
+  # @option creator 対局生成者名
+  # @option dt_created 生成日時
   def setcreator_d(data)
     setcreator(data[:creator], data[:dt_created])
   end
@@ -192,6 +235,11 @@ class MatchInfoFile
     @dt_lastmove = datm
   end
 
+  # 着手情報のセット
+  #
+  # @param data ハッシュ
+  # @option lastmove 着手情報文字列
+  # @option dt_lastmove [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
   def setlastmove_d(data)
     setlastmove(data[:lastmove], data[:dt_lastmove])
   end
@@ -328,7 +376,9 @@ class MatchInfoFile
 
   # 引き分けの提案の情報を処理する
   #
-  # @param text DRAW(YES|NO)(b|w),
+  # @param txt DRAW(YES|NO)(b|w),
+  # @param datm [String] 着手日時文字列 'yyyy/mm/dd hh:mm:dd'
+  #
   # @return true when both @drawb and draww are 'YES'
   def suggestdraw(txt, datm)
     @log.debug("suggestdraw(#{txt}, #{datm})")

@@ -77,6 +77,7 @@ module CommonUI
     MENU
   end
 
+  # ポップアップメニュー制御スクリプトの出力
   def self.put_popupscript
     puts <<-POPUPSCRIPT.unindent
       <script>
@@ -106,6 +107,9 @@ module CommonUI
     POPUPSCRIPT
   end
 
+  # マイページのメニューの出力
+  #
+  # @param index CGI本体
   def self.menubase_mypage(index)
     "<a class='menu' href='#{index}'> Top </a>\n" \
     "<a class='menu' href='#{index}?news'> News </a>\n" \

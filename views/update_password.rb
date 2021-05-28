@@ -21,6 +21,12 @@ class UpdatePasswordScreen
     @header = header
   end
 
+  # @!attribute [r] newpw
+  #   @return 新しいパスワード
+  # @!attribute [r] newpwagain
+  #   @return 新しいパスワード再
+  # @!attribute [r] passwd
+  #   @return 現在のパスワード
   attr_reader :newpw, :newpwagain, :passwd
 
   # エラー画面の表示

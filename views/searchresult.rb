@@ -95,7 +95,11 @@ class SearchResultScreen
 
   # 対局を検索
   #
-  # @param params 検索条件
+  # @param plys 検索する先手の名前
+  # @param plyg 検索する後手の名前
+  # @param tffrom この日から
+  # @param tfto   この日まで
+  #
   # @return 対局IDのリスト
   def searchgames(plys, plyg, tffrom, tfto)
     searchgames_(plys[0], plyg[0], tffrom[0], tfto[0])
@@ -122,7 +126,13 @@ class SearchResultScreen
 
   # 対局情報の出力
   #
-  # @param game 対局情報{id:, idb:, idw:, nameb:, namew:, time: , comment:}
+  # @param {} 対局情報ハッシュ
+  # @option id 対局ID
+  # @option nameb 先手名
+  # @option namew 後手名
+  # @option time 最終着手時刻
+  #
+  # @return １行分のタグ
   def resultrow(id: 'gid', nameb: 'b', namew: 'w', time: '0 0', **_other)
     arow = <<-GAMEINFO.unindent
       <tr>

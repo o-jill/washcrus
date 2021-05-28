@@ -21,7 +21,22 @@ class WebApiSfenReader
     @turn = ''
   end
 
+  # @!attribute [r] player1
+  #   @return 先手名
+  # @!attribute [r] player2
+  #   @return 後手名
+  # @!attribute [r] title
+  #   @return 題名とかコメント
+  # @!attribute [r] lastmove
+  #   @return 最終着手
+  # @!attribute [r] piecetype
+  #   @return 駒種(PIECE_DEFAULT)
+  # @!attribute [r] turn
+  #   @return 手番
   attr_reader :player1, :player2, :title, :lastmove, :piecetype, :turn
+
+  # @!attribute [rw] sfen
+  #   @return SFEN文字列
   attr_accessor :sfen
 
   # set players' names

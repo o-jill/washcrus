@@ -56,6 +56,10 @@ class NewGameScreen
     puts " <TR><TD colspan='3' id='errmsg'></TD></TR></TABLE></FORM>"
   end
 
+  # フォームの先頭情報の出力
+  #
+  # @param user1 ユーザー情報１
+  # @param user2 ユーザー情報２
   def print_form_head(user1, user2)
     scriptname = File.basename($PROGRAM_NAME)
     print <<-FORM_NEW_GAME_HEAD.unindent
@@ -81,6 +85,7 @@ class NewGameScreen
     FORM_NEW_GAME_HEAD
   end
 
+  # フォームの末尾情報の出力
   def print_form_tail
     puts <<-FORM_NEW_GAME_TAIL.unindent
        <tr>

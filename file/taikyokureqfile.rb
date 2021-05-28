@@ -53,6 +53,8 @@ class TaikyokuReqFile
     @comments[id] = comment
   end
 
+  # ファイルから１行づつ読み込む。
+  # #から始まる行は飛ばす。
   def read_lines(file)
     file.each_line do |line|
       # comment

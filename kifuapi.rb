@@ -13,6 +13,9 @@ require './util/myhtml.rb'
 # 棋譜のダウンロード
 #
 class KifuAPI
+  # 初期化
+  #
+  # @param cgi CGIオブジェクト
   def initialize(cgi)
     # @params = cgi.params
     return if cgi.query_string.empty?
@@ -22,6 +25,9 @@ class KifuAPI
 
   # class methods
 
+  # パラメータのチェック
+  #
+  # @return おかしいときnil
   def checkparam
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid

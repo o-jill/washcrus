@@ -57,6 +57,9 @@ class Move
     @move = @params['jsonmove'][0] if @params['jsonmove']
   end
 
+  # 設定値の読み込み
+  #
+  # @param stg 設定
   def load_settings(stg)
     @baseurl = stg.value['base_url']
     @usehtml = stg.value['mailformat'] == 'html'
@@ -121,6 +124,13 @@ class Move
     msg + msginchat(chat.stripped_msg)
   end
 
+  # メール用チャット文の生成
+  #
+  # @param msg チャット内容
+  # @param tag 行の先頭に付加するhtmlタグ
+  # @param taglast 終端htmlタグ
+  #
+  # @return メール用チャット文
   def msginchat(msg, tag = '', taglast = '')
     "#{tag}---- messages in chat ----\n#{tag}#{msg}" \
     "#{tag}---- messages in chat ----\n#{taglast}\n"
@@ -130,6 +140,8 @@ class Move
   #
   # @param nowstr   現在の時刻の文字列
   # @param filename 添付ファイル名
+  #
+  # @return 対局終了メールの本文
   def build_finishedhtmlmsg(nowstr, filename)
     url = "#{baseurl}index.rb?game/#{gameid}"
 
@@ -155,6 +167,12 @@ class Move
                '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
   end
 
+  # 署名をつけてHTMLメールを送信
+  #
+  # @param subject 題名
+  # @param msg 本文テキスト
+  # @param html 本文テキスト
+  # @param kifufile 棋譜ファイル
   def send_htmlmailex_withfooter(subject, msg, html, kifufile)
     bemail = mif.playerb.email
     wemail = mif.playerw.email
@@ -164,6 +182,11 @@ class Move
     mmgr.send_htmlmailex_withfooter(wemail, subject, msg, html, kifufile)
   end
 
+  # 署名をつけてテキストメールを送信
+  #
+  # @param subject 題名
+  # @param msg 本文テキスト
+  # @param kifufile 棋譜ファイル
   def send_mailex_withfooter(subject, msg, kifufile)
     bemail = mif.playerb.email
     wemail = mif.playerw.email
@@ -195,6 +218,7 @@ class Move
     send_htmlmailex_withfooter(subject, msg, html, kifufile)
   end
 
+  # 局面図の生成
   def build_kyokumenzu
     skt = SfenKyokumenTxt.new(mif.sfen)
     skt.settitle('タイトル')
@@ -203,6 +227,7 @@ class Move
     skt.gen + "\n"
   end
 
+  # 局面図のURLの生成
   def bulid_svgurl
     "#{baseurl}sfenimage.rb?" \
     "sfen=#{mif.sfen.gsub('+', '%2B')}&lm=#{mif.lastmove[3, 2]}&" \
@@ -239,6 +264,9 @@ class Move
     msg + "<pre>\n" + msginchat(chat.stripped_msg, '', '</pre>')
   end
 
+  # 対戦相手の情報を取得
+  #
+  # @return [名前, メールアドレス]
   def getopponentinfo
     opp = mif.getopponent(userinfo.user_id)
     [opp[:name], opp[:mail]]
@@ -249,7 +277,7 @@ class Move
 
   # 指されましたメールの生成と送信
   #
-  # @param nowstr   現在の時刻の文字列
+  # @param nowstr 現在の時刻の文字列
   def send_mail_next(nowstr)
     subject = "it's your turn!! (#{mif.to_vs})"
     # @log.debug("subject:#{subject}")
@@ -279,11 +307,17 @@ class Move
     finished ? send_mail_finished(nowstr) : send_mail_next(nowstr)
   end
 
+  # 引き分けで終局
+  #
+  # @param now [Time] 着手日時オブジェクト
   def finish_draw(now)
     @turn = 'd'
     tkd.finished(now, nil, turn)
   end
 
+  # どちらかが勝って終局
+  #
+  # @param now [Time] 着手日時オブジェクト
   def finish_normal(now)
     gote_win = (mif.teban == 'b')
     @turn = gote_win ? 'fw' : 'fb'
@@ -320,6 +354,12 @@ class Move
     # @plygnm = mif.playerw.name
   end
 
+  # 終局していれば対局終了処理をする
+  #
+  # @param status TaikyokuData::RES_OVERとか
+  # @param now 現在の時刻オブジェクト
+  #
+  # @return 対局中データベース
   def chkandupdtchu(status, now)
     tcdb = TaikyokuChuFile.new
     tcdb.read
@@ -327,6 +367,10 @@ class Move
     tcdb
   end
 
+  # 対局情報の更新
+  #
+  # @param status TaikyokuData::RES_OVERとか
+  # @param now 現在の時刻オブジェクト
   def update_taikyokudata(status, now)
     tcdb = chkandupdtchu(status, now)
 
@@ -358,6 +402,8 @@ class Move
   end
 
   # 指し手を適用する
+  #
+  # @param now [Time] 着手日時オブジェクト
   def applymove(now)
     @log.debug('Move.apply sfen, jmv')
     # tkd.move(@jmv, now)
@@ -366,6 +412,7 @@ class Move
     ret
   end
 
+  # mif(MatchInfoFile)の読み取りと対局者名の読み取り
   def read_mif
     @mif = tkd.mif
     @plysnm = mif.playerb.name
@@ -405,6 +452,10 @@ class Move
   end
 end
 
+# エラー時のログ出力
+#
+# @param err エラーオブジェクト
+# @param move Moveオブジェクト
 def errtrace(err, move)
   move.log.warn("class=[#{err.class}] message=[#{err.message}] " \
                 "stack=[#{err.backtrace.join("\n")}] in move")

@@ -7,6 +7,9 @@ require './views/common_ui.rb'
 #
 # ACTIONエラー画面
 #
+# @param userinfo ユーザー情報
+# @param params 入力パラメータ
+# @param action 試みた行動
 def error_action_screen(userinfo, params, action)
   CommonUI.html_head2
   CommonUI.html_menu
@@ -14,9 +17,9 @@ def error_action_screen(userinfo, params, action)
   print 'cgi.params:'
   params.each { |key, val| print key, '=', val, '&' }
 
-  print '<HR>action=', action, "<BR>\n"
+  puts "<HR>action=#{action}<BR>"
 
-  print '<HR>HTTP_COOKIE:<BR>', ENV['HTTP_COOKIE'], "<HR>\n"
+  puts "<HR>HTTP_COOKIE:<BR>#{ENV['HTTP_COOKIE']}<HR>"
 
   userinfo.dumptable
 

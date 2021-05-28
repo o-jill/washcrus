@@ -21,6 +21,18 @@ class AdminUserStgUpdateScreen
     @header = header
   end
 
+  # @!attribute [r] uid
+  #   @return ユーザID
+  # @!attribute [r] newem
+  #   @return 新メールアドレス
+  # @!attribute [r] newnm
+  #   @return 新ユーザ名
+  # @!attribute [r] header
+  #   @return htmlヘッダ
+  # @!attribute [r] admin
+  #   @return 文字列on:adminにしたい, それ以外:adminにしたくない
+  # @!attribute [r] ntfmail
+  #   @return 通知メールを送るかどうか
   attr_reader :uid, :newem, :newnm, :header, :admin, :ntfmail
 
   # エラー画面の表示
@@ -61,6 +73,11 @@ class AdminUserStgUpdateScreen
     end
   end
 
+  # パラメータの読み込み
+  #
+  # @param params パラメータハッシュオブジェクト
+  # @param key キー
+  # @param defval デフォルト値
   def readparam(params, key, defval)
     tmp = params[key] || [defval]
     tmp[0]
@@ -116,6 +133,9 @@ class AdminUserStgUpdateScreen
     nil
   end
 
+  # 名前とメールアドレスのチェック
+  #
+  # @return nil:success, otherwise:some message
   def checkparam
     # 新EmailAddressの確認
     return '<span class="err">the name is too short!</span>' \

@@ -30,6 +30,26 @@ class SfenSVGImage
     parse
   end
 
+  # @!attribute [r] sname
+  #   @return 先手の対局者名
+  # @!attribute [r] gname
+  #   @return 後手の対局者名
+  # @!attribute [r] stgm
+  #   @return 先手の手駒
+  # @!attribute [r] gtgm
+  #   @return 後手の手駒
+  # @!attribute [r] lmv
+  #   @return 最終着手
+  # @!attribute [r] sfen
+  #   @return sfen文字列
+  # @!attribute [r] strban
+  #   @return 盤面のSVG文字列
+  # @!attribute [r] strtegoma
+  #   @return 手駒部分のSVG文字列
+  # @!attribute [r] ys
+  #   @return 先手の手駒の表示位置計算用
+  # @!attribute [r] yg
+  #   @return 後手の手駒の表示位置計算用
   attr_reader :gname, :gtgm, :lmv, :sfen, :sname,
               :strban, :stgm, :strtegoma, :yg, :ys
 
@@ -82,6 +102,12 @@ class SfenSVGImage
     readtegoma
   end
 
+  # xyが正しいかチェック
+  #
+  # @param x 筋-1
+  # @param y 段-1
+  #
+  # @return 変な数字のときtrue
   def invalidxy?(x, y)
     y < 0 || y > 8 || x < 0 || x > 8
   end

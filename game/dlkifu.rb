@@ -11,6 +11,10 @@ require './util/myhtml.rb'
 # 棋譜のダウンロード
 #
 class DownloadKifu
+  # 初期化
+  #
+  # @param gid 対局ID
+  # @param userinfo ユーザー情報
   def initialize(gid, userinfo)
     @gameid = gid
     @userinfo = userinfo
@@ -18,6 +22,9 @@ class DownloadKifu
 
   # class methods
 
+  # パラメータのチェック
+  #
+  # @return おかしいときnil
   def checkparam
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid

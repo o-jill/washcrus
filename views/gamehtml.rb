@@ -25,8 +25,14 @@ class GameHtml
     @log = nil
   end
 
-  # logging
+  # @!attribute [rw] log
+  #   @return logging
   attr_accessor :log
+
+  # @!attribute [r] bname
+  #   @return 先手の対局者名
+  # @!attribute [r] wname
+  #   @return 後手の対局者名
   attr_reader :bname, :wname
 
   # 画面の表示

@@ -30,6 +30,8 @@ class GetSfen
     @log.debug("@gameid = cgi.query_string#{@gameid}")
   end
 
+  # @!attribute [rw] log
+  #   @return logging
   attr_accessor :log
   # attr_reader :log
 

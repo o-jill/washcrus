@@ -41,6 +41,8 @@ class GetMatchInfo
   end
 
   # 情報のチェック
+  #
+  # @return おかしいときnil
   def check_param
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess \
@@ -52,6 +54,9 @@ class GetMatchInfo
     self
   end
 
+  # 対局情報の出力
+  #
+  # @param mif MatchInfoFileオブジェクト
   def put_result(mif)
     puts "Content-Type: text/plain;\n\n" \
       "#{@gameid}\n先手:#{mif.playerb.name} 後手:#{mif.playerw.name}\n" \
@@ -87,6 +92,9 @@ end
 #   main
 #
 
+# エラー情報の出力
+#
+# @param err エラーオブジェクト
 def errtrace(er)
   puts "Content-Type: text/plain;\n\n" \
        "class=[#{er.class}] message=[#{er.message}] " \

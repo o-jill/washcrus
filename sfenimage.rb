@@ -75,12 +75,22 @@ end
 #   main
 #
 
+# svg画像上での改行
+#
+# @param str
+# @param y Y座標
+# @param height 文字の高さ
+#
+# @return 改行された文字列のSVGタグ
 def kaigyo(str, y, height)
   str.split("\n").map.with_index do |elem, i|
     "<text x='0' y='#{y + i * height}'>#{elem}</text>\n"
   end
 end
 
+# エラー出力をsvg画像として出力
+#
+# @param err エラー情報
 def errtrace(err)
   errtype =  err.to_s.gsub(
     /[<>&]/,

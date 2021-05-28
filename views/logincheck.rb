@@ -124,6 +124,11 @@ class LoginCheckScreen
     false
   end
 
+  # 自動遷移メッセージと同スクリプトの文字列の生成
+  #
+  # @param gid 対局ID
+  #
+  # @return 自動遷移メッセージと同スクリプトの文字列
   def automove2agame(gid)
     url = "./index.rb?game/#{gid}"
     '3秒後に自動的に移動します。(移動しない場合は↑をクリック)' \
@@ -134,6 +139,10 @@ class LoginCheckScreen
   end
 
   # game画面からの遷移でログインだったらゲーム画面に案内
+  #
+  # @param params パラメータハッシュオブジェクト
+  #
+  # @return 案内タグ文字列
   def gotogamepage(params)
     gid = params['gameid'][0]
     return if gid.empty?
