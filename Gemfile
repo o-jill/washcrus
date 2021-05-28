@@ -12,4 +12,5 @@ group :test do
   gem 'reek'
   gem 'rspec'
   gem 'rubocop', '~> 0.57.0'
+  gem 'stackprof'
 end
