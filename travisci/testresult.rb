@@ -34,7 +34,7 @@ class Result
   # @param b true:ok will be incremented, otherwise ng.
   def succfail(b)
     b ? succe : failu
-    put_caller
+    put_caller unless b
   end
 
   def checkproperty(a, b)
