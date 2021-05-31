@@ -15,11 +15,11 @@ require './washcrus.rb'
 begin
   cgi = CGI.new
   # ブロック内の処理を計測
-  require 'stackprof'
-  StackProf.run(out: "./tmp/stackprof_#{Time.now.to_i}.dump") do
+  # require 'stackprof'
+  # StackProf.run(out: "./tmp/stackprof_#{Time.now.to_i}.dump") do
   washcrus = WashCrus.new(cgi)
   washcrus.perform
-  end
+  # end
 rescue StandardError => err
   puts "Content-Type: text/html; charset=UTF-8\n\n"
   puts <<-ERRMSG.unindent
