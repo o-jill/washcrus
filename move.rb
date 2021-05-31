@@ -467,10 +467,14 @@ end
 
 begin
   cgi = CGI.new
+  # ブロック内の処理を計測
+  require 'stackprof'
+  StackProf.run(out: "./tmp/stackprof_move_#{Time.now.to_i}.dump") do
   stg = Settings.instance
   move = Move.new(cgi, stg)
   move.readuserparam
   move.perform
+end
 rescue ScriptError => err
   errtrace(err)
 rescue SecurityError => err
