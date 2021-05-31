@@ -19,14 +19,19 @@ class Result
     puts "place:#{caller.join("\n")}"
   end
 
+  # increment ok
   def succe
     @ok += 1
   end
 
+  # increment ng
   def failu
     @ng += 1
   end
 
+  # increment ok or ng
+  #
+  # @param b true:ok will be incremented, otherwise ng.
   def succfail(b)
     b ? succe : failu
   end
