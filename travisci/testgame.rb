@@ -168,7 +168,9 @@ class TestGame < BrowserTestAbstract
       # id, idv, idw, nameb, namew, turn, time, comment
       next unless line.start_with?(gid + ',')
       elem = line.chomp.split(',')
-      return res.succfail(!%w[b w].include?(elem[5]))
+      ret = !%w[b w].include?(elem[5])
+      puts "ret = !%w[b w].include?(#{elem[5]})" unless ret
+      return res.succfail(ret)
     end
     false # 見つからなかった
   end
@@ -189,7 +191,9 @@ class TestGame < BrowserTestAbstract
       # file.flock File::LOCK_EX
       file.each_line do |line|
         # id, idv, idw, nameb, namew, turn, time, comment
-        return res.succfail(false) if line.start_with?(gid + ',')
+        ret = line.start_with?(gid + ',')
+        puts "#{line}.start_with?(#{gid + ','})" if ret
+        return res.succfail(false) if ret
       end
     end
     puts 'removed from taikyokuchu successfully.'
