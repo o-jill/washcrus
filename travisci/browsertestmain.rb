@@ -64,6 +64,7 @@ test.finalize(succ) if ARGV.include?('--quick')
 
 # test = BrowserTest.new
 test.fold_begin('draw.1', 'draw test')
+test.reset
 test.runlight
 test.fold_end('draw.1')
 succ += test.showresult

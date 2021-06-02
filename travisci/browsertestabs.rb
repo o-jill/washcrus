@@ -14,6 +14,11 @@ class BrowserTestAbstract
 
   attr_reader :driver, :res
 
+  # ok, ngのカウントをゼロにする
+  def reset
+    res.reset
+  end
+
   BASE_URL = 'http://localhost:3000/'.freeze
 
   def simplecheck(pageurl)

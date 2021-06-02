@@ -9,6 +9,12 @@ class Result
     @driver = driver
   end
 
+  # ok, ngのカウントをゼロにする
+  def reset
+    @ok = 0
+    @ng = 0
+  end
+
   attr_reader :ok, :ng
 
   def put_sec_url(msg)
