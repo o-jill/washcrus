@@ -83,6 +83,6 @@ td.setplayergo(
 td.setgame(test.gameurl)
 td.run
 td.fold_end('draw.2')
-succ += tg.showresult
+succ += td.showresult
 
 test.finalize(succ)
