@@ -41,13 +41,14 @@ jobs:
       run: |
         gem install webrick -v1.6.0
         gem install mailcatcher
-    - name: launch servers
-      run: |
-        ruby ./travisci/webserver.rb&
-        mailcatcher
-        sleep 3 # give some software a moment to start
     - name: Install dependencies
       run: bundle install
+    - name: launch mail server
+      run: mailcatcher
+    - name: launch web server
+      run: |
+        ruby ./travisci/webserver.rb &
+        sleep 3 # give some software a moment to start
     - name: Run tests
       run: |
         chmod ugo+x ./travisci/runontravis.sh
