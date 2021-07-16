@@ -41,6 +41,7 @@ jobs:
       run: |
         gem install webrick -v1.6.0
         gem install mailcatcher
+        gem install selenium-webdriver  # -v3.142.7 # for ruby 2.1, 2.2
     - name: Install dependencies
       run: bundle install
     - name: launch mail server
