@@ -27,7 +27,7 @@ server =
         Port:             '3000',
         DocumentRoot:     './',
         # AccessLog: [],  # no access log
-        CGIInterpreter:   '/usr/bin/env ruby'
+        CGIInterpreter:   WEBrick::HTTPServlet::CGIHandler::Ruby
       }
     end
   )
