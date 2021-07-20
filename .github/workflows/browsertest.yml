@@ -57,6 +57,8 @@ jobs:
         gem install selenium-webdriver -v3.141.5926  # -v3.142.7 # for ruby 2.1, 2.2
     - name: Install dependencies
       run: bundle install
+    - name: launch xvfb
+      run: Xvfb :99 &
     - name: launch mail server
       run: mailcatcher
     - name: launch web server
