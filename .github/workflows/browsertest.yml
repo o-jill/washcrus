@@ -52,7 +52,7 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: ruby is here
-      run: where ruby
+      run: which ruby
     - name: Setup gems
       run: |
         gem install webrick -v1.6.0
