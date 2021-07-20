@@ -20,15 +20,28 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['2.3', '2.5', '2.6', '2.7', '3.0']
-    services:
-      selenium:
-        image: selenium/standalone-chrome:3.141.59-vanadium
-        ports:
-          - 4444:4444
-        volumes:
-          - /dev/shm:/dev/shm
+#    services:
+#      selenium:
+#        image: selenium/standalone-chrome:3.141.59-vanadium
+#        ports:
+#          - 4444:4444
+#        volumes:
+#          - /dev/shm:/dev/shm
     steps:
     - uses: actions/checkout@v2
+    - name: 'Setup Firefox and geckodriver'
+#     runs:
+#       using: "composite"
+#       steps:
+      run: |
+        GECKODRIVER_URL=`curl -Ls -o /dev/null -w %{url_effective} https://github.com/mozilla/geckodriver/releases/latest`
+        GECKODRIVER_VERSION=`echo $GECKODRIVER_URL | sed 's#.*/##'`
+        export GECKODRIVER_DOWNLOAD="https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz"
+        curl -L -o geckodriver.tar.gz $GECKODRIVER_DOWNLOAD
+        gunzip -c geckodriver.tar.gz | tar xopf -
+        chmod +x geckodriver && sudo mv geckodriver /usr/local/bin
+        geckodriver --version
+#      shell: bash
     - name: Set up Ruby
     # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
     # change this to (see https://github.com/ruby/setup-ruby#versioning):
