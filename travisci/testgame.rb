@@ -2,6 +2,7 @@ require 'selenium-webdriver'
 require 'yaml'
 
 require './travisci/browsertestabs.rb'
+require './file/pathlist.rb'
 
 #
 # play a game automatically with a kifu.
@@ -162,17 +163,39 @@ class TestGame < BrowserTestAbstract
     res.succfail(sfen == resultsfen)
   end
 
-  def checktaikyokulines(file)
-    file.each_line do |line|
-      # next if line =~ /^#/ # comment
-      # id, idv, idw, nameb, namew, turn, time, comment
-      next unless line.start_with?(gid + ',')
-      elem = line.chomp.split(',')
-      ret = !%w[b w].include?(elem[5])
-      puts "ret = !%w[b w].include?(#{elem[5]})" unless ret
-      return res.succfail(ret)
+  # usage:
+  # lock do
+  #   do_something
+  # end
+  def lock(*)
+    Timeout.timeout(10) do
+      File.open(@lockfn, 'w') do |file|
+        begin
+          file.flock(File::LOCK_EX)
+          yield
+        ensure
+          file.flock(File::LOCK_UN)
+        end
+      end
     end
-    false # 見つからなかった
+  rescue Timeout::Error
+    raise AccessDenied.new('timeout')
+  end
+
+  def checktaikyokulines(file)
+    @lockfn = PathList::TAIKYOKULOCKFILE
+    lock do
+      file.each_line do |line|
+        # next if line =~ /^#/ # comment
+        # id, idv, idw, nameb, namew, turn, time, comment
+        next unless line.start_with?(gid + ',')
+        elem = line.chomp.split(',')
+        ret = !%w[b w].include?(elem[5])
+        puts "ret = !%w[b w].include?(#{elem[5]})" unless ret
+        return res.succfail(ret)
+      end
+      false # 見つからなかった
+    end
   end
 
   def checktaikyokucsv
