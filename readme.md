@@ -4,6 +4,7 @@
 [![Inline docs](http://inch-ci.org/github/o-jill/washcrus.svg?branch=master)](http://inch-ci.org/github/o-jill/washcrus)
 [![Browser test](https://github.com/o-jill/washcrus/actions/workflows/browsertest.yml/badge.svg)](https://github.com/o-jill/washcrus/actions/workflows/browsertest.yml)
 [![Rubocop](https://github.com/o-jill/washcrus/actions/workflows/rubocop.yml/badge.svg)](https://github.com/o-jill/washcrus/actions/workflows/rubocop.yml)
+[![Rspec](https://github.com/o-jill/washcrus/actions/workflows/rspec.yml/badge.svg)](https://github.com/o-jill/washcrus/actions/workflows/rspec.yml)
 
 "WashCrus" will be online shogi match management system.
 
