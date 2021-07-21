@@ -183,44 +183,47 @@ class TestGame < BrowserTestAbstract
   end
 
   def checktaikyokulines(file)
-    @lockfn = PathList::TAIKYOKULOCKFILE
-    lock do
-      file.each_line do |line|
-        # next if line =~ /^#/ # comment
-        # id, idv, idw, nameb, namew, turn, time, comment
-        next unless line.start_with?(gid + ',')
-        elem = line.chomp.split(',')
-        ret = !%w[b w].include?(elem[5])
-        puts "ret = !%w[b w].include?(#{elem[5]})" unless ret
-        return res.succfail(ret)
-      end
-      false # 見つからなかった
+    file.each_line do |line|
+      # next if line =~ /^#/ # comment
+      # id, idv, idw, nameb, namew, turn, time, comment
+      next unless line.start_with?(gid + ',')
+      elem = line.chomp.split(',')
+      ret = !%w[b w].include?(elem[5])
+      puts "ret = !%w[b w].include?(#{elem[5]})" unless ret
+      return res.succfail(ret)
     end
+    false # 見つからなかった
   end
 
   def checktaikyokucsv
-    path = 'db/taikyoku.csv'
-    File.open(path, 'r:utf-8') do |file|
-      # file.flock File::LOCK_EX
-      return checktaikyokulines(file)
+    @lockfn = PathList::TAIKYOKULOCKFILE
+    lock do
+      path = 'db/taikyoku.csv'
+      File.open(path, 'r:utf-8') do |file|
+        # file.flock File::LOCK_EX
+        return checktaikyokulines(file)
+      end
+      puts "could not find game:#{gid}"
+      res.succfail(false)
     end
-    puts "could not find game:#{gid}"
-    res.succfail(false)
   end
 
   def checktaikyokuchucsv
-    path = 'db/taikyokuchu.csv'
-    File.open(path, 'r:utf-8') do |file|
-      # file.flock File::LOCK_EX
-      file.each_line do |line|
-        # id, idv, idw, nameb, namew, turn, time, comment
-        ret = line.start_with?(gid + ',')
-        puts "#{line}.start_with?(#{gid + ','})" if ret
-        return res.succfail(false) if ret
+    @lockfn = PathList::TAIKYOKUCHULOCKFILE
+    lock do
+      path = 'db/taikyokuchu.csv'
+      File.open(path, 'r:utf-8') do |file|
+        # file.flock File::LOCK_EX
+        file.each_line do |line|
+          # id, idv, idw, nameb, namew, turn, time, comment
+          ret = line.start_with?(gid + ',')
+          puts "#{line}.start_with?(#{gid + ','})" if ret
+          return res.succfail(false) if ret
+        end
       end
+      puts 'removed from taikyokuchu successfully.'
+      res.succfail(true)
     end
-    puts 'removed from taikyokuchu successfully.'
-    res.succfail(true)
   end
 
   def move_a_piece(from, to)
