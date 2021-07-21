@@ -52,6 +52,8 @@ else
     cat ./log/newgamegenlog.txt
     cat ./log/gamelog.txt
     cat ./log/movelog.txt
+    cat ./db/taikyoku.csv
+    cat ./db/taikyokuchu.csv
     exit ${ret}
   fi
   fold_end brtst.1
