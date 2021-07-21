@@ -215,7 +215,7 @@ class TestGame < BrowserTestAbstract
       File.open(path, 'r:utf-8') do |file|
         # file.flock File::LOCK_EX
         file.each_line do |line|
-          next if line.empty
+          next if line.empty?
           # id, idv, idw, nameb, namew, turn, time, comment
           ret = line.start_with?(gid + ',')
           puts "'#{line}'.start_with?(#{gid + ','})" if ret
