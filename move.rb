@@ -88,17 +88,21 @@ class Move
   # 情報のチェック
   def check_param
     # gameid が無いよ
+    @log.debug "return MyHtml.puts_textplain_illegalaccess" unless gameid
     return MyHtml.puts_textplain_illegalaccess unless gameid
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
+    @log.debug "return MyHtml.puts_textplain_illegalaccess" unless tcdb.exist_id(gameid)
     return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(gameid)
 
     # userinfoが変だよ
+    @log.debug "return MyHtml.puts_textplain_pleaselogin(#{userinfo})" unless userinfo.exist_indb
     return MyHtml.puts_textplain_pleaselogin unless userinfo.exist_indb
 
     # moveが変だよ
+    @log.debug "return MyHtml.puts_textplain('invalid move.')" unless jmv
     return MyHtml.puts_textplain('invalid move.') unless jmv
 
     self
