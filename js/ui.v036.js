@@ -1222,8 +1222,8 @@ function send_csamove_resp(status, resp)
       msg.innerHTML = '通信完了。<br>自動的にリロードします。<br>response:' + resp;
     } else {
       msg.innerHTML = '通信失敗。<br>指し手が反映されなかった可能性があります。<br>'
-        + 'お手数ですが、確認をお願いします。<br>自動的にリロードします。<br>'
-        + 'response:' + resp;
+        + 'お手数ですが、反映されたか確認をお願いします。<br>自動的にリロードします。<br>'
+          + 'response:' + resp;
     }
   } else {  // リクエスト失敗
     msg.innerHTML += 'その他の応答:' + status
