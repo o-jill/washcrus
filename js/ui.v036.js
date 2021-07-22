@@ -1207,7 +1207,7 @@ function buildMoveMsg()
 
 var tsushinchu = false;
 
-function send_csamove_resp(status)
+function send_csamove_resp(status, resp)
 {
   var msg = document.getElementById('msg_fogscreen');
   if (status === 0) {  // XHR 通信失敗
@@ -1218,12 +1218,20 @@ function send_csamove_resp(status)
   // XHR 通信成功
   if ((200 <= status && status < 300) || status === 304) {
     // リクエスト成功
-    msg.innerHTML = '通信完了。<br>自動的にリロードします。';
-    location.reload(true);
+    if (resp == 'Moved.') {
+      msg.innerHTML = '通信完了。<br>自動的にリロードします。<br>response:' + resp;
+    } else {
+      msg.innerHTML = '通信失敗。<br>指し手が反映されなかった可能性があります。<br>'
+        + 'お手数ですが、確認をお願いします。<br>自動的にリロードします。<br>'
+        + 'response:' + resp;
+    }
   } else {  // リクエスト失敗
-    msg.innerHTML += 'その他の応答:' + status + '<br>自動的にリロードします。';
-    location.reload(true);
+    msg.innerHTML += 'その他の応答:' + status
+      + '<br>指し手が反映されなかった可能性があります。<br>'
+      + 'お手数ですが、確認をお願いします。<br>自動的にリロードします。<br>'
+      + 'response:' + resp;
   }
+  location.reload(true);
 }
 
 function send_csamove()
@@ -1243,7 +1251,7 @@ function send_csamove()
     tsushinchu = false;
     switch (ajax.readyState) {
     case 4:
-      send_csamove_resp(ajax.status);
+      send_csamove_resp(ajax.status, ajax.responseText);
       break;
     }
   };
