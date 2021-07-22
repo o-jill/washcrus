@@ -34,8 +34,8 @@ class Move
     @log = Logger.new(PathList::MOVELOG)
     # @log.level = Logger::INFO
     # @log.debug('Move.new()')
-    @cgi = cgi
-    read_cgiparam
+    readuserparam(cgi)
+    read_cgiparam(cgi)
     # @stg = stg
     load_settings(stg)
     @turn = '?'
@@ -45,14 +45,29 @@ class Move
     # @log.debug('Move.initialized')
   end
 
-  # logging
+  # @!attribute [r] plysnm
+  #   @return 先手の対局者名
+  # @!attribute [r] plygnm
+  #   @return 後手の対局者名
+  # @!attribute [r] gameid
+  #   @return 対局ID
+  # @!attribute [r] mif
+  #   @return　MatchInfoFileオブジェクト
+  # @!attribute [r] jmv
+  #   @return JsonMoveオブジェクト
+  # @!attribute [r] userinfo
+  #   @return ユーザー情報
+  # @!attribute [r] log
+  #   @return ログオブジェクト
   attr_reader :baseurl, :finished, :gameid, :jmv, :log, :mif, :move,
               :plysnm, :plygnm, :sfen, :tkd, :turn, :userinfo, :usehtml
 
   # paramsから値の読み出し
-  def read_cgiparam
-    @params = @cgi.params
-    @gameid = @cgi.query_string
+  #
+  # @param cgi CGIオブジェクト
+  def read_cgiparam(cgi)
+    @params = cgi.params
+    @gameid = cgi.query_string
     @sfen = @params['sfen'][0] if @params['sfen']
     @move = @params['jsonmove'][0] if @params['jsonmove']
   end
@@ -66,10 +81,12 @@ class Move
   end
 
   # sessionの取得と情報の読み取り
-  def readuserparam
+  #
+  # @param cgi CGIオブジェクト
+  def readuserparam(cgi)
     # @log.debug('Move.readuserparam')
     begin
-      @session = CGI::Session.new(@cgi,
+      @session = CGI::Session.new(cgi,
                                   'new_session' => false,
                                   'session_key' => '_washcrus_session',
                                   'tmpdir' => './tmp')
@@ -81,7 +98,7 @@ class Move
     @userinfo = UserInfo.new
     userinfo.readsession(@session) if @session
 
-    @header = @cgi.header('charset' => 'UTF-8')
+    @header = cgi.header('charset' => 'UTF-8')
     @header = @header.gsub("\r\n", "\n")
   end
 
@@ -476,7 +493,7 @@ begin
   # StackProf.run(out: "./tmp/stackprof_move_#{Time.now.to_i}.dump") do
   stg = Settings.instance
   move = Move.new(cgi, stg)
-  move.readuserparam
+  # move.readuserparam
   move.perform
   # end
 rescue ScriptError => err
