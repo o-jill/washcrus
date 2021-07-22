@@ -1218,7 +1218,7 @@ function send_csamove_resp(status, resp)
   // XHR 通信成功
   if ((200 <= status && status < 300) || status === 304) {
     // リクエスト成功
-    if (resp == 'Moved.') {
+    if (resp.match(/^Moved./)) {
       msg.innerHTML = '通信完了。<br>自動的にリロードします。<br>response:' + resp;
     } else {
       msg.innerHTML = '通信失敗。<br>指し手が反映されなかった可能性があります。<br>'
