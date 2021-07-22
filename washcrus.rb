@@ -53,7 +53,7 @@ class WashCrus
 
   # 登録画面
   def signup
-    @session.close
+    @session.close if @session
 
     require './views/signup.rb'
     SignupScreen.new(@header).show
@@ -61,7 +61,7 @@ class WashCrus
 
   # 登録処理画面
   def register
-    @session.close
+    @session.close if @session
 
     require './views/register.rb'
     RegisterScreen.new(@header).show(@params)
@@ -75,7 +75,7 @@ class WashCrus
 
   # パスワード更新
   def update_password
-    @session.close
+    @session.close if @session
 
     require './views/update_password.rb'
     UpdatePasswordScreen.new(@header).show(@userinfo, @params)
@@ -89,7 +89,7 @@ class WashCrus
 
   # ログイン画面
   def login
-    @session.close
+    @session.close if @session
 
     require './views/login.rb'
     LoginScreen.new(@header).show(@userinfo, '')
@@ -109,7 +109,7 @@ class WashCrus
 
   # news編集画面
   def adminnews
-    @session.close
+    @session.close if @session
 
     require './views/adminnews.rb'
     AdminNewsScreen.new(@header).show(@userinfo)
@@ -117,7 +117,7 @@ class WashCrus
 
   # 設定編集画面
   def adminsettings
-    @session.close
+    @session.close if @session
 
     require './views/adminsettings.rb'
     AdminSettingsScreen.new(@header).show(@userinfo)
@@ -125,7 +125,7 @@ class WashCrus
 
   # メール署名編集画面
   def adminsignature
-    @session.close
+    @session.close if @session
 
     require './views/adminsignature.rb'
     AdminSignatureScreen.new(@header).show(@userinfo)
@@ -133,7 +133,7 @@ class WashCrus
 
   # 管理者画面
   def adminmenu
-    @session.close
+    @session.close if @session
 
     # when 'versions' then
     require './views/versions.rb'
@@ -142,14 +142,14 @@ class WashCrus
 
   # ユーザーリスト
   def userlist
-    @session.close
+    @session.close if @session
 
     userlist_screen(@header, @userinfo)
   end
 
   # news更新処理
   def adminnewsupdate
-    @session.close
+    @session.close if @session
 
     require './views/adminnewsupdate.rb'
     AdminNewsUpdateScreen.new(@header).show(@userinfo, @params)
@@ -157,7 +157,7 @@ class WashCrus
 
   # 設定更新処理
   def adminsavesettings
-    @session.close
+    @session.close if @session
 
     require './views/adminsavesettings.rb'
     AdminSaveSettingsScreen.new(@header).show(@userinfo, @params)
@@ -165,7 +165,7 @@ class WashCrus
 
   # メール署名更新処理
   def adminsignatureupdate
-    @session.close
+    @session.close if @session
 
     require './views/adminsignatureupdate.rb'
     AdminSignatureUpdateScreen.new(@header).show(@userinfo, @params)
@@ -173,7 +173,7 @@ class WashCrus
 
   # ユーザー情報更新処理
   def adminuserstgupdate
-    @session.close
+    @session.close if @session
 
     require './views/adminuserstgupdate.rb'
     AdminUserStgUpdateScreen.new(@header).show(@userinfo, @params)
@@ -181,7 +181,7 @@ class WashCrus
 
   # 対局管理画面
   def admingamemanage
-    @session.close
+    @session.close if @session
 
     require './views/admingamemanage.rb'
     AdminGameManageScreen.new(@header).show(@userinfo)
@@ -189,7 +189,7 @@ class WashCrus
 
   # 対局状況更新処理
   def admingamemanageupdate
-    @session.close
+    @session.close if @session
 
     require './views/admingamemanageupdate.rb'
     AdminGameManageUpdateScreen.new(@header).show(@userinfo, @params)
@@ -199,7 +199,7 @@ class WashCrus
 
   # 対局待ち処理
   def file2lounge
-    @session.close
+    @session.close if @session
 
     require './game/file2lounge.rb'
     File2Lounge.new.perform(@userinfo, @params)
@@ -207,7 +207,7 @@ class WashCrus
 
   # ラウンジ画面
   def lounge
-    @session.close
+    @session.close if @session
 
     require './views/lounge.rb'
     LoungeScreen.new(@header).show(@userinfo)
@@ -215,7 +215,7 @@ class WashCrus
 
   # 対局リスト
   def matchlist
-    @session.close
+    @session.close if @session
 
     require './views/matchlist.rb'
     MatchListScreen.new(@header).show(@userinfo)
@@ -223,7 +223,7 @@ class WashCrus
 
   # マイページ
   def mypage
-    @session.close
+    @session.close if @session
 
     require './views/mypage.rb'
     MyPageScreen.new(@header).show(@userinfo)
@@ -231,7 +231,7 @@ class WashCrus
 
   # 新規対局作成画面
   def newgame
-    @session.close
+    @session.close if @session
 
     require './views/newgame.rb'
     NewGameScreen.new(@header).show(@userinfo)
@@ -239,7 +239,7 @@ class WashCrus
 
   # ゲーム系の画面
   def checknewgame
-    @session.close
+    @session.close if @session
 
     require './game/checknewgame.rb'
     CheckNewGame.new(@cgi).perform
@@ -247,7 +247,7 @@ class WashCrus
 
   # 対局の生成
   def gennewgame
-    @session.close
+    @session.close if @session
 
     require './views/gennewgame.rb'
     GenNewGameScreen.new(@header).show(@userinfo, @params)
@@ -255,7 +255,7 @@ class WashCrus
 
   # 対局の生成
   def gennewgame2
-    @session.close
+    @session.close if @session
 
     require './views/gennewgame2.rb'
     GenNewGame2Screen.new(@header).show(@userinfo, @params)
@@ -263,7 +263,7 @@ class WashCrus
 
   # 対局の生成
   def gennewgame3
-    @session.close
+    @session.close if @session
 
     require './views/gennewgame3.rb'
     GenNewGame3Screen.new(@header).show(@userinfo, @params)
@@ -271,7 +271,7 @@ class WashCrus
 
   # news画面
   def news
-    @session.close
+    @session.close if @session
 
     require './views/news.rb'
     NewsScreen.new(@header).show(@userinfo)
@@ -279,7 +279,7 @@ class WashCrus
 
   # 検索結果画面
   def search
-    @session.close
+    @session.close if @session
 
     require './views/searchresult.rb'
     SearchResultScreen.new(@header).show(@userinfo, @params)
@@ -287,7 +287,7 @@ class WashCrus
 
   # 検索画面
   def searchform
-    @session.close
+    @session.close if @session
 
     require './views/searchform.rb'
     SearchformScreen.new(@header).show(@userinfo)
@@ -303,7 +303,7 @@ class WashCrus
       func = method(cmd.to_sym)
       func.call
     else
-      @session.close
+      @session.close if @session
 
       require './views/entrance.rb'
       EntranceScreen.new(@header).show(@userinfo)
@@ -317,14 +317,14 @@ class WashCrus
   def perform
     case @action
     when %r{game\/(\h+)}
-      @session.close
+      @session.close if @session
 
       require './game/game.rb'
       gm = Game.new(@cgi, $1)
       gm.setparam(@userinfo, @header)
       gm.perform
     when %r{dlkifu\/(\h+)}
-      @session.close
+      @session.close if @session
 
       require './game/dlkifu.rb'
       DownloadKifu.new($1, @userinfo).perform
@@ -332,7 +332,7 @@ class WashCrus
       if @action == 'adminuserstgupdate'
         adminuserstgupdate
       else
-        @session.close
+        @session.close if @session
 
         require './views/adminuserstg.rb'
         AdminUserStgScreen.new(@header).show($1, @userinfo)
