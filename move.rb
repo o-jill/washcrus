@@ -86,27 +86,30 @@ class Move
   def readuserparam(cgi)
     # @log.debug('Move.readuserparam')
     begin
-      @session = CGI::Session.new(cgi,
+      session = CGI::Session.new(cgi,
                                   'new_session' => false,
                                   'session_key' => '_washcrus_session',
                                   'tmpdir' => './tmp')
     rescue ArgumentError
-      # @session = nil
+      # session = nil
       @log.info('failed to find session')
     end
 
-    unless @session
-      @session = CGI::Session.new(cgi,
-                                  'new_session' => false,
-                                  'session_key' => '_washcrus_session',
-                                  'tmpdir' => './tmp')
-    rescue ArgumentError
-      # @session = nil
-      @log.info('failed to find session again.')
+    unless session
+      begin
+        session = CGI::Session.new(cgi,
+                                    'new_session' => false,
+                                    'session_key' => '_washcrus_session',
+                                    'tmpdir' => './tmp')
+      rescue ArgumentError
+        # session = nil
+        @log.info('failed to find session again.')
+      end
     end
 
     @userinfo = UserInfo.new
-    userinfo.readsession(@session) if @session
+    userinfo.readsession(session) if session
+    session.close if session
 
     @header = cgi.header('charset' => 'UTF-8')
     @header = @header.gsub("\r\n", "\n")
