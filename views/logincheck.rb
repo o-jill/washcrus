@@ -109,6 +109,8 @@ class LoginCheckScreen
   # @return ログイン出来てるときtrue
   def check_session_params(session, cgi)
     if session
+      session.close
+
       @errmsg = 'you already logged in!'
 
       return true
