@@ -86,6 +86,10 @@ class Move
   # @param cgi CGIオブジェクト
   def readuserparam(cgi)
     # @log.debug('Move.readuserparam')
+
+    # check cookies
+    @log.debug("cookie:#{cgi.cookies}")
+
     begin
       session = CGI::Session.new(
         cgi,
