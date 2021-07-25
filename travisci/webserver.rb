@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # webserver for browser testing.
 
 require 'webrick'

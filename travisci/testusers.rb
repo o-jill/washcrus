@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # テスト用ユーザー情報
 module TestUsers
   ADMININFO = {

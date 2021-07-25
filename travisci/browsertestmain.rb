@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # for testing on a browser.
 
 # usage:
