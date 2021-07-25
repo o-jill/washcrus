@@ -12,7 +12,7 @@ AllCops:
     - './css/*'
     - './spec/**/*'
     - 'Rakefile'
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.3
 
 
 # Use UTF-8 as the source file encoding.

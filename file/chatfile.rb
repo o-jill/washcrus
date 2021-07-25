@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require './file/pathlist.rb'
 
 # チャットファイル管理クラス
 class ChatFile
-  ERRMSG = 'ERROR:read a file at first...'.freeze
+  ERRMSG = 'ERROR:read a file at first...'
 
   # 初期化
   #

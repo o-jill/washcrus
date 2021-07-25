@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'rubygems'
 
@@ -6,7 +7,7 @@ require 'rubygems'
 # common HTML words and phrases
 #
 module MyHtml
-  TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n".freeze
+  TEXTPLAIN_HEAD = "Content-Type: text/plain; charset=UTF-8\n\n"
 
   # Content-Type: text/plainで出力
   #

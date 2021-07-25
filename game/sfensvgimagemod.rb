@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'unindent'
 
@@ -43,7 +44,7 @@ module SfenSVGImageMod
   EO_TAG_HEADER
 
   # svgフッタタグ
-  TAG_FOOTER = " </g>\n</svg>\n".freeze
+  TAG_FOOTER = " </g>\n</svg>\n"
 
   # 将棋盤フレームタグ
   TAGFRAME = <<-EO_TAGFRAME.unindent
@@ -78,10 +79,10 @@ module SfenSVGImageMod
     </g>
   EO_TAGFRAME
 
-  TEBANRECT = " <rect x='0' y='0' width='30' height='30' class='teban'/>".freeze
+  TEBANRECT = " <rect x='0' y='0' width='30' height='30' class='teban'/>"
 
   TAGWINNER = " <polygon points='15,0 22.5,5 30,0 30,30 0,30 0,0 7.5,5'" \
-         " class='teban'/>".freeze
+         " class='teban'/>"
 
   # 名前タグの生成
   #
