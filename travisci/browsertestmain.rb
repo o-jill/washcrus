@@ -55,7 +55,7 @@ KIFULIST = [
 ].freeze
 kifindexarr = ARGV.grep(/-N\d+/)
 kifindex = kifindexarr.size.zero? ? -1 : kifindexarr[0].slice(2, 10).to_i
-jkfpath = kifindex < 0 ? KIFULIST.sample : KIFULIST[kifindex]
+jkfpath = kifindex.negative? ? KIFULIST.sample : KIFULIST[kifindex]
 puts "#{jkfpath}, #{ARGV} #{kifindexarr} #{kifindex}"
 tg.read(jkfpath)
 tg.run

@@ -20,7 +20,7 @@ class BrowserTestAbstract
     res.reset
   end
 
-  BASE_URL = 'http://localhost:3000/'.freeze
+  BASE_URL = 'http://localhost:3000/'
 
   def simplecheck(pageurl)
     driver.navigate.to BASE_URL + pageurl

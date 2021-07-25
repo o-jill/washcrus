@@ -27,7 +27,7 @@ class JkfTime
   # @return {'s'=>秒, 'm'=>分, 'h'=>時間(ゼロならnil)}
   def genhash
     ret = { 's' => @sec, 'm' => @min }
-    ret['h'] = @hour if @hour > 0
+    ret['h'] = @hour if @hour.positive?
     ret
   end
 

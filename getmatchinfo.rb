@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'bundler/setup'
 
@@ -37,8 +38,8 @@ class GetMatchInfo
     end
 
     @userinfo = UserInfo.new
-    @userinfo.readsession(session) if session
-    session.close if session
+    @userinfo&.readsession(session)
+    session&.close
   end
 
   # 情報のチェック

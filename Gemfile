@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # gemfile for washcrus
 source 'https://rubygems.org'
 

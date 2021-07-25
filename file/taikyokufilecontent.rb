@@ -188,7 +188,7 @@ class TaikyokuFileContent
     tto = Time.parse(to)
     @times.select do |_ky, vl|
       tm = Time.parse(vl)
-      (tto <=> tm) > 0 # toの日は含まない
+      (tto <=> tm).positive? # toの日は含まない
     end
   end
 
@@ -218,7 +218,7 @@ class TaikyokuFileContent
     end
     tmpid.select do |_ky, vl|
       tm = Time.parse(vl)
-      (tto <=> tm) > 0 # toの日は含まない
+      (tto <=> tm).positive? # toの日は含まない
     end
   end
 
