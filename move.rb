@@ -87,10 +87,12 @@ class Move
   def readuserparam(cgi)
     # @log.debug('Move.readuserparam')
     begin
-      session = CGI::Session.new(cgi,
-                                  'new_session' => false,
-                                  'session_key' => '_washcrus_session',
-                                  'tmpdir' => './tmp')
+      session = CGI::Session.new(
+        cgi,
+        'new_session' => false,
+        'session_key' => '_washcrus_session',
+        'tmpdir' => './tmp'
+      )
     rescue ArgumentError
       # session = nil
       @log.info('failed to find session')
@@ -101,7 +103,7 @@ class Move
 
     @userinfo = UserInfo.new
     userinfo.readsession(session) if session
-    session.close if session
+    session&.close
 
     @header = cgi.header('charset' => 'UTF-8')
     @header = @header.gsub("\r\n", "\n")
@@ -110,21 +112,23 @@ class Move
   # 情報のチェック
   def check_param
     # gameid が無いよ
-    @log.debug "return MyHtml.puts_textplain_illegalaccess gid:#{gameid}" unless gameid
+    # @log.debug "MyHtml.illegalaccess gid:#{gameid}" unless gameid
     return MyHtml.puts_textplain_illegalaccess unless gameid
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
-    @log.debug "return MyHtml.puts_textplain_illegalaccess (tcdb.exist_id(gameid) => #{tcdb.exist_id(gameid)})" unless tcdb.exist_id(gameid)
+    @log.debug "MyHtml.illegalaccess (tcdb.exist_id(#{gameid}) =>" \
+      " #{tcdb.exist_id(gameid)})" unless tcdb.exist_id(gameid)
     return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(gameid)
 
     # userinfoが変だよ
-    @log.debug "return MyHtml.puts_textplain_pleaselogin(uid:#{userinfo.user_id})" unless userinfo.exist_indb
+    @log.debug "MyHtml.pleaselogin(uid:#{userinfo.user_id})" \
+      unless userinfo.exist_indb
     return MyHtml.puts_textplain_pleaselogin unless userinfo.exist_indb
 
     # moveが変だよ
-    @log.debug "return MyHtml.puts_textplain('invalid move.')" unless jmv
+    # @log.debug "MyHtml.'invalid move.'" unless jmv
     return MyHtml.puts_textplain('invalid move.') unless jmv
 
     self

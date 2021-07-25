@@ -210,22 +210,26 @@ class TestGame < BrowserTestAbstract
     end
   end
 
+  def checktaikyokuchucsvmain
+    path = 'db/taikyokuchu.csv'
+    File.open(path, 'r:utf-8') do |file|
+      # file.flock File::LOCK_EX
+      file.each_line do |line|
+        next if line.empty?
+        # id, idv, idw, nameb, namew, turn, time, comment
+        ret = line.start_with?(gid + ',')
+        puts "'#{line}'.start_with?(#{gid + ','})" if ret
+        return false if ret
+      end
+    end
+    puts 'removed from taikyokuchu successfully.'
+    true
+  end
+
   def checktaikyokuchucsv
     @lockfn = PathList::TAIKYOKUCHULOCKFILE
     lock do
-      path = 'db/taikyokuchu.csv'
-      File.open(path, 'r:utf-8') do |file|
-        # file.flock File::LOCK_EX
-        file.each_line do |line|
-          next if line.empty?
-          # id, idv, idw, nameb, namew, turn, time, comment
-          ret = line.start_with?(gid + ',')
-          puts "'#{line}'.start_with?(#{gid + ','})" if ret
-          return res.succfail(false) if ret
-        end
-      end
-      puts 'removed from taikyokuchu successfully.'
-      res.succfail(true)
+      res.succfail(checktaikyokuchucsvmain)
     end
   end
 
