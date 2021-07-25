@@ -95,6 +95,9 @@ class Move
       @log.info('failed to find session')
     end
 
+    # check cookies
+    @log.debug("cookie:#{cgi.cookies}")
+
     @userinfo = UserInfo.new
     userinfo.readsession(session) if session
     session.close if session
