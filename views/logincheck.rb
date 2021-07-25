@@ -105,13 +105,11 @@ class LoginCheckScreen
 
   # セッション情報の確認(二重ログイン防止)
   #
-  # @param session セッション情報
+  # @param userinfo セッション情報
   # @param cgi CGIオブジェクト
   # @return ログイン出来てるときtrue
-  def check_session_params(session, cgi)
-    if session
-      session.close
-
+  def check_session_params(userinfo, cgi)
+    unless userinfo.invalid?
       @errmsg = 'you already logged in!'
 
       return true
@@ -148,6 +146,7 @@ class LoginCheckScreen
   # @return 案内タグ文字列
   def gotogamepage(params)
     gid = params['gameid'][0]
+    return unless gid
     return if gid.empty?
     "<div align='center'>" \
     "<a href='index.rb?game/#{gid}'>対局(#{gid})へ</a><br>" \
@@ -156,10 +155,10 @@ class LoginCheckScreen
 
   # 画面の表示
   #
-  # @param session セッション情報
+  # @param userinfo ユーザー情報
   # @param cgi CGIオブジェクト
-  def show(session, cgi)
-    check_session_params(session, cgi)
+  def show(userinfo, cgi)
+    check_session_params(userinfo, cgi)
 
     header = cgi.header('charset' => 'UTF-8',
                         'Pragma' => 'no-cache',
