@@ -152,7 +152,9 @@ class SearchResultScreen
 
   # 検索結果の出力
   def print_result(res)
-    return '<p>not found ...</p>' unless res && res.size.nonzero?
+    # nil or zero
+    return '<p>not found ...</p>' unless res
+    return '<p>not found ...</p>' if res.size.zero?
 
     rows = res.map do |game|
       resultrow(**game)
