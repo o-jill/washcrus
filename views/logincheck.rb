@@ -113,13 +113,13 @@ class LoginCheckScreen
       @errmsg = 'you already logged in!'
 
       return true
-    else
-      check_login(cgi.params)
-      if @errmsg.empty?
-        gen_new_session(cgi)
+    end
 
-        return true
-      end
+    check_login(cgi.params)
+    if @errmsg.empty?
+      gen_new_session(cgi)
+
+      return true
     end
 
     false

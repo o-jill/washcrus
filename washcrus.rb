@@ -25,22 +25,18 @@ class WashCrus
 
     @action = cgi.query_string
     begin
-      @session = CGI::Session.new(cgi,
-                                  'new_session' => false,
-                                  'session_key' => '_washcrus_session',
-                                  'tmpdir' => './tmp',
-                                  'session_expires' => Time.now + 2_592_000)
+      @session = CGI::Session.new(
+        cgi,
+        'new_session' => false,
+        'session_key' => '_washcrus_session',
+        'tmpdir' => './tmp',
+        'session_expires' => Time.now + 2_592_000
+      )
     rescue ArgumentError
       @session = nil
     end
-    @userinfo = UserInfo.new
-    if @session
-      @userinfo.readsession(@session)
-      @userinfo.hashsession.each { |ky, vl| @session[ky] = vl }
-      @session.close
-    else
-      @userinfo.visitcount = '1'
-    end
+
+    prepare_userinfo
 
     @header = cgi.header('charset' => 'UTF-8',
                          'Pragma' => 'no-cache',
@@ -50,6 +46,18 @@ class WashCrus
   end
 
   # class methods
+
+  # ユーザー情報の準備
+  def prepare_userinfo
+    @userinfo = UserInfo.new
+    if @session
+      @userinfo.readsession(@session)
+      @userinfo.hashsession.each { |ky, vl| @session[ky] = vl }
+      @session.close
+    else
+      @userinfo.visitcount = '1'
+    end
+  end
 
   WORDS_MISC = [nil, '', 'news', 'search', 'searchform'].freeze
 
