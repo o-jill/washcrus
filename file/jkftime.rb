@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 # "total": {
 #  "h": 0, "m": 0, "s": 0

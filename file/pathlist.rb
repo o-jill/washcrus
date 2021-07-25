@@ -1,29 +1,30 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 # パス情報
 module PathList
-  ADMINCONFIGFILE = './db/adminconfig.txt'.freeze
-  CHATFILE = 'chat.txt'.freeze
-  GAMELOG = './log/gamelog.txt'.freeze
-  GAMELOCK = 'game.lock'.freeze
-  GENNEWGAMELOG = './log/newgamegenlog.txt'.freeze
-  GETSFENLOG = './log/getsfen.txt'.freeze
-  KIFUFILE = 'kifu.jkf'.freeze
-  LOUNGECHATFILE = './taikyoku/lounge/chat.txt'.freeze
-  MAILSETTINGFILE = './config/mail.yaml'.freeze
-  MOVELOG = './log/movelog.txt'.freeze
-  MATCHFILE = 'matchinfo.txt'.freeze
-  NEWSFILE = './config/news.txt'.freeze
-  SETTINGSFILE = './config/settings.yaml'.freeze
-  SFENFILE = 'sfenlog.txt'.freeze
-  SIGNATUREFILE = './config/signature.txt'.freeze
-  TAIKYOKUDIR = './taikyoku/'.freeze
-  TAIKYOKUFILE = './db/taikyoku.csv'.freeze
-  TAIKYOKULOCKFILE = './db/taikyokufile.lock'.freeze
-  TAIKYOKUCHUFILE = './db/taikyokuchu.csv'.freeze
-  TAIKYOKUCHULOCKFILE = './db/taikyokuchufile.lock'.freeze
-  TAIKYOKUREQFILE = './db/taikyokureq.csv'.freeze
-  TAIKYOKUREQLOCKFILE = './db/taikyokureqfile.lock'.freeze
-  USERINFOLOCKFILE = './db/userinfofile.lock'.freeze
-  USERINFOFILE = './db/userinfo.csv'.freeze
+  ADMINCONFIGFILE = './db/adminconfig.txt'
+  CHATFILE = 'chat.txt'
+  GAMELOG = './log/gamelog.txt'
+  GAMELOCK = 'game.lock'
+  GENNEWGAMELOG = './log/newgamegenlog.txt'
+  GETSFENLOG = './log/getsfen.txt'
+  KIFUFILE = 'kifu.jkf'
+  LOUNGECHATFILE = './taikyoku/lounge/chat.txt'
+  MAILSETTINGFILE = './config/mail.yaml'
+  MOVELOG = './log/movelog.txt'
+  MATCHFILE = 'matchinfo.txt'
+  NEWSFILE = './config/news.txt'
+  SETTINGSFILE = './config/settings.yaml'
+  SFENFILE = 'sfenlog.txt'
+  SIGNATUREFILE = './config/signature.txt'
+  TAIKYOKUDIR = './taikyoku/'
+  TAIKYOKUFILE = './db/taikyoku.csv'
+  TAIKYOKULOCKFILE = './db/taikyokufile.lock'
+  TAIKYOKUCHUFILE = './db/taikyokuchu.csv'
+  TAIKYOKUCHULOCKFILE = './db/taikyokuchufile.lock'
+  TAIKYOKUREQFILE = './db/taikyokureq.csv'
+  TAIKYOKUREQLOCKFILE = './db/taikyokureqfile.lock'
+  USERINFOLOCKFILE = './db/userinfofile.lock'
+  USERINFOFILE = './db/userinfo.csv'
 end
