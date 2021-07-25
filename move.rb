@@ -95,18 +95,6 @@ class Move
       @log.info('failed to find session')
     end
 
-    unless session
-      begin
-        session = CGI::Session.new(cgi,
-                                    'new_session' => false,
-                                    'session_key' => '_washcrus_session',
-                                    'tmpdir' => './tmp')
-      rescue ArgumentError
-        # session = nil
-        @log.info('failed to find session again.')
-      end
-    end
-
     @userinfo = UserInfo.new
     userinfo.readsession(session) if session
     session.close if session
