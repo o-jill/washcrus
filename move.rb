@@ -122,13 +122,12 @@ class Move
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
-    @log.debug "MyHtml.illegalaccess (tcdb.exist_id(#{gameid}) =>" \
+    @log.debug "illegalaccess (tcdb.exist_id(#{gameid}) =>" \
       " #{tcdb.exist_id(gameid)})" unless tcdb.exist_id(gameid)
     return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(gameid)
 
     # userinfoが変だよ
-    @log.debug "MyHtml.pleaselogin(uid:#{userinfo.user_id})" \
-      unless userinfo.exist_indb
+    @log.debug "pleaselogin(uid:#{userinfo.user_id})" unless userinfo.exist_indb
     return MyHtml.puts_textplain_pleaselogin unless userinfo.exist_indb
 
     # moveが変だよ
