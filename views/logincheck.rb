@@ -92,7 +92,6 @@ class LoginCheckScreen
     expire = Time.now + 2_592_000 # 30days
     session = CGI::Session.new(cgi,
                                'new_session' => true,
-                               'session_key' => '_washcrus_session',
                                'tmpdir' => './tmp',
                                'session_expires' => expire)
 

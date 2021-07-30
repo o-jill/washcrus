@@ -94,7 +94,6 @@ class Move
       session = CGI::Session.new(
         cgi,
         'new_session' => false,
-        'session_key' => '_washcrus_session',
         'tmpdir' => './tmp'
       )
     rescue ArgumentError
