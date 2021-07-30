@@ -59,6 +59,7 @@ jobs:
       run: |
         gem install webrick -v1.7.0
         gem install mailcatcher
+        gem install rubyzip -v1.3.0 # for selenium-webdriver -v3.142.7
         gem install selenium-webdriver -v3.142.7
     - name: Install dependencies
       run: bundle install
