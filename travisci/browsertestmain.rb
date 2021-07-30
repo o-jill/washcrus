@@ -12,6 +12,7 @@
 # -N3 :      koyan_tadao.jkf will be used.
 # -N4 :      sennichite.jkf will be used.
 # -N5 :      kingtaking.jkf will be used.
+# -N6 :      kingtaking2.jkf will be used.
 
 require 'selenium-webdriver'
 
@@ -51,7 +52,8 @@ KIFULIST = [
   'travisci/fuji_debut.jkf',
   'travisci/koyan_tadao.jkf',
   'travisci/sennichite.jkf',
-  'travisci/kingtaking.jkf' # N5
+  'travisci/kingtaking.jkf', # N5
+  'travisci/kingtaking2.jkf'
 ].freeze
 kifindexarr = ARGV.grep(/-N\d+/)
 kifindex = kifindexarr.size.zero? ? -1 : kifindexarr[0].slice(2, 10).to_i
