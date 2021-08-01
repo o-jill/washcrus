@@ -96,9 +96,10 @@ class Move
         'new_session' => false,
         'tmpdir' => './tmp'
       )
-    rescue ArgumentError
+    rescue ArgumentError => ae
       # session = nil
       @log.info('failed to find session')
+      @log.debug("#{ae.message}, (#{ae.class})")
     end
 
     # check cookies
