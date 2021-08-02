@@ -112,7 +112,7 @@ class UpdateEmailScreen
         'new_session' => false,
         'tmpdir' => './tmp'
       )
-    rescue ArgumentError => ae
+    rescue ArgumentError
       # session = nil
       return 'failed to find session.'
       # @log.debug("#{ae.message}, (#{ae.class})")
