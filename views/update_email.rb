@@ -93,11 +93,11 @@ class UpdateEmailScreen
 
   # パラメータのチェックと表示メッセージ作成
   #
-  # @param session セッション情報
+  # @param cgi CGIオブジェクト
   # @param userinfo ユーザー情報
   #
   # @return 表示用メッセージ
-  def check_and_mkmsg(session, userinfo)
+  def check_and_mkmsg(cgi, userinfo)
     msg = check
     return msg unless msg.empty?
 
@@ -106,11 +106,24 @@ class UpdateEmailScreen
     msg = update_userdb(uid)
     return msg if msg
 
+    begin
+      session = CGI::Session.new(
+        cgi,
+        'new_session' => false,
+        'tmpdir' => './tmp'
+      )
+    rescue ArgumentError => ae
+      # session = nil
+      return 'failed to find session.'
+      # @log.debug("#{ae.message}, (#{ae.class})")
+    end
+
     # sessioneml = userinfo.user_email
     userinfo.user_email = newem
     # sessionデータ更新
     userinfo.hashsession.each { |ky, vl| session[ky] = vl }
     session.update
+    session.close
 
     # メールの送信
     send_mail(userinfo)
@@ -126,12 +139,12 @@ class UpdateEmailScreen
   # @param session セッション情報
   # @param userinfo ユーザー情報
   # @param params パラメータハッシュオブジェクト
-  def show(cgi, session, userinfo, params)
+  def show(cgi, userinfo, params)
     return put_err_sreen("your log-in information is wrong ...\n") \
       if userinfo.invalid?
 
     reademail(params)
-    msg = check_and_mkmsg(session, userinfo)
+    msg = check_and_mkmsg(cgi, userinfo)
 
     header = cgi.header('charset' => 'UTF-8',
                         'Pragma' => 'no-cache',

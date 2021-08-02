@@ -87,7 +87,7 @@ class WashCrus
   # メールアドレス更新
   def update_email
     require './views/update_email.rb'
-    UpdateEmailScreen.new(@header).show(@cgi, @session, @userinfo, @params)
+    UpdateEmailScreen.new(@header).show(@cgi, @userinfo, @params)
   end
 
   # ログイン画面
