@@ -98,6 +98,7 @@ class Game
     # @log.debug('Game.put')
     gh.put(@header)
     # @log.debug('Game.performed')
+    @log.debug("sesionfiles:#{Dir['./tmp/*']}")
   rescue StandardError => err
     @log.warn(err.to_s)
     @log.warn(err.backtrace.join("\n").to_s)
