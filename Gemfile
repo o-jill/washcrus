@@ -11,6 +11,7 @@ gem 'redcarpet'
 gem 'unindent'
 
 group :test do
+  gem 'psych', '~>3.3.2' # 4.0.1 causes error.
   gem 'reek'
   gem 'rspec'
   gem 'rubocop', '~> 0.57.0'
