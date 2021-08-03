@@ -109,6 +109,8 @@ class TestGame < BrowserTestAbstract
   end
 
   # 打つ（持つだけ）
+  #
+  # @param str CSA駒タイプ
   def utu_motu(str)
     driver.find_element(:id, {
       FU: 'sg_fu_img',
@@ -121,27 +123,42 @@ class TestGame < BrowserTestAbstract
     }[str.to_sym]).click
   end
 
+  # 成りダイアログのボタンをクリックする
+  #
+  # @param okcan ボタンのID。'ok' or 'cancel'
   def confirmmove(okcan = 'ok')
     eid = 'mvcfm_' + okcan
     driver.find_element(:id, eid).click
   end
 
+  # 強制成りかどうか
+  #
+  # @param piece 動かす駒
+  # @param yfrm 移動元のy座標
   def mustpromote?(piece, yfrm)
     yfrm == 2 && piece == 'FU' || yfrm == 2 && piece == 'KY' \
       || yfrm <= 4 && piece == 'KE'
   end
 
+  # 成りダイアログの処理
+  #
   # @param prmt nil:don't care or true:promote or false:no-promote
+  # @param piece 動かす駒
+  # @param yfrm 移動元のy座標
   def promotedlg?(prmt, piece, yfrm)
     return false if prmt.nil?
 
     !mustpromote?(piece, yfrm)
   end
 
+  # 投了ボタンをクリックする。
   def resignbtn
     driver.find_element(:id, 'btn_resign').click
   end
 
+  # 投了する
+  #
+  # @param clr 0:先, 1:後
   def resign(clr)
     if clr.zero?
       becomesente
@@ -155,6 +172,7 @@ class TestGame < BrowserTestAbstract
     confirmmove('ok')
   end
 
+  # 最後の局面のチェック
   def checklastsfen
     path = "taikyoku/#{gid}/matchinfo.txt"
     data = YAML.load_file(path)
@@ -184,6 +202,7 @@ class TestGame < BrowserTestAbstract
     raise AccessDenied.new('timeout')
   end
 
+  # 対局ファイルのチェック
   def checktaikyokulines(file)
     file.each_line do |line|
       # next if line =~ /^#/ # comment
@@ -197,6 +216,7 @@ class TestGame < BrowserTestAbstract
     false # 見つからなかった
   end
 
+  # 対局ファイルのチェック
   def checktaikyokucsv
     @lockfn = PathList::TAIKYOKULOCKFILE
     lock do
@@ -210,6 +230,7 @@ class TestGame < BrowserTestAbstract
     end
   end
 
+  # 対局中ファイルのチェック 本体
   def checktaikyokuchucsvmain
     path = 'db/taikyokuchu.csv'
     File.open(path, 'r:utf-8') do |file|
@@ -226,6 +247,7 @@ class TestGame < BrowserTestAbstract
     true
   end
 
+  # 対局中ファイルのチェック
   def checktaikyokuchucsv
     @lockfn = PathList::TAIKYOKUCHULOCKFILE
     lock do
@@ -233,6 +255,10 @@ class TestGame < BrowserTestAbstract
     end
   end
 
+  # コマを動かす。
+  #
+  # @param from 移動元の座標
+  # @param to   移動先の座標
   def move_a_piece(from, to)
     if from
       touch(from)
@@ -246,6 +272,10 @@ class TestGame < BrowserTestAbstract
     end
   end
 
+  # ひふみんアイ用の座標変換
+  #
+  # @param frm 移動元の座標
+  # @param too  移動先の座標
   def cvtxy(frm, too)
     from = {}
     if frm
@@ -261,6 +291,10 @@ class TestGame < BrowserTestAbstract
     { from: from, to: to }
   end
 
+  # 先手または後手でログインして１手準備
+  #
+  # @param from 移動元の座標
+  # @param to   移動先の座標
   def prcs_sengo(from, to)
     if color.zero?
       becomesente
@@ -271,6 +305,7 @@ class TestGame < BrowserTestAbstract
     end
   end
 
+  # 1手指す
   def li_move_a_piece
     ret = prcs_sengo(@from, @to)
 
@@ -282,6 +317,9 @@ class TestGame < BrowserTestAbstract
     logout
   end
 
+  # １手分の指し手情報の読み取り
+  #
+  # @param tee 指し手情報
   def readmove(tee)
     @from = tee['from']
     @to = tee['to'] if tee['to']
@@ -292,6 +330,7 @@ class TestGame < BrowserTestAbstract
     # puts "#{@color}#{@piece}:#{@from}->#{@to},#{@prmt}" if tee['same']
   end
 
+  # 棋譜に従って指す。
   def move_with_kifu
     moves.each do |tee|
       puts "tee:#{tee}"
@@ -304,6 +343,7 @@ class TestGame < BrowserTestAbstract
     puts "ERROR in move_with_kifu: class=[#{er.class}] message=[#{er.message}]"
   end
 
+  # 指したりチェックしたり
   def run
     move_with_kifu
     resign(1 - moves.last['color']) if special == 'TORYO'
