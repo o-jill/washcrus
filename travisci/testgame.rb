@@ -19,6 +19,8 @@ class TestGame < BrowserTestAbstract
               :pwsen, :pwgo, :moves, :special, :resultsfen
 
   # 対局情報のセット
+  #
+  # @param hash game-id
   def setgame(hash)
     @gid = hash
     swap_ply if checksengo
@@ -83,6 +85,8 @@ class TestGame < BrowserTestAbstract
   end
 
   # 棋譜の読み込み
+  #
+  # @param path 棋譜のパス
   def read(path)
     File.open(path, 'r:utf-8') do |file|
       data = JSON.parse(file.read)
