@@ -21,6 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         ruby-version: ['2.3', '2.5', '2.6', '2.7']  # , '3.0']
+        kifu: ['-N1', '-N2', '-N3', '-N4', '-N5', '-N6']
 #    services:
 #      selenium:
 #        image: selenium/standalone-chrome:3.141.59-vanadium
@@ -66,8 +67,6 @@ jobs:
         gem install mailcatcher
         gem install rubyzip -v1.3.0 # for selenium-webdriver -v3.142.7
         gem install selenium-webdriver -v3.142.7
-    - name: Install dependencies
-      run: bundle install
     - name: launch xvfb
       run: Xvfb :99 &
     - name: launch mail server
@@ -79,6 +78,6 @@ jobs:
     - name: Run tests
       run: |
         chmod ugo+x ./travisci/runontravis.sh
-        ./travisci/runontravis.sh
+        ./travisci/runontravis.sh ${{ matrix.kifu }}
       env:
         DISPLAY: :99
