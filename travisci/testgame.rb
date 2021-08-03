@@ -10,6 +10,7 @@ require './file/pathlist.rb'
 # play a game automatically with a kifu.
 #
 class TestGame < BrowserTestAbstract
+  # 初期化
   def initialize
     super
   end
@@ -17,11 +18,13 @@ class TestGame < BrowserTestAbstract
   attr_reader :color, :driver, :gid, :nmsen, :nmgo, :emlsen, :emlgo, \
               :pwsen, :pwgo, :moves, :special, :resultsfen
 
+  # 対局情報のセット
   def setgame(hash)
     @gid = hash
     swap_ply if checksengo
   end
 
+  # 先後がどっちなのかチェックする
   def checksengo
     path = "taikyoku/#{gid}/matchinfo.txt"
     data = YAML.load_file(path)
@@ -33,6 +36,7 @@ class TestGame < BrowserTestAbstract
     data[:playerb] != nmsen
   end
 
+  # 先手と後手の情報を入れ替える
   def swap_ply
     t = nmsen
     @nmsen = nmgo
@@ -47,18 +51,29 @@ class TestGame < BrowserTestAbstract
     @pwgo = t
   end
 
+  # 先手情報のセット
+  #
+  # @param name 名前
+  # @param eml メールアドレス
+  # @param pwd パスワード
   def setplayersen(name, eml, pwd)
     @nmsen = name
     @emlsen = eml
     @pwsen = pwd
   end
 
+  # 後手情報のセット
+  #
+  # @param name 名前
+  # @param eml メールアドレス
+  # @param pwd パスワード
   def setplayergo(name, eml, pwd)
     @nmgo = name
     @emlgo = eml
     @pwgo = pwd
   end
 
+  # 棋譜を使いやすい形に整形
   def reshapemoves
     @moves = moves.map.each do |te|
       te['move']
@@ -67,6 +82,7 @@ class TestGame < BrowserTestAbstract
     # puts @moves
   end
 
+  # 棋譜の読み込み
   def read(path)
     File.open(path, 'r:utf-8') do |file|
       data = JSON.parse(file.read)
@@ -79,30 +95,43 @@ class TestGame < BrowserTestAbstract
     reshapemoves
   end
 
+  # 先手としてログイン
   def becomesente
     checklogin(emlsen, pwsen)
   end
 
+  # 後手としてログイン
   def becomegote
     checklogin(emlgo, pwgo)
   end
 
+  # ログアウトする
   def logout
     driver.navigate.to BASE_URL + 'index.rb?logout'
   end
 
+  # 対局ページに移動
   def gogame
     driver.navigate.to BASE_URL + "index.rb?game/#{gid}"
   end
 
+  # 移動元のマスをクリックする
+  #
+  # @param sujidan 移動元の座標
   def touch(sujidan)
     driver.find_element(:id, "b#{sujidan['x']}#{sujidan['y']}").click
   end
 
+  # 移動先のマスをクリックする
+  #
+  # @param sujidan 移動先の座標
   def move(sujidan)
     driver.find_element(:id, "b#{sujidan['x']}#{sujidan['y']}").click
   end
 
+  # 成りダイアログのボタンをクリックする
+  #
+  # @param bnaru true:成る, false:成らず
   def naru(bnaru)
     eid = bnaru ? 'naru' : 'narazu'
     driver.find_element(:id, eid).click
@@ -123,7 +152,7 @@ class TestGame < BrowserTestAbstract
     }[str.to_sym]).click
   end
 
-  # 成りダイアログのボタンをクリックする
+  # 移動確認ダイアログのボタンをクリックする
   #
   # @param okcan ボタンのID。'ok' or 'cancel'
   def confirmmove(okcan = 'ok')
