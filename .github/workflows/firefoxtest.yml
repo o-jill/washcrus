@@ -21,6 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         ruby-version: ['2.3', '2.5', '2.6', '2.7']  # , '3.0']
+        kifu: ['-N1', '-N2']
 #    services:
 #      selenium:
 #        image: selenium/standalone-chrome:3.141.59-vanadium
@@ -74,6 +75,6 @@ jobs:
     - name: Run tests
       run: |
         chmod ugo+x ./travisci/runontravis.sh
-        ./travisci/runontravis.sh
+        ./travisci/runontravis.sh ${{ matrix.kifu }}
       env:
         DISPLAY: :99
