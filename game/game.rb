@@ -53,11 +53,11 @@ class Game
   # userinfoが変だよ
   # 存在しないはずのIDだよ
   def check_params
-    @log.debug('Game.check gameid')
+    @log.debug("Game.check gameid(#{gameid})")
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid
 
-    @log.debug('Game.check userinfo')
+    @log.debug("Game.check userinfo(uid:#{@userinfo.user_id})")
     # userinfoが変だよ
     return LoginScreen.new(@header).show(@userinfo, @gameid) \
       unless @userinfo.exist_indb
@@ -88,7 +88,7 @@ class Game
   def perform
     return unless check_params
 
-     @log.debug('Game.read TaikyokuData')
+    @log.debug('Game.read TaikyokuData')
     tkd = prepare_tkd
 
     @log.debug('Game. html rendering')
