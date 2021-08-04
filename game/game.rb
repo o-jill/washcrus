@@ -53,7 +53,7 @@ class Game
   # userinfoが変だよ
   # 存在しないはずのIDだよ
   def check_params
-    @log.debug("Game.check gameid(#{gameid})")
+    @log.debug("Game.check gameid(#{@gameid})")
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid
 
