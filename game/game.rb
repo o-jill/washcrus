@@ -53,16 +53,16 @@ class Game
   # userinfoが変だよ
   # 存在しないはずのIDだよ
   def check_params
-    # @log.debug('Game.check gameid')
+    @log.debug('Game.check gameid')
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid
 
-    # @log.debug('Game.check userinfo')
+    @log.debug('Game.check userinfo')
     # userinfoが変だよ
     return LoginScreen.new(@header).show(@userinfo, @gameid) \
       unless @userinfo.exist_indb
 
-    # @log.debug('Game.check gameid with TaikyokuFile')
+    @log.debug('Game.check gameid with TaikyokuFile')
     tdb = TaikyokuFile.new
     tdb.read
     # 存在しないはずのIDだよ
@@ -88,14 +88,14 @@ class Game
   def perform
     return unless check_params
 
-    # @log.debug('Game.read TaikyokuData')
+     @log.debug('Game.read TaikyokuData')
     tkd = prepare_tkd
 
-    # @log.debug('Game. html rendering')
+    @log.debug('Game. html rendering')
     # 表示する
     gh = GameHtml.new(@gameid, tkd.mif, tkd.jkf, @userinfo)
     gh.log = @log
-    # @log.debug('Game.put')
+    @log.debug('Game.put')
     gh.put(@header)
     # @log.debug('Game.performed')
     @log.debug("sesionfiles:#{Dir['./tmp/*']}")
