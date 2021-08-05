@@ -117,7 +117,6 @@ class TestGame < BrowserTestAbstract
   # 対局ページに移動
   def gogame
     driver.navigate.to BASE_URL + "index.rb?game/#{gid}"
-    sleep 1
   end
 
   # 移動元のマスをクリックする
@@ -199,7 +198,7 @@ class TestGame < BrowserTestAbstract
     else
       becomegote
     end
-
+    sleep 5
     gogame
 
     resignbtn
