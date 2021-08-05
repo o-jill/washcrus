@@ -1211,7 +1211,7 @@ function send_csamove_resp(status, resp)
 {
   var msg = document.getElementById('msg_fogscreen');
   if (status === 0) {  // XHR 通信失敗
-    msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
+    msg.innerHTML += 'XHR 通信失敗<br>自動的にリロードします。';
     location.reload(true);
     return;
   }
