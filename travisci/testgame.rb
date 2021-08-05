@@ -119,6 +119,31 @@ class TestGame < BrowserTestAbstract
     driver.navigate.to BASE_URL + "index.rb?game/#{gid}"
   end
 
+  # 対局ページ経由でloginできることの確認用ログイン
+  #
+  # @param email メールアドレス
+  # @param pwd パスワード
+  def checklogin_viagame(email, pwd)
+    driver.find_element(:name, 'siemail').send_keys(email)
+    elem = driver.find_element(:name, 'sipassword')
+    elem.send_keys pwd
+    elem.submit
+    sleep 1.8
+    simpleurlcheck('index.rb?logincheck')
+    res.checkmatch(/Logged in successfully/)
+  end
+
+  # 対局ページに移動
+  def gogame_wo_login(sente)
+    gogame
+
+    # login
+    sente ? checklogin_viagame(emlsen, pwsen) : checklogin_viagame(emlgo, pwgo)
+
+    # wait jumping
+    sleep 4
+  end
+
   # 移動元のマスをクリックする
   #
   # @param sujidan 移動元の座標
@@ -193,14 +218,9 @@ class TestGame < BrowserTestAbstract
   #
   # @param clr 0:先, 1:後
   def resign(clr)
-    if clr.zero?
-      becomesente
-    else
-      becomegote
-    end
-    sleep 5
-    gogame
-
+    gogame_wo_login(clr.zero?) # login here
+    res.checkurl(BASE_URL + "index.rb?game/#{gid}")
+    sleep 1
     resignbtn
     confirmmove('ok')
   end
