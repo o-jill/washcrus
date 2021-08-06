@@ -89,6 +89,18 @@ class LoginCheckScreen
   #
   # @param cgi CGIオブジェクト
   def gen_new_session(cgi)
+    # delete session if exist.
+    begin
+      session = CGI::Session.new(
+        cgi,
+        'new_session' => false,
+        'tmpdir' => './tmp'
+      )
+      session.close
+      session.delete
+    rescue ArgumentError
+      # session = nil
+    end
     expire = Time.now + 2_592_000 # 30days
     session = CGI::Session.new(cgi,
                                'new_session' => true,

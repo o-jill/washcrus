@@ -98,8 +98,6 @@ class WashCrus
 
   # ログイン処理
   def logincheck
-    @session&.delete
-
     require './views/logincheck.rb'
     LoginCheckScreen.new.show(@userinfo, @cgi)
   end
