@@ -100,6 +100,7 @@ class LoginCheckScreen
     session['session_expires'] = expire
 
     session.update
+    session.close
   end
 
   # セッション情報の確認(二重ログイン防止)
