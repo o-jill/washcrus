@@ -96,15 +96,15 @@ class Move
         'new_session' => false,
         'tmpdir' => './tmp'
       )
-    rescue ArgumentError => ae
+    rescue ArgumentError # => ae
       # session = nil
       @log.info('failed to find session')
-      @log.debug("#{ae.message}, (#{ae.class})")
-      @log.debug("sesionfiles:#{Dir['./tmp/*']}")
+      # @log.debug("#{ae.message}, (#{ae.class})")
+      # @log.debug("sesionfiles:#{Dir['./tmp/*']}")
     end
 
     # check cookies
-    @log.debug("cookie:#{cgi.cookies}")
+    # @log.debug("cookie:#{cgi.cookies}")
 
     @userinfo = UserInfo.new
     userinfo.readsession(session) if session
@@ -123,12 +123,12 @@ class Move
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
-    @log.debug "illegalaccess (tcdb.exist_id(#{gameid}) =>" \
-      " #{tcdb.exist_id(gameid)})" unless tcdb.exist_id(gameid)
+    # @log.debug "illegalaccess (tcdb.exist_id(#{gameid}) =>" \
+    #   " #{tcdb.exist_id(gameid)})" unless tcdb.exist_id(gameid)
     return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(gameid)
 
     # userinfoが変だよ
-    @log.debug "pleaselogin(uid:#{userinfo.user_id})" unless userinfo.exist_indb
+    # @log.debugpleaselogin(uid:#{userinfo.user_id})" unless userinfo.exist_indb
     return MyHtml.puts_textplain_pleaselogin unless userinfo.exist_indb
 
     # moveが変だよ

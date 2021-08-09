@@ -292,19 +292,18 @@ class TestGame < BrowserTestAbstract
         next if line.empty?
         # id, idv, idw, nameb, namew, turn, time, comment
         ret = line.start_with?(gid + ',')
-        puts "'#{line}'.start_with?(#{gid + ','})" if ret
-        return false if ret
+        return puts "'#{line}'.start_with?(#{gid + ','})" if ret
       end
     end
     puts 'removed from taikyokuchu successfully.'
-    true
+    self
   end
 
   # 対局中ファイルのチェック
   def checktaikyokuchucsv
     @lockfn = PathList::TAIKYOKUCHULOCKFILE
     lock do
-      res.succfail(checktaikyokuchucsvmain)
+      res.succfail(!checktaikyokuchucsvmain.nil?)
     end
   end
 

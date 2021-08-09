@@ -91,14 +91,14 @@ class Game
     @log.debug('Game.read TaikyokuData')
     tkd = prepare_tkd
 
-    @log.debug('Game. html rendering')
+    # @log.debug('Game. html rendering')
     # 表示する
     gh = GameHtml.new(@gameid, tkd.mif, tkd.jkf, @userinfo)
     gh.log = @log
     @log.debug('Game.put')
     gh.put(@header)
     # @log.debug('Game.performed')
-    @log.debug("sesionfiles:#{Dir['./tmp/*']}")
+    # @log.debug("sesionfiles:#{Dir['./tmp/*']}")
   rescue StandardError => err
     @log.warn(err.to_s)
     @log.warn(err.backtrace.join("\n").to_s)
