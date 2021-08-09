@@ -99,7 +99,7 @@ class LoginCheckScreen
       session.close
       session.delete
     rescue ArgumentError
-      # session = nil
+      session = nil
     end
     expire = Time.now + 2_592_000 # 30days
     session = CGI::Session.new(cgi,
