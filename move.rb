@@ -101,7 +101,7 @@ class Move
       # session = nil
       @log.info('failed to find session')
       # @log.debug("#{ae.message}, (#{ae.class})")
-      @log.debug("sesionfiles:#{Dir['./tmp/*']}")
+      # @log.debug("sesionfiles:#{Dir['./tmp/*']}")
     end
 
     # check cookies
