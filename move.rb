@@ -88,7 +88,7 @@ class Move
     # @log.debug('Move.readuserparam')
 
     # check cookies
-    @log.debug("cookie:#{cgi.cookies}")
+    # @log.debug("cookie:#{cgi.cookies}")
 
     begin
       session = CGI::Session.new(
