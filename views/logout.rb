@@ -15,7 +15,7 @@ class LogoutScreen
   #
   # @param session セッション情報オブジェクト
   def show(session)
-    session&.delete
+    # session&.delete
 
     CommonUI.html_head2
     CommonUI.html_menu

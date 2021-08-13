@@ -98,7 +98,7 @@ class LoginCheckScreen
         'tmpdir' => './tmp'
       )
       session.close
-      session.delete
+      # session.delete
     rescue ArgumentError
       session = nil
     end
