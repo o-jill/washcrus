@@ -28,8 +28,8 @@ class TestGame < BrowserTestAbstract
 
   # 先後がどっちなのかチェックする
   def checksengo
-    path = "taikyoku/#{gid}/matchinfo.txt"
-    data = YAML.load_file(path)
+    # path = "taikyoku/#{gid}/matchinfo.txt"
+    data = YAML.load_file("taikyoku/#{gid}/matchinfo.txt")
 
     @gid = data[:gid]
     return puts "@gid:#{gid} is wrong." unless gid
@@ -221,7 +221,6 @@ class TestGame < BrowserTestAbstract
     sleep 10 # wait logout
     gogame_wo_login(clr.zero?) # login here
     res.checkurl(BASE_URL + "index.rb?game/#{gid}")
-    sleep 0.5
     resignbtn
     confirmmove('ok')
     sleep 3
@@ -229,8 +228,8 @@ class TestGame < BrowserTestAbstract
 
   # 最後の局面のチェック
   def checklastsfen
-    path = "taikyoku/#{gid}/matchinfo.txt"
-    data = YAML.load_file(path)
+    # path = "taikyoku/#{gid}/matchinfo.txt"
+    data = YAML.load_file("taikyoku/#{gid}/matchinfo.txt")
 
     sfen = data[:sfen]
     @turn = data[:turn]
@@ -324,6 +323,7 @@ class TestGame < BrowserTestAbstract
       move(to)
       confirmmove('ok')
     end
+    sleep 3.5
   end
 
   # ひふみんアイ用の座標変換
@@ -367,7 +367,6 @@ class TestGame < BrowserTestAbstract
     sleep 0.5
     move_a_piece(ret[:from], ret[:to])
 
-    sleep 3.5
     logout
   end
 

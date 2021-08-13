@@ -102,7 +102,7 @@ class LoginCheckScreen
         'tmpdir' => './tmp'
       )
       session.close
-      @log.info("user #{session['_washcrus_session']} removed.")
+      # @log.info("user #{session['_washcrus_session']} removed.")
       session.delete
     rescue ArgumentError
       session = nil
