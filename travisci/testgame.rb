@@ -218,7 +218,7 @@ class TestGame < BrowserTestAbstract
   #
   # @param clr 0:先, 1:後
   def resign(clr)
-    sleep 8
+    sleep 10 # wait logout
     gogame_wo_login(clr.zero?) # login here
     res.checkurl(BASE_URL + "index.rb?game/#{gid}")
     resignbtn
