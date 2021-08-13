@@ -50,6 +50,7 @@ else
   ret=$?
   if [ ${ret} -ne 0 ]; then
     cat ./log/newgamegenlog.txt
+    cat ./log/loginoutlog.txt
     cat ./log/gamelog.txt
     cat ./log/movelog.txt
     cat ./db/taikyoku.csv

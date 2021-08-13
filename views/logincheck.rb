@@ -4,7 +4,10 @@
 require 'cgi'
 require 'cgi/session'
 require 'digest/sha2'
+require 'logger'
 require 'unindent'
+
+require './file/pathlist.rb'
 require './file/userinfofile.rb'
 require './views/common_ui.rb'
 
@@ -17,6 +20,7 @@ class LoginCheckScreen
     @errmsg = ''
     @userinfo = nil
     @userdata = {}
+    @log = Logger.new(PathList::LOGINOUTLOG)
   end
 
   # パスワードのチェック
@@ -98,7 +102,8 @@ class LoginCheckScreen
         'tmpdir' => './tmp'
       )
       session.close
-      # session.delete
+      @log.info("user #{session['_washcrus_session']} removed.")
+      session.delete
     rescue ArgumentError
       session = nil
     end
@@ -115,6 +120,7 @@ class LoginCheckScreen
 
     session.update
     session.close
+    @log.info("user #{session['user_id']} login.")
   end
 
   # セッション情報の確認(二重ログイン防止)

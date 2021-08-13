@@ -10,6 +10,7 @@ module PathList
   GENNEWGAMELOG = './log/newgamegenlog.txt'
   GETSFENLOG = './log/getsfen.txt'
   KIFUFILE = 'kifu.jkf'
+  LOGINOUTLOG = './log/loginoutlog.txt'
   LOUNGECHATFILE = './taikyoku/lounge/chat.txt'
   MAILSETTINGFILE = './config/mail.yaml'
   MOVELOG = './log/movelog.txt'
