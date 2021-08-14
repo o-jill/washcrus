@@ -3,8 +3,8 @@
 
 # Sfenを保存するファイル管理クラス
 class SfenStore
-  # DIRPATH = './taikyoku/'.freeze
-  # STOREFILE = '/sfenlog.txt'.freeze
+  # DIRPATH = './taikyoku/'
+  # STOREFILE = '/sfenlog.txt'
 
   # 初期化
   #
