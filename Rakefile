@@ -1,5 +1,6 @@
 # rakefile
-# encoding: utf-8
+# -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'rake/clean'
 require 'securerandom'
@@ -12,13 +13,14 @@ file 'secret_token.rb' do |fn|
     keydata = SecureRandom.hex(20)
     suf = SecureRandom.hex(2)
     f.puts <<"SECRET_TOKEN"
-# coding: utf-8
+# -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 module Globals
-  KEY = '#{keydata}'.freeze
-  USERINFO = './db/userinfo#{suf}.csv'.freeze
-  TAIKYOKU = './db/taikyoku#{suf}.csv'.freeze
-  TAIKYOKUCHU = './db/taikyoku#{suf}.csv'.freeze
+  KEY = '#{keydata}'
+  USERINFO = './db/userinfo#{suf}.csv'
+  TAIKYOKU = './db/taikyoku#{suf}.csv'
+  TAIKYOKUCHU = './db/taikyoku#{suf}.csv'
 end
 SECRET_TOKEN
   end
