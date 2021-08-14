@@ -424,3 +424,32 @@ text-decoration:none;
   font-size: larger;
   text-decoration: underline;
 }
+
+/* marquee */
+.marquee-anim {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-bottom: 1px solid darkolivegreen;
+  /* border: 1px solid rgb(200,222,245); / * ボーダー */
+  /* background-color: rgb(233,247,250); / * 背景色 */
+  color: darkolivegreen; /* 文字色 */
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.marquee-anim span {
+  display: inline-block;
+  padding-left: 100%;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate(0);
+  }
+  to {
+    transform: translate(-100%);
+  }
+}

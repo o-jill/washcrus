@@ -52,6 +52,7 @@ module CommonUI
     sup = stg.value['support_url']
     title = stg.value['title']
 
+    marquee_news
     bsignup = !userinfo || userinfo.invalid?
     return html_menu_signup(title, index, sup) if bsignup
 
@@ -187,6 +188,12 @@ module CommonUI
     puts '<HR><footer><div align=right>' \
          "&copy;ぢるっち 2017-2020 with Ruby v#{RUBY_VERSION}" \
          '</div></footer></BODY></HTML>'
+  end
+
+  # 横に流れるニュース欄の出力
+  def self.marquee_news
+    puts '<div class="marquee-anim"><span id="mqnews">読み込み中</span></div>'
+    puts '<script type="text/javascript" src="js/marqueenews.js"></script>'
   end
 
   TEBANTEXT = [
