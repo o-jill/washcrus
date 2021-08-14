@@ -11,6 +11,7 @@ config/mail.yaml
 config/settings.yaml
 config/signature.txt
 config/news.txt
+config/mqnews.js
 db/adminconfig.txt
 db/taikyoku.csv
 db/taikyokuchu.csv
