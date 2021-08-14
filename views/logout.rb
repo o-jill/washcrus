@@ -19,7 +19,7 @@ class LogoutScreen
   #
   # @param session セッション情報オブジェクト
   def show(session)
-    @log.info("user #{session['user_id']} logout.")
+    @log.info("user #{session['user_id']} logout.") if session
     session&.delete
 
     CommonUI.html_head2
