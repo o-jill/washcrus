@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'digest/sha2'
 require 'openssl'
@@ -41,8 +42,7 @@ class UserInfoFileContent
   # returns decoded mail address
   def self.decode_mail(dec, data)
     dec.pkcs5_keyivgen(KEY)
-    em = ''
-    em << dec.update([data].pack('H*'))
+    em = dec.update([data].pack('H*'))
     em << dec.final
     em
   end
@@ -88,8 +88,7 @@ class UserInfoFileContent
     enc = OpenSSL::Cipher.new('AES-256-CBC')
     enc.encrypt
     enc.pkcs5_keyivgen(KEY)
-    crypted = ''
-    crypted << enc.update(@emails[id])
+    crypted = enc.update(@emails[id])
     crypted << enc.final
     crypted.unpack('H*')[0]
   end

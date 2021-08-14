@@ -1,9 +1,13 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'cgi'
 require 'cgi/session'
 require 'digest/sha2'
+require 'logger'
 require 'unindent'
+
+require './file/pathlist.rb'
 require './file/userinfofile.rb'
 require './views/common_ui.rb'
 
@@ -16,6 +20,7 @@ class LoginCheckScreen
     @errmsg = ''
     @userinfo = nil
     @userdata = {}
+    @log = Logger.new(PathList::LOGINOUTLOG)
   end
 
   # パスワードのチェック
@@ -88,6 +93,20 @@ class LoginCheckScreen
   #
   # @param cgi CGIオブジェクト
   def gen_new_session(cgi)
+    # delete session if exist.
+    begin
+      session = CGI::Session.new(
+        cgi,
+        'new_session' => false,
+        'session_key' => '_washcrus_session',
+        'tmpdir' => './tmp'
+      )
+      session.close
+      # @log.info("user #{session['_washcrus_session']} removed.")
+      session.delete
+    rescue ArgumentError
+      session = nil
+    end
     expire = Time.now + 2_592_000 # 30days
     session = CGI::Session.new(cgi,
                                'new_session' => true,
@@ -100,25 +119,27 @@ class LoginCheckScreen
     session['session_expires'] = expire
 
     session.update
+    session.close
+    @log.info("user #{session['user_id']} login.")
   end
 
   # セッション情報の確認(二重ログイン防止)
   #
-  # @param session セッション情報
+  # @param userinfo セッション情報
   # @param cgi CGIオブジェクト
   # @return ログイン出来てるときtrue
-  def check_session_params(session, cgi)
-    if session
+  def check_session_params(userinfo, cgi)
+    unless userinfo.invalid?
       @errmsg = 'you already logged in!'
 
       return true
-    else
-      check_login(cgi.params)
-      if @errmsg.empty?
-        gen_new_session(cgi)
+    end
 
-        return true
-      end
+    check_login(cgi.params)
+    if @errmsg.empty?
+      gen_new_session(cgi)
+
+      return true
     end
 
     false
@@ -145,6 +166,7 @@ class LoginCheckScreen
   # @return 案内タグ文字列
   def gotogamepage(params)
     gid = params['gameid'][0]
+    return unless gid
     return if gid.empty?
     "<div align='center'>" \
     "<a href='index.rb?game/#{gid}'>対局(#{gid})へ</a><br>" \
@@ -153,10 +175,10 @@ class LoginCheckScreen
 
   # 画面の表示
   #
-  # @param session セッション情報
+  # @param userinfo ユーザー情報
   # @param cgi CGIオブジェクト
-  def show(session, cgi)
-    check_session_params(session, cgi)
+  def show(userinfo, cgi)
+    check_session_params(userinfo, cgi)
 
     header = cgi.header('charset' => 'UTF-8',
                         'Pragma' => 'no-cache',

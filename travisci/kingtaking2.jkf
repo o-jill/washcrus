@@ -1,0 +1,24 @@
+{
+  "header": {
+    "対局ID": "f8e25017ac","開始日時": "2020/08/02 10:47:07",
+    "先手": "john doe","後手": "admin",
+    "持ち時間": "持ち時間0秒、1手3日、考慮日数20日",
+    "先手考慮日数": "20日","後手考慮日数": "20日",
+    "終了日時": "2020/08/02 10:56:45"
+  },
+  "initial": {"preset": "HIRATE"},
+  "moves": [
+    {"comments": []},
+    {"move": {"to": {"x": 1,"y": 6},"piece": "FU","color": 0,"from": {"x": 1,"y": 7}},"time": {"now": {"s": 51,"m": 0},"total": {"s": 51,"m": 0}},"comments": ["着手日時：2020-08-02 10:47:58 +0900"]},
+    {"move": {"to": {"x": 8,"y": 4},"piece": "FU","color": 1,"from": {"x": 8,"y": 3}},"time": {"now": {"s": 51,"m": 0},"total": {"s": 51,"m": 0}},"comments": ["着手日時：2020-08-02 10:47:58 +0900"]},
+    {"move": {"to": {"x": 6,"y": 8},"piece": "OU","color": 0,"from": {"x": 5,"y": 9}},"time": {"now": {"s": 39,"m": 0},"total": {"s": 39,"m": 0}},"comments": ["着手日時：2020-08-02 10:48:37 +0900"]},
+    {"move": {"to": {"x": 8,"y": 5},"piece": "FU","color": 1,"from": {"x": 8,"y": 4}},"time": {"now": {"s": 43,"m": 0},"total": {"s": 34,"m": 1}},"comments": ["着手日時：2020-08-02 10:49:20 +0900"]},
+    {"move": {"to": {"x": 7,"y": 8},"piece": "OU","color": 0,"from": {"x": 6,"y": 8}},"time": {"now": {"s": 50,"m": 0},"total": {"s": 29,"m": 1}},"comments": ["着手日時：2020-08-02 10:50:10 +0900"]},
+    {"move": {"to": {"x": 8,"y": 6},"piece": "FU","color": 1,"from": {"x": 8,"y": 5}},"time": {"now": {"s": 10,"m": 3},"total": {"s": 44,"m": 4}},"comments": ["着手日時：2020-08-02 10:53:20 +0900"]},
+    {"move": {"to": {"x": 6,"y": 8},"piece": "HI","color": 0,"from": {"x": 2,"y": 8}},"time": {"now": {"s": 56,"m": 0},"total": {"s": 25,"m": 2}},"comments": ["着手日時：2020-08-02 10:54:16 +0900"]},
+    {"move": {"to": {"x": 8,"y": 7},"piece": "FU","color": 1,"from": {"x": 8,"y": 6},"capture": "FU","promote": true},"time": {"now": {"s": 49,"m": 0},"total": {"s": 33,"m": 5}},"comments": ["着手日時：2020-08-02 10:55:05 +0900"]},
+    {"move": {"to": {"x": 8,"y": 7},"piece": "OU","color": 0,"from": {"x": 7,"y": 8},"capture": "TO","same": true},"time": {"now": {"s": 59,"m": 0},"total": {"s": 24,"m": 3}},"comments": ["着手日時：2020-08-02 10:56:04 +0900"]},
+    {"move": {"to": {"x": 8,"y": 7},"piece": "HI","color": 1,"from": {"x": 8,"y": 2},"capture": "OU","promote": true,"same": true},"time": {"now": {"s": 41,"m": 0},"total": {"s": 14,"m": 6}},"comments": ["着手日時：2020-08-02 10:56:45 +0900"]}
+  ],
+  "result":"lnsgkgsnl/7b1/p1ppppppp/9/9/8P/P+rPPPPPP1/1B1R5/LNSG1GSNL b Pp 11"
+}

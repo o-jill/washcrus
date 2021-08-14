@@ -1,4 +1,5 @@
 # for testing on a browser.
+# frozen_string_literal: true
 
 require 'selenium-webdriver'
 
@@ -14,7 +15,12 @@ class BrowserTestAbstract
 
   attr_reader :driver, :res
 
-  BASE_URL = 'http://localhost:3000/'.freeze
+  # ok, ngのカウントをゼロにする
+  def reset
+    res.reset
+  end
+
+  BASE_URL = 'http://localhost:3000/'
 
   def simplecheck(pageurl)
     driver.navigate.to BASE_URL + pageurl

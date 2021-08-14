@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'bundler/setup'
 
@@ -28,16 +29,19 @@ class GetMatchInfo
   # sessionの取得と情報の読み取り
   def readuserparam
     begin
-      @session = CGI::Session.new(@cgi,
-                                  'new_session' => false,
-                                  'session_key' => '_washcrus_session',
-                                  'tmpdir' => './tmp')
+      session = CGI::Session.new(
+        @cgi,
+        'new_session' => false,
+        'session_key' => '_washcrus_session',
+        'tmpdir' => './tmp'
+      )
     rescue ArgumentError
-      @session = nil
+      session = nil
     end
 
     @userinfo = UserInfo.new
-    @userinfo.readsession(@session) if @session
+    @userinfo&.readsession(session)
+    session&.close
   end
 
   # 情報のチェック

@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 # 対局時間管理クラス
 class TimeKeeper
@@ -107,7 +108,7 @@ class TimeKeeper
     @byouyomi += elapsed
     aft = TimeKeeper.sec2day(@byouyomi)
     puts "bbef:#{bef}, aft:#{aft}}, byou:#{@byouyomi}"
-    if @byouyomi > 0
+    if @byouyomi.positive?
       @houchi = HOUCHI_REMINDER if bef != aft
       return
     end

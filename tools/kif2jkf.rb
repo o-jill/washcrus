@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 # 初期配置は変なやつ(角厨とか)以外はいらない。
 # 同のときはtoを追加。

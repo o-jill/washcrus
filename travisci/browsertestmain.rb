@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # for testing on a browser.
 
 # usage:
@@ -10,6 +12,7 @@
 # -N3 :      koyan_tadao.jkf will be used.
 # -N4 :      sennichite.jkf will be used.
 # -N5 :      kingtaking.jkf will be used.
+# -N6 :      kingtaking2.jkf will be used.
 
 require 'selenium-webdriver'
 
@@ -49,11 +52,12 @@ KIFULIST = [
   'travisci/fuji_debut.jkf',
   'travisci/koyan_tadao.jkf',
   'travisci/sennichite.jkf',
-  'travisci/kingtaking.jkf' # N5
+  'travisci/kingtaking.jkf', # N5
+  'travisci/kingtaking2.jkf'
 ].freeze
 kifindexarr = ARGV.grep(/-N\d+/)
 kifindex = kifindexarr.size.zero? ? -1 : kifindexarr[0].slice(2, 10).to_i
-jkfpath = kifindex < 0 ? KIFULIST.sample : KIFULIST[kifindex]
+jkfpath = kifindex.negative? ? KIFULIST.sample : KIFULIST[kifindex]
 puts "#{jkfpath}, #{ARGV} #{kifindexarr} #{kifindex}"
 tg.read(jkfpath)
 tg.run
@@ -64,6 +68,7 @@ test.finalize(succ) if ARGV.include?('--quick')
 
 # test = BrowserTest.new
 test.fold_begin('draw.1', 'draw test')
+test.reset
 test.runlight
 test.fold_end('draw.1')
 succ += test.showresult
@@ -83,6 +88,6 @@ td.setplayergo(
 td.setgame(test.gameurl)
 td.run
 td.fold_end('draw.2')
-succ += tg.showresult
+succ += td.showresult
 
 test.finalize(succ)

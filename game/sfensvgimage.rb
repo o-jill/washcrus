@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'unindent'
 
@@ -109,7 +110,7 @@ class SfenSVGImage
   #
   # @return 変な数字のときtrue
   def invalidxy?(x, y)
-    y < 0 || y > 8 || x < 0 || x > 8
+    y.negative? || y > 8 || x.negative? || x > 8
   end
 
   # 最終手タグの生成

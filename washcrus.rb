@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'bundler/setup' if $PROGRAM_NAME == __FILE__
 
@@ -24,21 +25,18 @@ class WashCrus
 
     @action = cgi.query_string
     begin
-      @session = CGI::Session.new(cgi,
-                                  'new_session' => false,
-                                  'session_key' => '_washcrus_session',
-                                  'tmpdir' => './tmp',
-                                  'session_expires' => Time.now + 2_592_000)
+      @session = CGI::Session.new(
+        cgi,
+        'new_session' => false,
+        'session_key' => '_washcrus_session',
+        'tmpdir' => './tmp',
+        'session_expires' => Time.now + 2_592_000
+      )
     rescue ArgumentError
       @session = nil
     end
-    @userinfo = UserInfo.new
-    if @session
-      @userinfo.readsession(@session)
-      @userinfo.hashsession.each { |ky, vl| @session[ky] = vl }
-    else
-      @userinfo.visitcount = '1'
-    end
+
+    prepare_userinfo
 
     @header = cgi.header('charset' => 'UTF-8',
                          'Pragma' => 'no-cache',
@@ -48,6 +46,18 @@ class WashCrus
   end
 
   # class methods
+
+  # ユーザー情報の準備
+  def prepare_userinfo
+    @userinfo = UserInfo.new
+    if @session
+      @userinfo.readsession(@session)
+      @userinfo.hashsession.each { |ky, vl| @session[ky] = vl }
+      @session.close
+    else
+      @userinfo.visitcount = '1'
+    end
+  end
 
   WORDS_MISC = [nil, '', 'news', 'search', 'searchform'].freeze
 
@@ -78,7 +88,7 @@ class WashCrus
   # メールアドレス更新
   def update_email
     require './views/update_email.rb'
-    UpdateEmailScreen.new(@header).show(@cgi, @session, @userinfo, @params)
+    UpdateEmailScreen.new(@header).show(@cgi, @userinfo, @params)
   end
 
   # ログイン画面
@@ -90,7 +100,7 @@ class WashCrus
   # ログイン処理
   def logincheck
     require './views/logincheck.rb'
-    LoginCheckScreen.new.show(@session, @cgi)
+    LoginCheckScreen.new.show(@userinfo, @cgi)
   end
 
   # ログアウト

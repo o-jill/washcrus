@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'rubygems'
 
@@ -52,16 +53,16 @@ class Game
   # userinfoが変だよ
   # 存在しないはずのIDだよ
   def check_params
-    # @log.debug('Game.check gameid')
+    @log.debug("Game.check gameid(#{@gameid})")
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid
 
-    # @log.debug('Game.check userinfo')
+    @log.debug("Game.check userinfo(uid:#{@userinfo.user_id})")
     # userinfoが変だよ
     return LoginScreen.new(@header).show(@userinfo, @gameid) \
       unless @userinfo.exist_indb
 
-    # @log.debug('Game.check gameid with TaikyokuFile')
+    @log.debug('Game.check gameid with TaikyokuFile')
     tdb = TaikyokuFile.new
     tdb.read
     # 存在しないはずのIDだよ
@@ -87,16 +88,17 @@ class Game
   def perform
     return unless check_params
 
-    # @log.debug('Game.read TaikyokuData')
+    @log.debug('Game.read TaikyokuData')
     tkd = prepare_tkd
 
     # @log.debug('Game. html rendering')
     # 表示する
     gh = GameHtml.new(@gameid, tkd.mif, tkd.jkf, @userinfo)
     gh.log = @log
-    # @log.debug('Game.put')
+    @log.debug('Game.put')
     gh.put(@header)
     # @log.debug('Game.performed')
+    # @log.debug("sesionfiles:#{Dir['./tmp/*']}")
   rescue StandardError => err
     @log.warn(err.to_s)
     @log.warn(err.backtrace.join("\n").to_s)

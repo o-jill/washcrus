@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 # "total": {
 #  "h": 0, "m": 0, "s": 0
@@ -26,7 +27,7 @@ class JkfTime
   # @return {'s'=>秒, 'm'=>分, 'h'=>時間(ゼロならnil)}
   def genhash
     ret = { 's' => @sec, 'm' => @min }
-    ret['h'] = @hour if @hour > 0
+    ret['h'] = @hour if @hour.positive?
     ret
   end
 

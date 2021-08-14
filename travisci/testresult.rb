@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # require 'unindent'
 
 #
@@ -7,6 +9,12 @@ class Result
     @ok = 0
     @ng = 0
     @driver = driver
+  end
+
+  # ok, ngのカウントをゼロにする
+  def reset
+    @ok = 0
+    @ng = 0
   end
 
   attr_reader :ok, :ng
@@ -19,16 +27,22 @@ class Result
     puts "place:#{caller.join("\n")}"
   end
 
+  # increment ok
   def succe
     @ok += 1
   end
 
+  # increment ng
   def failu
     @ng += 1
   end
 
+  # increment ok or ng
+  #
+  # @param b true:ok will be incremented, otherwise ng.
   def succfail(b)
     b ? succe : failu
+    put_caller unless b
   end
 
   def checkproperty(a, b)

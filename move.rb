@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 require 'bundler/setup'
 
@@ -34,8 +35,8 @@ class Move
     @log = Logger.new(PathList::MOVELOG)
     # @log.level = Logger::INFO
     # @log.debug('Move.new()')
-    @cgi = cgi
-    read_cgiparam
+    readuserparam(cgi)
+    read_cgiparam(cgi)
     # @stg = stg
     load_settings(stg)
     @turn = '?'
@@ -45,14 +46,29 @@ class Move
     # @log.debug('Move.initialized')
   end
 
-  # logging
+  # @!attribute [r] plysnm
+  #   @return 先手の対局者名
+  # @!attribute [r] plygnm
+  #   @return 後手の対局者名
+  # @!attribute [r] gameid
+  #   @return 対局ID
+  # @!attribute [r] mif
+  #   @return　MatchInfoFileオブジェクト
+  # @!attribute [r] jmv
+  #   @return JsonMoveオブジェクト
+  # @!attribute [r] userinfo
+  #   @return ユーザー情報
+  # @!attribute [r] log
+  #   @return ログオブジェクト
   attr_reader :baseurl, :finished, :gameid, :jmv, :log, :mif, :move,
               :plysnm, :plygnm, :sfen, :tkd, :turn, :userinfo, :usehtml
 
   # paramsから値の読み出し
-  def read_cgiparam
-    @params = @cgi.params
-    @gameid = @cgi.query_string
+  #
+  # @param cgi CGIオブジェクト
+  def read_cgiparam(cgi)
+    @params = cgi.params
+    @gameid = cgi.query_string
     @sfen = @params['sfen'][0] if @params['sfen']
     @move = @params['jsonmove'][0] if @params['jsonmove']
   end
@@ -66,39 +82,58 @@ class Move
   end
 
   # sessionの取得と情報の読み取り
-  def readuserparam
+  #
+  # @param cgi CGIオブジェクト
+  def readuserparam(cgi)
     # @log.debug('Move.readuserparam')
+
+    # check cookies
+    # @log.debug("cookie:#{cgi.cookies}")
+
     begin
-      @session = CGI::Session.new(@cgi,
-                                  'new_session' => false,
-                                  'session_key' => '_washcrus_session',
-                                  'tmpdir' => './tmp')
-    rescue ArgumentError
-      # @session = nil
+      session = CGI::Session.new(
+        cgi,
+        'new_session' => false,
+        'session_key' => '_washcrus_session',
+        'tmpdir' => './tmp'
+      )
+    rescue ArgumentError # => ae
+      # session = nil
       @log.info('failed to find session')
+      # @log.debug("#{ae.message}, (#{ae.class})")
+      # @log.debug("sesionfiles:#{Dir['./tmp/*']}")
     end
 
-    @userinfo = UserInfo.new
-    userinfo.readsession(@session) if @session
+    # check cookies
+    # @log.debug("cookie:#{cgi.cookies}")
 
-    @header = @cgi.header('charset' => 'UTF-8')
+    @userinfo = UserInfo.new
+    userinfo.readsession(session) if session
+    session&.close
+
+    @header = cgi.header('charset' => 'UTF-8')
     @header = @header.gsub("\r\n", "\n")
   end
 
   # 情報のチェック
   def check_param
     # gameid が無いよ
+    # @log.debug "MyHtml.illegalaccess gid:#{gameid}" unless gameid
     return MyHtml.puts_textplain_illegalaccess unless gameid
 
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
+    # @log.debug "illegalaccess (tcdb.exist_id(#{gameid}) =>" \
+    #   " #{tcdb.exist_id(gameid)})" unless tcdb.exist_id(gameid)
     return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(gameid)
 
     # userinfoが変だよ
+    # @log.debugpleaselogin(uid:#{userinfo.user_id})" unless userinfo.exist_indb
     return MyHtml.puts_textplain_pleaselogin unless userinfo.exist_indb
 
     # moveが変だよ
+    # @log.debug "MyHtml.'invalid move.'" unless jmv
     return MyHtml.puts_textplain('invalid move.') unless jmv
 
     self
@@ -467,10 +502,14 @@ end
 
 begin
   cgi = CGI.new
+  # ブロック内の処理を計測
+  # require 'stackprof'
+  # StackProf.run(out: "./tmp/stackprof_move_#{Time.now.to_i}.dump") do
   stg = Settings.instance
   move = Move.new(cgi, stg)
-  move.readuserparam
+  # move.readuserparam
   move.perform
+  # end
 rescue ScriptError => err
   errtrace(err)
 rescue SecurityError => err
