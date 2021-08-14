@@ -15,6 +15,7 @@ module PathList
   MAILSETTINGFILE = './config/mail.yaml'
   MOVELOG = './log/movelog.txt'
   MATCHFILE = 'matchinfo.txt'
+  MQNEWSFILE = './config/mqnews.js'
   NEWSFILE = './config/news.txt'
   SETTINGSFILE = './config/settings.yaml'
   SFENFILE = 'sfenlog.txt'
