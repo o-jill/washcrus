@@ -80,3 +80,5 @@ jobs:
         ./travisci/runontravis.sh ${{ matrix.kifu }}
       env:
         DISPLAY: :99
+    - name: Byouyomi
+      run: bundle exec ruby ./observer/byouyomichan.rb 10
