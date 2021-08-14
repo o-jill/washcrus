@@ -173,6 +173,7 @@ module CommonUI
       <div class='menubase'>
       <a class='menu' href='#{index}?adminsettings'> Settings </a>
       <a class='menu' href='#{index}?adminnews'> News </a>
+      <a class='menu' href='#{index}?adminmqnews'> Marquee News </a>
       <a class='menu' href='#{index}?adminsignature'> Signature </a>
       <a class='menu' href='#{index}?userlist'> Users </a>
       <a class='menu' href='#{index}?adminuserstg'> User Management </a>
