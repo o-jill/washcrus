@@ -1207,6 +1207,19 @@ function buildMoveMsg()
 
 var tsushinchu = false;
 
+function csvmove_succ(resp)
+{
+  if (resp.match(/^Moved./)) {
+    return '通信完了。<br>自動的にリロードします。<br>response:' + resp;
+  } else if (resp.match(/^Draw suggestion./)) {
+    return '通信完了。<br>自動的にリロードします。<br>response:' + resp;
+  } else {
+    return '通信失敗。<br>指し手が反映されなかった可能性があります。<br>'
+      + 'お手数ですが、反映されたか確認をお願いします。<br>自動的にリロードします。<br>'
+      + 'response:' + resp;
+  }
+}
+
 function send_csamove_resp(status, resp)
 {
   var msg = document.getElementById('msg_fogscreen');
@@ -1218,15 +1231,7 @@ function send_csamove_resp(status, resp)
   // XHR 通信成功
   if ((200 <= status && status < 300) || status === 304) {
     // リクエスト成功
-    if (resp.match(/^Moved./)) {
-      msg.innerHTML = '通信完了。<br>自動的にリロードします。<br>response:' + resp;
-    } else if (resp.match(/^Draw suggestion./)) {
-      msg.innerHTML = '通信完了。<br>自動的にリロードします。<br>response:' + resp;
-    } else {
-      msg.innerHTML = '通信失敗。<br>指し手が反映されなかった可能性があります。<br>'
-        + 'お手数ですが、反映されたか確認をお願いします。<br>自動的にリロードします。<br>'
-          + 'response:' + resp;
-    }
+    msg.innerHTML = csvmove_succ(resp);
   } else {  // リクエスト失敗
     msg.innerHTML += 'その他の応答:' + status
       + '<br>指し手が反映されなかった可能性があります。<br>'
