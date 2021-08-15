@@ -81,32 +81,7 @@ module CommonUI
 
   # ポップアップメニュー制御スクリプトの出力
   def self.put_popupscript
-    puts <<-POPUPSCRIPT.unindent
-      <script>
-      var show = false;
-      function pntyou(e) {
-        var elem = document.getElementById('menu_popup');
-        var elemy = document.getElementById('menu_parent_popup');
-        if (show) {
-          elem.style.visibility = 'hidden';
-          elem.style.display = 'none';
-        } else {
-          elem.style.visibility = 'visible';
-          elem.style.display = 'block';
-          var rect = elemy.getBoundingClientRect();
-          elem.style.left = rect.left + 'px';
-          elem.style.top = rect.top + elemy.clientHeight + 'px';
-        }
-        show = !show;
-      }
-      var el = document.getElementById('menu_parent_popup');
-      if (el.onpointerdown) {
-        el.onpointerdown = pntyou;
-      } else {
-        el.onclick = pntyou;
-      }
-      </script>
-    POPUPSCRIPT
+    puts '<script type="text/javascript" src="./js/popupmenu.js"></script>'
   end
 
   # マイページのメニューの出力
@@ -128,9 +103,7 @@ module CommonUI
   # @param sup   サポートページのURL
   def self.html_menu_login(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
-      <header><div class='menubase'>
-        #{menubase_mypage(index)}
-      </div>
+      <header><div class='menubase'>#{menubase_mypage(index)}</div>
       <div class='popup' id='menu_popup'>
        <ul>
         <li><a class='menu' href='#{index}?searchform'> Search </a></li><hr>
@@ -193,8 +166,8 @@ module CommonUI
 
   # 横に流れるニュース欄の出力
   def self.marquee_news
-    puts '<div class="marquee-anim"><span id="mqnews">読み込み中</span></div>'
-    puts '<script type="text/javascript" src="js/marqueenews.js"></script>'
+    puts '<div class="marquee-anim"><span id="mqnews">読み込み中</span></div>' \
+         '<script type="text/javascript" src="js/marqueenews.js"></script>'
   end
 
   TEBANTEXT = [
