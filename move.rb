@@ -17,6 +17,7 @@ require './file/pathlist.rb'
 require './file/taikyokufile.rb'
 require './file/chatfile.rb'
 require './game/taikyokudata.rb'
+require './game/taikyokumail.rb'
 require './game/sfenkyokumentxt.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
@@ -336,10 +337,11 @@ class Move
   # @param finished [boolean] 終局したかどうか
   # @param now      [Time]    着手日時オブジェクト
   def send_mail(finished, now)
-    @log.debug('Move.sendmail')
     tkd.read # これいるの？
-    nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
-    finished ? send_mail_finished(nowstr) : send_mail_next(nowstr)
+    kifu = tkd.jkf.to_kif
+    tmail = TaikyokuMail.new(gameid, tkd.mif, userinfo, now, move)
+    finished ? tmail.send_mail_finished(kifu) : tmail.send_mail_next
+    @log.debug('Move.sendmail')
   end
 
   # 引き分けで終局
