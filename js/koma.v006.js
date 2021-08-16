@@ -1,5 +1,4 @@
-/* 汎用駒クラス */
-document.write("<script type='text/javascript' src='./js/komaabs.v001.js'></script>")
+/* 汎用駒クラスKomaを使った具体的な駒クラス */
 
 Fu.prototype = new Koma();
 /**
