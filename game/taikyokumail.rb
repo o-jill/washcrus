@@ -3,19 +3,12 @@
 
 require 'erb'
 require 'logger'
-require 'unindent'
 
-require './file/jsonkifu.rb'
-require './file/jsonmove.rb'
 require './file/matchinfofile.rb'
-require './file/pathlist.rb'
-require './file/taikyokufile.rb'
 require './file/chatfile.rb'
-require './game/taikyokudata.rb'
 require './game/sfenkyokumentxt.rb'
 require './game/userinfo.rb'
 require './util/mailmgr.rb'
-require './util/myhtml.rb'
 require './util/settings.rb'
 
 #
@@ -40,23 +33,21 @@ class TaikyokuMail
   end
 
   # @!attribute [r] plysnm
-  #   @return 先手の対局者名
+  #   @return 先手の対局者名。erbで使用。
   # @!attribute [r] plygnm
-  #   @return 後手の対局者名
+  #   @return 後手の対局者名。erbで使用。
   # @!attribute [r] gameid
-  #   @return 対局ID
+  #   @return 対局ID。erbで使用。
   # @!attribute [r] mif
   #   @return　MatchInfoFileオブジェクト
   # @!attribute [r] userinfo
-  #   @return ユーザー情報
+  #   @return ユーザー情報 erbで使用。
   # @!attribute [r] nowstr
-  #   @return 現在の時刻文字列 'yyyy/mm/dd hh:mm:ss'
+  #   @return 現在の時刻文字列 'yyyy/mm/dd hh:mm:ss' erbで使用。
   attr_reader :baseurl, :gameid, :mif, :plysnm, :plygnm, :userinfo,
-    :usehtml, :nowstr, :move
+              :usehtml, :nowstr, :move
 
   # 設定値の読み込み
-  #
-  # @param stg 設定
   def load_settings
     stg = Settings.instance
     @baseurl = stg.value['base_url']
@@ -70,9 +61,8 @@ class TaikyokuMail
 
   # 対局終了メールの本文の生成
   #
-  # @param nowstr   現在の時刻の文字列
-  # @param filename 添付ファイル名
-  def build_finishedmsg(nowstr, filename)
+  # @param filename 添付ファイル名。erbで使用。
+  def build_finishedmsg(filename)
     msg = ERB.new(
       File.read('./mail/finishedmsg.erb', encoding: 'utf-8')
     ).result(binding)
@@ -97,11 +87,11 @@ class TaikyokuMail
 
   # 対局終了メールの本文の生成
   #
-  # @param nowstr   現在の時刻の文字列
-  # @param filename 添付ファイル名
+  # @param filename 添付ファイル名。erbで使用。
   #
   # @return 対局終了メールの本文
-  def build_finishedhtmlmsg(nowstr, filename)
+  def build_finishedhtmlmsg(filename)
+    # erbで使用。
     url = "#{baseurl}index.rb?game/#{gameid}"
 
     msg = ERB.new(
@@ -167,11 +157,11 @@ class TaikyokuMail
 
     # mif = tkd.mif
 
-    msg = build_finishedmsg(nowstr, filename)
+    msg = build_finishedmsg(filename)
 
     return send_mailex_withfooter(subject, msg, kifufile) unless usehtml
 
-    html = build_finishedhtmlmsg(nowstr, filename)
+    html = build_finishedhtmlmsg(filename)
     send_htmlmailex_withfooter(subject, msg, html, kifufile)
   end
 
@@ -194,8 +184,7 @@ class TaikyokuMail
   # 指されましたメールの本文の生成
   #
   # @param name   手番の人の名前
-  # @param nowstr   現在の時刻の文字列
-  def build_nextturnmsg(name, nowstr)
+  def build_nextturnmsg(name)
     msg = ERB.new(
       File.read('./mail/nextturn.erb', encoding: 'utf-8')
     ).result(binding)
@@ -209,8 +198,8 @@ class TaikyokuMail
   # 指されましたメールの本文の生成
   #
   # @param name   手番の人の名前
-  # @param nowstr   現在の時刻の文字列
-  def build_nextturnhtmlmsg(name, nowstr)
+  def build_nextturnhtmlmsg(name)
+    # erbで使用。
     url = "#{baseurl}index.rb?game/#{gameid}"
 
     msg = ERB.new(
@@ -223,7 +212,7 @@ class TaikyokuMail
 
   # 対戦相手の情報を取得
   #
-  # @return [名前, メールアドレス]
+  # @retu\rn [名前, メールアドレス]
   def getopponentinfo
     opp = mif.getopponent(userinfo.user_id)
     [opp[:name], opp[:mail]]
@@ -233,21 +222,19 @@ class TaikyokuMail
   end
 
   # 指されましたメールの生成と送信
-  #
-  # @param nowstr 現在の時刻の文字列
   def send_mail_next
     subject = "it's your turn!! (#{mif.to_vs})"
 
     (opnm, opem) = getopponentinfo
 
-    msg = build_nextturnmsg(opnm, nowstr)
+    msg = build_nextturnmsg(opnm)
 
     mmgr = MailManager.new
     return mmgr.send_mail_withfooter(opem, subject, msg) unless usehtml
 
     mmgr.send_htmlmail_withfooter(
       opem, subject, msg,
-      build_nextturnhtmlmsg(opnm, nowstr)
+      build_nextturnhtmlmsg(opnm)
     )
   end
 
