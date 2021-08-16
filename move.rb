@@ -127,7 +127,6 @@ class Move
   # @param finished [boolean] 終局したかどうか
   # @param now      [Time]    着手日時オブジェクト
   def send_mail(finished, now)
-    tkd.read # これいるの？
     kifu = tkd.jkf.to_kif
     tmail = TaikyokuMail.new(gameid, userinfo, now, move)
     tmail.setmif(tkd.mif)

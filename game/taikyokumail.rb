@@ -74,8 +74,16 @@ class TaikyokuMail
 
     msg += build_kyokumenzu
 
-    chat = ChatFile.new(gameid).read
-    msg + msginchat(chat.stripped_msg)
+    msg + msginchat_plain
+  end
+
+  # メール用チャット文(テキスト形式)の生成
+  #
+  # @return メール用チャット文
+  def msginchat_plain
+    msg = ChatFile.new(gameid).read.stripped_msg
+
+    "---- messages in chat ----\n#{msg}--- messages in chat ----\n\n"
   end
 
   # メール用チャット文の生成
@@ -160,8 +168,6 @@ class TaikyokuMail
     # filename: tkd.escape_fnu8(filename),
     kifufile = { filename: filename, content: kifu }
 
-    # mif = tkd.mif
-
     msg = build_finishedmsg(filename)
 
     return send_mailex_withfooter(subject, msg, kifufile) unless usehtml
@@ -196,8 +202,7 @@ class TaikyokuMail
 
     msg += build_kyokumenzu
 
-    chat = ChatFile.new(gameid).read
-    msg + msginchat(chat.stripped_msg)
+    msg + msginchat_plain
   end
 
   # 指されましたメールの本文の生成
@@ -242,18 +247,4 @@ class TaikyokuMail
       build_nextturnhtmlmsg(opnm)
     )
   end
-
-  # usage
-  #
-  # @param finished [boolean] 終局したかどうか
-  # @param now      [Time]    着手日時オブジェクト
-  # def send_mail(finished, now)
-  #   tkd.read # これいるの？
-  #   kifu = tkd.jkf.to_kif
-  #   tmail = TaikyokuMail.new(gid, userinfo, now, move)
-  #   tmail.setmif(tkd.mif)
-  #   finished ? tmail.send_mail_finished(kifu) : tmail.send_mail_next
-  # end
 end
-
-# tmail = TaikyokuMail.new('', '', '', '')
