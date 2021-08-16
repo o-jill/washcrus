@@ -6,7 +6,6 @@ require 'bundler/setup'
 
 require 'cgi'
 require 'cgi/session'
-require 'erb'
 require 'logger'
 require 'unindent'
 
@@ -18,9 +17,7 @@ require './file/taikyokufile.rb'
 require './file/chatfile.rb'
 require './game/taikyokudata.rb'
 require './game/taikyokumail.rb'
-require './game/sfenkyokumentxt.rb'
 require './game/userinfo.rb'
-require './util/mailmgr.rb'
 require './util/myhtml.rb'
 require './util/settings.rb'
 
@@ -31,15 +28,12 @@ class Move
   # 初期化
   #
   # @param cgi CGIオブジェクト
-  # @param stg グローバル設定
-  def initialize(cgi, stg)
+  def initialize(cgi)
     @log = Logger.new(PathList::MOVELOG)
     # @log.level = Logger::INFO
     # @log.debug('Move.new()')
     readuserparam(cgi)
     read_cgiparam(cgi)
-    # @stg = stg
-    load_settings(stg)
     @turn = '?'
     @finished = false
     @jmv = JsonMove.fromtext(move)
@@ -47,10 +41,6 @@ class Move
     # @log.debug('Move.initialized')
   end
 
-  # @!attribute [r] plysnm
-  #   @return 先手の対局者名
-  # @!attribute [r] plygnm
-  #   @return 後手の対局者名
   # @!attribute [r] gameid
   #   @return 対局ID
   # @!attribute [r] mif
@@ -61,8 +51,8 @@ class Move
   #   @return ユーザー情報
   # @!attribute [r] log
   #   @return ログオブジェクト
-  attr_reader :baseurl, :finished, :gameid, :jmv, :log, :mif, :move,
-              :plysnm, :plygnm, :sfen, :tkd, :turn, :userinfo, :usehtml
+  attr_reader :finished, :gameid, :jmv, :log, :mif, :move,
+              :sfen, :tkd, :turn, :userinfo
 
   # paramsから値の読み出し
   #
@@ -72,14 +62,6 @@ class Move
     @gameid = cgi.query_string
     @sfen = @params['sfen'][0] if @params['sfen']
     @move = @params['jsonmove'][0] if @params['jsonmove']
-  end
-
-  # 設定値の読み込み
-  #
-  # @param stg 設定
-  def load_settings(stg)
-    @baseurl = stg.value['base_url']
-    @usehtml = stg.value['mailformat'] == 'html'
   end
 
   # sessionの取得と情報の読み取り
@@ -140,198 +122,6 @@ class Move
     self
   end
 
-  # 対局終了メールのタイトルの生成
-  def build_finishedtitle
-    "the game was over. (#{mif.to_vs})"
-  end
-
-  # 対局終了メールの本文の生成
-  #
-  # @param nowstr   現在の時刻の文字列
-  # @param filename 添付ファイル名
-  def build_finishedmsg(nowstr, filename)
-    msg = ERB.new(
-      File.read('./mail/finishedmsg.erb', encoding: 'utf-8')
-    ).result(binding)
-
-    msg += build_kyokumenzu
-
-    chat = ChatFile.new(gameid).read
-    msg + msginchat(chat.stripped_msg)
-  end
-
-  # メール用チャット文の生成
-  #
-  # @param msg チャット内容
-  # @param tag 行の先頭に付加するhtmlタグ
-  # @param taglast 終端htmlタグ
-  #
-  # @return メール用チャット文
-  def msginchat(msg, tag = '', taglast = '')
-    "#{tag}---- messages in chat ----\n#{tag}#{msg}" \
-    "#{tag}---- messages in chat ----\n#{taglast}\n"
-  end
-
-  # 対局終了メールの本文の生成
-  #
-  # @param nowstr   現在の時刻の文字列
-  # @param filename 添付ファイル名
-  #
-  # @return 対局終了メールの本文
-  def build_finishedhtmlmsg(nowstr, filename)
-    url = "#{baseurl}index.rb?game/#{gameid}"
-
-    msg = ERB.new(
-      File.read('./mail/finishedhtml.erb', encoding: 'utf-8')
-    ).result(binding)
-
-    chat = ChatFile.new(gameid).read
-    msg + msginchat(chat.msg, '<p>')
-  end
-
-  # 添付ファイル名の生成
-  #
-  # @return 添付ファイル名
-  def build_attachfilename
-    # 数字だけの時刻の文字列の生成
-    dt = mif.dt_lastmove.delete('/:').sub(' ', '_')
-
-    fname = "#{plysnm}_#{plygnm}_#{dt}.kif"
-
-    fname.gsub(%r{[\\/*:<>?|]},
-               '\\' => '￥', '/' => '／', '*' => '＊', ':' => '：',
-               '<' => '＜', '>' => '＞', '?' => '？', '|' => '｜')
-  end
-
-  # 署名をつけてHTMLメールを送信
-  #
-  # @param subject 題名
-  # @param msg 本文テキスト
-  # @param html 本文テキスト
-  # @param kifufile 棋譜ファイル
-  def send_htmlmailex_withfooter(subject, msg, html, kifufile)
-    bemail = mif.playerb.email
-    wemail = mif.playerw.email
-
-    mmgr = MailManager.new
-    mmgr.send_htmlmailex_withfooter(bemail, subject, msg, html, kifufile)
-    mmgr.send_htmlmailex_withfooter(wemail, subject, msg, html, kifufile)
-  end
-
-  # 署名をつけてテキストメールを送信
-  #
-  # @param subject 題名
-  # @param msg 本文テキスト
-  # @param kifufile 棋譜ファイル
-  def send_mailex_withfooter(subject, msg, kifufile)
-    bemail = mif.playerb.email
-    wemail = mif.playerw.email
-
-    mmgr = MailManager.new
-    mmgr.send_mailex_withfooter(bemail, subject, msg, kifufile)
-    mmgr.send_mailex_withfooter(wemail, subject, msg, kifufile)
-  end
-
-  # 終局メールの生成と送信
-  def send_mail_finished(nowstr)
-    subject = build_finishedtitle
-    # @log.debug("subject:#{subject}")
-
-    # dt = build_short_dt
-    filename = build_attachfilename
-
-    # filename: tkd.escape_fnu8(filename),
-    kifufile = { filename: filename, content: tkd.jkf.to_kif }
-
-    # mif = tkd.mif
-
-    msg = build_finishedmsg(nowstr, filename)
-    # @log.debug("msg:#{msg}")
-
-    return send_mailex_withfooter(subject, msg, kifufile) unless usehtml
-
-    html = build_finishedhtmlmsg(nowstr, filename)
-    send_htmlmailex_withfooter(subject, msg, html, kifufile)
-  end
-
-  # 局面図の生成
-  def build_kyokumenzu
-    skt = SfenKyokumenTxt.new(mif.sfen)
-    skt.settitle('タイトル')
-    skt.setmoveinfo(move)
-    skt.setnames(plysnm, plygnm)
-    skt.gen + "\n"
-  end
-
-  # 局面図のURLの生成
-  def bulid_svgurl
-    "#{baseurl}sfenimage.rb?" \
-    "sfen=#{mif.sfen.gsub('+', '%2B')}&lm=#{mif.lastmove[3, 2]}&" \
-    "sname=#{mif.playerb.name}&gname=#{mif.playerw.name}"
-  end
-
-  # 指されましたメールの本文の生成
-  #
-  # @param name   手番の人の名前
-  # @param nowstr   現在の時刻の文字列
-  def build_nextturnmsg(name, nowstr)
-    msg = ERB.new(
-      File.read('./mail/nextturn.erb', encoding: 'utf-8')
-    ).result(binding)
-
-    msg += build_kyokumenzu
-
-    chat = ChatFile.new(gameid).read
-    msg + msginchat(chat.stripped_msg)
-  end
-
-  # 指されましたメールの本文の生成
-  #
-  # @param name   手番の人の名前
-  # @param nowstr   現在の時刻の文字列
-  def build_nextturnhtmlmsg(name, nowstr)
-    url = "#{baseurl}index.rb?game/#{gameid}"
-
-    msg = ERB.new(
-      File.read('./mail/nextturnhtml.erb', encoding: 'utf-8')
-    ).result(binding)
-
-    chat = ChatFile.new(gameid).read
-    msg + "<pre>\n" + msginchat(chat.stripped_msg, '', '</pre>')
-  end
-
-  # 対戦相手の情報を取得
-  #
-  # @return [名前, メールアドレス]
-  def getopponentinfo
-    opp = mif.getopponent(userinfo.user_id)
-    [opp[:name], opp[:mail]]
-    # opnm = opp[:name]
-    # opem = opp[:mail]
-    # @log.debug("opp:#{opp}")
-  end
-
-  # 指されましたメールの生成と送信
-  #
-  # @param nowstr 現在の時刻の文字列
-  def send_mail_next(nowstr)
-    subject = "it's your turn!! (#{mif.to_vs})"
-    # @log.debug("subject:#{subject}")
-
-    (opnm, opem) = getopponentinfo
-
-    msg = build_nextturnmsg(opnm, nowstr)
-
-    mmgr = MailManager.new
-
-    return mmgr.send_mail_withfooter(opem, subject, msg) unless usehtml
-
-    mmgr.send_htmlmail_withfooter(
-      opem, subject, msg,
-      build_nextturnhtmlmsg(opnm, nowstr)
-    )
-  end
-
   # メールの送信
   #
   # @param finished [boolean] 終局したかどうか
@@ -386,9 +176,6 @@ class Move
     # @mif = tkd.mif
 
     # tkd.read
-
-    # @plysnm = mif.playerb.name
-    # @plygnm = mif.playerw.name
   end
 
   # 終局していれば対局終了処理をする
@@ -452,8 +239,6 @@ class Move
   # mif(MatchInfoFile)の読み取りと対局者名の読み取り
   def read_mif
     @mif = tkd.mif
-    @plysnm = mif.playerb.name
-    @plygnm = mif.playerw.name
   end
 
   #
@@ -507,8 +292,7 @@ begin
   # ブロック内の処理を計測
   # require 'stackprof'
   # StackProf.run(out: "./tmp/stackprof_move_#{Time.now.to_i}.dump") do
-  stg = Settings.instance
-  move = Move.new(cgi, stg)
+  move = Move.new(cgi)
   # move.readuserparam
   move.perform
   # end
