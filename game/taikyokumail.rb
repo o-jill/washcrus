@@ -18,18 +18,23 @@ class TaikyokuMail
   # 初期化
   #
   # @param gid     [String] 対局ID
-  # @param mainfoi [MatchInfoFile] オブジェクト
   # @param userid  [UserInfo] ユーザー情報オブジェクト
   # @param now     [Time] 着手日時オブジェクト
-  def initialize(gid, mainfi, useri, now, mov)
+  def initialize(gid, useri, now, mov)
     load_settings
     @gameid = gid
-    @mif = mainfi
-    @plysnm = mif.playerb.name
-    @plygnm = mif.playerw.name
     @userinfo = useri
     @nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
     @move = mov
+  end
+
+  # MatchInfoFile情報の設定
+  #
+  # @param mainfoi [MatchInfoFile] オブジェクト
+  def setmif(mainfi)
+    @mif = mainfi
+    @plysnm = mif.playerb.name
+    @plygnm = mif.playerw.name
   end
 
   # @!attribute [r] plysnm
@@ -183,7 +188,7 @@ class TaikyokuMail
 
   # 指されましたメールの本文の生成
   #
-  # @param name   手番の人の名前
+  # @param name 手番の人の名前
   def build_nextturnmsg(name)
     msg = ERB.new(
       File.read('./mail/nextturn.erb', encoding: 'utf-8')
@@ -197,7 +202,7 @@ class TaikyokuMail
 
   # 指されましたメールの本文の生成
   #
-  # @param name   手番の人の名前
+  # @param name 手番の人の名前
   def build_nextturnhtmlmsg(name)
     # erbで使用。
     url = "#{baseurl}index.rb?game/#{gameid}"
@@ -212,7 +217,7 @@ class TaikyokuMail
 
   # 対戦相手の情報を取得
   #
-  # @retu\rn [名前, メールアドレス]
+  # @return [名前, メールアドレス]
   def getopponentinfo
     opp = mif.getopponent(userinfo.user_id)
     [opp[:name], opp[:mail]]
@@ -245,7 +250,8 @@ class TaikyokuMail
   # def send_mail(finished, now)
   #   tkd.read # これいるの？
   #   kifu = tkd.jkf.to_kif
-  #   tmail = TaikyokuMail.new(gid, tkd.mif, userinfo, now, move)
+  #   tmail = TaikyokuMail.new(gid, userinfo, now, move)
+  #   tmail.setmif(tkd.mif)
   #   finished ? tmail.send_mail_finished(kifu) : tmail.send_mail_next
   # end
 end

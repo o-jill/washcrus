@@ -129,7 +129,8 @@ class Move
   def send_mail(finished, now)
     tkd.read # これいるの？
     kifu = tkd.jkf.to_kif
-    tmail = TaikyokuMail.new(gameid, tkd.mif, userinfo, now, move)
+    tmail = TaikyokuMail.new(gameid, userinfo, now, move)
+    tmail.setmif(tkd.mif)
     finished ? tmail.send_mail_finished(kifu) : tmail.send_mail_next
     @log.debug('Move.sendmail')
   end
