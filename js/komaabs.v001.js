@@ -10,16 +10,8 @@
  */
 function Koma(teban, x, y) {
   this.teban = teban || Koma.AKI;
-  this.strtype = '* ';
-  this.strntype = '* ';
-  this.strtypeKIF = '* ';
-  this.strntypeKIF = '* ';
-  this.strtypeKIFU = '* ';
-  this.strntypeKIFU = '* ';
-  this.strtypeCSA = '* ';
-  this.strntypeCSA = '* ';
-  this.strtypeIMG = '';
-  this.strntypeIMG = '';
+  this.strtype = {long: ['* ', '* '], kif: ['* ', '* '], kifu: ['* ', '* '],
+    kif: ['* ', '* '], img: ['', ''], };
   this.nari = Koma.NARAZU;
   this.id = Koma.NoID;
   this.x = x;
@@ -195,11 +187,11 @@ Koma.prototype.getStr = function() {
 
   if (str == null) return Koma.AkiStr;
 
-  str += this.strntypeKIFU;
+  str += this.strtype.kifu[1];
   if (this.nari === Koma.NARI) {
     // no prefix
   } else {
-    str += this.strtypeKIFU;
+    str += this.strtype.kifu[0];
   }
   return str;
 };
@@ -219,15 +211,10 @@ Koma.prototype.getHtmlStr = function(hanten) {
 
   if (str == null) return Koma.AkiStr;
 
-  str += (this.nari === Koma.NARI) ? this.strntypeKIFU : this.strtypeKIFU;
+  str += this.strtype.kifu[Number(this.nari === Koma.NARI)];
 
   str += '</div>';
   return str;
-};
-
-
-Koma.prototype.chooseKomaExp = function(a, b) {
-  return (this.nari === Koma.NARI) ? a : b;
 };
 
 /**
@@ -245,7 +232,7 @@ Koma.prototype.getImgStr = function(hanten) {
 
   if (str == null) return '';
 
-  str += this.chooseKomaExp(this.strntypeIMG, this.strtypeIMG);
+  str += this.strtype.img[Number(this.nari === Koma.NARI)];
 
   return str;
 };
@@ -260,7 +247,7 @@ Koma.prototype.getShortStrCSA = function() {
 
   if (str == null) return Koma.AkiStrCSA;
 
-  str += this.chooseKomaExp(this.strntypeCSA, this.strtypeCSA);
+  str += this.strtype.csa[Number(this.nari === Koma.NARI)];
 
   return str;
 };
@@ -275,7 +262,7 @@ Koma.prototype.getShortStrKIF = function() {
 
   if (str == null) return Koma.AkiStrKIF;
 
-  str += this.chooseKomaExp(this.strntypeKIF, this.strtypeKIF);
+  str += this.strtype.kiu[Number(this.nari === Koma.NARI)];
 
   return str;
 };
@@ -286,7 +273,7 @@ Koma.prototype.getShortStrKIF = function() {
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getTypeStr = function() {
-  return (this.nari === Koma.NARI) ? this.strntype : this.strtype;
+  return this.strtype.long[Number(this.nari === Koma.NARI)];
 };
 
 /**
@@ -458,7 +445,7 @@ Koma.prototype.kifuCSA = function(fromx, fromy, tox, toy) {
   var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
 
   str += ('' + fromx) + fromy + ('' + tox) + toy;
-  str += this. pieceStr(this.strtypeCSA, this.strntypeCSA)
+  str += this.strtype.csa[Number[(this.nari === Koma.NARI)]];
 
   return str;
 };
@@ -507,11 +494,11 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
 };
 
 Koma.prototype.narifunariuchiStrKIF = function(nari, x) {
-  var komastr = this.strtypeKIF;
+  var komastr = this.strtype.kif[0];
   if (this.nari === Koma.NARI) {
     if (nari === Koma.NARI)
       return komastr + Koma.NariStrKIF;
-    return this.strntypeKIF;
+    return this.strtype.kif[1];
   } else if (x === 0) {
     return komastr + Koma.UchiStrKIF;
   }
@@ -556,7 +543,7 @@ Koma.prototype.kifuShortCSA = function(x, y) {
   var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
 
   str += ('' + x) + y;
-  str += this.pieceStr(this.strtypeCSA, this.strntypeCSA)
+  str += this.strtype.csa[Number(this.nari === Koma.NARI)];
 
   return str;
 };
@@ -631,16 +618,7 @@ Koma.prototype.kaesu = function (nari) {
 
 Koma.prototype.InitStr = function(abcd)
 {
-  this.strtype = abcd.long[0];
-  this.strntype = abcd.long[1];
-  this.strtypeKIF = abcd.kif[0];
-  this.strntypeKIF = abcd.kif[1];
-  this.strtypeKIFU = abcd.kifu[0];
-  this.strntypeKIFU = abcd.kifu[1];
-  this.strtypeCSA = abcd.csa[0];
-  this.strntypeCSA = abcd.csa[1];
-  this.strtypeIMG = abcd.img[0];
-  this.strntypeIMG = abcd.img[1];
+  this.strtype = abcd;
 };
 
 /**

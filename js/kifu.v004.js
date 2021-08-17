@@ -602,14 +602,14 @@ function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
   str += ('' + (toxy.x + 1)) + (toxy.y + 1);
 
   if (nari === Koma.NARI || koma.nari !== Koma.NARI) {
-    str += koma.strtypeCSA;
+    str += koma.strtype.csa[0];
   } else {
-    str += koma.strntypeCSA;
+    str += koma.strtype.csa[1];
   }
 
   if (tottaid === Koma.NoID) str += '__';
-  else if (tottaid >= 1000) str += tottakoma.strntypeCSA;
-  else str += tottakoma.strtypeCSA;
+  else if (tottaid >= 1000) str += tottakoma.strtype.csa[1];
+  else str += tottakoma.strtype.csa[0];
 
   if (nari === Koma.NARI) str += 'P';
 
@@ -731,7 +731,7 @@ function uchi(tegoma, koma, toxy) {
   movecsa += (k.teban === Koma.SENTEBAN) ? Koma.SenteStrCSA : Koma.GoteStrCSA;
 
   movecsa += ('00' + (toxy.x + 1)) + (toxy.y + 1);
-  movecsa += k.strtypeCSA + '__';
+  movecsa += k.strtype.csa[0] + '__';
 }
 
 /**
@@ -756,7 +756,7 @@ function uchi2(tegoma, koma_id, toxy) {
   movecsa += (k.teban === Koma.SENTEBAN) ? k.SenteStrCSA : k.GoteStrCSA;
 
   movecsa += ('00' + (toxy.x + 1)) + (toxy.y + 1);
-  movecsa += k.strtypeCSA + '__';
+  movecsa += k.strtype.csa[0] + '__';
 }
 
 /**
