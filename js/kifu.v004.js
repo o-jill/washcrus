@@ -892,7 +892,7 @@ function KyokumenKIFTegoma(tegoma) {
   for (var idx in gotegoma) {
     if (tegoma[idx][0].length !== 0) {
       var koma = tegoma[idx][1].koma;
-      komadai += koma.strtypeKIF
+      komadai += koma.strtype.kif[0]
           + Koma.KanjiNum[tegoma[idx][0].length - 1] + '　';
     }
   }
