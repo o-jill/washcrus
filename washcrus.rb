@@ -115,6 +115,12 @@ class WashCrus
     AdminNewsScreen.new(@header).show(@userinfo)
   end
 
+  # marqueenews編集画面
+  def adminmqnews
+    require './views/adminmqnews.rb'
+    AdminMarqueeNewsScreen.new(@header).show(@userinfo)
+  end
+
   # 設定編集画面
   def adminsettings
     require './views/adminsettings.rb'
@@ -143,6 +149,12 @@ class WashCrus
   def adminnewsupdate
     require './views/adminnewsupdate.rb'
     AdminNewsUpdateScreen.new(@header).show(@userinfo, @params)
+  end
+
+  # marqueenews更新処理
+  def adminmqnewsupdate
+    require './views/adminmqnewsupdate.rb'
+    AdminMarqueeNewsUpdateScreen.new(@header).show(@userinfo, @params)
   end
 
   # 設定更新処理

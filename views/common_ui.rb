@@ -25,7 +25,7 @@ module CommonUI
        <META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
        <meta name='theme-color' content='#cc9933'>
        <link rel='shortcut icon' href='./image/favicon.ico' />
-       <link rel='stylesheet' type='text/css' href='./css/washcrus.v018.css'>
+       <link rel='stylesheet' type='text/css' href='./css/washcrus.v019.css'>
       </HEAD>
       <BODY>
     HEADER_TAG
@@ -52,6 +52,7 @@ module CommonUI
     sup = stg.value['support_url']
     title = stg.value['title']
 
+    marquee_news
     bsignup = !userinfo || userinfo.invalid?
     return html_menu_signup(title, index, sup) if bsignup
 
@@ -80,32 +81,7 @@ module CommonUI
 
   # ポップアップメニュー制御スクリプトの出力
   def self.put_popupscript
-    puts <<-POPUPSCRIPT.unindent
-      <script>
-      var show = false;
-      function pntyou(e) {
-        var elem = document.getElementById('menu_popup');
-        var elemy = document.getElementById('menu_parent_popup');
-        if (show) {
-          elem.style.visibility = 'hidden';
-          elem.style.display = 'none';
-        } else {
-          elem.style.visibility = 'visible';
-          elem.style.display = 'block';
-          var rect = elemy.getBoundingClientRect();
-          elem.style.left = rect.left + 'px';
-          elem.style.top = rect.top + elemy.clientHeight + 'px';
-        }
-        show = !show;
-      }
-      var el = document.getElementById('menu_parent_popup');
-      if (el.onpointerdown) {
-        el.onpointerdown = pntyou;
-      } else {
-        el.onclick = pntyou;
-      }
-      </script>
-    POPUPSCRIPT
+    puts '<script type="text/javascript" src="./js/popupmenu.js"></script>'
   end
 
   # マイページのメニューの出力
@@ -127,9 +103,7 @@ module CommonUI
   # @param sup   サポートページのURL
   def self.html_menu_login(title, index, sup)
     print <<-MENU_LOGGEDIN.unindent
-      <header><div class='menubase'>
-        #{menubase_mypage(index)}
-      </div>
+      <header><div class='menubase'>#{menubase_mypage(index)}</div>
       <div class='popup' id='menu_popup'>
        <ul>
         <li><a class='menu' href='#{index}?searchform'> Search </a></li><hr>
@@ -172,6 +146,7 @@ module CommonUI
       <div class='menubase'>
       <a class='menu' href='#{index}?adminsettings'> Settings </a>
       <a class='menu' href='#{index}?adminnews'> News </a>
+      <a class='menu' href='#{index}?adminmqnews'> Marquee News </a>
       <a class='menu' href='#{index}?adminsignature'> Signature </a>
       <a class='menu' href='#{index}?userlist'> Users </a>
       <a class='menu' href='#{index}?adminuserstg'> User Management </a>
@@ -187,6 +162,12 @@ module CommonUI
     puts '<HR><footer><div align=right>' \
          "&copy;ぢるっち 2017-2020 with Ruby v#{RUBY_VERSION}" \
          '</div></footer></BODY></HTML>'
+  end
+
+  # 横に流れるニュース欄の出力
+  def self.marquee_news
+    puts '<div class="marquee-anim"><span id="mqnews">読み込み中</span></div>' \
+         '<script type="text/javascript" src="js/marqueenews.js"></script>'
   end
 
   TEBANTEXT = [
