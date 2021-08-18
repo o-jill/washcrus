@@ -49,7 +49,6 @@ Koma.UchiStrKIF = '打';
 Koma.DouStrKIF = '同　';
 Koma.FunariStr = '不成';
 
-
 Koma.InitStrTable = {
   fu: {
     long: ['歩兵', 'と金'], kif: ['歩', 'と'],
@@ -99,17 +98,12 @@ Koma.InitStrTable = {
 };
 
 // 先手、後手、空き
-Koma.SenteStr = '▲';
-Koma.GoteStr = '△';
-Koma.AkiStr = ' ';
-Koma.SenteStrKIF = ' ';
-Koma.GoteStrKIF = 'v';
-Koma.AkiStrKIF = ' ・';
-Koma.SenteStrCSA = '+';
-Koma.GoteStrCSA = '-';
-Koma.AkiStrCSA = ' * ';
-Koma.SenteStrOrg = '先手';
-Koma.GoteStrOrg = '後手';
+Koma.UtilStr = {
+  std: {sente: '▲', gote: '△', aki: ' '},
+  kif: {sente: ' ', gote: ' ', aki: ' ・'},
+  csa: {sente: '+', gote: '-', aki: ' * '},
+  org: {sente: '先手', gote: '後手', aki: ' '}
+};
 
 Koma.ToryoStr = '投了';
 Koma.ToryoStrCSA = '%TORYO';
@@ -177,15 +171,22 @@ Koma.prototype.getTebanStr = function(strSente, strGote) {
   return null;
 };
 
+Koma.prototype.getTebanStrUtil = function(type) {
+  if (this.teban === Koma.SENTEBAN) return type.sente;
+  if (this.teban === Koma.GOTEBAN) return type.gote;
+  return null;
+};
+
+
 /**
  * 表示用の文字列の取得
  *
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getStr = function() {
-  var str = this.getTebanStr(Koma.SenteStr, Koma.GoteStr);
+  var str = this.getTebanStrUtil(Koma.UtilStr.std);
 
-  if (str == null) return Koma.AkiStr;
+  if (str == null) return Koma.UtilStr.std.aki;
 
   str += this.strtype.kifu[1];
   if (this.nari === Koma.NARI) {
@@ -209,7 +210,7 @@ Koma.prototype.getHtmlStr = function(hanten) {
     str = this.getTebanStr('<div class=sentemoji>', '<div class=gotemoji>');
   }
 
-  if (str == null) return Koma.AkiStr;
+  if (str == null) return Koma.UtilStr.std.aki;
 
   str += this.strtype.kifu[Number(this.nari === Koma.NARI)];
 
@@ -243,9 +244,9 @@ Koma.prototype.getImgStr = function(hanten) {
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getShortStrCSA = function() {
-  var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
+  var str = this.getTebanStrUtil(Koma.UtilStr.csa);
 
-  if (str == null) return Koma.AkiStrCSA;
+  if (str == null) return Koma.UtilStr.csa.aki;
 
   str += this.strtype.csa[Number(this.nari === Koma.NARI)];
 
@@ -258,9 +259,9 @@ Koma.prototype.getShortStrCSA = function() {
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getShortStrKIF = function() {
-  var str = this.getTebanStr(Koma.SenteStrKIF, Koma.GoteStrKIF);
+  var str = this.getTebanStrUtil(Koma.UtilStr.kif);
 
-  if (str == null) return Koma.AkiStrKIF;
+  if (str == null) return Koma.UtilStr.kif.aki;
 
   str += this.strtype.kiu[Number(this.nari === Koma.NARI)];
 
@@ -442,7 +443,7 @@ Koma.prototype.kifuCSA = function(fromx, fromy, tox, toy) {
   tox++;
   toy++;
 
-  var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
+  var str = this.getTebanStrUtil(Koma.UtilStr.csa);
 
   str += ('' + fromx) + fromy + ('' + tox) + toy;
   str += this.strtype.csa[Number[(this.nari === Koma.NARI)]];
@@ -482,9 +483,9 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
 
   var str = '';
   /* if (this.teban === Koma.SENTEBAN) {
-   str = Koma.SenteStrKIF;
+    str = Koma.UtilStr.kif.sente;
   } else if (this.teban === Koma.GOTEBAN) {
-   str = Koma.GoteStrKIF;
+    str = Koma.UtilStr.kif.gote;
   } */
   str += this.kifuDouNumKIF(toxy, lastxy);
   str += this.narifunariuchiStrKIF(nari, fromxy.x);
@@ -519,7 +520,7 @@ Koma.prototype.kifuKIFU = function(fromxy, toxy, lastxy, nari) {
   fromxy.x++;
   fromxy.y++;
 
-  var str = this.getTebanStr(Koma.SenteStrOrg, Koma.GoteStrOrg);
+  var str = this.getTebanStrUtil(Koma.UtilStr.org);
 
   str += this.kifuDouNumKIF(toxy, lastxy);
   str += this.narifunariuchiStrKIF(nari, fromxy.x);
@@ -540,7 +541,7 @@ Koma.prototype.kifuShortCSA = function(x, y) {
   x++;
   y++;
 
-  var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
+  var str = this.getTebanStrUtil(Koma.UtilStr.csa);
 
   str += ('' + x) + y;
   str += this.strtype.csa[Number(this.nari === Koma.NARI)];

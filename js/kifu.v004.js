@@ -595,7 +595,7 @@ var mykifu = new Kifu(Kifu.Org);
 // var mykifu = new Kifu(Kifu.CSA);
 
 function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
-  var str = (koma.teban === Koma.SENTEBAN) ? Koma.SenteStrCSA : Koma.GoteStrCSA;
+  var str = koma.getTebanStrUtil(Koma.UtilStr.csa);
 
   str += ('' + (fromxy.x + 1)) + (fromxy.y + 1);
 
@@ -728,7 +728,7 @@ function uchi(tegoma, koma, toxy) {
 
   movecsa = '';
 
-  movecsa += (k.teban === Koma.SENTEBAN) ? Koma.SenteStrCSA : Koma.GoteStrCSA;
+  movecsa += k.getTebanStrUtil(Koma.UtilStr.csa);
 
   movecsa += ('00' + (toxy.x + 1)) + (toxy.y + 1);
   movecsa += k.strtype.csa[0] + '__';
@@ -753,7 +753,7 @@ function uchi2(tegoma, koma_id, toxy) {
 
   movecsa = '';
 
-  movecsa += (k.teban === Koma.SENTEBAN) ? k.SenteStrCSA : k.GoteStrCSA;
+  movecsa += k.getTebanStrUtil(Koma.UtilStr.csa);
 
   movecsa += ('00' + (toxy.x + 1)) + (toxy.y + 1);
   movecsa += k.strtype.csa[0] + '__';
