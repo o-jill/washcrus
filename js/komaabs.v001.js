@@ -10,8 +10,8 @@
  */
 function Koma(teban, x, y) {
   this.teban = teban || Koma.AKI;
-  this.strtype = {long: ['* ', '* '], kif: ['* ', '* '], kifu: ['* ', '* '],
-    kif: ['* ', '* '], img: ['', ''], };
+  this.strtype = {long: ['* ', '* '], kif: ['* ', '* '],
+    csa: ['* ', '* '], img: ['', ''], };
   this.nari = Koma.NARAZU;
   this.id = Koma.NoID;
   this.x = x;
@@ -52,48 +52,39 @@ Koma.FunariStr = '不成';
 Koma.InitStrTable = {
   fu: {
     long: ['歩兵', 'と金'], kif: ['歩', 'と'],
-    kifu: ['歩', 'と'], csa: ['FU', 'TO'],
-    img: ['koma_fu', 'koma_to']
+    csa: ['FU', 'TO'], img: ['koma_fu', 'koma_to']
   },
   kyosha: {
     long: ['香車', '成香'], kif: ['香', '成香'],
-    kifu: ['香', '成香'], csa: ['KY', 'NY'],
-    img: ['koma_kyo', 'koma_nkyo']
+    csa: ['KY', 'NY'], img: ['koma_kyo', 'koma_nkyo']
   },
   keima: {
     long: ['桂馬', '成桂'], kif: ['桂', '成桂'],
-    kifu: ['桂', '成桂'], csa: ['KE', 'NK'],
-    img: ['koma_kei', 'koma_nkei']
+    csa: ['KE', 'NK'], img: ['koma_kei', 'koma_nkei']
   },
   gin: {
     long: ['銀将', '成銀'], kif: ['銀', '成銀'],
-    kifu: ['銀', '成銀'], csa: ['GI', 'NG'],
-    img: ['koma_gin', 'koma_ngin']
+    csa: ['GI', 'NG'], img: ['koma_gin', 'koma_ngin']
   },
   kin: {
     long: ['金将', '金将'], kif: ['金', '金'],
-    kifu: ['金', '金'], csa: ['KI', 'KI'],
-    img: ['koma_kin', 'koma_kin']
+    csa: ['KI', 'KI'], img: ['koma_kin', 'koma_kin']
   },
   kaku: {
     long: ['角行', '竜馬'], kif: ['角', '馬'],
-    kifu: ['角', '馬'], csa: ['KA', 'UM'],
-    img: ['koma_kaku', 'koma_uma']
+    csa: ['KA', 'UM'], img: ['koma_kaku', 'koma_uma']
   },
   hisha: {
     long: ['飛車', '竜王'], kif: ['飛', '竜'],
-    kifu: ['飛', '竜'], csa: ['HI', 'RY'],
-    img: ['koma_hisha', 'koma_ryu']
+    csa: ['HI', 'RY'], img: ['koma_hisha', 'koma_ryu']
   },
   gyoku: {
     long: ['玉将', '玉将'], kif: ['玉', '玉'],
-    kifu: ['玉', '玉'], csa: ['OU', 'OU'],
-    img: ['koma_ou', 'koma_ou']
+    csa: ['OU', 'OU'], img: ['koma_ou', 'koma_ou']
   },
   ou: {
     long: ['王将', '王将'], kif: ['玉', '玉'],
-    kifu: ['玉', '玉'], csa: ['OU', 'OU'],
-    img: ['koma_ou', 'koma_ou']
+    csa: ['OU', 'OU'], img: ['koma_ou', 'koma_ou']
   }
 };
 
@@ -188,11 +179,11 @@ Koma.prototype.getStr = function() {
 
   if (str == null) return Koma.UtilStr.std.aki;
 
-  str += this.strtype.kifu[1];
+  str += this.strtype.kif[1];
   if (this.nari === Koma.NARI) {
     // no prefix
   } else {
-    str += this.strtype.kifu[0];
+    str += this.strtype.kif[0];
   }
   return str;
 };
@@ -212,7 +203,7 @@ Koma.prototype.getHtmlStr = function(hanten) {
 
   if (str == null) return Koma.UtilStr.std.aki;
 
-  str += this.strtype.kifu[Number(this.nari === Koma.NARI)];
+  str += this.strtype.kif[Number(this.nari === Koma.NARI)];
 
   str += '</div>';
   return str;
@@ -238,35 +229,33 @@ Koma.prototype.getImgStr = function(hanten) {
   return str;
 };
 
+Koma.prototype.getShortStr = function(utilstr, komatype) {
+  var str = this.getTebanStrUtil(utilstr);
+
+  if (str == null) return utilstr.aki;
+
+  str += komatype[Number(this.nari === Koma.NARI)];
+
+  return str;
+};
+
 /**
  * CSA表示用の文字列の取得
  *
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getShortStrCSA = function() {
-  var str = this.getTebanStrUtil(Koma.UtilStr.csa);
-
-  if (str == null) return Koma.UtilStr.csa.aki;
-
-  str += this.strtype.csa[Number(this.nari === Koma.NARI)];
-
-  return str;
+  return getShortStr(Koma.UtilStr.csa, this.strtype.csa);
 };
 
 /**
- * CSA表示用の文字列の取得
+ * KIF表示用の文字列の取得
  *
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getShortStrKIF = function() {
-  var str = this.getTebanStrUtil(Koma.UtilStr.kif);
-
-  if (str == null) return Koma.UtilStr.kif.aki;
-
-  str += this.strtype.kiu[Number(this.nari === Koma.NARI)];
-
-  return str;
-};
+  return getShortStr(Koma.UtilStr.kif, this.strtype.kif);
+y};
 
 /**
  * 駒の種類の文字列の取得
