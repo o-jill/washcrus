@@ -73,10 +73,8 @@ Kifu.JSON = 4;
  * 一手分を棋譜リストに覚える。
  *
  * @param {Number} teban 手番
- * @param {Number} fromx 移動元の座標
- * @param {Number} fromy 移動元の座標
- * @param {Number} tox   移動先の座標
- * @param {Number} toy   移動先の座標
+ * @param {Number} fromxy 移動元の座標
+ * @param {Number} toxy   移動先の座標
  * @param {Number} nari  成ったかどうか
  */
 Kifu.prototype.Sashita = function(teban, fromxy, toxy, nari) {

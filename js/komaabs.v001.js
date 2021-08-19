@@ -255,7 +255,7 @@ Koma.prototype.getShortStrCSA = function() {
  */
 Koma.prototype.getShortStrKIF = function() {
   return getShortStr(Koma.UtilStr.kif, this.strtype.kif);
-y};
+};
 
 /**
  * 駒の種類の文字列の取得

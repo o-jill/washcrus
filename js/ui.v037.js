@@ -470,9 +470,8 @@ function absclick_aki(hx, hy)
     // 選択キャンセル
     deactivate_activecell();
   } else {
-    var msg = activekoma.movemsg(hx, hy);
     var md = (activemasu.x === -1) ? CFRM_UTSU : CFRM_MOVE;
-    myconfirm(msg, md, hx, hy);
+    myconfirm(activekoma.movemsg(hx, hy), md, hx, hy);
   }
 }
 
