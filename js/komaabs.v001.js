@@ -339,8 +339,8 @@ Koma.prototype.getMovable = function(ox, oy) {
   var sz = movablemasulist.length;
   for (var idx = 0; idx < sz; ++idx) {
     var axy = {
-      x: movablemasulist[idx][0],
-      y: movablemasulist[idx][1]
+      x: movablemasulist[idx].x,
+      y: movablemasulist[idx].y
     };
     var straight = movablemasulist[idx][2];
     list = straight ? this.getStraightMovable(list, axy, ox, oy)
@@ -361,8 +361,8 @@ Koma.prototype.pickup_ohte = function(ohtelist, xy, gxy, nari) {
   var list = this.getMovable(xy.x, xy.y);
   var sz = list.length;
   for (var i = 0; i < sz; ++i) {
-    var xx = list[i][0];
-    var yy = list[i][1];
+    var xx = list[i].x;
+    var yy = list[i].y;
     // 相手方の玉の位置に移動できるなら王手になる手
     if (xx === gxy.x && yy === gxy.y) {
       ohtelist.push([xy.x, xy.y, nari]);
