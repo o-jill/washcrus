@@ -300,7 +300,7 @@ Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
   for ( ; Koma.onTheBan(x) && Koma.onTheBan(y) ; x += ax, y += ay) {
     var teban = ban[x][y].koma.teban;
     if (teban === this.teban) break;
-    list.push([x, y]);
+    list.push({x: x, y: y});
     if (teban !== Koma.AKI) break;
   }
 
@@ -320,7 +320,7 @@ Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
 
   var teban = ban[x][y].koma.teban;
   if (teban !== this.teban) {
-    list.push([x, y]);
+    list.push({x: x, y: y});
   }
   return list;
 };
@@ -331,7 +331,7 @@ Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
  * @param {Number} ox 現在地
  * @param {Number} oy 現在地
  *
- * @return {Array} 動けるマスのリスト[[x, y], ....]
+ * @return {Array} 動けるマスのリスト[{x:, y:}, ....]
  */
 Koma.prototype.getMovable = function(ox, oy) {
   var list = [];
@@ -392,7 +392,7 @@ Koma.prototype.getUchableGeneralY = function(bann, i, starty, endy) {
   var list = [];
   for (var j = starty; j < endy; ++j) {
     if (bann[i][j].koma.teban === Koma.AKI)
-      list.push([i, j]);
+      list.push({x: i, y: j});
   }
   return list;
 };
@@ -403,7 +403,7 @@ Koma.prototype.getUchableGeneralY = function(bann, i, starty, endy) {
  * @param {Number} starty 打てる段の始まり
  * @param {Number} endyy  打てる段の終わり
  *
- * @return {Array} 打てるマスのリスト
+ * @return {Array} 打てるマス{x:,y:}のリスト
  */
 Koma.prototype.getUchableGeneral = function(bann, starty, endy) {
   var list = [];

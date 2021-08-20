@@ -365,8 +365,8 @@ function activatemovable(b) {
 
   sz = activemovable.length;
   for (idx = 0; idx < sz; ++idx) {
-    x = activemovable[idx][0];
-    y = activemovable[idx][1];
+    x = activemovable[idx].x;
+    y = activemovable[idx].y;
     if (hifumin_eye) {
       x = 8 - x;
       y = 8 - y;
@@ -445,7 +445,7 @@ function deactivate_activecell() {
 function check_activemovablemasu(hx, hy) {
   var sz = activemovable.length;
   for (var idx = 0; idx < sz; ++idx) {
-    if (activemovable[idx][0] === hx && activemovable[idx][1] === hy)
+    if (activemovable[idx].x === hx && activemovable[idx].y === hy)
       return true;
   }
   return false;

@@ -23,7 +23,7 @@ Fu.prototype.retpos = function (banx, x, starty, endy) {
   var list = [];
   for (var y = starty; y < endy; ++y) {
     if (banx[y].koma.teban === Koma.AKI)
-      list.push([x, y]);
+      list.push({x: x, y: y});
   }
   return list;
 };

@@ -786,8 +786,7 @@ function move2(koma, toxy, nari) {
   activeteban = (activeteban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
 
   var tottaid = mykifu.totta_id;
-  movecsa = build_movecsa(koma,
-    {x: from_x, y: from_y}, toxy, tottaid, nari);
+  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, tottaid, nari);
 }
 
 /**
@@ -826,7 +825,7 @@ function checkOHTe_koma(gyoku, koma, i, j) {
   // var masulist = koma.getMovable();
   for (var idx = 0; idx < masulist.length; ++idx) {
   // for (var idx in masulist) {
-    if (masulist[idx][0] === gyoku.x && masulist[idx][1] === gyoku.y)
+    if (masulist[idx].x === gyoku.x && masulist[idx].y === gyoku.y)
       return true;
   }
   return false;
