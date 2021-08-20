@@ -403,9 +403,7 @@ function activecell(koma, masu, masui) {
   release_activemasu(masu);
 
   if (masu === null) {
-    activetegoma = null;
-    activemasu = null;
-    activemasui = null;
+    activetegoma = activemasu = activemasui = null;
     activemovable = [];
     return;
   }
@@ -560,10 +558,8 @@ function release_uchi(tegoma, i)
 {
   let result = tegoma === null || (activekoma !== null && activekoma.id === i);
   if (result) {
-    activetegoma = null;
-    activemasu = null;
+    activetegoma = activemasu = activekoma = null;
     activemovable = [];
-    activekoma = null;
   }
   return result;
 }

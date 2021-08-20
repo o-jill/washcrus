@@ -623,8 +623,9 @@ function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
  *                      成る場合は駒を裏返す(=成った駒を元に戻せる)
  */
 function move(koma, toxy, nari) {
-  var from_x = koma.x;
-  var from_y = koma.y;
+  var from_x = koma.x, from_y = koma.y;
+  /* どうもkomaのxyの値を参照してしまうのでダメっぽい */
+  /* var fromxy = {x: koma.x, y: koma.y}; */
 
   koma.kaesu(nari);
 
@@ -766,8 +767,7 @@ function uchi2(tegoma, koma_id, toxy) {
  *                      成る場合は駒を裏返す(=成った駒を元に戻せる)
  */
 function move2(koma, toxy, nari) {
-  var from_x = koma.x;
-  var from_y = koma.y;
+  var from_x = koma.x, from_y = koma.y;
 
   koma.kaesu(nari);
 
