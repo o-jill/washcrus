@@ -291,10 +291,8 @@ Koma.onTheBan = function (xory) {
 }
 
 Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
-  var x = ox;
-  var y = oy;
-  var ax = axy.x;
-  var ay = axy.y;
+  var x = ox, y = oy;
+  var ax = axy.x, ay = axy.y;
   if (this.teban === Koma.SENTEBAN) ay = -ay;
 
   x += ax;
@@ -310,8 +308,7 @@ Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
 };
 
 Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
-  var x, y;
-  x = ox + axy.x;
+  var x= ox + axy.x, y;
   if (!Koma.onTheBan(x)) return list;
 
   if (this.teban === Koma.SENTEBAN) {
@@ -445,8 +442,7 @@ Koma.prototype.pieceStr = function(hunaristr, naristr) {
 };
 
 Koma.prototype.kifuDouNumKIF = function(toxy, lastxy) {
-  if (toxy.x === lastxy.x && toxy.y === lastxy.y)
-    return Koma.DouStrKIF;
+  if (toxy.x === lastxy.x && toxy.y === lastxy.y) return Koma.DouStrKIF;
   return Koma.ZenkakuNum[toxy.x] + Koma.KanjiNum[toxy.y];
 };
 
@@ -539,9 +535,7 @@ Koma.prototype.kifuShortCSA = function(x, y) {
 };
 
 Koma.prototype.checkNariFromPos = function(ugokeru, fromy, toy) {
-  if (fromy < 3 || toy < 3)
-    return ugokeru ? Koma.NARERU : Koma.NARU;
-
+  if (fromy < 3 || toy < 3) return ugokeru ? Koma.NARERU : Koma.NARU;
   return Koma.NARENAI;
 };
 
@@ -553,8 +547,7 @@ Koma.prototype.checkNariSente = function(fromy, toy) {
 
 Koma.prototype.checkNariGote = function(fromy, toy) {
   // 動けるかのチェック
-  var _fromy = 9 - 1 - fromy;
-  var _toy = 9 - 1 - toy;
+  var _fromy = 9 - 1 - fromy, _toy = 9 - 1 - toy;
   var ugokeru = this.checkMovable(_toy);
   return this.checkNariFromPos(ugokeru, _fromy, _toy)
 };
@@ -571,8 +564,7 @@ Koma.prototype.checkNariGote = function(fromy, toy) {
  *                  Koma.NATTA   成った後
  */
 Koma.prototype.checkNari = function(fromy, toy) {
-  if (this.nari === Koma.NARI)
-    return Koma.NARENAI;  /* return Koma.NATTA; */
+  if (this.nari === Koma.NARI) return Koma.NARENAI;  /* return Koma.NATTA; */
 
   if (this.teban === Koma.SENTEBAN) {
     return this.checkNariSente(fromy, toy);
