@@ -359,14 +359,9 @@ function fillactivemasu(x, y, c)
  * @param {Boolean} b true:ハイライトする, false:ハイライトしない
  */
 function activatemovable(b) {
-  var c, sz, idx, x, y;
-
-  c = b ? movableColor : banColor;
-
-  sz = activemovable.length;
-  for (idx = 0; idx < sz; ++idx) {
-    x = activemovable[idx].x;
-    y = activemovable[idx].y;
+  var c = b ? movableColor : banColor;
+  for (const elem of activemovable) {
+    var x = elem.x, y = elem.y;
     if (hifumin_eye) {
       x = 8 - x;
       y = 8 - y;
@@ -444,9 +439,8 @@ function deactivate_activecell() {
 
 function check_activemovablemasu(hx, hy) {
   var sz = activemovable.length;
-  for (var idx = 0; idx < sz; ++idx) {
-    if (activemovable[idx].x === hx && activemovable[idx].y === hy)
-      return true;
+  for (const elem of activemovable) {
+    if (elem.x === hx && elem.y === hy) return true;
   }
   return false;
 }
