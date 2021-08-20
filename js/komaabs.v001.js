@@ -335,12 +335,12 @@ Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
  */
 Koma.prototype.getMovable = function(ox, oy) {
   var list = [];
-  var movablemasulist = this.movable();
+  var movablemasulist = this.movable(); /* [[x y strait], ...] */
   var sz = movablemasulist.length;
   for (var idx = 0; idx < sz; ++idx) {
     var axy = {
-      x: movablemasulist[idx].x,
-      y: movablemasulist[idx].y
+      x: movablemasulist[idx][0],
+      y: movablemasulist[idx][1]
     };
     var straight = movablemasulist[idx][2];
     list = straight ? this.getStraightMovable(list, axy, ox, oy)
