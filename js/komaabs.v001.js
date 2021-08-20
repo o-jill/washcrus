@@ -592,9 +592,8 @@ Koma.prototype.movemsg = function(tox, toy)
  * @param  {[type]} nari Koma.NARI or not
  */
 Koma.prototype.kaesu = function (nari) {
-  if (nari === Koma.NARI)
-    this.nari = (this.nari === Koma.NARI) ?
-      this.nari = Koma.NARAZU : this.nari = Koma.NARI;
+  if (nari !== Koma.NARI) return;
+  this.nari = (this.nari === Koma.NARI) ? Koma.NARAZU : Koma.NARI;
 };
 
 /**
