@@ -597,11 +597,6 @@ Koma.prototype.kaesu = function (nari) {
       this.nari = Koma.NARAZU : this.nari = Koma.NARI;
 };
 
-Koma.prototype.InitStr = function(abcd)
-{
-  this.strtype = abcd;
-};
-
 /**
  * 動けるマスの情報の初期化
  * @param  {Array} funari 不成状態での動けるところ
