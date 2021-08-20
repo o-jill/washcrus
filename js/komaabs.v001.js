@@ -336,13 +336,8 @@ Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
 Koma.prototype.getMovable = function(ox, oy) {
   var list = [];
   var movablemasulist = this.movable(); /* [[x y strait], ...] */
-  var sz = movablemasulist.length;
-  for (var idx = 0; idx < sz; ++idx) {
-    var axy = {
-      x: movablemasulist[idx][0],
-      y: movablemasulist[idx][1]
-    };
-    var straight = movablemasulist[idx][2];
+  for (const elem of movablemasulist) {
+    var axy = {x: elem[0], y: elem[1]}, straight = elem[2];
     list = straight ? this.getStraightMovable(list, axy, ox, oy)
           : this.getCloseMovable(list, axy, ox, oy);
   }
@@ -389,10 +384,10 @@ Koma.prototype.getUchableKEKY = function(bann, voidarea) {
 
 Koma.prototype.getUchableGeneralY = function(bann, i, starty, endy) {
   var list = [];
-  for (var j = starty; j < endy; ++j) {
-    if (bann[i][j].koma.teban === Koma.AKI)
-      list.push({x: i, y: j});
-  }
+
+  for (var j = starty; j < endy; ++j)
+    if (bann[i][j].koma.teban === Koma.AKI) list.push({x: i, y: j});
+
   return list;
 };
 
@@ -481,12 +476,11 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
 Koma.prototype.narifunariuchiStrKIF = function(nari, x) {
   var komastr = this.strtype.kif[0];
   if (this.nari === Koma.NARI) {
-    if (nari === Koma.NARI)
-      return komastr + Koma.NariStrKIF;
+    if (nari === Koma.NARI) return komastr + Koma.NariStrKIF;
     return this.strtype.kif[1];
-  } else if (x === 0) {
-    return komastr + Koma.UchiStrKIF;
   }
+  if (x === 0) return komastr + Koma.UchiStrKIF;
+
   return komastr;
 };
 
@@ -564,25 +558,19 @@ Koma.prototype.checkNariGote = function(fromy, toy) {
  */
 Koma.prototype.checkNari = function(fromy, toy) {
   if (this.nari === Koma.NARI) return Koma.NARENAI;  /* return Koma.NATTA; */
-
-  if (this.teban === Koma.SENTEBAN) {
-    return this.checkNariSente(fromy, toy);
-  } else if (this.teban === Koma.GOTEBAN) {
-    return this.checkNariGote(fromy, toy);
-  }
+  if (this.teban === Koma.SENTEBAN) return this.checkNariSente(fromy, toy);
+  if (this.teban === Koma.GOTEBAN) return this.checkNariGote(fromy, toy);
   return Koma.NARENAI;
 };
 
 Koma.prototype.movemsg = function(tox, toy)
 {
-  var x = this.x;
-  var toxy = Koma.ZenkakuNum[tox] + Koma.KanjiNum[toy];
+  var x = this.x, toxy = Koma.ZenkakuNum[tox] + Koma.KanjiNum[toy];
   var str = this.getTypeStr();
 
   if (x < 0) return str + 'を' + toxy + 'に打ちます。';
 
-  var y = this.y;
-  var fromxy = Koma.ZenkakuNum[x] + Koma.KanjiNum[y];
+  var y = this.y, fromxy = Koma.ZenkakuNum[x] + Koma.KanjiNum[y];
   return str + 'を' + fromxy + 'から' + toxy + 'に移動します。';
 };
 
