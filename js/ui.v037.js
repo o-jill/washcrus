@@ -26,9 +26,7 @@ var narimenu_funari;
 /** 成りメニュークリック待ち */
 var wait_narimenu;
 /** 成るマスの座標 */
-var narimenu_tox;
-/** 成るマスの座標 */
-var narimenu_toy;
+var narimenu_toxy;
 
 /** 着手確認ダイアログ */
 var cfrmdlg;
@@ -71,9 +69,7 @@ var activemovable = [];
 var hifumin_eye = false;
 
 /** 最終手 筋 */
-var last_mx = -1;
-/** 最終手 段 */
-var last_my = -1;
+var last_mxy = {x: -1, y: -1};
 
 /** 対局終了 */
 var isfinished = false;
@@ -134,12 +130,12 @@ function Naraberu_tegoma(tegoma, tegomaui)
 /**
  * 最後に指したところに印をつける
  */
-function Naraberu_lastmove(x, y)
+function Naraberu_lastmove(xy)
 {
   /* if (x < 0 || x > 8 || y < 0 || y > 9) */
-  if (!Koma.onTheBan(x) || !Koma.onTheBan(y)) return;
+  if (!Koma.onTheBan(xy.x) || !Koma.onTheBan(xy.y)) return;
 
-  var el = ban[x][y].el;
+  var el = ban[xy.x][xy.y].el;
   if (el === null) return;
   var text = '<div style="position:relative;">' + el.innerHTML;
   text += '<div style="position:absolute;left:0;top:0;">';
@@ -170,7 +166,7 @@ function Naraberu() {
   for (var i = 0; i < 9; ++i) Naraberu_ban(i);
 
   // 最後に指したところに印をつける
-  Naraberu_lastmove(last_mx, last_my);
+  Naraberu_lastmove(last_mxy);
 
   Naraberu_tegoma(sentegoma, sentegoma);
   Naraberu_tegoma(gotegoma, gotegoma);
@@ -192,7 +188,7 @@ function Naraberu_rotate() {
   for (var i = 0; i < 9; ++i) Naraberu_banr(i);
 
   // 最後に指したところに印をつける
-  Naraberu_lastmove(8 - last_mx, 8 - last_my);
+  Naraberu_lastmove({x: 8 - last_mxy.x, y: 8 - last_mxy.y});
 
   Naraberu_tegoma(sentegoma, gotegoma);
   Naraberu_tegoma(gotegoma, sentegoma);
@@ -680,7 +676,7 @@ function popupnari(x, y) {
 
 function move_byclick_narinarazu(nari)
 {
-  move(activekoma, {x: narimenu_tox, y: narimenu_toy}, nari);
+  move(activekoma, narimenu_toxy, nari);
   activecell(null, null);
 
   wait_narimenu = false;
@@ -737,8 +733,7 @@ function clickcfrm_ok_move(hx, hy)
     record_your_move();
   } else if (nareru === Koma.NARERU) {
     // ユーザに聞く
-    narimenu_tox = hx;
-    narimenu_toy = hy;
+    narimenu_toxy = {x: hx, y: hy};
     popupnari(mouseposx, mouseposy);
   }
 }
@@ -764,8 +759,7 @@ function clickcfrm_ok_capmove(hx, hy)
     record_your_move();
   } else if (nareru === Koma.NARERU) {
     // ユーザに聞く
-    narimenu_tox = hx;
-    narimenu_toy = hy;
+    narimenu_toxy = {x: hx, y: hy};
     popupnari(mouseposx, mouseposy);
   }
 }
@@ -1093,8 +1087,7 @@ function read_lastmove()
   if (isNaN(x)) x = 0;
   if (isNaN(y)) y = 0;
 
-  last_mx = x-1;
-  last_my = y-1;
+  last_mxy = {x: x - 1, y: y - 1};
 }
 
 /**
