@@ -242,7 +242,7 @@ Hisha.prototype = new Koma();
 function Hisha(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.strtype = Koma.InitStrTable.hish);
+  this.strtype = Koma.InitStrTable.hisha;
   this.InitMovable(Koma.HishaMovable, Koma.RyuMovable);
   this.id = Koma.HishaID;
 }
