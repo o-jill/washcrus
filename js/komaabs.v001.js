@@ -361,8 +361,7 @@ Koma.prototype.pickup_ohte = function(ohtelist, xy, gxy, nari) {
   var list = this.getMovable(xy.x, xy.y);
   var sz = list.length;
   for (var i = 0; i < sz; ++i) {
-    var xx = list[i].x;
-    var yy = list[i].y;
+    var xx = list[i].x, yy = list[i].y;
     // 相手方の玉の位置に移動できるなら王手になる手
     if (xx === gxy.x && yy === gxy.y) {
       ohtelist.push([xy.x, xy.y, nari]);

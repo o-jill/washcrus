@@ -25,18 +25,14 @@ function Kifu(md) {
   /** 対局中(又は直近)の棋譜 */
   this.Honp = []; // 一手分の棋譜 [手番, fromx, fromy, tox, toy, nari, totta_id];
 
-  /** 先手の名前 */
-  this.sentename = '';
-  /** 後手の名前 */
-  this.gotename = '';
+  /** 先手の名前 後手の名前 */
+  this.name = {sen: '', go: ''};
   /** 棋戦名 */
   this.eventname = '';
   /** 場所 */
   this.sitename = '';
-  /** 開始時間 */
-  this.starttime = '';
-  /** 終了時間 */
-  this.endtime = '';
+  /** 開始時間 終了時間 */
+  this.time = {start: '', end: ''};
   /** 持ち時間 */
   this.timelimit = '';
   /** 戦型 */
@@ -163,19 +159,13 @@ Kifu.prototype.genKifu = function(koma, fromxy, toxy, nari) {
  */
 Kifu.prototype.reset = function() {
   this.kifuText = '';
-  this.lastTe.str = '';
-  this.lastTe.x = 10;
-  this.lastTe.y = 10;
+  this.lastTe = { str: '', strs: '', x: 10, y: 10 };
   this.NTeme = 0;
   this.Honp = [];
-  this.sentename = '';
-  this.gotename = '';
-  this.eventname = '';
-  this.sitename = '';
-  this.starttime = '';
-  this.endtime = '';
-  this.timelimit = '';
-  this.opening = '';
+  this.name = {sen: '', go: ''};
+  this.eventname = this.sitename = '';
+  this.time = {start: '', end: ''};
+  this.timelimit = this.opening = '';
 };
 
 /**
@@ -185,8 +175,7 @@ Kifu.prototype.reset = function() {
  * @param {String} gotename  後手の名前
  */
 Kifu.prototype.setPlayers = function(sentename, gotename) {
-  this.sentename = sentename;
-  this.gotename = gotename;
+  this.name = {sen: sentename, go: gotename};
 };
 
 /**
@@ -196,8 +185,8 @@ Kifu.prototype.setPlayers = function(sentename, gotename) {
  * @param {String} gotename  後手の名前
  */
 Kifu.prototype.putHeader = function(sentename, gotename) {
-  sentename = sentename || this.sentename;
-  gotename = gotename || this.gotename;
+  sentename = sentename || this.name.sen;
+  gotename = gotename || this.name.go;
   if (this.mode === Kifu.CSA) {
     this.kifuText = this.headerCSA(sentename, gotename);
   } else if (this.mode === Kifu.KIF) {
@@ -214,7 +203,7 @@ Kifu.prototype.putHeader = function(sentename, gotename) {
  *
  * @param {Time} n 時刻オブジェクト
  *
- * @return {String} 時刻文字列 'yyyy/mm/dd hh/mm/ss'
+ * @return {String} 時刻文字列 'yyyy/mm/dd hh:mm:ss'
  */
 Kifu.prototype.build_datetime = function(n) {
   var ret = n.getFullYear() + '/' + (n.getMonth() + 1) + '/' + n.getDate()
@@ -363,10 +352,10 @@ Kifu.prototype.readLineCSA_dollar = function(text) {
     this.sitename = text.slice(6);
   } else if (text.startsWith('$START_TIME:')) {
     // 開始時間
-    this.starttime = text.slice(12);
+    this.time.start = text.slice(12);
   } else if (text.startsWith('$END_TIME:')) {
     // 終了時間
-    this.endtime = text.slice(10);
+    this.time.end = text.slice(10);
   } else if (text.startsWith('$TIME_LIMIT:')) {
     // 持ち時間
     this.timelimit = text.slice(12);
@@ -379,10 +368,10 @@ Kifu.prototype.readLineCSA_dollar = function(text) {
 Kifu.prototype.readLineCSA_name = function(text) {
   if (text.startsWith('N+')) {
     // alert('先手：'+text);
-    this.sentename = text.slice(2);
+    this.name.sen = text.slice(2);
   } else {  // if (text.startsWith('N-')) {
     // alert('後手：'+text);
-    this.gotename = text.slice(2);
+    this.name.go = text.slice(2);
   }
 };
 
@@ -504,8 +493,7 @@ Kifu.prototype.seek_te_foward_move = function(te) {
   var xy = {x: te[3], y: te[4]};
   if (te[1] === -1) {
     // 駒を打つ
-    var tegoma = (te[0] === Koma.SENTEBAN) ? sentegoma : gotegoma;
-    uchi2(tegoma, te[6], xy);
+    uchi2((te[0] === Koma.SENTEBAN) ? sentegoma : gotegoma, te[6], xy);
   } else {
     if (te[6] > Koma.NoID) {
       toru(xy);
@@ -527,10 +515,8 @@ Kifu.prototype.seek_te_foward = function(idx) {
 
 Kifu.prototype.seek_te_backward_ = function(te) {
   var teban = te[0];
-  var fromxy = { x: te[1], y: te[2] };
-  var toxy = { x: te[3], y: te[4] };
-  var nari = te[5];
-  var tid = te[6];
+  var fromxy = { x: te[1], y: te[2] }, toxy = { x: te[3], y: te[4] };
+  var nari = te[5], tid = te[6];
 
   if (fromxy.x === -1) {
     // 駒台に戻す
