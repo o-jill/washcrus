@@ -399,8 +399,7 @@ function activecell(koma, masu, masui) {
 
   if (masu === null) {
     activetegoma = activemasu = activemasui = null;
-    activemovable = [];
-    return;
+    return activemovable = [];
   }
 
   activemasu = masu;
@@ -476,8 +475,7 @@ function absclick_opponent(hx, hy)
     /* 選択キャンセル */
     deactivate_activecell();
   } else {
-    var msg = activekoma.movemsg(hx, hy);
-    myconfirm(msg, CFRM_MVCAP, hx, hy);
+    myconfirm(activekoma.movemsg(hx, hy), CFRM_MVCAP, hx, hy);
   }
 }
 
@@ -638,16 +636,9 @@ function absclick_tegoma_ui(id) {
 
   var id_sub = id.substring(0, id.length-4);
   for (var i = 0 ; i < 7 ; ++i) {
-    var str = 'sg_' + kmtbl[i];
-    if (str === id_sub) {
-      absclick_tegoma_sg(i, false, sentegoma);
-      return;
-    }
-    str = 'gg_' + kmtbl[i];
-    if (str === id_sub) {
-      absclick_tegoma_sg(i, true, gotegoma);
-      return;
-    }
+    var strs = 'sg_' + kmtbl[i], strg = 'gg_' + kmtbl[i];
+    if (strs === id_sub) return absclick_tegoma_sg(i, false, sentegoma);
+    if (strg === id_sub) return absclick_tegoma_sg(i, true, gotegoma);
   }
 }
 
@@ -963,10 +954,8 @@ function turn_taikyoku_on()
   var strfinished = document.getElementById('isfinished').value;
   isfinished = (strfinished !== 'false');  /* convert to boolean */
 
-  if (isfinished) {
-    taikyokuchu = false;
-    return;
-  }
+  if (isfinished) return taikyokuchu = false;
+
   /* var teban = document.getElementById('myturn').value; */
   /* if (teban !== '0') taikyokuchu = true; */
   var teban = document.getElementById('myteban').value;
@@ -1069,8 +1058,9 @@ function read_lastmove()
   /* e.g. -9300FU */
   var str = document.getElementById('lastmove').value;
 
-  var x = Number(str.charAt(3));  /* e.g. '9' -> 9 */
-  var y = Number(str.charAt(4));  /* e.g. '3' -> 3 */
+  /* e.g. '9' -> 9 */
+  /* e.g. '3' -> 3 */
+  var x = Number(str.charAt(3)), y = Number(str.charAt(4));
 
   if (isNaN(x)) x = 0;
   if (isNaN(y)) y = 0;
@@ -1205,8 +1195,7 @@ function send_csamove_resp(status, resp)
   var msg = document.getElementById('msg_fogscreen');
   if (status === 0) {  /* XHR 通信失敗 */
     msg.innerHTML += 'XHR 通信失敗<br>自動的にリロードします。';
-    location.reload(true);
-    return;
+    return location.reload(true);
   }
   /* XHR 通信成功 */
   if ((200 <= status && status < 300) || status === 304) {
@@ -1294,8 +1283,7 @@ function openurlin_blank(url) {
 function openurl_widthhash(url) {
   var cururl = window.location.search;
   var elem = cururl.split('/');
-  var tgt = url + elem[1];
-  var win = window.open(tgt, '_blank');
+  var win = window.open(url + elem[1], '_blank');
   win.focus();
 }
 

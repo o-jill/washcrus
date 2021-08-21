@@ -809,10 +809,9 @@ function checkOHTe_koma(gyoku, koma, i, j) {
   var masulist = koma.getMovable(i, j);
   // var masulist = koma.getMovable(koma.x, koma.y);
   // var masulist = koma.getMovable();
-  for (var idx = 0; idx < masulist.length; ++idx) {
-  // for (var idx in masulist) {
-    if (masulist[idx].x === gyoku.x && masulist[idx].y === gyoku.y)
-      return true;
+  // for (var idx = 0; idx < masulist.length; ++idx) {
+  for (var elem in masulist) {
+    if (elem.x === gyoku.x && elem.y === gyoku.y) return true;
   }
   return false;
 }
