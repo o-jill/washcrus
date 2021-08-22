@@ -25,18 +25,14 @@ function Kifu(md) {
   /** 対局中(又は直近)の棋譜 */
   this.Honp = []; // 一手分の棋譜 [手番, fromx, fromy, tox, toy, nari, totta_id];
 
-  /** 先手の名前 */
-  this.sentename = '';
-  /** 後手の名前 */
-  this.gotename = '';
+  /** 先手の名前 後手の名前 */
+  this.name = {sen: '', go: ''};
   /** 棋戦名 */
   this.eventname = '';
   /** 場所 */
   this.sitename = '';
-  /** 開始時間 */
-  this.starttime = '';
-  /** 終了時間 */
-  this.endtime = '';
+  /** 開始時間 終了時間 */
+  this.time = {start: '', end: ''};
   /** 持ち時間 */
   this.timelimit = '';
   /** 戦型 */
@@ -73,10 +69,8 @@ Kifu.JSON = 4;
  * 一手分を棋譜リストに覚える。
  *
  * @param {Number} teban 手番
- * @param {Number} fromx 移動元の座標
- * @param {Number} fromy 移動元の座標
- * @param {Number} tox   移動先の座標
- * @param {Number} toy   移動先の座標
+ * @param {Number} fromxy 移動元の座標
+ * @param {Number} toxy   移動先の座標
  * @param {Number} nari  成ったかどうか
  */
 Kifu.prototype.Sashita = function(teban, fromxy, toxy, nari) {
@@ -165,19 +159,13 @@ Kifu.prototype.genKifu = function(koma, fromxy, toxy, nari) {
  */
 Kifu.prototype.reset = function() {
   this.kifuText = '';
-  this.lastTe.str = '';
-  this.lastTe.x = 10;
-  this.lastTe.y = 10;
+  this.lastTe = { str: '', strs: '', x: 10, y: 10 };
   this.NTeme = 0;
   this.Honp = [];
-  this.sentename = '';
-  this.gotename = '';
-  this.eventname = '';
-  this.sitename = '';
-  this.starttime = '';
-  this.endtime = '';
-  this.timelimit = '';
-  this.opening = '';
+  this.name = {sen: '', go: ''};
+  this.eventname = this.sitename = '';
+  this.time = {start: '', end: ''};
+  this.timelimit = this.opening = '';
 };
 
 /**
@@ -187,8 +175,7 @@ Kifu.prototype.reset = function() {
  * @param {String} gotename  後手の名前
  */
 Kifu.prototype.setPlayers = function(sentename, gotename) {
-  this.sentename = sentename;
-  this.gotename = gotename;
+  this.name = {sen: sentename, go: gotename};
 };
 
 /**
@@ -198,8 +185,8 @@ Kifu.prototype.setPlayers = function(sentename, gotename) {
  * @param {String} gotename  後手の名前
  */
 Kifu.prototype.putHeader = function(sentename, gotename) {
-  sentename = sentename || this.sentename;
-  gotename = gotename || this.gotename;
+  sentename = sentename || this.name.sen;
+  gotename = gotename || this.name.go;
   if (this.mode === Kifu.CSA) {
     this.kifuText = this.headerCSA(sentename, gotename);
   } else if (this.mode === Kifu.KIF) {
@@ -216,7 +203,7 @@ Kifu.prototype.putHeader = function(sentename, gotename) {
  *
  * @param {Time} n 時刻オブジェクト
  *
- * @return {String} 時刻文字列 'yyyy/mm/dd hh/mm/ss'
+ * @return {String} 時刻文字列 'yyyy/mm/dd hh:mm:ss'
  */
 Kifu.prototype.build_datetime = function(n) {
   var ret = n.getFullYear() + '/' + (n.getMonth() + 1) + '/' + n.getDate()
@@ -365,10 +352,10 @@ Kifu.prototype.readLineCSA_dollar = function(text) {
     this.sitename = text.slice(6);
   } else if (text.startsWith('$START_TIME:')) {
     // 開始時間
-    this.starttime = text.slice(12);
+    this.time.start = text.slice(12);
   } else if (text.startsWith('$END_TIME:')) {
     // 終了時間
-    this.endtime = text.slice(10);
+    this.time.end = text.slice(10);
   } else if (text.startsWith('$TIME_LIMIT:')) {
     // 持ち時間
     this.timelimit = text.slice(12);
@@ -381,10 +368,10 @@ Kifu.prototype.readLineCSA_dollar = function(text) {
 Kifu.prototype.readLineCSA_name = function(text) {
   if (text.startsWith('N+')) {
     // alert('先手：'+text);
-    this.sentename = text.slice(2);
+    this.name.sen = text.slice(2);
   } else {  // if (text.startsWith('N-')) {
     // alert('後手：'+text);
-    this.gotename = text.slice(2);
+    this.name.go = text.slice(2);
   }
 };
 
@@ -506,8 +493,7 @@ Kifu.prototype.seek_te_foward_move = function(te) {
   var xy = {x: te[3], y: te[4]};
   if (te[1] === -1) {
     // 駒を打つ
-    var tegoma = (te[0] === Koma.SENTEBAN) ? sentegoma : gotegoma;
-    uchi2(tegoma, te[6], xy);
+    uchi2((te[0] === Koma.SENTEBAN) ? sentegoma : gotegoma, te[6], xy);
   } else {
     if (te[6] > Koma.NoID) {
       toru(xy);
@@ -529,10 +515,8 @@ Kifu.prototype.seek_te_foward = function(idx) {
 
 Kifu.prototype.seek_te_backward_ = function(te) {
   var teban = te[0];
-  var fromxy = { x: te[1], y: te[2] };
-  var toxy = { x: te[3], y: te[4] };
-  var nari = te[5];
-  var tid = te[6];
+  var fromxy = { x: te[1], y: te[2] }, toxy = { x: te[3], y: te[4] };
+  var nari = te[5], tid = te[6];
 
   if (fromxy.x === -1) {
     // 駒台に戻す
@@ -595,21 +579,21 @@ var mykifu = new Kifu(Kifu.Org);
 // var mykifu = new Kifu(Kifu.CSA);
 
 function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
-  var str = (koma.teban === Koma.SENTEBAN) ? Koma.SenteStrCSA : Koma.GoteStrCSA;
+  var str = koma.getTebanStrUtil(Koma.UtilStr.csa);
 
   str += ('' + (fromxy.x + 1)) + (fromxy.y + 1);
 
   str += ('' + (toxy.x + 1)) + (toxy.y + 1);
 
   if (nari === Koma.NARI || koma.nari !== Koma.NARI) {
-    str += koma.strtypeCSA;
+    str += koma.strtype.csa[0];
   } else {
-    str += koma.strntypeCSA;
+    str += koma.strtype.csa[1];
   }
 
   if (tottaid === Koma.NoID) str += '__';
-  else if (tottaid >= 1000) str += tottakoma.strntypeCSA;
-  else str += tottakoma.strtypeCSA;
+  else if (tottaid >= 1000) str += tottakoma.strtype.csa[1];
+  else str += tottakoma.strtype.csa[0];
 
   if (nari === Koma.NARI) str += 'P';
 
@@ -625,8 +609,9 @@ function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
  *                      成る場合は駒を裏返す(=成った駒を元に戻せる)
  */
 function move(koma, toxy, nari) {
-  var from_x = koma.x;
-  var from_y = koma.y;
+  var from_x = koma.x, from_y = koma.y;
+  /* どうもkomaのxyの値を参照してしまうのでダメっぽい */
+  /* var fromxy = {x: koma.x, y: koma.y}; */
 
   koma.kaesu(nari);
 
@@ -728,10 +713,10 @@ function uchi(tegoma, koma, toxy) {
 
   movecsa = '';
 
-  movecsa += (k.teban === Koma.SENTEBAN) ? Koma.SenteStrCSA : Koma.GoteStrCSA;
+  movecsa += k.getTebanStrUtil(Koma.UtilStr.csa);
 
   movecsa += ('00' + (toxy.x + 1)) + (toxy.y + 1);
-  movecsa += k.strtypeCSA + '__';
+  movecsa += k.strtype.csa[0] + '__';
 }
 
 /**
@@ -753,10 +738,10 @@ function uchi2(tegoma, koma_id, toxy) {
 
   movecsa = '';
 
-  movecsa += (k.teban === Koma.SENTEBAN) ? k.SenteStrCSA : k.GoteStrCSA;
+  movecsa += k.getTebanStrUtil(Koma.UtilStr.csa);
 
   movecsa += ('00' + (toxy.x + 1)) + (toxy.y + 1);
-  movecsa += k.strtypeCSA + '__';
+  movecsa += k.strtype.csa[0] + '__';
 }
 
 /**
@@ -768,8 +753,7 @@ function uchi2(tegoma, koma_id, toxy) {
  *                      成る場合は駒を裏返す(=成った駒を元に戻せる)
  */
 function move2(koma, toxy, nari) {
-  var from_x = koma.x;
-  var from_y = koma.y;
+  var from_x = koma.x, from_y = koma.y;
 
   koma.kaesu(nari);
 
@@ -788,8 +772,7 @@ function move2(koma, toxy, nari) {
   activeteban = (activeteban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
 
   var tottaid = mykifu.totta_id;
-  movecsa = build_movecsa(koma,
-    {x: from_x, y: from_y}, toxy, tottaid, nari);
+  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, tottaid, nari);
 }
 
 /**
@@ -826,10 +809,9 @@ function checkOHTe_koma(gyoku, koma, i, j) {
   var masulist = koma.getMovable(i, j);
   // var masulist = koma.getMovable(koma.x, koma.y);
   // var masulist = koma.getMovable();
-  for (var idx = 0; idx < masulist.length; ++idx) {
-  // for (var idx in masulist) {
-    if (masulist[idx][0] === gyoku.x && masulist[idx][1] === gyoku.y)
-      return true;
+  // for (var idx = 0; idx < masulist.length; ++idx) {
+  for (var elem in masulist) {
+    if (elem.x === gyoku.x && elem.y === gyoku.y) return true;
   }
   return false;
 }
@@ -892,7 +874,7 @@ function KyokumenKIFTegoma(tegoma) {
   for (var idx in gotegoma) {
     if (tegoma[idx][0].length !== 0) {
       var koma = tegoma[idx][1].koma;
-      komadai += koma.strtypeKIF
+      komadai += koma.strtype.kif[0]
           + Koma.KanjiNum[tegoma[idx][0].length - 1] + '　';
     }
   }

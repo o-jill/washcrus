@@ -10,16 +10,8 @@
  */
 function Koma(teban, x, y) {
   this.teban = teban || Koma.AKI;
-  this.strtype = '* ';
-  this.strntype = '* ';
-  this.strtypeKIF = '* ';
-  this.strntypeKIF = '* ';
-  this.strtypeKIFU = '* ';
-  this.strntypeKIFU = '* ';
-  this.strtypeCSA = '* ';
-  this.strntypeCSA = '* ';
-  this.strtypeIMG = '';
-  this.strntypeIMG = '';
+  this.strtype = {long: ['* ', '* '], kif: ['* ', '* '],
+    csa: ['* ', '* '], img: ['', ''], };
   this.nari = Koma.NARAZU;
   this.id = Koma.NoID;
   this.x = x;
@@ -57,67 +49,52 @@ Koma.UchiStrKIF = '打';
 Koma.DouStrKIF = '同　';
 Koma.FunariStr = '不成';
 
-
 Koma.InitStrTable = {
   fu: {
     long: ['歩兵', 'と金'], kif: ['歩', 'と'],
-    kifu: ['歩', 'と'], csa: ['FU', 'TO'],
-    img: ['koma_fu', 'koma_to']
+    csa: ['FU', 'TO'], img: ['koma_fu', 'koma_to']
   },
   kyosha: {
     long: ['香車', '成香'], kif: ['香', '成香'],
-    kifu: ['香', '成香'], csa: ['KY', 'NY'],
-    img: ['koma_kyo', 'koma_nkyo']
+    csa: ['KY', 'NY'], img: ['koma_kyo', 'koma_nkyo']
   },
   keima: {
     long: ['桂馬', '成桂'], kif: ['桂', '成桂'],
-    kifu: ['桂', '成桂'], csa: ['KE', 'NK'],
-    img: ['koma_kei', 'koma_nkei']
+    csa: ['KE', 'NK'], img: ['koma_kei', 'koma_nkei']
   },
   gin: {
     long: ['銀将', '成銀'], kif: ['銀', '成銀'],
-    kifu: ['銀', '成銀'], csa: ['GI', 'NG'],
-    img: ['koma_gin', 'koma_ngin']
+    csa: ['GI', 'NG'], img: ['koma_gin', 'koma_ngin']
   },
   kin: {
     long: ['金将', '金将'], kif: ['金', '金'],
-    kifu: ['金', '金'], csa: ['KI', 'KI'],
-    img: ['koma_kin', 'koma_kin']
+    csa: ['KI', 'KI'], img: ['koma_kin', 'koma_kin']
   },
   kaku: {
     long: ['角行', '竜馬'], kif: ['角', '馬'],
-    kifu: ['角', '馬'], csa: ['KA', 'UM'],
-    img: ['koma_kaku', 'koma_uma']
+    csa: ['KA', 'UM'], img: ['koma_kaku', 'koma_uma']
   },
   hisha: {
     long: ['飛車', '竜王'], kif: ['飛', '竜'],
-    kifu: ['飛', '竜'], csa: ['HI', 'RY'],
-    img: ['koma_hisha', 'koma_ryu']
+    csa: ['HI', 'RY'], img: ['koma_hisha', 'koma_ryu']
   },
   gyoku: {
     long: ['玉将', '玉将'], kif: ['玉', '玉'],
-    kifu: ['玉', '玉'], csa: ['OU', 'OU'],
-    img: ['koma_ou', 'koma_ou']
+    csa: ['OU', 'OU'], img: ['koma_ou', 'koma_ou']
   },
   ou: {
     long: ['王将', '王将'], kif: ['玉', '玉'],
-    kifu: ['玉', '玉'], csa: ['OU', 'OU'],
-    img: ['koma_ou', 'koma_ou']
+    csa: ['OU', 'OU'], img: ['koma_ou', 'koma_ou']
   }
 };
 
 // 先手、後手、空き
-Koma.SenteStr = '▲';
-Koma.GoteStr = '△';
-Koma.AkiStr = ' ';
-Koma.SenteStrKIF = ' ';
-Koma.GoteStrKIF = 'v';
-Koma.AkiStrKIF = ' ・';
-Koma.SenteStrCSA = '+';
-Koma.GoteStrCSA = '-';
-Koma.AkiStrCSA = ' * ';
-Koma.SenteStrOrg = '先手';
-Koma.GoteStrOrg = '後手';
+Koma.UtilStr = {
+  std: {sente: '▲', gote: '△', aki: ' '},
+  kif: {sente: ' ', gote: ' ', aki: ' ・'},
+  csa: {sente: '+', gote: '-', aki: ' * '},
+  org: {sente: '先手', gote: '後手', aki: ' '}
+};
 
 Koma.ToryoStr = '投了';
 Koma.ToryoStrCSA = '%TORYO';
@@ -185,21 +162,28 @@ Koma.prototype.getTebanStr = function(strSente, strGote) {
   return null;
 };
 
+Koma.prototype.getTebanStrUtil = function(type) {
+  if (this.teban === Koma.SENTEBAN) return type.sente;
+  if (this.teban === Koma.GOTEBAN) return type.gote;
+  return null;
+};
+
+
 /**
  * 表示用の文字列の取得
  *
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getStr = function() {
-  var str = this.getTebanStr(Koma.SenteStr, Koma.GoteStr);
+  var str = this.getTebanStrUtil(Koma.UtilStr.std);
 
-  if (str == null) return Koma.AkiStr;
+  if (str == null) return Koma.UtilStr.std.aki;
 
-  str += this.strntypeKIFU;
+  str += this.strtype.kif[1];
   if (this.nari === Koma.NARI) {
     // no prefix
   } else {
-    str += this.strtypeKIFU;
+    str += this.strtype.kif[0];
   }
   return str;
 };
@@ -217,17 +201,12 @@ Koma.prototype.getHtmlStr = function(hanten) {
     str = this.getTebanStr('<div class=sentemoji>', '<div class=gotemoji>');
   }
 
-  if (str == null) return Koma.AkiStr;
+  if (str == null) return Koma.UtilStr.std.aki;
 
-  str += (this.nari === Koma.NARI) ? this.strntypeKIFU : this.strtypeKIFU;
+  str += this.strtype.kif[Number(this.nari === Koma.NARI)];
 
   str += '</div>';
   return str;
-};
-
-
-Koma.prototype.chooseKomaExp = function(a, b) {
-  return (this.nari === Koma.NARI) ? a : b;
 };
 
 /**
@@ -245,7 +224,17 @@ Koma.prototype.getImgStr = function(hanten) {
 
   if (str == null) return '';
 
-  str += this.chooseKomaExp(this.strntypeIMG, this.strtypeIMG);
+  str += this.strtype.img[Number(this.nari === Koma.NARI)];
+
+  return str;
+};
+
+Koma.prototype.getShortStr = function(utilstr, komatype) {
+  var str = this.getTebanStrUtil(utilstr);
+
+  if (str == null) return utilstr.aki;
+
+  str += komatype[Number(this.nari === Koma.NARI)];
 
   return str;
 };
@@ -256,28 +245,16 @@ Koma.prototype.getImgStr = function(hanten) {
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getShortStrCSA = function() {
-  var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
-
-  if (str == null) return Koma.AkiStrCSA;
-
-  str += this.chooseKomaExp(this.strntypeCSA, this.strtypeCSA);
-
-  return str;
+  return getShortStr(Koma.UtilStr.csa, this.strtype.csa);
 };
 
 /**
- * CSA表示用の文字列の取得
+ * KIF表示用の文字列の取得
  *
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getShortStrKIF = function() {
-  var str = this.getTebanStr(Koma.SenteStrKIF, Koma.GoteStrKIF);
-
-  if (str == null) return Koma.AkiStrKIF;
-
-  str += this.chooseKomaExp(this.strntypeKIF, this.strtypeKIF);
-
-  return str;
+  return getShortStr(Koma.UtilStr.kif, this.strtype.kif);
 };
 
 /**
@@ -286,7 +263,7 @@ Koma.prototype.getShortStrKIF = function() {
  * @return {String} 表示用の文字列
  */
 Koma.prototype.getTypeStr = function() {
-  return (this.nari === Koma.NARI) ? this.strntype : this.strtype;
+  return this.strtype.long[Number(this.nari === Koma.NARI)];
 };
 
 /**
@@ -314,10 +291,8 @@ Koma.onTheBan = function (xory) {
 }
 
 Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
-  var x = ox;
-  var y = oy;
-  var ax = axy.x;
-  var ay = axy.y;
+  var x = ox, y = oy;
+  var ax = axy.x, ay = axy.y;
   if (this.teban === Koma.SENTEBAN) ay = -ay;
 
   x += ax;
@@ -325,7 +300,7 @@ Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
   for ( ; Koma.onTheBan(x) && Koma.onTheBan(y) ; x += ax, y += ay) {
     var teban = ban[x][y].koma.teban;
     if (teban === this.teban) break;
-    list.push([x, y]);
+    list.push({x: x, y: y});
     if (teban !== Koma.AKI) break;
   }
 
@@ -333,8 +308,7 @@ Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
 };
 
 Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
-  var x, y;
-  x = ox + axy.x;
+  var x= ox + axy.x, y;
   if (!Koma.onTheBan(x)) return list;
 
   if (this.teban === Koma.SENTEBAN) {
@@ -346,7 +320,7 @@ Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
 
   var teban = ban[x][y].koma.teban;
   if (teban !== this.teban) {
-    list.push([x, y]);
+    list.push({x: x, y: y});
   }
   return list;
 };
@@ -357,18 +331,13 @@ Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
  * @param {Number} ox 現在地
  * @param {Number} oy 現在地
  *
- * @return {Array} 動けるマスのリスト[[x, y], ....]
+ * @return {Array} 動けるマスのリスト[{x:, y:}, ....]
  */
 Koma.prototype.getMovable = function(ox, oy) {
   var list = [];
-  var movablemasulist = this.movable();
-  var sz = movablemasulist.length;
-  for (var idx = 0; idx < sz; ++idx) {
-    var axy = {
-      x: movablemasulist[idx][0],
-      y: movablemasulist[idx][1]
-    };
-    var straight = movablemasulist[idx][2];
+  var movablemasulist = this.movable(); /* [[x y strait], ...] */
+  for (const elem of movablemasulist) {
+    var axy = {x: elem[0], y: elem[1]}, straight = elem[2];
     list = straight ? this.getStraightMovable(list, axy, ox, oy)
           : this.getCloseMovable(list, axy, ox, oy);
   }
@@ -386,9 +355,8 @@ Koma.prototype.getMovable = function(ox, oy) {
 Koma.prototype.pickup_ohte = function(ohtelist, xy, gxy, nari) {
   var list = this.getMovable(xy.x, xy.y);
   var sz = list.length;
-  for (var i = 0; i < sz; ++i) {
-    var xx = list[i][0];
-    var yy = list[i][1];
+  for (const elem of list) {
+    var xx = list[i].x, yy = list[i].y;
     // 相手方の玉の位置に移動できるなら王手になる手
     if (xx === gxy.x && yy === gxy.y) {
       ohtelist.push([xy.x, xy.y, nari]);
@@ -416,10 +384,10 @@ Koma.prototype.getUchableKEKY = function(bann, voidarea) {
 
 Koma.prototype.getUchableGeneralY = function(bann, i, starty, endy) {
   var list = [];
-  for (var j = starty; j < endy; ++j) {
-    if (bann[i][j].koma.teban === Koma.AKI)
-      list.push([i, j]);
-  }
+
+  for (var j = starty; j < endy; ++j)
+    if (bann[i][j].koma.teban === Koma.AKI) list.push({x: i, y: j});
+
   return list;
 };
 
@@ -429,7 +397,7 @@ Koma.prototype.getUchableGeneralY = function(bann, i, starty, endy) {
  * @param {Number} starty 打てる段の始まり
  * @param {Number} endyy  打てる段の終わり
  *
- * @return {Array} 打てるマスのリスト
+ * @return {Array} 打てるマス{x:,y:}のリスト
  */
 Koma.prototype.getUchableGeneral = function(bann, starty, endy) {
   var list = [];
@@ -455,10 +423,10 @@ Koma.prototype.kifuCSA = function(fromx, fromy, tox, toy) {
   tox++;
   toy++;
 
-  var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
+  var str = this.getTebanStrUtil(Koma.UtilStr.csa);
 
   str += ('' + fromx) + fromy + ('' + tox) + toy;
-  str += this. pieceStr(this.strtypeCSA, this.strntypeCSA)
+  str += this.strtype.csa[Number[(this.nari === Koma.NARI)]];
 
   return str;
 };
@@ -468,8 +436,7 @@ Koma.prototype.pieceStr = function(hunaristr, naristr) {
 };
 
 Koma.prototype.kifuDouNumKIF = function(toxy, lastxy) {
-  if (toxy.x === lastxy.x && toxy.y === lastxy.y)
-    return Koma.DouStrKIF;
+  if (toxy.x === lastxy.x && toxy.y === lastxy.y) return Koma.DouStrKIF;
   return Koma.ZenkakuNum[toxy.x] + Koma.KanjiNum[toxy.y];
 };
 
@@ -495,9 +462,9 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
 
   var str = '';
   /* if (this.teban === Koma.SENTEBAN) {
-   str = Koma.SenteStrKIF;
+    str = Koma.UtilStr.kif.sente;
   } else if (this.teban === Koma.GOTEBAN) {
-   str = Koma.GoteStrKIF;
+    str = Koma.UtilStr.kif.gote;
   } */
   str += this.kifuDouNumKIF(toxy, lastxy);
   str += this.narifunariuchiStrKIF(nari, fromxy.x);
@@ -507,14 +474,13 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
 };
 
 Koma.prototype.narifunariuchiStrKIF = function(nari, x) {
-  var komastr = this.strtypeKIF;
+  var komastr = this.strtype.kif[0];
   if (this.nari === Koma.NARI) {
-    if (nari === Koma.NARI)
-      return komastr + Koma.NariStrKIF;
-    return this.strntypeKIF;
-  } else if (x === 0) {
-    return komastr + Koma.UchiStrKIF;
+    if (nari === Koma.NARI) return komastr + Koma.NariStrKIF;
+    return this.strtype.kif[1];
   }
+  if (x === 0) return komastr + Koma.UchiStrKIF;
+
   return komastr;
 };
 
@@ -532,7 +498,7 @@ Koma.prototype.kifuKIFU = function(fromxy, toxy, lastxy, nari) {
   fromxy.x++;
   fromxy.y++;
 
-  var str = this.getTebanStr(Koma.SenteStrOrg, Koma.GoteStrOrg);
+  var str = this.getTebanStrUtil(Koma.UtilStr.org);
 
   str += this.kifuDouNumKIF(toxy, lastxy);
   str += this.narifunariuchiStrKIF(nari, fromxy.x);
@@ -553,18 +519,16 @@ Koma.prototype.kifuShortCSA = function(x, y) {
   x++;
   y++;
 
-  var str = this.getTebanStr(Koma.SenteStrCSA, Koma.GoteStrCSA);
+  var str = this.getTebanStrUtil(Koma.UtilStr.csa);
 
   str += ('' + x) + y;
-  str += this.pieceStr(this.strtypeCSA, this.strntypeCSA)
+  str += this.strtype.csa[Number(this.nari === Koma.NARI)];
 
   return str;
 };
 
 Koma.prototype.checkNariFromPos = function(ugokeru, fromy, toy) {
-  if (fromy < 3 || toy < 3)
-    return ugokeru ? Koma.NARERU : Koma.NARU;
-
+  if (fromy < 3 || toy < 3) return ugokeru ? Koma.NARERU : Koma.NARU;
   return Koma.NARENAI;
 };
 
@@ -576,8 +540,7 @@ Koma.prototype.checkNariSente = function(fromy, toy) {
 
 Koma.prototype.checkNariGote = function(fromy, toy) {
   // 動けるかのチェック
-  var _fromy = 9 - 1 - fromy;
-  var _toy = 9 - 1 - toy;
+  var _fromy = 9 - 1 - fromy, _toy = 9 - 1 - toy;
   var ugokeru = this.checkMovable(_toy);
   return this.checkNariFromPos(ugokeru, _fromy, _toy)
 };
@@ -594,27 +557,20 @@ Koma.prototype.checkNariGote = function(fromy, toy) {
  *                  Koma.NATTA   成った後
  */
 Koma.prototype.checkNari = function(fromy, toy) {
-  if (this.nari === Koma.NARI)
-    return Koma.NARENAI;  /* return Koma.NATTA; */
-
-  if (this.teban === Koma.SENTEBAN) {
-    return this.checkNariSente(fromy, toy);
-  } else if (this.teban === Koma.GOTEBAN) {
-    return this.checkNariGote(fromy, toy);
-  }
+  if (this.nari === Koma.NARI) return Koma.NARENAI;  /* return Koma.NATTA; */
+  if (this.teban === Koma.SENTEBAN) return this.checkNariSente(fromy, toy);
+  if (this.teban === Koma.GOTEBAN) return this.checkNariGote(fromy, toy);
   return Koma.NARENAI;
 };
 
 Koma.prototype.movemsg = function(tox, toy)
 {
-  var x = this.x;
-  var toxy = Koma.ZenkakuNum[tox] + Koma.KanjiNum[toy];
+  var x = this.x, toxy = Koma.ZenkakuNum[tox] + Koma.KanjiNum[toy];
   var str = this.getTypeStr();
 
   if (x < 0) return str + 'を' + toxy + 'に打ちます。';
 
-  var y = this.y;
-  var fromxy = Koma.ZenkakuNum[x] + Koma.KanjiNum[y];
+  var y = this.y, fromxy = Koma.ZenkakuNum[x] + Koma.KanjiNum[y];
   return str + 'を' + fromxy + 'から' + toxy + 'に移動します。';
 };
 
@@ -624,23 +580,8 @@ Koma.prototype.movemsg = function(tox, toy)
  * @param  {[type]} nari Koma.NARI or not
  */
 Koma.prototype.kaesu = function (nari) {
-  if (nari === Koma.NARI)
-    this.nari = (this.nari === Koma.NARI) ?
-      this.nari = Koma.NARAZU : this.nari = Koma.NARI;
-};
-
-Koma.prototype.InitStr = function(abcd)
-{
-  this.strtype = abcd.long[0];
-  this.strntype = abcd.long[1];
-  this.strtypeKIF = abcd.kif[0];
-  this.strntypeKIF = abcd.kif[1];
-  this.strtypeKIFU = abcd.kifu[0];
-  this.strntypeKIFU = abcd.kifu[1];
-  this.strtypeCSA = abcd.csa[0];
-  this.strntypeCSA = abcd.csa[1];
-  this.strtypeIMG = abcd.img[0];
-  this.strntypeIMG = abcd.img[1];
+  if (nari !== Koma.NARI) return;
+  this.nari = (this.nari === Koma.NARI) ? Koma.NARAZU : Koma.NARI;
 };
 
 /**

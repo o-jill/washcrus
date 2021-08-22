@@ -14,7 +14,7 @@ Fu.prototype = new Koma();
 function Fu(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.InitStrTable.fu);
+  this.strtype = Koma.InitStrTable.fu;
   this.InitMovable(Koma.FuMovable);
   this.id = Koma.FuID;
 }
@@ -23,7 +23,7 @@ Fu.prototype.retpos = function (banx, x, starty, endy) {
   var list = [];
   for (var y = starty; y < endy; ++y) {
     if (banx[y].koma.teban === Koma.AKI)
-      list.push([x, y]);
+      list.push({x: x, y: y});
   }
   return list;
 };
@@ -95,7 +95,7 @@ Kyosha.prototype = new Koma();
 function Kyosha(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.InitStrTable.kyosha);
+  this.strtype = Koma.InitStrTable.kyosha;
   this.InitMovable(Koma.KyoshaMovable);
   this.id = Koma.KyoshaID;
 }
@@ -134,7 +134,7 @@ Keima.prototype = new Koma();
 function Keima(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.InitStrTable.keima);
+  this.strtype = Koma.InitStrTable.keima;
   this.InitMovable(Koma.KeimaMovable);
   this.id = Koma.KeimaID;
 }
@@ -173,7 +173,7 @@ Gin.prototype = new Koma();
 function Gin(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.InitStrTable.gin);
+  this.strtype = Koma.InitStrTable.gin;
   this.InitMovable(Koma.GinMovable);
   this.id = Koma.GinID;
 }
@@ -192,7 +192,7 @@ Kin.prototype = new Koma();
 function Kin(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.InitStrTable.kin);
+  this.strtype = Koma.InitStrTable.kin;
   this.InitMovable(Koma.KinMovable);
   this.id = Koma.KinID;
 }
@@ -223,7 +223,7 @@ Kaku.prototype = new Koma();
 function Kaku(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.InitStrTable.kaku);
+  this.strtype = Koma.InitStrTable.kaku;
   this.InitMovable(Koma.KakuMovable, Koma.UmaMovable);
   this.id = Koma.KakuID;
 }
@@ -242,7 +242,7 @@ Hisha.prototype = new Koma();
 function Hisha(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(Koma.InitStrTable.hisha);
+  this.strtype = Koma.InitStrTable.hisha;
   this.InitMovable(Koma.HishaMovable, Koma.RyuMovable);
   this.id = Koma.HishaID;
 }
@@ -262,8 +262,8 @@ Gyoku.prototype = new Kin();
 function Gyoku(teban, x, y) {
   Koma.call(this, teban, x, y);
 
-  this.InitStr(
-    (teban === Koma.SENTEBAN) ? Koma.InitStrTable.gyoku : Koma.InitStrTable.ou);
+  this.strtype =
+    (teban === Koma.SENTEBAN) ? Koma.InitStrTable.gyoku : Koma.InitStrTable.ou;
   this.InitMovable(Koma.GyokuMovable, Koma.GyokuMovable);
   this.id = Koma.GyokuID;
 }
