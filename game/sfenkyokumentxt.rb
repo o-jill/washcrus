@@ -125,10 +125,10 @@ class SfenKyokumenTxt
 
   # 直前(=手番じゃない方)の先手後手または上手下手を返す
   def sengo
-    kisuu = tesuu.to_i % 2;
-    siroban = strteban == 'w' ? 1 : 0
+    kisuu = tesuu.to_i % 2
+    siroban = strteban == 'w' ? 2 : 0
     # 2b 3b 2w 3w
-    %w[上手 下手 先手 後手][suroban * 2 + kisuu]
+    %w[上手 下手 先手 後手][siroban + kisuu]
   end
 
   # 筋とか段の数字が正しいかチェック
