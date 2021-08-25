@@ -258,7 +258,7 @@ class TestGame < BrowserTestAbstract
 
   # 対局ファイルのチェック
   def checktaikyokulines(file)
-    t = file.each_line(chomp: true).find do |line|
+    t = file.each_line.find do |line|
       line.start_with?(gid + ',')
     end
     return false unless t # 見つからなかった
