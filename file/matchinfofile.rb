@@ -344,7 +344,7 @@ class MatchInfoFile
     # @log.debug("done_game_sp(#{per100_text})")
     @finished = true
     @turn = 'fb' # 先手勝ち
-    @turn ='d' if per100_text != 'TORYO' # 引き分け
+    @turn = 'd' if per100_text != 'TORYO' # 引き分け
     # @log.debug("if per100_text != 'TORYO' -> 'd'")
     @turn = 'fw' if @teban == 'b' # 後手勝ち
     # @teban = 'f'
