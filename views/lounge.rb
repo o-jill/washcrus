@@ -145,7 +145,7 @@ class LoungeScreen
 
     put_userinlounge(reqdb, userinfo.user_id)
 
-    if reqdb.exist_id(userinfo.user_id)
+    if reqdb.exist?(userinfo.user_id)
       put_canceling_button
     else
       put_filing_button

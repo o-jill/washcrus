@@ -174,14 +174,14 @@ class TaikyokuFile
   #
   # @param nid 対局ID
   # @return true if nid exists.
-  def exist_id(nid)
-    @content.exist_id(nid)
+  def exist?(nid)
+    @content.exist?(nid)
   end
 
   # get taikyoku information by id
   #
   # @param id 対局ID
-  # @return nil or probe(id)
+  # @return nil or hash(id)
   def findid(id)
     @content.findid(id)
   end

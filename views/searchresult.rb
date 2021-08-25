@@ -120,9 +120,7 @@ class SearchResultScreen
     foundid = findgameid(tdb, plyb, plyw, from, to)
     return nil unless foundid
 
-    foundid.map do |i|
-      tdb.content.probe(i)
-    end
+    tdb.content.findidex(foundid)
   end
 
   # 対局情報の出力
