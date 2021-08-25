@@ -192,11 +192,8 @@ class MatchInfoFile
   # @param id_ ユーザーID
   # @return 対戦相手の情報 { id: id, name: nm, mail: em }
   def getopponent(id_)
-    if @playerb.myid?(id_)
-      @playerw.genhash
-    elsif @playerw.myid?(id_)
-      @playerb.genhash
-    end
+    return @playerw.genhash if @playerb.myid?(id_)
+    return @playerb.genhash if @playerw.myid?(id_)
   end
 
   # 対局者の名前を得る
@@ -210,10 +207,8 @@ class MatchInfoFile
   #
   # @return 対局者の情報 { id: id, name: nm, mail: em }
   def getnextplayer
-    if @teban == 'b'
-      @playerb.genhash
-    elsif @teban == 'w'
-      @playerw.genhash
+    return @playerb.genhash if @teban == 'b'
+    return @playerw.genhash if @teban == 'w'
     end
   end
 
@@ -349,17 +344,10 @@ class MatchInfoFile
   def done_game_sp(per100_text)
     # @log.debug("done_game_sp(#{per100_text})")
     @finished = true
-    @turn =
-      if per100_text != 'TORYO'
-        # @log.debug("if per100_text != 'TORYO' -> 'd'")
-        'd' # 引き分け
-      elsif @teban == 'b'
-        # @log.debug("if per100_text != 'TORYO' -> 'fw'")
-        'fw' # 後手勝ち
-      else
-        # @log.debug("if per100_text != 'TORYO' -> 'fb'")
-        'fb' # 先手勝ち
-      end
+    @turn = 'fb' # 先手勝ち
+    @turn ='d' if per100_text != 'TORYO' # 引き分け
+    # @log.debug("if per100_text != 'TORYO' -> 'd'")
+    @turn = 'fw' if @teban == 'b' # 後手勝ち
     # @teban = 'f'
   end
 
@@ -367,12 +355,8 @@ class MatchInfoFile
   def done_game_gyoku
     @finished = true
     # @teban = 'f'
-    @turn =
-      if @teban == 'b'
-        'fw'  # 後手勝ち
-      else
-        'fb'  # 先手勝ち
-      end
+    # 後手勝ち 'fw'  先手勝ち 'fb'
+    @turn = @teban == 'b' ? 'fw' : 'fb'
   end
 
   # 引き分けの提案の情報を処理する
