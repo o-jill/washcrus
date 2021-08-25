@@ -223,9 +223,7 @@ class TaikyokuData
   #
   # @return 対局ID
   def genid
-    return nil if playerbng?
-    return nil if playerwng?
-    return nil if creator == ''
+    return nil if playerbng? || playerwng? || creator == ''
 
     id_raw = "#{playerb}_#{emailb}_#{playerw}_#{emailw}_#{creator}_#{datetime}"
     id = Digest::SHA256.hexdigest id_raw
@@ -428,10 +426,9 @@ class TaikyokuData
     if JsonMove.catch_gyoku?(jsmv)
       @mif.done_game_gyoku
       @jkf.resign
-      RES_OVER
-    else
-      RES_NEXT
+      return RES_OVER
     end
+    RES_NEXT
   end
 
   # 対局の終了処理
