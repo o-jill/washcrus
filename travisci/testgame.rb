@@ -258,16 +258,15 @@ class TestGame < BrowserTestAbstract
 
   # 対局ファイルのチェック
   def checktaikyokulines(file)
-    file.each_line do |line|
-      # next if line =~ /^#/ # comment
-      # id, idv, idw, nameb, namew, turn, time, comment
-      next unless line.start_with?(gid + ',')
-      elem = line.chomp.split(',')
-      ret = !%w[b w].include?(elem[5])
-      puts "ret = !%w[b w].include?(#{elem[5]})" unless ret
-      return res.succfail(ret)
+    t = file.each_line(chomp: true).find do |line|
+      line.start_with?(gid + ',')
     end
-    false # 見つからなかった
+    return false unless t # 見つからなかった
+    # id, idv, idw, nameb, namew, turn, time, comment
+    elem = t.split(',')
+    ret = %w[fb fw d].include?(elem[5])
+    puts "ret = %w[fb fw d].include?(#{elem[5]})" unless ret
+    res.succfail(ret)
   end
 
   # 対局ファイルのチェック
@@ -289,12 +288,10 @@ class TestGame < BrowserTestAbstract
     path = 'db/taikyokuchu.csv'
     File.open(path, 'r:utf-8') do |file|
       # file.flock File::LOCK_EX
-      file.each_line do |line|
-        next if line.empty?
-        # id, idv, idw, nameb, namew, turn, time, comment
-        ret = line.start_with?(gid + ',')
-        return puts "'#{line}'.start_with?(#{gid + ','})" if ret
+      t = file.each_line.find do |line|
+        line.start_with?(gid + ',')
       end
+      return puts "'#{t}'.start_with?(#{gid + ','})" if t
     end
     puts 'removed from taikyokuchu successfully.'
     self
