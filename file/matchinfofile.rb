@@ -209,7 +209,6 @@ class MatchInfoFile
   def getnextplayer
     return @playerb.genhash if @teban == 'b'
     return @playerw.genhash if @teban == 'w'
-    end
   end
 
   # 対局生成者名と生成日時のセット
