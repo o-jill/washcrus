@@ -564,7 +564,7 @@ function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
   str += ('' + (toxy.x + 1)) + (toxy.y + 1);
 
   str += (nari === Koma.NARI || koma.nari !== Koma.NARI)
-    ? koma.strtype.csa[0] : str += koma.strtype.csa[1];
+    ? koma.strtype.csa[0] : koma.strtype.csa[1];
 
   if (tottaid === Koma.NoID) str += '__';
   else if (tottaid >= 1000) str += tottakoma.strtype.csa[1];
