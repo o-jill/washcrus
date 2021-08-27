@@ -74,7 +74,7 @@ class AdminGameManageUpdateScreen
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
-    return logg("#{gid} does not exist...\n") unless tcdb.exist_id(gid)
+    return logg("#{gid} does not exist...\n") unless tcdb.exist?(gid)
 
     # 対局中から外す
     tcdb.finished(gid)
@@ -104,7 +104,7 @@ class AdminGameManageUpdateScreen
 
     tdb = TaikyokuFile.new
     tdb.read
-    return logg("#{gid} does not exist...\n") unless tdb.exist_id(gid)
+    return logg("#{gid} does not exist...\n") unless tdb.exist?(gid)
     tdb.updateturn(gid, result)
 
     updatetaikyoku

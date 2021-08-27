@@ -36,7 +36,7 @@ class MatchListScreen
       <div id="taikyokuchu" class="taikyokuchu">
     RESULT_TABLE
     tkcdb.content.idbs.each_key do |gameid|
-      game = tkcdb.content.probe(gameid)
+      game = tkcdb.content.findid(gameid)
       print_res(**game)
     end
     # puts '</TABLE>'
@@ -106,7 +106,7 @@ class MatchListScreen
     res = tdb.findtime(from.to_s, '') # {gid, time}
 
     res.keys.map do |id|
-      tdb.content.probe(id)
+      tdb.content.findid(id)
     end
   end
 

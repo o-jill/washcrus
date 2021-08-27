@@ -143,7 +143,7 @@ class TaikyokuReqFile
     lock do
       read
 
-      return false unless exist_id(idb)
+      return false unless exist?(idb)
 
       remove(ida)
       remove(idb)
@@ -163,7 +163,7 @@ class TaikyokuReqFile
   def fileauser(uid, uname, cmt)
     lock do
       read
-      return false if exist_id(uid)
+      return false if exist?(uid)
 
       add(uid, uname, cmt)
       append(uid)
@@ -179,7 +179,7 @@ class TaikyokuReqFile
   def cancelauser(uid)
     lock do
       read
-      return false unless exist_id(uid)
+      return false unless exist?(uid)
       remove(uid)
       write
     end
@@ -190,7 +190,7 @@ class TaikyokuReqFile
   #
   # @param id ユーザーID
   # @return true if nid exists.
-  def exist_id(nid)
+  def exist?(nid)
     @names.key?(nid)
   end
 
@@ -206,24 +206,17 @@ class TaikyokuReqFile
   #
   # @param id ユーザーID
   # @return { id:, name:, comments: }
-  def probe(id)
-    { id: id, name: @names[id], comments: @comments[id] }
-  end
-
-  # get request information by id
-  #
-  # @param id ユーザーID
-  # @return nil or probe(id)
   def findid(id)
-    probe(id) if exist_id(id)
+    return nil unless exist?(id)
+    { id: id, name: @names[id], comments: @comments[id] }
   end
 
   # get request information by name
   #
   # @param name 対局者名
-  # @return nil or probe(id)
+  # @return nil or findid(id)
   def findname(name)
-    probe(id) if exist_name(name)
+    findid(id) if exist_name(name)
   end
 
   # HTML形式(TABLE)に変換して出力

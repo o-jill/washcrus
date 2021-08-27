@@ -112,8 +112,8 @@ class UserInfoFileContent
   #
   # return nil if not found.
   def findid(id)
-    { id: id, name: @names[id], pw: @passwords[id], email: @emails[id] } \
-      if exist_id(id)
+    return nil unless exist?(id)
+    { id: id, name: @names[id], pw: @passwords[id], email: @emails[id] }
   end
 
   # get user information by id
@@ -121,9 +121,8 @@ class UserInfoFileContent
   # return nil if not found.
   def findname(name)
     found = @names.find { |_ky, vl| vl == name }
-
+    return nil unless found
     { id: (id = found[0]), name: name, pw: @passwords[id], email: @emails[id] }\
-      if found
   end
 
   # get user information by e-mail address
@@ -131,9 +130,8 @@ class UserInfoFileContent
   # return nil if not found.
   def findemail(addr)
     found = @emails.find { |_ky, vl| vl == addr }
-
-    { id: (id = found[0]), name: @names[id], pw: @passwords[id], email: addr } \
-      if found
+    return nil unless found
+    { id: (id = found[0]), name: @names[id], pw: @passwords[id], email: addr }
   end
 
   # add user information and generate id
@@ -156,7 +154,7 @@ class UserInfoFileContent
   # duplication check
   #
   # [id] user's ID to be checked
-  def exist_id(id)
+  def exist?(id)
     @names.key?(id)
   end
 

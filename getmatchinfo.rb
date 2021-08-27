@@ -78,7 +78,7 @@ class GetMatchInfo
     tcdb = TaikyokuChuFile.new
     tcdb.read
     # 存在しないはずのIDだよ
-    return MyHtml.puts_textplain_illegalaccess unless tcdb.exist_id(@gameid)
+    return MyHtml.puts_textplain_illegalaccess unless tcdb.exist?(@gameid)
 
     tkd = TaikyokuData.new
     tkd.setid(@gameid)

@@ -90,10 +90,7 @@ class SfenKyokumenTxt
     sfenitem = sfen.split(' ')
     return if sfenitem.length < 4 # error
 
-    @strban = sfenitem[0]
-    @strteban = sfenitem[1]
-    @strtegoma = sfenitem[2]
-    @tesuu = sfenitem[3]
+    @strban, @strtebn, @strtegoma, @tesuu = sfenitem
 
     readtegoma
   end
@@ -126,16 +123,12 @@ class SfenKyokumenTxt
     ret
   end
 
-  # 先手後手または上手下手を返す
+  # 直前(=手番じゃない方)の先手後手または上手下手を返す
   def sengo
-    dropped = (tesuu.to_i % 2).zero?
-    if strteban == 'w'
-      return '下手' unless dropped
-      '先手'
-    else
-      return '上手' if dropped
-      '後手'
-    end
+    kisuu = tesuu.to_i % 2
+    siroban = strteban == 'w' ? 2 : 0
+    # 2b 3b 2w 3w
+    %w[上手 下手 先手 後手][siroban + kisuu]
   end
 
   # 筋とか段の数字が正しいかチェック

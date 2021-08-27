@@ -48,7 +48,7 @@ class Chat
     # check game id
     tdb = TaikyokuFile.new
     tdb.read
-    if tdb.exist_id(@gameid) || @gameid == 'lounge'
+    if tdb.exist?(@gameid) || @gameid == 'lounge'
       say if @action == 'say'
 
       # put chat log

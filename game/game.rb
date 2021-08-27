@@ -66,7 +66,7 @@ class Game
     tdb = TaikyokuFile.new
     tdb.read
     # 存在しないはずのIDだよ
-    return MyHtml.puts_textplain_illegalaccess unless tdb.exist_id(@gameid)
+    return MyHtml.puts_textplain_illegalaccess unless tdb.exist?(@gameid)
 
     self
   end
