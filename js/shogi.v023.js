@@ -156,8 +156,6 @@ function move(koma, toxy, nari) {
 
   koma.kaesu(nari);
 
-  var tottaid = mykifu.totta_id;
-
   mykifu.genKifu(koma, {x: from_x, y: from_y}, toxy, nari);
   /* console.log(mykifu.genKifu(masu.koma, fromxy, toxy, nari));
   console.log(masu.koma.CSA(fromxy.x, fromxy.y, toxy.x, toxy.y));
@@ -171,7 +169,7 @@ function move(koma, toxy, nari) {
 
   activeteban = (activeteban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
 
-  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, tottaid, nari);
+  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, nari);
 }
 
 /**
@@ -310,8 +308,7 @@ function move2(koma, toxy, nari) {
 
   activeteban = (activeteban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
 
-  var tottaid = mykifu.totta_id;
-  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, tottaid, nari);
+  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, nari);
 }
 
 /**
@@ -340,7 +337,7 @@ function torimodosu(tegoma, koma_id, toxy) {
   k.y = toxy.y;
 }
 
-function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
+function build_movecsa(koma, fromxy, toxy, nari) {
   var str = koma.getTebanStrUtil(Koma.UtilStr.csa);
 
   str += ('' + (fromxy.x + 1)) + (fromxy.y + 1);
@@ -350,6 +347,7 @@ function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
   str += (nari === Koma.NARI || koma.nari !== Koma.NARI)
     ? koma.strtype.csa[0] : koma.strtype.csa[1];
 
+  var tottaid = mykifu.totta_id;
   if (tottaid === Koma.NoID) str += '__';
   else if (tottaid >= 1000) str += tottakoma.strtype.csa[1];
   else str += tottakoma.strtype.csa[0];
