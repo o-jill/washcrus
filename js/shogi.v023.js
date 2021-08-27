@@ -358,3 +358,35 @@ function build_movecsa(koma, fromxy, toxy, tottaid, nari) {
 
   return str;
 }
+
+/**
+ * @return a masu if found  or undefined
+ */
+function checkOHTe_koma(gyoku, koma, i, j) {
+  if (koma.teban === Koma.AKI) return false;
+
+  if (koma.teban === gyoku.teban) return false;
+
+  var masulist = koma.getMovable(i, j);
+  // var masulist = koma.getMovable(koma.x, koma.y);
+  // var masulist = koma.getMovable();
+  // for (var idx = 0; idx < masulist.length; ++idx) {
+  return masulist.find((elem) => elem.x === gyoku.x && elem.y === gyoku.y)
+}
+
+/**
+ * 王手かどうか確認する
+ *
+ * @param {Object} gyoku 玉駒オブジェクト
+ *
+ * @return {Boolean} true:王手, false:王手ではない
+ */
+function checkOHTe(gyoku) {
+  for (var i = 0; i < 9; ++i) {
+    for (var j = 0; j < 9; ++j) {
+      var koma = ban[i][j].koma;
+      if (checkOHTe_koma(gyoku, koma, i, j)) return true;
+    }
+  }
+  return false;
+}
