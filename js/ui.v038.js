@@ -41,10 +41,8 @@ var CFRM_SUGDRAW = 4;  // 引き分け提案
 // var kifuType;
 /** 解析結果出力欄 */
 // var analysisArea;
-/** 先手の名前 */
-var nameSente;
-/** 後手の名前 */
-var nameGote;
+/** 先手の名前 後手の名前 のエレメント*/
+var namee = {sen: '', go: ''};
 
 /** 対局中かどうか */
 var taikyokuchu = false;
@@ -283,8 +281,8 @@ function gethtmlelement() {
   narimenu_funari.onclick = clicknarazu;
   wait_narimenu = false;
 
-  nameSente = document.getElementById('sentename');
-  nameGote = document.getElementById('gotename');
+  namee.sen = document.getElementById('sentename');
+  namee.go = document.getElementById('gotename');
 
   /* confirm */
   cfrmdlg = document.getElementById('movecfrm');
@@ -813,8 +811,8 @@ function new_kyoku() {
   ++taikyokuchu_param;
   taikyokuchu_param %= 255;
   var c = 255 - taikyokuchu_param;
-  nameSente.style.backgroundColor = 'rgb(255,' + c + ',255)';
-  nameGote.style.backgroundColor = 'rgb(' + c + ',255,' + c + ')';
+  namee.sen.style.backgroundColor = 'rgb(255,' + c + ',255)';
+  namee.go.style.backgroundColor = 'rgb(' + c + ',255,' + c + ')';
 } */
 
 /* *
@@ -826,7 +824,7 @@ function start_kyoku() {
   }
   taikyokuchu = true;
   // activeteban = Koma.SENTEBAN;
-  // mykifu.putHeader(nameSente.value, nameGote.value);
+  // mykifu.putHeader(namee.sen.value, namee.go.value);
   update_screen();
   taikyokuchu_timer = setInterval(function() {taikyokuchu_tmout();}, 500);
 }
