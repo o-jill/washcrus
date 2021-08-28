@@ -107,17 +107,14 @@ function update_banindex_rotate() {
 
 function Naraberu_tegoma(tegoma, tegomaui)
 {
-  var sz = tegoma.length;
-  for (var idx = 0; idx < sz; ++idx) {
-    if (tegoma[idx][0].length === 0) {
-      tegomaui[idx][1].el.style.visibility = 'hidden';
-      tegomaui[idx][1].el2.style.visibility = 'hidden';
-    } else {
-      tegomaui[idx][1].el.style.visibility = 'visible';
-      tegomaui[idx][1].el2.style.visibility = 'visible';
-      tegomaui[idx][1].el2.innerHTML = tegoma[idx][0].length.toString();
+  tegoma.forEach(function(elem, idx){
+    var visi = (elem[0].length !== 0) ? 'visible' : 'hidden';
+    tegomaui[idx][1].el.style.visibility = visi;
+    tegomaui[idx][1].el2.style.visibility = visi;
+    if (elem[0].length !== 0) {
+      tegomaui[idx][1].el2.innerHTML = elem[0].length.toString();
     }
-  }
+  });
 }
 
 /**
