@@ -1,21 +1,20 @@
-/** 将棋盤の色(画像の時はtransparentにする) */
-var banColor = 'transparent';
+/**
+ * ban: 将棋盤の色(画像の時はtransparentにする)
+ * hover: マス目にカーソルが乗った時の色
+ * active: 選択中のマス目の色
+ * movable: 選択中の駒が指せるマス目の色
+ */
+var banColor = {
+  ban: 'transparent', hover: 'yellow', active: 'green', movable: 'pink'
+};
 // var banColor = '#FDA';
-/** マス目にカーソルが乗った時の色 */
-var hoverColor = 'yellow';
-/** 選択中のマス目の色 */
-var activeColor = 'green';
-/** 選択中の駒が指せるマス目の色 */
-var movableColor = 'pink';
 
 // var testKoma = new Fu(Koma.SENTEBAN);
 // var testKoma = new Kaku(Koma.SENTEBAN);
 // var testKoma = new Koma();
 
 /** マウスの座標 */
-var mouseposx;
-/** マウスの座標 */
-var mouseposy;
+var mousepos = {x: 0, y: 0};
 
 /** 成りメニュー要素 */
 var narimenu;
@@ -222,8 +221,7 @@ function update_screen() {
  * @param {Event} e マウスイベント
  */
 function mousemove(e) {
-  mouseposx = e.clientX;
-  mouseposy = e.clientY;
+  mousepos = {x: e.clientX, y: e.clientY};
 }
 
 function gethtmlelement_ban() {
@@ -309,10 +307,10 @@ function hovercell(masui)
 {
   if (masui === null) {
     if (hovermasui !== null) {
-      hovermasui.style.backgroundColor = banColor;
+      hovermasui.style.backgroundColor = banColor.ban;
     }
   } else {
-    masui.style.backgroundColor = hoverColor;
+    masui.style.backgroundColor = banColor.hover;
   }
   hovermasui = masui;
 }
@@ -359,7 +357,7 @@ function fillactivemasu(x, y, c)
  * @param {Boolean} b true:ハイライトする, false:ハイライトしない
  */
 function activatemovable(b) {
-  var c = b ? movableColor : banColor;
+  var c = b ? banColor.movable : banColor.ban;
   for (const elem of activemovable) {
     var x = elem.x, y = elem.y;
     if (hifumin_eye) {
@@ -377,7 +375,7 @@ function activatemovable(b) {
  * @param {Boolean} b true:選択状態にする,false:選択状態を解除する
  */
 function setactivecell(masui, b) {
-  setborderstyle(masui, b, '2px solid ' + activeColor, '2px solid black');
+  setborderstyle(masui, b, '2px solid ' + banColor.active, '2px solid black');
 }
 
 function release_activemasu(masu) {
@@ -543,7 +541,7 @@ function setborderstyle(masui, b, stlt, stlf) {
  * @param {Boolean} b true:選択状態にする,false:選択状態を解除する
  */
 function setactivecelluchi(masui, b) {
-  setborderstyle(masui, b, '2px solid ' + activeColor, '0px solid black');
+  setborderstyle(masui, b, '2px solid ' + banColor.active, '0px solid black');
 }
 
 function release_uchi(tegoma, i)
@@ -713,7 +711,7 @@ function clickcfrm_ok_move(hx, hy)
   } else if (nareru === Koma.NARERU) {
     /* ユーザに聞く */
     narimenu_toxy = {x: hx, y: hy};
-    popupnari(mouseposx, mouseposy);
+    popupnari(mousepos.x, mousepos.y);
   }
 }
 
@@ -739,7 +737,7 @@ function clickcfrm_ok_capmove(hx, hy)
   } else if (nareru === Koma.NARERU) {
     /* ユーザに聞く */
     narimenu_toxy = {x: hx, y: hy};
-    popupnari(mouseposx, mouseposy);
+    popupnari(mousepos.x, mousepos.y);
   }
 }
 
