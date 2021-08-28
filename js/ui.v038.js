@@ -94,11 +94,10 @@ function update_banindex_rotate() {
   var column = document.getElementById('bancolumn');
   /* var numbersc = ['１', '２', '３', '４', '５', '６', '７', '８', '９']; */
   var numbersc = Koma.ZenkakuNum;
-  var text = '';
-  numbersc.forEach(function(c) {
-    text += '<th class="ban_suji_num">' + c + '</th>';
+  var text = numbersc.map(function(c) {
+    return '<th class="ban_suji_num">' + c + '</th>';
   });
-  column.innerHTML = text + '<th>&nbsp;</th>';
+  column.innerHTML = text.join('') + '<th>&nbsp;</th>';
 
   var numbersr = ['九', '八', '七', '六', '五', '四', '三', '二', '一'];
   /* var numbersr = Koma.KanjiNum;
