@@ -18,9 +18,7 @@ var gotegoma = gentegoma();
 
 function gentegoma() {
   var res = [];
-  for (var i = 0 ; i < 7 ; ++i) {
-    res.push([[], {}]);
-  }
+  for (var i = 0 ; i < 7 ; ++i) res[i] = [[], {}];
   return res;
 }
 
