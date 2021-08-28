@@ -156,6 +156,7 @@ function move(koma, toxy, nari) {
 
   koma.kaesu(nari);
 
+  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, nari);
   mykifu.genKifu(koma, {x: from_x, y: from_y}, toxy, nari);
   /* console.log(mykifu.genKifu(masu.koma, fromxy, toxy, nari));
   console.log(masu.koma.CSA(fromxy.x, fromxy.y, toxy.x, toxy.y));
@@ -169,7 +170,6 @@ function move(koma, toxy, nari) {
 
   activeteban = (activeteban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
 
-  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, nari);
 }
 
 /**
@@ -295,6 +295,7 @@ function move2(koma, toxy, nari) {
 
   koma.kaesu(nari);
 
+  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, nari);
   /* mykifu.genKifu(masu.koma, {x: from_x, y: from_y}, toxy, nari); */
   /* console.log(mykifu.genKifu(masu.koma, fromxy, toxy, nari));
   console.log(masu.koma.CSA(fromxy.x, fromxy.y, toxy.x, toxy.y));
@@ -308,7 +309,6 @@ function move2(koma, toxy, nari) {
 
   activeteban = (activeteban === Koma.SENTEBAN) ? Koma.GOTEBAN : Koma.SENTEBAN;
 
-  movecsa = build_movecsa(koma, {x: from_x, y: from_y}, toxy, nari);
 }
 
 /**
