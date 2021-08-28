@@ -457,8 +457,7 @@ Koma.prototype.strFromPos = function(fromxy)
  * @return {String} １手分の棋譜
  */
 Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
-  fromxy.x++;
-  fromxy.y++;
+  var fromxy1 = {x: fromxy.x + 1, y: fromxy.y + 1};
 
   var str = '';
   /* if (this.teban === Koma.SENTEBAN) {
@@ -467,8 +466,8 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
     str = Koma.UtilStr.kif.gote;
   } */
   str += this.kifuDouNumKIF(toxy, lastxy);
-  str += this.narifunariuchiStrKIF(nari, fromxy.x);
-  str += this.strFromPos(fromxy);
+  str += this.narifunariuchiStrKIF(nari, fromxy1.x);
+  str += this.strFromPos(fromxy1);
 
   return str;
 };

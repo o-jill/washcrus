@@ -179,11 +179,12 @@ function move(koma, toxy, nari) {
  */
 function toru(xy) {
   var koma = ban[xy.x][xy.y].koma;
+  var kid = koma.id;
   if (koma.nari === Koma.NARI) {
     // 成り駒を取った時は+1000してIDを覚えておく
-    mykifu.totta_id = 1000;
+    mykifu.totta_id = 1000 + kid;
   } else {
-    mykifu.totta_id = 0;
+    mykifu.totta_id = kid;
   }
   if (koma.teban === Koma.SENTEBAN) {
     koma.reset(Koma.GOTEBAN);
@@ -196,9 +197,9 @@ function toru(xy) {
     // console.log('toremasen!!');
     return;
   }
-  ban[xy.x][xy.y].koma = new Koma();
   tottakoma = koma;
-  mykifu.totta_id += koma.id;
+  ban[xy.x][xy.y].koma = new Koma();
+  /* mykifu.totta_id += kid; */
 }
 
 /**
