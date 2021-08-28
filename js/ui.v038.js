@@ -399,11 +399,10 @@ function activecell(koma, masu, masui) {
   activekoma = koma;
 
   setactivecell(masui, true);
-  if (hifumin_eye) {
-    activemovable = koma.getMovable(8 - masu.x, 8 - masu.y);
-  } else {
-    activemovable = koma.getMovable(masu.x, masu.y);
-  }
+
+  activemovable = hifumin_eye ? koma.getMovable(8 - masu.x, 8 - masu.y)
+    : activemovable = koma.getMovable(masu.x, masu.y);
+
   activatemovable(true);
 }
 
@@ -429,7 +428,6 @@ function deactivate_activecell() {
 }
 
 function check_activemovablemasu(hx, hy) {
-  var sz = activemovable.length;
   for (const elem of activemovable) {
     if (elem.x === hx && elem.y === hy) return true;
   }
@@ -564,8 +562,7 @@ function activeuchi(koma, tegoma, tegomasu, i) {
   }
   if (release_uchi(tegoma, i)) return;
 
-  var masu = tegomasu[i][1];
-  var masui = tegomasu[i][1].el;
+  var masu = tegomasu[i][1], masui = tegomasu[i][1].el;
   /* var koma = tegoma[i][0][tegoma[i][0].length - 1]; */
 
   activetegoma = tegoma;
@@ -1100,8 +1097,7 @@ function msec2DHMS(ms) {
  */
 function updatecurtime() {
   var ellmtm = document.getElementById('lmtm');
-  var lmtm = new Date(ellmtm.innerText);
-  var now = new Date();
+  var lmtm = new Date(ellmtm.innerText), now = new Date();
   var diff = now - lmtm;
   var nowstr = '(' + msec2DHMS(diff) + ')';
   // var nowstr = '(' + dateToFormatString(new Date()) + ')';
