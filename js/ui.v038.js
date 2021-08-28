@@ -16,16 +16,14 @@ var banColor = {
 /** マウスの座標 */
 var mousepos = {x: 0, y: 0};
 
-/** 成りメニュー要素 */
-var narimenu;
-/** 成りメニュー成り */
-var narimenu_nari;
-/** 成りメニュー不成り */
-var narimenu_funari;
-/** 成りメニュークリック待ち */
-var wait_narimenu;
-/** 成るマスの座標 */
-var narimenu_toxy;
+/**
+ * menu: 成りメニュー要素
+ * nari: 成りメニュー成り
+ * funari: 成りメニュー不成り
+ * wait: 成りメニュークリック待ち
+ * toxy: 成るマスの座標
+ */
+var narimenu = {menu: null, nari: null, funari: null, toxy: null, wait: false};
 
 /** 着手確認ダイアログ */
 var cfrmdlg;
@@ -80,14 +78,13 @@ function update_banindex_row(strtbl) {
 
 function update_banindex() {
   var column = document.getElementById('bancolumn');
-  var text = '';
   var numbersc = ['９', '８', '７', '６', '５', '４', '３', '２', '１'];
   /* var numbersc = Koma.ZenkakuNum;
   numbersc.reverse(); */
-  numbersc.forEach(function(c) {
-    text += '<th class="ban_suji_num">' + c + '</th>';
+  var list = numbersc.map(function(c) {
+    return '<th class="ban_suji_num">' + c + '</th>';
   });
-  column.innerHTML = text + '<th>&nbsp;</th>';
+  column.innerHTML = list.join('') + '<th>&nbsp;</th>';
 
   /* var numbersr = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];*/
   update_banindex_row(Koma.KanjiNum);
@@ -247,7 +244,7 @@ function gethtmlelement_tegoma() {
 
 function ontegomaclick(event) {
   if (taikyokuchu === false) return;
-  if (wait_narimenu) return;
+  if (narimenu.wait) return;
 
   absclick_tegoma_ui(event.currentTarget.id);
 }
@@ -274,12 +271,12 @@ function gethtmlelement() {
   gethtmlelement_tegomaclick();
 
   /* 成り不成メニューの設定 */
-  narimenu = document.getElementById('narimenu');
-  narimenu_nari = document.getElementById('naru');
-  narimenu_funari = document.getElementById('narazu');
-  narimenu_nari.onclick = clicknari;
-  narimenu_funari.onclick = clicknarazu;
-  wait_narimenu = false;
+  narimenu.menu = document.getElementById('narimenu');
+  narimenu.nari = document.getElementById('naru');
+  narimenu.funari = document.getElementById('narazu');
+  narimenu.nari.onclick = clicknari;
+  narimenu.funari.onclick = clicknarazu;
+  narimenu.wait = false;
 
   namee.sen = document.getElementById('sentename');
   namee.go = document.getElementById('gotename');
@@ -482,7 +479,7 @@ function absclick_opponent(hx, hy)
  */
 function absclick(event) {
   if (taikyokuchu === false) return;
-  if (wait_narimenu) return;
+  if (narimenu.wait) return;
 
   var clickid = event.currentTarget.id;
   var x = +clickid.substring(1, 2)-1;
@@ -645,17 +642,17 @@ function absclick_tegoma_ui(id) {
  * @param {Number} y 座標[ピクセル]
  */
 function popupnari(x, y) {
-  narimenu.style.visibility = 'visible';
-  wait_narimenu = true;
+  narimenu.menu.style.visibility = 'visible';
+  narimenu.wait = true;
 }
 
 function move_byclick_narinarazu(nari)
 {
-  move(activekoma, narimenu_toxy, nari);
+  move(activekoma, narimenu.toxy, nari);
   activecell(null, null);
 
-  wait_narimenu = false;
-  narimenu.style.visibility = 'hidden';
+  narimenu.wait = false;
+  narimenu.menu.style.visibility = 'hidden';
   update_screen();
   record_your_move();
 }
@@ -708,7 +705,7 @@ function clickcfrm_ok_move(hx, hy)
     record_your_move();
   } else if (nareru === Koma.NARERU) {
     /* ユーザに聞く */
-    narimenu_toxy = {x: hx, y: hy};
+    narimenu.toxy = {x: hx, y: hy};
     popupnari(mousepos.x, mousepos.y);
   }
 }
@@ -734,7 +731,7 @@ function clickcfrm_ok_capmove(hx, hy)
     record_your_move();
   } else if (nareru === Koma.NARERU) {
     /* ユーザに聞く */
-    narimenu_toxy = {x: hx, y: hy};
+    narimenu.toxy = {x: hx, y: hy};
     popupnari(mousepos.x, mousepos.y);
   }
 }
