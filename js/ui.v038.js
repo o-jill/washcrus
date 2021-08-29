@@ -147,7 +147,7 @@ function Naraberu() {
   for (var i = 0; i < 9; ++i) {
     ban[i].forEach(function(elem) {
       var koma = elem.koma, el = elem.el;
-      if (koma !== null) Naraberu_putkoma(el, koma, 0);
+      if (koma !== null) Naraberu_putkoma(el, koma, false);
     });
   }
 
@@ -158,20 +158,16 @@ function Naraberu() {
   Naraberu_tegoma(gotegoma, gotegoma);
 }
 
-function Naraberu_banr(i) {
-  for (var j = 0; j < 9; ++j) {
-    var koma = ban[8 - i][8 - j].koma;
-    if (koma === null) continue;
-    var el = ban[i][j].el;
-    Naraberu_putkoma(el, koma, 1);
-  }
-}
-
 /**
  * 逆さまにコマを並べる。
  */
 function Naraberu_rotate() {
-  for (var i = 0; i < 9; ++i) Naraberu_banr(i);
+  for (var i = 0; i < 9; ++i) {
+    ban[8 - i].slice().reverse().forEach(function(elem, idx) {
+      var koma = elem.koma, el = ban[i][idx].el;
+      if (koma !== null) Naraberu_putkoma(el, koma, true);
+    });
+  }
 
   /* 最後に指したところに印をつける */
   Naraberu_lastmove({x: 8 - last_mxy.x, y: 8 - last_mxy.y});
