@@ -140,20 +140,16 @@ function Naraberu_putkoma(el, koma, n123)
     = (fn.length === 0) ? '&nbsp;' : '<img src="./image/' + fn + '.svg">';
 }
 
-function Naraberu_ban(i) {
-  for (var j = 0; j < 9; ++j) {
-    var koma = ban[i][j].koma;
-    if (koma === null) continue;
-    var el = ban[i][j].el;
-    Naraberu_putkoma(el, koma, 0);
-  }
-}
-
 /**
  * コマを並べる。
  */
 function Naraberu() {
-  for (var i = 0; i < 9; ++i) Naraberu_ban(i);
+  for (var i = 0; i < 9; ++i) {
+    ban[i].forEach(function(elem) {
+      var koma = elem.koma, el = elem.el;
+      if (koma !== null) Naraberu_putkoma(el, koma, 0);
+    });
+  }
 
   /* 最後に指したところに印をつける */
   Naraberu_lastmove(last_mxy);
