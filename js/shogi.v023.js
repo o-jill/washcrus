@@ -380,10 +380,10 @@ function checkOHTe_koma(gyoku, koma, i, j) {
  */
 function checkOHTe(gyoku) {
   for (var i = 0; i < 9; ++i) {
-    for (var j = 0; j < 9; ++j) {
-      var koma = ban[i][j].koma;
-      if (checkOHTe_koma(gyoku, koma, i, j)) return true;
-    }
+    var ret  = ban[i].find(function(elem, idx) {
+      return checkOHTe_koma(gyoku, elem.koma, i, idx);
+    });
+    if (ret) return true;
   }
   return false;
 }
