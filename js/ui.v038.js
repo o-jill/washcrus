@@ -634,7 +634,7 @@ function popupnari(x, y) {
 function move_byclick_narinarazu(nari)
 {
   move(activekoma, narimenu.toxy, nari);
-  activecell(null, null);
+  activecell(null, null, null);
 
   narimenu.wait = false;
   narimenu.menu.style.visibility = 'hidden';
@@ -670,6 +670,14 @@ function myconfirm(msg, type, hx, hy) {
   cfrmdlg.style.visibility = 'visible';
 }
 
+function move_and_update(hxy, nari)
+{
+  move(activekoma, hxy, nari);
+  activecell(null, null, null);
+  update_screen();
+  record_your_move();
+}
+
 function clickcfrm_ok_move(hx, hy)
 {
   hxy = {x: hx, y: hy};
@@ -679,15 +687,9 @@ function clickcfrm_ok_move(hx, hy)
   /* move */
   var nareru = activekoma.checkNari(activekoma.y, hy);
   if (nareru === Koma.NARENAI /*|| nareru === Koma.NATTA*/) {
-    move(activekoma, hxy, Koma.NARAZU);
-    activecell(null, null, null);
-    update_screen();
-    record_your_move();
+    move_and_update(hxy, Koma.NARAZU);
   } else if (nareru === Koma.NARU) {
-    move(activekoma, hxy, Koma.NARI);
-    activecell(null, null);
-    update_screen();
-    record_your_move();
+    move_and_update(hxy, Koma.NARI);
   } else if (nareru === Koma.NARERU) {
     /* ユーザに聞く */
     narimenu.toxy = {x: hx, y: hy};
@@ -705,15 +707,9 @@ function clickcfrm_ok_capmove(hx, hy)
   /* move */
   var nareru = activekoma.checkNari(activekoma.y, hy);
   if (nareru === Koma.NARENAI /*|| nareru === Koma.NATTA*/) {
-    move(activekoma, hxy, Koma.NARAZU);
-    activecell(null, null, null);
-    update_screen();
-    record_your_move();
+    move_and_update(hxy, Koma.NARAZU);
   } else if (nareru === Koma.NARU) {
-    move(activekoma, hxy, Koma.NARI);
-    activecell(null, null, null);
-    update_screen();
-    record_your_move();
+    move_and_update(hxy, Koma.NARI);
   } else if (nareru === Koma.NARERU) {
     /* ユーザに聞く */
     narimenu.toxy = {x: hx, y: hy};
