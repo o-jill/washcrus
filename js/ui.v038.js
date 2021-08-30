@@ -633,13 +633,10 @@ function popupnari(x, y) {
 
 function move_byclick_narinarazu(nari)
 {
-  move(activekoma, narimenu.toxy, nari);
-  activecell(null, null, null);
-
   narimenu.wait = false;
   narimenu.menu.style.visibility = 'hidden';
-  update_screen();
-  record_your_move();
+
+  move_and_update(narimenu.toxy, nari);
 }
 
 /**
