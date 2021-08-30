@@ -29,7 +29,7 @@ var narimenu = {menu: null, nari: null, funari: null, toxy: null, wait: false};
 var cfrmdlg;
 var CFRM_UTSU = 0;  // 打つ
 var CFRM_MOVE = 1;  // 動かす
-var CFRM_MVCAP = 2;  // 動かして取る
+/* var CFRM_MVCAP = 2;  // 動かして取る */
 var CFRM_RESIGN = 3;  // 投了
 var CFRM_SUGDRAW = 4;  // 引き分け提案
 
@@ -454,7 +454,7 @@ function absclick_opponent(hx, hy)
     /* 選択キャンセル */
     deactivate_activecell();
   } else {
-    myconfirm(activekoma.movemsg(hx, hy), CFRM_MVCAP, hx, hy);
+    myconfirm(activekoma.movemsg(hx, hy), CFRM_MOVE, hx, hy);
   }
 }
 
@@ -675,30 +675,10 @@ function move_and_update(hxy, nari)
   record_your_move();
 }
 
-function clickcfrm_ok_move(hx, hy)
+function clickcfrm_move(hx, hy)
 {
   hxy = {x: hx, y: hy};
-  /* toru(取らないけど) */
-  toru(hxy);
-
-  /* move */
-  var nareru = activekoma.checkNari(activekoma.y, hy);
-  if (nareru === Koma.NARENAI /*|| nareru === Koma.NATTA*/) {
-    move_and_update(hxy, Koma.NARAZU);
-  } else if (nareru === Koma.NARU) {
-    move_and_update(hxy, Koma.NARI);
-  } else if (nareru === Koma.NARERU) {
-    /* ユーザに聞く */
-    narimenu.toxy = {x: hx, y: hy};
-    popupnari(mousepos.x, mousepos.y);
-  }
-}
-
-function clickcfrm_ok_capmove(hx, hy)
-{
-  hxy = {x: hx, y: hy};
-  /* toru and move */
-  /* toru */
+  /* toru(取らないかもしれないけど) */
   toru(hxy);
 
   /* move */
@@ -735,9 +715,7 @@ function clickcfrm_ok() {
     update_screen();
     record_your_move();
   } else if (cfrmdlg.md === CFRM_MOVE) {
-    clickcfrm_ok_move(hx, hy);
-  } else if (cfrmdlg.md === CFRM_MVCAP) {
-    clickcfrm_ok_capmove(hx, hy);
+    clickcfrm_move(hx, hy);
   } else if (cfrmdlg.md === CFRM_RESIGN) {
     /* 投了 */
     movecsa = '%TORYO';
@@ -754,7 +732,7 @@ function clickcfrm_cancel() {
   if (cfrmdlg.md === CFRM_UTSU) {
     /* 駒打ちをやめる */
     activeuchi(null, null, null);
-  } else if (cfrmdlg.md === CFRM_MOVE || cfrmdlg.md === CFRM_MVCAP) {
+  } else if (cfrmdlg.md === CFRM_MOVE) {
     /* 駒の移動をやめる */
     activecell(null, null, null);
     /* } else if (cfrmdlg.md === CFRM_RESIGN) { */
