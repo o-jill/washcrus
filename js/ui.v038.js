@@ -674,143 +674,6 @@ function send_drawsuggestion(yesno) {
   send_csamove();
 }
 
-/* *
- * 新規対局
- *
-function new_kyoku() {
-  mykifu.reset();
-  initKoma();
-  taikyokuchu = false;
-  activeteban = Koma.SENTEBAN;
-  update_screen();
-}*/
-
-/* タイマのID */
-/* var taikyokuchu_timer; */
-/* タイマが使うデータ*/
-/* var taikyokuchu_param = 0; */
-
-/* function taikyokuchu_tmout()
-{
-  ++taikyokuchu_param;
-  taikyokuchu_param %= 255;
-  var c = 255 - taikyokuchu_param;
-  namee.sen.style.backgroundColor = 'rgb(255,' + c + ',255)';
-  namee.go.style.backgroundColor = 'rgb(' + c + ',255,' + c + ')';
-} */
-
-/* *
- * 対局始め
- *
-function start_kyoku() {
-  if (taikyokuchu === true) {
-    return;
-  }
-  taikyokuchu = true;
-  // activeteban = Koma.SENTEBAN;
-  // mykifu.putHeader(namee.sen.value, namee.go.value);
-  update_screen();
-  taikyokuchu_timer = setInterval(function() {taikyokuchu_tmout();}, 500);
-}
-
-/* *
- * 対局中断
- *
-function stop_kyoku() {
-  if (taikyokuchu === false) {
-    return;
-  }
-  taikyokuchu = false;
-  update_screen();
-  clearInterval(taikyokuchu_timer);
-}*/
-
-/* *
- * 投了
- *
-function giveup() {
-  if (taikyokuchu === false) {
-    return;
-  }
-  taikyokuchu = false;
-  mykifu.putFooter(Koma.SENTEBAN);
-  update_screen();
-  clearInterval(taikyokuchu_timer);
-}*/
-
-/**
- * 現局面の出力
- */
-// function current_status() {
-//  kifuArea.innerText = KyokumenKIF() + KyokumenCSA();
-// }
-
-/**
- * 1手進める
- */
-// function kanso_next() {
-//  if (taikyokuchu === true) {
-//   return;
-//  }
-//  mykifu.next_te();
-//  update_screen();
-// }
-
-/**
- * 1手戻す
- */
-// function kanso_prev() {
-//  if (taikyokuchu === true) {
-//   return;
-//  }
-//  mykifu.prev_te();
-//  update_screen();
-// }
-
-/**
- * 5手進める
- */
-// function kanso_next2() {
-//  if (taikyokuchu === true) {
-//   return;
-//  }
-//  mykifu.seek_te(mykifu.NTeme + 5);
-//  update_screen();
-// }
-
-/**
- * 5手戻す
- */
-// function kanso_prev2() {
-//  if (taikyokuchu === true) {
-//   return;
-//  }
-//  mykifu.seek_te(mykifu.NTeme - 5);
-//  update_screen();
-// }
-
-/**
- * 初手に戻す
- */
-// function kanso_opened() {
-//  if (taikyokuchu === true) {
-//   return;
-//  }
-//  mykifu.shote();
-//  update_screen();
-// }
-
-/**
- * 最新の局面にする。
- */
-// function kanso_last() {
-//  if (taikyokuchu === true) {
-//   return;
-//  }
-//  mykifu.last_te();
-//  update_screen();
-// }
-
 /**
  * ひふみんEyeを切り替える
  */
@@ -1091,8 +954,7 @@ function send_csamove_resp(status, resp)
 
 function send_csamove()
 {
-  var elem_id = document.getElementById('gameid');
-  var gid = elem_id.value;
+  var gid = document.getElementById('gameid').value;
 
   var ajax = new XMLHttpRequest();
   if (ajax === null) return;
@@ -1160,8 +1022,7 @@ function openurlin_blank(url) {
 }
 
 function openurl_widthhash(url) {
-  var cururl = window.location.search;
-  var elem = cururl.split('/');
+  var elem = window.location.search.split('/');
   var win = window.open(url + elem[1], '_blank');
   win.focus();
 }
