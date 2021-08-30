@@ -179,12 +179,8 @@ Koma.prototype.getStr = function() {
 
   if (str == null) return Koma.UtilStr.std.aki;
 
-  str += this.strtype.kif[1];
-  if (this.nari === Koma.NARI) {
-    // no prefix
-  } else {
-    str += this.strtype.kif[0];
-  }
+  str += this.strtype.kif[Number(this.nari === Koma.NARI)];
+
   return str;
 };
 
@@ -308,14 +304,11 @@ Koma.prototype.getStraightMovable = function (list, axy, ox, oy) {
 };
 
 Koma.prototype.getCloseMovable = function (list, axy, ox, oy) {
-  var x= ox + axy.x, y;
+  var x = ox + axy.x, y;
   if (!Koma.onTheBan(x)) return list;
 
-  if (this.teban === Koma.SENTEBAN) {
-    y = oy - axy.y;
-  } else {
-    y = oy + axy.y;
-  }
+  y = (this.teban === Koma.SENTEBAN) ? oy - axy.y : oy + axy.y;
+
   if (!Koma.onTheBan(y)) return list;
 
   var teban = ban[x][y].koma.teban;
@@ -354,14 +347,10 @@ Koma.prototype.getMovable = function(ox, oy) {
  */
 Koma.prototype.pickup_ohte = function(ohtelist, xy, gxy, nari) {
   var list = this.getMovable(xy.x, xy.y);
-  var sz = list.length;
   for (const elem of list) {
-    var xx = list[i].x, yy = list[i].y;
     // 相手方の玉の位置に移動できるなら王手になる手
-    if (xx === gxy.x && yy === gxy.y) {
+    if (elem.x === gxy.x && elem.y === gxy.y)
       ohtelist.push([xy.x, xy.y, nari]);
-      return ohtelist;
-    }
   }
   return ohtelist;
 };
@@ -442,8 +431,7 @@ Koma.prototype.kifuDouNumKIF = function(toxy, lastxy) {
 
 Koma.prototype.strFromPos = function(fromxy)
 {
-  if (fromxy.x === 0) return '';
-  return '(' + fromxy.x + '' + fromxy.y + ')';
+  return　(fromxy.x === 0) ? '' : '(' + fromxy.x + '' + fromxy.y + ')';
 };
 
 /**
