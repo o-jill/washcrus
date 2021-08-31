@@ -445,11 +445,10 @@ Kifu.prototype.receive = function(path, type) {
 
 Kifu.prototype.evalKomazon_koma = function(komazon, kid, teban, nari)
 {
+  if (nari === Koma.NARI) kid += 8
   if (teban === Koma.SENTEBAN) {
-    if (nari === Koma.NARI) kid += 8
     komazon[kid]++;
   } else if (teban === Koma.GOTEBAN) {
-    if (nari === Koma.NARI) kid += 8
     komazon[kid]--;
   }
   return komazon;
