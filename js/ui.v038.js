@@ -68,33 +68,27 @@ function update_banindex_row(strtbl) {
   }
 }
 
-function update_banindex() {
+function update_banindex_col(numbersc)
+{
   var column = document.getElementById('bancolumn');
-  var numbersc = ['９', '８', '７', '６', '５', '４', '３', '２', '１'];
-  /* var numbersc = Koma.ZenkakuNum;
-  numbersc.reverse(); */
   var list = numbersc.map(function(c) {
     return '<th class="ban_suji_num">' + c + '</th>';
   });
   column.innerHTML = list.join('') + '<th>&nbsp;</th>';
+}
 
+function update_banindex() {
+  //  var numbersc = ['９', '８', '７', '６', '５', '４', '３', '２', '１'];
+  update_banindex_col(Koma.ZenkakuNum.slice().reverse());
   /* var numbersr = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];*/
   update_banindex_row(Koma.KanjiNum);
 }
 
 function update_banindex_rotate() {
-  var column = document.getElementById('bancolumn');
   /* var numbersc = ['１', '２', '３', '４', '５', '６', '７', '８', '９']; */
-  var numbersc = Koma.ZenkakuNum;
-  var text = numbersc.map(function(c) {
-    return '<th class="ban_suji_num">' + c + '</th>';
-  });
-  column.innerHTML = text.join('') + '<th>&nbsp;</th>';
-
-  var numbersr = ['九', '八', '七', '六', '五', '四', '三', '二', '一'];
-  /* var numbersr = Koma.KanjiNum;
-  numbersr.reverse(); */
-  update_banindex_row(numbersr);
+  update_banindex_col(Koma.ZenkakuNum);
+  //var numbersr = ['九', '八', '七', '六', '五', '四', '三', '二', '一'];
+  update_banindex_row(Koma.KanjiNum.slice().reverse());
 }
 
 function Naraberu_tegoma(tegoma, tegomaui)
