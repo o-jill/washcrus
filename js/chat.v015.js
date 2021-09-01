@@ -6,7 +6,7 @@ var chat_elem_nm = document.getElementById('chatname');
 var chat_elem_msg = document.getElementById('chatmsg');
 var chat_btn = document.getElementById('chatbtn');
 
-function updateMsg(status, txt, bErase)
+function updateMsg(status, txt)
 {
   if (status === 0) {  // XHR 通信失敗
     chat_elem_log.innerHTML = "XHR 通信失敗";
@@ -16,8 +16,6 @@ function updateMsg(status, txt, bErase)
   if ((200 <= status && status < 300) || status === 304) {
     // リクエスト成功
     chat_elem_log.innerHTML = txt;
-    if (bErase)
-      chat_elem_msg.value = '';
   } else {  // リクエスト失敗
     chat_elem_log.innerHTML = "その他の応答:" + status;
   }
@@ -35,7 +33,7 @@ function onChatUpdate() {
   ajax.onreadystatechange = function () {
     switch (ajax.readyState) {
     case 4:
-      updateMsg(ajax.status, ajax.responseText, false);
+      updateMsg(ajax.status, ajax.responseText);
       setTimeout(function() {onChatUpdate();}, 60000);
       break;
     }
@@ -65,7 +63,8 @@ function onChatSay() {
   ajax.onreadystatechange = function () {
     switch (ajax.readyState) {
     case 4:
-      updateMsg(ajax.status, ajax.responseText, true);
+      updateMsg(ajax.status, ajax.responseText);
+      chat_elem_msg.value = '';
       chat_btn.disabled = false;
       chat_elem_msg.disabled = false;
       break;
