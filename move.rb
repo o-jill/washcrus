@@ -252,7 +252,7 @@ class Move
 
     prepare_taikyokudata
 
-    tkd.lock do
+    tkd.lockex do
       tkd.read
 
       read_mif
