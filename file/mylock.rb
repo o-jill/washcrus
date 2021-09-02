@@ -20,6 +20,6 @@ module MyLock
       end
     end
   rescue Timeout::Error
-    raise AccessDenied.new('timeout')
+    raise AccessDenied.new("lock timeout - #{lockfn}.")
   end
 end
