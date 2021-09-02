@@ -137,7 +137,7 @@ class MyPageScreen
     tkd = TaikyokuData.new
     tkd.log = nil # @log
     tkd.setid(gid)
-    tkd.lock do
+    tkd.lockex do
       tkd.read
     end
     mif = tkd.mif

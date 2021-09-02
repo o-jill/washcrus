@@ -111,7 +111,7 @@ class ByouyomiChan
   def validate(gid)
     tkd = TaikyokuData.new
     tkd.setid(gid)
-    tkd.lock do
+    tkd.lockex do
       tkd.read
 
       mif = tkd.mif

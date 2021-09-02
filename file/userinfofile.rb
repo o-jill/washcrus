@@ -5,6 +5,7 @@ require 'digest/sha2'
 require 'openssl'
 require 'timeout'
 require 'unindent'
+require './file/mylock.rb'
 require './file/pathlist.rb'
 require './file/userinfofilecontent.rb'
 require './util/myerror.rb'
@@ -15,6 +16,7 @@ require './util/myerror.rb'
 # @note draw非対応
 #
 class UserInfoFile
+  include MyLock
   # 初期化
   def initialize
     @fname = PathList::USERINFOFILE
@@ -28,25 +30,6 @@ class UserInfoFile
   # @!attribute content
   #   @return 内容
   attr_reader :content
-
-  # usage:
-  # lock do
-  #   do_something
-  # end
-  def lock(*)
-    Timeout.timeout(10) do
-      File.open(PathList::USERINFOLOCKFILE, 'w') do |file|
-        begin
-          file.flock(File::LOCK_EX)
-          yield
-        ensure
-          file.flock(File::LOCK_UN)
-        end
-      end
-    end
-  rescue Timeout::Error
-    raise AccessDenied.new('timeout')
-  end
 
   # read data from a file
   def read
@@ -119,7 +102,7 @@ class UserInfoFile
     return if @content.exist_name(name)
     return if @content.exist_email(email)
 
-    lock do
+    lock(PathList::USERINFOLOCKFILE) do
       read
       id = @content.add(name, password, email)
       append(id)
@@ -135,7 +118,7 @@ class UserInfoFile
   #
   # @note draw非対応
   def give_win_lose(gwin, idb, idw)
-    lock do
+    lock(PathList::USERINFOLOCKFILE) do
       read
       @content.give_win_lose(gwin, idb, idw)
       # @log.debug('userdb.write')
@@ -148,7 +131,7 @@ class UserInfoFile
   # @param idb  先手のID
   # @param idw  後手のID
   def give_draw(idb, idw)
-    lock do
+    lock(PathList::USERINFOLOCKFILE) do
       read
       @content.give_draw(idb, idw)
       write
@@ -159,7 +142,7 @@ class UserInfoFile
   # [email] e-mail address.
   # [newpw] password.
   def update_password(email, newpw)
-    lock do
+    lock(PathList::USERINFOLOCKFILE) do
       read
 
       # userdbにあるかどうかの確認
@@ -179,7 +162,7 @@ class UserInfoFile
   # [uid] user id.
   # [newpw] password.
   def update_password_byid(uid, newpw)
-    lock do
+    lock(PathList::USERINFOLOCKFILE) do
       read
 
       # パスワードの再設定
@@ -210,7 +193,7 @@ class UserInfoFile
   # [uid] user id.
   # [newem] メールアドレス.
   def update_email_indb(uid, newem)
-    lock do
+    lock(PathList::USERINFOLOCKFILE) do
       read
 
       # メールアドレスの再設定
@@ -224,7 +207,7 @@ class UserInfoFile
   # [uid] user id.
   # [newnm] 名前.
   def update_name(uid, newnm)
-    lock do
+    lock(PathList::USERINFOLOCKFILE) do
       read
 
       # 名前の再設定

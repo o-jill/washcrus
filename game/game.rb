@@ -76,7 +76,7 @@ class Game
     tkd = TaikyokuData.new
     tkd.log = @log
     tkd.setid(@gameid)
-    tkd.lock do
+    tkd.lockex do
       tkd.read
     end
     tkd

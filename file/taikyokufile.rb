@@ -7,6 +7,7 @@ require 'time'
 require 'timeout'
 require 'unindent'
 
+require './file/mylock.rb'
 require './file/pathlist.rb'
 require './file/taikyokufilecontent.rb'
 require './util/myerror.rb'
@@ -15,6 +16,7 @@ require './util/myerror.rb'
 # 対局情報DB管理クラス
 #
 class TaikyokuFile
+  include MyLock
   # 初期化
   #
   # @param name   データベースファイルのパス
@@ -31,25 +33,6 @@ class TaikyokuFile
   # @!attribute [rw] content
   #   @return 中身
   attr_accessor :fname, :content
-
-  # usage:
-  # lock do
-  #   do_something
-  # end
-  def lock(*)
-    Timeout.timeout(10) do
-      File.open(@lockfn, 'w') do |file|
-        begin
-          file.flock(File::LOCK_EX)
-          yield
-        ensure
-          file.flock(File::LOCK_UN)
-        end
-      end
-    end
-  rescue Timeout::Error
-    raise AccessDenied.new('timeout')
-  end
 
   # 要素の並びを古いものから新しいものに合わせる
   #
@@ -150,7 +133,7 @@ class TaikyokuFile
   #
   # @param data 対局情報
   def newgame(data)
-    lock do
+    lock(@lockfn) do
       read
       id = data.shift
       @content.add_array(id, data)
@@ -163,7 +146,7 @@ class TaikyokuFile
   # @param gid 対局ID
   # @param trn 手番
   def updateturn(gid, trn)
-    lock do
+    lock(@lockfn) do
       read
       @content.updateturn(gid, trn)
       write
@@ -241,7 +224,7 @@ class TaikyokuFile
   # @param trn 手番
   def update_dt_turn(gid, now, trn)
     nowstr = now.strftime('%Y/%m/%d %H:%M:%S')
-    lock do
+    lock(@lockfn) do
       read
       @content.updatedatetime(gid, nowstr)
       @content.updateturn(gid, trn)
@@ -276,7 +259,7 @@ class TaikyokuChuFile < TaikyokuFile
   #
   # @param gid 対局ID
   def finished(gid)
-    lock do
+    lock(@lockfn) do
       read
       remove(gid)
       write

@@ -3,13 +3,15 @@
 require 'selenium-webdriver'
 require 'yaml'
 
-require './travisci/browsertestabs.rb'
+require './file/mylock.rb'
 require './file/pathlist.rb'
+require './travisci/browsertestabs.rb'
 
 #
 # play a game automatically with a kifu.
 #
 class TestGame < BrowserTestAbstract
+  include MyLock
   # 初期化
   def initialize
     super
@@ -237,25 +239,6 @@ class TestGame < BrowserTestAbstract
     res.succfail(sfen == resultsfen)
   end
 
-  # usage:
-  # lock do
-  #   do_something
-  # end
-  def lock(*)
-    Timeout.timeout(10) do
-      File.open(@lockfn, 'w') do |file|
-        begin
-          file.flock(File::LOCK_EX)
-          yield
-        ensure
-          file.flock(File::LOCK_UN)
-        end
-      end
-    end
-  rescue Timeout::Error
-    raise AccessDenied.new('timeout')
-  end
-
   # 対局ファイルのチェック
   def checktaikyokulines(file)
     t = file.each_line.find do |line|
@@ -271,8 +254,7 @@ class TestGame < BrowserTestAbstract
 
   # 対局ファイルのチェック
   def checktaikyokucsv
-    @lockfn = PathList::TAIKYOKULOCKFILE
-    lock do
+    lock(PathList::TAIKYOKULOCKFILE) do
       path = 'db/taikyoku.csv'
       File.open(path, 'r:utf-8') do |file|
         # file.flock File::LOCK_EX
@@ -299,8 +281,7 @@ class TestGame < BrowserTestAbstract
 
   # 対局中ファイルのチェック
   def checktaikyokuchucsv
-    @lockfn = PathList::TAIKYOKUCHULOCKFILE
-    lock do
+    lock(PathList::TAIKYOKUCHULOCKFILE) do
       res.succfail(!checktaikyokuchucsvmain.nil?)
     end
   end

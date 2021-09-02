@@ -10,6 +10,7 @@ require './file/chatfile.rb'
 require './file/jsonkifu.rb'
 require './file/jsonconsump.rb'
 require './file/matchinfofile.rb'
+require './file/mylock.rb'
 require './file/pathlist.rb'
 require './file/sfenstore.rb'
 require './file/taikyokufile.rb'
@@ -20,6 +21,7 @@ require './util/myerror.rb'
 
 # 対局情報クラス
 class TaikyokuData
+  include MyLock
   # 初期化
   def initialize
     # @idb = '', @playerb = '', @emailb = ''
@@ -231,22 +233,13 @@ class TaikyokuData
   end
 
   # usage:
-  # lock do
+  # lockex do
   #   do_something
   # end
-  def lock(*)
-    Timeout.timeout(10) do
-      File.open(@lockpath, 'w') do |file|
-        begin
-          file.flock(File::LOCK_EX)
-          yield
-        ensure
-          file.flock(File::LOCK_UN)
-        end
-      end
+  def lockex
+    lock(lockpath) do
+      yield
     end
-  rescue Timeout::Error
-    raise AccessDenied.new('timeout')
   end
 
   # 対局情報の読み込み
