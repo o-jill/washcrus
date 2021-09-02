@@ -1,7 +1,7 @@
 var idx_mn = 1;
 var newscontent;
 var ajax = new XMLHttpRequest();
-ajax.open('GET', '/config/mqnews.js', true);
+ajax.open('GET', './config/mqnews.js', true);
 ajax.onreadystatechange = function() {
   if (ajax.readyState == 4 && ajax.status == 200) {
     newscontent = ajax.responseText.split("\n");
