@@ -7,10 +7,10 @@ require 'time'
 require 'timeout'
 require 'unindent'
 
+require './file/mylock.rb'
 require './file/pathlist.rb'
 require './file/taikyokufilecontent.rb'
 require './util/myerror.rb'
-require './file/mylock.rb'
 
 #
 # 対局情報DB管理クラス

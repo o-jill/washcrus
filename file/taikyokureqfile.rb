@@ -6,6 +6,7 @@ require 'time'
 require 'timeout'
 require 'unindent'
 
+require './file/mylock.rb'
 require './file/pathlist.rb'
 require './util/myerror.rb'
 
@@ -13,6 +14,7 @@ require './util/myerror.rb'
 # 対局希望情報DB管理クラス
 #
 class TaikyokuReqFile
+  include MyLock
   # 初期化
   #
   # @param name   データベースファイルのパス
@@ -23,25 +25,6 @@ class TaikyokuReqFile
     @lockfn = lockfn
     @names = {}
     @comments = {}
-  end
-
-  # usage:
-  # lock do
-  #   do_something
-  # end
-  def lock(*)
-    Timeout.timeout(10) do
-      File.open(@lockfn, 'w') do |file|
-        begin
-          file.flock(File::LOCK_EX)
-          yield
-        ensure
-          file.flock(File::LOCK_UN)
-        end
-      end
-    end
-  rescue Timeout::Error
-    raise AccessDenied.new('timeout')
   end
 
   # read a line
@@ -140,7 +123,7 @@ class TaikyokuReqFile
   # @param idb ユーザーBID
   # @return ユーザーBがリストにないときfalse
   def bonvoyage(ida, idb)
-    lock do
+    lock(@lockfn) do
       read
 
       return false unless exist?(idb)
@@ -161,7 +144,7 @@ class TaikyokuReqFile
   # @param cmt コメント
   # @return 成功すればtrue
   def fileauser(uid, uname, cmt)
-    lock do
+    lock(@lockfn) do
       read
       return false if exist?(uid)
 
@@ -177,7 +160,7 @@ class TaikyokuReqFile
   # @param uid ユーザーID
   # @return 成功すればtrue
   def cancelauser(uid)
-    lock do
+    lock(@lockfn) do
       read
       return false unless exist?(uid)
       remove(uid)
