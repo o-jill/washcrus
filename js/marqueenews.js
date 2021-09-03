@@ -6,7 +6,9 @@ ajax.onreadystatechange = function() {
   if (ajax.readyState == 4 && ajax.status == 200) {
     newscontent = ajax.responseText.split("\n");
     newscontent = newscontent.filter(item => item);
-    document.getElementById('mqnews').innerHTML = newscontent[0];
+    var date = new Date();
+    idx_mn = Math.floor(date.getTime() * 0.001 / 30 + .5) % newscontent.length;
+    document.getElementById('mqnews').innerHTML = newscontent[idx_mn];
     setInterval(
       function() {
         document.getElementById('mqnews').innerHTML = newscontent[idx_mn];
