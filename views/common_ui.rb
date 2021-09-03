@@ -18,18 +18,17 @@ module CommonUI
     stg = Settings.instance
     title = stg.value['wintitle']
     print <<-HEADER_TAG.unindent
-      <HTML lang=ja>
-      <HEAD>
+      <!DOCTYPE html>
+      <html lang=ja>
+      <head>
        <title>#{title}</title>
-       <META http-equiv='Content-Type' content='text/html; charset=UTF-8' >
-       <META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' >
+       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
        <meta name='theme-color' content='#cc9933'>
        <link rel='shortcut icon' href='./image/favicon.ico' />
        <link rel='stylesheet' type='text/css' href='./css/washcrus.v019.css'>
-       #{meta}
-      </HEAD>
-      <BODY>
-    HEADER_TAG
+       HEADER_TAG
+    print "#{meta}</head><body>"
   end
 
   # HTMLヘッダ出力(no cookie)
