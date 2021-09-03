@@ -5,6 +5,7 @@ require 'rubygems'
 # require 'unindent'
 
 require './game/userinfo.rb'
+require './util/twittercards.rb'
 require './views/common_ui.rb'
 
 # ログイン画面
@@ -68,7 +69,7 @@ class LoginScreen
   end
 
   def gen_twcard(gid)
-    "<!-- this will be twcard. gid:#{gid} -->"
+    TwitterCards.new.generate(gid)
   end
 
   #
