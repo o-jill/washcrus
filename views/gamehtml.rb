@@ -148,7 +148,9 @@ class GameHtml
     "<textarea id='kifulog' class='kifu' cols=40 readonly>" \
     "#{@jkf.to_kifu}</textarea>" \
     "<button onclick='dl_kifu_file();'>Download KIF</button>&nbsp;" \
-    "<button onclick='open_kifu_player();'>棋譜再生</button>"
+    "<button onclick='open_kifu_player();'>棋譜再生</button>" \
+    '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>' \
+    '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kifu.gsub("\n", '<BR>')}</div>"
   end
 
