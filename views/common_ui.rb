@@ -167,7 +167,7 @@ module CommonUI
   # 横に流れるニュース欄の出力
   def self.marquee_news
     puts '<div class="marquee-anim"><span id="mqnews">読み込み中</span></div>' \
-         '<script type="text/javascript" src="js/marqueenews.js"></script>'
+         '<script type="text/javascript" src="js/marqueenews.js" defer />'
   end
 
   TEBANTEXT = [
