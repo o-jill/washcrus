@@ -67,12 +67,17 @@ class LoginScreen
     print "<div class='err'>you already logged in!</div>"
   end
 
+  def gen_twcard(gid)
+    "<!-- this will be twcard. gid:#{gid} -->"
+  end
+
   #
   # ログイン画面
   #
   # @param userinfo ユーザ情報
   def show(userinfo, gid)
-    CommonUI.html_head(@header)
+    twcard = gen_twcard(gid) unless gid.empty?
+    CommonUI.html_head(@header, twcard)
     CommonUI.html_menu(userinfo)
 
     if userinfo.invalid?

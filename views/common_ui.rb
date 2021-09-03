@@ -13,7 +13,7 @@ module CommonUI
   # HTMLヘッダ出力
   #
   # @param header HTMLヘッダ
-  def self.html_head(header)
+  def self.html_head(header, meta = '')
     print header
     stg = Settings.instance
     title = stg.value['wintitle']
@@ -26,6 +26,7 @@ module CommonUI
        <meta name='theme-color' content='#cc9933'>
        <link rel='shortcut icon' href='./image/favicon.ico' />
        <link rel='stylesheet' type='text/css' href='./css/washcrus.v019.css'>
+       #{meta}
       </HEAD>
       <BODY>
     HEADER_TAG
