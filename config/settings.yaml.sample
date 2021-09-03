@@ -1,6 +1,7 @@
 # global settings
 support_url:    "http://www.example.com/washcrus/support/bbs"
 domain:         "www.example.com"
+description:    "Washcrus is online shogi platform."
 base_url:       "http://www.example.com/cgi-bin/washcrus/"
 title:          "洗足池"
 wintitle:       "WashCrus"

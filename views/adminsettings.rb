@@ -50,6 +50,7 @@ class AdminSettingsScreen
   STG_ELEM = [
     { title: 'Window title',   eid: 'wintitle', type: 'input' },
     { title: 'Page title',     eid: 'title', type: 'input' },
+    { title: 'Description',    eid: 'description', type: 'input' },
     { title: 'E-mail address', eid: 'mailaddress', type: 'input' },
     { title: 'E-mail format',  eid: 'mailformat',
       type: 'radio', options: %w[plaintext html] },
