@@ -20,6 +20,7 @@ class WebApiSfenReader
     @lastmove = ''
     @piecetype = PIECE_DEFAULT
     @turn = ''
+    @image = '.svg'
   end
 
   # @!attribute [r] player1
@@ -38,7 +39,9 @@ class WebApiSfenReader
 
   # @!attribute [rw] sfen
   #   @return SFEN文字列
-  attr_accessor :sfen
+  # @!attribute [rw] image
+  #   @return 画像形式 '.svg' or '.png'
+  attr_accessor :sfen, :image
 
   # set players' names
   #
@@ -121,6 +124,16 @@ class WebApiSfenReader
     ret
   end
 
+  # 画像形式をretに格納する
+  #
+  # @param ret 手番を格納するハッシュ
+  #
+  # @return 画像形式[:image]が格納されたハッシュ
+  def params_image(ret)
+    ret[:image] = image
+    ret
+  end
+
   # パラメータをハッシュで返す
   #
   # @return {sfen:, lm:, sname:, gname:, title:, piece:, turn:}
@@ -132,6 +145,7 @@ class WebApiSfenReader
     ret = params_title(ret)
     ret = params_piecetype(ret)
     ret = params_turn(ret)
+    ret = params_image(ret)
 
     ret
   end
