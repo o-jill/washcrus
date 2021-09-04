@@ -30,6 +30,8 @@ class TwitterCards
     sr.sfen = @mif.sfen
     sr.setlastmovecsa(@mif.lastmove)
     sr.setturn(@mif.turnex)
+    sr.settitle(@mif.dt_lastmove)
+
     sr.image = '.png'
 
     @baseurl + sr.genuri
