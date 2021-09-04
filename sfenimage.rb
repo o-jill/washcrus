@@ -58,6 +58,29 @@ class SfenImage
     @image = saferead(params, 'image')
   end
 
+  def svg2png(svg)
+    IO.popen("inkscape --export-type=png -p", "r+") do |io|
+      io.puts svg
+      io.close_write
+      io.read
+    end
+  end
+
+  # png形式の出力
+  #
+  # @param svg svgデータ
+  def put_png(svg)
+    pngbuf = svg2png(svg)
+    print "Content-type:image/png\n\n#{pngbuf}"
+    # debug
+    # File.open('./tmp/svg2png.png', 'wb') do |file|
+    #   file.write(pngbuf)
+    # end
+    # File.open('./tmp/svg2png.svg', 'wb') do |file|
+    #   file.write(svg)
+    # end
+  end
+
   # 画像データを出力
   def put_image(svg)
     return put_png(svg) if @image == '.png'
