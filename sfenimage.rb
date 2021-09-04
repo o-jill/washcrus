@@ -21,6 +21,7 @@ require './game/sfensvgimage.rb'
 #   # else ret[:piece] = 'kanji'
 # end
 # ret[:turn] = @turn unless @turn.empty?
+# ret[:image] = @image || '.svg'
 
 #
 # CGI本体
@@ -54,6 +55,13 @@ class SfenImage
     @title = saferead(params, 'title')
     @piecetype = saferead(params, 'piece')
     @turn = saferead(params, 'turn')
+    @image = saferead(params, 'image')
+  end
+
+  # 画像データを出力
+  def put_image(svg)
+    return put_png(svg) if @image == '.png'
+    puts "Content-type:image/svg+xml\n\n#{svg}"
   end
 
   #
@@ -66,7 +74,7 @@ class SfenImage
     ssi.setmoveinfo(@lm, @turn)
     ssi.setui(@piecetype)
 
-    puts "Content-type:image/svg+xml\n\n#{ssi.gen}"
+    put_image(ssi.gen)
   end
 
   # class methods
