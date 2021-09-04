@@ -46,7 +46,7 @@ class TwitterCards
     @mif = tkd.mif
     @title = "#{@mif.to_vs} @ #{@wintitle}"
 
-    ret = <<-EOM.unindent
+    ret = <<-META_TAG.unindent
       <meta property="og:title" content="#{@title}" />
       <meta property="og:site_name" content="#{@wintitle}" />
       <meta property="og:description" content="#{@desc}" />
@@ -54,7 +54,7 @@ class TwitterCards
       <meta property="og:url" content="#{@baseurl}index.rb?game/#{gid}" />
       <meta property="og:image" content="#{kyokumen_link}" />
       <meta property="twitter:card" content="#{@cardtype}" />
-    EOM
+    META_TAG
     ret
   end
 end
