@@ -27,7 +27,7 @@ module CommonUI
        <meta name='theme-color' content='#cc9933'>
        <link rel='shortcut icon' href='./image/favicon.ico' />
        <link rel='stylesheet' type='text/css' href='./css/washcrus.v019.css'>
-       HEADER_TAG
+    HEADER_TAG
     print "#{meta}</head><body>"
   end
 
