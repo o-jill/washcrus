@@ -127,8 +127,10 @@ class SfenSVGImage
     y *= 20
     x *= 20
 
-    "<rect x='#{x}' y='#{y}' width='20' height='20' class='lastmv'/>\n"
+    "<rect x='#{x}' y='#{y}' width='20' height='20' class='lastmv' fill='#FF4'/>\n"
   end
+
+  KOMATR = "font-size='18px' text-anchor='middle'"
 
   # 駒のタグの生成
   #
@@ -149,11 +151,11 @@ class SfenSVGImage
     return '' unless pos
     nm = '歩と香杏桂圭銀全金金角馬飛龍玉玉'[2 * pos + prmt, 1]
 
-    return ret + " <text x='10' y='12' class='koma'>#{nm}</text>\n</g>\n" \
+    return ret + " <text x='10' y='17' #{KOMATR}>#{nm}</text>\n</g>\n" \
       if sente
 
-    ret + " <g transform='translate(10,9) rotate(180)'>\n" \
-           "  <text x='0' y='0' class='koma'>#{nm}</text>\n" \
+    ret + " <g transform='translate(10,10) rotate(180)'>\n" \
+           "  <text x='0' y='6' #{KOMATR}>#{nm}</text>\n" \
            " </g>\n</g>\n"
   end
 
