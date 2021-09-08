@@ -28,8 +28,8 @@ require './game/sfensvgimage.rb'
 #
 class SfenImage
   # SVG2PNG = 'rsvg-convert' # rsvg-convert
-  SVG2PNG = '/usr/bin/inkscape --export-png=- -z --file=-'  # inkscape 0.92
-  # SVG2PNG = 'inkscape --export-type=png -p'  # inkscape 1.0
+  SVG2PNG = '/usr/bin/inkscape --export-png=- -z --file=-' # inkscape 0.92
+  # SVG2PNG = 'inkscape --export-type=png -p' # inkscape 1.0
 
   # 初期化
   #
