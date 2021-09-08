@@ -47,3 +47,11 @@ required "gem"s
   * rspec (for test)
   * rubocop (for test)
   * unindent
+
+Enable pictures on SNS:  
+SNS such as twitter utilize Open Graph Protocol and shows a picture according to a URL in your tweet. this term is for that picture.  
+please choose your command in __sfenimage.rb__ according to your converter.  
+supported SVG -> PNG converters:
+  * Inkscape 0.92  
+  * Inkscape 1.*  
+  * rsvg-convert  
