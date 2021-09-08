@@ -50,7 +50,7 @@ required "gem"s
 
 Enable pictures on SNS:  
 SNS such as twitter utilize Open Graph Protocol and shows a picture according to a URL in your tweet. this term is for that picture.  
-please choose your command in __sfenimage.rb__ according to your converter.  
+please adjust __SVG2PNG in sfenimage.rb__ according to your converter.  
 supported SVG -> PNG converters:
   * Inkscape 0.92  
   * Inkscape 1.*  
