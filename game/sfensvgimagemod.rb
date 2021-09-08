@@ -23,34 +23,34 @@ module SfenSVGImageMod
 
   # 将棋盤フレームタグ
   TAGFRAME = <<-EO_TAGFRAME.unindent
-    <g id="ban">
-     <rect x="0" y="0" width="180" height="180" class='waku' fill='none' stroke='black' stroke-width='2'/>
-     <rect x="0" y="20" width="180" height="20" class='line' fill='none' stroke='black' stroke-width='1'/>
-     <rect x="0" y="60" width="180" height="20" class='line' fill='none' stroke='black' stroke-width='1'/>
-     <rect x="0" y="100" width="180" height="20" class='line' fill='none' stroke='black' stroke-width='1'/>
-     <rect x="0" y="140" width="180" height="20" class='line' fill='none' stroke='black' stroke-width='1'/>
-     <rect x="20" y="0" width="20" height="180" class='line' fill='none' stroke='black' stroke-width='1'/>
-     <rect x="60" y="0" width="20" height="180" class='line' fill='none' stroke='black' stroke-width='1'/>
-     <rect x="100" y="0" width="20" height="180" class='line' fill='none' stroke='black' stroke-width='1'/>
-     <rect x="140" y="0" width="20" height="180" class='line' fill='none' stroke='black' stroke-width='1'/>
-     <text x="10" y="-5" class="suji" font-size="10px" text-anchor="middle" alignment-baseline="after-edge" dominant-baseline="after-edge">9</text>
-     <text x="30" y="-5" class="suji" font-size="10px" text-anchor="middle" alignment-baseline="after-edge" dominant-baseline="after-edge">8</text>
-     <text x="50" y="-5" class="suji" font-size="10px" text-anchor="middle" alignment-baseline="after-edge" dominant-baseline="after-edge">7</text>
-     <text x="70" y="-5" class="suji" font-size="10px" text-anchor="middle" alignment-baseline="after-edge" dominant-baseline="after-edge">6</text>
-     <text x="90" y="-5" class="suji" font-size="10px" text-anchor="middle" alignment-baseline="after-edge" dominant-baseline="after-edge">5</text>
-     <text x="110" y="-5" class="suji" font-size="10px" text-anchor="middle" alignment-baseline="after-edge" dominant-baseline="after-edge">4</text>
-     <text x="130" y="-5" class="suji" font-size="10px" text-anchor="middle" alignment-baseline="after-edge" dominant-baseline="after-edge">3</text>
-     <text x="150" y="-5" class="suji" font-size="10px" text-anchor="middle" alignment-baseline="after-edge" dominant-baseline="after-edge">2</text>
-     <text x="170" y="-5" class="suji" font-size="10px" text-anchor="middle" alignment-baseline="after-edge" dominant-baseline="after-edge">1</text>
-     <text x="185" y="13" font-size="10px" text-anchor="left" >一</text>
-     <text x="185" y="33" font-size="10px" text-anchor="left" >二</text>
-     <text x="185" y="53" font-size="10px" text-anchor="left" >三</text>
-     <text x="185" y="73" font-size="10px" text-anchor="left" >四</text>
-     <text x="185" y="93" font-size="10px" text-anchor="left" >五</text>
-     <text x="185" y="113" font-size="10px" text-anchor="left" >六</text>
-     <text x="185" y="133" font-size="10px" text-anchor="left" >七</text>
-     <text x="185" y="153" font-size="10px" text-anchor="left" >八</text>
-     <text x="185" y="173" font-size="10px" text-anchor="left" >九</text>
+    <g id='ban'>
+     <rect x='0' y='0' width='180' height='180' class='waku' fill='none' stroke='black' stroke-width='2'/>
+     <rect x='0' y='20' width='180' height='20' class='line' fill='none' stroke='black' stroke-width='1'/>
+     <rect x='0' y='60' width='180' height='20' class='line' fill='none' stroke='black' stroke-width='1'/>
+     <rect x='0' y='100' width='180' height='20' class='line' fill='none' stroke='black' stroke-width='1'/>
+     <rect x='0' y='140' width='180' height='20' class='line' fill='none' stroke='black' stroke-width='1'/>
+     <rect x='20' y='0' width='20' height='180' class='line' fill='none' stroke='black' stroke-width='1'/>
+     <rect x='60' y='0' width='20' height='180' class='line' fill='none' stroke='black' stroke-width='1'/>
+     <rect x='100' y='0' width='20' height='180' class='line' fill='none' stroke='black' stroke-width='1'/>
+     <rect x='140' y='0' width='20' height='180' class='line' fill='none' stroke='black' stroke-width='1'/>
+     <text x='10' y='-5' class='suji' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>9</text>
+     <text x='30' y='-5' class='suji' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>8</text>
+     <text x='50' y='-5' class='suji' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>7</text>
+     <text x='70' y='-5' class='suji' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>6</text>
+     <text x='90' y='-5' class='suji' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>5</text>
+     <text x='110' y='-5' class='suji' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>4</text>
+     <text x='130' y='-5' class='suji' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>3</text>
+     <text x='150' y='-5' class='suji' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>2</text>
+     <text x='170' y='-5' class='suji' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>1</text>
+     <text x='185' y='13' font-size='10px' text-anchor='left' >一</text>
+     <text x='185' y='33' font-size='10px' text-anchor='left' >二</text>
+     <text x='185' y='53' font-size='10px' text-anchor='left' >三</text>
+     <text x='185' y='73' font-size='10px' text-anchor='left' >四</text>
+     <text x='185' y='93' font-size='10px' text-anchor='left' >五</text>
+     <text x='185' y='113' font-size='10px' text-anchor='left' >六</text>
+     <text x='185' y='133' font-size='10px' text-anchor='left' >七</text>
+     <text x='185' y='153' font-size='10px' text-anchor='left' >八</text>
+     <text x='185' y='173' font-size='10px' text-anchor='left' >九</text>
     </g>
   EO_TAGFRAME
 
@@ -65,19 +65,19 @@ module SfenSVGImageMod
   # @param snm 先手の名前
   # @param gnm 後手の名前
   def tagname(snm, gnm)
-    nmattr = 'font-size="16px" text-anchor="left" ' \
-            ' width="220px" text-overflow="ellipsis"'
+    nmattr = "font-size='16px' text-anchor='left' " \
+            " width='220px' text-overflow='ellipsis'"
 
     ret = <<-NAMETAG.unindent
-      <g id="gname" transform="translate(5,25)">
-       <polygon points="10,0 18,2 20,20 0,20 2,2" fill="none" stroke='black' stroke-width="1"/>
-       <text class="name" x="25" y="15" #{nmattr}>#{gnm}</text>
+      <g id='gname' transform='translate(5,25)'>
+       <polygon points='10,0 18,2 20,20 0,20 2,2' fill='none' stroke='black' stroke-width='1'/>
+       <text class='name' x='25' y='15' #{nmattr}>#{gnm}</text>
       </g>
-      <g id="sname" transform="translate(5,265)">
-       <g transform="translate(220,0)">
-        <polygon points="10,0 18,2 20,20 0,20 2,2" fill="black" stroke='black' stroke-width="1"/>
+      <g id='sname' transform='translate(5,265)'>
+       <g transform='translate(220,0)'>
+        <polygon points='10,0 18,2 20,20 0,20 2,2' fill='black' stroke='black' stroke-width='1'/>
        </g>
-       <text class="name" x="0" y="15" #{nmattr}>#{snm}</text>
+       <text class='name' x='0' y='15' #{nmattr}>#{snm}</text>
       </g>
     NAMETAG
     ret
@@ -163,17 +163,17 @@ module SfenSVGImageMod
   # @return 手駒のタグ
   def tagtegoma(stegoma, gtegoma)
     ret = <<-TAGTEGOMA.unindent
-      <g id="gtegoma" transform="translate(7.5,65)">
-       <g transform="translate(4,-7)">
-        <polygon points="0,-5 4,-4 5,5 -5,5 -4,-4" fill="none" stroke='black'/>
+      <g id='gtegoma' transform='translate(7.5,65)'>
+       <g transform='translate(4,-7)'>
+        <polygon points='0,-5 4,-4 5,5 -5,5 -4,-4' fill='none' stroke='black'/>
        </g>
-       <g transform="translate(4,16)">#{gtegoma}</g>
+       <g transform='translate(4,16)'>#{gtegoma}</g>
       </g>
-      <g id="stegoma" transform="translate(230,65)">
-       <g transform="translate(4,-7)">
-        <polygon points="0,-5 4,-4 5,5 -5,5 -4,-4" fill="black" stroke='black'/>
+      <g id='stegoma' transform='translate(230,65)'>
+       <g transform='translate(4,-7)'>
+        <polygon points='0,-5 4,-4 5,5 -5,5 -4,-4' fill='black' stroke='black'/>
        </g>
-       <g transform="translate(4,16)">#{stegoma}</g>
+       <g transform='translate(4,16)'>#{stegoma}</g>
       </g>
     TAGTEGOMA
 
