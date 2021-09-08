@@ -3,6 +3,8 @@
 
 require 'uri'
 
+require './file/matchinfofile.rb'
+
 # SfenReader WebAPI 変換クラス
 # http://sfenreader.appspot.com/
 class WebApiSfenReader
@@ -72,6 +74,23 @@ class WebApiSfenReader
   # @param trn 手番
   def setturn(trn)
     @turn = trn
+  end
+
+  # 画像形式の設定
+  #
+  # @param image '.svg' or '.png'
+  def setimage(image)
+    @image = image
+  end
+
+  # 対局情報のセット
+  #
+  # @param mif MatchInfoFileオブジェクト
+  def setmatchinfo(mif)
+    setplayers(mif.playerb.name, mif.playerw.name)
+    @sfen = mif.sfen
+    setlastmovecsa(mif.lastmove)
+    setturn(mif.turnex)
   end
 
   # ハッシュに名前を追加

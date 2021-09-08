@@ -97,11 +97,7 @@ class GameHtml
   # @return 局面画像へのリンク
   def kyokumen_link
     sr = WebApiSfenReader.new
-    sr.setplayers(@mif.playerb.name, @mif.playerw.name)
-    sr.sfen = @mif.sfen
-    sr.setlastmovecsa(@mif.lastmove)
-    sr.setturn(@mif.turnex)
-
+    sr.setmatchinfo(@mif)
     "<a href='#{sr.genuri}' target='_blank'>局面図画像</a>"
   end
 

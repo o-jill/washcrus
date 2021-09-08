@@ -26,14 +26,9 @@ class TwitterCards
   # @return 局面画像へのリンク
   def kyokumen_link
     sr = WebApiSfenReader.new
-    sr.setplayers(@mif.playerb.name, @mif.playerw.name)
-    sr.sfen = @mif.sfen
-    sr.setlastmovecsa(@mif.lastmove)
-    sr.setturn(@mif.turnex)
+    sr.setmatchinfo(@mif)
     sr.settitle(@mif.dt_lastmove)
-
-    sr.image = '.png'
-
+    sr.setimage('.png')
     @baseurl + sr.genuri
   end
 
