@@ -127,7 +127,7 @@ class SfenSVGImage
     y *= 20
     x *= 20
 
-    "<rect x='#{x}' y='#{y}' width='20' height='20' class='lastmv' fill='#FF4'/>\n"
+    "<rect x='#{x}' y='#{y}' width='20' height='20' fill='#FF4'/>\n"
   end
 
   KOMATR = "font-size='18px' text-anchor='middle'"
