@@ -155,7 +155,7 @@ class SfenSVGImage
       if sente
 
     ret + " <g transform='translate(10,10) rotate(180)'>\n" \
-           "  <text x='0' y='7' #{KOMATR}>#{nm}</text>\n" \
+           "  <text x='0' y='6' #{KOMATR}>#{nm}</text>\n" \
            " </g>\n</g>\n"
   end
 
