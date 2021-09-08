@@ -42,15 +42,15 @@ module SfenSVGImageMod
      <text x='130' y='-5' font-size='10px' text-anchor='middle'>3</text>
      <text x='150' y='-5' font-size='10px' text-anchor='middle'>2</text>
      <text x='170' y='-5' font-size='10px' text-anchor='middle'>1</text>
-     <text x='185' y='13' font-size='10px' text-anchor='left' >一</text>
-     <text x='185' y='33' font-size='10px' text-anchor='left' >二</text>
-     <text x='185' y='53' font-size='10px' text-anchor='left' >三</text>
-     <text x='185' y='73' font-size='10px' text-anchor='left' >四</text>
-     <text x='185' y='93' font-size='10px' text-anchor='left' >五</text>
-     <text x='185' y='113' font-size='10px' text-anchor='left' >六</text>
-     <text x='185' y='133' font-size='10px' text-anchor='left' >七</text>
-     <text x='185' y='153' font-size='10px' text-anchor='left' >八</text>
-     <text x='185' y='173' font-size='10px' text-anchor='left' >九</text>
+     <text x='185' y='13' font-size='10px' text-anchor='left'>一</text>
+     <text x='185' y='33' font-size='10px' text-anchor='left'>二</text>
+     <text x='185' y='53' font-size='10px' text-anchor='left'>三</text>
+     <text x='185' y='73' font-size='10px' text-anchor='left'>四</text>
+     <text x='185' y='93' font-size='10px' text-anchor='left'>五</text>
+     <text x='185' y='113' font-size='10px' text-anchor='left'>六</text>
+     <text x='185' y='133' font-size='10px' text-anchor='left'>七</text>
+     <text x='185' y='153' font-size='10px' text-anchor='left'>八</text>
+     <text x='185' y='173' font-size='10px' text-anchor='left'>九</text>
     </g>
   EO_TAGFRAME
 
@@ -118,8 +118,8 @@ module SfenSVGImageMod
   #
   # @return 手駒数字タグ
   def numtegoma(num, y)
-    "<text x='0' y='#{y - 1}' font-size='12px' text-anchor='middle' " \
-    "dominant-baseline='top' alignment-baseline='top' >#{num}</text>"
+    "<text x='0' y='#{y - 1}' font-size='12px' text-anchor='middle'>" \
+    "#{num}</text>"
   end
 
   # sfen文字から手駒タグの生成
@@ -132,8 +132,7 @@ module SfenSVGImageMod
     pos = 'PLNSGBR'.index(ch)
     return '' unless pos
     koma = '歩香桂銀金角飛'[pos, 1]
-    "<text x='0' y='#{y}' font-size='16px' text-anchor='middle' " \
-    "dominant-baseline='top' alignment-baseline='top' >#{koma}</text>"
+    "<text x='0' y='#{y}' font-size='16px' text-anchor='middle'>#{koma}</text>"
   end
 
   # 手駒用のタグと座標の計算
