@@ -13,33 +13,8 @@ require 'unindent'
 module SfenSVGImageMod
   # svgヘッダタグ
   TAG_HEADER = <<-EO_TAG_HEADER.unindent
-    <?xml version="1.0"?>
-    <svg width="250" height="290" viewBox="0 0 250 290" version="1.1" xmlns="http://www.w3.org/2000/svg" >
-     <!-- style>/* <![CDATA[ */
-       polygon { stroke: black; stroke-width: 1px; }
-       rect.waku { stroke:black; stroke-width:2; fill:none; }
-       rect.line { stroke: black; stroke-width: 1; fill:none }
-       line { stroke: black; stroke-width: 1; }
-       text { font-size: 18px; }
-       text.name { font-size: 16px; text-anchor: left;
-        dominant-baseline: middle; alignment-baseline: middle;
-        width: 220px; text-overflow: ellipsis; }
-       text.title { font-size: 16px; text-anchor: middle;
-        dominant-baseline: middle; alignment-baseline: middle;
-        width: 250px; text-overflow: ellipsis; }
-       text.koma { font-size: 18px; text-anchor: middle;
-        dominant-baseline: middle; alignment-baseline: middle; }
-       text.tegoma { font-size: 16px; text-anchor: middle;
-        dominant-baseline: top; alignment-baseline: top; }
-       text.ntegoma { font-size: 12px; text-anchor: middle;
-        dominant-baseline: top; alignment-baseline: top; }
-       text.suji { font-size: 10px; text-anchor: middle;
-        alignment-baseline: after-edge; dominant-baseline: after-edge; }
-       text.dan { font-size: 10px; text-anchor: left;
-        dominant-baseline: middle; alignment-baseline: middle; }
-       .teban { stroke : none; fill: #F3C; }
-       .lastmv { stroke : none; fill: #FF4; }
-     /* ]]> */</style -->
+    <?xml version='1.0'?>
+    <svg width='250' height='290' viewBox='0 0 250 290' version='1.1' xmlns='http://www.w3.org/2000/svg' >
      <g>
   EO_TAG_HEADER
 
