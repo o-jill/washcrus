@@ -27,6 +27,10 @@ require './game/sfensvgimage.rb'
 # CGI本体
 #
 class SfenImage
+  # SVG2PNG = 'rsvg-convert' # rsvg-convert
+  SVG2PNG = '/usr/bin/inkscape --export-png=- -z --file=-'  # inkscape 0.92
+  # SVG2PNG = 'inkscape --export-type=png -p'  # inkscape 1.0
+
   # 初期化
   #
   # @param cgi CGIオブジェクト
@@ -59,9 +63,7 @@ class SfenImage
   end
 
   def svg2png(svg)
-    # IO.popen("rsvg-convert", "r+") do |io|  # rsvg-convert
-    IO.popen("/usr/bin/inkscape --export-png=- -z --file=-", "r+") do |io|  # inkscape 0.92
-    # IO.popen("inkscape --export-type=png -p", "r+") do |io|  # inkscape 1.0
+    IO.popen(SVG2PNG, 'r+') do |io|
       io.puts svg
       io.close_write
       io.read
