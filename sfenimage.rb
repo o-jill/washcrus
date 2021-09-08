@@ -59,7 +59,9 @@ class SfenImage
   end
 
   def svg2png(svg)
-    IO.popen("inkscape --export-type=png -p", "r+") do |io|
+    # IO.popen("rsvg-convert", "r+") do |io|  # rsvg-convert
+    IO.popen("/usr/bin/inkscape --export-png=- -z --file=-", "r+") do |io|  # inkscape 0.92
+    # IO.popen("inkscape --export-type=png -p", "r+") do |io|  # inkscape 1.0
       io.puts svg
       io.close_write
       io.read
