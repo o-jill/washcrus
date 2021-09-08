@@ -14,7 +14,7 @@ module SfenSVGImageMod
   # svgヘッダタグ
   TAG_HEADER = <<-EO_TAG_HEADER.unindent
     <?xml version='1.0'?>
-    <svg width='250' height='290' viewBox='0 0 250 290' version='1.1' xmlns='http://www.w3.org/2000/svg' >
+    <svg width='260' height='275' viewBox='0 0 260 275' version='1.1' xmlns='http://www.w3.org/2000/svg' >
      <g>
   EO_TAG_HEADER
 
@@ -33,24 +33,28 @@ module SfenSVGImageMod
      <rect x='60' y='0' width='20' height='180' fill='none' stroke='black' stroke-width='1'/>
      <rect x='100' y='0' width='20' height='180' fill='none' stroke='black' stroke-width='1'/>
      <rect x='140' y='0' width='20' height='180' fill='none' stroke='black' stroke-width='1'/>
-     <text x='10' y='-5' font-size='10px' text-anchor='middle'>9</text>
-     <text x='30' y='-5' font-size='10px' text-anchor='middle'>8</text>
-     <text x='50' y='-5' font-size='10px' text-anchor='middle'>7</text>
-     <text x='70' y='-5' font-size='10px' text-anchor='middle'>6</text>
-     <text x='90' y='-5' font-size='10px' text-anchor='middle'>5</text>
-     <text x='110' y='-5' font-size='10px' text-anchor='middle'>4</text>
-     <text x='130' y='-5' font-size='10px' text-anchor='middle'>3</text>
-     <text x='150' y='-5' font-size='10px' text-anchor='middle'>2</text>
-     <text x='170' y='-5' font-size='10px' text-anchor='middle'>1</text>
-     <text x='185' y='13' font-size='10px' text-anchor='left'>一</text>
-     <text x='185' y='33' font-size='10px' text-anchor='left'>二</text>
-     <text x='185' y='53' font-size='10px' text-anchor='left'>三</text>
-     <text x='185' y='73' font-size='10px' text-anchor='left'>四</text>
-     <text x='185' y='93' font-size='10px' text-anchor='left'>五</text>
-     <text x='185' y='113' font-size='10px' text-anchor='left'>六</text>
-     <text x='185' y='133' font-size='10px' text-anchor='left'>七</text>
-     <text x='185' y='153' font-size='10px' text-anchor='left'>八</text>
-     <text x='185' y='173' font-size='10px' text-anchor='left'>九</text>
+     <g transform='translate(0,-5)'>
+      <text x='10' y='0' font-size='10px' text-anchor='middle'>9</text>
+      <text x='30' y='0' font-size='10px' text-anchor='middle'>8</text>
+      <text x='50' y='0' font-size='10px' text-anchor='middle'>7</text>
+      <text x='70' y='0' font-size='10px' text-anchor='middle'>6</text>
+      <text x='90' y='0' font-size='10px' text-anchor='middle'>5</text>
+      <text x='110' y='0' font-size='10px' text-anchor='middle'>4</text>
+      <text x='130' y='0' font-size='10px' text-anchor='middle'>3</text>
+      <text x='150' y='0' font-size='10px' text-anchor='middle'>2</text>
+      <text x='170' y='0' font-size='10px' text-anchor='middle'>1</text>
+     </g>
+     <g transform='translate(183,0)'>
+      <text x='0' y='13' font-size='10px' text-anchor='left'>一</text>
+      <text x='0' y='33' font-size='10px' text-anchor='left'>二</text>
+      <text x='0' y='53' font-size='10px' text-anchor='left'>三</text>
+      <text x='0' y='73' font-size='10px' text-anchor='left'>四</text>
+      <text x='0' y='93' font-size='10px' text-anchor='left'>五</text>
+      <text x='0' y='113' font-size='10px' text-anchor='left'>六</text>
+      <text x='0' y='133' font-size='10px' text-anchor='left'>七</text>
+      <text x='0' y='153' font-size='10px' text-anchor='left'>八</text>
+      <text x='0' y='173' font-size='10px' text-anchor='left'>九</text>
+     </g>
     </g>
   EO_TAGFRAME
 
@@ -66,15 +70,15 @@ module SfenSVGImageMod
   # @param gnm 後手の名前
   def tagname(snm, gnm)
     nmattr = "font-size='16px' text-anchor='left' " \
-            " width='220px' text-overflow='ellipsis'"
+            " width='230px' text-overflow='ellipsis'"
 
     ret = <<-NAMETAG.unindent
       <g id='gname' transform='translate(5,25)'>
        <polygon points='10,0 18,2 20,20 0,20 2,2' fill='none' stroke='black' stroke-width='1'/>
        <text x='25' y='15' #{nmattr}>#{gnm}</text>
       </g>
-      <g id='sname' transform='translate(5,265)'>
-       <g transform='translate(220,0)'>
+      <g id='sname' transform='translate(5,250)'>
+       <g transform='translate(230,0)'>
         <polygon points='10,0 18,2 20,20 0,20 2,2' fill='black' stroke='black' stroke-width='1'/>
        </g>
        <text x='0' y='15' #{nmattr}>#{snm}</text>
@@ -88,7 +92,7 @@ module SfenSVGImageMod
   # @param titl タイトル
   def tagtitle(titl)
     titleattr = "font-size='16px' text-anchor='middle' " \
-      "width='250px' text-overflow='ellipsis'"
+      "width='260px' text-overflow='ellipsis'"
     "<g id='title'><text x='125' y='15' #{titleattr} >#{titl}</text></g>\n"
   end
 
@@ -101,11 +105,11 @@ module SfenSVGImageMod
     when 'w' then
       ret + "0,20)'>\n#{SfenSVGImageMod::TEBANRECT}\n</g>\n"
     when 'b' then
-      ret + "220,260)'>\n#{SfenSVGImageMod::TEBANRECT}\n</g>\n"
+      ret + "230,245)'>\n#{SfenSVGImageMod::TEBANRECT}\n</g>\n"
     when 'fw' then
       ret + "30,20)'>\n#{SfenSVGImageMod::TAGWINNER}\n</g>\n"
     when 'fb' then
-      ret + "0,260)'>\n#{SfenSVGImageMod::TAGWINNER}\n</g>\n"
+      ret + "0,245)'>\n#{SfenSVGImageMod::TAGWINNER}\n</g>\n"
     else
       ''
     end
@@ -118,7 +122,7 @@ module SfenSVGImageMod
   #
   # @return 手駒数字タグ
   def numtegoma(num, y)
-    "<text x='0' y='#{y - 1}' font-size='12px' text-anchor='middle'>" \
+    "<text x='8' y='#{y}' font-size='12px' text-anchor='left'>" \
     "#{num}</text>"
   end
 
@@ -145,9 +149,8 @@ module SfenSVGImageMod
   # @return 手駒タグ
   def str_tekoma(ch, num, tgm, y)
     tgm += str_tagtgm(ch, y)
-    y += 16
     tgm += numtegoma(num, y) if num > 1
-    y += 16 if num > 1
+    y += 20
     [tgm, y]
   end
 
@@ -159,17 +162,17 @@ module SfenSVGImageMod
   # @return 手駒のタグ
   def tagtegoma(stegoma, gtegoma)
     ret = <<-TAGTEGOMA.unindent
-      <g id='gtegoma' transform='translate(7.5,65)'>
+      <g id='gtegoma' transform='translate(5,75)'>
        <g transform='translate(4,-7)'>
         <polygon points='0,-5 4,-4 5,5 -5,5 -4,-4' fill='none' stroke='black'/>
        </g>
-       <g transform='translate(4,16)'>#{gtegoma}</g>
+       <g transform='translate(4,20)'>#{gtegoma}</g>
       </g>
-      <g id='stegoma' transform='translate(230,65)'>
+      <g id='stegoma' transform='translate(235,75)'>
        <g transform='translate(4,-7)'>
         <polygon points='0,-5 4,-4 5,5 -5,5 -4,-4' fill='black' stroke='black'/>
        </g>
-       <g transform='translate(4,16)'>#{stegoma}</g>
+       <g transform='translate(4,20)'>#{stegoma}</g>
       </g>
     TAGTEGOMA
 
