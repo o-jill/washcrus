@@ -33,15 +33,15 @@ module SfenSVGImageMod
      <rect x='60' y='0' width='20' height='180' fill='none' stroke='black' stroke-width='1'/>
      <rect x='100' y='0' width='20' height='180' fill='none' stroke='black' stroke-width='1'/>
      <rect x='140' y='0' width='20' height='180' fill='none' stroke='black' stroke-width='1'/>
-     <text x='10' y='-5' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>9</text>
-     <text x='30' y='-5' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>8</text>
-     <text x='50' y='-5' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>7</text>
-     <text x='70' y='-5' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>6</text>
-     <text x='90' y='-5' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>5</text>
-     <text x='110' y='-5' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>4</text>
-     <text x='130' y='-5' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>3</text>
-     <text x='150' y='-5' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>2</text>
-     <text x='170' y='-5' font-size='10px' text-anchor='middle' alignment-baseline='after-edge' dominant-baseline='after-edge'>1</text>
+     <text x='10' y='-5' font-size='10px' text-anchor='middle'>9</text>
+     <text x='30' y='-5' font-size='10px' text-anchor='middle'>8</text>
+     <text x='50' y='-5' font-size='10px' text-anchor='middle'>7</text>
+     <text x='70' y='-5' font-size='10px' text-anchor='middle'>6</text>
+     <text x='90' y='-5' font-size='10px' text-anchor='middle'>5</text>
+     <text x='110' y='-5' font-size='10px' text-anchor='middle'>4</text>
+     <text x='130' y='-5' font-size='10px' text-anchor='middle'>3</text>
+     <text x='150' y='-5' font-size='10px' text-anchor='middle'>2</text>
+     <text x='170' y='-5' font-size='10px' text-anchor='middle'>1</text>
      <text x='185' y='13' font-size='10px' text-anchor='left' >一</text>
      <text x='185' y='33' font-size='10px' text-anchor='left' >二</text>
      <text x='185' y='53' font-size='10px' text-anchor='left' >三</text>
