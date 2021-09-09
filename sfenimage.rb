@@ -27,9 +27,9 @@ require './game/sfensvgimage.rb'
 # CGI本体
 #
 class SfenImage
-  # SVG2PNG = 'rsvg-convert' # rsvg-convert
-  SVG2PNG = '/usr/bin/inkscape --export-png=- -z --file=-' # inkscape 0.92
-  # SVG2PNG = 'inkscape --export-type=png -p' # inkscape 1.0
+  # SVG2PNG = 'rsvg-convert -b white' # rsvg-convert
+  SVG2PNG = 'inkscape --export-png=- -z --file=- -b white' # inkscape 0.92
+  # SVG2PNG = 'inkscape --export-type=png -p -b white' # inkscape 1.0
 
   # 初期化
   #
