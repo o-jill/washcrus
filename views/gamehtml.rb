@@ -98,7 +98,9 @@ class GameHtml
   def kyokumen_link
     sr = WebApiSfenReader.new
     sr.setmatchinfo(@mif)
-    "<a href='#{sr.genuri}' target='_blank'>局面図画像</a>"
+    ret = "<a href='#{sr.genuri}' target='_blank'>局面図画像svg</a>"
+    sr.setimage('.png')
+    ret + "&nbsp;<a href='#{sr.genuri}' target='_blank'>局面図画像png</a>"
   end
 
   # 将棋盤まわりの部品
