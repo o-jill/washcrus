@@ -2,9 +2,6 @@
 <svg width='260' height='275' viewBox='0 0 260 275' version='1.1' xmlns='http://www.w3.org/2000/svg' >
  <g>
 <g id='title'><text x='125' y='15' font-size='16px' text-anchor='middle' width='260px' text-overflow='ellipsis' >□たいとるだよ□</text></g>
-<g id='teban' transform='translate(0,20)'>
- <rect x='0' y='0' width='30' height='30'  fill='#F3C' stroke='none'/>
-</g>
 <g id='gname' transform='translate(5,25)'>
  <polygon points='10,0 18,2 20,20 0,20 2,2' fill='none' stroke='black' stroke-width='1'/>
  <text x='25' y='15' font-size='16px' text-anchor='left'  width='230px' text-overflow='ellipsis'>□後手花子□</text>
