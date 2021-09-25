@@ -121,9 +121,7 @@ class MyPageScreen
   # @return WebApiSfenReaderオブジェクト
   def gen_sfen_reader(mif, turn)
     sr = WebApiSfenReader.new
-    sr.setplayers(mif.playerb.name, mif.playerw.name)
-    sr.sfen = mif.sfen
-    sr.setlastmovecsa(mif.lastmove)
+    sr.setmatchinfo(mif)
     sr.setturn(turn)
     sr.settitle(mif.dt_lastmove)
     sr

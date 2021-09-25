@@ -5,6 +5,7 @@ require 'rubygems'
 # require 'unindent'
 
 require './game/userinfo.rb'
+require './util/twittercards.rb'
 require './views/common_ui.rb'
 
 # ログイン画面
@@ -67,12 +68,17 @@ class LoginScreen
     print "<div class='err'>you already logged in!</div>"
   end
 
+  def gen_twcard(gid)
+    TwitterCards.new.generate(gid)
+  end
+
   #
   # ログイン画面
   #
   # @param userinfo ユーザ情報
   def show(userinfo, gid)
-    CommonUI.html_head(@header)
+    twcard = gen_twcard(gid) unless gid.empty?
+    CommonUI.html_head(@header, twcard)
     CommonUI.html_menu(userinfo)
 
     if userinfo.invalid?

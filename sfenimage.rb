@@ -21,11 +21,16 @@ require './game/sfensvgimage.rb'
 #   # else ret[:piece] = 'kanji'
 # end
 # ret[:turn] = @turn unless @turn.empty?
+# ret[:image] = @image || '.svg'
 
 #
 # CGI本体
 #
 class SfenImage
+  # SVG2PNG = 'rsvg-convert -b white' # rsvg-convert
+  SVG2PNG = 'inkscape --export-png=- -z --file=- -b white' # inkscape 0.92
+  # SVG2PNG = 'inkscape --export-type=png -p -b white' # inkscape 1.0
+
   # 初期化
   #
   # @param cgi CGIオブジェクト
@@ -54,6 +59,36 @@ class SfenImage
     @title = saferead(params, 'title')
     @piecetype = saferead(params, 'piece')
     @turn = saferead(params, 'turn')
+    @image = saferead(params, 'image')
+  end
+
+  def svg2png(svg)
+    IO.popen(SVG2PNG, 'r+') do |io|
+      io.puts svg
+      io.close_write
+      io.read
+    end
+  end
+
+  # png形式の出力
+  #
+  # @param svg svgデータ
+  def put_png(svg)
+    pngbuf = svg2png(svg)
+    print "Content-type:image/png\n\n#{pngbuf}"
+    # debug
+    # File.open('./tmp/svg2png.png', 'wb') do |file|
+    #   file.write(pngbuf)
+    # end
+    # File.open('./tmp/svg2png.svg', 'wb') do |file|
+    #   file.write(svg)
+    # end
+  end
+
+  # 画像データを出力
+  def put_image(svg)
+    return put_png(svg) if @image == '.png'
+    puts "Content-type:image/svg+xml\n\n#{svg}"
   end
 
   #
@@ -66,7 +101,7 @@ class SfenImage
     ssi.setmoveinfo(@lm, @turn)
     ssi.setui(@piecetype)
 
-    puts "Content-type:image/svg+xml\n\n#{ssi.gen}"
+    put_image(ssi.gen)
   end
 
   # class methods

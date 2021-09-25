@@ -97,12 +97,10 @@ class GameHtml
   # @return 局面画像へのリンク
   def kyokumen_link
     sr = WebApiSfenReader.new
-    sr.setplayers(@mif.playerb.name, @mif.playerw.name)
-    sr.sfen = @mif.sfen
-    sr.setlastmovecsa(@mif.lastmove)
-    sr.setturn(@mif.turnex)
-
-    "<a href='#{sr.genuri}' target='_blank'>局面図画像</a>"
+    sr.setmatchinfo(@mif)
+    ret = "<a href='#{sr.genuri}' target='_blank'>局面図画像svg</a>"
+    sr.setimage('.png')
+    ret + "&nbsp;<a href='#{sr.genuri}' target='_blank'>局面図画像png</a>"
   end
 
   # 将棋盤まわりの部品
@@ -114,8 +112,6 @@ class GameHtml
 
     erbtxt = File.read('./ui/gamehtml_123neye.erb', encoding: 'utf-8')
     ret += ERB.new(erbtxt).result(binding)
-
-    ret += kyokumen_link
 
     ret
   end
@@ -148,7 +144,11 @@ class GameHtml
     "<textarea id='kifulog' class='kifu' cols=40 readonly>" \
     "#{@jkf.to_kifu}</textarea>" \
     "<button onclick='dl_kifu_file();'>Download KIF</button>&nbsp;" \
-    "<button onclick='open_kifu_player();'>棋譜再生</button>"
+    "<button onclick='open_kifu_player();'>棋譜再生</button><br>" \
+    '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" ' \
+    'class="twitter-share-button" data-show-count="false">Tweet</a>' \
+    '<script async src="https://platform.twitter.com/widgets.js"' \
+    ' charset="utf-8"></script>&nbsp;' + kyokumen_link
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kifu.gsub("\n", '<BR>')}</div>"
   end
 
