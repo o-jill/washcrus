@@ -50,4 +50,22 @@ ssi.settitle(stg[:title])
 ssi.setmoveinfo(stg[:last], stg[:turn])
 # ssi.setui(@piecetype)
 
-puts ssi.gen
+svg = ssi.gen
+
+puts svg
+
+def check(svg, path)
+  err = File.open("travisci/#{path}", 'r') do |refsvg|
+    refsvg.lines.map.with_index do |line, idx|
+      "line#{idx}:#{line}" if line.strip != svg[idx].strip
+    end
+  end
+  err.compact!
+
+  puts "#{err.size} errors:"
+  # return if err.empty?
+  puts err
+  exit err.size
+end
+
+check(svg.lines, stg[:svg]) if ARGV.include?('--check')
