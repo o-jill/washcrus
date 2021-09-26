@@ -5,7 +5,7 @@
 # This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
 # For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
 
-name: Rubocop
+name: Rubocop and SVG
 
 on:
   push:
@@ -31,6 +31,18 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Run tests
+    - name: Run rubocop
       run: bundle exec rubocop
+    - name: Run SVG 0
+      run: bundle exec ruby travisci/svgtest.rb --check -N0
+    - name: Run SVG 1
+      run: bundle exec ruby travisci/svgtest.rb --check -N1
+    - name: Run SVG 2
+      run: bundle exec ruby travisci/svgtest.rb --check -N2
+    - name: Run SVG 3
+      run: bundle exec ruby travisci/svgtest.rb --check -N3
+    - name: Run SVG 4
+      run: bundle exec ruby travisci/svgtest.rb --check -N4
+    # - name: Run SVG 5
+    #   run: bundle exec ruby travisci/svgtest.rb --check -N5
   
