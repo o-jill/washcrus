@@ -129,8 +129,9 @@ class TestGame < BrowserTestAbstract
     driver.find_element(:name, 'siemail').send_keys(email)
     elem = driver.find_element(:name, 'sipassword')
     elem.send_keys pwd
+    sleep 0.5
     elem.submit
-    sleep 1.8
+    sleep 1.3
     simpleurlcheck('index.rb?logincheck')
     res.checkmatch(/Logged in successfully/)
   end
@@ -220,10 +221,12 @@ class TestGame < BrowserTestAbstract
   #
   # @param clr 0:先, 1:後
   def resign(clr)
-    sleep 10 # wait logout
+    sleep 5 # wait logout
     gogame_wo_login(clr.zero?) # login here
     res.checkurl(BASE_URL + "index.rb?game/#{gid}")
+    sleep 0.5
     resignbtn
+    sleep 0.5
     confirmmove('ok')
     sleep 3
   end
