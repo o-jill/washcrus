@@ -16,6 +16,7 @@ class TestDraw < TestGame
 
   # 引き分け提案ボタンを押す
   def drawbtn
+    sleep 0.5
     driver.find_element(:id, 'btn_draw_suggest').click
   end
 
