@@ -92,6 +92,11 @@ class ChatFile
           "it's on time. please start your move as SENTE, #{name}-san.")
   end
 
+  # 対局開始の合図
+  #
+  # @param name 勝者名
+  # @param result 'd':引き分け, otherwise:どっちかが勝った。
+  # @param moves 手数
   def say_finish(name, result, moves)
     sayex(WITNESS,
           if result != 'd'
