@@ -100,9 +100,9 @@ class ChatFile
   def say_finish(name, result, moves)
     sayex(WITNESS,
           if result != 'd'
-            "#{name}-san won this game with #{moves} moves."
+            "#{name}-san won this game after #{moves} moves."
           else
-            "this game was draw with #{moves} moves."
+            "this game was draw after #{moves} moves."
           end)
   end
 
