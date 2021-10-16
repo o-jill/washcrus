@@ -82,12 +82,23 @@ class ChatFile
     add "#{name}:#{mssg}&nbsp;(#{Time.now})<BR>"
   end
 
+  WITNESS = "<span id='chatadmin'>Witness</span>"
+
   # 対局開始の合図
   #
   # @param name 先手名
   def say_start(name)
-    sayex("<span id='chatadmin'>Witness</span>",
+    sayex(WITNESS,
           "it's on time. please start your move as SENTE, #{name}-san.")
+  end
+
+  def say_finish(name, result, moves)
+    sayex(WITNESS,
+          if result != 'd'
+            "#{name}-san won this game with #{moves} moves."
+          else
+            "this game was draw with #{moves} moves."
+          end)
   end
 
   # 引き分け提案
