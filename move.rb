@@ -140,6 +140,14 @@ class Move
   def finish_draw(now)
     @turn = 'd'
     tkd.finished(now, nil, turn)
+
+    chat = ChatFile.new(@gameid)
+    chat.say_finish('', turn, mif.nth.to_i - 1)
+  end
+
+  def winner
+    return mif.playerb if @turn == 'fb'
+    return mif.playerw if @turn == 'fw'
   end
 
   # どちらかが勝って終局
@@ -149,6 +157,10 @@ class Move
     gote_win = (mif.teban == 'b')
     @turn = gote_win ? 'fw' : 'fb'
     tkd.finished(now, gote_win, turn)
+
+    # chat file
+    chat = ChatFile.new(@gameid)
+    chat.say_finish(winner.name, turn, mif.nth.to_i - 1)
   end
 
   # 対局終了処理
