@@ -146,21 +146,21 @@ class Move
   end
 
   def winner
-    return mif.playerb if @turn == 'fb'
-    return mif.playerw if @turn == 'fw'
+    return mif.playerb.name if turn == 'fb'
+    return mif.playerw.name if turn == 'fw'
   end
 
   # どちらかが勝って終局
   #
   # @param now [Time] 着手日時オブジェクト
   def finish_normal(now)
-    gote_win = (mif.teban == 'b')
+    gote_win = mif.senteban?
     @turn = gote_win ? 'fw' : 'fb'
     tkd.finished(now, gote_win, turn)
 
     # chat file
-    chat = ChatFile.new(@gameid)
-    chat.say_finish(winner.name, turn, mif.nth.to_i - 1)
+    chat = ChatFile.new(gameid)
+    chat.say_finish(winner, turn, mif.nth.to_i - 1)
   end
 
   # 対局終了処理

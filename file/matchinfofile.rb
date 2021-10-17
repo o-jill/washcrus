@@ -207,8 +207,8 @@ class MatchInfoFile
   #
   # @return 対局者の情報 { id: id, name: nm, mail: em }
   def getnextplayer
-    return @playerb.genhash if @teban == 'b'
-    return @playerw.genhash if @teban == 'w'
+    return @playerb.genhash if senteban?
+    return @playerw.genhash if goteban?
   end
 
   # 対局生成者名と生成日時のセット
@@ -306,6 +306,18 @@ class MatchInfoFile
     @playerw.setmochijikan(thinktime: ttm, extracount: exc)
   end
 
+  # 先手番かどうか
+  # @return teban == 'b'
+  def senteban?
+    teban == 'b'
+  end
+
+  # 後手番かどうか
+  # @return teban == 'w'
+  def goteban?
+    teban == 'w'
+  end
+
   # 持ち時間の設定
   #
   # @param data 持ち時間情報
@@ -346,7 +358,7 @@ class MatchInfoFile
     @turn = 'fb' # 先手勝ち
     @turn = 'd' if per100_text != 'TORYO' # 引き分け
     # @log.debug("if per100_text != 'TORYO' -> 'd'")
-    @turn = 'fw' if @teban == 'b' # 後手勝ち
+    @turn = 'fw' if senteban? # 後手勝ち
     # @teban = 'f'
   end
 
@@ -355,7 +367,7 @@ class MatchInfoFile
     @finished = true
     # @teban = 'f'
     # 後手勝ち 'fw'  先手勝ち 'fb'
-    @turn = @teban == 'b' ? 'fw' : 'fb'
+    @turn = senteban? ? 'fw' : 'fb'
   end
 
   # 引き分けの提案の情報を処理する
