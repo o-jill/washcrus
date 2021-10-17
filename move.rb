@@ -290,7 +290,7 @@ end
 #
 # @param err エラーオブジェクト
 # @param move Moveオブジェクト
-def errtrace(err)
+def errtrace(err, move)
   move.log.warn("class=[#{err.class}] message=[#{err.message}] " \
                 "stack=[#{err.backtrace.join("\n")}] in move")
 end
@@ -309,11 +309,11 @@ begin
   move.perform
   # end
 rescue ScriptError => err
-  errtrace(err)
+  errtrace(err, move)
 rescue SecurityError => err
-  errtrace(err)
+  errtrace(err, move)
 rescue StandardError => err
-  errtrace(err)
+  errtrace(err, move)
 end
 # -----------------------------------
 #   testing
