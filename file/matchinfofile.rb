@@ -353,11 +353,11 @@ class MatchInfoFile
   #        %TORYOであれば@tebanにより勝敗を@turnに、
   #        それ以外であれば@turnに。引き分けを入れる。
   def done_game_sp(per100_text)
-    # @log.debug("done_game_sp(#{per100_text})")
+    @log.debug("done_game_sp(#{per100_text})")
     @finished = true
-    @turn = 'fb' # 先手勝ち
-    @turn = 'd' if per100_text != 'TORYO' # 引き分け
+    return @turn = 'd' if per100_text != 'TORYO' # 引き分け
     # @log.debug("if per100_text != 'TORYO' -> 'd'")
+    @turn = 'fb' # 先手勝ち
     @turn = 'fw' if senteban? # 後手勝ち
     # @teban = 'f'
   end
