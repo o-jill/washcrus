@@ -361,7 +361,7 @@ class TaikyokuData
 
     # 引き分け提案とか
     ret, status = procsystem(jsmv, datm) if jsmv[:system]
-    @log.debug("ret:#{ret}, status:#{TXT_RES[status + 2]}")
+    @log.debug("ret:#{ret}, status:#{TXT_RES[status + 2]}") if status
     return status if ret
     jsmv[:special] = 'HIKIWAKE' if status == RES_OVER
     return finish_special(jsmv) if jsmv[:special]
