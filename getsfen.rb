@@ -102,7 +102,7 @@ begin
   getsfen.readuserparam
   getsfen.perform
 rescue StandardError => e
-  log.error("class=[#{e.class}] message=[#{e444.message}] " \
+  log.error("class=[#{e.class}] message=[#{e.message}] " \
        "stack=[#{e.backtrace.join("\n")}] in move")
 end
 

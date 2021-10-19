@@ -88,6 +88,7 @@ class SfenImage
   # 画像データを出力
   def put_image(svg)
     return put_png(svg) if @image == '.png'
+
     puts "Content-type:image/svg+xml\n\n#{svg}"
   end
 

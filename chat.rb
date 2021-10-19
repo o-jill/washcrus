@@ -36,7 +36,9 @@ class Chat
   def say
     @name = @params['chatname'][0]
     @msg = @params['chatmsg'][0]
+
     return if @name.empty? || @msg.empty?
+
     @msg.gsub!(',&<>',
                ',' => '&#44;', '&' => '&amp;',
                '<' => '&lt;', '>' => '&gt;')

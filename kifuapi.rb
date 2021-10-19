@@ -20,6 +20,7 @@ class KifuAPI
   def initialize(cgi)
     # @params = cgi.params
     return if cgi.query_string.empty?
+
     @gameid = cgi.query_string[/(\h+)\./, 1]
     @type = cgi.query_string[/\.(.+)/, 1]
   end
@@ -32,6 +33,7 @@ class KifuAPI
   def checkparam
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid
+
     return MyHtml.puts_textplain_illegalaccess \
       unless @type == 'kif' # %w[kif csa].include?(@type)
 

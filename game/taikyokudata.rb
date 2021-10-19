@@ -183,6 +183,7 @@ class TaikyokuData
     # 対局ID
     id = genid
     return print "generation failed...\n" unless id
+
     setid(id)
 
     # @log.debug('GenTaikyokuData.new(self)')
@@ -363,6 +364,7 @@ class TaikyokuData
     ret, status = procsystem(jsmv, datm) if jsmv[:system]
     @log.debug("ret:#{ret}, status:#{TXT_RES[status + 2]}") if status
     return status if ret
+
     jsmv[:special] = 'HIKIWAKE' if status == RES_OVER
     return finish_special(jsmv) if jsmv[:special]
 
@@ -447,6 +449,7 @@ class TaikyokuData
     @log.debug('userdb = UserInfoFile.new')
     userdb = UserInfoFile.new
     return userdb.give_draw(@idb, @idw) if turn == 'd'
+
     userdb.give_win_lose(gwin, @idb, @idw)
   end
 
@@ -470,6 +473,7 @@ class TaikyokuData
     # @log.debug('userdb = UserInfoFile.new')
     userdb = UserInfoFile.new
     return userdb.give_draw(@idb, @idw) if turn == 'd'
+
     userdb.give_win_lose(turn == 'fw', @idb, @idw)
   end
 

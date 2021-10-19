@@ -105,6 +105,7 @@ class AdminGameManageUpdateScreen
     tdb = TaikyokuFile.new
     tdb.read
     return logg("#{gid} does not exist...\n") unless tdb.exist?(gid)
+
     tdb.updateturn(gid, result)
 
     updatetaikyoku

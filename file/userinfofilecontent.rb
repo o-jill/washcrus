@@ -113,6 +113,7 @@ class UserInfoFileContent
   # return nil if not found.
   def findid(id)
     return nil unless exist?(id)
+
     { id: id, name: @names[id], pw: @passwords[id], email: @emails[id] }
   end
 
@@ -122,6 +123,7 @@ class UserInfoFileContent
   def findname(name)
     found = @names.find { |_ky, vl| vl == name }
     return nil unless found
+
     { id: (id = found[0]), name: name, pw: @passwords[id], email: @emails[id] }\
   end
 
@@ -131,6 +133,7 @@ class UserInfoFileContent
   def findemail(addr)
     found = @emails.find { |_ky, vl| vl == addr }
     return nil unless found
+
     { id: (id = found[0]), name: @names[id], pw: @passwords[id], email: addr }
   end
 

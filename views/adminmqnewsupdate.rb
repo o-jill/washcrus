@@ -46,7 +46,9 @@ class AdminMarqueeNewsUpdateScreen
     lines = File.read(PathList::MQNEWSFILE).lines
     lines.each do |line|
       line.chomp!
+
       next if line.empty?
+
       puts "<div class='marquee-anim'><span>#{line}</span></div>"
     end
   end

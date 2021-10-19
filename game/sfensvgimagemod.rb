@@ -135,6 +135,7 @@ module SfenSVGImageMod
   def str_tagtgm(ch, y)
     pos = 'PLNSGBR'.index(ch)
     return '' unless pos
+
     koma = '歩香桂銀金角飛'[pos, 1]
     "<text x='0' y='#{y}' font-size='16px' text-anchor='middle'>#{koma}</text>"
   end

@@ -248,6 +248,7 @@ class TestGame < BrowserTestAbstract
       line.start_with?(gid + ',')
     end
     return false unless t # 見つからなかった
+
     # id, idv, idw, nameb, namew, turn, time, comment
     elem = t.split(',')
     ret = drawornot ? elem[5] == 'd' : %w[fb fw d].include?(elem[5])

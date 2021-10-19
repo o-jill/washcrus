@@ -52,7 +52,9 @@ module JsonMove
   # @return 駒が有効ならcch, 無効ならnil
   def self.checkpiece(cch)
     return if cch == '__'
+
     return unless KOMA.find_index(cch)
+
     cch
   end
 
@@ -95,7 +97,9 @@ module JsonMove
   def self.read_fromxy(xy)
     x = xy[1]
     y = xy[2]
+
     return nil unless chkxy(x, y)
+
     { val: uchi?(x, y) ? nil : { 'x' => x.to_i, 'y' => y.to_i } }
   end
 
@@ -157,6 +161,7 @@ module JsonMove
 
     fxy = read_fromxy(txt)
     return unless fxy
+
     ret['from'] = fxy[:val]
 
     ret = read_capture(txt, ret)
@@ -174,7 +179,9 @@ module JsonMove
   # @return エラー:nil, 正常終了:指し手ハッシュ
   def self.fromtext(txt)
     return unless txt
+
     return fromtextsystem(txt) if txt[0] == '!'
+
     return fromtextspecial(txt) if txt[0] == '%'
 
     return unless (9..10).cover?(txt.length)

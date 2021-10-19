@@ -54,6 +54,7 @@ class TaikyokuFileContent
   # @return nil or hash{id:, idb:, idw:, nameb:, namew:, turn:, time:, comment:}
   def findid(id)
     return nil unless @idbs[id]
+
     {
       id: id,
       idb: @idbs[id],

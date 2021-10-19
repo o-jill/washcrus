@@ -163,6 +163,7 @@ class TaikyokuReqFile
     lock(@lockfn) do
       read
       return false unless exist?(uid)
+
       remove(uid)
       write
     end
@@ -191,6 +192,7 @@ class TaikyokuReqFile
   # @return { id:, name:, comments: }
   def findid(id)
     return nil unless exist?(id)
+
     { id: id, name: @names[id], comments: @comments[id] }
   end
 

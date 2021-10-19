@@ -86,6 +86,7 @@ class BrowserTestAbstract
     end
     clickbtn(:xpath, "//input[@value='Submit']")
     return if this_will_fail
+
     sleep 1
     simpleurlcheck('index.rb?register')
   end

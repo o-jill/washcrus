@@ -36,6 +36,7 @@ module MatchInfoFileUtil
   def self.checksfen(sfenstr)
     dan = sfenstr.split('/')
     return nil if dan.length != 9
+
     dan.each do |line|
       nkoma = checksfen_line(line)
       return nil if nkoma != 9
@@ -193,6 +194,7 @@ class MatchInfoFile
   # @return 対戦相手の情報 { id: id, name: nm, mail: em }
   def getopponent(id_)
     return @playerw.genhash if @playerb.myid?(id_)
+
     return @playerb.genhash if @playerw.myid?(id_)
   end
 
@@ -208,6 +210,7 @@ class MatchInfoFile
   # @return 対局者の情報 { id: id, name: nm, mail: em }
   def getnextplayer
     return @playerb.genhash if senteban?
+
     return @playerw.genhash if goteban?
   end
 
@@ -356,6 +359,7 @@ class MatchInfoFile
     @log.debug("done_game_sp(#{per100_text})")
     @finished = true
     return @turn = 'd' if per100_text != 'TORYO' # 引き分け
+
     # @log.debug("if per100_text != 'TORYO' -> 'd'")
     @turn = 'fb' # 先手勝ち
     @turn = 'fw' if senteban? # 後手勝ち
