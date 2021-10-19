@@ -39,8 +39,8 @@ class AdminNewsUpdateScreen < NewsScreen
   # @param news newsの内容
   def update_news(news)
     File.write(PathList::NEWSFILE, news)
-  rescue StandardError => er
-    @errmsg += "failed to update...#{er}"
+  rescue StandardError => e
+    @errmsg += "failed to update...#{e}"
   end
 
   # 画面の表示

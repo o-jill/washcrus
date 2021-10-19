@@ -21,12 +21,12 @@ begin
   washcrus = WashCrus.new(cgi)
   washcrus.perform
   # end
-rescue StandardError => err
+rescue StandardError => e
   puts "Content-Type: text/html; charset=UTF-8\n\n"
   puts <<-ERRMSG.unindent
     <html><title>ERROR Washcrus</title><body><pre>
-    ERROR:#{err}
-    STACK:#{err.backtrace.join("\n")}
+    ERROR:#{e}
+    STACK:#{e.backtrace.join("\n")}
     </pre></body></html>
   ERRMSG
 end

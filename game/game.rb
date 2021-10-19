@@ -99,9 +99,9 @@ class Game
     gh.put(@header)
     # @log.debug('Game.performed')
     # @log.debug("sesionfiles:#{Dir['./tmp/*']}")
-  rescue StandardError => err
-    @log.warn(err.to_s)
-    @log.warn(err.backtrace.join("\n").to_s)
+  rescue StandardError => e
+    @log.warn(e.to_s)
+    @log.warn(e.backtrace.join("\n").to_s)
   end
 
   # class methods

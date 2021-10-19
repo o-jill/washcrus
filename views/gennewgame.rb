@@ -279,11 +279,11 @@ class GenNewGameScreen
     return put_err_sreen(userinfo) unless generate(userinfo, params)
 
     put_html(userinfo)
-  rescue ScriptError => er
-    err2log(er)
-  rescue SecurityError => er
-    err2log(er)
-  rescue StandardError => er
-    err2log(er)
+  rescue ScriptError => e
+    err2log(e)
+  rescue SecurityError => e
+    err2log(e)
+  rescue StandardError => e
+    err2log(e)
   end
 end

@@ -101,9 +101,9 @@ begin
   getsfen = GetSfen.new(cgi, log)
   getsfen.readuserparam
   getsfen.perform
-rescue StandardError => err
-  log.error("class=[#{err.class}] message=[#{err.message}] " \
-       "stack=[#{err.backtrace.join("\n")}] in move")
+rescue StandardError => e
+  log.error("class=[#{e.class}] message=[#{e444.message}] " \
+       "stack=[#{e.backtrace.join("\n")}] in move")
 end
 
 # -----------------------------------

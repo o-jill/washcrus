@@ -41,10 +41,10 @@ class UserInfoFile
       end
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "#{er} in read"
-  rescue IOError => er
-    puts "#{er} in read"
+  rescue SystemCallError => e
+    puts "#{e} in read"
+  rescue IOError => e
+    puts "#{e} in read"
   end
 
   # put header part of the file.
@@ -68,10 +68,10 @@ class UserInfoFile
       end
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "#{er} in write"
-  rescue IOError => er
-    puts "#{er} in write"
+  rescue SystemCallError => e
+    puts "#{e} in write"
+  rescue IOError => e
+    puts "#{e} in write"
   end
 
   # append a set of data to a db file.
@@ -84,10 +84,10 @@ class UserInfoFile
       file.puts @content.build_line(id)
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
-  rescue IOError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
   # add user information, generate id and append to file.

@@ -308,12 +308,12 @@ begin
   # move.readuserparam
   move.perform
   # end
-rescue ScriptError => err
-  errtrace(err, move)
-rescue SecurityError => err
-  errtrace(err, move)
-rescue StandardError => err
-  errtrace(err, move)
+rescue ScriptError => e
+  errtrace(e, move)
+rescue SecurityError => e
+  errtrace(e, move)
+rescue StandardError => e
+  errtrace(e, move)
 end
 # -----------------------------------
 #   testing

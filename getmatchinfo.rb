@@ -110,12 +110,12 @@ begin
   getsfen = GetMatchInfo.new(cgi)
   getsfen.readuserparam
   getsfen.perform
-rescue ScriptError => er
-  errtrace(er)
-rescue SecurityError => er
-  errtrace(er)
-rescue StandardError => er
-  errtrace(er)
+rescue ScriptError => e
+  errtrace(e)
+rescue SecurityError => e
+  errtrace(e)
+rescue StandardError => e
+  errtrace(e)
 end
 # -----------------------------------
 #   testing

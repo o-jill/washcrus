@@ -38,8 +38,8 @@ class AdminMarqueeNewsUpdateScreen
   # @param news newsの内容
   def update_mqnews(mqnews)
     File.write(PathList::MQNEWSFILE, mqnews)
-  rescue StandardError => er
-    @errmsg += "failed to update...#{er}"
+  rescue StandardError => e
+    @errmsg += "failed to update...#{e}"
   end
 
   def put_marquee

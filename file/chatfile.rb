@@ -44,10 +44,10 @@ class ChatFile
       file.puts msg
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
-  rescue IOError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
   # ファイルの1行追加書き出し
@@ -60,10 +60,10 @@ class ChatFile
       file.puts line
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
-  rescue IOError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
   # 発言する

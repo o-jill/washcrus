@@ -81,8 +81,8 @@ begin
   cgi = CGI.new
   chat = Chat.new(cgi)
   chat.perform
-rescue StandardError => er
+rescue StandardError => e
   puts "content-type:text/plain\n\n"
-  puts "some error happend!\n--\n#{er}"
-  puts "#{er.backtrace.join("\n")}\n--"
+  puts "some error happend!\n--\n#{e}"
+  puts "#{e.backtrace.join("\n")}\n--"
 end

@@ -35,9 +35,9 @@ class AdminSignatureUpdateScreen
   # @param signature 書き込む内容
   def write_signature(signature)
     File.write(PathList::SIGNATUREFILE, signature.gsub("\r\n", "\n"))
-  rescue StandardError => er
+  rescue StandardError => e
     @errmsg += 'failed to update...<pre>'
-    @errmsg += er.to_s
+    @errmsg += e.to_s
     @errmsg += '</pre>'
   end
 

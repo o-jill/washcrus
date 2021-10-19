@@ -476,10 +476,10 @@ class MatchInfoFile
       file.puts YAML.dump(genhash, file)
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in yaml write"
-  rescue IOError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in yaml write"
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in yaml write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in yaml write"
   end
 
   # 持ち時間の更新
