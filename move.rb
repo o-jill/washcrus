@@ -140,15 +140,27 @@ class Move
   def finish_draw(now)
     @turn = 'd'
     tkd.finished(now, nil, turn)
+
+    chat = ChatFile.new(@gameid)
+    chat.say_finish('', turn, mif.nth.to_i - 1)
+  end
+
+  def winner
+    return mif.playerb.name if turn == 'fb'
+    return mif.playerw.name if turn == 'fw'
   end
 
   # どちらかが勝って終局
   #
   # @param now [Time] 着手日時オブジェクト
   def finish_normal(now)
-    gote_win = (mif.teban == 'b')
+    gote_win = mif.senteban?
     @turn = gote_win ? 'fw' : 'fb'
     tkd.finished(now, gote_win, turn)
+
+    # chat file
+    chat = ChatFile.new(gameid)
+    chat.say_finish(winner, turn, mif.nth.to_i - 1)
   end
 
   # 対局終了処理
@@ -297,11 +309,11 @@ begin
   move.perform
   # end
 rescue ScriptError => err
-  errtrace(err)
+  errtrace(err, move)
 rescue SecurityError => err
-  errtrace(err)
+  errtrace(err, move)
 rescue StandardError => err
-  errtrace(err)
+  errtrace(err, move)
 end
 # -----------------------------------
 #   testing

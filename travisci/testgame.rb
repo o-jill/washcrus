@@ -243,25 +243,25 @@ class TestGame < BrowserTestAbstract
   end
 
   # 対局ファイルのチェック
-  def checktaikyokulines(file)
+  def checktaikyokulines(file, drawornot)
     t = file.each_line.find do |line|
       line.start_with?(gid + ',')
     end
     return false unless t # 見つからなかった
     # id, idv, idw, nameb, namew, turn, time, comment
     elem = t.split(',')
-    ret = %w[fb fw d].include?(elem[5])
+    ret = drawornot ? elem[5] == 'd' : %w[fb fw d].include?(elem[5])
     puts "ret = %w[fb fw d].include?(#{elem[5]})" unless ret
     res.succfail(ret)
   end
 
   # 対局ファイルのチェック
-  def checktaikyokucsv
+  def checktaikyokucsv(drawornot = nil)
     lock(PathList::TAIKYOKULOCKFILE) do
       path = 'db/taikyoku.csv'
       File.open(path, 'r:utf-8') do |file|
         # file.flock File::LOCK_EX
-        return checktaikyokulines(file)
+        return checktaikyokulines(file, drawornot)
       end
       puts "could not find game:#{gid}"
       res.succfail(false)

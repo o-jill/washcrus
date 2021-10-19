@@ -55,6 +55,6 @@ class TestDraw < TestGame
     # driver.quit
 
     checktaikyokuchucsv
-    checktaikyokucsv
+    checktaikyokucsv('draw')
   end
 end

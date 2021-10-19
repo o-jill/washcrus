@@ -82,12 +82,28 @@ class ChatFile
     add "#{name}:#{mssg}&nbsp;(#{Time.now})<BR>"
   end
 
+  WITNESS = "<span id='chatadmin'>Witness</span>"
+
   # 対局開始の合図
   #
   # @param name 先手名
   def say_start(name)
-    sayex("<span id='chatadmin'>Witness</span>",
+    sayex(WITNESS,
           "it's on time. please start your move as SENTE, #{name}-san.")
+  end
+
+  # 対局開始の合図
+  #
+  # @param name 勝者名
+  # @param result 'd':引き分け, otherwise:どっちかが勝った。
+  # @param moves 手数
+  def say_finish(name, result, moves)
+    sayex(WITNESS,
+          if result != 'd'
+            "#{name}-san won this game after #{moves} moves."
+          else
+            "this game was draw after #{moves} moves."
+          end)
   end
 
   # 引き分け提案
@@ -95,14 +111,12 @@ class ChatFile
   # @param name 名前
   # @param yes true:, false:
   def say_sugdraw(name, yes)
-    msg =
-      if yes
-        "#{name}さんから引き分け提案がありました。."
-      else
-        "#{name}さんから引き分け提案の取りやめがありました。."
-      end
-
-    sayex("<span id='chatadmin'>Witness</span>", msg)
+    sayex(WITNESS,
+          if yes
+            "#{name}さんから引き分け提案がありました。"
+          else
+            "#{name}さんから引き分け提案の取りやめがありました。"
+          end)
   end
 
   # チャット内容の出力

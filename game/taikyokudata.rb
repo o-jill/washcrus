@@ -82,6 +82,7 @@ class TaikyokuData
   RES_OVER = 1  # 玉を取って終局
   RES_DRAW = -1 # 引き分け提案
   RES_ERR = -2  # エラー
+  TXT_RES = %w[RES_ERR RES_DRAW RES_NEXT RES_OVER].freeze
 
   # 先手のセット
   #
@@ -313,6 +314,7 @@ class TaikyokuData
   #
   # @retval RES_DRAW 引き分け提案了承
   # @retval RES_OVER 引き分け終局
+  # @return [true if ret is RES_ERR or RES_DRAW, RES_ERR, RES_DRAW or RES_OVER]
   def procsystem(jsmv, datm)
     @log.debug("procsystem(#{jsmv}, #{datm})")
     cmd = jsmv[:system]
@@ -359,9 +361,9 @@ class TaikyokuData
 
     # 引き分け提案とか
     ret, status = procsystem(jsmv, datm) if jsmv[:system]
+    @log.debug("ret:#{ret}, status:#{TXT_RES[status + 2]}") if status
     return status if ret
     jsmv[:special] = 'HIKIWAKE' if status == RES_OVER
-
     return finish_special(jsmv) if jsmv[:special]
 
     recordmove(sfen, jsmv, datm)
@@ -398,7 +400,7 @@ class TaikyokuData
   # @param jsmv JsonMoveオブジェクト
   # @return 1:投了などで終局
   def finish_special(jsmv)
-    @log.debug('if jsmv[:special]')
+    @log.debug("if jsmv[:special](=#{jsmv[:special]})")
     @jkf.move(jsmv)
     @mif.done_game_sp(jsmv[:special])
     RES_OVER
