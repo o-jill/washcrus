@@ -38,7 +38,7 @@ Metrics/ClassLength:
 Metrics/ModuleLength:
     Max: 150
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
     AllowedNames:
       - a
       - b
@@ -83,7 +83,7 @@ Style/RaiseArgs:
 #   AllowBeforeEndInOneLineMethods: false
 
 # Use only ascii symbols in comments.
-AsciiComments:
+Style/AsciiComments:
   Enabled: false
 
 Style/PercentLiteralDelimiters:
