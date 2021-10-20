@@ -22,11 +22,9 @@ class UnsubscribeScreen
     @header = header
   end
 
-  # @!attribute [r] newem
-  #   @return 新しいメールアドレス
-  # @!attribute [r] newemagain
-  #   @return 新しいメールアドレス再
-  attr_reader :newem, :newemagain
+  # @!attribute [r] em
+  #   @return 入力メールアドレス
+  attr_reader :em
 
   # エラー画面の表示
   #
@@ -82,7 +80,8 @@ class UnsubscribeScreen
   def check(email)
     return '' if em == email
 
-    '<span class="err">e-mail address is not correct!</span>'
+    '<span class="err">e-mail address is not correct!</span>' \
+    "[#{em}]"
   end
 
   # パラメータのチェックと表示メッセージ作成
@@ -95,36 +94,37 @@ class UnsubscribeScreen
     msg = check(userinfo.user_email)
     return msg unless msg.empty?
 
-    uid = userinfo.user_id
+    # uid = userinfo.user_id
+    #
+    # msg = update_userdb(uid)
+    # return msg if msg
+    #
+    # begin
+    #   session = CGI::Session.new(
+    #     cgi,
+    #     'new_session' => false,
+    #     'session_key' => '_washcrus_session',
+    #     'tmpdir' => './tmp'
+    #   )
+    # rescue ArgumentError
+    #   # session = nil
+    #   return 'failed to find session.'
+    #   # @log.debug("#{ae.message}, (#{ae.class})")
+    # end
 
-    msg = update_userdb(uid)
-    return msg if msg
-
-    begin
-      session = CGI::Session.new(
-        cgi,
-        'new_session' => false,
-        'session_key' => '_washcrus_session',
-        'tmpdir' => './tmp'
-      )
-    rescue ArgumentError
-      # session = nil
-      return 'failed to find session.'
-      # @log.debug("#{ae.message}, (#{ae.class})")
-    end
-
-    # sessioneml = userinfo.user_email
-    userinfo.user_email = newem
-    # sessionデータ更新
-    userinfo.hashsession.each { |ky, vl| session[ky] = vl }
-    session.update
-    session.close
+    # # sessioneml = userinfo.user_email
+    # userinfo.user_email = newem
+    # # sessionデータ更新
+    # userinfo.hashsession.each { |ky, vl| session[ky] = vl }
+    # session.update
+    # session.close
 
     # メールの送信
-    send_mail(userinfo)
+    # send_mail(userinfo)
 
     'Your e-mail address was updated.<br>' \
-    'an e-mail has been sent to your new address.'
+    'an e-mail has been sent to your new address.' \
+    "from [#{em}]"
     # "<BR>debug: sessioneml:#{sessioneml} -> #{userinfo.user_email}"
   end
 
