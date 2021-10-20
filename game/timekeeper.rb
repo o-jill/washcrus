@@ -116,11 +116,11 @@ class TimeKeeper
     @extracount -= 1 # 考慮時間を１回消費
     @byouyomi += @sec_extracount
 
-    case @extracount <=> 0
-    when 1 then @houchi = HOUCHI_USEEXTRA
-    when 0 then @houchi = HOUCHI_NOEXTRA
-    else @houchi = HOUCHI_TMOUT
-    end
+    return @houchi = HOUCHI_USEEXTRA if @extracount.positive?
+
+    return @houchi = HOUCHI_NOEXTRA if @extracount.zero?
+
+    @houchi = HOUCHI_TMOUT
   end
 
   # 時間の確認
