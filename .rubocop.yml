@@ -27,6 +27,14 @@ Layout/EndOfLine:
 # LineLength:
 #   Enabled: false
 
+Lint/RaiseException:
+  Enabled: true
+  # AllowedImplicitNamespaces:
+  #   - 'Gem'
+
+Lint/StructNewOverride:
+  Enabled: true
+
 # Avoid methods longer than 10 lines of code
 Metrics/MethodLength:
     Max: 30
@@ -63,6 +71,15 @@ Naming/MethodParameterName:
 # Preferred collection methods.
 # CollectionMethods:
 #   Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 # Avoid Perl-style regex back references.
 # $1, $2, ... <-> Regexp.last_match[1], Regexp.last_match[2], ...
