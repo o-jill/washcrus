@@ -80,8 +80,7 @@ class UnsubscribeScreen
   def check(email)
     return '' if em == email
 
-    '<span class="err">e-mail address is not correct!</span>' \
-    "[#{em}]"
+    '<span class="err">e-mail address is not correct!</span>'
   end
 
   # パラメータのチェックと表示メッセージ作成
