@@ -14,7 +14,7 @@ require './views/common_ui.rb'
 #
 # 退会画面
 #
-class UmsubscribeScreen
+class UnsubscribeScreen
   # 初期化
   #
   # @param header htmlヘッダ
@@ -60,7 +60,7 @@ class UmsubscribeScreen
   # @param params パラメータハッシュオブジェクト
   def reademail(params)
     @em = params['unsubscribe'] || ['']
-    @em = newem[0].strip
+    @em = em[0].strip
   end
 
   # userdbの更新
