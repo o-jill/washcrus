@@ -43,7 +43,7 @@ class WinsLoses
   # @param win   勝数
   # @return 勝率の文字列 '0.000'
   def calcratestr(total, win)
-    format('%.3f', total.zero? ? 0 : win / total.to_f)
+    format('%<rate>.3f', rate: total.zero? ? 0 : win / total.to_f)
   end
 
   # 勝ち負け一段分の出力
