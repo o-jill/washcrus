@@ -485,9 +485,9 @@ class TaikyokuData
 
     if tmkp.houchi.nonzero?
       case @mif.turn
-      when 'b' then
+      when 'b'
         @jkf.setheader('先手考慮日数', "#{tmkp.extracount}日")
-      when 'w' then
+      when 'w'
         @jkf.setheader('後手考慮日数', "#{tmkp.extracount}日")
       else return
       end
