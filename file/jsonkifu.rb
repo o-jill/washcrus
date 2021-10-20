@@ -119,6 +119,7 @@ class JsonKifu
   def checkdou(mov)
     lt = @moves[-1]['move']
     return false unless lt
+
     lt['to'] == mov['to']
   end
 

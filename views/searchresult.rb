@@ -91,6 +91,7 @@ class SearchResultScreen
     ret = merge2ids(idbw, idt)
 
     return nil if ret.empty?
+
     ret
   end
 

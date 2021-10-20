@@ -168,6 +168,7 @@ class LoginCheckScreen
     gid = params['gameid'][0]
     return unless gid
     return if gid.empty?
+
     "<div align='center'>" \
     "<a href='index.rb?game/#{gid}'>対局(#{gid})へ</a><br>" \
     "#{automove2agame(gid)}</div>"

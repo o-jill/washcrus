@@ -14,6 +14,6 @@ group :test do
   gem 'psych', '~>3.1.0' # 4.0.1 causes error.
   gem 'reek'
   gem 'rspec'
-  gem 'rubocop', '~> 0.57.0'
+  gem 'rubocop', '~> 0.81.0'
   gem 'stackprof'
 end

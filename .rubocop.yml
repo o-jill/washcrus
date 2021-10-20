@@ -27,6 +27,14 @@ Layout/EndOfLine:
 # LineLength:
 #   Enabled: false
 
+Lint/RaiseException:
+  Enabled: true
+  # AllowedImplicitNamespaces:
+  #   - 'Gem'
+
+Lint/StructNewOverride:
+  Enabled: true
+
 # Avoid methods longer than 10 lines of code
 Metrics/MethodLength:
     Max: 30
@@ -38,13 +46,11 @@ Metrics/ClassLength:
 Metrics/ModuleLength:
     Max: 150
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
     AllowedNames:
       - a
       - b
       - ch
-      - e
-      - er
       - i
       - id
       - t
@@ -66,6 +72,15 @@ Naming/UncommunicativeMethodParamName:
 # CollectionMethods:
 #   Enabled: false
 
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
 # Avoid Perl-style regex back references.
 # $1, $2, ... <-> Regexp.last_match[1], Regexp.last_match[2], ...
 Style/PerlBackrefs:
@@ -83,7 +98,7 @@ Style/RaiseArgs:
 #   AllowBeforeEndInOneLineMethods: false
 
 # Use only ascii symbols in comments.
-AsciiComments:
+Style/AsciiComments:
   Enabled: false
 
 Style/PercentLiteralDelimiters:

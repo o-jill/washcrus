@@ -86,6 +86,7 @@ class BrowserTestAbstract
     end
     clickbtn(:xpath, "//input[@value='Submit']")
     return if this_will_fail
+
     sleep 1
     simpleurlcheck('index.rb?register')
   end
@@ -119,11 +120,11 @@ class BrowserTestAbstract
   end
 
   def fold_begin(grp, msg)
-    STDERR.puts "travis_fold:start:#{grp}\033[33;1m#{msg}\033[0m"
+    warn "travis_fold:start:#{grp}\033[33;1m#{msg}\033[0m"
   end
 
   def fold_end(grp)
-    STDERR.puts "\ntravis_fold:end:#{grp}\r"
+    warn "\ntravis_fold:end:#{grp}\r"
   end
 
   # loginできることの確認

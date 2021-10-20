@@ -88,6 +88,7 @@ class SfenImage
   # 画像データを出力
   def put_image(svg)
     return put_png(svg) if @image == '.png'
+
     puts "Content-type:image/svg+xml\n\n#{svg}"
   end
 
@@ -152,11 +153,11 @@ begin
   cgi = CGI.new
   sfenimg = SfenImage.new(cgi)
   sfenimg.perform
-rescue ScriptError => err
-  errtrace(err)
-rescue SecurityError => err
-  errtrace(err)
-rescue StandardError => err
+rescue ScriptError => e
+  errtrace(e)
+rescue SecurityError => e
+  errtrace(e)
+rescue StandardError => e
   # puts "Content-Type: text/html; charset=UTF-8\n\n"
   # puts <<-ERRMSG.unindent
   #   <html><title>ERROR SfenImage</title><body><pre>
@@ -164,7 +165,7 @@ rescue StandardError => err
   #   STACK:#{err.backtrace.join("\n")}
   #   </pre></body></html>
   # ERRMSG
-  errtrace(err)
+  errtrace(e)
 end
 
 # -----------------------------------

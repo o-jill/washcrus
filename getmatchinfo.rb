@@ -99,10 +99,10 @@ end
 # エラー情報の出力
 #
 # @param err エラーオブジェクト
-def errtrace(er)
+def errtrace(err)
   puts "Content-Type: text/plain;\n\n" \
-       "class=[#{er.class}] message=[#{er.message}] " \
-       "stack=[#{er.backtrace.join("\n")}]"
+       "class=[#{err.class}] message=[#{err.message}] " \
+       "stack=[#{err.backtrace.join("\n")}]"
 end
 
 cgi = CGI.new
@@ -110,12 +110,12 @@ begin
   getsfen = GetMatchInfo.new(cgi)
   getsfen.readuserparam
   getsfen.perform
-rescue ScriptError => er
-  errtrace(er)
-rescue SecurityError => er
-  errtrace(er)
-rescue StandardError => er
-  errtrace(er)
+rescue ScriptError => e
+  errtrace(e)
+rescue SecurityError => e
+  errtrace(e)
+rescue StandardError => e
+  errtrace(e)
 end
 # -----------------------------------
 #   testing

@@ -183,6 +183,7 @@ class TaikyokuData
     # 対局ID
     id = genid
     return print "generation failed...\n" unless id
+
     setid(id)
 
     # @log.debug('GenTaikyokuData.new(self)')
@@ -320,7 +321,7 @@ class TaikyokuData
     cmd = jsmv[:system]
     ret = RES_ERR
     ret = procsystem_draw(cmd, datm) if /^DRAW/ =~ cmd
-    [ret == RES_ERR || ret == RES_DRAW, ret]
+    [[RES_ERR, RES_DRAW].include?(ret), ret]
   end
 
   # 指し手の記録。千日手のチェックとかもやる。
@@ -363,6 +364,7 @@ class TaikyokuData
     ret, status = procsystem(jsmv, datm) if jsmv[:system]
     @log.debug("ret:#{ret}, status:#{TXT_RES[status + 2]}") if status
     return status if ret
+
     jsmv[:special] = 'HIKIWAKE' if status == RES_OVER
     return finish_special(jsmv) if jsmv[:special]
 
@@ -447,6 +449,7 @@ class TaikyokuData
     @log.debug('userdb = UserInfoFile.new')
     userdb = UserInfoFile.new
     return userdb.give_draw(@idb, @idw) if turn == 'd'
+
     userdb.give_win_lose(gwin, @idb, @idw)
   end
 
@@ -470,6 +473,7 @@ class TaikyokuData
     # @log.debug('userdb = UserInfoFile.new')
     userdb = UserInfoFile.new
     return userdb.give_draw(@idb, @idw) if turn == 'd'
+
     userdb.give_win_lose(turn == 'fw', @idb, @idw)
   end
 
@@ -481,9 +485,9 @@ class TaikyokuData
 
     if tmkp.houchi.nonzero?
       case @mif.turn
-      when 'b' then
+      when 'b'
         @jkf.setheader('先手考慮日数', "#{tmkp.extracount}日")
-      when 'w' then
+      when 'w'
         @jkf.setheader('後手考慮日数', "#{tmkp.extracount}日")
       else return
       end

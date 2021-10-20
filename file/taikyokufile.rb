@@ -86,10 +86,10 @@ class TaikyokuFile
       read_lines(file)
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in read"
-  rescue IOError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in read"
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in read"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in read"
   end
 
   # ファイルのヘッダのコメント文の生成
@@ -108,10 +108,10 @@ class TaikyokuFile
       @content.put(file, nil)
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
-  rescue IOError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
   # ファイルへの追加書き出し
@@ -123,10 +123,10 @@ class TaikyokuFile
       @content.put(file, [id])
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
-  rescue IOError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
   # 対局の追加、ファイルへの追加書き出し

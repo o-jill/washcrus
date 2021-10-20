@@ -149,6 +149,7 @@ class SfenSVGImage
 
     pos = 'PLNSGBRK'.index(ch)
     return '' unless pos
+
     nm = '歩と香杏桂圭銀全金金角馬飛龍玉玉'[2 * pos + prmt, 1]
 
     return ret + " <text x='10' y='17' #{KOMATR}>#{nm}</text>\n</g>\n" \

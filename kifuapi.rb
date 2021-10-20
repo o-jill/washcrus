@@ -20,6 +20,7 @@ class KifuAPI
   def initialize(cgi)
     # @params = cgi.params
     return if cgi.query_string.empty?
+
     @gameid = cgi.query_string[/(\h+)\./, 1]
     @type = cgi.query_string[/\.(.+)/, 1]
   end
@@ -32,6 +33,7 @@ class KifuAPI
   def checkparam
     # gameid が無いよ
     return MyHtml.puts_textplain_illegalaccess unless @gameid
+
     return MyHtml.puts_textplain_illegalaccess \
       unless @type == 'kif' # %w[kif csa].include?(@type)
 
@@ -65,12 +67,12 @@ begin
   cgi = CGI.new
   kifuapi = KifuAPI.new(cgi)
   kifuapi.perform
-rescue StandardError => err
+rescue StandardError => e
   puts "Content-Type: text/html; charset=UTF-8\n\n"
   puts <<-ERRMSG.unindent
     <html><title>ERROR Washcrus</title><body><pre>
-    ERROR:#{err}
-    STACK:#{err.backtrace.join("\n")}
+    ERROR:#{e}
+    STACK:#{e.backtrace.join("\n")}
     </pre></body></html>
   ERRMSG
 end

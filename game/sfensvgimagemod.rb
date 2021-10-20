@@ -102,13 +102,13 @@ module SfenSVGImageMod
   def tagteban(trn)
     ret = "<g id='teban' transform='translate("
     case trn
-    when 'w' then
+    when 'w'
       ret + "0,20)'>\n#{SfenSVGImageMod::TEBANRECT}\n</g>\n"
-    when 'b' then
+    when 'b'
       ret + "230,245)'>\n#{SfenSVGImageMod::TEBANRECT}\n</g>\n"
-    when 'fw' then
+    when 'fw'
       ret + "30,20)'>\n#{SfenSVGImageMod::TAGWINNER}\n</g>\n"
-    when 'fb' then
+    when 'fb'
       ret + "0,245)'>\n#{SfenSVGImageMod::TAGWINNER}\n</g>\n"
     else
       ''
@@ -135,6 +135,7 @@ module SfenSVGImageMod
   def str_tagtgm(ch, y)
     pos = 'PLNSGBR'.index(ch)
     return '' unless pos
+
     koma = '歩香桂銀金角飛'[pos, 1]
     "<text x='0' y='#{y}' font-size='16px' text-anchor='middle'>#{koma}</text>"
   end

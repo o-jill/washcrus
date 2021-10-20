@@ -70,6 +70,7 @@ class MyPageScreen
   # return 終局後:検討用リンク, 対局中:'ダメ'
   def put_kentourl(gid, status)
     return 'ダメ' if %w[b w].include?(status)
+
     stg = Settings.instance
     baseurl = stg.value['base_url']
     kentourl = stg.value['kento_url'] + baseurl

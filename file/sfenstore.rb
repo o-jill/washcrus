@@ -24,10 +24,10 @@ class SfenStore
       file.puts line
     end
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
-  rescue IOError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 
   # 千日手かどうか
@@ -48,9 +48,9 @@ class SfenStore
     /([^ ]+ ){3}/ =~ line
     count[$&] >= 4
   # 例外は小さい単位で捕捉する
-  rescue SystemCallError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
-  rescue IOError => er
-    puts "class=[#{er.class}] message=[#{er.message}] in write"
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}] in write"
   end
 end

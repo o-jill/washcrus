@@ -248,6 +248,7 @@ class TestGame < BrowserTestAbstract
       line.start_with?(gid + ',')
     end
     return false unless t # 見つからなかった
+
     # id, idv, idw, nameb, namew, turn, time, comment
     elem = t.split(',')
     ret = drawornot ? elem[5] == 'd' : %w[fb fw d].include?(elem[5])
@@ -373,8 +374,8 @@ class TestGame < BrowserTestAbstract
 
       li_move_a_piece
     end
-  rescue StandardError => er
-    puts "ERROR in move_with_kifu: class=[#{er.class}] message=[#{er.message}]"
+  rescue StandardError => e
+    puts "ERROR in move_with_kifu: class=[#{e.class}] message=[#{e.message}]"
   end
 
   # 指したりチェックしたり

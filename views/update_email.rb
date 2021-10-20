@@ -84,10 +84,13 @@ class UpdateEmailScreen
   def check
     return '<span class="err">e-mail addresses are not same!</span>' \
       if newem != newemagain
+
     return '<span class="err">the e-mail address is too short!</span>' \
       if newem.length < 4
+
     return '<span class="err">the e-mail address does not have "@"!</span>' \
       if /.@.+\../ !~ newem
+
     ''
   end
 

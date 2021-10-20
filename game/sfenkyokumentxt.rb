@@ -119,7 +119,9 @@ class SfenKyokumenTxt
     komastr = lmv[5, 2]
     promote = lmv[9, 1]
     ret = KOMACSA2KANJI[komastr.to_sym]
+
     return ret + '成' if promote == 'P'
+
     ret
   end
 
@@ -171,9 +173,10 @@ class SfenKyokumenTxt
 
     pos = 'PLNSGBRK'.index(ch)
     return '' unless pos
-    nm = '歩と香杏桂圭銀全金金角馬飛龍玉玉'[2 * pos + prmt, 1]
 
+    nm = '歩と香杏桂圭銀全金金角馬飛龍玉玉'[2 * pos + prmt, 1]
     return " #{nm}" if sente
+
     "v#{nm}" # gote
   end
 
@@ -240,9 +243,11 @@ class SfenKyokumenTxt
   def str_tekoma(ch, num)
     pos = 'PLNSGBR'.index(ch)
     return '' unless pos
+
     ch = '歩香桂銀金角飛'[pos, 1]
     # Array.new(num, ch).join("")
     ch += NUMKANJI[num] unless num.zero?
+
     ch + '　'
   end
 
@@ -283,6 +288,7 @@ class SfenKyokumenTxt
   def taggote
     koma = gtgm
     koma = 'なし' if gtgm.length.zero?
+
     "後手：#{gname}\n後手の持駒：#{koma}\n"
   end
 
@@ -290,6 +296,7 @@ class SfenKyokumenTxt
   def tagsente
     koma = stgm
     koma = 'なし' if stgm.length.zero?
+
     "先手の持駒：#{koma}\n先手：#{sname}\n"
   end
 
@@ -297,6 +304,7 @@ class SfenKyokumenTxt
   def gen
     ret = taggote + tagboardstatus + tagsente + taglastmove + "* #{@title}\n"
     return ret + "後手番\n" if strteban == 'w'
+
     ret
   end
 end
