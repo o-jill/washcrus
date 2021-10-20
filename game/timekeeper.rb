@@ -119,7 +119,7 @@ class TimeKeeper
     case @extracount <=> 0
     when 1 then @houchi = HOUCHI_USEEXTRA
     when 0 then @houchi = HOUCHI_NOEXTRA
-    else return @houchi = HOUCHI_TMOUT
+    else @houchi = HOUCHI_TMOUT
     end
   end
 
