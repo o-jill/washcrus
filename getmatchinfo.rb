@@ -99,10 +99,10 @@ end
 # エラー情報の出力
 #
 # @param err エラーオブジェクト
-def errtrace(er)
+def errtrace(err)
   puts "Content-Type: text/plain;\n\n" \
-       "class=[#{er.class}] message=[#{er.message}] " \
-       "stack=[#{er.backtrace.join("\n")}]"
+       "class=[#{err.class}] message=[#{err.message}] " \
+       "stack=[#{err.backtrace.join("\n")}]"
 end
 
 cgi = CGI.new
