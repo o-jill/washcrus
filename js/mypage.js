@@ -49,5 +49,8 @@ function confirm_unsubscribe()
 {
   var data = window.prompt(
     '本当に退会しますか？\n退会する場合は登録しているメールアドレスを入力してください。');
-  return !(data == null || data == '');
+  if (data == null || data == '') return false;
+
+  document.getElementById('unsubscribe').value = data;
+  return true;
 }

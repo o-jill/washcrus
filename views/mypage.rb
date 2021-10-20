@@ -260,6 +260,7 @@ class MyPageScreen
         <span class='unsubscribe'>[注意]退会する</span>
         <form action='index.rb?unsubscribe' method=post name='unsubscribe'>
         <table><tr><td>
+        <input type='hidden' name='unsuscribe' id='unsuscribe'>
         <input type='submit' class='unsubscribe' onClick='return confirm_unsubscribe();'>
         </td></tr></table>
         </form>
