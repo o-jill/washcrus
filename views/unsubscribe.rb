@@ -6,6 +6,7 @@ require 'erb'
 require 'mail'
 require 'unindent'
 
+require './file/taikyokufile.rb'
 require './file/userinfofile.rb'
 require './util/mailmgr.rb'
 require './util/settings.rb'
@@ -76,11 +77,23 @@ class UnsubscribeScreen
 
   # 新EmailAddressの確認
   #
-  # @return '':正常, エラーメッセージ:エラーあり
+  # @return '':メールアドレス一致, エラーメッセージ:不一致
   def check(email)
     return '' if em == email
 
     '<span class="err">e-mail address is not correct!</span>'
+  end
+
+  # 対局中かどうかの確認
+  #
+  # @param uid ユーザーID
+  #
+  # @return '':対局中なし, エラーメッセージ:対局中あり
+  def playing?(uid)
+    tkcdb = TaikyokuChuFile.new
+    tkcdb.read
+    return '' if tkcdb.finduid(uid).empty?
+    '<span class="err">Please finish all your games at first.</span>'
   end
 
   # パラメータのチェックと表示メッセージ作成
@@ -90,11 +103,13 @@ class UnsubscribeScreen
   #
   # @return 表示用メッセージ
   def check_and_mkmsg(cgi, userinfo)
+    uid = userinfo.user_id
+    msg = playing?(uid)
+    return msg unless msg.empty?
+
     msg = check(userinfo.user_email)
     return msg unless msg.empty?
 
-    # uid = userinfo.user_id
-    #
     # msg = update_userdb(uid)
     # return msg if msg
     #
