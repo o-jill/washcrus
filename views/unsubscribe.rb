@@ -93,6 +93,7 @@ class UnsubscribeScreen
     tkcdb = TaikyokuChuFile.new
     tkcdb.read
     return '' if tkcdb.finduid(uid).empty?
+
     '<span class="err">Please finish all your games at first.</span>'
   end
 
