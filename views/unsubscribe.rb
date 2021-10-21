@@ -30,25 +30,26 @@ class UnsubscribeScreen
   # エラー画面の表示
   #
   # @param errmsg エラーメッセージ
-  def put_err_sreen(errmsg)
+  def put_err_screen(errmsg)
     CommonUI.html_head(@header)
     CommonUI.html_menu
     puts errmsg
     CommonUI.html_foot
   end
 
-  # 登録  #
+  # 登録
+  #
   # @param userinfo ユーザー情報
   def send_mail(userinfo)
     addr = userinfo.user_email
     username = userinfo.user_name
 
     msg = ERB.new(
-      File.read('./mail/updateemail.erb', encoding: 'utf-8')
+      File.read('./mail/unsubscribe.erb', encoding: 'utf-8')
     ).result(binding)
 
     stg = Settings.instance
-    subject = "Updating e-mail address for #{stg.value['title']}!"
+    subject = "Unsubscribe -#{stg.value['title']}-"
 
     mailmgr = MailManager.new
     mailmgr.send_mail_withfooter(addr, subject, msg)
@@ -114,28 +115,8 @@ class UnsubscribeScreen
     msg = update_userdb(uid)
     return msg if msg
 
-    # begin
-    #   session = CGI::Session.new(
-    #     cgi,
-    #     'new_session' => false,
-    #     'session_key' => '_washcrus_session',
-    #     'tmpdir' => './tmp'
-    #   )
-    # rescue ArgumentError
-    #   # session = nil
-    #   return 'failed to find session.'
-    #   # @log.debug("#{ae.message}, (#{ae.class})")
-    # end
-
-    # # sessioneml = userinfo.user_email
-    # userinfo.user_email = newem
-    # # sessionデータ更新
-    # userinfo.hashsession.each { |ky, vl| session[ky] = vl }
-    # session.update
-    # session.close
-
     # メールの送信
-    # send_mail(userinfo)
+    send_mail(userinfo)
 
     'Your e-mail address was updated.<br>' \
     'an e-mail has been sent to your new address.'
@@ -148,7 +129,7 @@ class UnsubscribeScreen
   # @param userinfo ユーザー情報
   # @param params パラメータハッシュオブジェクト
   def show(cgi, userinfo, params)
-    return put_err_sreen("your log-in information is wrong ...\n") \
+    return put_err_screen("your log-in information is wrong ...\n") \
       if userinfo.invalid?
 
     reademail(params)
