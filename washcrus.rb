@@ -94,7 +94,7 @@ class WashCrus
   # 退会
   def unsubscribe
     require './views/unsubscribe.rb'
-    UnsubscribeScreen.new(@header).show(@cgi, @userinfo, @params)
+    UnsubscribeScreen.new(@header).show(@userinfo, @params)
   end
 
   # ログイン画面

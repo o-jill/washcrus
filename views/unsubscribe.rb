@@ -104,7 +104,7 @@ class UnsubscribeScreen
   # @param userinfo ユーザー情報
   #
   # @return 表示用メッセージ
-  def check_and_mkmsg(cgi, userinfo)
+  def check_and_mkmsg(userinfo)
     uid = userinfo.user_id
     msg = playing?(uid)
     return msg unless msg.empty?
@@ -115,25 +115,24 @@ class UnsubscribeScreen
     msg = update_userdb(uid)
     return msg if msg
 
-    # メールの送信
-    send_mail(userinfo)
-
     nil
   end
 
   # 画面の表示
   #
-  # @param cgi CGIオブジェクト
-  # @param session セッション情報
   # @param userinfo ユーザー情報
   # @param params パラメータハッシュオブジェクト
-  def show(cgi, userinfo, params)
+  def show(userinfo, params)
     return put_err_screen("your log-in information is wrong ...\n") \
       if userinfo.invalid?
 
     reademail(params)
-    msg = check_and_mkmsg(cgi, userinfo)
+
+    msg = check_and_mkmsg(userinfo)
     return put_err_screen(msg) if msg
+
+    # メールの送信
+    send_mail(userinfo)
 
     CommonUI.html_head2
     CommonUI.html_menu
