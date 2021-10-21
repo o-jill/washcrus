@@ -1,4 +1,3 @@
-
 /* * !include 'signup.js' * */
 
 function check_form_mypagepswd()
@@ -15,12 +14,8 @@ function check_form_mypagepswd()
     ++nmismatch;
   }
 
-  if (nmismatch === 0) {
-    return true;
-  } else {
-    // document.getElementById('errmsg').innerText = alertmsg;
-    return false;
-  }
+  // document.getElementById('errmsg').innerText = alertmsg;
+  return nmismatch === 0;
 }
 
 function check_form_mypageemail()
@@ -37,20 +32,11 @@ function check_form_mypageemail()
     ++nmismatch;
   }
 
-  if (nmismatch === 0) {
-    return true;
-  } else {
-    // document.getElementById('errmsg').innerText = alertmsg;
-    return false;
-  }
+  // document.getElementById('errmsg').innerText = alertmsg;
+  return nmismatch === 0;
 }
 
 function confirm_unsubscribe()
 {
-  var data = window.prompt(
-    '本当に退会しますか？\n退会する場合は登録しているメールアドレスを入力してください。');
-  if (data == null || data == '') return false;
-
-  document.getElementById('unsubscribe').value = data;
-  return true;
+  return document.getElementById('unsubscribe').value != '';
 }
