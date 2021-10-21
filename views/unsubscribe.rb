@@ -72,7 +72,7 @@ class UnsubscribeScreen
     userdb = UserInfoFile.new
 
     # EmailAddressの再設定
-    userdb.update_email(uid, newem)
+    userdb.update_email(uid, '@' + em)
   end
 
   # 新EmailAddressの確認
@@ -111,9 +111,9 @@ class UnsubscribeScreen
     msg = check(userinfo.user_email)
     return msg unless msg.empty?
 
-    # msg = update_userdb(uid)
-    # return msg if msg
-    #
+    msg = update_userdb(uid)
+    return msg if msg
+
     # begin
     #   session = CGI::Session.new(
     #     cgi,
@@ -138,9 +138,7 @@ class UnsubscribeScreen
     # send_mail(userinfo)
 
     'Your e-mail address was updated.<br>' \
-    'an e-mail has been sent to your new address.' \
-    "from [#{em}]"
-    # "<BR>debug: sessioneml:#{sessioneml} -> #{userinfo.user_email}"
+    'an e-mail has been sent to your new address.'
   end
 
   # 画面の表示
