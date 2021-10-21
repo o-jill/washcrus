@@ -229,6 +229,36 @@ class BrowserTest < BrowserTestAbstract
     matchmailsbjlast(/a game is ready!! \(.+ vs .+\)/)
   end
 
+  def tryunsubscribe(email)
+    simplecheck 'index.rb?mypage'
+    clickbtn(:id, 'navbtn_unsubscribe')
+    sleep 0.5
+    elem = driver.find_element(:id, 'unsubscribe')
+    elem.send_keys email
+    elem.submit
+    sleep 1
+    # simpleurlcheck('index.rb?unsubscribe')
+  end
+
+  def unsubscribefail
+    # click w/o mail
+    tryunsubscribe('')
+    # click w/ incorrect
+    tryunsubscribe('in@correct.address')
+    simpleurlcheck('index.rb?unsubscribe')
+    res.checkmatch(/e-mail address is not correct!/)
+
+    # click w/ correct before finish
+    tryunsubscribe(TestUsers::JOHN[:remail])
+    simpleurlcheck('index.rb?unsubscribe')
+    res.checkmatch(/Please finish all your games at first./)
+
+    # click w/ correct
+    # tryunsubscribe(TestUsers::JOHN[:remail])
+    # simpleurlcheck('index.rb?unsubscribe')
+    # res.checkmatch(/You successfully unsubscribed./)
+  end
+
   def newuserjohn
     signupauser(TestUsers::JOHN)
     res.checkmatch(/Registered successfully/)
@@ -248,6 +278,8 @@ class BrowserTest < BrowserTestAbstract
     adminerrorcheckgroup
 
     restorepwdandmail
+
+    unsubscribefail
 
     simplecheck 'index.rb?logout'
   end
