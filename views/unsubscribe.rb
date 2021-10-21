@@ -118,8 +118,7 @@ class UnsubscribeScreen
     # メールの送信
     send_mail(userinfo)
 
-    'Your e-mail address was updated.<br>' \
-    'an e-mail has been sent to your new address.'
+    nil
   end
 
   # 画面の表示
@@ -134,18 +133,11 @@ class UnsubscribeScreen
 
     reademail(params)
     msg = check_and_mkmsg(cgi, userinfo)
+    return put_err_screen(msg) if msg
 
-    header = cgi.header('charset' => 'UTF-8',
-                        'Pragma' => 'no-cache',
-                        'Cache-Control' => 'no-cache')
-
-    header = header.gsub("\r\n", "\n")
-
-    CommonUI.html_head(header)
-    CommonUI.html_menu(userinfo)
-
-    puts msg
-
+    CommonUI.html_head2
+    CommonUI.html_menu
+    puts 'You successfully unsubscribed.<br>Unsubscribing mail has been sent.'
     CommonUI.html_foot
   end
 end
