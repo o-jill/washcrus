@@ -83,6 +83,7 @@ class LoginCheckScreen
     check_pswd(pswd)
 
     email = email[0]
+    email = '' if email =~ /^@/
     check_email(email)
 
     @errmsg += 'e-mail address or password is wrong ...<BR>' \
