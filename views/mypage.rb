@@ -46,7 +46,7 @@ class MyPageScreen
           <hr>
           <li id='navbtn_email' onclick='clicknav("mypage_email")'>Email</li>
           <hr>
-          <li id='navbtn_email' onclick='clicknav("mypage_unsubscribe")'>Unsubscribe</li>
+          <li id='navbtn_unsubscribe' onclick='clicknav("mypage_unsubscribe")'>Unsubscribe</li>
         </ul>
       </div>
     NAVI_AREA
