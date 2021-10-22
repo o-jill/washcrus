@@ -286,7 +286,7 @@ class BrowserTest < BrowserTestAbstract
 
     restorepwdandmail
 
-    unsubscribefail
+    unsubscribefailures
 
     simplecheck 'index.rb?logout'
   end
