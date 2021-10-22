@@ -263,7 +263,7 @@ class BrowserTest < BrowserTestAbstract
     # click w/ correct
     unsubscribecheck(TestUsers::JOHN[:remail],
                      /You successfully unsubscribed./)
-    matchmailsbjlast(/Unsubcribe/)
+    matchmailsbjlast(/Unsubscribe/)
   end
 
   def newuserjohn
