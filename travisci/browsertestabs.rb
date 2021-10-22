@@ -138,6 +138,18 @@ class BrowserTestAbstract
     simpleurlcheck('index.rb?logincheck')
     res.checkmatch(/Logged in successfully/)
   end
+
+  # loginできることの確認
+  def checkloginfail(email, pwd)
+    simplecheck 'index.rb?login'
+    driver.find_element(:name, 'siemail').send_keys(email)
+    elem = driver.find_element(:name, 'sipassword')
+    elem.send_keys pwd
+    elem.submit
+    sleep 1.8
+    simpleurlcheck('index.rb?logincheck')
+    res.checkmatch(/Unfortunately failed/)
+  end
 end
 
 # memo
