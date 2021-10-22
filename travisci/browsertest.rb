@@ -234,7 +234,7 @@ class BrowserTest < BrowserTestAbstract
     # simpleurlcheck('index.rb?unsubscribe')
   end
 
-  def unsubscribefail(eml, ptn)
+  def unsubscribecheck(eml, ptn)
     tryunsubscribe(eml)
     simpleurlcheck('index.rb?unsubscribe')
     res.checkmatch(ptn)
