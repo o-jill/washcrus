@@ -246,7 +246,8 @@ class BrowserTest < BrowserTestAbstract
     # click w/ incorrect
     tryunsubscribe('in@correct.address')
     simpleurlcheck('index.rb?unsubscribe')
-    res.checkmatch(/e-mail address is not correct!/)
+    res.checkmatch(/Please finish all your games at first./)
+    # res.checkmatch(/e-mail address is not correct!/)
 
     # click w/ correct before finish
     tryunsubscribe(TestUsers::JOHN[:remail])
@@ -257,6 +258,27 @@ class BrowserTest < BrowserTestAbstract
     # tryunsubscribe(TestUsers::JOHN[:remail])
     # simpleurlcheck('index.rb?unsubscribe')
     # res.checkmatch(/You successfully unsubscribed./)
+  end
+
+  def unsubscribejohn
+    checklogin(TestUsers::JOHN[:remail], TestUsers::JOHN[:rpassword])
+    # click w/o mail
+    tryunsubscribe('')
+    # click w/ incorrect
+    tryunsubscribe('in@correct.address')
+    simpleurlcheck('index.rb?unsubscribe')
+    res.checkmatch(/e-mail address is not correct!/)
+
+    # click w/ correct before finish
+    tryunsubscribe(TestUsers::JOHN[:remail])
+    simpleurlcheck('index.rb?unsubscribe')
+    res.checkmatch(/Please finish all your games at first./)
+
+    # click w/ correct
+    tryunsubscribe(TestUsers::JOHN[:remail])
+    simpleurlcheck('index.rb?unsubscribe')
+    res.checkmatch(/You successfully unsubscribed./)
+    matchmailsbjlast(/Unsubcribe/)
   end
 
   def newuserjohn
@@ -282,6 +304,12 @@ class BrowserTest < BrowserTestAbstract
     unsubscribefail
 
     simplecheck 'index.rb?logout'
+  end
+
+  def newuserjohnlight
+    checklogin('johndoe@example.com', 'john')
+
+    unsubscribesucc
   end
 
   def newuserjohnlight
