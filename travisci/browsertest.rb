@@ -134,11 +134,8 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def chkupdatepwd_succ
-    updatepwd_mypage(
-      TestUsers::JOHN[:rpassword],
-      TestUsers::NEWJOHNINFO[:pwd],
-      TestUsers::NEWJOHNINFO[:pwd]
-    )
+    updatepwd_mypage(TestUsers::JOHN[:rpassword],
+                     TestUsers::NEWJOHNINFO[:pwd], TestUsers::NEWJOHNINFO[:pwd])
     res.checkmatch(/Your password was updated/)
 
     matchmailsbjlast(/Updating password for/)
@@ -204,11 +201,8 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def restorepwdandmail
-    updatepwd_mypage(
-      TestUsers::NEWJOHNINFO[:pwd],
-      TestUsers::JOHN[:rpassword],
-      TestUsers::JOHN[:rpassword]
-    )
+    updatepwd_mypage(TestUsers::NEWJOHNINFO[:pwd],
+                     TestUsers::JOHN[:rpassword], TestUsers::JOHN[:rpassword])
     updateemail_mypage(TestUsers::JOHN[:remail], TestUsers::JOHN[:remail])
   end
 
@@ -240,24 +234,23 @@ class BrowserTest < BrowserTestAbstract
     # simpleurlcheck('index.rb?unsubscribe')
   end
 
-  def unsubscribefail
+  def unsubscribefail(eml, ptn)
+    tryunsubscribe(eml)
+    simpleurlcheck('index.rb?unsubscribe')
+    res.checkmatch(ptn)
+  end
+
+  def unsubscribefailures
     # click w/o mail
     tryunsubscribe('')
     # click w/ incorrect
-    tryunsubscribe('in@correct.address')
-    simpleurlcheck('index.rb?unsubscribe')
-    res.checkmatch(/Please finish all your games at first./)
+    unsubscribecheck('in@correct.address',
+                     /Please finish all your games at first./)
     # res.checkmatch(/e-mail address is not correct!/)
 
     # click w/ correct before finish
-    tryunsubscribe(TestUsers::JOHN[:remail])
-    simpleurlcheck('index.rb?unsubscribe')
-    res.checkmatch(/Please finish all your games at first./)
-
-    # click w/ correct
-    # tryunsubscribe(TestUsers::JOHN[:remail])
-    # simpleurlcheck('index.rb?unsubscribe')
-    # res.checkmatch(/You successfully unsubscribed./)
+    unsubscribecheck(TestUsers::JOHN[:remail],
+                     /Please finish all your games at first./)
   end
 
   def unsubscribejohn
@@ -265,19 +258,11 @@ class BrowserTest < BrowserTestAbstract
     # click w/o mail
     tryunsubscribe('')
     # click w/ incorrect
-    tryunsubscribe('in@correct.address')
-    simpleurlcheck('index.rb?unsubscribe')
-    res.checkmatch(/e-mail address is not correct!/)
-
-    # click w/ correct before finish
-    tryunsubscribe(TestUsers::JOHN[:remail])
-    simpleurlcheck('index.rb?unsubscribe')
-    res.checkmatch(/Please finish all your games at first./)
+    unsubscribecheck('in@correct.address', /e-mail address is not correct!/)
 
     # click w/ correct
-    tryunsubscribe(TestUsers::JOHN[:remail])
-    simpleurlcheck('index.rb?unsubscribe')
-    res.checkmatch(/You successfully unsubscribed./)
+    unsubscribecheck(TestUsers::JOHN[:remail],
+                     /You successfully unsubscribed./)
     matchmailsbjlast(/Unsubcribe/)
   end
 
@@ -364,24 +349,17 @@ class BrowserTest < BrowserTestAbstract
     # driver.quit
   end
 
+  TESTTBL = %w[simpleaccess adminaccess newuserjohn newuserjohn2nd signuperrmsg
+               strangeusers].freeze
   def run
-    puts 'simpleaccess'
-    simpleaccess
-
-    puts 'adminaccess'
-    adminaccess
-
-    puts 'newuserjohn'
-    newuserjohn
-
-    puts 'newuserjohn2nd'
-    newuserjohn2nd
-
-    puts 'signuperrmsg'
-    signuperrmsg
-
-    puts 'strangeusers'
-    strangeusers
+    TESTTBL.each do |test|
+      unless methods(true).include?(test.to_sym)
+        puts "unknown test name '#{test}'..."
+        exit(-9999)
+      end
+      puts test
+      method(test.to_sym).call
+    end
 
     # テストを終了する（ブラウザを終了させる）
     # driver.quit
