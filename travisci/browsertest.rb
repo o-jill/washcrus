@@ -309,12 +309,6 @@ class BrowserTest < BrowserTestAbstract
   def newuserjohnlight
     checklogin('johndoe@example.com', 'john')
 
-    unsubscribesucc
-  end
-
-  def newuserjohnlight
-    checklogin('johndoe@example.com', 'john')
-
     newuserjohn_loungegame
 
     simplecheck 'index.rb?logout'
