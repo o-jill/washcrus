@@ -208,7 +208,8 @@ class BrowserTest < BrowserTestAbstract
 
   def unsubscribejohn
     email = TestUsers::JOHN[:remail]
-    checklogin(email, TestUsers::JOHN[:rpassword])
+    pwd = TestUsers::JOHN[:rpassword]
+    checklogin(email, pwd)
     # click w/o mail
     tryunsubscribe('')
     # click w/ incorrect
@@ -219,10 +220,10 @@ class BrowserTest < BrowserTestAbstract
     matchmailsbjlast(/Unsubscribe/)
 
     # check if email was stopped.
-    res.succfail(UserInfoFile.new.findemail('@' + email))
+    res.succfail(UserInfoFile.new.content.findemail('@' + email))
 
     # fail login
-    checkloginfail(email, TestUsers::JOHN[:rpassword])
+    checkloginfail(email, pwd)
   end
 
   def newuserjohn
