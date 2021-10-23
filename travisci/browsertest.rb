@@ -266,7 +266,7 @@ class BrowserTest < BrowserTestAbstract
     matchmailsbjlast(/Unsubscribe/)
 
     # fail login
-    checklogin(TestUsers::JOHN[:remail], TestUsers::JOHN[:rpassword])
+    checkloginfail(TestUsers::JOHN[:remail], TestUsers::JOHN[:rpassword])
   end
 
   def newuserjohn
