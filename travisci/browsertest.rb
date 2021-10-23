@@ -32,54 +32,6 @@ class BrowserTest < BrowserTestAbstract
   #   simpleurlcheck('index.rb?register')
   # end
 
-  # adminerrorになることの確認
-  def adminerrorcheckgroup
-    adminerrcheck 'index.rb?adminmenu'
-    adminerrcheck 'index.rb?adminnews'
-    adminerrcheck 'index.rb?adminsettings'
-    adminerrcheck 'index.rb?adminuserstg'
-    adminerrcheck 'index.rb?adminsignature'
-    adminerrcheck 'index.rb?userlist'
-  end
-
-  def lounge_file(msg)
-    element = driver.find_element(:id, 'cmt')
-    element.send_keys(msg)
-    clickbtn(:id, 'btn_f2l')
-    sleep 8
-    simpleurlcheck 'index.rb?lounge'
-  end
-
-  def lounge_cancel
-    clickbtn(:id, 'btn_cfl')
-    sleep 8
-    simpleurlcheck 'index.rb?lounge'
-  end
-
-  def lounge_gengame
-    clickbtn(:name, 'opponent')
-    clickbtn(:id, 'btn_gen')
-    sleep 8
-    simpleurlcheck 'index.rb?gennewgame3'
-  end
-
-  def loungecheckfilecancel
-    simplecheck 'index.rb?lounge'
-    lounge_file('hello world!!')
-    lounge_cancel
-  end
-
-  def lounge_say
-    simplecheck 'index.rb?lounge'
-
-    elem = driver.find_element(:id, 'chatmsg')
-    elem.send_keys 'hello on lounge chat!!'
-    elem = driver.find_element(:id, 'chatbtn')
-    elem.click
-    sleep 1
-    simplecheckmatch('chat.rb?lounge', /hello on lounge chat!!/)
-  end
-
   def adminaccess
     checklogin(TestUsers::ADMININFO[:email], TestUsers::ADMININFO[:pwd])
 
@@ -134,15 +86,15 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def chkupdatepwd_succ
-    updatepwd_mypage(TestUsers::JOHN[:rpassword],
-                     TestUsers::NEWJOHNINFO[:pwd], TestUsers::NEWJOHNINFO[:pwd])
+    newpwd = TestUsers::NEWJOHNINFO[:pwd]
+    updatepwd_mypage(TestUsers::JOHN[:rpassword], newpwd, newpwd)
     res.checkmatch(/Your password was updated/)
 
     matchmailsbjlast(/Updating password for/)
 
     simplecheck 'index.rb?logout'
 
-    checklogin(TestUsers::JOHN[:remail], TestUsers::NEWJOHNINFO[:pwd])
+    checklogin(TestUsers::JOHN[:remail], newpwd)
   end
 
   def chkupdatepwd_fail
@@ -172,15 +124,15 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def checkupdateemail_succ
-    updateemail_mypage(TestUsers::NEWJOHNINFO[:email],
-                       TestUsers::NEWJOHNINFO[:email])
+    email = TestUsers::NEWJOHNINFO[:email]
+    updateemail_mypage(email, email)
     res.checkmatch(/Your e-mail address was updated/)
 
     matchmailsbjlast(/Updating e-mail address for/)
 
     simplecheck 'index.rb?logout'
 
-    checklogin(TestUsers::NEWJOHNINFO[:email], TestUsers::NEWJOHNINFO[:pwd])
+    checklogin(email, TestUsers::NEWJOHNINFO[:pwd])
   end
 
   def checkupdateemail_fail
@@ -225,8 +177,8 @@ class BrowserTest < BrowserTestAbstract
 
   def tryunsubscribe(email)
     simplecheck 'index.rb?mypage'
-    clickbtn(:id, 'navbtn_unsubscribe')
     sleep 0.5
+    clickbtn(:id, 'navbtn_unsubscribe')
     elem = driver.find_element(:id, 'unsubscribe')
     elem.send_keys email
     elem.submit
@@ -254,19 +206,19 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def unsubscribejohn
-    checklogin(TestUsers::JOHN[:remail], TestUsers::JOHN[:rpassword])
+    email = TestUsers::JOHN[:remail]
+    checklogin(email, TestUsers::JOHN[:rpassword])
     # click w/o mail
     tryunsubscribe('')
     # click w/ incorrect
     unsubscribecheck('in@correct.address', /e-mail address is not correct!/)
 
     # click w/ correct
-    unsubscribecheck(TestUsers::JOHN[:remail],
-                     /You successfully unsubscribed./)
+    unsubscribecheck(email, /You successfully unsubscribed./)
     matchmailsbjlast(/Unsubscribe/)
 
     # fail login
-    checkloginfail(TestUsers::JOHN[:remail], TestUsers::JOHN[:rpassword])
+    checkloginfail(email, TestUsers::JOHN[:rpassword])
   end
 
   def newuserjohn
@@ -321,10 +273,7 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def strangeusers
-    signuperr(
-      TestUsers::STRANGEJOHN,
-      [/"name" cannot contain URL/]
-    )
+    signuperr(TestUsers::STRANGEJOHN, [/"name" cannot contain URL/])
   end
 
   # 登録内容のチェックの確認
@@ -354,6 +303,7 @@ class BrowserTest < BrowserTestAbstract
 
   TESTTBL = %w[simpleaccess adminaccess newuserjohn newuserjohn2nd signuperrmsg
                strangeusers].freeze
+
   def run
     TESTTBL.each do |test|
       unless methods(true).include?(test.to_sym)

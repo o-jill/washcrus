@@ -150,6 +150,54 @@ class BrowserTestAbstract
     simpleurlcheck('index.rb?logincheck')
     res.checkmatch(/Unfortunately failed/)
   end
+
+  # adminerrorになることの確認
+  def adminerrorcheckgroup
+    adminerrcheck 'index.rb?adminmenu'
+    adminerrcheck 'index.rb?adminnews'
+    adminerrcheck 'index.rb?adminsettings'
+    adminerrcheck 'index.rb?adminuserstg'
+    adminerrcheck 'index.rb?adminsignature'
+    adminerrcheck 'index.rb?userlist'
+  end
+
+  def lounge_file(msg)
+    element = driver.find_element(:id, 'cmt')
+    element.send_keys(msg)
+    clickbtn(:id, 'btn_f2l')
+    sleep 8
+    simpleurlcheck 'index.rb?lounge'
+  end
+
+  def lounge_cancel
+    clickbtn(:id, 'btn_cfl')
+    sleep 8
+    simpleurlcheck 'index.rb?lounge'
+  end
+
+  def lounge_gengame
+    clickbtn(:name, 'opponent')
+    clickbtn(:id, 'btn_gen')
+    sleep 8
+    simpleurlcheck 'index.rb?gennewgame3'
+  end
+
+  def loungecheckfilecancel
+    simplecheck 'index.rb?lounge'
+    lounge_file('hello world!!')
+    lounge_cancel
+  end
+
+  def lounge_say
+    simplecheck 'index.rb?lounge'
+
+    elem = driver.find_element(:id, 'chatmsg')
+    elem.send_keys 'hello on lounge chat!!'
+    elem = driver.find_element(:id, 'chatbtn')
+    elem.click
+    sleep 1
+    simplecheckmatch('chat.rb?lounge', /hello on lounge chat!!/)
+  end
 end
 
 # memo
