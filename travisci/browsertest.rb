@@ -3,6 +3,7 @@
 
 require 'selenium-webdriver'
 
+require './file/userinfofile.rb'
 require './travisci/browsertestabs.rb'
 require './travisci/testresult.rb'
 require './travisci/testusers.rb'
@@ -216,6 +217,9 @@ class BrowserTest < BrowserTestAbstract
     # click w/ correct
     unsubscribecheck(email, /You successfully unsubscribed./)
     matchmailsbjlast(/Unsubscribe/)
+
+    # check if email was stopped.
+    res.succfail(UserInfoFile.new.findemail('@' + email))
 
     # fail login
     checkloginfail(email, TestUsers::JOHN[:rpassword])
