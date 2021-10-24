@@ -220,7 +220,10 @@ class BrowserTest < BrowserTestAbstract
     matchmailsbjlast(/Unsubscribe/)
 
     # check if email was stopped.
-    res.succfail(UserInfoFile.new.content.findemail('@' + email))
+    udb = UserInfoFile.new.content
+    found = udb.exist_email('@' + email)
+    res.succfail(found)
+    udb.dumphtml unless found
 
     # fail login
     checkloginfail(email, pwd)
