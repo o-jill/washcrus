@@ -210,8 +210,10 @@ class BrowserTest < BrowserTestAbstract
     email = TestUsers::JOHN[:remail]
     pwd = TestUsers::JOHN[:rpassword]
     checklogin(email, pwd)
+
     # click w/o mail
-    tryunsubscribe('')
+    # tryunsubscribe('')
+
     # click w/ incorrect
     unsubscribecheck('in@correct.address', /e-mail address is not correct!/)
 
@@ -220,10 +222,10 @@ class BrowserTest < BrowserTestAbstract
     matchmailsbjlast(/Unsubscribe/)
 
     # check if email was stopped.
-    udb = UserInfoFile.new.content
-    found = udb.exist_email('@' + email)
-    res.succfail(found)
-    udb.dumphtml unless found
+    udb = UserInfoFile.new
+    udb.read
+    res.succfail(udb.content.exist_email('@' + email))
+    # udb.dumphtml unless found
 
     # fail login
     checkloginfail(email, pwd)
