@@ -179,9 +179,7 @@ Koma.prototype.getStr = function() {
 
   if (str == null) return Koma.UtilStr.std.aki;
 
-  str += this.strtype.kif[Number(this.nari === Koma.NARI)];
-
-  return str;
+  return str + this.strtype.kif[Number(this.nari === Koma.NARI)];
 };
 
 /**
@@ -201,8 +199,7 @@ Koma.prototype.getHtmlStr = function(hanten) {
 
   str += this.strtype.kif[Number(this.nari === Koma.NARI)];
 
-  str += '</div>';
-  return str;
+  return str + '</div>';
 };
 
 /**
@@ -220,9 +217,7 @@ Koma.prototype.getImgStr = function(hanten) {
 
   if (str == null) return '';
 
-  str += this.strtype.img[Number(this.nari === Koma.NARI)];
-
-  return str;
+  return str + this.strtype.img[Number(this.nari === Koma.NARI)];
 };
 
 Koma.prototype.getShortStr = function(utilstr, komatype) {
@@ -230,9 +225,7 @@ Koma.prototype.getShortStr = function(utilstr, komatype) {
 
   if (str == null) return utilstr.aki;
 
-  str += komatype[Number(this.nari === Koma.NARI)];
-
-  return str;
+  return str + komatype[Number(this.nari === Koma.NARI)];
 };
 
 /**
@@ -415,9 +408,7 @@ Koma.prototype.kifuCSA = function(fromx, fromy, tox, toy) {
   var str = this.getTebanStrUtil(Koma.UtilStr.csa);
 
   str += ('' + fromx) + fromy + ('' + tox) + toy;
-  str += this.strtype.csa[Number[(this.nari === Koma.NARI)]];
-
-  return str;
+  return str + this.strtype.csa[Number[(this.nari === Koma.NARI)]];
 };
 
 Koma.prototype.pieceStr = function(hunaristr, naristr) {
@@ -455,9 +446,7 @@ Koma.prototype.kifuKIF = function(fromxy, toxy, lastxy, nari) {
   } */
   str += this.kifuDouNumKIF(toxy, lastxy);
   str += this.narifunariuchiStrKIF(nari, fromxy1.x);
-  str += this.strFromPos(fromxy1);
-
-  return str;
+  return str + this.strFromPos(fromxy1);
 };
 
 Koma.prototype.narifunariuchiStrKIF = function(nari, x) {
@@ -489,9 +478,7 @@ Koma.prototype.kifuKIFU = function(fromxy, toxy, lastxy, nari) {
 
   str += this.kifuDouNumKIF(toxy, lastxy);
   str += this.narifunariuchiStrKIF(nari, fromxy.x);
-  str += this.strFromPos(fromxy);
-
-  return str;
+  return str + this.strFromPos(fromxy);
 };
 
 /**
@@ -509,9 +496,7 @@ Koma.prototype.kifuShortCSA = function(x, y) {
   var str = this.getTebanStrUtil(Koma.UtilStr.csa);
 
   str += ('' + x) + y;
-  str += this.strtype.csa[Number(this.nari === Koma.NARI)];
-
-  return str;
+  return str + this.strtype.csa[Number(this.nari === Koma.NARI)];
 };
 
 Koma.prototype.checkNariFromPos = function(ugokeru, fromy, toy) {
