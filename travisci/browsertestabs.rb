@@ -127,8 +127,8 @@ class BrowserTestAbstract
     warn "\ntravis_fold:end:#{grp}\r"
   end
 
-  # loginできることの確認
-  def checklogin(email, pwd)
+  # loginの確認
+  def checklogin(email, pwd, ptn)
     simplecheck 'index.rb?login'
     driver.find_element(:name, 'siemail').send_keys(email)
     elem = driver.find_element(:name, 'sipassword')
@@ -136,19 +136,17 @@ class BrowserTestAbstract
     elem.submit
     sleep 1.8
     simpleurlcheck('index.rb?logincheck')
-    res.checkmatch(/Logged in successfully/)
+    res.checkmatch(ptn)
   end
 
   # loginできることの確認
+  def checkloginsucc(email, pwd)
+    logincheck(/Logged in successfully/)
+  end
+
+  # loginできないことの確認
   def checkloginfail(email, pwd)
-    simplecheck 'index.rb?login'
-    driver.find_element(:name, 'siemail').send_keys(email)
-    elem = driver.find_element(:name, 'sipassword')
-    elem.send_keys pwd
-    elem.submit
-    sleep 1.8
-    simpleurlcheck('index.rb?logincheck')
-    res.checkmatch(/Unfortunately failed/)
+    logincheck(/Unfortunately failed/)
   end
 
   # adminerrorになることの確認
