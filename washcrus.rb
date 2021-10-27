@@ -91,6 +91,12 @@ class WashCrus
     UpdateEmailScreen.new(@header).show(@cgi, @userinfo, @params)
   end
 
+  # 退会
+  def unsubscribe
+    require './views/unsubscribe.rb'
+    UnsubscribeScreen.new(@header).show(@userinfo, @params)
+  end
+
   # ログイン画面
   def login
     require './views/login.rb'

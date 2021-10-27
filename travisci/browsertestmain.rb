@@ -90,4 +90,10 @@ td.run
 td.fold_end('draw.2')
 succ += td.showresult
 
+test.fold_begin('unsubscribe.1', 'unsubscribe test')
+test.reset
+test.unsubscribejohn
+test.fold_end('unsubscribe.1')
+succ += test.showresult
+
 test.finalize(succ)

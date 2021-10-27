@@ -337,6 +337,11 @@ text-decoration:none;
         order: 2;
 }
 
+.unsubscribe {
+  color: red;
+  font-size: 2rem;
+}
+
 .taikyokuchu {
   display:flex;
   flex-wrap:wrap;

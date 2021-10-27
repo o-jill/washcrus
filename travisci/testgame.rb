@@ -103,12 +103,12 @@ class TestGame < BrowserTestAbstract
 
   # 先手としてログイン
   def becomesente
-    checklogin(emlsen, pwsen)
+    checkloginsucc(emlsen, pwsen)
   end
 
   # 後手としてログイン
   def becomegote
-    checklogin(emlgo, pwgo)
+    checkloginsucc(emlgo, pwgo)
   end
 
   # ログアウトする

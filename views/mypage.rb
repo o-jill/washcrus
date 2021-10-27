@@ -45,6 +45,8 @@ class MyPageScreen
           <li id='navbtn_pwd' onclick='clicknav("mypage_password")'>Password</li>
           <hr>
           <li id='navbtn_email' onclick='clicknav("mypage_email")'>Email</li>
+          <hr>
+          <li id='navbtn_unsubscribe' onclick='clicknav("mypage_unsubscribe")'>Unsubscribe</li>
         </ul>
       </div>
     NAVI_AREA
@@ -228,7 +230,7 @@ class MyPageScreen
     WinsLoses.new(udb.content.stats[uid])
   end
 
-  # アカウント設定、メールアドレス設定の出力
+  # アカウント設定、メールアドレス設定、退会設定の出力
   def put_accountsettings
     puts <<-ACCOUNTSETTINGS.unindent
       <div class=myarticle id=mypage_password style="display:none;">
@@ -252,6 +254,16 @@ class MyPageScreen
         <tr id='trnewemail2'><td>(再)新しいの</td><td><input name='rnewemail2' id='rnewemail2' type='email' class='inpform' required></td></tr>
         <tr><td></td><td><input type='submit' class='inpform' onClick='return check_form_mypageemail();'></td></tr>
         </table>
+        </form>
+      </div>
+      <div class=myarticle id=mypage_unsubscribe style="display:none;">
+        <span class='unsubscribe'>[注意]退会する</span>
+        <form action='index.rb?unsubscribe' method=post name='unsubscribe'>
+        <table><tr><td>
+        <input type='email' name='unsubscribe' id='unsubscribe' class='inpform' placeholder='e-mail address'>
+        </td></tr><tr><td>
+        <input type='submit' class='unsubscribe' onClick='return confirm_unsubscribe();'>
+        </td></tr></table>
         </form>
       </div>
     ACCOUNTSETTINGS
