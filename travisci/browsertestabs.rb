@@ -140,8 +140,8 @@ class BrowserTestAbstract
   end
 
   # loginできることの確認
-  def checklogin(email, pwd)
-    logincheck(email, pwd, /Logged in successfully/)
+  def checkloginsucc(email, pwd)
+    checklogin(email, pwd, /Logged in successfully/)
   end
 
   # loginできないことの確認
