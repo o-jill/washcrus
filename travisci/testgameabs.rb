@@ -99,18 +99,23 @@ class TestGameAbstract < BrowserTestAbstract
     driver.find_element(:id, eid).click
   end
 
+  # 対局結果のチェック
+  def checkresult(t, drawornot)
+    # id, idv, idw, nameb, namew, turn, time, comment
+    elem = t.split(',')
+    result = elem[5]
+    ret = drawornot ? result == 'd' : %w[fb fw d].include?(result)
+    puts "ret = %w[fb fw d].include?(#{result})" unless ret
+    res.succfail(ret)
+  end
+
   # 対局ファイルのチェック
   def checktaikyokulines(file, drawornot)
     t = file.each_line.find do |line|
       line.start_with?(gid + ',')
     end
-    return false unless t # 見つからなかった
-
-    # id, idv, idw, nameb, namew, turn, time, comment
-    elem = t.split(',')
-    ret = drawornot ? elem[5] == 'd' : %w[fb fw d].include?(elem[5])
-    puts "ret = %w[fb fw d].include?(#{elem[5]})" unless ret
-    res.succfail(ret)
+    return res.succfail(false) unless t # 見つからなかった
+    checkresult(t, drawornot)
   end
 
   # 対局ファイルのチェック
