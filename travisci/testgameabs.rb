@@ -114,7 +114,9 @@ class TestGameAbstract < BrowserTestAbstract
     t = file.each_line.find do |line|
       line.start_with?(gid + ',')
     end
+
     return res.succfail(false) unless t # 見つからなかった
+
     checkresult(t, drawornot)
   end
 
