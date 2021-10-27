@@ -42,11 +42,11 @@ class TestGameAbstract < BrowserTestAbstract
 
   # 先手と後手の情報を入れ替える
   def swap_ply
-    @nmsen, @nmgo = nmgo, nmsen
+    @nmsen, @nmgo = @nmgo, @nmsen
 
-    @emlsen, @emlgo = emlgo, emlsen
+    @emlsen, @emlgo = @emlgo, @emlsen
 
-    @pwsen, @pwgo = pwgo, pwsen
+    @pwsen, @pwgo = @pwgo, @pwsen
   end
 
   # 先手情報のセット
