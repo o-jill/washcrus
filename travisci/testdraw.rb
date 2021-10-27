@@ -4,12 +4,12 @@ require 'selenium-webdriver'
 
 require 'yaml'
 
-require './travisci/testgame.rb'
+require './travisci/testgameabs.rb'
 
 #
 # make a game by draw suggestion.
 #
-class TestDraw < TestGame
+class TestDraw < TestGameAbstract
   def initialize
     super
   end
