@@ -34,7 +34,7 @@ class BrowserTest < BrowserTestAbstract
   # end
 
   def adminaccess
-    checklogin(TestUsers::ADMININFO[:email], TestUsers::ADMININFO[:pwd])
+    checkloginsucc(TestUsers::ADMININFO[:email], TestUsers::ADMININFO[:pwd])
 
     simplecheckgroup
 
@@ -60,7 +60,7 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def adminaccesslight
-    checklogin(TestUsers::ADMININFO[:email], TestUsers::ADMININFO[:pwd])
+    checkloginsucc(TestUsers::ADMININFO[:email], TestUsers::ADMININFO[:pwd])
 
     loungecheckfilecancel
     lounge_file('hello john!!')
@@ -95,7 +95,7 @@ class BrowserTest < BrowserTestAbstract
 
     simplecheck 'index.rb?logout'
 
-    checklogin(TestUsers::JOHN[:remail], newpwd)
+    checkloginsucc(TestUsers::JOHN[:remail], newpwd)
   end
 
   def chkupdatepwd_fail
@@ -133,7 +133,7 @@ class BrowserTest < BrowserTestAbstract
 
     simplecheck 'index.rb?logout'
 
-    checklogin(email, TestUsers::NEWJOHNINFO[:pwd])
+    checkloginsucc(email, TestUsers::NEWJOHNINFO[:pwd])
   end
 
   def checkupdateemail_fail
@@ -209,7 +209,7 @@ class BrowserTest < BrowserTestAbstract
   def unsubscribejohn
     email = TestUsers::JOHN[:remail]
     pwd = TestUsers::JOHN[:rpassword]
-    checklogin(email, pwd)
+    checkloginsucc(email, pwd)
 
     # click w/o mail
     # tryunsubscribe('')
@@ -237,7 +237,7 @@ class BrowserTest < BrowserTestAbstract
 
     matchmailsbjlast(/Welcome to 洗足池!/)
 
-    checklogin('johndoe@example.com', 'john')
+    checkloginsucc('johndoe@example.com', 'john')
 
     simplecheckgroup
 
@@ -257,7 +257,7 @@ class BrowserTest < BrowserTestAbstract
   end
 
   def newuserjohnlight
-    checklogin('johndoe@example.com', 'john')
+    checkloginsucc('johndoe@example.com', 'john')
 
     newuserjohn_loungegame
 
