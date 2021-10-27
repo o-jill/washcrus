@@ -141,12 +141,12 @@ class BrowserTestAbstract
 
   # loginできることの確認
   def checklogin(email, pwd)
-    logincheck(/Logged in successfully/)
+    logincheck(email, pwd, /Logged in successfully/)
   end
 
   # loginできないことの確認
   def checkloginfail(email, pwd)
-    checklogin(/Unfortunately failed/)
+    checklogin(email, pwd, /Unfortunately failed/)
   end
 
   # adminerrorになることの確認
