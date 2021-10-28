@@ -3,96 +3,17 @@
 
 require 'unindent'
 
+require './game/sfenkyokumenabs.rb'
+
 #
 # Sfenから局面図textを生成
 #
-class SfenKyokumenTxt
+class SfenKyokumenTxt < SfenKyokumenAbstract
   # 初期化
   #
   # @param sfen sfen文字列
   def initialize(sfen)
-    @sfen = sfen
-    @sname = nil
-    @gname = nil
-    @lmv = nil # '+0000OU__P'
-    @title = nil
-    @piecetype = nil # not upported yet
-    @turn = nil
-
-    parse
-  end
-
-  # @!attribute [r] sname
-  #   @return 先手の対局者名
-  # @!attribute [r] gname
-  #   @return 後手の対局者名
-  # @!attribute [r] stgm
-  #   @return 先手の手駒
-  # @!attribute [r] gtgm
-  #   @return 後手の手駒
-  # @!attribute [r] lmv
-  #   @return 最終着手
-  # @!attribute [r] sfen
-  #   @return sfen文字列
-  # @!attribute [r] strban
-  #   @return 盤面のSVG文字列
-  # @!attribute [r] strtegoma
-  #   @return 手駒部分のSVG文字列
-  # @!attribute [r] strteban
-  #   @return sfenの手番部分
-  # @!attribute [r] tesuu
-  #   @return sfenの手数部分
-  # @!attribute [r] ys
-  #   @return 先手の手駒の表示位置計算用
-  # @!attribute [r] yg
-  #   @return 後手の手駒の表示位置計算用
-  attr_reader :gname, :gtgm, :lmv, :sfen, :sname,
-              :strban, :stgm, :strtegoma, :strteban, :tesuu, :yg, :ys
-
-  # 対局者名の設定
-  #
-  # @param names 先手
-  # @param nameg 後手
-  def setnames(names, nameg)
-    @sname = names
-    @gname = nameg
-  end
-
-  # タイトルの設定
-  #
-  # @param title タイトル
-  def settitle(title)
-    @title = title
-  end
-
-  # 指し手情報の設定
-  #
-  # @param lamv 最後に動かしたマス
-  def setmoveinfo(lamv)
-    @lmv = lamv
-  end
-
-  # コマの種類の設定
-  #
-  # @param piecetype コマの種類
-  # @note not supported yet.
-  def setui(piecetype)
-    @piecetye = piecetype
-  end
-
-  # sfen = lnsgkgsnl/1r5b1/p1ppppp1p/9/9/9/P1PPPPP1P/1B2K2R1/LNSG1GSNL w 2P2p 2
-  def parse
-    @strban = ''
-    @strtegoma = ''
-
-    return unless sfen # error
-
-    sfenitem = sfen.split(' ')
-    return if sfenitem.length < 4 # error
-
-    @strban, @strtebn, @strtegoma, @tesuu = sfenitem
-
-    readtegoma
+    super(sfen)
   end
 
   # 駒表現変換テーブル
@@ -129,18 +50,7 @@ class SfenKyokumenTxt
   def sengo
     kisuu = tesuu.to_i % 2
     siroban = strteban == 'w' ? 2 : 0
-    # 2b 3b 2w 3w
-    %w[上手 下手 先手 後手][siroban + kisuu]
-  end
-
-  # 筋とか段の数字が正しいかチェック
-  #
-  # @param x 筋
-  # @param y 段
-  #
-  # @return 正しいときtrue
-  def checksujidan(x, y)
-    !(y < 1 || y > 9 || x < 1 || x > 9)
+    %w[上手 後手 先手 下手][siroban + kisuu]
   end
 
   # 最終手タグの生成
@@ -154,7 +64,7 @@ class SfenKyokumenTxt
     y = x % 10
     x /= 10
 
-    return '' unless checksujidan(x, y) # error
+    return '' if invalidxy?(x, y) # error
 
     strx = '０１２３４５６７８９'[x, 1]
     stry = NUMKANJI[y]
@@ -224,8 +134,6 @@ class SfenKyokumenTxt
   #
   # @return 駒達のタグ
   def tagboardstatus
-    # board = "<g id='board' transform='translate(25,70)'>\n#{taglastmove}"
-    # board + SfenSVGImageMod::TAGFRAME + tagkomas + "</g>\n"
     tagkomas
   end
 
@@ -264,25 +172,25 @@ class SfenKyokumenTxt
   end
 
   # 手駒の読み取り
-  def readtegoma
-    return unless strtegoma
-
-    num = 0
-    @stgm = ''
-    @gtgm = ''
-    @ys = 0
-    @yg = 0
-
-    strtegoma.each_char do |ch|
-      case ch
-      when /[PLNSGBRplnsgbr]/
-        str_tgm(ch, num)
-        num = 0
-      when '0'..'9'
-        num = num * 10 + ch.to_i
-      end
-    end
-  end
+  # def readtegoma
+  #   return unless strtegoma
+  #
+  #   num = 0
+  #   @stgm = ''
+  #   @gtgm = ''
+  #   @ys = 0
+  #   @yg = 0
+  #
+  #   strtegoma.each_char do |ch|
+  #     case ch
+  #     when /[PLNSGBRplnsgbr]/
+  #       str_tgm(ch, num)
+  #       num = 0
+  #     when '0'..'9'
+  #       num = num * 10 + ch.to_i
+  #     end
+  #   end
+  # end
 
   # 後手の名前と手駒
   def taggote

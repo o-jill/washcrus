@@ -446,11 +446,10 @@ Kifu.prototype.receive = function(path, type) {
 Kifu.prototype.evalKomazon_koma = function(komazon, kid, teban, nari)
 {
   if (nari === Koma.NARI) kid += 8
-  if (teban === Koma.SENTEBAN) {
-    komazon[kid]++;
-  } else if (teban === Koma.GOTEBAN) {
-    komazon[kid]--;
-  }
+
+  if (teban === Koma.SENTEBAN) komazon[kid]++;
+  else if (teban === Koma.GOTEBAN) komazon[kid]--;
+
   return komazon;
 }
 
@@ -505,10 +504,10 @@ Kifu.prototype.seek_te_backward_ = function(te) {
   var masu = ban[tx][ty];
   move2(masu, fromxy, nari);  // 動かした駒を戻す
 
-  if (tid >= 0) {
-    var tegoma = (teban === Koma.SENTEBAN) ? sentegoma : gotegoma;
-    torimodosu(tegoma, tid, tx, ty);
-  }
+  if (tid < 0) return;
+
+  var tegoma = (teban === Koma.SENTEBAN) ? sentegoma : gotegoma;
+  torimodosu(tegoma, tid, tx, ty);
 }
 
 Kifu.prototype.seek_te_backward = function(idx) {

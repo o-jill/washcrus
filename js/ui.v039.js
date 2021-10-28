@@ -749,19 +749,10 @@ function checkLatestMoveTmout_recv(ajax)
   if (ajax.readyState != 4) return;
 
   var status = ajax.status;
-  if (status === 0) {  /* XHR 通信失敗 */
-    //  msg.innerHTML += 'XHR 通信失敗\n自動的にリロードします。';
-    //   location.reload(true);
-    startUpdateTimer();
-  } else if ((200 <= status && status < 300) || status === 304) {
+  if ((200 <= status && status < 300) || status === 304) {
     /* XHR 通信成功, リクエスト成功 */
-    var resp = ajax.responseText
-    checkSfenResponse(resp);
-    // msg.innerHTML = '通信完了。\n自動的にリロードします。';
-    // location.reload(true);
-  } else {    /* XHR 通信成功, リクエスト失敗 */
-    // msg.innerHTML += 'その他の応答:" + status + "\n自動的にリロードします。';
-    // location.reload(true);
+    checkSfenResponse(ajax.responseText);
+  } else {    /* XHR 通信失敗, XHR 通信成功+リクエスト失敗 */
     startUpdateTimer();
   }
 }
