@@ -74,7 +74,8 @@ class UserChatFile
       res = line.match(/^([0-9a-fA-F]+?),(.+)$/)
       '' unless res
       gid = res[1]
-      "<a href='index.rb?game/#{gid}'>game/#{gid}</a>:&nbsp;#{res[2]}"
+      "<a href='index.rb?game/#{gid}' style='font-family:monospace;'>" \
+        "game/#{gid}</a>:&nbsp;#{res[2]}"
     end
     lines.join
   end
