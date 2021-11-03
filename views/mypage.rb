@@ -5,6 +5,7 @@ require 'rubygems'
 require 'unindent'
 
 require './file/taikyokufile.rb'
+require './file/userchatfile.rb'
 require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
 require './game/webapi_sfenreader.rb'
@@ -39,6 +40,8 @@ class MyPageScreen
       <div id=mypagenav class=mynav>
         <ul>
           <li id='navbtn_stats' onclick='clicknav("mypage_stat")'>Stats</li>
+          <hr>
+          <li id='navbtn_chat' onclick='clicknav("mypage_chat")'>Chat</li>
           <hr>
           <li id='navbtn_hist' onclick='clicknav("mypage_rireki")'>History</li>
           <hr>
@@ -230,6 +233,15 @@ class MyPageScreen
     WinsLoses.new(udb.content.stats[uid])
   end
 
+  # チャットのやり取りの表示
+  def put_chat(uid)
+    chat = UserChatFile.new(uid)
+    chat.read
+    puts '<div class=myarticle id=mypage_chat style="display:none;">'
+    puts chat.empty? ? 'chat will be here.' : chat.msg4mypage
+    puts '</div>'
+  end
+
   # アカウント設定、メールアドレス設定、退会設定の出力
   def put_accountsettings
     puts <<-ACCOUNTSETTINGS.unindent
@@ -308,7 +320,7 @@ class MyPageScreen
     put_mypage_stat(wl, userinfo)
 
     put_taikyokurireki(uid)
-
+    put_chat(uid)
     put_accountsettings
 
     puts '</div>'

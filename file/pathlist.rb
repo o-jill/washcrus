@@ -27,6 +27,7 @@ module PathList
   TAIKYOKUCHULOCKFILE = './db/taikyokuchufile.lock'
   TAIKYOKUREQFILE = './db/taikyokureq.csv'
   TAIKYOKUREQLOCKFILE = './db/taikyokureqfile.lock'
+  USERCHATDIR = './chat/'
   USERINFOLOCKFILE = './db/userinfofile.lock'
   USERINFOFILE = './db/userinfo.csv'
 end

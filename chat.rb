@@ -8,6 +8,7 @@ require 'cgi'
 
 require './file/taikyokufile.rb'
 require './file/chatfile.rb'
+require './file/userchatfile.rb'
 
 # チャットシステムクラス
 #
@@ -65,7 +66,11 @@ class Chat
   def write
     chatlog = ChatFile.new(@gameid)
     chatlog.read
-    chatlog.say(@name, @msg)
+    addedmsg = chatlog.say(@name, @msg)
+    # 発言者、対局者x2のデータにも書く
+    uchat = UserChatFile.new('bbf5fc78')#uid)
+    uchat.read
+    uchat.add(addedmsg, @gameid)
   end
 
   # 発言ログを表示する
