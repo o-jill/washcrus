@@ -78,7 +78,6 @@ class Chat
     addedmsg = chatlog.say(@name, @msg)
 
     tkd = TaikyokuData.new
-    @tkd = TaikyokuData.new
     tkd.log = @log
     tkd.setid(@gameid)
     tkd.lockex do
