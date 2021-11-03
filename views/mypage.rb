@@ -238,6 +238,7 @@ class MyPageScreen
     chat = UserChatFile.new(uid)
     chat.read
     puts '<div class=myarticle id=mypage_chat style="display:none;">'
+    puts 'recent 200 messages.<hr>'
     puts chat.empty? ? 'chat will be here.' : chat.msg4mypage
     puts '</div>'
   end
