@@ -5,10 +5,14 @@
 require 'bundler/setup'
 
 require 'cgi'
+require 'cgi/session'
 
-require './file/taikyokufile.rb'
 require './file/chatfile.rb'
+require './file/matchinfofile.rb'
+require './file/taikyokufile.rb'
 require './file/userchatfile.rb'
+require './game/taikyokudata.rb'
+require './game/userinfo.rb'
 
 # チャットシステムクラス
 #
@@ -29,14 +33,19 @@ class Chat
     @name = 'john doe'
     @msg = 'abdakadabra.'
     @gameid = cgi.query_string
-    @action = @params['action'][0]
+    @action = @params['action'] || ['']
+    @action = @action[0]
+    readuserparam(cgi)
   end
 
   # 発言をファイルに書き込む
   # パラメータが不正なときは何もしない
   def say
-    @name = @params['chatname'][0]
-    @msg = @params['chatmsg'][0]
+    @name = @userinfo.user_name
+    @uid = @userinfo.user_id
+
+    @msg = @params['chatmsg'] || ['']
+    @msg = @msg[0]
 
     return if @name.empty? || @msg.empty?
 
@@ -67,10 +76,54 @@ class Chat
     chatlog = ChatFile.new(@gameid)
     chatlog.read
     addedmsg = chatlog.say(@name, @msg)
+
+    tkd = TaikyokuData.new
+    @tkd = TaikyokuData.new
+    tkd.log = @log
+    tkd.setid(@gameid)
+    tkd.lockex do
+      tkd.read
+    end
     # 発言者、対局者x2のデータにも書く
-    uchat = UserChatFile.new('bbf5fc78')#uid)
-    uchat.read
-    uchat.add(addedmsg, @gameid)
+    tkd.mif.getplayerids.append(@uid).uniq.each do |userid|
+      uchat = UserChatFile.new(userid)
+      uchat.read
+      uchat.add(addedmsg, @gameid)
+    end
+  end
+
+  # sessionの取得と情報の読み取り
+  #
+  # @param cgi CGIオブジェクト
+  def readuserparam(cgi)
+    # @log.debug('Move.readuserparam')
+
+    # check cookies
+    # @log.debug("cookie:#{cgi.cookies}")
+
+    begin
+      session = CGI::Session.new(
+        cgi,
+        'new_session' => false,
+        'session_key' => '_washcrus_session',
+        'tmpdir' => './tmp'
+      )
+    rescue ArgumentError # => ae
+      session = nil
+      # @log.info('failed to find session')
+      # @log.debug("#{ae.message}, (#{ae.class})")
+      # @log.debug("sesionfiles:#{Dir['./tmp/*']}")
+    end
+
+    # check cookies
+    # @log.debug("cookie:#{cgi.cookies}")
+
+    @userinfo = UserInfo.new
+    @userinfo.readsession(session) if session
+    session&.close
+
+    # @header = cgi.header('charset' => 'UTF-8')
+    # @header = @header.gsub("\r\n", "\n")
   end
 
   # 発言ログを表示する
