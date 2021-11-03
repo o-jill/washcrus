@@ -5,6 +5,7 @@ require './file/pathlist.rb'
 
 # チャットファイル管理クラス
 class UserChatFile
+  LIMIT = 200  # 最新何発言分保存するか
   # 初期化
   #
   # @param id 対局ID
@@ -41,7 +42,7 @@ class UserChatFile
   def write(fpath = path)
     File.open(fpath, 'w') do |file|
       file.flock File::LOCK_EX
-      [0..99].each do |i|
+      [0..(LIMIT - 1)].each do |i|
         file.puts msg[i]
       end
     end
