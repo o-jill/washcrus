@@ -5,7 +5,7 @@ require './file/pathlist.rb'
 
 # チャットファイル管理クラス
 class UserChatFile
-  LIMIT = 200  # 最新何発言分保存するか
+  LIMIT = 200 # 最新何発言分保存するか
   # 初期化
   #
   # @param id 対局ID
