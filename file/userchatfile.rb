@@ -42,9 +42,8 @@ class UserChatFile
   def write(fpath = path)
     File.open(fpath, 'w') do |file|
       file.flock File::LOCK_EX
-      [0..(LIMIT - 1)].each do |i|
-        file.puts msg[i]
-      end
+      LIMIT.times { |i| file.puts msg[i] }
+      file.flush
     end
   # 例外は小さい単位で捕捉する
   rescue SystemCallError => e
