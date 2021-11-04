@@ -2,7 +2,6 @@ var chat_elem_id = document.getElementById('gameid');
 var chat_id = chat_elem_id.value;
 
 var chat_elem_log = document.getElementById('chatlog');
-var chat_elem_nm = document.getElementById('chatname');
 var chat_elem_msg = document.getElementById('chatmsg');
 var chat_btn = document.getElementById('chatbtn');
 
@@ -45,7 +44,6 @@ onChatUpdate();
 function buildMsg()
 {
   var ret = 'action=say&'
-  ret += 'chatname=' + encodeURIComponent(chat_elem_nm.value);
   ret += '&chatmsg=' + encodeURIComponent(chat_elem_msg.value);
   return ret;
 }

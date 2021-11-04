@@ -113,13 +113,10 @@ class LoungeScreen
   end
 
   # チャット領域の表示
-  #
-  # @param uname ユーザー名
-  def put_chatarea(uname)
+  def put_chatarea
     puts <<-CHAT_AREA
       <hr><div id='chatlog' class='chat'>チャットえりあ</div>
-      <input id='chatname' type='text' value='#{uname}' class='chatnm' readonly/>
-      : <input id='chatmsg' list='chatmsg_tmpl' type='text' class='chatmsg' placeholder='チャットメッセージ欄'/>
+      <input id='chatmsg' list='chatmsg_tmpl' type='text' class='chatmsg' placeholder='チャットメッセージ欄'/>
       <datalist id='chatmsg_tmpl'>
        <option value='よろしくお願いします。'>
        <option value='おはようございます。'>
@@ -151,7 +148,7 @@ class LoungeScreen
       put_filing_button
     end
 
-    put_chatarea(userinfo.user_name)
+    put_chatarea
 
     CommonUI.html_foot
   end
