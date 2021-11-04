@@ -288,6 +288,10 @@ text-decoration:none;
   color: white;
 }
 
+.mypage_chatgame {
+  font-family: monospace;
+}
+
 .mypage_main {
         display: -webkit-flex;
         display:         flex;
