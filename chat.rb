@@ -40,7 +40,9 @@ class Chat
 
   # 発言をファイルに書き込む
   # パラメータが不正なときは何もしない
-  def say
+  #
+  # @param ongame true:対局画面で発言, false:ラウンジで発言
+  def say(ongame)
     @name = @userinfo.user_name
     @uid = @userinfo.user_id
 
@@ -52,7 +54,7 @@ class Chat
     @msg.gsub!(',&<>',
                ',' => '&#44;', '&' => '&amp;',
                '<' => '&lt;', '>' => '&gt;')
-    write
+    write(ongame)
   end
 
   # 本体
@@ -60,8 +62,9 @@ class Chat
     # check game id
     tdb = TaikyokuFile.new
     tdb.read
-    if tdb.exist?(@gameid) || @gameid == 'lounge'
-      say if @action == 'say'
+    exist = tdb.exist?(@gameid)
+    if exist || @gameid == 'lounge'
+      say(exist) if @action == 'say'
 
       # put chat log
       put
@@ -89,23 +92,20 @@ class Chat
   end
 
   # 発言を書き込む
-  def write
+  #
+  # @param ongame true:対局画面で発言, false:ラウンジで発言
+  def write(ongame)
     chatlog = ChatFile.new(@gameid)
     chatlog.read
     addedmsg = chatlog.say(@name, @msg)
 
-    write2chatview(addedmsg)
+    write2chatview(addedmsg) if ongame
   end
 
   # sessionの取得と情報の読み取り
   #
   # @param cgi CGIオブジェクト
   def readuserparam(cgi)
-    # @log.debug('Move.readuserparam')
-
-    # check cookies
-    # @log.debug("cookie:#{cgi.cookies}")
-
     begin
       session = CGI::Session.new(
         cgi,
@@ -115,20 +115,11 @@ class Chat
       )
     rescue ArgumentError # => ae
       session = nil
-      # @log.info('failed to find session')
-      # @log.debug("#{ae.message}, (#{ae.class})")
-      # @log.debug("sesionfiles:#{Dir['./tmp/*']}")
     end
-
-    # check cookies
-    # @log.debug("cookie:#{cgi.cookies}")
 
     @userinfo = UserInfo.new
     @userinfo.readsession(session) if session
     session&.close
-
-    # @header = cgi.header('charset' => 'UTF-8')
-    # @header = @header.gsub("\r\n", "\n")
   end
 
   # 発言ログを表示する
