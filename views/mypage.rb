@@ -299,16 +299,10 @@ class MyPageScreen
     SCRIPT
   end
 
-  # 画面の表示
+  # ヘッダとフッタ以外の表示
   #
   # @param userinfo ユーザー情報
-  def show(userinfo)
-    return put_err_sreen("your log-in information is wrong ...\n") \
-      if userinfo.invalid?
-
-    CommonUI.html_head(@header)
-    CommonUI.html_menu(userinfo)
-
+  def put(userinfo)
     puts "<script src='js/signup.js'></script>\n" \
          "<script src='js/mypage.js'></script>\n" \
          "<div class='mypage_main'>\n"
@@ -327,6 +321,19 @@ class MyPageScreen
     puts '</div>'
 
     put_script
+  end
+
+  # 画面の表示
+  #
+  # @param userinfo ユーザー情報
+  def show(userinfo)
+    return put_err_sreen("your log-in information is wrong ...\n") \
+      if userinfo.invalid?
+
+    CommonUI.html_head(@header)
+    CommonUI.html_menu(userinfo)
+
+    put(userinfo)
 
     CommonUI.html_foot
   end

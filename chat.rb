@@ -71,24 +71,30 @@ class Chat
     end
   end
 
-  # 発言を書き込む
-  def write
-    chatlog = ChatFile.new(@gameid)
-    chatlog.read
-    addedmsg = chatlog.say(@name, @msg)
-
+  # 発言者、対局者x2のデータにも書く
+  #
+  # @param addedmsg 発言
+  def write2chatview(addedmsg)
     tkd = TaikyokuData.new
     tkd.log = @log
     tkd.setid(@gameid)
     tkd.lockex do
       tkd.read
     end
-    # 発言者、対局者x2のデータにも書く
     tkd.mif.getplayerids.append(@uid).uniq.each do |userid|
       uchat = UserChatFile.new(userid)
       uchat.read
       uchat.add(addedmsg, @gameid)
     end
+  end
+
+  # 発言を書き込む
+  def write
+    chatlog = ChatFile.new(@gameid)
+    chatlog.read
+    addedmsg = chatlog.say(@name, @msg)
+
+    write2chatview(addedmsg)
   end
 
   # sessionの取得と情報の読み取り
