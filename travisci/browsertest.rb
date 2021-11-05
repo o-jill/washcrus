@@ -159,15 +159,6 @@ class BrowserTest < BrowserTestAbstract
     updateemail_mypage(TestUsers::JOHN[:remail], TestUsers::JOHN[:remail])
   end
 
-  def gamechat(msg)
-    elem = driver.find_element(:id, 'chatmsg')
-    elem.send_keys msg
-    elem = driver.find_element(:id, 'chatbtn')
-    elem.click
-    sleep 1
-    res.checkmatch(/#{msg}/)
-  end
-
   def newuserjohn_loungegame
     simplecheck 'index.rb?lounge'
     lounge_gengame
@@ -241,6 +232,26 @@ class BrowserTest < BrowserTestAbstract
 
     # fail login
     checkloginfail(email, pwd)
+  end
+
+  def checkmsgonchatview
+    checkchatview(TestUsers::JOHN[:remail], TestUsers::JOHN[:rpassword])
+
+    checkchatview(TestUsers::ADMININFO[:email], TestUsers::ADMININFO[:pwd])
+  end
+
+  def checkchatview(email, pwd)
+    checkloginsucc(email, pwd)
+
+    simplecheck 'index.rb?mypage'
+    clickbtn(:id, 'navbtn_chat')
+    sleep 0.5
+    GREETING.each do |msg|
+      res.matchproperty(/#{msg}/,
+                        driver.find_element(:id, 'mypage_chat').text)
+    end
+
+    simplecheck 'index.rb?logout'
   end
 
   def newuserjohn

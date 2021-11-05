@@ -66,6 +66,12 @@ succ += tg.showresult
 
 test.finalize(succ) if ARGV.include?('--quick')
 
+test.fold_begin('game.2', 'game test')
+test.reset
+test.checkmsgonchatview
+test.fold_end('game.2')
+succ += test.showresult
+
 # test = BrowserTest.new
 test.fold_begin('draw.1', 'draw test')
 test.reset

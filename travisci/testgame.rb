@@ -207,10 +207,11 @@ class TestGame < TestGameAbstract
   end
 
   # 1手指す
-  def li_move_a_piece
+  def li_move_a_piece(nth)
     ret = prcs_sengo(@from, @to)
 
     gogame
+    gamechat(GREETING[nth]) if nth < 2
     sleep 0.5
     move_a_piece(ret[:from], ret[:to])
 
@@ -232,12 +233,12 @@ class TestGame < TestGameAbstract
 
   # 棋譜に従って指す。
   def move_with_kifu
-    moves.each do |tee|
-      puts "tee:#{tee}"
+    moves.each_with_index do |tee, nth|
+      puts "tee#{nth}:#{tee}"
 
       readmove(tee)
 
-      li_move_a_piece
+      li_move_a_piece(nth)
     end
   rescue StandardError => e
     puts "ERROR in move_with_kifu: class=[#{e.class}] message=[#{e.message}]"

@@ -196,6 +196,17 @@ class BrowserTestAbstract
     sleep 1
     simplecheckmatch('chat.rb?lounge', /hello on lounge chat!!/)
   end
+
+  GREETING = %w[よろしくお願いします。 おなしゃす。].freeze
+
+  def gamechat(msg)
+    elem = driver.find_element(:id, 'chatmsg')
+    elem.send_keys msg
+    elem = driver.find_element(:id, 'chatbtn')
+    elem.click
+    sleep 1
+    res.checkmatch(/#{msg}/)
+  end
 end
 
 # memo
