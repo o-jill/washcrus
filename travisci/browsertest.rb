@@ -159,6 +159,15 @@ class BrowserTest < BrowserTestAbstract
     updateemail_mypage(TestUsers::JOHN[:remail], TestUsers::JOHN[:remail])
   end
 
+  def gamechat(msg)
+    elem = driver.find_element(:id, 'chatmsg')
+    elem.send_keys msg
+    elem = driver.find_element(:id, 'chatbtn')
+    elem.click
+    sleep 1
+    res.checkmatch(/#{msg}/)
+  end
+
   def newuserjohn_loungegame
     simplecheck 'index.rb?lounge'
     lounge_gengame
@@ -173,6 +182,9 @@ class BrowserTest < BrowserTestAbstract
     # @johnteban = (elem.attribute('value') == 'b')
 
     # puts "game URL: #{@gameurl}\njohn is first?: #{@johnteban}"
+
+    gamechat('後でよろしく！！')
+
     matchmailsbjlast(/a game is ready!! \(.+ vs .+\)/)
   end
 
