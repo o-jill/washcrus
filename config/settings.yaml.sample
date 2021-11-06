@@ -8,4 +8,4 @@ wintitle:       "WashCrus"
 mailaddress:    "myaddr@example.com"
 mailformat:     "plaintext"
 kento_url:      "http://www.example.com/?kifu="
-tweetbtn:       off
+tweetbtn:       "hide"
