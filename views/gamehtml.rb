@@ -8,6 +8,7 @@ require './file/jsonkifu.rb'
 require './file/matchinfofile.rb'
 require './game/webapi_sfenreader.rb'
 require './game/userinfo.rb'
+require './util/settings.rb'
 require './views/common_ui.rb'
 
 # 表示する
@@ -136,6 +137,16 @@ class GameHtml
     ERB.new(erbtxt).result(binding)
   end
 
+  def tweetbtn
+    stg = Settings.instance
+    return '' unless stg.value['tweetbtn']
+
+    '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" ' \
+    'class="twitter-share-button" data-show-count="false">Tweet</a>' \
+    '<script async src="https://platform.twitter.com/widgets.js"' \
+    ' charset="utf-8"></script>'
+  end
+
   # 棋譜まわりの部品
   #
   # @return 部品の文字列
@@ -144,11 +155,8 @@ class GameHtml
     "<textarea id='kifulog' class='kifu' cols=40 readonly>" \
     "#{@jkf.to_kifu}</textarea>" \
     "<button onclick='dl_kifu_file();'>Download KIF</button>&nbsp;" \
-    "<button onclick='open_kifu_player();'>棋譜再生</button><br>" \
-    '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" ' \
-    'class="twitter-share-button" data-show-count="false">Tweet</a>' \
-    '<script async src="https://platform.twitter.com/widgets.js"' \
-    ' charset="utf-8"></script>&nbsp;' + kyokumen_link
+    "<button onclick='open_kifu_player();'>棋譜再生</button><br>#{tweetbtn}" \
+    "&nbsp;#{kyokumen_link}"
     # "<div id='kifulog' class='kifu'>#{@jkf.to_kifu.gsub("\n", '<BR>')}</div>"
   end
 
