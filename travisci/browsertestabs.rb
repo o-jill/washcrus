@@ -81,8 +81,7 @@ class BrowserTestAbstract
     simplecheck 'index.rb?signup'
     signupinfo.each do |key, val|
       # puts "#{key.to_s} => #{val}"
-      element = driver.find_element(:name, key.to_s)
-      element.send_keys(val)
+      inputbox(:name, key.to_s, val)
     end
     clickbtn(:xpath, "//input[@value='Submit']")
     return if this_will_fail
@@ -91,10 +90,14 @@ class BrowserTestAbstract
     simpleurlcheck('index.rb?register')
   end
 
+  # 文字列入力
+  def inputbox(key, name, txt)
+    driver.find_element(key, name).send_keys(txt)
+  end
+
   # ボタンをクリック
   def clickbtn(key, val)
-    elem = driver.find_element(key, val)
-    elem.click
+    driver.find_element(key, val).click
   end
 
   def getmailjson
@@ -130,7 +133,7 @@ class BrowserTestAbstract
   # loginの確認
   def checklogin(email, pwd, ptn)
     simplecheck 'index.rb?login'
-    driver.find_element(:name, 'siemail').send_keys(email)
+    inputbox(:name, 'siemail', email)
     elem = driver.find_element(:name, 'sipassword')
     elem.send_keys pwd
     elem.submit
@@ -160,8 +163,7 @@ class BrowserTestAbstract
   end
 
   def lounge_file(msg)
-    element = driver.find_element(:id, 'cmt')
-    element.send_keys(msg)
+    inputbox(:id, 'cmt', msg)
     clickbtn(:id, 'btn_f2l')
     sleep 8
     simpleurlcheck 'index.rb?lounge'
@@ -189,10 +191,8 @@ class BrowserTestAbstract
   def lounge_say
     simplecheck 'index.rb?lounge'
 
-    elem = driver.find_element(:id, 'chatmsg')
-    elem.send_keys 'hello on lounge chat!!'
-    elem = driver.find_element(:id, 'chatbtn')
-    elem.click
+    inputbox(:id, 'chatmsg', 'hello on lounge chat!!')
+    clickbtn(:id, 'chatbtn')
     sleep 1
     simplecheckmatch('chat.rb?lounge', /hello on lounge chat!!/)
   end
@@ -200,12 +200,10 @@ class BrowserTestAbstract
   GREETING = %w[よろしくお願いします。 おなしゃす。].freeze
 
   def gamechat(msg)
-    elem = driver.find_element(:id, 'chatmsg')
-    elem.send_keys msg
-    elem = driver.find_element(:id, 'chatbtn')
-    elem.click
-    sleep 1
-    res.checkmatch(/#{msg}/)
+    inputbox(:id, 'chatmsg', msg)
+    clickbtn(:id, 'chatbtn')
+    sleep 3
+    res.checkchat(/#{msg}/)
   end
 end
 

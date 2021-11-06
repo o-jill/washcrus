@@ -96,6 +96,12 @@ class Result
     matchproperty(regexp, body.text)
   end
 
+  # check if regexp matches content
+  def checkchat(regexp)
+    chat = @driver.find_element(:id, 'chatlog')
+    matchproperty(regexp, chat.text)
+  end
+
   # check footer
   def checkfooter(regexp = /ぢるっち/)
     ft = @driver.find_element(:tag_name, 'footer')
