@@ -84,7 +84,7 @@ class Chat
     tkd.lockex do
       tkd.read
     end
-    tkd.mif.getplayerids.append(@uid).uniq.each do |userid|
+    tkd.mif.getplayerids.push(@uid).uniq.each do |userid|
       uchat = UserChatFile.new(userid)
       uchat.read
       uchat.add(addedmsg, @gameid)
