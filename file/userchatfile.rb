@@ -57,7 +57,7 @@ class UserChatFile
   # @param mssg 発言内容
   # @param gid 対局id
   def add(mssg, gid)
-    msg.prepend(gid + ',' + mssg)
+    msg.unshift(gid + ',' + mssg)
     write
   end
 
