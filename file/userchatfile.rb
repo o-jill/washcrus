@@ -71,7 +71,8 @@ class UserChatFile
     lines = msg.map do |line|
       line.chomp!
       res = line.match(/^([0-9a-fA-F]+?),(.+)$/)
-      '' unless res
+      return line unless res
+
       gid = res[1]
       "<a href='index.rb?game/#{gid}' class='mypage_chatgame'>game/#{gid}</a>" \
         ":&nbsp;#{res[2]}"
