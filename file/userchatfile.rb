@@ -42,7 +42,7 @@ class UserChatFile
   def write(fpath = path)
     File.open(fpath, 'w') do |file|
       file.flock File::LOCK_EX
-      LIMIT.times { |i| file.puts msg[i] }
+      file.puts msg[0, LIMIT]
       file.flush
     end
   # 例外は小さい単位で捕捉する
