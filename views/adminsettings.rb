@@ -59,7 +59,7 @@ class AdminSettingsScreen
     { title: 'Kento URL',      eid: 'kento_url', type: 'input' },
     { title: 'Support URL',    eid: 'support_url', type: 'input' },
     { title: 'Tweet button',   eid: 'tweetbtn', type: 'radio',
-      options: %w[show hide]}
+      options: %w[show hide] }
   ].freeze
 
   # フォームの出力
