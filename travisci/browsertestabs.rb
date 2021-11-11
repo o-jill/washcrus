@@ -202,7 +202,7 @@ class BrowserTestAbstract
   def gamechat(msg)
     inputbox(:id, 'chatmsg', msg)
     clickbtn(:id, 'chatbtn')
-    sleep 3
+    sleep 5
     res.checkchat(/#{msg}/)
   end
 end
