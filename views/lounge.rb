@@ -126,7 +126,7 @@ class LoungeScreen
       </datalist>
       <input type='button' class='chatbtn' id='chatbtn' onClick='onChatSay();' value='&gt;&gt;'/>
       <input type='hidden' id='gameid' value='lounge'/>
-      <script type='text/javascript' src='./js/chat.v015.js' defer></script>
+      <script type='text/javascript' src='./js/chat.v016.js' defer></script>
     CHAT_AREA
   end
 
