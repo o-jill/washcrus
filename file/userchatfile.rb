@@ -66,14 +66,29 @@ class UserChatFile
     msg.nil?
   end
 
+  def gameids
+    ret = msg.map do |line|
+      line.split(',')[0]
+    end
+    ret.uniq
+  end
+
+  def gameselecter
+    puts '<select><option>all</option>'
+    gameids.each do |gid|
+      print "<option>#{gid}</option>"
+    end
+    puts '</select>'
+  end
+
   def msg4mypage
-    msg.map do |line|
+    msg.map.with_index do |line, idx|
       line.chomp!
       res = line.match(/^([0-9a-fA-F]+?),(.+)$/)
       if res
         gid = res[1]
-        "<a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
-        "game/#{gid}</a>:&nbsp;#{res[2]}"
+        "<div id=chat#{idx}><label><input type=checkbox onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
+        "game/#{gid}</a>:&nbsp;#{res[2]}</label></div>"
       else
         line
       end

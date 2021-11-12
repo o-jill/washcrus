@@ -40,3 +40,42 @@ function confirm_unsubscribe()
 {
   return document.getElementById('unsubscribe').value != '';
 }
+
+function filterchatmsg(gid)
+{
+  for (var i = 0 ; i < 200 ; ++i) {
+    var elem = document.getElementById('chat' + i);
+    if (elem == null) break;
+
+    if (elem.innerText.indexOf(gid) >= 0) {
+      elem.getElementsByTagName('input')[0].checked = true;
+      elem.style.opacity = 1.0;
+    } else {
+      elem.getElementsByTagName('input')[0].checked = false;
+      elem.style.opacity = .25;
+      /* elem.style.display = 'none'; */
+    }
+  }
+}
+
+function releasechatmsg(gid)
+{
+  for (var i = 0 ; i < 200 ; ++i) {
+    var elem = document.getElementById('chat' + i);
+    if (elem == null) break;
+
+    elem.getElementsByTagName('input')[0].checked = false;
+    elem.style.opacity = 1.0;
+    /* elem.style.display = 'block'; */
+  }
+}
+
+function clickchatmsg(id, gid)
+{
+  var checked = event.target.checked;
+  if (checked) {
+    filterchatmsg(gid);
+  } else {
+    releasechatmsg(gid);
+  }
+}
