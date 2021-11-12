@@ -87,7 +87,9 @@ class UserChatFile
       res = line.match(/^([0-9a-fA-F]+?),(.+)$/)
       if res
         gid = res[1]
-        "<div id=chat#{idx}><label><input type=checkbox onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
+        "<div id=chat#{idx}><label><input type=checkbox " \
+        "onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
+        "<a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
         "game/#{gid}</a>:&nbsp;#{res[2]}</label></div>"
       else
         line
