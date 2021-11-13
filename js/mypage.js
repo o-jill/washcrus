@@ -46,8 +46,8 @@ function filterchatmsg(gid)
   for (var i = 0 ; i < 200 ; ++i) {
     var elem = document.getElementById('chat' + i);
     if (elem == null) break;
-
-    if (elem.innerText.indexOf(gid) >= 0) {
+    var img = elem.getElementsByTagName('img')[0];
+    if (img.alt.indexOf(gid) >= 0) {
       elem.getElementsByTagName('input')[0].checked = true;
       elem.style.opacity = 1.0;
     } else {

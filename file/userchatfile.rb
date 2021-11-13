@@ -84,13 +84,17 @@ class UserChatFile
   def msg4mypage
     msg.map.with_index do |line, idx|
       line.chomp!
-      res = line.match(/^([0-9a-fA-F]+?),(.+)$/)
+      res = line.match(
+        /^([0-9a-fA-F]+?),(.+)(\(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d \+\d{4}\))<BR>$/
+      )
       if res
         gid = res[1]
-        "<div id=chat#{idx}><label><input type=checkbox " \
-        "onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
-        "<a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
-        "game/#{gid}</a>:&nbsp;#{res[2]}</label></div>"
+        "<div id=chat#{idx}><label><input style='display:none;' type=checkbox" \
+        " onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
+        "#{res[2]}<small>#{res[3]}</small>" \
+        "</label><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
+        "<img src='image/right_fu.png' alt='game:#{gid}'
+        title='go to this game!'></a></div>"
       else
         line
       end
