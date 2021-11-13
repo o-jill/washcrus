@@ -304,7 +304,7 @@ class MyPageScreen
   # @param userinfo ユーザー情報
   def put(userinfo)
     puts "<script src='js/signup.js'></script>\n" \
-         "<script src='js/mypage.js'></script>\n" \
+         "<script src='js/mypage.js?v001'></script>\n" \
          "<div class='mypage_main'>\n"
 
     put_navi
