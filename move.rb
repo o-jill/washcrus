@@ -9,12 +9,13 @@ require 'cgi/session'
 require 'logger'
 require 'unindent'
 
+require './file/chatfile.rb'
 require './file/jsonkifu.rb'
 require './file/jsonmove.rb'
 require './file/matchinfofile.rb'
 require './file/pathlist.rb'
 require './file/taikyokufile.rb'
-require './file/chatfile.rb'
+require './file/userchatfile.rb'
 require './game/taikyokudata.rb'
 require './game/taikyokumail.rb'
 require './game/userinfo.rb'
@@ -134,6 +135,17 @@ class Move
     @log.debug('Move.sendmail')
   end
 
+  # 発言者、対局者x2のデータにも書く
+  #
+  # @param addedmsg 発言
+  def write2chatview(addedmsg)
+    tkd.mif.getplayerids.each do |userid|
+      uchat = UserChatFile.new(userid)
+      uchat.read
+      uchat.add(addedmsg, @gameid)
+    end
+  end
+
   # 引き分けで終局
   #
   # @param now [Time] 着手日時オブジェクト
@@ -141,13 +153,18 @@ class Move
     @turn = 'd'
     tkd.finished(now, nil, turn)
 
-    chat = ChatFile.new(@gameid)
-    chat.say_finish('', turn, mif.nth.to_i - 1)
+    sayfinish('')
   end
 
   def winner
     return mif.playerb.name if turn == 'fb'
     return mif.playerw.name if turn == 'fw'
+  end
+
+  def sayfinish(winner)
+    # chat file
+    chat = ChatFile.new(gameid)
+    write2chatview(chat.say_finish(winner, turn, mif.nth.to_i - 1))
   end
 
   # どちらかが勝って終局
@@ -158,9 +175,7 @@ class Move
     @turn = gote_win ? 'fw' : 'fb'
     tkd.finished(now, gote_win, turn)
 
-    # chat file
-    chat = ChatFile.new(gameid)
-    chat.say_finish(winner, turn, mif.nth.to_i - 1)
+    sayfinish(winner)
   end
 
   # 対局終了処理
