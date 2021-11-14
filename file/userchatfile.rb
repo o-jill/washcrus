@@ -42,7 +42,7 @@ class UserChatFile
   def write(fpath = path)
     File.open(fpath, 'w') do |file|
       file.flock File::LOCK_EX
-      file.puts msg[0, LIMIT]
+      file.puts msg
       file.flush
     end
   # 例外は小さい単位で捕捉する
@@ -57,7 +57,8 @@ class UserChatFile
   # @param mssg 発言内容
   # @param gid 対局id
   def add(mssg, gid)
-    msg.unshift(gid + ',' + mssg)
+    msg << "#{gid},#{mssg}"
+    msg.shift(msg.size - LIMIT) if msg.size > LIMIT
     write
   end
 

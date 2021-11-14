@@ -79,3 +79,8 @@ function clickchatmsg(id, gid)
     releasechatmsg(gid);
   }
 }
+
+function scrollToAnchor(id)
+{
+  location.hash = '#' + id;
+}

@@ -43,7 +43,9 @@ uclist.uniq.each do |path|
     aa = a.match(ptn)
     bb = b.match(ptn)
     # puts "#{aa[1]} <=> #{bb[1]}"
-    bb[1] <=> aa[1] # 日時の比較 新しいものが上
+    aa[1] <=> bb[1] # 日時の比較 新しいものが下
+    # bb[1] <=> aa[1] # 日時の比較 新しいものが上
   end
+  lines = lines[-200, 200] if lines.size > 200
   File.open(path, 'w:utf-8').write(lines[0, 200].join)
 end
