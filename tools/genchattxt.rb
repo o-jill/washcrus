@@ -5,6 +5,8 @@
 
 require 'bundler/setup'
 
+require 'fileutils'
+
 require './file/chatfile.rb'
 require './file/pathlist.rb'
 require './file/taikyokufile.rb'
@@ -48,4 +50,5 @@ uclist.uniq.each do |path|
   end
   lines = lines[-200, 200] if lines.size > 200
   File.open(path, 'w:utf-8').write(lines[0, 200].join)
+  FileUtils.chmod(0o666, path)
 end
