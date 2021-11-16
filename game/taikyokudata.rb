@@ -154,18 +154,23 @@ class TaikyokuData
     end
   end
 
-  # 対局情報ファイルの初期情報の書き込み
-  # 棋譜情報ファイルの初期情報の書き込み
-  # チャットファイルの初期情報の書き込み
-  # sfenログのの初期情報の書き込み
-  def init_files
+  # initialize match information file
+  def init_mif
     # @log.debug('MatchInfoFile.new(gid)')
-    # match information file
     @mif = MatchInfoFile.new(@gid)
     @mif.setplayers(@idb, @idw)
     @mif.setcreator(@creator, @datetime)
     @mif.initmochijikan(0, 259_200, 20, 86_400) # 持ち時間なし、1手3日、考慮日数20日
     @mif.write(@matchinfopath)
+  end
+
+  # 対局情報ファイルの初期情報の書き込み
+  # 棋譜情報ファイルの初期情報の書き込み
+  # チャットファイルの初期情報の書き込み
+  # sfenログのの初期情報の書き込み
+  def init_files
+    # initialize match information file
+    init_mif
 
     # kifu file
     @jkf = JsonKifu.new(@gid)
@@ -316,7 +321,8 @@ class TaikyokuData
     chat = ChatFile.new(@gid)
     @log.debug("chat.say_sugdraw(sente = #{cmd[-1]} == 'b')")
     write2chatview(
-      chat.say_sugdraw(@mif.playername(cmd[-1] == 'b'), cmd[4] == 'Y'))
+      chat.say_sugdraw(@mif.playername(cmd[-1] == 'b'), cmd[4] == 'Y')
+    )
 
     ret
   end
