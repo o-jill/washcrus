@@ -84,3 +84,26 @@ function scrollToAnchor(id)
 {
   location.hash = '#' + id;
 }
+
+var target;
+function clicknav(strid) {
+  if (target) {
+    target.style.display = 'none';
+  }
+  target = document.getElementById(strid);
+  target.style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  target = document.getElementById('mypage_stats');
+
+  var navitems = ["stats", "chat", "rireki", "pswd", "email", "unsubscribe"];
+  for (var item of navitems) {
+    document.getElementById("navbtn_" + item).addEventListener('click',
+      function() {
+        res = this.id.match(/navbtn_(.+)/);
+        clicknav('mypage_' + res[1]);
+      }
+    );
+  }
+});

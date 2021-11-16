@@ -36,22 +36,15 @@ class MyPageScreen
 
   # ナビゲーションメニューの出力
   def put_navi
-    puts <<-NAVI_AREA
-      <div id=mypagenav class=mynav>
-        <ul>
-          <li id='navbtn_stats' onclick='clicknav("mypage_stat")'>Stats</li>
-          <hr>
-          <li id='navbtn_chat' onclick='clicknav("mypage_chat")'>Chat</li>
-          <hr>
-          <li id='navbtn_hist' onclick='clicknav("mypage_rireki")'>History</li>
-          <hr>
-          <li id='navbtn_pwd' onclick='clicknav("mypage_password")'>Password</li>
-          <hr>
-          <li id='navbtn_email' onclick='clicknav("mypage_email")'>Email</li>
-          <hr>
-          <li id='navbtn_unsubscribe' onclick='clicknav("mypage_unsubscribe")'>Unsubscribe</li>
-        </ul>
-      </div>
+    puts <<-NAVI_AREA.unindent
+      <div id='mypagenav' class='mynav'>
+        <span id='navbtn_stats'>Stats</span>
+        <span id='navbtn_chat'>Chat</span>
+        <span id='navbtn_rireki'>History</span>
+        <span id='navbtn_pswd'>Password</span>
+        <span id='navbtn_email'>Email</span>
+        <span id='navbtn_unsubscribe'>Unsubscribe</span>
+      <hr></div>
     NAVI_AREA
   end
 
@@ -194,8 +187,8 @@ class MyPageScreen
   #
   # @param winlose WinsLosesオブジェクト
   # @param user ユーザー情報
-  def put_mypage_stat(winlose, user)
-    puts '<div class="myarticle" id="mypage_stat">'
+  def put_mypage_stats(winlose, user)
+    puts '<div class="myarticle" id="mypage_stats">'
     winlose.put(user.user_name)
     puts '<HR>'
     put_taikyokuchu(user.user_id)
@@ -249,7 +242,7 @@ class MyPageScreen
   # アカウント設定、メールアドレス設定、退会設定の出力
   def put_accountsettings
     puts <<-ACCOUNTSETTINGS.unindent
-      <div class=myarticle id=mypage_password style="display:none;">
+      <div class=myarticle id=mypage_pswd style="display:none;">
         アカウント設定<BR>
         <hr>
         パスワードの再設定
@@ -285,23 +278,6 @@ class MyPageScreen
     ACCOUNTSETTINGS
   end
 
-  # スクリプトの出力
-  def put_script
-    puts <<-SCRIPT.unindent
-      <script>
-      var target = false;
-      target = document.getElementById('mypage_stat');
-      function clicknav(strid) {
-        if (target) {
-          target.style.display = 'none';
-        }
-        target = document.getElementById(strid);
-        target.style.display = 'block';
-      }
-      </script>
-    SCRIPT
-  end
-
   # ヘッダとフッタ以外の表示
   #
   # @param userinfo ユーザー情報
@@ -315,15 +291,13 @@ class MyPageScreen
     uid = userinfo.user_id
     wl = get_mystats(uid)
 
-    put_mypage_stat(wl, userinfo)
+    put_mypage_stats(wl, userinfo)
 
     put_taikyokurireki(uid)
     put_chat(uid)
     put_accountsettings
 
     puts '</div>'
-
-    put_script
   end
 
   # 画面の表示
