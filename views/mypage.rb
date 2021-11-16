@@ -232,8 +232,8 @@ class MyPageScreen
     chat.read
     puts '<div class=myarticle id=mypage_chat style="display:none;">' \
       '<a id=cvtop></a>recent 200 messages. ' \
-      "<button onclick='scrollToAnchor(\"cvbottom\")'>" \
-      '↓ latest</button><hr>'
+      "<button onclick='scrollToAnchor(\"cvnew\")'>new messages</button> " \
+      "<button onclick='scrollToAnchor(\"cvbottom\")'>↓ latest</button><hr>"
     puts chat.empty? ? 'chat will be here.' : chat.msg4mypage
     puts "<button onclick='scrollToAnchor(\"cvtop\")'>↑ top</button>" \
       '<a name="cvbottom"></a></div>'

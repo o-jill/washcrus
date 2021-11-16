@@ -85,6 +85,14 @@ function scrollToAnchor(id)
   location.hash = '#' + id;
 }
 
+function onnavchat()
+{
+  /* 既読処理 */
+
+  /* 未読に飛ぶ */
+  /* scrollToAnchor('cvnew'); */
+}
+
 var target;
 function clicknav(strid) {
   if (target) {
@@ -103,6 +111,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       function() {
         res = this.id.match(/navbtn_(.+)/);
         clicknav('mypage_' + res[1]);
+        var fn = window['onnav' + res[1]];
+        if (typeof fn == 'function') fn()
       }
     );
   }
