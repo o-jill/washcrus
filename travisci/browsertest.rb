@@ -74,7 +74,7 @@ class BrowserTest < BrowserTestAbstract
 
   def updatepwd_mypage(opwd, npwd1, npwd2)
     simplecheck 'index.rb?mypage'
-    clickbtn(:id, 'navbtn_pwd')
+    clickbtn(:id, 'navbtn_pswd')
     elem = driver.find_element(:id, 'sipassword')
     elem.send_keys opwd
     elem = driver.find_element(:id, 'rnewpassword')
