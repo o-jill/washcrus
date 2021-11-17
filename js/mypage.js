@@ -88,6 +88,19 @@ function scrollToAnchor(id)
 function onnavchat()
 {
   /* 既読処理 */
+  var ajax = new XMLHttpRequest();
+  if (ajax === null) return;
+
+  ajax.open('POST', 'index.rb?chatview', true);
+  ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  ajax.send('dum=my');
+  ajax.onreadystatechange = function() {
+    switch (ajax.readyState) {
+    case 4:
+      /* nothing? */
+      break;
+    }
+  };
 
   /* 未読に飛ぶ */
   /* scrollToAnchor('cvnew'); */

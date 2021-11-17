@@ -5,7 +5,7 @@ require './file/pathlist.rb'
 
 # チャットファイル管理クラス
 class UserChatFile
-  LIMIT = 200 # 最新何発言分保存するか
+  LIMIT = 201 # 最新何発言分保存するか
   # 初期化
   #
   # @param id 対局ID
@@ -100,5 +100,22 @@ class UserChatFile
         line
       end
     end
+  end
+
+  KIDOKU_LINE = '<span id=cvnew>~ ~ ~ ~ ここまで読んだかも ~ ~ ~ ~</span><br>'
+
+  def kidoku
+    read
+
+    # remove kidoku line
+    msg.filter! do |line|
+      line.index(KIDOKU_LINE) != 0
+    end
+
+    # append kidoku line
+    msg << KIDOKU_LINE
+
+    write
+    puts "Content-type:text/plain;\n\nKIDOKU for file:#{path}\n#{KIDOKU_LINE}"
   end
 end
