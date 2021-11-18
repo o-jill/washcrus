@@ -328,6 +328,28 @@ text-decoration:none;
         order: 2;
 }
 
+.mypage_main .mypage_chat small {
+  font-size: : 8pt;
+}
+
+.kidoku {
+  border: none;
+	border-top: 1px solid firebrick;
+	/* color: red; */
+	overflow: visible;
+	text-align: center;
+	height: 5px;
+}
+
+.kidoku:after {
+  content: 'ここまで読んだかも';
+  font-size: 8pt;
+  background: ivory;
+  padding: 0 8px;
+  position: relative;
+  top: -15px;
+}
+
 .unsubscribe {
   color: red;
   font-size: 2rem;
