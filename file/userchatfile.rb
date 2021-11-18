@@ -109,7 +109,7 @@ class UserChatFile
 
     # remove kidoku line
     msg.reject! do |line|
-      line.index(KIDOKU_LINE).zero?
+      line.index(KIDOKU_LINE)&.zero?
     end
 
     # append kidoku line
