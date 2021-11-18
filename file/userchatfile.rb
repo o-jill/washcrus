@@ -108,8 +108,8 @@ class UserChatFile
     read
 
     # remove kidoku line
-    msg.filter! do |line|
-      line.index(KIDOKU_LINE) != 0
+    msg.reject! do |line|
+      line.index(KIDOKU_LINE).zero?
     end
 
     # append kidoku line
