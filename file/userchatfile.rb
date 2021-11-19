@@ -83,22 +83,29 @@ class UserChatFile
   end
 
   def msg4mypage
+    date = ''
     msg.map.with_index do |line, idx|
       line.chomp!
       res = line.match(
-        /^([0-9a-fA-F]+?),(.+)(\(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d \+\d{4}\))<BR>$/
+        /^([0-9a-f]+?),(.+)\((\d{4}-\d\d-\d\d) (\d\d:\d\d:\d\d) \+\d{4}\)<BR>$/
       )
-      if res
-        gid = res[1]
-        "<div id=chat#{idx}><label><input style='display:none;' type=checkbox" \
-        " onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
-        "#{res[2]}<small>#{res[3]}</small>" \
-        "</label><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
-        "<img src='image/right_fu.png' alt='game:#{gid}'
-        title='go to this game!'></a></div>"
+      next line unless res
+
+      if date != res[3]
+        date = res[3]
+        datemsg = "<div class='cvdate'>- #{date} -</div>"
       else
-        line
+        datemsg = ''
       end
+
+      gid = res[1]
+
+      "#{datemsg}<div id=chat#{idx}><label><input style='display:none;'" \
+      " type=checkbox onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
+      "#{res[2]}<small>#{res[4]}</small>" \
+      "</label><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
+      "<img src='image/right_fu.png' alt='game:#{gid}'
+      title='go to this game!'></a></div>"
     end
   end
 
