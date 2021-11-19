@@ -10,6 +10,7 @@ class BrowserTestAbstract
   def initialize
     # Firefox用のドライバを使う
     @driver = Selenium::WebDriver.for :firefox
+    @wait = Selenium::WebDriver::Wait.new(timeout: 10)
     @res = Result.new(driver)
   end
 
@@ -192,8 +193,15 @@ class BrowserTestAbstract
     simplecheck 'index.rb?lounge'
 
     inputbox(:id, 'chatmsg', 'hello on lounge chat!!')
+    chat = @driver.find_element(:id, 'chatlog').text
     clickbtn(:id, 'chatbtn')
-    sleep 1
+    @wait.until do
+      func = lambda do |txt|
+        newchat = @driver.find_element(:id, 'chatlog').text
+        newchat != txt
+      end
+      func.call(chat)
+    end
     simplecheckmatch('chat.rb?lounge', /hello on lounge chat!!/)
   end
 
@@ -201,8 +209,15 @@ class BrowserTestAbstract
 
   def gamechat(msg)
     inputbox(:id, 'chatmsg', msg)
+    chat = @driver.find_element(:id, 'chatlog').text
     clickbtn(:id, 'chatbtn')
-    sleep 5
+    @wait.until do
+      func = lambda do |txt|
+        newchat = @driver.find_element(:id, 'chatlog').text
+        newchat != txt
+      end
+      func.call(chat)
+    end
     res.checkchat(/#{msg}/)
   end
 end
