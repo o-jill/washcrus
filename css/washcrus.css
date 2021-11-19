@@ -333,21 +333,19 @@ text-decoration:none;
 }
 
 .kidoku {
-  border: none;
-	border-top: 1px solid firebrick;
-	/* color: red; */
-	overflow: visible;
-	text-align: center;
-	height: 5px;
+  background-color: lightgoldenrodyellow;
+  color: midnightblue;
+  overflow: visible;
+  text-align: center;
+  height: 15px;
 }
 
 .kidoku:after {
   content: 'ここまで読んだかも';
   font-size: 8pt;
-  background: ivory;
-  padding: 0 8px;
+  padding: 0 1em;
   position: relative;
-  top: -15px;
+  top: -8px
 }
 
 .unsubscribe {
