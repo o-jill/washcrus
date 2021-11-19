@@ -45,16 +45,12 @@ function filterchatmsg(gid)
 {
   for (var i = 0 ; i < 200 ; ++i) {
     var elem = document.getElementById('chat' + i);
-    if (elem == null) break;
+    if (elem == null) continue;
+
     var img = elem.getElementsByTagName('img')[0];
-    if (img.alt.indexOf(gid) >= 0) {
-      elem.getElementsByTagName('input')[0].checked = true;
-      elem.style.opacity = 1.0;
-    } else {
-      elem.getElementsByTagName('input')[0].checked = false;
-      elem.style.opacity = .25;
-      /* elem.style.display = 'none'; */
-    }
+    var willbeshown = img.alt.indexOf(gid) >= 0
+    elem.getElementsByTagName('input')[0].checked = willbeshown;
+    elem.style.opacity = willbeshown ? 1.0 : 0.25;
   }
 }
 
@@ -62,7 +58,7 @@ function releasechatmsg(gid)
 {
   for (var i = 0 ; i < 200 ; ++i) {
     var elem = document.getElementById('chat' + i);
-    if (elem == null) break;
+    if (elem == null) continue;
 
     elem.getElementsByTagName('input')[0].checked = false;
     elem.style.opacity = 1.0;
