@@ -703,8 +703,6 @@ function turn_taikyoku_on()
 
 function activateteban()
 {
-  turn_taikyoku_on();
-
   var strinfo = mykifu.NTeme + '手目です。<BR>';
   if (activeteban === Koma.SENTEBAN) {
     strinfo += '先手の手番です。<BR>'
@@ -724,6 +722,8 @@ function activateteban()
   /* draw_suggest button */
   /* btn = document.getElementById('btn_draw_suggest'); */
   /* if (btn) btn.style.display = (taikyokuchu) ? 'inline' : 'none'; */
+
+  turn_taikyoku_on();
 }
 
 function checkSfenResponse(sfenstr)
@@ -876,16 +876,16 @@ function init_board() {
 
   read_lastmove();
 
+  hifumin_eye = document.getElementById('hifumineye').checked;
+
+  update_screen();
+
   activateteban();
 
   if (!isfinished) {
     startUpdateTimer();
     startCurTimer();
   }
-
-  hifumin_eye = document.getElementById('hifumineye').checked;
-
-  update_screen();
 }
 
 document.addEventListener( 'DOMContentLoaded', function() {
