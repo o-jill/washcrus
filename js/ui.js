@@ -713,6 +713,8 @@ function activateteban()
   }
   document.getElementById('tebaninfo').innerHTML = strinfo;
 
+  turn_taikyoku_on();
+
   /* resign button */
   var tarea = document.getElementById('resign_area')
   if (tarea && !taikyokuchu) tarea.innerHTML = '手番時に投了出来ます。';
@@ -722,8 +724,6 @@ function activateteban()
   /* draw_suggest button */
   /* btn = document.getElementById('btn_draw_suggest'); */
   /* if (btn) btn.style.display = (taikyokuchu) ? 'inline' : 'none'; */
-
-  turn_taikyoku_on();
 }
 
 function checkSfenResponse(sfenstr)
