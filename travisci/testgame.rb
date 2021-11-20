@@ -155,11 +155,21 @@ class TestGame < TestGameAbstract
     res.succfail(sfen == resultsfen)
   end
 
+  def lastmove
+    driver.find_element(:id, 'lastmove').attribute(:value)
+  end
+
+  def checklastmove(txt)
+    sleep 0.5
+    lastmove != txt
+  end
+
   # コマを動かす。
   #
   # @param from 移動元の座標
   # @param to   移動先の座標
   def move_a_piece(from, to)
+    sfen = lastmove
     if from
       touch(from)
       move(to)
@@ -170,7 +180,9 @@ class TestGame < TestGameAbstract
       move(to)
       confirmmove('ok')
     end
-    sleep 3.5
+
+    sleep 0.5
+    @wait.until { checklastmove(sfen) }
   end
 
   # ひふみんアイ用の座標変換
