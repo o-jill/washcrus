@@ -189,35 +189,30 @@ class BrowserTestAbstract
     lounge_cancel
   end
 
+  def updatedchat?(txt)
+    newchat = @driver.find_element(:id, 'chatlog').text
+    newchat != txt
+  end
+
   def lounge_say
     simplecheck 'index.rb?lounge'
 
+    sleep(0.5)
     inputbox(:id, 'chatmsg', 'hello on lounge chat!!')
     chat = @driver.find_element(:id, 'chatlog').text
     clickbtn(:id, 'chatbtn')
-    @wait.until do
-      func = lambda do |txt|
-        newchat = @driver.find_element(:id, 'chatlog').text
-        newchat != txt
-      end
-      func.call(chat)
-    end
+    @wait.until { updatedchat?(chat) }
     simplecheckmatch('chat.rb?lounge', /hello on lounge chat!!/)
   end
 
   GREETING = %w[よろしくお願いします。 おなしゃす。].freeze
 
   def gamechat(msg)
+    sleep(0.5)
     inputbox(:id, 'chatmsg', msg)
     chat = @driver.find_element(:id, 'chatlog').text
     clickbtn(:id, 'chatbtn')
-    @wait.until do
-      func = lambda do |txt|
-        newchat = @driver.find_element(:id, 'chatlog').text
-        newchat != txt
-      end
-      func.call(chat)
-    end
+    @wait.until { updatedchat?(chat) }
     res.checkchat(/#{msg}/)
   end
 end
