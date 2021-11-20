@@ -16,10 +16,11 @@ div.err{ border: 1px solid red; font-size: 2rem; }
 .block {
   display: flex;
   justify-content: center;
-  width:100%;
+  width: 100%;
 }
 .block_elem_ban {
   border: 1px solid #FC6;
+  border-sizing: border-box;
   /* background-color: #FFEFD5; */
   flex: 2;
   vertical-align: top;
@@ -33,6 +34,7 @@ table.ban, table.sentegoma, table.gotegoma {
   border:2px solid black;
 }*/
 table.ban tr td, table.ban tr th {
+  border-sizing: border-box;
   border:2px solid black;
 }
 table.ban tr td img {
@@ -99,6 +101,7 @@ textarea.kifu {
 }
 .block_elem_kifu {
   border: 1px solid #FC6;
+  border-sizing: border-box;
   /* background-color: #FFEFD5; */
   flex: 1;
   vertical-align: top;
@@ -160,8 +163,9 @@ textarea.kifu {
 /* notification */
 .notify {
   border: 1px solid orange;
+  border-sizing: border-box;
   display: none;
-  width:100%;
+  width: 100%;
 }
 
 /* 入力禁止用幕 */
@@ -185,6 +189,7 @@ textarea.kifu {
 .msg_fogscreen {
   background-Color: lightyellow;
   border: 1px solid gold;
+  border-sizing: border-box;
   border-radius: 5px;
   margin: 20px auto;
   opacity: 1.0;
@@ -254,7 +259,8 @@ textarea.kifu {
 
 .popup {
   background-Color: lightgray;
-  border:1px solid gray;
+  border: 1px solid gray;
+  border-sizing: border-box;
   display: none;
   padding: 0;
   position: absolute;
@@ -368,6 +374,7 @@ text-decoration:none;
 /* version information */
 .githash {
   border: solid 5px #f44d27;
+  border-sizing: border-box;
   padding: 5px;
   text-align: left;
   width: 80vw;
@@ -379,6 +386,7 @@ text-decoration:none;
 }
 .geminfo {
   border: solid 5px #cc342d;
+  border-sizing: border-box;
   padding: 5px;
   text-align: left;
   width: 80vw;
@@ -415,6 +423,7 @@ text-decoration:none;
 .mvcfm_ok, .mvcfm_cancel {
   background-color: lightgray;
   border: 2px solid gray;
+  border-sizing: border-box;
   padding: 1rem;
   text-align: center;
   width: 100%;
@@ -423,6 +432,7 @@ text-decoration:none;
 /* NEWS*/
 .news {
   border: inset 5px blue;
+  border-sizing: border-box;
   padding: 5px;
   text-align: left;
   width: 60vw;
@@ -455,6 +465,7 @@ text-decoration:none;
   overflow: hidden;
   border-bottom: 1px solid darkolivegreen;
   /* border: 1px solid rgb(200,222,245); / * ボーダー */
+  border-sizing: border-box;
   /* background-color: rgb(233,247,250); / * 背景色 */
   color: darkolivegreen; /* 文字色 */
   font-family: monospace;
