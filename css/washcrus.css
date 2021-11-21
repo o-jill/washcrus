@@ -34,8 +34,8 @@ table.ban, table.sentegoma, table.gotegoma {
   border:2px solid black;
 }*/
 table.ban tr td, table.ban tr th {
+  border: 2px solid black;
   box-sizing: border-box;
-  border:2px solid black;
 }
 table.ban tr td img {
   height: 3em;
@@ -70,9 +70,9 @@ table.gotegoma tr td {
   width: 3em;*/
 }
 .ban_masu img {
-  vertical-align: top;
   margin: 0;
   padding: 1px;
+  vertical-align: top;
 }
 /*.ban_dan_row {
   height: 3em;
@@ -88,6 +88,7 @@ table.gotegoma tr td {
 /*}*/
 /* 棋譜 */
 div.kifu {
+  box-sizing: border-box;
   column-count: 2;
   display: flex;
   max-height:700px;
@@ -96,8 +97,9 @@ div.kifu {
   width:100%;
 }
 textarea.kifu {
+  box-sizing: border-box;
   height:calc(600px + 7em);
-  width: calc(100% - 4px);
+  width: 100%;
 }
 .block_elem_kifu {
   border: 1px solid #FC6;
@@ -116,8 +118,9 @@ textarea.kifu {
         flex-direction: column;
   }
   textarea.kifu {
+    box-sizing: border-box;
     height: 10em;
-    width: calc(100% - 2px);
+    width: 100%;
   }
   table.ban tr td img {
     height: 9vw;
@@ -129,11 +132,11 @@ textarea.kifu {
   }
   .ban_suji_num {
     font-weight: bold;
-    width: calc(9vw + 2px);
+    width: 9vw;
   }
   .ban_dan_num {
     font-weight: bold;
-    height: calc(9vw + 2px);
+    height: 9vw;
   }
   .tegoma_koma {
     height: 9vw;
@@ -189,8 +192,8 @@ textarea.kifu {
 .msg_fogscreen {
   background-Color: lightyellow;
   border: 1px solid gold;
-  box-sizing: border-box;
   border-radius: 5px;
+  box-sizing: border-box;
   margin: 20px auto;
   opacity: 1.0;
   padding: 10px;
@@ -339,18 +342,18 @@ text-decoration:none;
 }
 
 .cvdate {
-  width: 100vw;
-  text-align: center;
   background-color: ghostwhite;
   color: green;
+  text-align: center;
+  width: 100vw;
 }
 
 .kidoku {
   background-color: lightgoldenrodyellow;
   color: midnightblue;
+  height: 15px;
   overflow: visible;
   text-align: center;
-  height: 15px;
 }
 
 .kidoku:after {
@@ -448,9 +451,9 @@ text-decoration:none;
 
 /* signup */
 .signupinfo {
-  text-align: center;
   background-color: white;
   color: red;
+  text-align: center;
 }
 
 .signupinfo address {
@@ -460,9 +463,6 @@ text-decoration:none;
 
 /* marquee */
 .marquee-anim {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
   border-bottom: 1px solid darkolivegreen;
   /* border: 1px solid rgb(200,222,245); / * ボーダー */
   box-sizing: border-box;
@@ -470,13 +470,16 @@ text-decoration:none;
   color: darkolivegreen; /* 文字色 */
   font-family: monospace;
   font-weight: bold;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .marquee-anim span {
+  animation: marquee 30s linear infinite;
   display: inline-block;
   padding-left: 100%;
   white-space: nowrap;
-  animation: marquee 30s linear infinite;
 }
 
 @keyframes marquee {
