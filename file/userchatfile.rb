@@ -82,30 +82,35 @@ class UserChatFile
     puts '</select>'
   end
 
+  def checkdatemsg(newdate)
+    return [@date, ''] if @date == newdate
+
+    [newdate, "<div class='cvdate'>- #{newdate} -</div>"]
+  end
+
+  def procmsg(msg, idx)
+    res = msg.match(
+      /^([0-9a-f]+?),(.+)\((\d{4}-\d\d-\d\d) (\d\d:\d\d:\d\d) \+\d{4}\)<BR>$/
+    )
+    return msg unless res
+
+    @date, datemsg = checkdate(res[3])
+
+    gid = res[1]
+
+    "#{datemsg}<div id=chat#{idx}><label><input style='display:none;'" \
+    " type=checkbox onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
+    "#{res[2]}<small>#{res[4]}</small>" \
+    "</label><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
+    "<img src='image/right_fu.png' alt='game:#{gid}'
+    title='go to this game!'></a></div>"
+  end
+
   def msg4mypage
-    date = ''
+    @date = ''
     msg.map.with_index do |line, idx|
       line.chomp!
-      res = line.match(
-        /^([0-9a-f]+?),(.+)\((\d{4}-\d\d-\d\d) (\d\d:\d\d:\d\d) \+\d{4}\)<BR>$/
-      )
-      next line unless res
-
-      if date != res[3]
-        date = res[3]
-        datemsg = "<div class='cvdate'>- #{date} -</div>"
-      else
-        datemsg = ''
-      end
-
-      gid = res[1]
-
-      "#{datemsg}<div id=chat#{idx}><label><input style='display:none;'" \
-      " type=checkbox onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
-      "#{res[2]}<small>#{res[4]}</small>" \
-      "</label><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
-      "<img src='image/right_fu.png' alt='game:#{gid}'
-      title='go to this game!'></a></div>"
+      procmsg(line, idx)
     end
   end
 
