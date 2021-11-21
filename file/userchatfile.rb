@@ -94,7 +94,7 @@ class UserChatFile
     )
     return msg unless res
 
-    @date, datemsg = checkdate(res[3])
+    @date, datemsg = checkdatemsg(res[3])
 
     gid = res[1]
 
