@@ -109,7 +109,7 @@ class UserChatFile
     end
   end
 
-  KIDOKU_LINE = '<hr id="cvnew" class="kidoku" noshade>'
+  KIDOKU_LINE = '<div id="cvnew" class="kidoku">ここまで読んだかも</div>'
 
   def kidoku
     read
