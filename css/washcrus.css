@@ -58,9 +58,9 @@ table.gotegoma tr td {
   width: 3em;
 }
 .tegoma_koma img {
-  vertical-align: top;
   margin: 0;
   padding: 1px;
+  vertical-align: top;
 }
 .tegoma_num { font-size: 1.5rem; }
 .ban_masu {
