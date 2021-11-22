@@ -462,16 +462,16 @@ text-decoration:none;
 
 /* marquee */
 .marquee-anim {
-  border-bottom: 1px solid darkolivegreen;
-  /* border: 1px solid rgb(200,222,245); / * ボーダー */
-  box-sizing: border-box;
   /* background-color: rgb(233,247,250); / * 背景色 */
+  /* border: 1px solid rgb(200,222,245); / * ボーダー */
+  border-bottom: 1px solid darkolivegreen;
+  box-sizing: border-box;
   color: darkolivegreen; /* 文字色 */
   font-family: monospace;
   font-weight: bold;
   margin: 0;
-  padding: 0;
   overflow: hidden;
+  padding: 0;
 }
 
 .marquee-anim span {
