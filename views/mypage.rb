@@ -227,14 +227,14 @@ class MyPageScreen
   end
 
   # チャットのやり取りの表示
-  def put_chat(uid)
+  def put_chat(uid, unm)
     chat = UserChatFile.new(uid)
     chat.read
     puts '<div class=myarticle id=mypage_chat style="display:none;">' \
       '<a id=cvtop></a>recent 200 messages. ' \
       "<button onclick='scrollToAnchor(\"cvnew\")'>new messages</button> " \
       "<button onclick='scrollToAnchor(\"cvbottom\")'>↓ latest</button><hr>"
-    puts chat.empty? ? 'chat will be here.' : chat.msg4mypage
+    puts chat.empty? ? 'chat will be here.' : chat.msg4mypage(unm)
     puts "<button onclick='scrollToAnchor(\"cvtop\")'>↑ top</button>" \
       '<a name="cvbottom"></a></div>'
   end
@@ -294,7 +294,7 @@ class MyPageScreen
     put_mypage_stats(wl, userinfo)
 
     put_taikyokurireki(uid)
-    put_chat(uid)
+    put_chat(uid, userinfo.user_name)
     put_accountsettings
 
     puts '</div>'

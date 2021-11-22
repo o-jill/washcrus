@@ -348,6 +348,25 @@ text-decoration:none;
   width: 100vw;
 }
 
+div.mychatmsg {
+  margin: 1px 0 1px 1em;
+  text-align: right;
+}
+
+span.mychatmsg {
+  background-color: chartreuse;
+  /* padding: 0 1em; */
+}
+
+div.notmychatmsg {
+  margin: 1px 1em 1px 0;
+  text-align: left;
+}
+
+span.notmychatmsg {
+  background-color: aliceblue;
+}
+
 .kidoku {
   background-color: lightgoldenrodyellow;
   border: solid 1px midnightblue;

@@ -88,29 +88,34 @@ class UserChatFile
     [newdate, "<div class='cvdate'>- #{newdate} -</div>"]
   end
 
-  def procmsg(msg, idx)
+  def checkmine(msg, myname)
+    %r{^<[bB]>#{myname}</[Bb]>:} =~ msg ? 'mychatmsg' : 'notmychatmsg'
+  end
+
+  def procmsg(msg, idx, myname)
     res = msg.match(
       /^([0-9a-f]+?),(.+)\((\d{4}-\d\d-\d\d) (\d\d:\d\d:\d\d) \+\d{4}\)<BR>$/
     )
     return msg unless res
 
     @date, datemsg = checkdatemsg(res[3])
-
+    mine = checkmine(res[2], myname)
     gid = res[1]
 
-    "#{datemsg}<div id=chat#{idx}><label><input style='display:none;'" \
-    " type=checkbox onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
-    "#{res[2]}<small>#{res[4]}</small>" \
+    "#{datemsg}<div id='chat#{idx}' class='#{mine}'>" \
+    "<span class='#{mine}'><label><input style='display:none;' type=checkbox " \
+    "onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
+    "#{res[2]}</span><small>#{res[4]}</small>" \
     "</label><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
     "<img src='image/right_fu.png' alt='game:#{gid}'
     title='go to this game!'></a></div>"
   end
 
-  def msg4mypage
+  def msg4mypage(unm)
     @date = ''
     msg.map.with_index do |line, idx|
       line.chomp!
-      procmsg(line, idx)
+      procmsg(line, idx, unm)
     end
   end
 
