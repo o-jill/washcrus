@@ -25,6 +25,7 @@ class BrowserTestAbstract
 
   def simplecheck(pageurl)
     driver.navigate.to BASE_URL + pageurl
+    sleep 0.1
     res.checktitle
     # puts driver.page_source
     res.checkfooter
@@ -32,6 +33,7 @@ class BrowserTestAbstract
 
   def simpleurlcheck(url)
     res.checkurl(BASE_URL + url)
+    sleep 0.1
     res.checktitle
     # puts driver.page_source
     res.checkfooter
@@ -39,6 +41,7 @@ class BrowserTestAbstract
 
   def simplecheckmatch(url, rex)
     driver.navigate.to BASE_URL + url
+    sleep 0.1
     # puts driver.title
     # puts driver.page_source
     res.checkmatch(rex)
@@ -72,6 +75,7 @@ class BrowserTestAbstract
   # adminerrorになることの確認
   def adminerrcheck(pageurl)
     driver.navigate.to BASE_URL + pageurl
+    sleep 0.1
     res.checktitlenot('WashCrus')
     res.checkplaintext('ERR_NOT_ADMIN')
   end
@@ -103,6 +107,7 @@ class BrowserTestAbstract
 
   def getmailjson
     driver.navigate.to 'http://localhost:1080/messages'
+    sleep 0.1
     # puts driver.page_source
     element = driver.find_element(:id, 'json')
     # puts "json:#{element.text}"

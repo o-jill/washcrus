@@ -88,8 +88,8 @@ class TestGameAbstract < BrowserTestAbstract
 
   # 対局ページに移動
   def gogame
-    sleep 0.5
     driver.navigate.to BASE_URL + "index.rb?game/#{gid}"
+    sleep 0.1
   end
 
   # 移動確認ダイアログのボタンをクリックする
