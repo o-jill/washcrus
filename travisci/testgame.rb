@@ -160,7 +160,7 @@ class TestGame < TestGameAbstract
   end
 
   def checklastmove(txt)
-    sleep 0.5
+    sleep 0.1
     lastmove != txt
   end
 
@@ -181,7 +181,7 @@ class TestGame < TestGameAbstract
       confirmmove('ok')
     end
 
-    sleep 0.5
+    sleep 1
     @wait.until { checklastmove(sfen) }
   end
 
