@@ -106,8 +106,8 @@ class BrowserTestAbstract
   end
 
   def getmailjson
-    driver.navigate.to 'http://localhost:1080/messages'
     sleep 0.1
+    driver.navigate.to 'http://localhost:1080/messages'
     # puts driver.page_source
     element = driver.find_element(:id, 'json')
     # puts "json:#{element.text}"
