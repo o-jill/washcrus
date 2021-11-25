@@ -233,10 +233,11 @@ class MyPageScreen
     puts '<div class=myarticle id=mypage_chat style="display:none;">' \
       '<a id=cvtop></a>recent 200 messages. ' \
       "<button onclick='scrollToAnchor(\"cvnew\")'>new messages</button> " \
-      "<button onclick='scrollToAnchor(\"cvbottom\")'>↓ latest</button><hr>"
+      "<button onclick='scrollToAnchor(\"cvbottom\")'>↓ latest</button><hr>" \
+      "<div class='chatarea'>"
     puts chat.empty? ? 'chat will be here.' : chat.msg4mypage(unm)
-    puts "<button onclick='scrollToAnchor(\"cvtop\")'>↑ top</button>" \
-      '<a name="cvbottom"></a></div>'
+    puts '</div><hr id="cvbottom">' \
+      "<button onclick='scrollToAnchor(\"cvtop\")'>↑ top</button></div>"
   end
 
   # アカウント設定、メールアドレス設定、退会設定の出力

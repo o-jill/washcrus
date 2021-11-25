@@ -103,12 +103,13 @@ class UserChatFile
     gid = res[1]
 
     "#{datemsg}<div id='chat#{idx}' class='#{mine}'>" \
-    "<span class='#{mine}'><label><input style='display:none;' type=checkbox " \
+    "<div class='fukiarea'><div class='fukidasi'>" \
+    "<label><span class='#{mine}'><input style='display:none;' type=checkbox " \
     "onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
-    "#{res[2]}</span><small>#{res[4]}</small>" \
-    "</label><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
+    "#{res[2]}</span></label></div></div><div><small>#{res[4]}</small></div>" \
+    "<div><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
     "<img src='image/right_fu.png' alt='game:#{gid}'
-    title='go to this game!'></a></div>"
+    title='go to this game!'></a></div></div>"
   end
 
   def msg4mypage(unm)

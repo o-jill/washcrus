@@ -341,6 +341,19 @@ text-decoration:none;
   font-size: 8pt;
 }
 
+.chatarea {
+  background-color: aliceblue;
+  display: -webkit-flex;
+  display:         flex;
+-webkit-flex-direction: column;
+        flex-direction: column;
+/*-webkit-flex-flow: column nowrap;
+        flex-flow: column nowrap;*/
+  margin: 0;
+  /* min-height: 400px; */
+  padding: 0;
+}
+
 .cvdate {
   background-color: ghostwhite;
   color: green;
@@ -348,23 +361,40 @@ text-decoration:none;
   width: 100vw;
 }
 
-div.mychatmsg {
-  margin: 1px 0 1px 1em;
-  text-align: right;
+.fukiarea {
+  margin: 2px 2px;
+  width: 70vw;
 }
 
-span.mychatmsg {
+div.mychatmsg .fukidasi {
   background-color: chartreuse;
-  /* padding: 0 1em; */
+  border-radius: 10px;
+  padding: 5px;
+}
+
+div.notmychatmsg .fukidasi {
+  background-color: white;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+div.mychatmsg {
+  border-radius: 15px;
+  display: -webkit-flex;
+  display:         flex;
+  /* margin: 1em; */
+  /* text-align: right; */
+-webkit-flex-flow: nowrap row-reverse;
+        flex-flow: nowrap row-reverse;
 }
 
 div.notmychatmsg {
-  margin: 1px 1em 1px 0;
-  text-align: left;
-}
-
-span.notmychatmsg {
-  background-color: aliceblue;
+display: -webkit-flex;
+display:         flex;
+-webkit-flex-flow: nowrap row;
+        flex-flow: nowrap row;
+  /* margin: 1em; */
+  /* text-align: left; */
 }
 
 .kidoku {
