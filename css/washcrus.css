@@ -337,6 +337,8 @@ text-decoration:none;
         order: 2;
 }
 
+.mypage_main button { font-size: 2rem; }
+
 .mypage_main .mypage_chat small {
   font-size: 8pt;
 }
@@ -369,13 +371,13 @@ text-decoration:none;
 div.mychatmsg .fukidasi {
   background-color: chartreuse;
   border-radius: 10px;
-  padding: 5px;
+  padding: 5px 10px;
 }
 
 div.notmychatmsg .fukidasi {
   background-color: white;
   border-radius: 10px;
-  padding: 5px;
+  padding: 5px 10px;
 }
 
 div.mychatmsg {

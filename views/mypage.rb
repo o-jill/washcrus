@@ -231,13 +231,13 @@ class MyPageScreen
     chat = UserChatFile.new(uid)
     chat.read
     puts '<div class=myarticle id=mypage_chat style="display:none;">' \
-      '<a id=cvtop></a>recent 200 messages. ' \
+      '<a id=cvtop></a><div align=center>' \
       "<button onclick='scrollToAnchor(\"cvnew\")'>new messages</button> " \
-      "<button onclick='scrollToAnchor(\"cvbottom\")'>↓ latest</button><hr>" \
-      "<div class='chatarea'>"
+      "<button onclick='scrollToAnchor(\"cvbottom\")'>↓ latest</button>" \
+      "</div><hr><div class='chatarea'>"
     puts chat.empty? ? 'chat will be here.' : chat.msg4mypage(unm)
-    puts '</div><hr id="cvbottom">' \
-      "<button onclick='scrollToAnchor(\"cvtop\")'>↑ top</button></div>"
+    puts '</div><hr id="cvbottom"><div align=center>' \
+      "<button onclick='scrollToAnchor(\"cvtop\")'>↑ top</button></div></div>"
   end
 
   # アカウント設定、メールアドレス設定、退会設定の出力
