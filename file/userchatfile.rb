@@ -89,7 +89,10 @@ class UserChatFile
   end
 
   def checkmine(msg, myname)
-    %r{^<[bB]>#{myname}</[Bb]>:} =~ msg ? 'mychatmsg' : 'notmychatmsg'
+    ret = msg.match(%r{^<[bB]>(.+)</[bB]>:(.+)})
+    return ['', msg, 'notmychatmsg'] unless ret
+
+    [ret[1], ret[2], ret[1] == myname ? 'mychatmsg' : 'notmychatmsg']
   end
 
   def procmsg(msg, idx, myname)
@@ -99,14 +102,14 @@ class UserChatFile
     return msg unless res
 
     @date, datemsg = checkdatemsg(res[3])
-    mine = checkmine(res[2], myname)
+    name, chatmsg, mine = checkmine(res[2], myname)
     gid = res[1]
 
-    "#{datemsg}<div id='chat#{idx}' class='#{mine}'>" \
+    "#{datemsg}<div id='chat#{idx}' class='#{mine}'><div>#{name}</div>" \
     "<div class='fukiarea'><div class='fukidasi'>" \
-    "<label><span class='#{mine}'><input style='display:none;' type=checkbox " \
+    "<label><input style='display:none;' type=checkbox " \
     "onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
-    "#{res[2]}</span></label></div></div><div><small>#{res[4]}</small></div>" \
+    "#{chatmsg}</label></div></div><div><small>#{res[4]}</small></div>" \
     "<div><a href='index.rb?game/#{gid}' class='mypage_chatgame'>" \
     "<img src='image/right_fu.png' alt='game:#{gid}'
     title='go to this game!'></a></div></div>"
