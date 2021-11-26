@@ -55,6 +55,9 @@ class TestGame < TestGameAbstract
     sleep 1.3
     simpleurlcheck('index.rb?logincheck')
     res.checkmatch(/Logged in successfully/)
+  rescue StandardError
+    body = driver.find_element(:tag_name, 'body')
+    puts body
   end
 
   # 対局ページに移動
