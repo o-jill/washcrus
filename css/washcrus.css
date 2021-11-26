@@ -374,6 +374,10 @@ div.mychatmsg .fukidasi {
   padding: 5px 10px;
 }
 
+div.mychatmsg .chatname {
+  display: none;
+}
+
 div.notmychatmsg .fukidasi {
   background-color: white;
   border-radius: 10px;

@@ -105,7 +105,8 @@ class UserChatFile
     name, chatmsg, mine = checkmine(res[2], myname)
     gid = res[1]
 
-    "#{datemsg}<div id='chat#{idx}' class='#{mine}'><div>#{name}</div>" \
+    "#{datemsg}<div id='chat#{idx}' class='#{mine}'>" \
+    "<div class='chatname'>#{name}</div>" \
     "<div class='fukiarea'><div class='fukidasi'>" \
     "<label><input style='display:none;' type=checkbox " \
     "onclick='clickchatmsg(\"chat#{idx}\", \"#{gid}\")'>" \
