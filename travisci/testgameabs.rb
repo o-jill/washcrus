@@ -84,7 +84,7 @@ class TestGameAbstract < BrowserTestAbstract
   # ログアウトする
   def logout
     driver.navigate.to BASE_URL + 'index.rb?logout'
-    sleep 0.1
+    sleep 0.5
   end
 
   # 対局ページに移動
