@@ -37,14 +37,14 @@ class MyPageScreen
   # ナビゲーションメニューの出力
   def put_navi
     puts <<-NAVI_AREA.unindent
-      <div id='mypagenav' class='mynav'>
-        <span id='navbtn_stats'>Stats</span>
-        <span id='navbtn_chat'>Chat</span>
-        <span id='navbtn_rireki'>History</span>
-        <span id='navbtn_pswd'>Password</span>
-        <span id='navbtn_email'>Email</span>
-        <span id='navbtn_unsubscribe'>Unsubscribe</span>
-      <hr></div>
+      <div><div id='mypagenav' class='mynav'>
+        <div id='navbtn_stats'>Stats</div>
+        <div id='navbtn_chat'>Chat</div>
+        <div id='navbtn_rireki'>History</div>
+        <div id='navbtn_pswd'>Password</div>
+        <div id='navbtn_email'>Email</div>
+        <div id='navbtn_unsubscribe'>Unsubscribe</div>
+      </div><hr></div>
     NAVI_AREA
   end
 
@@ -231,10 +231,10 @@ class MyPageScreen
     chat = UserChatFile.new(uid)
     chat.read
     puts '<div class=myarticle id=mypage_chat style="display:none;">' \
-      '<a id=cvtop></a><div align=center>' \
+      '<a id="cvtop"></a><div align="center">' \
       "<button onclick='scrollToAnchor(\"cvnew\")'>new messages</button> " \
       "<button onclick='scrollToAnchor(\"cvbottom\")'>↓ latest</button>" \
-      "</div><hr><div class='chatarea'>"
+      '</div><hr><div class="chatarea">'
     puts chat.empty? ? 'chat will be here.' : chat.msg4mypage(unm)
     puts '</div><hr id="cvbottom"><div align=center>' \
       "<button onclick='scrollToAnchor(\"cvtop\")'>↑ top</button></div></div>"

@@ -312,20 +312,27 @@ text-decoration:none;
 }
 
 .mypage_main .mynav {
+        display: -webkit-flex;
+        display:         flex;
 -webkit-flex: 1 1 auto;
         flex: 1 1 auto;
+-webkit-flex-flow: wrap row;
+        flex-flow: wrap row;
+        justify-content: center;
 -webkit-order: 1;
         order: 1;
         text-align: center;
+        /* margin: 1em; */
+        /* text-align: right; */
 }
 
-.mypage_main .mynav span {
+.mypage_main .mynav div {
   margin: 0;
-  padding: 5px 0.5em;
+  padding: 2px 5px;
   text-decoration: underline;
 }
 
-.mypage_main .mynav span:hover {
+.mypage_main .mynav div:hover {
   background-Color: gray;
   color: white;
 }
