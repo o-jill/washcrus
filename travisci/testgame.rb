@@ -227,7 +227,7 @@ class TestGame < TestGameAbstract
 
     gogame
     gamechat(GREETING[nth]) if nth < 2
-    sleep 0.5
+    sleep 1
     move_a_piece(ret[:from], ret[:to])
 
     logout
