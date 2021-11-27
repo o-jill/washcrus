@@ -322,7 +322,8 @@ text-decoration:none;
 -webkit-order: 1;
         order: 1;
         text-align: center;
-        /* margin: 1em; */
+        margin: 0;
+        padding: 0;
         /* text-align: right; */
 }
 
@@ -344,7 +345,7 @@ text-decoration:none;
         order: 2;
 }
 
-.mypage_main button { font-size: 2rem; }
+.mypage_main button { font-size: 1.5rem; }
 
 .mypage_main .mypage_chat small {
   font-size: 8pt;
