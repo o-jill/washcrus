@@ -159,7 +159,7 @@ textarea.kifu {
 
 /* chat */
 .chatbtn { font-size: 2rem }
-.chatmsg { font-size: 2rem; width: 68%; }
+.chatmsg { font-size: 2rem; width: 75%; }
 .chatnm { font-size: 2rem; width: 20%; }
 .chat { min-height:200px; overflow:scroll; width:100%; }
 
