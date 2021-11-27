@@ -87,10 +87,17 @@ class TestGameAbstract < BrowserTestAbstract
     sleep 0.5
   end
 
+  # 対局ページがある程度読み込めた？
+  def loaded?
+    sleep 0.5
+    driver.execute_script('return initialized;')
+  end
+
   # 対局ページに移動
   def gogame
     driver.navigate.to BASE_URL + "index.rb?game/#{gid}"
-    sleep 0.1
+    sleep 0.5
+    @wait.until { loaded? }
   end
 
   # 移動確認ダイアログのボタンをクリックする

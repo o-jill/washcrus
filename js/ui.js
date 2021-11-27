@@ -859,6 +859,9 @@ function startCurTimer()
     1000);
 }
 
+/** 対局画面がそれなりに初期化できたらtrue */
+var initialized = false;
+
 /**
  * sfenを読み込んで指せる状態にする。
  */
@@ -886,6 +889,8 @@ function init_board() {
     startUpdateTimer();
     startCurTimer();
   }
+
+  initialized = true;
 }
 
 document.addEventListener( 'DOMContentLoaded', function() {
