@@ -94,9 +94,11 @@ class TestGameAbstract < BrowserTestAbstract
   end
 
   # 対局ページに移動
-  def gogame
+  def gogame(shouldwait = 'yes or nil')
     driver.navigate.to BASE_URL + "index.rb?game/#{gid}"
     sleep 0.5
+    return sleep(1) unless shouldwait
+
     @wait.until { loaded? }
   end
 

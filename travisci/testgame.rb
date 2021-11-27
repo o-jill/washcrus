@@ -59,7 +59,7 @@ class TestGame < TestGameAbstract
 
   # 対局ページに移動
   def gogame_wo_login(sente)
-    gogame
+    gogame(nil)
     sleep 1
     # login
     sente ? checklogin_viagame(emlsen, pwsen) : checklogin_viagame(emlgo, pwgo)
