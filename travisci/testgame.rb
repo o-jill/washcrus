@@ -256,7 +256,10 @@ class TestGame < TestGameAbstract
       li_move_a_piece(nth)
     end
   rescue StandardError => e
-    puts "ERROR in move_with_kifu: class=[#{e.class}] message=[#{e.message}]"
+    puts "ERROR in move_with_kifu: class=[#{e.class}] message=[#{e.message}]" \
+         "STACK:#{e.backtrace.join("\n")}\n" \
+         "@driver.find_element(:tag_name, 'body').txt:" \
+         "'#{@driver.find_element(:tag_name, 'body').txt}'\n"
   end
 
   # 指したりチェックしたり
