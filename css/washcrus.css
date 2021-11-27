@@ -432,8 +432,9 @@ display:         flex;
 }
 
 .taikyokuchu {
-  display:flex;
-  flex-wrap:wrap;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* version information */
