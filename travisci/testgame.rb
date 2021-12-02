@@ -165,7 +165,7 @@ class TestGame < TestGameAbstract
     puts "no such: #{e}"
     sleep 0.3
     false
-  rescue Selenium::WebDriver::Error::StaleElementError => e
+  rescue Selenium::WebDriver::Error::StaleElementReferenceError => e
     puts "stale: #{e}"
     sleep 0.3
     false
