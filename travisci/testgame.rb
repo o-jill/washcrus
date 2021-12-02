@@ -134,7 +134,7 @@ class TestGame < TestGameAbstract
   #
   # @param clr 0:先, 1:後
   def resign(clr)
-    sleep 5 # wait logout
+    sleep 1 # wait logout
     gogame_wo_login(clr.zero?) # login here
     res.checkurl(BASE_URL + "index.rb?game/#{gid}")
     sleep 0.5
@@ -160,10 +160,14 @@ class TestGame < TestGameAbstract
   end
 
   def checklastmove(txt)
-    sleep 0.1
     lastmove != txt
   rescue Selenium::WebDriver::Error::NoSuchElementError => e
-    puts e
+    puts "no such: #{e}"
+    sleep 0.3
+    false
+  rescue Selenium::WebDriver::Error::StaleElementError => e
+    puts "stale: #{e}"
+    sleep 0.3
     false
   end
 
@@ -184,8 +188,8 @@ class TestGame < TestGameAbstract
       confirmmove('ok')
     end
 
-    sleep 1
-    @wait.until { checklastmove(sfen) }
+    sleep 0.5
+    @wait.until { waitfooter && checklastmove(sfen) }
   end
 
   # ひふみんアイ用の座標変換
