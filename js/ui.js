@@ -703,8 +703,6 @@ function turn_taikyoku_on()
 
 function activateteban()
 {
-  turn_taikyoku_on();
-
   var strinfo = mykifu.NTeme + '手目です。<BR>';
   if (activeteban === Koma.SENTEBAN) {
     strinfo += '先手の手番です。<BR>'
@@ -714,6 +712,8 @@ function activateteban()
     strinfo += '対局は終了/中断しました。<BR>'
   }
   document.getElementById('tebaninfo').innerHTML = strinfo;
+
+  turn_taikyoku_on();
 
   /* resign button */
   var tarea = document.getElementById('resign_area')
@@ -859,6 +859,9 @@ function startCurTimer()
     1000);
 }
 
+/** 対局画面がそれなりに初期化できたらtrue */
+var initialized = false;
+
 /**
  * sfenを読み込んで指せる状態にする。
  */
@@ -876,6 +879,10 @@ function init_board() {
 
   read_lastmove();
 
+  hifumin_eye = document.getElementById('hifumineye').checked;
+
+  update_screen();
+
   activateteban();
 
   if (!isfinished) {
@@ -883,9 +890,7 @@ function init_board() {
     startCurTimer();
   }
 
-  hifumin_eye = document.getElementById('hifumineye').checked;
-
-  update_screen();
+  initialized = true;
 }
 
 document.addEventListener( 'DOMContentLoaded', function() {

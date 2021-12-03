@@ -219,6 +219,12 @@ class WashCrus
     MyPageScreen.new(@header).show(@userinfo)
   end
 
+  # ChatView
+  def chatview
+    require './game/chatview.rb'
+    ChatView.new.perform(@userinfo)
+  end
+
   # 新規対局作成画面
   def newgame
     require './views/newgame.rb'

@@ -71,7 +71,9 @@ class ChatFile
   # @param name 名前
   # @param mssg 発言内容
   def say(name, mssg)
-    add "<B>#{name}</B>:#{mssg}&nbsp;(#{Time.now})<BR>"
+    line = "<B>#{name}</B>:#{mssg}&nbsp;(#{Time.now})<BR>"
+    add line
+    line
   end
 
   # 発言する
@@ -79,7 +81,9 @@ class ChatFile
   # @param name 名前
   # @param mssg 発言内容
   def sayex(name, mssg)
-    add "#{name}:#{mssg}&nbsp;(#{Time.now})<BR>"
+    line = "#{name}:#{mssg}&nbsp;(#{Time.now})<BR>"
+    add line
+    line
   end
 
   WITNESS = "<span id='chatadmin'>Witness</span>"

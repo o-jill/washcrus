@@ -1,0 +1,9 @@
+{
+  "ignore": [
+    "box-sizing"
+  ],
+  "warnings": [
+  ],
+  "errors": [
+  ]
+}

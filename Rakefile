@@ -106,10 +106,11 @@ end
 
 task give_permissions: [:add_w2d, :add_x2rb, :add_w2lock, :add_w2stg]
 task :add_w2d do
-  chmod 0o777, './tmp'
-  chmod 0o777, './taikyoku'
-  chmod 0o777, './log'
   chmod 0o777, './backup'
+  chmod 0o777, './chat'
+  chmod 0o777, './log'
+  chmod 0o777, './taikyoku'
+  chmod 0o777, './tmp'
 
   puts 'please arrange permissions ' \
        'according to your server\'s rule before you start this service.'
@@ -196,8 +197,8 @@ end
 desc 'make tarball to backup taikyoku/, config/ and db/.'
 task :backup do
   fn = Time.now.strftime('%Y%m%d%H%M%S') + '_bak.tar.gz'
-  puts "`tar cvfz ./backup/#{fn} taikyoku/ config/ db/ secret_token.rb`"
-  `tar cvfz ./backup/#{fn} taikyoku/ config/ db/ secret_token.rb`
+  puts "`tar cvfz ./backup/#{fn} taikyoku/ chat/ config/ db/ secret_token.rb`"
+  `tar cvfz ./backup/#{fn} taikyoku/ chat/ config/ db/ secret_token.rb`
 end
 
 desc 'restore backup from tarball.'

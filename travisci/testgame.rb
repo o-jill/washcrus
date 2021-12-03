@@ -59,8 +59,8 @@ class TestGame < TestGameAbstract
 
   # 対局ページに移動
   def gogame_wo_login(sente)
-    gogame
-
+    gogame(nil)
+    sleep 1
     # login
     sente ? checklogin_viagame(emlsen, pwsen) : checklogin_viagame(emlgo, pwgo)
 
@@ -134,7 +134,7 @@ class TestGame < TestGameAbstract
   #
   # @param clr 0:先, 1:後
   def resign(clr)
-    sleep 5 # wait logout
+    sleep 1 # wait logout
     gogame_wo_login(clr.zero?) # login here
     res.checkurl(BASE_URL + "index.rb?game/#{gid}")
     sleep 0.5
@@ -155,11 +155,28 @@ class TestGame < TestGameAbstract
     res.succfail(sfen == resultsfen)
   end
 
+  def lastmove
+    driver.find_element(:id, 'lastmove').attribute(:value)
+  end
+
+  def checklastmove(txt)
+    lastmove != txt
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    puts "no such: #{e}"
+    sleep 0.3
+    false
+  rescue Selenium::WebDriver::Error::StaleElementReferenceError => e
+    puts "stale: #{e}"
+    sleep 0.3
+    false
+  end
+
   # コマを動かす。
   #
   # @param from 移動元の座標
   # @param to   移動先の座標
   def move_a_piece(from, to)
+    sfen = lastmove
     if from
       touch(from)
       move(to)
@@ -170,7 +187,9 @@ class TestGame < TestGameAbstract
       move(to)
       confirmmove('ok')
     end
-    sleep 3.5
+
+    sleep 0.5
+    @wait.until { waitfooter && checklastmove(sfen) }
   end
 
   # ひふみんアイ用の座標変換
@@ -207,11 +226,12 @@ class TestGame < TestGameAbstract
   end
 
   # 1手指す
-  def li_move_a_piece
+  def li_move_a_piece(nth)
     ret = prcs_sengo(@from, @to)
 
     gogame
-    sleep 0.5
+    gamechat(GREETING[nth]) if nth < 2
+    sleep 1
     move_a_piece(ret[:from], ret[:to])
 
     logout
@@ -232,15 +252,18 @@ class TestGame < TestGameAbstract
 
   # 棋譜に従って指す。
   def move_with_kifu
-    moves.each do |tee|
-      puts "tee:#{tee}"
+    moves.each_with_index do |tee, nth|
+      puts "tee#{nth}:#{tee}"
 
       readmove(tee)
 
-      li_move_a_piece
+      li_move_a_piece(nth)
     end
   rescue StandardError => e
-    puts "ERROR in move_with_kifu: class=[#{e.class}] message=[#{e.message}]"
+    puts "ERROR in move_with_kifu: class=[#{e.class}] message=[#{e.message}]" \
+         "STACK:#{e.backtrace.join("\n")}\n" \
+         "@driver.find_element(:tag_name, 'body').text:" \
+         "'#{@driver.find_element(:tag_name, 'body').text}'"
   end
 
   # 指したりチェックしたり

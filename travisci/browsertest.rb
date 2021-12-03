@@ -74,7 +74,7 @@ class BrowserTest < BrowserTestAbstract
 
   def updatepwd_mypage(opwd, npwd1, npwd2)
     simplecheck 'index.rb?mypage'
-    clickbtn(:id, 'navbtn_pwd')
+    clickbtn(:id, 'navbtn_pswd')
     elem = driver.find_element(:id, 'sipassword')
     elem.send_keys opwd
     elem = driver.find_element(:id, 'rnewpassword')
@@ -173,6 +173,9 @@ class BrowserTest < BrowserTestAbstract
     # @johnteban = (elem.attribute('value') == 'b')
 
     # puts "game URL: #{@gameurl}\njohn is first?: #{@johnteban}"
+
+    gamechat('後でよろしく！！')
+
     matchmailsbjlast(/a game is ready!! \(.+ vs .+\)/)
   end
 
@@ -229,6 +232,26 @@ class BrowserTest < BrowserTestAbstract
 
     # fail login
     checkloginfail(email, pwd)
+  end
+
+  def checkmsgonchatview
+    checkchatview(TestUsers::JOHN[:remail], TestUsers::JOHN[:rpassword])
+
+    checkchatview(TestUsers::ADMININFO[:email], TestUsers::ADMININFO[:pwd])
+  end
+
+  def checkchatview(email, pwd)
+    checkloginsucc(email, pwd)
+
+    simplecheck 'index.rb?mypage'
+    clickbtn(:id, 'navbtn_chat')
+    sleep 0.5
+    GREETING.each do |msg|
+      res.matchproperty(/#{msg}/,
+                        driver.find_element(:id, 'mypage_chat').text)
+    end
+
+    simplecheck 'index.rb?logout'
   end
 
   def newuserjohn

@@ -16,10 +16,11 @@ div.err{ border: 1px solid red; font-size: 2rem; }
 .block {
   display: flex;
   justify-content: center;
-  width:100%;
+  width: 100%;
 }
 .block_elem_ban {
   border: 1px solid #FC6;
+  box-sizing: border-box;
   /* background-color: #FFEFD5; */
   flex: 2;
   vertical-align: top;
@@ -33,7 +34,8 @@ table.ban, table.sentegoma, table.gotegoma {
   border:2px solid black;
 }*/
 table.ban tr td, table.ban tr th {
-  border:2px solid black;
+  border: 2px solid black;
+  box-sizing: border-box;
 }
 table.ban tr td img {
   height: 3em;
@@ -56,9 +58,9 @@ table.gotegoma tr td {
   width: 3em;
 }
 .tegoma_koma img {
-  vertical-align: top;
   margin: 0;
   padding: 1px;
+  vertical-align: top;
 }
 .tegoma_num { font-size: 1.5rem; }
 .ban_masu {
@@ -68,9 +70,9 @@ table.gotegoma tr td {
   width: 3em;*/
 }
 .ban_masu img {
-  vertical-align: top;
   margin: 0;
   padding: 1px;
+  vertical-align: top;
 }
 /*.ban_dan_row {
   height: 3em;
@@ -86,6 +88,7 @@ table.gotegoma tr td {
 /*}*/
 /* 棋譜 */
 div.kifu {
+  box-sizing: border-box;
   column-count: 2;
   display: flex;
   max-height:700px;
@@ -94,11 +97,13 @@ div.kifu {
   width:100%;
 }
 textarea.kifu {
+  box-sizing: border-box;
   height:calc(600px + 7em);
-  width: calc(100% - 4px);
+  width: 100%;
 }
 .block_elem_kifu {
   border: 1px solid #FC6;
+  box-sizing: border-box;
   /* background-color: #FFEFD5; */
   flex: 1;
   vertical-align: top;
@@ -113,8 +118,9 @@ textarea.kifu {
         flex-direction: column;
   }
   textarea.kifu {
+    box-sizing: border-box;
     height: 10em;
-    width: calc(100% - 2px);
+    width: 100%;
   }
   table.ban tr td img {
     height: 9vw;
@@ -126,11 +132,11 @@ textarea.kifu {
   }
   .ban_suji_num {
     font-weight: bold;
-    width: calc(9vw + 2px);
+    width: 9vw;
   }
   .ban_dan_num {
     font-weight: bold;
-    height: calc(9vw + 2px);
+    height: 9vw;
   }
   .tegoma_koma {
     height: 9vw;
@@ -153,15 +159,16 @@ textarea.kifu {
 
 /* chat */
 .chatbtn { font-size: 2rem }
-.chatmsg { font-size: 2rem; width: 68%; }
+.chatmsg { font-size: 2rem; width: 75%; }
 .chatnm { font-size: 2rem; width: 20%; }
 .chat { min-height:200px; overflow:scroll; width:100%; }
 
 /* notification */
 .notify {
   border: 1px solid orange;
+  box-sizing: border-box;
   display: none;
-  width:100%;
+  width: 100%;
 }
 
 /* 入力禁止用幕 */
@@ -186,6 +193,7 @@ textarea.kifu {
   background-Color: lightyellow;
   border: 1px solid gold;
   border-radius: 5px;
+  box-sizing: border-box;
   margin: 20px auto;
   opacity: 1.0;
   padding: 10px;
@@ -254,7 +262,8 @@ textarea.kifu {
 
 .popup {
   background-Color: lightgray;
-  border:1px solid gray;
+  border: 1px solid gray;
+  box-sizing: border-box;
   display: none;
   padding: 0;
   position: absolute;
@@ -288,44 +297,43 @@ text-decoration:none;
   color: white;
 }
 
+.mypage_chatgame {
+  font-family: monospace;
+}
+
 .mypage_main {
         display: -webkit-flex;
         display:         flex;
--webkit-flex-flow: row;
-        flex-flow: row;
+-webkit-flex-flow: column;
+        flex-flow: column;
         margin: 0;
         min-height: 400px;
         padding: 0;
 }
 
 .mypage_main .mynav {
--webkit-flex: 1 6 6em;
-        flex: 1 6 6em;
+        display: -webkit-flex;
+        display:         flex;
+-webkit-flex: 1 1 auto;
+        flex: 1 1 auto;
+-webkit-flex-flow: wrap row;
+        flex-flow: wrap row;
+        justify-content: center;
 -webkit-order: 1;
         order: 1;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        /* text-align: right; */
 }
 
-.mypage_main .mynav hr {
+.mypage_main .mynav div {
   margin: 0;
-  padding: 0;
+  padding: 2px 5px;
+  text-decoration: underline;
 }
 
-.mypage_main .mynav ul{
-  list-style-type: none;
-  /* margin: 0; */
-  padding-left: 0;
-}
-
-.mypage_main .mynav ul li {
-  margin: 0;
-  padding: 10px 1em;
-}
-
-.mypage_main .mynav span {
-  padding: 0 2em;
-}
-
-.mypage_main .mynav ul li:hover {
+.mypage_main .mynav div:hover {
   background-Color: gray;
   color: white;
 }
@@ -337,19 +345,102 @@ text-decoration:none;
         order: 2;
 }
 
+.mypage_main button { font-size: 1.5rem; }
+
+.mypage_main .mypage_chat small {
+  font-size: 8pt;
+}
+
+.chatarea {
+  background-color: aliceblue;
+  display: -webkit-flex;
+  display:         flex;
+-webkit-flex-direction: column;
+        flex-direction: column;
+/*-webkit-flex-flow: column nowrap;
+        flex-flow: column nowrap;*/
+  margin: 0;
+  /* min-height: 400px; */
+  padding: 0;
+}
+
+.cvdate {
+  background-color: ghostwhite;
+  color: green;
+  text-align: center;
+  width: 100vw;
+}
+
+.fukiarea {
+  margin: 2px 2px;
+  width: 70vw;
+}
+
+div.mychatmsg .fukidasi {
+  background-color: chartreuse;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+div.mychatmsg .chatname {
+  display: none;
+}
+
+div.notmychatmsg .fukidasi {
+  background-color: white;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+div.mychatmsg {
+  border-radius: 15px;
+  display: -webkit-flex;
+  display:         flex;
+  /* margin: 1em; */
+  /* text-align: right; */
+-webkit-flex-flow: nowrap row-reverse;
+        flex-flow: nowrap row-reverse;
+}
+
+div.notmychatmsg {
+display: -webkit-flex;
+display:         flex;
+-webkit-flex-flow: nowrap row;
+        flex-flow: nowrap row;
+  /* margin: 1em; */
+  /* text-align: left; */
+}
+
+.kidoku {
+  background-color: lightgoldenrodyellow;
+  border: solid 1px midnightblue;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: midnightblue;
+  font-size: 8pt;
+  height: 2em;
+  /* margin: 0; */
+  overflow: visible;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+
 .unsubscribe {
   color: red;
   font-size: 2rem;
 }
 
 .taikyokuchu {
-  display:flex;
-  flex-wrap:wrap;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* version information */
 .githash {
   border: solid 5px #f44d27;
+  box-sizing: border-box;
   padding: 5px;
   text-align: left;
   width: 80vw;
@@ -361,6 +452,7 @@ text-decoration:none;
 }
 .geminfo {
   border: solid 5px #cc342d;
+  box-sizing: border-box;
   padding: 5px;
   text-align: left;
   width: 80vw;
@@ -397,6 +489,7 @@ text-decoration:none;
 .mvcfm_ok, .mvcfm_cancel {
   background-color: lightgray;
   border: 2px solid gray;
+  box-sizing: border-box;
   padding: 1rem;
   text-align: center;
   width: 100%;
@@ -405,6 +498,7 @@ text-decoration:none;
 /* NEWS*/
 .news {
   border: inset 5px blue;
+  box-sizing: border-box;
   padding: 5px;
   text-align: left;
   width: 60vw;
@@ -420,9 +514,9 @@ text-decoration:none;
 
 /* signup */
 .signupinfo {
-  text-align: center;
   background-color: white;
   color: red;
+  text-align: center;
 }
 
 .signupinfo address {
@@ -432,22 +526,23 @@ text-decoration:none;
 
 /* marquee */
 .marquee-anim {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  border-bottom: 1px solid darkolivegreen;
-  /* border: 1px solid rgb(200,222,245); / * ボーダー */
   /* background-color: rgb(233,247,250); / * 背景色 */
+  /* border: 1px solid rgb(200,222,245); / * ボーダー */
+  border-bottom: 1px solid darkolivegreen;
+  box-sizing: border-box;
   color: darkolivegreen; /* 文字色 */
   font-family: monospace;
   font-weight: bold;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
 }
 
 .marquee-anim span {
+  animation: marquee 30s linear infinite;
   display: inline-block;
   padding-left: 100%;
   white-space: nowrap;
-  animation: marquee 30s linear infinite;
 }
 
 @keyframes marquee {

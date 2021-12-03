@@ -5,9 +5,14 @@
 require 'bundler/setup'
 
 require 'cgi'
+require 'cgi/session'
 
-require './file/taikyokufile.rb'
 require './file/chatfile.rb'
+require './file/matchinfofile.rb'
+require './file/taikyokufile.rb'
+require './file/userchatfile.rb'
+require './game/taikyokudata.rb'
+require './game/userinfo.rb'
 
 # チャットシステムクラス
 #
@@ -28,21 +33,28 @@ class Chat
     @name = 'john doe'
     @msg = 'abdakadabra.'
     @gameid = cgi.query_string
-    @action = @params['action'][0]
+    @action = @params['action'] || ['']
+    @action = @action[0]
+    readuserparam(cgi)
   end
 
   # 発言をファイルに書き込む
   # パラメータが不正なときは何もしない
-  def say
-    @name = @params['chatname'][0]
-    @msg = @params['chatmsg'][0]
+  #
+  # @param ongame true:対局画面で発言, false:ラウンジで発言
+  def say(ongame)
+    @name = @userinfo.user_name
+    @uid = @userinfo.user_id
+
+    @msg = @params['chatmsg'] || ['']
+    @msg = @msg[0]
 
     return if @name.empty? || @msg.empty?
 
     @msg.gsub!(',&<>',
                ',' => '&#44;', '&' => '&amp;',
                '<' => '&lt;', '>' => '&gt;')
-    write
+    write(ongame)
   end
 
   # 本体
@@ -50,8 +62,9 @@ class Chat
     # check game id
     tdb = TaikyokuFile.new
     tdb.read
-    if tdb.exist?(@gameid) || @gameid == 'lounge'
-      say if @action == 'say'
+    exist = tdb.exist?(@gameid)
+    if exist || @gameid == 'lounge'
+      say(exist) if @action == 'say'
 
       # put chat log
       put
@@ -61,11 +74,52 @@ class Chat
     end
   end
 
+  # 発言者、対局者x2のデータにも書く
+  #
+  # @param addedmsg 発言
+  def write2chatview(addedmsg)
+    tkd = TaikyokuData.new
+    tkd.log = @log
+    tkd.setid(@gameid)
+    tkd.lockex do
+      tkd.read
+    end
+    tkd.mif.getplayerids.push(@uid).uniq.each do |userid|
+      uchat = UserChatFile.new(userid)
+      uchat.read
+      uchat.add(addedmsg, @gameid)
+    end
+  end
+
   # 発言を書き込む
-  def write
+  #
+  # @param ongame true:対局画面で発言, false:ラウンジで発言
+  def write(ongame)
     chatlog = ChatFile.new(@gameid)
     chatlog.read
-    chatlog.say(@name, @msg)
+    addedmsg = chatlog.say(@name, @msg)
+
+    write2chatview(addedmsg) if ongame
+  end
+
+  # sessionの取得と情報の読み取り
+  #
+  # @param cgi CGIオブジェクト
+  def readuserparam(cgi)
+    begin
+      session = CGI::Session.new(
+        cgi,
+        'new_session' => false,
+        'session_key' => '_washcrus_session',
+        'tmpdir' => './tmp'
+      )
+    rescue ArgumentError # => ae
+      session = nil
+    end
+
+    @userinfo = UserInfo.new
+    @userinfo.readsession(session) if session
+    session&.close
   end
 
   # 発言ログを表示する

@@ -179,6 +179,11 @@ class MatchInfoFile
     setplayerw(id_w, cnt.findid(id_w)) if id_w
   end
 
+  # 対局者のIDを返す
+  def getplayerids
+    [@playerb.id, @playerw.id]
+  end
+
   # 対局者のセット
   #
   # @param data ハッシュオブジェクト

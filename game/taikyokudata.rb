@@ -14,6 +14,7 @@ require './file/mylock.rb'
 require './file/pathlist.rb'
 require './file/sfenstore.rb'
 require './file/taikyokufile.rb'
+require './file/userchatfile.rb'
 require './file/userinfofile.rb'
 require './game/gentaikyoku.rb'
 require './game/timekeeper.rb'
@@ -142,18 +143,34 @@ class TaikyokuData
     TaikyokuChuFile.new.newgame(newdt)
   end
 
-  # 対局情報ファイルの初期情報の書き込み
-  # 棋譜情報ファイルの初期情報の書き込み
-  # チャットファイルの初期情報の書き込み
-  # sfenログのの初期情報の書き込み
-  def init_files
+  # 発言者、対局者x2のデータにも書く
+  #
+  # @param addedmsg 発言
+  def write2chatview(addedmsg)
+    mif.getplayerids.each do |userid|
+      uchat = UserChatFile.new(userid)
+      uchat.read
+      uchat.add(addedmsg, @gid)
+    end
+  end
+
+  # initialize match information file
+  def init_mif
     # @log.debug('MatchInfoFile.new(gid)')
-    # match information file
     @mif = MatchInfoFile.new(@gid)
     @mif.setplayers(@idb, @idw)
     @mif.setcreator(@creator, @datetime)
     @mif.initmochijikan(0, 259_200, 20, 86_400) # 持ち時間なし、1手3日、考慮日数20日
     @mif.write(@matchinfopath)
+  end
+
+  # 対局情報ファイルの初期情報の書き込み
+  # 棋譜情報ファイルの初期情報の書き込み
+  # チャットファイルの初期情報の書き込み
+  # sfenログのの初期情報の書き込み
+  def init_files
+    # initialize match information file
+    init_mif
 
     # kifu file
     @jkf = JsonKifu.new(@gid)
@@ -163,7 +180,7 @@ class TaikyokuData
 
     # chat file
     chat = ChatFile.new(@gid)
-    chat.say_start(@playerb)
+    write2chatview(chat.say_start(@playerb))
 
     # sfen log
     sfs = SfenStore.new(@sfenpath)
@@ -303,7 +320,9 @@ class TaikyokuData
     # chat file
     chat = ChatFile.new(@gid)
     @log.debug("chat.say_sugdraw(sente = #{cmd[-1]} == 'b')")
-    chat.say_sugdraw(@mif.playername(cmd[-1] == 'b'), cmd[4] == 'Y')
+    write2chatview(
+      chat.say_sugdraw(@mif.playername(cmd[-1] == 'b'), cmd[4] == 'Y')
+    )
 
     ret
   end

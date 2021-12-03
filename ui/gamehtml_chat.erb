@@ -2,8 +2,7 @@
 <div id='chatlog' class='chat'>
  チャットえりあ
 </div>
- <input id='chatname' type='text' value='<%= @userinfo.user_name %>' class='chatnm' readonly/>
- : <input id='chatmsg' list='chatmsg_tmpl' type='text' size='60' class='chatmsg' placeholder='メッセージ欄'/>
+ <input id='chatmsg' list='chatmsg_tmpl' type='text' size='60' class='chatmsg' placeholder='メッセージ欄'/>
  <datalist id='chatmsg_tmpl'>
    <option value='よろしくお願いします。'>
    <option value='こんにちは'>
@@ -13,4 +12,4 @@
  </datalist>
  <input type='button' id='chatbtn' onClick='onChatSay();' class='chatbtn' value='&gt;&gt;'/>
  <input type='hidden' id='gameid' value='<%= @gameid %>'/>
-<script type='text/javascript' src='./js/chat.v015.js' defer></script>
+<script type='text/javascript' src='./js/chat.js?v016' defer></script>

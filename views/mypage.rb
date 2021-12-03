@@ -5,6 +5,7 @@ require 'rubygems'
 require 'unindent'
 
 require './file/taikyokufile.rb'
+require './file/userchatfile.rb'
 require './file/userinfofile.rb'
 require './game/taikyokudata.rb'
 require './game/webapi_sfenreader.rb'
@@ -35,20 +36,15 @@ class MyPageScreen
 
   # ナビゲーションメニューの出力
   def put_navi
-    puts <<-NAVI_AREA
-      <div id=mypagenav class=mynav>
-        <ul>
-          <li id='navbtn_stats' onclick='clicknav("mypage_stat")'>Stats</li>
-          <hr>
-          <li id='navbtn_hist' onclick='clicknav("mypage_rireki")'>History</li>
-          <hr>
-          <li id='navbtn_pwd' onclick='clicknav("mypage_password")'>Password</li>
-          <hr>
-          <li id='navbtn_email' onclick='clicknav("mypage_email")'>Email</li>
-          <hr>
-          <li id='navbtn_unsubscribe' onclick='clicknav("mypage_unsubscribe")'>Unsubscribe</li>
-        </ul>
-      </div>
+    puts <<-NAVI_AREA.unindent
+      <div><div id='mypagenav' class='mynav'>
+        <div id='navbtn_stats'>Stats</div>
+        <div id='navbtn_chat'>Chat</div>
+        <div id='navbtn_rireki'>History</div>
+        <div id='navbtn_pswd'>Password</div>
+        <div id='navbtn_email'>Email</div>
+        <div id='navbtn_unsubscribe'>Unsubscribe</div>
+      </div><hr></div>
     NAVI_AREA
   end
 
@@ -191,8 +187,8 @@ class MyPageScreen
   #
   # @param winlose WinsLosesオブジェクト
   # @param user ユーザー情報
-  def put_mypage_stat(winlose, user)
-    puts '<div class="myarticle" id="mypage_stat">'
+  def put_mypage_stats(winlose, user)
+    puts '<div class="myarticle" id="mypage_stats">'
     winlose.put(user.user_name)
     puts '<HR>'
     put_taikyokuchu(user.user_id)
@@ -230,10 +226,24 @@ class MyPageScreen
     WinsLoses.new(udb.content.stats[uid])
   end
 
+  # チャットのやり取りの表示
+  def put_chat(uid, unm)
+    chat = UserChatFile.new(uid)
+    chat.read
+    puts '<div class=myarticle id=mypage_chat style="display:none;">' \
+      '<a id="cvtop"></a><div align="center">' \
+      "<button onclick='scrollToAnchor(\"cvnew\")'>new messages</button> " \
+      "<button onclick='scrollToAnchor(\"cvbottom\")'>↓ latest</button>" \
+      '</div><hr><div class="chatarea">'
+    puts chat.empty? ? 'chat will be here.' : chat.msg4mypage(unm)
+    puts '</div><hr id="cvbottom"><div align=center>' \
+      "<button onclick='scrollToAnchor(\"cvtop\")'>↑ top</button></div></div>"
+  end
+
   # アカウント設定、メールアドレス設定、退会設定の出力
   def put_accountsettings
     puts <<-ACCOUNTSETTINGS.unindent
-      <div class=myarticle id=mypage_password style="display:none;">
+      <div class=myarticle id=mypage_pswd style="display:none;">
         アカウント設定<BR>
         <hr>
         パスワードの再設定
@@ -269,21 +279,26 @@ class MyPageScreen
     ACCOUNTSETTINGS
   end
 
-  # スクリプトの出力
-  def put_script
-    puts <<-SCRIPT.unindent
-      <script>
-      var target = false;
-      target = document.getElementById('mypage_stat');
-      function clicknav(strid) {
-        if (target) {
-          target.style.display = 'none';
-        }
-        target = document.getElementById(strid);
-        target.style.display = 'block';
-      }
-      </script>
-    SCRIPT
+  # ヘッダとフッタ以外の表示
+  #
+  # @param userinfo ユーザー情報
+  def put(userinfo)
+    puts "<script src='js/signup.js'></script>\n" \
+         "<script src='js/mypage.js?v001'></script>\n" \
+         "<div class='mypage_main'>\n"
+
+    put_navi
+
+    uid = userinfo.user_id
+    wl = get_mystats(uid)
+
+    put_mypage_stats(wl, userinfo)
+
+    put_taikyokurireki(uid)
+    put_chat(uid, userinfo.user_name)
+    put_accountsettings
+
+    puts '</div>'
   end
 
   # 画面の表示
@@ -296,24 +311,7 @@ class MyPageScreen
     CommonUI.html_head(@header)
     CommonUI.html_menu(userinfo)
 
-    puts "<script src='js/signup.js'></script>\n" \
-         "<script src='js/mypage.js'></script>\n" \
-         "<div class='mypage_main'>\n"
-
-    put_navi
-
-    uid = userinfo.user_id
-    wl = get_mystats(uid)
-
-    put_mypage_stat(wl, userinfo)
-
-    put_taikyokurireki(uid)
-
-    put_accountsettings
-
-    puts '</div>'
-
-    put_script
+    put(userinfo)
 
     CommonUI.html_foot
   end

@@ -10,6 +10,7 @@ class BrowserTestAbstract
   def initialize
     # Firefox用のドライバを使う
     @driver = Selenium::WebDriver.for :firefox
+    @wait = Selenium::WebDriver::Wait.new(timeout: 10)
     @res = Result.new(driver)
   end
 
@@ -24,6 +25,7 @@ class BrowserTestAbstract
 
   def simplecheck(pageurl)
     driver.navigate.to BASE_URL + pageurl
+    sleep 0.1
     res.checktitle
     # puts driver.page_source
     res.checkfooter
@@ -31,6 +33,7 @@ class BrowserTestAbstract
 
   def simpleurlcheck(url)
     res.checkurl(BASE_URL + url)
+    sleep 0.1
     res.checktitle
     # puts driver.page_source
     res.checkfooter
@@ -38,6 +41,7 @@ class BrowserTestAbstract
 
   def simplecheckmatch(url, rex)
     driver.navigate.to BASE_URL + url
+    sleep 0.1
     # puts driver.title
     # puts driver.page_source
     res.checkmatch(rex)
@@ -71,6 +75,7 @@ class BrowserTestAbstract
   # adminerrorになることの確認
   def adminerrcheck(pageurl)
     driver.navigate.to BASE_URL + pageurl
+    sleep 0.1
     res.checktitlenot('WashCrus')
     res.checkplaintext('ERR_NOT_ADMIN')
   end
@@ -81,8 +86,7 @@ class BrowserTestAbstract
     simplecheck 'index.rb?signup'
     signupinfo.each do |key, val|
       # puts "#{key.to_s} => #{val}"
-      element = driver.find_element(:name, key.to_s)
-      element.send_keys(val)
+      inputbox(:name, key.to_s, val)
     end
     clickbtn(:xpath, "//input[@value='Submit']")
     return if this_will_fail
@@ -91,13 +95,18 @@ class BrowserTestAbstract
     simpleurlcheck('index.rb?register')
   end
 
+  # 文字列入力
+  def inputbox(key, name, txt)
+    driver.find_element(key, name).send_keys(txt)
+  end
+
   # ボタンをクリック
   def clickbtn(key, val)
-    elem = driver.find_element(key, val)
-    elem.click
+    driver.find_element(key, val).click
   end
 
   def getmailjson
+    sleep 0.1
     driver.navigate.to 'http://localhost:1080/messages'
     # puts driver.page_source
     element = driver.find_element(:id, 'json')
@@ -130,7 +139,7 @@ class BrowserTestAbstract
   # loginの確認
   def checklogin(email, pwd, ptn)
     simplecheck 'index.rb?login'
-    driver.find_element(:name, 'siemail').send_keys(email)
+    inputbox(:name, 'siemail', email)
     elem = driver.find_element(:name, 'sipassword')
     elem.send_keys pwd
     elem.submit
@@ -160,8 +169,7 @@ class BrowserTestAbstract
   end
 
   def lounge_file(msg)
-    element = driver.find_element(:id, 'cmt')
-    element.send_keys(msg)
+    inputbox(:id, 'cmt', msg)
     clickbtn(:id, 'btn_f2l')
     sleep 8
     simpleurlcheck 'index.rb?lounge'
@@ -186,15 +194,31 @@ class BrowserTestAbstract
     lounge_cancel
   end
 
+  def updatedchat?(txt)
+    newchat = @driver.find_element(:id, 'chatlog').text
+    newchat != txt
+  end
+
   def lounge_say
     simplecheck 'index.rb?lounge'
 
-    elem = driver.find_element(:id, 'chatmsg')
-    elem.send_keys 'hello on lounge chat!!'
-    elem = driver.find_element(:id, 'chatbtn')
-    elem.click
-    sleep 1
+    sleep(0.5)
+    inputbox(:id, 'chatmsg', 'hello on lounge chat!!')
+    chat = @driver.find_element(:id, 'chatlog').text
+    clickbtn(:id, 'chatbtn')
+    @wait.until { updatedchat?(chat) }
     simplecheckmatch('chat.rb?lounge', /hello on lounge chat!!/)
+  end
+
+  GREETING = %w[よろしくお願いします。 おなしゃす。].freeze
+
+  def gamechat(msg)
+    sleep(0.5)
+    inputbox(:id, 'chatmsg', msg)
+    chat = @driver.find_element(:id, 'chatlog').text
+    clickbtn(:id, 'chatbtn')
+    @wait.until { updatedchat?(chat) }
+    res.checkchat(/#{msg}/)
   end
 end
 

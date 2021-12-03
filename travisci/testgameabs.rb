@@ -84,11 +84,29 @@ class TestGameAbstract < BrowserTestAbstract
   # ログアウトする
   def logout
     driver.navigate.to BASE_URL + 'index.rb?logout'
+    sleep 0.3
+    @wait.until { waitfooter }
+  end
+
+  def waitfooter
+    driver.find_element(:tag_name, 'footer')
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    puts e
+    false
+  end
+
+  # 対局ページがある程度読み込めた？
+  def loaded?
+    sleep 0.5
+    driver.execute_script('return initialized;')
   end
 
   # 対局ページに移動
-  def gogame
+  def gogame(shouldwait = 'yes or nil')
     driver.navigate.to BASE_URL + "index.rb?game/#{gid}"
+    sleep 0.3
+    @wait.until { waitfooter }
+    @wait.until { loaded? } if shouldwait
   end
 
   # 移動確認ダイアログのボタンをクリックする

@@ -7,6 +7,7 @@ taikyoku
 test.html
 tmp
 backup
+chat
 config/mail.yaml
 config/settings.yaml
 config/signature.txt
