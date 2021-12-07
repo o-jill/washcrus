@@ -38,12 +38,12 @@ class MyPageScreen
   def put_navi
     puts <<-NAVI_AREA.unindent
       <div><div id='mypagenav' class='mynav'>
-        <div id='navbtn_stats'>Stats</div>
-        <div id='navbtn_chat'>Chat</div>
-        <div id='navbtn_rireki'>History</div>
-        <div id='navbtn_pswd'>Password</div>
-        <div id='navbtn_email'>Email</div>
-        <div id='navbtn_unsubscribe'>Unsubscribe</div>
+        <div id='navbtn_stats'><img src='./image/right_fu.png' title='Stats' alt='Stats'></div>
+        <div id='navbtn_chat'><img src='./image/balloon3216.png' title='Chat' alt='Chat'></div>
+        <div id='navbtn_rireki'><img src='./image/history3216.png' title='History' alt='History'></div>
+        <div id='navbtn_pswd'><img src='./image/pwd3216.png' title='Password' alt='Password'></div>
+        <div id='navbtn_email'><img src='./image/email3216.png' title='Email' alt='Email'></div>
+        <div id='navbtn_unsubscribe'><img src='./image/unsubscribe3216.png' title='Unsubscribe' alt='Unsubscribe'></div>
       </div><hr></div>
     NAVI_AREA
   end

@@ -328,9 +328,9 @@ text-decoration:none;
 }
 
 .mypage_main .mynav div {
-  margin: 0;
-  padding: 2px 5px;
-  text-decoration: underline;
+  border: solid 1px black;
+  margin: 0 2px;
+  padding: 2px 8px;
 }
 
 .mypage_main .mynav div:hover {
