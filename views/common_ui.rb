@@ -26,7 +26,7 @@ module CommonUI
        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
        <meta name='theme-color' content='#cc9933'>
        <link rel='shortcut icon' href='./image/favicon.ico' />
-       <link rel='stylesheet' type='text/css' href='./css/washcrus.css?v021'>
+       <link rel='stylesheet' type='text/css' href='./css/washcrus.css?v022'>
     HEADER_TAG
     print "#{meta}</head><body>"
   end
