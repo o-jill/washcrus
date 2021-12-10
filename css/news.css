@@ -224,3 +224,7 @@ div.highlight {
   color: #a61717;
   background-color: #f5f7f9;
 }
+
+table { border: solid 1px black; }
+table tr td { border: solid 1px black; }
+table tr th { border: solid 1px black; }
