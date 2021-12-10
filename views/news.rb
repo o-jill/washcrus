@@ -4,13 +4,19 @@
 require 'rubygems'
 require 'unindent'
 require 'redcarpet'
+require 'rouge'
 require 'rouge/plugins/redcarpet'
 require './file/pathlist.rb'
 # require './game/userinfo.rb'
 require './views/common_ui.rb'
 
+# htmlレンダラ with Rouge
 class NewsRender < Redcarpet::Render::HTML
   include Rouge::Plugins::Redcarpet
+
+  # def block_code(code, language)
+  #   Rouge.highlight(code, language || 'ruby', 'html')
+  # end
 end
 
 #
@@ -27,8 +33,9 @@ class NewsScreen
   # newsの出力
   def put_news
     render = NewsRender.new(
-      # filter_html: true,
-      hard_wrap: true
+      filter_html: true,
+      hard_wrap: true,
+      link_attributes: { rel: 'nofollow', target: '_blank' }
       # with_toc_data: true
     )
     extensions = {
@@ -51,6 +58,7 @@ class NewsScreen
     puts <<-NEWS_INFO.unindent
       <div align='center'>
        NEWS
+       <link rel='stylesheet' type='text/css' href='./css/news.css'>
        <div class='news'>
         #{msg}
        </div>
