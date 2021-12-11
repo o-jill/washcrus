@@ -64,7 +64,7 @@ class BrowserTestAbstract
 
   def simpleaccess
     simplecheck 'index.rb'
-    simplecheck 'index.rb?news'
+    newsmkdown
     # simplecheck 'index.rb?signup'
 
     simplecheckmatch('move.rb', /illegal access/)
@@ -219,6 +219,15 @@ class BrowserTestAbstract
     clickbtn(:id, 'chatbtn')
     @wait.until { updatedchat?(chat) }
     res.checkchat(/#{msg}/)
+  end
+
+  def newsmkdown
+    simplecheck 'index.rb?news'
+    hil = @driver.find_element(:class, 'highlight')
+    pure = hil.find_element(:tag_name, 'pre')
+    code = pure.find_element(:tag_name, 'code')
+    res.checkproperty(pure.attribute(:class), 'highlight ruby')
+    res.matchproperty(/letter/, code.text)
   end
 end
 
