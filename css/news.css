@@ -16,20 +16,20 @@
 }
 .highlight code .cs {
   color: #999999;
-  font-weight: bold;
   font-style: italic;
+  font-weight: bold;
 }
 .highlight code .c, .highlight code .ch, .highlight code .cd, .highlight code .cpf {
   color: #999988;
   font-style: italic;
 }
 .highlight code .err {
-  color: #a61717;
   background-color: #e3d2d2;
+  color: #a61717;
 }
 .highlight code .gd {
-  color: #000000;
   background-color: #ffdddd;
+  color: #000000;
 }
 .highlight code .ge {
   color: #000000;
@@ -42,8 +42,8 @@
   color: #999999;
 }
 .highlight code .gi {
-  color: #000000;
   background-color: #ddffdd;
+  color: #000000;
 }
 .highlight code .go {
   color: #888888;
@@ -217,12 +217,12 @@
 
 div.highlight {
   border: solid 1px black;
-  padding: 0px 1em;
+  padding: 0 1em;
 }
 
 .highlight .err {
-  color: #a61717;
   background-color: #f5f7f9;
+  color: #a61717;
 }
 
 table { border: solid 1px black; }
