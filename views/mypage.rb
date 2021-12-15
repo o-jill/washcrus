@@ -38,12 +38,12 @@ class MyPageScreen
   def put_navi
     puts <<-NAVI_AREA.unindent
       <div><div id='mypagenav' class='mynav'>
-        <div id='navbtn_stats'>Stats</div>
-        <div id='navbtn_chat'>Chat</div>
-        <div id='navbtn_rireki'>History</div>
-        <div id='navbtn_pswd'>Password</div>
-        <div id='navbtn_email'>Email</div>
-        <div id='navbtn_unsubscribe'>Unsubscribe</div>
+        <div id='navbtn_stats'><img src='./image/right_fu.png' title='Stats' alt='Stats'></div>
+        <div id='navbtn_chat'><img src='./image/balloon3216.png' title='Chat' alt='Chat'></div>
+        <div id='navbtn_rireki'><img src='./image/history3216.png' title='History' alt='History'></div>
+        <div id='navbtn_pswd'><img src='./image/pwd3216.png' title='Password' alt='Password'></div>
+        <div id='navbtn_email'><img src='./image/email3216.png' title='Email' alt='Email'></div>
+        <div id='navbtn_unsubscribe'><img src='./image/unsubscribe3216.png' title='Unsubscribe' alt='Unsubscribe'></div>
       </div><hr></div>
     NAVI_AREA
   end
@@ -232,12 +232,12 @@ class MyPageScreen
     chat.read
     puts '<div class=myarticle id=mypage_chat style="display:none;">' \
       '<a id="cvtop"></a><div align="center">' \
-      "<button onclick='scrollToAnchor(\"cvnew\")'>new messages</button> " \
-      "<button onclick='scrollToAnchor(\"cvbottom\")'>↓ latest</button>" \
+      "<button onclick='scrollToNew()'>new messages</button> " \
+      "<button onclick='scrollToBottom()'>↓ latest</button>" \
       '</div><hr><div class="chatarea">'
     puts chat.empty? ? 'chat will be here.' : chat.msg4mypage(unm)
     puts '</div><hr id="cvbottom"><div align=center>' \
-      "<button onclick='scrollToAnchor(\"cvtop\")'>↑ top</button></div></div>"
+      "<button onclick='scrollToTop()'>↑ top</button></div></div>"
   end
 
   # アカウント設定、メールアドレス設定、退会設定の出力
@@ -284,7 +284,7 @@ class MyPageScreen
   # @param userinfo ユーザー情報
   def put(userinfo)
     puts "<script src='js/signup.js'></script>\n" \
-         "<script src='js/mypage.js?v001'></script>\n" \
+         "<script src='js/mypage.js?v002'></script>\n" \
          "<div class='mypage_main'>\n"
 
     put_navi

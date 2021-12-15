@@ -81,6 +81,25 @@ function scrollToAnchor(id)
   location.hash = '#' + id;
 }
 
+function scrollToTop()
+{
+  window.scroll({top: 0, behavior: "smooth"})
+}
+
+function scrollToBottom()
+{
+  var elm = document.documentElement;
+  window.scroll({top: elm.scrollHeight - elm.clientHeight, behavior: "smooth"});
+}
+
+function scrollToNew()
+{
+  var elm = document.getElementById('cvnew');
+  if (elm) {
+    elm.scrollIntoView({behavior: "smooth", block: "center"});
+  }
+}
+
 function onnavchat()
 {
   /* 既読処理 */
