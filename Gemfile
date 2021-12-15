@@ -8,6 +8,7 @@ gem 'jkf', git: 'git://github.com/o-jill/jkf.git', branch: 'hikiwake'
 gem 'mail'
 gem 'rake'
 gem 'redcarpet'
+gem 'rouge'
 gem 'unindent'
 
 group :test do
