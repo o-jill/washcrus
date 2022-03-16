@@ -4,6 +4,7 @@
 require 'uri'
 
 require './file/matchinfofile.rb'
+require './util/settings.rb'
 
 # SfenReader WebAPI 変換クラス
 # http://sfenreader.appspot.com/
@@ -173,7 +174,9 @@ class WebApiSfenReader
   #
   # @return uri文字列
   def genuri
-    'sfenimage.rb?' + URI.encode_www_form(params)
+    stg = Settings.instance
+    sfenimg = stg.value['sfenimage'] || 'sfenimage.rb?'
+    sfenimg + URI.encode_www_form(params)
     # 'http://sfenreader.appspot.com/sfen?' + URI.encode_www_form(params)
   end
 end
