@@ -26,7 +26,7 @@ class AdminSaveSettingsScreen
   # @param params パラメータハッシュオブジェクト
   def update_settings(params)
     tags = %w[wintitle title description mailaddress mailformat \
-              domain base_url kento_url support_url tweetbtn]
+              domain base_url kento_url support_url tweetbtn sfenimage]
     isng = 0
     tags.each do |tg|
       unless params[tg]
@@ -65,7 +65,8 @@ class AdminSaveSettingsScreen
       { title: 'Base URL',       eid: 'base_url' },
       { title: 'Kento URL',      eid: 'kento_url' },
       { title: 'Support URL',    eid: 'support_url' },
-      { title: 'Tweet button',   eid: 'tweetbtn' }
+      { title: 'Tweet button',   eid: 'tweetbtn' },
+      { title: 'sfenimage server', eid: 'sfenimage' }
     ]
     puts "<table align='center' border=1>"
     stg_elem.each do |elem|
