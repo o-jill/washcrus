@@ -3,7 +3,7 @@
 # gemfile for washcrus
 source 'https://rubygems.org'
 
-gem 'jkf', git: 'git://github.com/o-jill/jkf.git', branch: 'hikiwake'
+gem 'jkf', git: 'https://github.com/o-jill/jkf.git', branch: 'hikiwake'
 
 gem 'mail'
 gem 'rake'
