@@ -83,3 +83,23 @@ jobs:
         DISPLAY: :99
     - name: Byouyomi
       run: bundle exec ruby ./observer/byouyomichan.rb 10
+    - name: save taikyoku logs
+      uses: actions/upload-artifact@v2
+      with:
+        name: taikyoku logs
+        path: |
+          config
+          db
+          log
+          taikyoku
+          # ./config/mail.yaml
+          # ./config/mqnews.js
+          # ./config/news.txt
+          # ./config/settings.yaml
+          # ./config/signature.txt
+          # ./db/taikyoku.csv
+          # ./db/taikyokuchu.csv
+          # ./log/gamelog.txt
+          # ./log/loginoutlog.txt
+          # ./log/movelog.txt
+          # ./log/newgamegenlog.txt
