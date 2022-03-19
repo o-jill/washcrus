@@ -86,7 +86,7 @@ jobs:
     - name: save taikyoku logs
       uses: actions/upload-artifact@v2
       with:
-        name: taikyoku logs
+        name: taikyoku_chrome${{ matrix.ruby-version }}-kifu${{ matrix.kifu }}
         path: |
           config
           db

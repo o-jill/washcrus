@@ -48,7 +48,7 @@ jobs:
     - name: save svg results
       uses: actions/upload-artifact@v2
       with:
-        name: svg files
+        name: svg${{ matrix.ruby-version }}
         path: |
           test00.svg
           test01.svg
