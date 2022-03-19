@@ -54,6 +54,15 @@ svg = ssi.gen
 
 puts svg
 
+def put2file(svg, fname)
+  puts "storing this result to #{fname}..."
+  File.open(fname, 'w') do |f|
+    f.puts(svg)
+  end
+end
+
+put2file(svg, stg[:svg])
+
 def check(svg, path)
   err = File.open("travisci/#{path}", 'r') do |refsvg|
     refsvg.lines.map.with_index do |line, idx|
