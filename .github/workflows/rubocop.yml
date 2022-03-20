@@ -45,4 +45,13 @@ jobs:
       run: bundle exec ruby travisci/svgtest.rb --check -N4
     # - name: Run SVG 5
     #   run: bundle exec ruby travisci/svgtest.rb --check -N5
-  
+    - name: save svg results
+      uses: actions/upload-artifact@v2
+      with:
+        name: svg${{ matrix.ruby-version }}
+        path: |
+          test00.svg
+          test01.svg
+          test02.svg
+          test03.svg
+          test04.svg

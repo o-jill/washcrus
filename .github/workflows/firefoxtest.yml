@@ -78,3 +78,12 @@ jobs:
         DISPLAY: :99
     - name: Byouyomi
       run: bundle exec ruby ./observer/byouyomichan.rb 10
+    - name: save taikyoku logs
+      uses: actions/upload-artifact@v2
+      with:
+        name: taikyoku_firefox${{ matrix.ruby-version }}-kifu${{ matrix.kifu }}
+        path: |
+          config
+          db
+          log
+          taikyoku
