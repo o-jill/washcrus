@@ -5,7 +5,7 @@
 # This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
 # For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
 
-name: Firefox test w/ ruby3
+name: Firefox test w/ ruby2
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby-version: ['3.0', '3.1']
+        ruby-version: ['2.3', '2.5', '2.6', '2.7']
         kifu: ['-N0', '-N1', '-N2', '-N3', '-N4', '-N5', '-N6']
 #    services:
 #      selenium:
@@ -59,8 +59,8 @@ jobs:
       run: |
         gem install webrick -v1.7.0
         gem install mailcatcher
-        gem install rubyzip -v2.3
-        gem install selenium-webdriver -v4.1
+        gem install rubyzip -v1.3.0 # for selenium-webdriver -v3.142.7
+        gem install selenium-webdriver -v3.142.7
         gem install unindent
     - name: launch xvfb
       run: Xvfb :99 &
