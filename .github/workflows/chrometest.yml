@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby-version: ['2.3', '2.5', '2.6', '2.7']  # , '3.0']
+        ruby-version: ['2.3', '2.5', '2.6', '2.7', '3.0']
         kifu: ['-N0', '-N1', '-N2', '-N3', '-N4', '-N5', '-N6']
 #    services:
 #      selenium:
