@@ -105,7 +105,7 @@ class UserInfoFileContent
     mailaddr = encode_mail(id)
     status = @stats[id]
     "#{id},#{@names[id]},#{@passwords[id]},#{mailaddr}," \
-    "#{build_winlose(status)}"
+    "#{build_winlose(**status)}"
   end
 
   # get user information by id

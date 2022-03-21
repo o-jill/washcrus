@@ -94,7 +94,7 @@ class MyPageScreen
         <img src='image/right_fu.png' alt='#{id}' title='move to this game!'>
         <small>#{id}</small>
        </a></td>
-       #{print_gamedetail(turn, others)}
+       #{print_gamedetail(turn, **others)}
        <td><a href='./index.rb?dlkifu/#{id}' target='_blank'>
         <img src='image/dl_kif.png' alt='#{id}' title='download kif!'>
        </a></td>
