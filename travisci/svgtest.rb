@@ -64,10 +64,8 @@ end
 put2file(svg, stg[:svg])
 
 def check(svg, path)
-  err = File.open("travisci/#{path}", 'r') do |refsvg|
-    refsvg.lines.map.with_index do |line, idx|
-      "line#{idx}:#{line}" if line.strip != svg[idx].strip
-    end
+  err = IO.readlines("travisci/#{path}", ).map.with_index do |line, idx|
+    "line#{idx}:#{line}" if line.strip != svg[idx].strip
   end
   err.compact!
 
