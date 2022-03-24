@@ -73,7 +73,7 @@ jobs:
       run: mailcatcher
     - name: launch web server
       run: |
-        ruby ./travisci/webserver.rb 2>web.log &
+        ruby ./travisci/webserver.rb 2>log/web.log &
         sleep 3 # give some software a moment to start
     - name: Run tests
       run: |
