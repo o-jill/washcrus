@@ -90,12 +90,12 @@ jobs:
           log
           taikyoku
     - name: check error u
-      if: ${{ steps.usecase.outcome }} == 'failure'
+      if: ${{ steps.usecase.outcome == 'failure' }}
       run: |
         echo ${{ steps.usecase.outcome }} == 'failure'
         exit 1
     - name: check error b
-      if: ${{ steps.byouyomi.outcome }} == 'failure'
+      if: ${{ steps.byouyomi.outcome == 'failure' }}
       run: |
         echo ${{ steps.byouyomi.outcome }} == 'failure'
         exit 1
