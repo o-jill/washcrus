@@ -5,7 +5,7 @@
 # This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
 # For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
 
-name: Chrome test w/ ruby3
+name: Firefox test w/ ruby2
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby-version: ['3.0', '3.1']
+        ruby-version: ['2.3', '2.5', '2.6', '2.7']
         kifu: ['-N0', '-N1', '-N2', '-N3', '-N4', '-N5', '-N6']
 #    services:
 #      selenium:
@@ -31,23 +31,18 @@ jobs:
 #          - /dev/shm:/dev/shm
     steps:
     - uses: actions/checkout@v2
-    - name: 'Setup Google Chrome'
+    - name: 'Setup Firefox and geckodriver'
+#     runs:
+#       using: "composite"
+#       steps:
       run: |
-        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-        echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google-chrome.list
-        sudo apt-get update -qqy
-        sudo apt-get -qqy install google-chrome-stable
-        CHROME_VERSION=$(google-chrome-stable --version)
-        CHROME_FULL_VERSION=${CHROME_VERSION%%.*}
-        CHROME_MAJOR_VERSION=${CHROME_FULL_VERSION//[!0-9]}
-        sudo rm /etc/apt/sources.list.d/google-chrome.list
-        export CHROMEDRIVER_VERSION=`curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_MAJOR_VERSION%%.*}`
-        curl -L -O "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
-        unzip chromedriver_linux64.zip && chmod +x chromedriver && sudo mv chromedriver /usr/local/bin
-        export CHROMEDRIVER_VERSION=`curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_MAJOR_VERSION%%.*}`
-        curl -L -O "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
-        unzip chromedriver_linux64.zip && chmod +x chromedriver && sudo mv chromedriver /usr/local/bin
-        chromedriver -version
+        GECKODRIVER_URL=`curl -Ls -o /dev/null -w %{url_effective} https://github.com/mozilla/geckodriver/releases/latest`
+        GECKODRIVER_VERSION=`echo $GECKODRIVER_URL | sed 's#.*/##'`
+        export GECKODRIVER_DOWNLOAD="https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz"
+        curl -L -o geckodriver.tar.gz $GECKODRIVER_DOWNLOAD
+        gunzip -c geckodriver.tar.gz | tar xopf -
+        chmod +x geckodriver && sudo mv geckodriver /usr/local/bin
+        geckodriver --version
 #      shell: bash
     - name: Set up Ruby
     # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
@@ -64,8 +59,8 @@ jobs:
       run: |
         gem install webrick -v1.7.0
         gem install mailcatcher
-        gem install rubyzip -v2.3.0
-        gem install selenium-webdriver -v4.1
+        gem install rubyzip -v1.3.0 # for selenium-webdriver -v3.142.7
+        gem install selenium-webdriver -v3.142.7
         gem install unindent
     - name: launch xvfb
       run: Xvfb :99 &
@@ -73,7 +68,7 @@ jobs:
       run: mailcatcher
     - name: launch web server
       run: |
-        ruby ./travisci/webserver.rb 2>log/web.log &
+        ruby ./travisci/webserver.rb &
         sleep 3 # give some software a moment to start
     - name: Run tests
       continue-on-error: true # とにかくログを保存するとこまで行きたい
@@ -90,7 +85,7 @@ jobs:
     - name: save taikyoku logs
       uses: actions/upload-artifact@v2
       with:
-        name: taikyoku_chrome${{ matrix.ruby-version }}-kifu${{ matrix.kifu }}
+        name: taikyoku_firefox${{ matrix.ruby-version }}-kifu${{ matrix.kifu }}
         path: |
           config
           db
