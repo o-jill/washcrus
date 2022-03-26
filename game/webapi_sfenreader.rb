@@ -176,7 +176,7 @@ class WebApiSfenReader
   def genuri
     stg = Settings.instance
     sfenimg = stg.value['sfenimage']
-    sfenimg = 'sfenimage.rb?' if sfenimg.blank?
+    sfenimg = 'sfenimage.rb?' if sfenimg.nil? || sfenimg.empty?
     sfenimg = stg.value['base_url'] + sfenimg unless sfenimg =~ /^http/
     sfenimg + URI.encode_www_form(params)
     # 'http://sfenreader.appspot.com/sfen?' + URI.encode_www_form(params)
