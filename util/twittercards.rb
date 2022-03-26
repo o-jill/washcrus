@@ -29,7 +29,7 @@ class TwitterCards
     sr.setmatchinfo(@mif)
     sr.settitle(@mif.dt_lastmove)
     sr.setimage('.png')
-    @baseurl + sr.genuri
+    sr.genuri
   end
 
   def generate(gid)
