@@ -36,7 +36,7 @@ Enable Time control:
 "periodic_tasks.sh" controls byo-yomi.  
 you have to adjust a path in the script and period in minutes.
 
-required "gem"s  
+required "gem"s:  
 * bundler
   * jkf(o-jill/jkf, kif_robust_time)
   * mail
@@ -54,3 +54,8 @@ supported SVG -> PNG converters:
   * Inkscape 0.92  
   * Inkscape 1.*  
   * rsvg-convert  
+
+Other dependends:  
+  * Kifu for JS(for replay)  
+
+---
