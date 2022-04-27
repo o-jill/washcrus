@@ -4,6 +4,8 @@
 [![Inline docs](http://inch-ci.org/github/o-jill/washcrus.svg?branch=master)](http://inch-ci.org/github/o-jill/washcrus)
 [![Firefox test](https://github.com/o-jill/washcrus/actions/workflows/firefoxtest.yml/badge.svg)](https://github.com/o-jill/washcrus/actions/workflows/firefoxtest.yml)
 [![Chrome test](https://github.com/o-jill/washcrus/actions/workflows/chrometest.yml/badge.svg)](https://github.com/o-jill/washcrus/actions/workflows/chrometest.yml)
+[![Firefox test](https://github.com/o-jill/washcrus/actions/workflows/firefoxtestruby2.yml/badge.svg)](https://github.com/o-jill/washcrus/actions/workflows/firefoxtestruby2.yml)
+[![Chrome test](https://github.com/o-jill/washcrus/actions/workflows/chrometestruby2.yml/badge.svg)](https://github.com/o-jill/washcrus/actions/workflows/chrometestruby2.yml)
 [![Rubocop](https://github.com/o-jill/washcrus/actions/workflows/rubocop.yml/badge.svg)](https://github.com/o-jill/washcrus/actions/workflows/rubocop.yml)
 [![Rspec](https://github.com/o-jill/washcrus/actions/workflows/rspec.yml/badge.svg)](https://github.com/o-jill/washcrus/actions/workflows/rspec.yml)
 
@@ -13,7 +15,8 @@
 
 "WashCrus" is written in Ruby.
 
-Lisence: Public domain
+Lisence:  
+Public domain
 
 How to set up:  
 1. Clone repo. or unzip WashCrus archive to certain path where is allowed to run CGI script.
