@@ -558,4 +558,17 @@ class TaikyokuData
       </TABLE>
     DUMP
   end
+
+  # table形式の内容のダンプ
+  def dumptableex
+    print <<-DUMP
+      <TABLE>
+      <TR><TD>対局ID</TD><TD>#{@gid}</TD></TR>
+      <TR><TD>対局生成者</TD><TD>#{@creator}</TD></TR>
+      <TR><TD>生成日時</TD><TD>#{@datetime}</TD></TR>
+      <TR><TD>先手</TD><TD>#{@playerb}</TD></TR>
+      <TR><TD>後手</TD><TD>#{@playerw}</TD></TR>
+      </TABLE>
+    DUMP
+  end
 end

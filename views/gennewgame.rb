@@ -239,7 +239,7 @@ class GenNewGameScreen
 
   # メッセージの出力
   def put_msg
-    td.dumptable
+    td.dumptableex
 
     puts <<-GENMSG.unindent
       a new game was generated!<BR>
